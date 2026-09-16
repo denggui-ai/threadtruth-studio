@@ -56,6 +56,58 @@ class EcommerceStudioLightingPilotTests(unittest.TestCase):
         self.assertNotIn("even soft lighting", visual["mood"])
         self.assertIn("fabric texture", visual["mood"])
         self.assertIn("relaxed", visual["persona"])
+        # 2026-09-16 slimming: lighting never names garment parts, persona never implies pockets or a direct gaze,
+        # and the lighting block stays short enough to survive inside a six-cell preview prompt.
+        for part in ("lapel", "pocket", "sleeve", "flap"):
+            self.assertNotIn(part, lighting)
+        self.assertNotIn("pocket", visual["persona"])
+        self.assertNotIn("direct", visual["persona"])
+        self.assertIn("when standing", visual["persona"])
+        self.assertLessEqual(len(visual["lighting"].split()), 80)
+
+    def test_pilot_prompt_carries_anchor_ignore_framing_and_photoreal_lines(self):
+        run = self.m.prepare(self.root, "pilot-run-2", "beige-blazer-denim-outfit")
+        directory = self.m.run_dir(self.root, "pilot-run-2")
+        prompts = {
+            preview["style"]: (directory / "prompts" / f"{preview['style']}.txt").read_text(encoding="utf-8")
+            for preview in run["previews"]
+        }
+        pilot = prompts[PILOT]
+        self.assertIn(self.m.PILOT_ANCHOR_IGNORE, pilot)
+        self.assertIn(self.m.PILOT_PHOTOREAL_LINE, pilot)
+        self.assertEqual(pilot.count("Framing: " + self.m.PILOT_FRAMING["full-body"]), 4)
+        self.assertEqual(pilot.count("Framing: half-body-permitted"), 2)
+        for style, prompt in prompts.items():
+            if style == PILOT:
+                continue
+            self.assertNotIn(self.m.PILOT_ANCHOR_IGNORE, prompt, style)
+            self.assertNotIn(self.m.PILOT_PHOTOREAL_LINE, prompt, style)
+            self.assertEqual(prompt.count("Framing: full-body"), 4, style)
+
+    def test_single_prompt_is_one_final_stage_image_for_one_pose(self):
+        result = self.m.single_prompt(self.root, "pilot-single", PILOT, 1, "beige-blazer-denim-outfit", "1:1")
+        text = (self.root / result["path"]).read_text(encoding="utf-8")
+        self.assertEqual(result["sha256"], self.m.digest(text.encode()))
+        self.assertEqual(text.count("POSE "), 1)
+        self.assertIn("POSE 1: SIDE_TURN_STANDING", text)
+        self.assertIn("exact 1:1 square canvas", text)
+        general, full_body = self.m._final_negatives(self.root)
+        self.assertIn("no collage, no grid", general)
+        self.assertIn(general, text)
+        self.assertIn(full_body, text)
+        self.assertNotIn("contact-sheet", text)
+        self.assertNotIn("Preview negative", text)
+        self.assertIn(self.m.PILOT_ANCHOR_IGNORE, text)
+        self.assertIn("Framing: " + self.m.PILOT_FRAMING["full-body"], text)
+        self.assertFalse((self.m.run_dir(self.root, "pilot-single") / "evidence.json").exists())
+        half = self.m.single_prompt(self.root, "pilot-single", PILOT, 3, "beige-blazer-denim-outfit", "4:5")
+        half_text = (self.root / half["path"]).read_text(encoding="utf-8")
+        self.assertIn("exact 4:5 portrait canvas", half_text)
+        self.assertNotIn(full_body, half_text)
+        with self.assertRaises(ValueError):
+            self.m.single_prompt(self.root, "pilot-single", PILOT, 7, "beige-blazer-denim-outfit")
+        with self.assertRaises(ValueError):
+            self.m.single_prompt(self.root, "pilot-single", PILOT, 1, "beige-blazer-denim-outfit", "square")
 
     def test_pilot_method_enters_real_preview_prompt_and_other_packs_stay_unchanged(self):
         run = self.m.prepare(self.root, "pilot-run", "beige-blazer-denim-outfit")

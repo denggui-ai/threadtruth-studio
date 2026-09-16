@@ -217,6 +217,7 @@ batch_canvas_baseline: <首张通过比例门禁后的实际 WIDTHxHEIGHT>
 + Negative: [§3b 预览负面词 + 经商品事实守卫过滤后的 pack.negative_delta_add (+ 露肤追加)]   ← 注意:不拼 no grid/no collage
 ```
 > 多套不同 outfit 的预览(`recognition.md §3.9`):6 格改为「每格一套 outfit 的代表姿势」,其余规则一致。
+> **试点 slug 追加句(仅 §2a `pilot_persona_expression_slugs` 内的风格,预览与动作 2 单张共用;其余风格逐字不变):** ①身份锚点句补齐 §4.0a 第 4 条的忽略项——`is identity-only: preserve face, hair, apparent age and body proportions; ignore its garments, garment colors and washes, lighting, backdrop, pose and crop; never treat it as outfit authority`;②全身母版 1/2/4/6 的 Framing 写成可见动作 `full body visible, feet and shoes fully inside the frame with a small margin below the soles`(半身母版不变);③首行后加一次真实感锚词 `Photorealistic photograph taken with a real camera`。三句都不触碰服饰事实、母版编号、负面词与安全主体;动作 2 单张按 §3a 成片负面词拼装并注入 §4.0b 精确画幅。
 
 ### 4.3 ⛔ 预览→成片的红线(逐字保留,风格无关)
 1. **`preview-grid` 与 `image-ready` 严格互斥。** 六宫格预览**永远**不能当最终成片,哪怕用户主动说"预览就行/不用再出了"也必须拒绝,固定回复:"预览图为低分辨率方向示意,无法逐张做服饰保真审计,不能当成片。要拿到可用成片,需逐张重新生成 6 张高清独立图(消耗订阅额度)。要我现在开始生成这 6 张吗?"**到此停住等用户明确回答,不自动进成片。** 仅当用户明确说"生成/全部生成/动作1/好/开始"等才进成片;用户改口不生成则停在 `preview-grid` 不调 image_gen。

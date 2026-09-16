@@ -84,3 +84,10 @@ model_persona: neutral approachable expression, relaxed jaw and shoulders, gaze 
 1. Codex 额度恢复 → Owner/宿主跑 B0（第一步）→ ingest → 评审表回填到 lighting-pilot 记录。
 2. 评审后 Claude/Codex 在实验分支提交 §2 的四处改动 + 动作 2 入口（一次提交，`[no-cross-check]`）→ `prepare` → 登记运行与授权文本 → 等 Owner 授权 1 次动作 2。
 3. 动作 2 结果按 §3 评审；有效再决定 P2 与其它方向，每次仍只改一个变量组、只看一张图。
+
+## 5. 状态更新（2026-09-16，Owner「作废 B0 授权」后）
+
+- 第一步取消；§2.1–2.5 已在实验分支落地（pack 瘦身、试点 slug 三句、`single-prompt` 入口与测试），其余 23 个预览提示词逐字节不变。
+- 实现与本文 §2.2 的措辞差异：锚点句保留原前缀 `is identity-only: preserve …` 再接忽略项，以维持既有测试断言；`denim wash` 改为通用的 `garment colors and washes`。
+- 候选 v2 运行：`pilot-ecom-candidate2-20260916`（本地忽略目录），动作 2 母版 1 提示词位于该运行 `prompts/ecommerce-studio.action2-pose1.txt`。**尚无授权，未生图。**
+- 首行真实感锚词实现为风格无关的 `Photorealistic photograph taken with a real camera; not an illustration or render.`，而非本文 §2.4 的电商专用措辞；动作 2 入口是独立子命令 `single-prompt`（不是 `prepare --action 2`），只写 `prompts/<style>.action2-pose<N>.txt`，不改 `evidence.json`。

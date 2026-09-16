@@ -4,6 +4,14 @@ All notable changes are documented here. Versions follow Semantic Versioning.
 
 ## Unreleased
 
+#### Experimental candidate v2 — pilot slimming, anchor isolation and single-image validation entry (not visually verified)
+
+- Trigger: the 2026-09-16 blind re-distillation (`docs/verification/2026-09-16-independent-distillation.md`) found that the v1 pilot lighting block named garment parts (sleeves, lapels, pocket flaps), that the persona implied pockets and a direct gaze, that the preview anchor line lacked the §4.0a "ignore its garment, lighting, background" clause (the public ecommerce preview shows the anchor's lighter denim wash), and that a six-cell grid at ~390 px per cell cannot show contact shadows. The maintainer voided the pending B0 authorization (`ecom-b0-pilot-01`) on 2026-09-16 so these fixes could land before the next native call.
+- Behavior before: `ecommerce-studio.lighting_palette` (~95 words) named garment parts; persona said `in a pocket` / `calm direct … gaze` / unconditional `weight settled on one leg`; the action-0 anchor line only said "identity-only"; framing was the bare token `full-body`; no runtime entry could produce a single-image (action 2) prompt.
+- Behavior after: the pack's `lighting_palette` is ~60 words in the same §4.1 order with no garment-part words; persona is conditional (`when standing`, hands at the side or on an accessory already in the reference, gaze per pose line). For slugs in prompt-build §2a only, the real action-0 prompt adds the §4.0a ignore clause to the anchor line, writes full-body framing as `full body visible, feet and shoes fully inside the frame …`, and adds one `Photorealistic photograph …` line; the other 23 preview prompts stay byte-identical. New `tools/style-preview.py single-prompt --run-id … --style … --pose N [--ratio W:H]` writes one final-stage (§3a negatives, §4.0b exact canvas) single-pose prompt into the run's `prompts/` without touching `evidence.json`, registering a batch, or generating.
+- Eval coverage: `evals/styles/ecommerce-studio.json#ec-single-validation-9`; `tests/test_pilot_ecommerce_lighting.py` (slimming assertions, pilot-only prompt lines, single-prompt shape).
+- Verification: static and dry-run only; no native generation was run and no visual improvement is claimed. Execution plan: `docs/verification/2026-09-16-execution-plan-after-b0.md`.
+
 #### Experimental candidate — ecommerce-studio lighting and expression pilot (not visually verified)
 
 - Trigger: the accepted coordinated-outfit previews show the `ecommerce-studio` board lit flat (no visible key direction, no contact shadow under the shoes, no separation from the white backdrop) and every style inheriting the Korean-baseline "cold detached" head/gaze mood, which contradicts the ecommerce pack's own approachable persona.

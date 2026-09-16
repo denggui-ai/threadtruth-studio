@@ -120,3 +120,7 @@ Owner 原话「同意等价绑定,授权电商 B0 一次」已登记为运行 `p
 本记录的编写环境(Claude Code CLI)**没有原生图片生成能力**,按 `SKILL.md` 属 `tool-blocked`:未调用任何 API/CLI/第三方替代,未生成图片。可执行材料已备齐在该运行目录的 `EXECUTION-PACKET.md`:冻结提示词(`prompts/ecommerce-studio.txt`,sha256 `4868e434…`)、两张参考图的仓库路径与 sha256、生成记录模板、ingest/compose/audit 命令与宿主加载核验步骤。由具备原生参考图生图能力的 Codex/ChatGPT 宿主在实验分支 checkout 上执行 1 次;结果回到本记录 §7 的冻结标准做新旧对照。
 
 下一步唯一最小动作:在原生生图宿主中按 `EXECUTION-PACKET.md` 执行这 1 次调用并 ingest;之后进行人工对照评审。
+
+## 11. 授权作废（2026-09-16）
+
+Owner 于 2026-09-16 回复「作废 B0 授权」。批次 `ecom-b0-pilot-01` 不再执行；其执行包 §0 的哈希核验在本提交之后必然失败（pack 与提示词已变），可作二次保护。后续按 [2026-09-16-execution-plan-after-b0.md](2026-09-16-execution-plan-after-b0.md) 第二步进行：候选 v2 运行 `pilot-ecom-candidate2-20260916`，先用动作 2 单张（母版 1）验证，新调用需另行授权。

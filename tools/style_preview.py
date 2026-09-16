@@ -244,6 +244,29 @@ def _canonical_action_zero(root):
 
 
 PILOT_EXPRESSION_NOTE = "expression and attitude follow the Attitude line above; no cold or detached editorial mood"
+# Pilot-only prompt lines (2026-09-16 single-image validation). They apply to the slugs listed in
+# prompt-build §2a only, so the other 23 preview prompts stay byte-identical.
+PILOT_PHOTOREAL_LINE = "Photorealistic photograph taken with a real camera; not an illustration or render."
+PILOT_ANCHOR_IGNORE = "ignore its garments, garment colors and washes, lighting, backdrop, pose and crop"
+PILOT_FRAMING = {
+    "full-body": "full body visible, feet and shoes fully inside the frame with a small margin below the soles",
+    "half-body-permitted": "half-body-permitted",
+}
+
+
+def _pilot_slugs(root):
+    slugs, _ = _pilot_expression_override(child(root, RULE_PATHS["prompt_build"]).read_text(encoding="utf-8"))
+    return slugs
+
+
+def _final_negatives(root):
+    """prompt-build §3a: final-stage general negatives and the full-body crop append (action 1/2 single images)."""
+    text = child(root, RULE_PATHS["prompt_build"]).read_text(encoding="utf-8")
+    section = text.split("### 3a. 成片阶段通用负面词", 1)[1].split("### 3b.", 1)[0]
+    blocks = re.findall(r"```\n(.*?)```", section, re.S)
+    if len(blocks) < 2:
+        raise ValueError("canonical action-1 negatives are incomplete")
+    return " ".join(blocks[0].split()), " ".join(blocks[1].split())
 
 
 def _pilot_expression_override(text):
@@ -287,11 +310,25 @@ def _mode_scene(mode, scenes, ordinal):
     return scenes[ordinal - 1]
 
 
-def _prompt(preview, source, anchor, preview_negative):
+def _anchor_line(source_count, pilot):
+    if pilot:
+        return (
+            f"Attached image {source_count + 1} is identity-only: preserve face, hair, apparent age and body proportions; "
+            f"{PILOT_ANCHOR_IGNORE}; never treat it as outfit authority."
+        )
+    return f"Attached image {source_count + 1} is identity-only: preserve face, hair, apparent age and body proportions; never treat it as outfit authority."
+
+
+def _framing_text(framing, pilot):
+    return PILOT_FRAMING.get(framing, framing) if pilot else framing
+
+
+def _prompt(preview, source, anchor, preview_negative, pilot=False):
     visual = preview["visual"]
     source_count = len(source["assets"])
     lines = [
         f"Create one action-0 preview for style {preview['style']}.",
+        *([PILOT_PHOTOREAL_LINE] if pilot else []),
         "Use a single 2x3 grid contact-sheet preview on a square 1:1 board showing the same complete coordinated outfit in six different directions.",
         "Top row poses 1-2-3; bottom row poses 4-5-6. Six equal 3:4 portrait cells, one pose per cell, one adult female model identity throughout this sheet.",
         "Reserve independent title, subtitle and footer bands outside all six pose cells; keep the three text bands distinct and clear of every subject.",
@@ -301,7 +338,7 @@ def _prompt(preview, source, anchor, preview_negative):
         f"Attached image{'s' if source_count != 1 else ''} 1{'-' + str(source_count) if source_count != 1 else ''} {'are' if source_count != 1 else 'is'} the only authoritative outfit truth.",
         "Preserve every core item exactly: " + "; ".join(source["outfit"]["core_items"]) + ".",
         "Keep the complete coordinated outfit visible in all six cells. Never replace a garment or invent a brand, logo or text.",
-        f"Attached image {source_count + 1} is identity-only: preserve face, hair, apparent age and body proportions; never treat it as outfit authority.",
+        _anchor_line(source_count, pilot),
         "Style may change mood, low-distraction background, pose treatment and lighting only; source truth overrides every style-pack suggestion.",
         f"Mode: {preview['mode']} derived from the registered pack default and runtime mode rules.",
         f"Mood only: {visual['mood']}",
@@ -318,7 +355,7 @@ def _prompt(preview, source, anchor, preview_negative):
             f"POSE {pose['ordinal']} / row {pose['row']} column {pose['column']}: {pose['master']} — {pose['description']}",
             f"Head/gaze: {pose['head_gaze']}",
             f"Mode/scene: {pose['scene']}",
-            f"Framing: {preview['layout_contract']['framing'][pose['ordinal'] - 1]}",
+            f"Framing: {_framing_text(preview['layout_contract']['framing'][pose['ordinal'] - 1], pilot)}",
             "Retain every core outfit item and all visible source construction detail.",
         ])
     lines.extend([
@@ -327,6 +364,73 @@ def _prompt(preview, source, anchor, preview_negative):
         "Style negative append: " + ", ".join(preview["negative_delta_add"]),
     ])
     return "\n".join(lines) + "\n"
+
+
+def _orientation(ratio):
+    match = re.fullmatch(r"([1-9]\d*):([1-9]\d*)", ratio or "")
+    if not match:
+        raise ValueError("ratio must look like W:H")
+    width, height = int(match.group(1)), int(match.group(2))
+    return "square" if width == height else ("portrait" if height > width else "landscape")
+
+
+def _single_prompt(preview, source, anchor, pose, general_negative, full_body_append, ratio, pilot):
+    """prompt-build §4.1 single independent image (action 2 test / one look) for one canonical pose template."""
+    visual = preview["visual"]
+    source_count = len(source["assets"])
+    framing = preview["layout_contract"]["framing"][pose["ordinal"] - 1]
+    full_body = framing == "full-body"
+    lines = [
+        f"Create one independent action-2 test image for style {preview['style']}: pose template {pose['ordinal']} "
+        f"({pose['master']} — {pose['description']}), one adult female model, single image only.",
+        *([PILOT_PHOTOREAL_LINE] if pilot else []),
+        f"Canvas contract: exact {ratio} {_orientation(ratio)} canvas; keep the complete required subject, garment, shoes, bag and hem inside safe margins; no extra-tall or alternate-ratio canvas.",
+        f"Attached image{'s' if source_count != 1 else ''} 1{'-' + str(source_count) if source_count != 1 else ''} {'are' if source_count != 1 else 'is'} the only authoritative outfit truth.",
+        "Preserve every core item exactly: " + "; ".join(source["outfit"]["core_items"]) + ".",
+        "Keep the complete coordinated outfit visible. Never replace a garment or invent a brand, logo or text.",
+        _anchor_line(source_count, pilot),
+        "Style may change mood, low-distraction background, pose treatment and lighting only; source truth overrides every style-pack suggestion.",
+        f"Mode: {preview['mode']} derived from the registered pack default and runtime mode rules.",
+        f"Mood only: {visual['mood']}",
+        f"Attitude: {visual['persona']}",
+        f"Lighting/background palette: {visual['lighting']}",
+        "Outfit references: " + ", ".join(asset["path"] for asset in source["assets"]),
+        "Identity-only reference: " + anchor["path"],
+        "",
+        f"POSE {pose['ordinal']}: {pose['master']} — {pose['description']}",
+        f"Head/gaze: {pose['head_gaze']}",
+        f"Mode/scene: {pose['scene']}",
+        f"Framing: {_framing_text(framing, pilot)}",
+        "Retain every core outfit item and all visible source construction detail.",
+        "",
+        "single image only, one model only, one pose only.",
+        "Final negative: " + general_negative + (" " + full_body_append if full_body else ""),
+        "Style negative append: " + ", ".join(preview["negative_delta_add"]),
+    ]
+    return "\n".join(lines) + "\n"
+
+
+def single_prompt(root, run_id, style, pose, source_case, ratio="1:1"):
+    """Write one action-2 single-image prompt into <run>/prompts/ without touching evidence.json.
+
+    This is a validation aid for a human-authorized single native call; it registers no batch and never generates.
+    """
+    if not isinstance(pose, int) or not 1 <= pose <= 6:
+        raise ValueError("pose must be 1-6")
+    directory = run_dir(root, run_id)
+    plan = _plan_v5(root, run_id, source_case)
+    preview = next((item for item in plan["previews"] if item["style"] == style), None)
+    if preview is None:
+        raise ValueError(f"style {style} is not registered")
+    general_negative, full_body_append = _final_negatives(root)
+    text = _single_prompt(
+        preview, plan["source"], plan["identity_anchor"], preview["poses"][pose - 1],
+        general_negative, full_body_append, ratio, style in _pilot_slugs(root),
+    )
+    (directory / "prompts").mkdir(parents=True, exist_ok=True)
+    path = child(directory, f"prompts/{style}.action2-pose{pose}.txt")
+    path.write_text(text, encoding="utf-8")
+    return {"path": str(path.relative_to(root.resolve())), "sha256": digest(text.encode()), "words": len(text.split()), "ratio": ratio}
 
 
 def _plan_v5(root, run_id, source_case):
@@ -367,7 +471,7 @@ def _plan_v5(root, run_id, source_case):
                 "footer": PREVIEW_MARK,
             },
         }
-        preview["prompt_sha256"] = digest(_prompt(preview, source, anchor, preview_negative).encode())
+        preview["prompt_sha256"] = digest(_prompt(preview, source, anchor, preview_negative, pilot=style in pilot_slugs).encode())
         preview["display_contract"] = copy.deepcopy(_cards().CONTRACT)
         previews.append(preview)
     return {
@@ -485,9 +589,11 @@ def prepare(root, run_id, source_case=None):
     directory.mkdir(parents=True)
     (directory / "prompts").mkdir()
     _, preview_negative = _canonical_action_zero(root)
+    pilot_slugs = _pilot_slugs(root)
     for preview in plan["previews"]:
         child(directory, f"prompts/{preview['style']}.txt").write_text(
-            _prompt(preview, plan["source"], plan["identity_anchor"], preview_negative), encoding="utf-8"
+            _prompt(preview, plan["source"], plan["identity_anchor"], preview_negative, pilot=preview["style"] in pilot_slugs),
+            encoding="utf-8",
         )
     write_json(directory / "evidence.json", plan)
     return plan
@@ -1717,11 +1823,15 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
     commands = parser.add_subparsers(dest="command", required=True)
-    for name in ("prepare", "register-batch", "ingest", "compose", "audit", "gallery", "approve", "promote"):
+    for name in ("prepare", "single-prompt", "register-batch", "ingest", "compose", "audit", "gallery", "approve", "promote"):
         command = commands.add_parser(name)
         command.add_argument("--run-id", required=True)
-        if name == "prepare":
+        if name in {"prepare", "single-prompt"}:
             command.add_argument("--source-case", required=True)
+        if name == "single-prompt":
+            command.add_argument("--style", required=True)
+            command.add_argument("--pose", type=int, required=True, help="canonical pose template 1-6")
+            command.add_argument("--ratio", default="1:1", help="canvas contract W:H (modes-scenes §4; ecommerce main image defaults to 1:1)")
         if name == "register-batch":
             command.add_argument("--manifest", type=Path, required=True)
         if name in {"ingest", "compose", "audit", "gallery", "approve"}:
@@ -1745,6 +1855,8 @@ def main(argv=None):
     try:
         if args.command == "register-batch":
             result = register_batch(args.root, args.run_id, read_json(args.manifest))
+        elif args.command == "single-prompt":
+            result = single_prompt(args.root, args.run_id, args.style, args.pose, args.source_case, args.ratio)
         elif args.command == "ingest":
             correction = read_json(args.correction_record) if args.correction_record else None
             failed_retry = read_json(args.failed_retry_record) if args.failed_retry_record else None
