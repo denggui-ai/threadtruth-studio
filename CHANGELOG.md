@@ -4,6 +4,14 @@ All notable changes are documented here. Versions follow Semantic Versioning.
 
 ## Unreleased
 
+#### Experimental candidate — ecommerce-studio lighting and expression pilot (not visually verified)
+
+- Trigger: the accepted coordinated-outfit previews show the `ecommerce-studio` board lit flat (no visible key direction, no contact shadow under the shoes, no separation from the white backdrop) and every style inheriting the Korean-baseline "cold detached" head/gaze mood, which contradicts the ecommerce pack's own approachable persona.
+- Behavior before: `ecommerce-studio.lighting_palette` was a single line of adjectives (`even soft-box lighting … low shadow`); prompt-build §2 injected mood adjectives into all 24 packs.
+- Behavior after: the pack's `lighting_palette` is written as visible relations in the core §4.1 order (key direction, fill ratio, shadow transition, contact shadow and backdrop separation, exposure, identical light in all six images); its persona describes weight, hands and gaze without cold detachment. New prompt-build §2a keeps only head/gaze geometry for the slugs listed in `pilot_persona_expression_slugs` (currently only `ecommerce-studio`) and takes expression from `pack.model_persona`; the canonical §2 table and the other 23 packs are unchanged. `tools/style_preview.py` reads §2a so the real action-0 prompt carries the change. `commercial-qa.md` §2/§3 route locatable lighting/expression deviations for the pilot slug to `qa-user-review` with reasons (human decision, no automatic retry, no extra call authorization).
+- Eval coverage: `evals/styles/ecommerce-studio.json#ec-lighting-pilot-8`; `tests/test_pilot_ecommerce_lighting.py` proves the method enters the real preview prompt and that non-pilot packs keep the canonical head/gaze text.
+- Verification: static and dry-run only; no native generation was run and no visual improvement is claimed.
+
 ### Trigger
 
 - The maintainer noted that the README hero and capability wording still presented only the single-garment white-vest case after the coordinated-outfit gallery shipped.

@@ -44,5 +44,11 @@
       "korean-cold-editorial": {"contains": ["冷感大片"]},
       "ecommerce-studio": {"contains": ["电商主图"], "excludes": ["冷感大片", "韩系", "棚拍"]}
     }
+  },
+  {
+    "id": "ec-lighting-pilot-8",
+    "type": "prompt-build",
+    "input": "(上传西装外套+牛仔裤套装) 电商 B0 / 电商 B1",
+    "expect": "试点候选(未经真机验证):pack.lighting_palette 按 §4.1 光源→方向→阴影→对比顺序进入 STYLE_VISUAL——camera-left 45° 柔主光、右侧低比例补光、袖/翻领/口袋盖渐变阴影、鞋下接触阴影、背景分离、六张同一光向;prompt-build §2a 对 ecommerce-studio 只保留头部方向几何,表情取 pack.model_persona,prompt 中不得出现『冷静疏离/不正面营业/避免目录照』;其它 23 个 pack 的 §2 原表逐字不变;pack-lint --strict 通过;出图后光影/表情可定位偏离按 commercial-qa §2 记 qa-user-review 交人工,不自动 retry"
   }
 ]

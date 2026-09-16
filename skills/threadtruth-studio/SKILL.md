@@ -98,7 +98,7 @@ description: Create source-faithful fashion portrait sets from real garment or c
 - `tool-blocked`:当前 host/session **没有任何可调用的原生图片生成能力**(Codex Desktop / ChatGPT 内置生图也算,工具名不一定逐字叫 `image_gen`),不能生图。此状态只做识别卡/提示词/迁移指引,**不得**改用 OpenAI API、CLI fallback、`OPENAI_API_KEY`、联网脚本或第三方服务。
 - 默认产出 `image-draft`,升 `image-ready` 由用户确认。
 
-**QA 处置词(不是主生命周期状态):** `qa-pass`=未发现可见阻断漂移;`qa-retry`=硬服饰事实、模特身份、人体/安全或交付结构失败,必须重试/移出交付;`qa-user-review`=logo/小字/细微面料/隐蔽结构无法可靠确认,必须由用户或运营比对。详见 `references/commercial-qa.md`。
+**QA 处置词(不是主生命周期状态):** `qa-pass`=未发现可见阻断漂移;`qa-retry`=硬服饰事实、模特身份、人体/安全或交付结构失败,必须重试/移出交付;`qa-user-review`=logo/小字/细微面料/隐蔽结构无法可靠确认,必须由用户或运营比对;已启用试点风格(当前仅 `ecommerce-studio`,见 `prompt-build.md §2a`)的可定位光影/表情目标偏离也归此处置,附理由交人工,不自动通过或判废。详见 `references/commercial-qa.md`。
 
 `accepted_identity_anchor` 是真人/不露脸动作1的内部运行标记,不是用户交付状态;只表示 look-1 可作为同一 AI 模特身份参考,不表示该图已 `image-ready`。
 

@@ -243,6 +243,26 @@ def _canonical_action_zero(root):
     return poses, " ".join(negative_match.group(1).split())
 
 
+PILOT_EXPRESSION_NOTE = "expression and attitude follow the Attitude line above; no cold or detached editorial mood"
+
+
+def _pilot_expression_override(text):
+    """prompt-build §2a: pilot slugs keep only head/gaze geometry; expression comes from pack.model_persona."""
+    if "### 2a." not in text:
+        return set(), {}
+    section = text.split("### 2a.", 1)[1].split("## 3.", 1)[0]
+    match = re.search(r"pilot_persona_expression_slugs:\s*\[([^\]]*)\]", section)
+    slugs = {item.strip().strip("`'\"") for item in match.group(1).split(",") if item.strip()} if match else set()
+    geometry = {}
+    for line in section.splitlines():
+        row = re.match(r"^\|\s*([1-6])\s*\|\s*([^|]+?)\s*\|\s*[^|]+?\s*\|$", line)
+        if row:
+            geometry[int(row.group(1))] = row.group(2).strip()
+    if slugs and set(geometry) != set(range(1, 7)):
+        raise ValueError("pilot expression override table is incomplete")
+    return slugs, geometry
+
+
 def _registered_packs(root):
     router = child(root, RULE_PATHS["style_router"]).read_text(encoding="utf-8")
     packs = []
@@ -314,6 +334,9 @@ def _plan_v5(root, run_id, source_case):
     source, anchor = load_preview_source(root, source_case)
     rules = _rules(root)
     canonical_poses, preview_negative = _canonical_action_zero(root)
+    pilot_slugs, pilot_geometry = _pilot_expression_override(
+        child(root, RULE_PATHS["prompt_build"]).read_text(encoding="utf-8")
+    )
     previews = []
     for style, path, text in _registered_packs(root):
         relative = f"{PACK_ROOT}/{path.name}"
@@ -326,6 +349,8 @@ def _plan_v5(root, run_id, source_case):
         poses = copy.deepcopy(canonical_poses)
         for pose in poses:
             pose["scene"] = _mode_scene(mode, scenes, pose["ordinal"])
+            if style in pilot_slugs:
+                pose["head_gaze"] = f"{pilot_geometry[pose['ordinal']]}; {PILOT_EXPRESSION_NOTE}"
         raw = path.read_bytes()
         preview = {
             "style": style,

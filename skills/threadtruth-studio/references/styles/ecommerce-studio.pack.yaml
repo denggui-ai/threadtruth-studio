@@ -11,9 +11,9 @@ anti_categories: [重场景大片, 街拍写真, 旅行写真]
 
 visual_language: >
   clean e-commerce studio portrait, seamless white or light-gray backdrop,
-  true-to-product color fidelity, even soft lighting, high-conversion catalog clarity,
-  crisp garment detail, minimal distraction, neutral commercial polish.
-model_persona: neutral approachable expression, composed catalog attitude, no exaggerated posing
+  true-to-product color fidelity, soft directional studio lighting that shows form and fabric texture,
+  high-conversion catalog clarity, crisp garment detail, minimal distraction, neutral commercial polish.
+model_persona: neutral approachable expression with relaxed jaw and shoulders, calm direct or softly averted gaze without cold detachment, weight settled naturally on one leg, hands resting easily at the side or in a pocket or on an accessory already shown in the reference, composed catalog attitude, no exaggerated posing
 
 scenes:
   - 纯白无缝背景
@@ -22,11 +22,19 @@ scenes:
   - 浅米色纯色背景
   - 低对比影棚
   - 居中柔光位
-lighting_palette: even soft-box lighting, neutral white balance, true color, low shadow
+# lighting_palette 按 core §4.1 四段顺序书写:光源 → 方向 → 阴影特征 → 对比/曝光;最后一句锁整组一致。
+# 试点候选(2026-09-15):把"照平"的匀光改写为可见关系——主光方向、低比例补光、渐变阴影、鞋下接触阴影、背景分离。
+lighting_palette: >
+  one large soft key light from the camera-left front, about 45 degrees to the side and slightly above eye level;
+  low-ratio soft fill from camera-right so the shadow side of the garment stays readable;
+  gradual soft shadow transition across sleeves, lapels, pocket flaps and folds so fabric weave and construction stay visible;
+  a light soft contact shadow under the shoes and a faint tonal gradient on the seamless backdrop so the garment separates from the background;
+  neutral white balance, true-to-product color, highlights hold detail and are not washed out;
+  the same light direction, softness and ratio in all six images.
 pose_masters: inherit
 default_mode: B                              # 棚拍(电商主图默认)
 
-negative_delta_add: [no heavy editorial mood, no dramatic shadows hiding product, no busy background, no color cast, no street vibe]
+negative_delta_add: [no heavy editorial mood, no flat shadowless lighting, no dramatic shadows hiding product, no busy background, no color cast, no cold detached expression, no street vibe]
 safety_delta:
   cannot_relax: true
   extra_constraints: []
@@ -34,7 +42,7 @@ safety_delta:
 d0_preview: inherit-core
 d1_final: inherit-core
 d3_prompts: inherit-core
-qa_extra: [是否色彩对产品保真, 是否背景纯净低干扰, 是否高转化清晰度]
+qa_extra: [是否色彩对产品保真, 是否背景纯净低干扰, 是否高转化清晰度, 是否有可见的方向光塑形与鞋下接触阴影而非照平, 六张光线方向与软硬是否一致, 表情是否中性亲和而非冷感疏离]
 
 samples_required: [preview-grid, look-1..6, README]
 evals: repo://evals/styles/ecommerce-studio.json
