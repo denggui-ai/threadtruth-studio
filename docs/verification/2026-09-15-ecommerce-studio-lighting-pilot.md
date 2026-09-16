@@ -45,6 +45,8 @@
 
 拒绝或存疑:卷袖/夹衣等造型操作(违反保真);硬光方案(与 pack 柔光基调冲突,未研究);任何把研究图当运行时输入的做法。
 
+补充(同日稍后):product-shots 预设正文、nano-banana 库内容、openai-cookbook 两本 prompting guide 已实读并看图,结论与效果优先的优化方案见 [2026-09-15-github-distillation-and-effect-plan.md](2026-09-15-github-distillation-and-effect-plan.md)。
+
 ## 4. 修改清单(全部在实验分支,均进入真实消费链)
 
 | 文件 | 改动 | 解决什么 | 是否进入生成输入 |
