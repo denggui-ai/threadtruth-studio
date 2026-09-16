@@ -1,0 +1,86 @@
+# 2026-09-16 执行计划：先跑已授权 B0，再用 1 张独立图验证光线 / 锚点 / 裁切
+
+Owner 于 2026-09-16 对 [独立重蒸馏](2026-09-16-independent-distillation.md) 的推荐第一步回复「同意执行」。本文把"执行"拆成两步，写清每一步谁做、改什么、看什么。本记录由 Claude Code CLI 编写，该环境无原生图片生成能力（`tool-blocked`），**本文不生图、不改任何运行文件、不申请新授权**。
+
+## 0. 硬约束（先于一切）
+
+- 已授权的 B0（运行 `pilot-ecom-candidate-20260915`，批次 `ecom-b0-pilot-01`，上限 1 次）绑定了当前 `prompts/ecommerce-studio.txt` 与 pack 的 sha256。**在它执行并 ingest 之前，`skills/`、`tools/`、`tests/`、`evals/` 下任何文件都不能动**，否则执行包 §0 的哈希核验失败、授权作废。
+- `tools/style_preview.py` 目前只有动作 0（六宫格）入口；动作 2 单张的提示词没有真实入口可产生。第二步需要先加一个最小入口，属代码改动，只能在第一步完成后做，并且新一次生成需要 Owner 另行授权（1 次）。
+- 本环境不做 API / CLI / 第三方生图替代；不调 DeepSeek/Gemini 交叉审。
+
+## 1. 第一步（不变）：在 Codex/ChatGPT 宿主按执行包跑 B0 一次
+
+执行者：具备原生参考图生图能力的宿主，在实验 checkout `.worktrees/pilot-ecom-light`（分支 `exp/pilot-ecommerce-lighting`）内按该运行目录 `EXECUTION-PACKET.md` §0–§4 逐步执行；哈希核验不过就停。
+
+评审：用 [lighting-pilot](2026-09-15-ecommerce-studio-lighting-pilot.md) §7 冻结的对照标准，另外补三问（来自独立蒸馏 4.1）：
+
+1. 六格是否仍是同一句背景、有没有地平线或墙面（预期：仍没有，因为 `_mode_scene` 未改）。
+2. 牛仔裤色深是否回到源图的深靛蓝（预期：不一定，因为锚点忽略项未加）。
+3. 第 2/5 格是否仍"低头"（预期：仍会，因为 §2a 只换情绪来源，几何未改）。
+
+评审时承认仪器局限：1254 px 六宫格单格约 390 px，鞋下接触阴影与面料明暗只能粗判；B0 结果只回答"光线描述方向对不对"，不回答"够不够"。
+
+## 2. 第二步：B0 ingest 后，改四处并用 1 张独立图（动作 2，母版 1）验证
+
+以下改动在实验分支新提交中一次应用（它们互不冲突、都不碰服饰事实），然后重新 `prepare`、登记新运行、申请 1 次动作 2 授权。改动文本逐字如下，落地前不再自由发挥。
+
+### 2.1 P1 · `references/styles/ecommerce-studio.pack.yaml` → `lighting_palette`（替换现有 95 词版本）
+
+```yaml
+lighting_palette: >
+  one large soft key light from camera-left, slightly above eye level;
+  soft fill from camera-right at about one third of the key so the shadow side stays readable;
+  gentle shadow transition across the garment so weave and construction stay visible;
+  a soft contact shadow under the shoes and a faint tonal gradient on the seamless backdrop;
+  neutral white balance, true-to-product color, highlights hold detail;
+  identical light direction, softness and ratio in all six images.
+```
+
+理由：去掉 `sleeves, lapels, pocket flaps`（光线字段不写服饰部件），词数从约 95 压到约 60，四段顺序不变。
+
+同文件 `model_persona` 改为条件式，去掉与坐姿母版和视线几何冲突的措辞：
+
+```yaml
+model_persona: neutral approachable expression, relaxed jaw and shoulders, gaze as given by the pose line, weight naturally on one leg when standing, hands at ease at the side or resting on an accessory already shown in the reference, composed catalog attitude, no exaggerated posing
+```
+
+### 2.2 P3 · 身份锚点句补忽略项
+
+- `tools/style_preview.py::_prompt` 中的锚点行改为：
+  `Attached image {N} is an identity-only anchor: keep face, hair, apparent age and body proportions; ignore its garments, denim wash, lighting, backdrop, pose and crop; never treat it as outfit authority.`
+- `references/prompt-build.md §4.2` 预览公式的 `[core 安全主体]` 之后补一行同义说明，与 §4.0a 第 4 条对齐（§4.0a 本身不改）。
+
+### 2.3 P4 · 全身格 Framing
+
+`layout_contract.framing` 为 `full-body` 的格，提示词行改为：
+`Framing: full body visible, feet and shoes fully inside the frame with a small margin below the soles`
+半身格（`half-body-permitted`）不变。
+
+### 2.4 P5 · 首行真实感锚词
+
+动作 0 首行 `Create one action-0 preview for style …` 之后加一句：`Photorealistic e-commerce studio photograph.`；动作 2 单张入口首行直接写 `Create one photorealistic e-commerce studio photograph for style ecommerce-studio, pose template 1 (SIDE_TURN_STANDING), full body.`
+
+### 2.5 动作 2 最小入口（代码改动，范围到此为止）
+
+在 `tools/style_preview.py` 加 `prepare --action 2 --pose 1` 分支：复用动作 0 的服饰事实、锚点、Mode、Mood、Attitude、Lighting、负面词拼装；只输出 1 个姿势块；负面词按 `prompt-build.md §3a` 成片阶段（含 `no collage, no grid …` 与全身追加 `cropped shoes, cropped bag, cropped hem`）；画幅按 `modes-scenes.md §4` 电商主图默认 `1:1`（或 Owner 指定）。不加新状态、不加新 schema 字段。测试只加一条：动作 2 产物含且仅含一个 `POSE 1` 块、含成片阶段负面词。
+
+**不在第二步做的**：P2（B 模式地面/墙/支撑与 `_mode_scene` 读 `pack.scenes`）、C 模式场景收敛、六母版几何、§2a 扩到 24 包、提示词顺序重排。这些各需单独一张图，且前两者涉及运行时规则，先看第二步结果。
+
+## 3. 第二步的评审表（同一张独立图，先事实后视觉）
+
+| # | 问题 | 判定 |
+|---|---|---|
+| 1 | 五件核心单品颜色/结构/长度/鞋包是否与源图一致；牛仔裤是否深靛蓝 | 任一失败为阻断 |
+| 2 | 西装左右两侧明度是否可辨不同；鞋下是否有软阴影；背景是否有渐变 | 三项各答是/否 |
+| 3 | 鞋是否完整在框内且下方有留白 | 是/否 |
+| 4 | 表情是否中性亲和、头部是否仍"低头" | 描述 |
+| 5 | 与公开的 `ecommerce-studio.jpg` 第 1 格并排：评审者更愿意用哪张、为什么 | 允许"无差异 / 都不合格" |
+| 6 | 调用数、失败数、人工干预数 | 数字 |
+
+模型版本与种子仍未知，标未知；更讨喜的随机人脸不算方法改善。
+
+## 4. 时序与责任
+
+1. Codex 额度恢复 → Owner/宿主跑 B0（第一步）→ ingest → 评审表回填到 lighting-pilot 记录。
+2. 评审后 Claude/Codex 在实验分支提交 §2 的四处改动 + 动作 2 入口（一次提交，`[no-cross-check]`）→ `prepare` → 登记运行与授权文本 → 等 Owner 授权 1 次动作 2。
+3. 动作 2 结果按 §3 评审；有效再决定 P2 与其它方向，每次仍只改一个变量组、只看一张图。
