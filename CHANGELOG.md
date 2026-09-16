@@ -12,6 +12,14 @@ All notable changes are documented here. Versions follow Semantic Versioning.
 - Eval coverage: `evals/styles/ecommerce-studio.json#ec-lighting-pilot-8`; `tests/test_pilot_ecommerce_lighting.py` proves the method enters the real preview prompt and that non-pilot packs keep the canonical head/gaze text.
 - Verification: static and dry-run only; no native generation was run and no visual improvement is claimed.
 
+#### Preview evidence binds by prompt equivalence (maintainer decision 2026-09-15)
+
+- Trigger: the public preview collection was bound to the sha256 of the rule files and packs, so any rule edit invalidated all 24 previews even when 23 prompts were byte-identical.
+- Behavior before: `style_preview._check_plan` required `rules` and each preview `pack.sha256` to equal the current files.
+- Behavior after: the recorded `rules`/`pack` hashes are kept as provenance and only checked for shape; every preview must still be reproducible byte for byte under the current rules (`prompt_sha256` equality), and a failure names the style (`<slug>: prompt is not reproducible under the current rules`). Nothing else in the validator was relaxed.
+- Eval coverage: `tests/test_preview_rules_equivalence.py` (failing on the previous validator, passing now).
+- Verification: with the pilot pack change applied, public validation now reports exactly one stale preview (`ecommerce-studio`), which must be regenerated under the new rules and approved before release.
+
 ### Trigger
 
 - The maintainer noted that the README hero and capability wording still presented only the single-garment white-vest case after the coordinated-outfit gallery shipped.

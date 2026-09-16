@@ -83,7 +83,7 @@
 | 宿主加载核验 | 未做(未生图) |
 | 真机出图 / 真实评审 | 未做 |
 
-**契约冲突(需 Owner 决定,受影响部分已暂停):** 按现有规则,候选要合并必须让公开预览集合重新绑定到新规则:要么在新规则下重新生成并人工验收整套 24 张(23 张提示词逐字不变仍需重绑),要么由 Owner 决定校验改为"按每张实际使用的 `prompt_sha256` 等价绑定"(设计变更,本轮未做)。在此之前实验分支不能过 release 检查。
+**契约冲突与 Owner 裁定:** 按原规则,任何规则/pack 改动都让公开预览集合整体失效。Owner 于 2026-09-15 裁定"同意等价绑定"。已实施:`style_preview._check_plan` 不再要求 `rules` 与 pack 的 sha256 与当前文件相等,只要求记录形状合法(provenance 保留),并逐张要求 **当前规则重算出的 `prompt_sha256` 与记录相等**;不等时按风格名报错(`<slug>: prompt is not reproducible under the current rules`)。红→绿证据:`tests/test_preview_rules_equivalence.py` 4 条在旧校验下 2 ERROR + 1 FAIL,新校验下 4/4 通过;全套 143 条中仍有 3 条失败,失败信息已收敛为唯一原因 `beige-blazer-denim-outfit-24-v1: ecommerce-studio: prompt is not reproducible under the current rules`,即公开集合里只有试点这一张需要在新规则下重生成并验收(或恢复旧规则)。其余 23 张在规则改动后仍被判有效,未放宽任何其它校验。
 
 ## 7. 冻结的对照标准(先于任何生图)
 
@@ -111,6 +111,10 @@
 - 总上限:1 次;失败即停并报告;修复另行授权。
 - 需要 Owner 决定:§6 的契约冲突处理路径(重绑全集 vs 校验等价规则)。
 
-## 10. 下一步唯一最小动作
+## 10. 授权消耗与执行状态
 
-授权上述 1 次 `ecommerce-studio B0` 候选生成(或先裁定 §6 契约路径)。授权前不生图;实验分支保持不合并。
+Owner 原话「同意等价绑定,授权电商 B0 一次」已登记为运行 `pilot-ecom-candidate-20260915` 的不可变批次 `ecom-b0-pilot-01`(styles=[ecommerce-studio],maximum_calls=1,scope=serial-native-generation;no-auto-retry;授权文本与 sha256 存于该运行的 `authorizations/`,本地忽略目录)。
+
+本记录的编写环境(Claude Code CLI)**没有原生图片生成能力**,按 `SKILL.md` 属 `tool-blocked`:未调用任何 API/CLI/第三方替代,未生成图片。可执行材料已备齐在该运行目录的 `EXECUTION-PACKET.md`:冻结提示词(`prompts/ecommerce-studio.txt`,sha256 `4868e434…`)、两张参考图的仓库路径与 sha256、生成记录模板、ingest/compose/audit 命令与宿主加载核验步骤。由具备原生参考图生图能力的 Codex/ChatGPT 宿主在实验分支 checkout 上执行 1 次;结果回到本记录 §7 的冻结标准做新旧对照。
+
+下一步唯一最小动作:在原生生图宿主中按 `EXECUTION-PACKET.md` 执行这 1 次调用并 ingest;之后进行人工对照评审。

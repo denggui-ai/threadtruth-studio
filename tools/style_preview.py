@@ -505,9 +505,26 @@ def _check_plan(root, record, directory=None):
     expected = _plan_v5(root, record["run_id"], record.get("source", {}).get("case_id"))
     if set(record) != set(expected):
         raise ValueError("unexpected evidence fields")
-    for key in ("schema_version", "run_id", "role", "source", "identity_anchor", "rules", "ai_label"):
+    for key in ("schema_version", "run_id", "role", "source", "identity_anchor", "ai_label"):
         if record.get(key) != expected[key]:
             raise ValueError(f"stale or invalid {key}")
+    # Rules are bound by equivalence, not by file hash: the recorded rule set keeps the paths and
+    # hashes the run was prepared with (provenance), while every preview below must still be
+    # reproducible byte for byte under the current rules (prompt_sha256 equality). A rule edit
+    # that leaves a preview's prompt unchanged therefore does not invalidate that preview.
+    rules = record.get("rules")
+    if (
+        not isinstance(rules, dict)
+        or set(rules) != set(expected["rules"])
+        or any(
+            not isinstance(value, dict)
+            or set(value) != {"path", "sha256"}
+            or value.get("path") != expected["rules"][name]["path"]
+            or not HASH.fullmatch(str(value.get("sha256")))
+            for name, value in rules.items()
+        )
+    ):
+        raise ValueError("stale or invalid rules")
     actual_previews = record.get("previews")
     if not isinstance(actual_previews, list) or len(actual_previews) != 24:
         raise ValueError("24 previews required")
@@ -517,7 +534,20 @@ def _check_plan(root, record, directory=None):
     for preview, planned in zip(actual_previews, expected["previews"]):
         if not isinstance(preview, dict) or set(preview) - (set(planned) | GENERATED_FIELDS):
             raise ValueError("unexpected preview fields")
-        if any(preview.get(key) != value for key, value in planned.items()):
+        if preview.get("prompt_sha256") != planned["prompt_sha256"]:
+            raise ValueError(
+                f"{planned['style']}: prompt is not reproducible under the current rules; "
+                "regenerate this preview under the current rules or restore the rules"
+            )
+        pack = preview.get("pack")
+        if (
+            not isinstance(pack, dict)
+            or set(pack) != set(planned["pack"])
+            or pack.get("path") != planned["pack"]["path"]
+            or not HASH.fullmatch(str(pack.get("sha256")))
+        ):
+            raise ValueError("stale pack, prompt, mode or pose mapping")
+        if any(preview.get(key) != value for key, value in planned.items() if key != "pack"):
             raise ValueError("stale pack, prompt, mode or pose mapping")
         poses = preview.get("poses")
         if not isinstance(poses, list) or [pose.get("ordinal") for pose in poses if isinstance(pose, dict)] != list(range(1, 7)):
