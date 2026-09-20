@@ -115,3 +115,4 @@ model_persona: neutral approachable expression, relaxed jaw and shoulders, gaze 
 - 提示词 sha256：`f6481f6d46dacc56867bf7fd879fe150ed7625b0eebda09e0316fc3435fa274e`。
 - 原生输出：`native-outputs/ecommerce-studio.png`；sha256：`9965b3ffd6cee55a50905e7c7c43e44c1aa094a102354631ce4eafb66c713c69`；尺寸 `1254×1254`；`1:1` 检查通过。
 - 机器流程状态：`awaiting-human-review`。初步观察为六格同人同套装，墙面、地面线、坐姿方台和接触阴影比旧公开图更明确；尚未写真人 review、未 compose/audit/approve/promote，也未替换公开证据。
+- Owner 随后确认画面可通过，但要求评估并锁定各姿势的头部左右方向。该图保留为 P2 视觉证据；方向规则更新后提示词哈希已变化，因此不再作为可 promote 的当前规则产物。再次生成须另获授权。

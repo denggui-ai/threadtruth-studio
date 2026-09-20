@@ -97,6 +97,27 @@ class EcommerceStudioLightingPilotTests(unittest.TestCase):
         ).read_text(encoding="utf-8")
         self.assertNotIn("Mode/scene: low-distraction white or light-gray studio background", prompt)
 
+    def test_pilot_head_directions_are_fixed_per_pose_and_balanced_across_the_grid(self):
+        run = self.m.prepare(self.root, "pilot-head-directions", "beige-blazer-denim-outfit")
+        preview = next(item for item in run["previews"] if item["style"] == PILOT)
+        directions = [pose["head_gaze"].split(";", 1)[0] for pose in preview["poses"]]
+        self.assertEqual(
+            directions,
+            [
+                "头轻微转向画面右侧,视线避开镜头",
+                "头部微垂,视线朝画面左下方",
+                "头朝画面右侧前方,视线离开镜头,手不托腮",
+                "头转向画面左侧前方,视线不直对镜头",
+                "头轻微前倾下压,视线居中垂落",
+                "背身回眸,头越过肩线看向镜头方向,不完全正面化",
+            ],
+        )
+        prompt = (
+            self.m.run_dir(self.root, "pilot-head-directions") / "prompts" / f"{PILOT}.txt"
+        ).read_text(encoding="utf-8")
+        self.assertIn("Head/gaze: 头轻微转向画面右侧,视线避开镜头", prompt)
+        self.assertIn("Head/gaze: 头转向画面左侧前方,视线不直对镜头", prompt)
+
     def test_single_prompt_is_one_final_stage_image_for_one_pose(self):
         result = self.m.single_prompt(self.root, "pilot-single", PILOT, 1, "beige-blazer-denim-outfit", "1:1")
         text = (self.root / result["path"]).read_text(encoding="utf-8")
