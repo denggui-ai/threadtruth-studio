@@ -138,3 +138,10 @@ model_persona: neutral approachable expression, relaxed jaw and shoulders, gaze 
 - 目测：第 2、5 格由低头转为抬头，头颈无明显过度扭转；五件主要单品仍可见，但第 2 格抱臂遮住较多前胸，第 3 格出现托腮。六格脸部仍主要偏画面右侧，未体现减少机械重复的目标。细微服饰结构未作通过认定。
 - 结论：本次显示固定低头约束已解除，不能认定整体优于 §6.3 旧图。身份参考本身也朝右，可能影响结果，但单次对比不能据此确定原因。
 - `open(head-gaze-repetition)`：按停止条件暂停扩测其余三风格；没有自动重试、改提示词或批准发布。保留结果供 Owner 比较，不追加逐风格方向表。
+
+## 9. 身份锚点朝向隔离：单变量试验（2026-09-20）
+
+- Owner 对“只明确身份参考不复制头部朝向与视线、其余不变、再测一张”的提议回复「同意」。实验 `pilot-ecom-anchor-head-20260920`，基于 `5a0f264`；独立保存实验提示词及 `experiment.json`，未改正式规则。
+- 唯一变更是身份锚点句增加 `do not copy its head orientation or gaze direction; choose them independently for each pose`。参考图、摄影设置、场景与六姿势沿用 §8；提示词 sha256：`635bc3258f7ee046cb6ae6f854f0e1020c0d444cb69955df5eb67cc83650a979`。
+- 原生调用已发起 1 次；约 14 分钟仍无图片或错误回包，终止本地等待。状态 `result-unavailable`，服务端是否完成未知；未取得可落盘图像，未重试、未 ingest、未批准。
+- `deferred(anchor-head-isolation-result-unavailable)`：本轮没有可评审结果，不能验证或否定身份锚点朝向影响假设，也不据此追加规则。生图服务耗时与提示词效果分开记录。
