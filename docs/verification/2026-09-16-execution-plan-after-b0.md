@@ -116,3 +116,16 @@ model_persona: neutral approachable expression, relaxed jaw and shoulders, gaze 
 - 原生输出：`native-outputs/ecommerce-studio.png`；sha256：`9965b3ffd6cee55a50905e7c7c43e44c1aa094a102354631ce4eafb66c713c69`；尺寸 `1254×1254`；`1:1` 检查通过。
 - 机器流程状态：`awaiting-human-review`。初步观察为六格同人同套装，墙面、地面线、坐姿方台和接触阴影比旧公开图更明确；尚未写真人 review、未 compose/audit/approve/promote，也未替换公开证据。
 - Owner 随后确认画面可通过，但要求评估并锁定各姿势的头部左右方向。该图保留为 P2 视觉证据；方向规则更新后提示词哈希已变化，因此不再作为可 promote 的当前规则产物。再次生成须另获授权。
+
+## 7. 24 风格共用头部关系（2026-09-20，实验候选）
+
+- Owner 重新评估后选择“自然与风格适配优先”，明确要求共用原则、减少硬编码。本节取代 `7c9e9f8` 的固定左右方向方案；§6 的图像、哈希与历史验收保留。
+- `fixed(shared-head-gaze)`：两套头部表合为一套身体关系表；去除固定左右、低头、避开镜头及通用韩系情绪要求。表情沿用各自 `model_persona`，预览和单图共用一段说明；摄影试点范围与头部逻辑解耦。未改 24 个 pack、图片、CLI 或证据 schema。
+- 静态验证：24 个风格的预览和全部 144 个单姿势提示词检查通过；修改共用头部关系能同时传入两种输出，灯光、场景、构图字段不变。pack-lint 24/24、trigger-eval 全部断言及 JSON/diff 检查通过。
+- 全量 `python3 -m unittest discover -s tests`：147 项，144 通过、2 failures、1 error（104.541s）。失败仍为下列三个公开证据检查；本次全部风格的 prompt 均已改变，旧证据不能代表当前规则，未放宽发布校验：
+  - `test_build_release.ReleaseBuildTests.test_allowlist_release_excludes_development_material`
+  - `test_demo_media.DemoMediaModuleTests.test_combined_public_case_validation_accepts_primary_and_auxiliary_cases`
+  - `test_primary_demo.PrimaryDemoTests.test_style_index_covers_every_pack_without_claiming_planned_images`
+- `deferred(current-rule-public-evidence)`：当前不发布、不重写旧哈希、不自动重生历史图库。上述失败是实验候选的发布限制，不是全绿。
+- `deferred(head-gaze-visual-validation)`：本轮生图调用 0。后续明确授权后，电商、韩系冷感、日系生活、运动休闲使用同一服饰与身份参考，各一张六宫格，只改变头部规则；比较头肩自然度、服饰遮挡、动作合理性、风格表达、机械重复，不按左右数量评分。没有改善或发生服饰/姿势退化时修订共用原则，不叠风格例外；四种通过也不宣称 24 风格全部实测。
+- 声明式 eval 79–80 已补入风格独立性及不露脸/非人像覆盖场景，尚未运行宿主行为评估。命令行样张工具仍限真人六姿势，输出形态优先级由 skill §1a/§2 指令保证；自动拼装测试不证明该宿主行为或视觉效果。

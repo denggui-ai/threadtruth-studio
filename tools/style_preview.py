@@ -243,9 +243,8 @@ def _canonical_action_zero(root):
     return poses, " ".join(negative_match.group(1).split())
 
 
-PILOT_EXPRESSION_NOTE = "expression and attitude follow the Attitude line above; no cold or detached editorial mood"
-# Pilot-only prompt lines (2026-09-16 single-image validation). They apply to the slugs listed in
-# prompt-build §2a only, so the other 23 preview prompts stay byte-identical.
+# Photography pilot scope (prompt-build §4.2), independent of shared head/gaze rules.
+PILOT_PHOTOGRAPHY_SLUGS = frozenset({"ecommerce-studio"})
 PILOT_PHOTOREAL_LINE = "Photorealistic photograph taken with a real camera; not an illustration or render."
 PILOT_ANCHOR_IGNORE = "ignore its garments, garment colors and washes, lighting, backdrop, pose and crop"
 PILOT_FRAMING = {
@@ -254,9 +253,13 @@ PILOT_FRAMING = {
 }
 
 
-def _pilot_slugs(root):
-    slugs, _ = _pilot_expression_override(child(root, RULE_PATHS["prompt_build"]).read_text(encoding="utf-8"))
-    return slugs
+def _head_gaze_guidance(root):
+    text = child(root, RULE_PATHS["prompt_build"]).read_text(encoding="utf-8")
+    section = text.split("## 2. 头部方向 / 视线", 1)[1].split("## 3.", 1)[0]
+    match = re.search(r"```\n(Head/gaze guidance:.*?)```", section, re.S)
+    if match is None:
+        raise ValueError("shared head/gaze guidance is missing")
+    return " ".join(match.group(1).split())
 
 
 def _final_negatives(root):
@@ -267,23 +270,6 @@ def _final_negatives(root):
     if len(blocks) < 2:
         raise ValueError("canonical action-1 negatives are incomplete")
     return " ".join(blocks[0].split()), " ".join(blocks[1].split())
-
-
-def _pilot_expression_override(text):
-    """prompt-build §2a: pilot slugs keep only head/gaze geometry; expression comes from pack.model_persona."""
-    if "### 2a." not in text:
-        return set(), {}
-    section = text.split("### 2a.", 1)[1].split("## 3.", 1)[0]
-    match = re.search(r"pilot_persona_expression_slugs:\s*\[([^\]]*)\]", section)
-    slugs = {item.strip().strip("`'\"") for item in match.group(1).split(",") if item.strip()} if match else set()
-    geometry = {}
-    for line in section.splitlines():
-        row = re.match(r"^\|\s*([1-6])\s*\|\s*([^|]+?)\s*\|\s*[^|]+?\s*\|$", line)
-        if row:
-            geometry[int(row.group(1))] = row.group(2).strip()
-    if slugs and set(geometry) != set(range(1, 7)):
-        raise ValueError("pilot expression override table is incomplete")
-    return slugs, geometry
 
 
 def _registered_packs(root):
@@ -325,7 +311,7 @@ def _framing_text(framing, pilot):
     return PILOT_FRAMING.get(framing, framing) if pilot else framing
 
 
-def _prompt(preview, source, anchor, preview_negative, pilot=False):
+def _prompt(preview, source, anchor, preview_negative, head_gaze_guidance, pilot=False):
     visual = preview["visual"]
     source_count = len(source["assets"])
     lines = [
@@ -345,6 +331,7 @@ def _prompt(preview, source, anchor, preview_negative, pilot=False):
         f"Mode: {preview['mode']} derived from the registered pack default and runtime mode rules.",
         f"Mood only: {visual['mood']}",
         f"Attitude: {visual['persona']}",
+        head_gaze_guidance,
         f"Lighting/background palette: {visual['lighting']}",
         "This is a LOW-RES DIRECTION PREVIEW, not a final deliverable. Keep the footer visible and unobtrusive, no larger than about 3-4% of image height.",
         "All requested text must be native-rendered in the generated board. Never cover the model, face, vest, shoes, bag or pose. Do not place a large centered watermark.",
@@ -376,7 +363,7 @@ def _orientation(ratio):
     return "square" if width == height else ("portrait" if height > width else "landscape")
 
 
-def _single_prompt(preview, source, anchor, pose, general_negative, full_body_append, ratio, pilot):
+def _single_prompt(preview, source, anchor, pose, general_negative, full_body_append, ratio, pilot, head_gaze_guidance):
     """prompt-build §4.1 single independent image (action 2 test / one look) for one canonical pose template."""
     visual = preview["visual"]
     source_count = len(source["assets"])
@@ -395,6 +382,7 @@ def _single_prompt(preview, source, anchor, pose, general_negative, full_body_ap
         f"Mode: {preview['mode']} derived from the registered pack default and runtime mode rules.",
         f"Mood only: {visual['mood']}",
         f"Attitude: {visual['persona']}",
+        head_gaze_guidance,
         f"Lighting/background palette: {visual['lighting']}",
         "Outfit references: " + ", ".join(asset["path"] for asset in source["assets"]),
         "Identity-only reference: " + anchor["path"],
@@ -427,7 +415,8 @@ def single_prompt(root, run_id, style, pose, source_case, ratio="1:1"):
     general_negative, full_body_append = _final_negatives(root)
     text = _single_prompt(
         preview, plan["source"], plan["identity_anchor"], preview["poses"][pose - 1],
-        general_negative, full_body_append, ratio, style in _pilot_slugs(root),
+        general_negative, full_body_append, ratio, style in PILOT_PHOTOGRAPHY_SLUGS,
+        _head_gaze_guidance(root),
     )
     (directory / "prompts").mkdir(parents=True, exist_ok=True)
     path = child(directory, f"prompts/{style}.action2-pose{pose}.txt")
@@ -440,9 +429,7 @@ def _plan_v5(root, run_id, source_case):
     source, anchor = load_preview_source(root, source_case)
     rules = _rules(root)
     canonical_poses, preview_negative = _canonical_action_zero(root)
-    pilot_slugs, pilot_geometry = _pilot_expression_override(
-        child(root, RULE_PATHS["prompt_build"]).read_text(encoding="utf-8")
-    )
+    head_gaze_guidance = _head_gaze_guidance(root)
     previews = []
     for style, path, text in _registered_packs(root):
         relative = f"{PACK_ROOT}/{path.name}"
@@ -455,8 +442,6 @@ def _plan_v5(root, run_id, source_case):
         poses = copy.deepcopy(canonical_poses)
         for pose in poses:
             pose["scene"] = _mode_scene(mode, scenes, pose["ordinal"])
-            if style in pilot_slugs:
-                pose["head_gaze"] = f"{pilot_geometry[pose['ordinal']]}; {PILOT_EXPRESSION_NOTE}"
         raw = path.read_bytes()
         preview = {
             "style": style,
@@ -473,7 +458,7 @@ def _plan_v5(root, run_id, source_case):
                 "footer": PREVIEW_MARK,
             },
         }
-        preview["prompt_sha256"] = digest(_prompt(preview, source, anchor, preview_negative, pilot=style in pilot_slugs).encode())
+        preview["prompt_sha256"] = digest(_prompt(preview, source, anchor, preview_negative, head_gaze_guidance, pilot=style in PILOT_PHOTOGRAPHY_SLUGS).encode())
         preview["display_contract"] = copy.deepcopy(_cards().CONTRACT)
         previews.append(preview)
     return {
@@ -591,10 +576,10 @@ def prepare(root, run_id, source_case=None):
     directory.mkdir(parents=True)
     (directory / "prompts").mkdir()
     _, preview_negative = _canonical_action_zero(root)
-    pilot_slugs = _pilot_slugs(root)
+    head_gaze_guidance = _head_gaze_guidance(root)
     for preview in plan["previews"]:
         child(directory, f"prompts/{preview['style']}.txt").write_text(
-            _prompt(preview, plan["source"], plan["identity_anchor"], preview_negative, pilot=preview["style"] in pilot_slugs),
+            _prompt(preview, plan["source"], plan["identity_anchor"], preview_negative, head_gaze_guidance, pilot=preview["style"] in PILOT_PHOTOGRAPHY_SLUGS),
             encoding="utf-8",
         )
     write_json(directory / "evidence.json", plan)

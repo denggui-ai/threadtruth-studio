@@ -1,19 +1,16 @@
-"""Pilot gates: the ecommerce-studio lighting/expression candidate must enter the real preview input and stay scoped.
+"""Shared head/gaze assembly and scoped ecommerce photography checks.
 
-These checks prove that the candidate method is read by the actual action-0 consumer (tools/style_preview.py)
-and that the 23 non-pilot packs keep the canonical head/gaze text byte for byte. They do not prove visual
-improvement; that still requires authorized native generation and human review.
+These exercise action-0 and action-2 prompts, not image quality. Visual improvement
+still requires authorized native generation and human review.
 """
 import importlib.util
 import shutil
-import sys
 import tempfile
 import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PACK = ROOT / "skills/threadtruth-studio/references/styles/ecommerce-studio.pack.yaml"
-PROMPT_BUILD = ROOT / "skills/threadtruth-studio/references/prompt-build.md"
 PILOT = "ecommerce-studio"
 BASELINE_MOOD_CUES = ("冷静疏离", "营业", "甜美", "目录照")
 
@@ -35,16 +32,24 @@ class EcommerceStudioLightingPilotTests(unittest.TestCase):
         shutil.rmtree(self.root / "docs/demo/style-previews", ignore_errors=True)
         self.m = module()
 
-    def test_pilot_scope_is_exactly_ecommerce_studio_and_geometry_has_no_mood_cues(self):
-        slugs, geometry = self.m._pilot_expression_override(PROMPT_BUILD.read_text(encoding="utf-8"))
-        self.assertEqual(slugs, {PILOT})
-        self.assertEqual(set(geometry), set(range(1, 7)))
-        for text in geometry.values():
-            for cue in BASELINE_MOOD_CUES:
-                self.assertNotIn(cue, text)
-        canonical, _ = self.m._canonical_action_zero(self.root)
-        self.assertEqual(len(canonical), 6)
-        self.assertIn("冷静疏离", canonical[1]["head_gaze"], "canonical §2 table must stay untouched")
+    def test_head_rule_edits_reach_preview_and_single_without_changing_photography(self):
+        before = self.m.prepare(self.root, "before-head-edit", "beige-blazer-denim-outfit")
+        rule = self.root / "skills/threadtruth-studio/references/prompt-build.md"
+        rule.write_text(rule.read_text(encoding="utf-8").replace(
+            "头颈放松,符合倚靠关系", "头颈随墙面支撑自然放松"
+        ), encoding="utf-8")
+        after = self.m.prepare(self.root, "after-head-edit", "beige-blazer-denim-outfit")
+        for old, new in zip(before["previews"], after["previews"]):
+            with self.subTest(style=new["style"]):
+                self.assertNotEqual(old["prompt_sha256"], new["prompt_sha256"])
+                for field in ("visual", "pack", "layout_contract", "negative_delta_add"):
+                    self.assertEqual(old[field], new[field])
+                self.assertEqual([p["scene"] for p in old["poses"]], [p["scene"] for p in new["poses"]])
+                preview = (self.m.run_dir(self.root, "after-head-edit") / "prompts" / f"{new['style']}.txt").read_text(encoding="utf-8")
+                single = self.m.single_prompt(self.root, "after-head-single", new["style"], 2, "beige-blazer-denim-outfit")
+                for text in (preview, (self.root / single["path"]).read_text(encoding="utf-8")):
+                    self.assertIn("Head/gaze: 头颈随墙面支撑自然放松", text)
+                    self.assertEqual(self.m.PILOT_PHOTOREAL_LINE in text, new["style"] == PILOT)
 
     def test_lighting_method_is_written_as_visible_relations(self):
         visual = self.m._visual(PACK.read_text(encoding="utf-8"))
@@ -97,26 +102,30 @@ class EcommerceStudioLightingPilotTests(unittest.TestCase):
         ).read_text(encoding="utf-8")
         self.assertNotIn("Mode/scene: low-distraction white or light-gray studio background", prompt)
 
-    def test_pilot_head_directions_are_fixed_per_pose_and_balanced_across_the_grid(self):
-        run = self.m.prepare(self.root, "pilot-head-directions", "beige-blazer-denim-outfit")
-        preview = next(item for item in run["previews"] if item["style"] == PILOT)
-        directions = [pose["head_gaze"].split(";", 1)[0] for pose in preview["poses"]]
-        self.assertEqual(
-            directions,
-            [
-                "头轻微转向画面右侧,视线避开镜头",
-                "头部微垂,视线朝画面左下方",
-                "头朝画面右侧前方,视线离开镜头,手不托腮",
-                "头转向画面左侧前方,视线不直对镜头",
-                "头轻微前倾下压,视线居中垂落",
-                "背身回眸,头越过肩线看向镜头方向,不完全正面化",
-            ],
-        )
-        prompt = (
-            self.m.run_dir(self.root, "pilot-head-directions") / "prompts" / f"{PILOT}.txt"
-        ).read_text(encoding="utf-8")
-        self.assertIn("Head/gaze: 头轻微转向画面右侧,视线避开镜头", prompt)
-        self.assertIn("Head/gaze: 头转向画面左侧前方,视线不直对镜头", prompt)
+    def test_all_styles_share_head_relations_in_preview_and_each_single_pose(self):
+        run = self.m.prepare(self.root, "shared-head", "beige-blazer-denim-outfit")
+        self.assertEqual(len(run["previews"]), 24)
+        masters = ["SIDE_TURN_STANDING", "SIDE_LEANING_WALL", "UPRIGHT_SEATED",
+                   "FRONT_LIGHT_STEP", "SLIGHT_FORWARD_LEAN", "BACK_TURN_GLANCE"]
+        banned = ("冷静疏离", "不正面营业", "避免甜美手托腮", "避免目录照", "头部微垂", "视线垂落", "画面右侧", "画面左侧",
+                  "视线避开镜头", "视线不直对镜头", "no cold or detached editorial mood")
+        for preview in run["previews"]:
+            with self.subTest(style=preview["style"]):
+                self.assertEqual([p["master"] for p in preview["poses"]], masters)
+                grid = (self.m.run_dir(self.root, "shared-head") / "prompts" / f"{preview['style']}.txt").read_text(encoding="utf-8")
+                self.assertEqual(grid.count("Head/gaze: "), 6)
+                self.assertEqual(preview["prompt_sha256"], self.m.digest(grid.encode()))
+                self.assertIn("Head/gaze: 保留越肩回看,避免过度扭颈", grid)
+                for pose in preview["poses"]:
+                    single = self.m.single_prompt(self.root, "shared-head-single", preview["style"], pose["ordinal"], "beige-blazer-denim-outfit")
+                    text = (self.root / single["path"]).read_text(encoding="utf-8")
+                    self.assertEqual(text.count("Head/gaze: "), 1)
+                    self.assertIn(f"Head/gaze: {pose['head_gaze']}", text)
+                    for output in (grid, text):
+                        self.assertEqual(output.count("Head/gaze guidance:"), 1)
+                        self.assertIn(f"Attitude: {preview['visual']['persona']}", output)
+                        for cue in banned:
+                            self.assertNotIn(cue, output)
 
     def test_single_prompt_is_one_final_stage_image_for_one_pose(self):
         result = self.m.single_prompt(self.root, "pilot-single", PILOT, 1, "beige-blazer-denim-outfit", "1:1")
@@ -143,7 +152,7 @@ class EcommerceStudioLightingPilotTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.m.single_prompt(self.root, "pilot-single", PILOT, 1, "beige-blazer-denim-outfit", "square")
 
-    def test_pilot_method_enters_real_preview_prompt_and_other_packs_stay_unchanged(self):
+    def test_style_personas_remain_distinct_with_shared_head_rules(self):
         run = self.m.prepare(self.root, "pilot-run", "beige-blazer-denim-outfit")
         directory = self.m.run_dir(self.root, "pilot-run")
         prompts = {
@@ -154,18 +163,18 @@ class EcommerceStudioLightingPilotTests(unittest.TestCase):
         pilot = prompts[PILOT]
         self.assertIn("contact shadow", pilot)
         self.assertIn("no flat shadowless lighting", pilot)
-        self.assertIn(self.m.PILOT_EXPRESSION_NOTE, pilot)
         for cue in BASELINE_MOOD_CUES:
             self.assertNotIn(cue, pilot)
         preview = next(item for item in run["previews"] if item["style"] == PILOT)
         self.assertEqual([pose["master"] for pose in preview["poses"]], [pose["master"] for pose in canonical])
         self.assertEqual(preview["mode"], "B")
         for style, prompt in prompts.items():
-            if style == PILOT:
-                continue
             for pose in canonical:
                 self.assertIn(pose["head_gaze"], prompt, style)
-            self.assertNotIn(self.m.PILOT_EXPRESSION_NOTE, prompt, style)
+        self.assertIn("Attitude: calm, detached, quietly confident", prompts["korean-cold-editorial"])
+        self.assertIn("Attitude: gentle natural ease", prompts["japanese-lifestyle"])
+        self.assertIn("Attitude: energetic relaxed expression", prompts["athleisure"])
+        self.assertIn("Attitude: neutral approachable expression", pilot)
 
 
 if __name__ == "__main__":

@@ -49,12 +49,12 @@
     "id": "ec-lighting-pilot-8",
     "type": "prompt-build",
     "input": "(上传西装外套+牛仔裤套装) 电商 B0 / 电商 B1",
-    "expect": "试点候选(未经真机验证):pack.lighting_palette 按 §4.1 光源→方向→阴影→对比顺序进入 STYLE_VISUAL——camera-left 45° 柔主光、右侧低比例补光、袖/翻领/口袋盖渐变阴影、鞋下接触阴影、背景分离、六张同一光向;prompt-build §2a 对 ecommerce-studio 只保留头部方向几何,表情取 pack.model_persona,prompt 中不得出现『冷静疏离/不正面营业/避免目录照』;其它 23 个 pack 的 §2 原表逐字不变;pack-lint --strict 通过;出图后光影/表情可定位偏离按 commercial-qa §2 记 qa-user-review 交人工,不自动 retry"
+    "expect": "摄影试点:pack.lighting_palette 按 §4.1 光源→方向→阴影→对比顺序进入 STYLE_VISUAL——左上柔主光、右侧低比例补光、面料明暗过渡、鞋下接触阴影、背景渐变、六张同一光向;头部与其余23风格共用 §2 身体关系,不固定左右、低头或避开镜头;表情取 pack.model_persona;没有电商专用头部覆盖或逐格重复情绪指令;出图后光影/表情可定位偏离仍按 commercial-qa §2 交人工,不自动 retry;新头部规则尚未经生图验证"
   },
   {
     "id": "ec-single-validation-9",
     "type": "prompt-build",
     "input": "(上传西装外套+牛仔裤套装) 电商 B2 母版 1 单张测试(2026-09-16 试点瘦身版)",
-    "expect": "试点候选(未经真机验证):lighting_palette 压到 ≤70 词且不含任何服饰部件词(袖/驳领/口袋盖);model_persona 不写『插口袋/直视』,重心句限『when standing』;试点 slug 的提示词补三句——锚点忽略项(ignore its garments, garment colors and washes, lighting, backdrop, pose and crop)、全身格 Framing『full body visible, feet and shoes fully inside the frame…』、首行真实感锚词『Photorealistic photograph taken with a real camera』;其余 23 个 pack 的预览提示词逐字不变;动作 2 单张(tools single-prompt)只含一个 POSE 块、拼 §3a 成片负面词 + 全身追加 cropped 三条、注入精确画幅(电商主图默认 1:1);不登记批次、不生图"
+    "expect": "保留摄影试点:lighting_palette 简短且不含任何服饰部件词(袖/驳领/口袋盖);model_persona 不预设口袋,重心句限『when standing』;仅电商提示词追加锚点忽略项、全身格完整鞋脚留白、首行真实感锚词,其适用范围独立于24风格共用的头部规则;动作 2 单张(tools single-prompt)只含一个 POSE 块、一个 §2 共用说明、拼 §3a 成片负面词 + 全身追加 cropped 三条、注入精确画幅(电商主图默认 1:1);不登记批次、不生图;提示词拼装通过不能代替视觉验证"
   }
 ]

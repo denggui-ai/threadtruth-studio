@@ -4,6 +4,13 @@ All notable changes are documented here. Versions follow Semantic Versioning.
 
 ## Unreleased
 
+#### Experimental candidate — shared head/gaze relations across 24 styles (not visually verified)
+
+- Replaces the inherited Korean head/gaze instructions and the ecommerce fixed-left/right override with one six-pose body-relation table. Head direction, tilt and eye contact follow action and existing scene; expression remains in each pack's `model_persona`. No gaze quotas, new props, style categories or schema/CLI changes.
+- Action-0 and action-2 prompt builders read the same head/gaze table and one shared guidance paragraph. Removed the ecommerce head override parser and repeated per-cell expression note. Existing ecommerce photography additions remain scoped independently; lighting, scenes, identity and framing behavior are preserved.
+- Face-obscured and nonportrait instructions retain §1a precedence. Automated coverage exercises 24 grid prompts and all 144 single-pose prompts, including propagation of a shared-rule edit; declarative evals 79–80 cover style expression and output-form precedence. These checks do not establish image quality.
+- Prior accepted images retain their original prompts, hashes and acceptance. Current-rule publication checks are unchanged and historical public evidence is expected to remain stale. This candidate is experimental; planned visual comparison is ecommerce, Korean cold editorial, Japanese lifestyle and athleisure with the same outfit/identity, one grid each under separate generation authorization. No native generation or promotion in this change.
+
 #### Experimental candidate v2 — pilot slimming, anchor isolation and single-image validation entry (not visually verified)
 
 - Trigger: the 2026-09-16 blind re-distillation (`docs/verification/2026-09-16-independent-distillation.md`) found that the v1 pilot lighting block named garment parts (sleeves, lapels, pocket flaps), that the persona implied pockets and a direct gaze, that the preview anchor line lacked the §4.0a "ignore its garment, lighting, background" clause (the public ecommerce preview shows the anchor's lighter denim wash), and that a six-cell grid at ~390 px per cell cannot show contact shadows. The maintainer voided the pending B0 authorization (`ecom-b0-pilot-01`) on 2026-09-16 so these fixes could land before the next native call.
