@@ -92,3 +92,26 @@ model_persona: neutral approachable expression, relaxed jaw and shoulders, gaze 
 - 候选 v2 运行：`pilot-ecom-candidate2-20260916`（本地忽略目录），动作 2 母版 1 提示词位于该运行 `prompts/ecommerce-studio.action2-pose1.txt`。**尚无授权，未生图。**
 - 首行真实感锚词实现为风格无关的 `Photorealistic photograph taken with a real camera; not an illustration or render.`，而非本文 §2.4 的电商专用措辞；动作 2 入口是独立子命令 `single-prompt`（不是 `prepare --action 2`），只写 `prompts/<style>.action2-pose<N>.txt`，不改 `evidence.json`。
 - **2026-09-16 授权登记**:Owner 原话「授权电商 B2 母版 1 一次」,登记为运行 `pilot-ecom-candidate2-20260916` 的不可变批次 `ecom-b2-pose1-01`(styles=[ecommerce-studio],maximum_calls=1,scope=serial-native-generation;no-auto-retry;授权文本 sha256 `7985796d…`,存于该运行 `authorizations/`,本地忽略目录)。执行包:该运行目录 `EXECUTION-PACKET.md`(宿主加载核验 → 1 次调用 → 落盘与画幅元数据检查 → 生成记录 → 人工六问评审)。绑定:提示词 sha256 `7a8430fb…`,pack sha256 `c4896360…`,提交 `2c6244e`。本环境 tool-blocked,未生图。
+
+## 6. 状态更新（2026-09-20，取代 §5 的“未生图”状态）
+
+### 6.1 B2 母版 1：已验证并获 Owner 接受
+
+- 运行：`pilot-ecom-candidate2-20260916`；输出：`native-outputs/ecommerce-studio.action2-pose1.png`。
+- 输出 sha256：`77d88813b1f64f92134b54c9fa08ce9109c7823d382cf4267276275b4622f56b`；尺寸 `1254×1254`；`1:1` 元数据检查通过。
+- 六问：①五件核心单品、颜色与长度保持，牛仔裤为深靛蓝；②西装两侧明暗、鞋下软阴影、背景渐变均可辨；③鞋完整且鞋底下有留白；④表情中性亲和，没有被“低头”语义压成冷漠；⑤相较旧公开图第 1 格，候选图的方向光、接触阴影和全身边界更清楚，因此优先候选图；⑥调用 `1`、失败 `0`、人工修形 `0`。
+- Owner 回复「可以接受」。这只证明 P1/P3/P4/P5 组合有效，不把随机人脸差异算作方法改进。
+
+### 6.2 P2（B 模式场景落地）：已实现并用母版 2 验证
+
+- 提交：`1ecfb87`。`_mode_scene` 对 B 模式按姿势读取 pack 的六条场景；电商 pack 增加地面/墙板/坐姿方台等低干扰棚拍支撑。
+- 回归测试先红后绿；试点测试 `6/6` 通过。全量验证除 3 个已知历史公开证据失败外通过（`86 passed`，另含 `26` 个 subtests）。
+- 运行：`pilot-ecom-p2-pose2-20260920`；输出 sha256：`b920973d540c596f145f309ba02ac96657894564752a2a356c09c3a926336fd1`；尺寸 `1254×1254`；`1:1` 通过。
+- 观察：墙面依靠关系、肩背接触阴影和可见地面均出现，五件核心单品继续保持；因此 P2 对“场景不能落地”的问题有效。
+
+### 6.3 新公开六宫格候选：已生成，等待真人评审
+
+- 运行：`pilot-ecom-public-p2-20260920`；批次：`ecom-public-p2-grid-01`；只执行 `1` 次原生调用，无自动重试。
+- 提示词 sha256：`f6481f6d46dacc56867bf7fd879fe150ed7625b0eebda09e0316fc3435fa274e`。
+- 原生输出：`native-outputs/ecommerce-studio.png`；sha256：`9965b3ffd6cee55a50905e7c7c43e44c1aa094a102354631ce4eafb66c713c69`；尺寸 `1254×1254`；`1:1` 检查通过。
+- 机器流程状态：`awaiting-human-review`。初步观察为六格同人同套装，墙面、地面线、坐姿方台和接触阴影比旧公开图更明确；尚未写真人 review、未 compose/audit/approve/promote，也未替换公开证据。
