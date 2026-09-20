@@ -84,6 +84,19 @@ class EcommerceStudioLightingPilotTests(unittest.TestCase):
             self.assertNotIn(self.m.PILOT_PHOTOREAL_LINE, prompt, style)
             self.assertEqual(prompt.count("Framing: full-body"), 4, style)
 
+    def test_b_mode_uses_pack_scenes_with_floor_wall_and_support(self):
+        run = self.m.prepare(self.root, "pilot-scenes", "beige-blazer-denim-outfit")
+        preview = next(item for item in run["previews"] if item["style"] == PILOT)
+        scenes = [pose["scene"] for pose in preview["poses"]]
+        self.assertEqual(len(set(scenes)), 6)
+        self.assertTrue(any("floor" in scene and "horizon" in scene for scene in scenes))
+        self.assertTrue(any("wall panel" in scene for scene in scenes))
+        self.assertTrue(any("studio block" in scene for scene in scenes))
+        prompt = (
+            self.m.run_dir(self.root, "pilot-scenes") / "prompts" / f"{PILOT}.txt"
+        ).read_text(encoding="utf-8")
+        self.assertNotIn("Mode/scene: low-distraction white or light-gray studio background", prompt)
+
     def test_single_prompt_is_one_final_stage_image_for_one_pose(self):
         result = self.m.single_prompt(self.root, "pilot-single", PILOT, 1, "beige-blazer-denim-outfit", "1:1")
         text = (self.root / result["path"]).read_text(encoding="utf-8")

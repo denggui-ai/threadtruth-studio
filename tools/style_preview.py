@@ -305,7 +305,9 @@ def _registered_packs(root):
 
 
 def _mode_scene(mode, scenes, ordinal):
-    if mode == "B" or (mode == "D" and ordinal <= 2):
+    if mode == "B":
+        return scenes[ordinal - 1]
+    if mode == "D" and ordinal <= 2:
         return "low-distraction white or light-gray studio background"
     return scenes[ordinal - 1]
 

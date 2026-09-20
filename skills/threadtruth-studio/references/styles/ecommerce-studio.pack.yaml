@@ -16,12 +16,12 @@ visual_language: >
 model_persona: neutral approachable expression, relaxed jaw and shoulders, gaze as given by the pose line, weight naturally on one leg when standing, hands at ease at the side or resting on an accessory already shown in the reference, composed catalog attitude, no exaggerated posing
 
 scenes:
-  - 纯白无缝背景
-  - 浅灰无缝背景
-  - 柔光棚拍空间
-  - 浅米色纯色背景
-  - 低对比影棚
-  - 居中柔光位
+  - seamless light-gray studio where the visible floor meets the backdrop in a soft horizon line
+  - same studio with a plain white wall panel for leaning and a faint shoulder contact shadow
+  - same studio with a low white studio block for seated support and feet grounded on the visible floor
+  - same studio with a seamless off-white floor and backdrop and a soft horizon line
+  - same studio with a low light-gray studio block for seated support and feet grounded on the visible floor
+  - same studio with a plain light-gray wall panel, visible floor and clear space for a back-turn pose
 # lighting_palette 按 core §4.1 四段顺序书写:光源 → 方向 → 阴影特征 → 对比/曝光;最后一句锁整组一致。
 # 试点候选(2026-09-15,2026-09-16 瘦身):把"照平"的匀光改写为可见关系——主光方向、补光比、渐变阴影、鞋下接触阴影、背景分离。
 # 光线字段不写任何服饰部件词(袖/驳领/口袋盖),避免对无此结构的服饰形成新增诱导;persona 同理不写"插口袋/直视"。
