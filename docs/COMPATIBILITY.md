@@ -1,29 +1,17 @@
 # Compatibility / 兼容性
 
-[English](#english) | [简体中文](#简体中文)
-
-## English
-
-| Surface | Evidence | Status |
+| Surface / 环境 | Evidence / 证据 | Boundary / 边界 |
 |---|---|---|
-| macOS | `26.6.2` maintainer host | Audited |
-| Codex CLI | `codex-cli 0.144.1` | `plugin add`, `list`, `remove`, and marketplace help audited |
-| beta.3 prerelease | Runtime unchanged; beta.2 installer regression retained | Published artifact verified; real new-host CLI activation pending |
-| Codex desktop app | Build unavailable on audited host | Not verified; never inferred from CLI version |
-| Clean non-maintainer environment | No retained successful record yet | Pending |
-| Official Plugin marketplace | No listing or acceptance evidence | Not available |
+| macOS | `26.6.2` maintainer host | Local verification environment / 本机验证环境 |
+| Codex CLI | `codex-cli 0.155.1` | beta.5 local registration, enablement and version verification recorded separately / beta.5本机注册、启用与版本核验另见记录 |
+| Local beta.5 / 本地beta.5 | Shared head/body relations and ecommerce pilot; source, package and installer checks | [Local verification record / 本地验证](verification/2026-09-21-beta.5-local.md); no GitHub beta.5 release / 未发布GitHub beta.5 |
+| Public beta.4 / 公开beta.4 | Two accepted historical 24-style preview galleries | Preserved byte-for-byte; not current-runtime visual evidence / 逐字节保留，不算当前运行时视觉证据 |
+| Codex desktop / 桌面应用 | Build unavailable / build不可用 | Open a new task to load the upgraded Skill; current task does not reload / 升级后需新建任务，当前任务不热更新 |
+| Clean non-maintainer environment / 非维护者干净环境 | No retained successful record / 无留存成功记录 | Pending / 待验证 |
+| Official Plugin marketplace / 官方市场 | No listing or acceptance evidence / 无上架或获批证据 | Not available / 不可用 |
 
-For the beta.3 prerelease, static tests, preview rights/hash validation, package shape/checksum/version checks, published-asset download verification, and retained source-registration tests form the release-verification boundary. Actual new-host CLI activation remains explicitly pending and must not be represented as verified compatibility. A successful non-maintainer clean-environment lifecycle is a separate public Beta exit target, not a prerequisite that blocks this patch release. The beta.1 maintainer lifecycle remains historical summary evidence only. See [INSTALL.md](INSTALL.md).
+The beta.5 local delivery covers deterministic source/runtime validation, immutable-gallery integrity, allowlist packaging, clean extraction, installer tests and the explicitly recorded maintainer-machine cutover. It does not establish new-task trigger behavior, a fresh-host lifecycle, or visual quality across 24 styles. The earlier beta.1 lifecycle and beta.3/beta.4 public artifact checks remain historical evidence. Stable v1.0.0 and public Beta exit criteria are separate pending work.
 
-## 简体中文
+beta.5本地交付覆盖源码／运行时静态检查、历史图库完整性、白名单打包、干净解压、安装器回归及明确记录的维护者本机升级。它不证明新任务触发、外部干净环境完整生命周期或24风格视觉质量。beta.1生命周期及beta.3／beta.4公开制品核验保留为历史证据；稳定版v1.0.0和公开Beta退出条件仍是后续工作。
 
-| 环境 | 证据 | 状态 |
-|---|---|---|
-| macOS | 维护者宿主 `26.6.2` | 已审计 |
-| Codex CLI | `codex-cli 0.144.1` | 已审计 `plugin add`、`list`、`remove` 及 marketplace 帮助 |
-| beta.3 预发布 | 运行时不变；保留beta.2安装器回归 | 已验证公开制品；真实新宿主 CLI 激活待验证 |
-| Codex 桌面应用 | 审计宿主无法取得 build | 未验证，不能从 CLI 版本推断 |
-| 非维护者干净环境 | 尚无留存的成功记录 | 待验证 |
-| 官方 Plugin marketplace | 无上架或获批证据 | 不可用 |
-
-beta.3 预发布的验证边界是静态测试、预览权利与哈希检查、制品结构/checksum/版本检查、公开制品下载复核和保留的源注册回归。真实新宿主 CLI 激活仍明确为待验证，不得宣传为已验证兼容性。非维护者干净环境完整生命周期是另一项公开 Beta 退出目标，不是阻塞本补丁发布的前置条件。beta.1 维护者生命周期仅保留为历史摘要证据。详见 [INSTALL.md](INSTALL.md)。
+Installation, backups and rollback: [INSTALL.md](INSTALL.md). Successful `plugin add` and installed-byte verification establish local enablement, not a paid image-generation test. / 安装、备份和回滚见[安装指南](INSTALL.md)。成功启用与安装字节核验只证明本机安装，不代表付费生图实测。

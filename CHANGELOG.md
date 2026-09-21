@@ -2,7 +2,32 @@
 
 All notable changes are documented here. Versions follow Semantic Versioning.
 
-## Unreleased
+## 2026-09-21 — 1.0.0-beta.5 (local release)
+
+### Trigger
+
+- The maintainer authorized integration, regression validation, packaging and local installation after closing the head/gaze review. The active local Plugin was still beta.1.
+
+### Behavior before
+
+- Shared natural head/gaze relations and the ecommerce photography pilot existed only on an experiment branch. Current-rule validation also rejected the immutable, previously accepted beta.4 outfit gallery after runtime prompts changed.
+
+### Behavior after
+
+- Integrates shared head/body relations across the existing six poses and 24 styles, preserving style-specific expression and the ecommerce lighting/scene pilot. It adds no fixed left/right quotas or new head rules.
+- Preserves the exact published beta.3 white-vest and beta.4 outfit collections as hash-checked historical evidence. New previews still require current reproducible prompts and all existing authorization, source-rights and human-review gates.
+- Updates the local Plugin version and matching installation/offline guides. beta.5 is a local release, not a new public GitHub release or stable v1.0.0.
+
+### Eval coverage
+
+- Existing shared-rule tests cover 24 grid prompts and 144 single-pose prompts; source evals cover expression and face-obscured precedence. Frozen-collection regressions reject changed bytes and preserve strict current-rule checks for new runs. Installer regressions cover dry-run, replacement backups and unrelated marketplace entries.
+
+### Verification
+
+- See [local integration verification](docs/verification/2026-09-21-beta.5-local.md) for actual checks and installation scope. Historical galleries do not verify beta.5 image quality. The latest ecommerce V2 remains a locally corrected candidate, not a universal quality pass; no new image call was made for this integration.
+- External clean-host discovery, Beta exit criteria and stable release remain pending. Earlier experimental plans below are historical; the maintainer closed further head-rule expansion and additional preview generation for this task.
+
+## Pre-integration development history
 
 #### Experimental candidate — shared head/gaze relations across 24 styles (not visually verified)
 

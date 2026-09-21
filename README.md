@@ -1,5 +1,8 @@
 # ThreadTruth Studio
 
+**Local beta.5:** this checkout integrates the shared head/body relations and ecommerce photography pilot. Use its checksum-verified local package and [installation guide](docs/INSTALL.md). beta.4 remains the latest public download; both galleries below are immutable historical previews, not verification of beta.5 visual quality. See [local verification](docs/verification/2026-09-21-beta.5-local.md).
+
+
 [English](README.md) | [简体中文](README.zh-CN.md)
 
 **Source-faithful fashion portrait production for Codex**
@@ -18,7 +21,7 @@ The white-vest example remains the complete, rights-cleared source-to-six-result
 
 ## Install and try recognition
 
-Download the Plugin ZIP and its separate checksum from the [`v1.0.0-beta.4` Release](https://github.com/2278091160dg-rgb/threadtruth-studio/releases/tag/v1.0.0-beta.4). beta.1–beta.3 remain immutable. New-host CLI activation remains a separately disclosed compatibility gap. Follow the complete matching [installation guide](docs/INSTALL.md).
+For local beta.5, obtain the Plugin ZIP and matching checksum from the maintainer and follow the current [installation guide](docs/INSTALL.md). For the public [`v1.0.0-beta.4` Release](https://github.com/2278091160dg-rgb/threadtruth-studio/releases/tag/v1.0.0-beta.4), use the guide bundled in that archive. Earlier public releases remain immutable; new-host CLI activation is still unverified.
 
 After installation, start a **new Codex task**, upload a garment image first, then enter exactly:
 

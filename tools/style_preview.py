@@ -49,6 +49,7 @@ HISTORICAL_SCHEMAS = {"1.0", "2.0", "3.0"}
 LEGACY_SCHEMAS = HISTORICAL_SCHEMAS
 FROZEN_PUBLIC_SCHEMA = "4.0"
 CURRENT_SCHEMA = "5.0"
+FROZEN_OUTFIT_COLLECTION_ID = "beige-blazer-denim-outfit-24-v1"
 MODE_NAMES = {"B": "棚拍版", "C": "场景版", "D": "混合版"}
 LAYOUT_CONTRACT = {
     "board_aspect_ratio": "1:1",
@@ -476,6 +477,8 @@ def _require_mutable_v5(record):
     schema = record.get("schema_version")
     if schema == FROZEN_PUBLIC_SCHEMA:
         raise ValueError("preview schema 4.0 is frozen public evidence; mutation is forbidden")
+    if record.get("run_id") == FROZEN_OUTFIT_COLLECTION_ID:
+        raise ValueError("beta.4 outfit collection is frozen public evidence; mutation is forbidden")
     if schema in HISTORICAL_SCHEMAS:
         raise ValueError(_legacy_error(schema))
     if schema != CURRENT_SCHEMA:
@@ -563,6 +566,8 @@ def register_batch(root: Path, run_id: str, manifest: dict) -> dict:
 
 def prepare(root, run_id, source_case=None):
     directory = run_dir(root, run_id)
+    if run_id == FROZEN_OUTFIT_COLLECTION_ID:
+        raise ValueError("beta.4 outfit collection is frozen public evidence; mutation is forbidden")
     if directory.exists():
         existing = read_json(directory / "evidence.json")
         _require_mutable_v5(existing)
@@ -1625,24 +1630,48 @@ def _public_record_valid(root, record, directory):
         raise ValueError("sensitive public text")
 
 
-def validate_frozen_v4(root: Path, directory: Path, record: dict) -> None:
-    if directory.name != "white-vest-24-v1" or record.get("run_id") != directory.name:
-        raise ValueError("schema 4.0 is reserved for the frozen white-vest collection")
-    manifest_path = child(root, "tests/fixtures/white-vest-24-v1-beta3.sha256.json")
+def _validate_frozen_files(root: Path, directory: Path, manifest_name: str, label: str) -> None:
+    manifest_path = child(root, f"tests/fixtures/{manifest_name}")
     manifest = read_json(manifest_path)
     actual_paths = sorted(path.relative_to(directory).as_posix() for path in directory.rglob("*") if path.is_file())
     if actual_paths != sorted(manifest):
-        raise ValueError("frozen schema 4.0 file set mismatch")
+        raise ValueError(f"frozen {label} file set mismatch")
     for relative, expected in manifest.items():
         data = child(directory, relative).read_bytes()
         if expected != {"sha256": digest(data), "bytes": len(data)}:
-            raise ValueError(f"frozen schema 4.0 asset mismatch: {relative}")
+            raise ValueError(f"frozen {label} asset mismatch: {relative}")
+
+
+def validate_frozen_v4(root: Path, directory: Path, record: dict) -> None:
+    if directory.name != "white-vest-24-v1" or record.get("run_id") != directory.name:
+        raise ValueError("schema 4.0 is reserved for the frozen white-vest collection")
+    _validate_frozen_files(root, directory, "white-vest-24-v1-beta3.sha256.json", "schema 4.0")
     if record.get("schema_version") != FROZEN_PUBLIC_SCHEMA or record.get("status") != "approved":
         raise ValueError("frozen schema 4.0 record invalid")
     previews = record.get("previews")
     if not isinstance(previews, list) or len(previews) != 24 or len({item.get("style") for item in previews}) != 24:
         raise ValueError("frozen schema 4.0 requires 24 unique previews")
     for preview in previews:
+        _validate_preview(record, preview, directory, True, False)
+    if _primary().has_sensitive_public_text(record):
+        raise ValueError("sensitive public text")
+
+
+def validate_frozen_outfit(root: Path, directory: Path, record: dict) -> None:
+    """Preserve exact beta.4 display evidence, without certifying current prompts."""
+    if (directory.name != FROZEN_OUTFIT_COLLECTION_ID
+            or record.get("run_id") != directory.name
+            or record.get("schema_version") != "5.0"):
+        raise ValueError("frozen beta.4 collection identity mismatch")
+    _validate_frozen_files(
+        root, directory, "beige-blazer-denim-outfit-24-v1-beta4.sha256.json", "beta.4 outfit"
+    )
+    source, anchor = load_preview_source(root, "beige-blazer-denim-outfit")
+    if record.get("source") != source or record.get("identity_anchor") != anchor:
+        raise ValueError("frozen beta.4 source or identity anchor mismatch")
+    if record.get("status") != "approved":
+        raise ValueError("frozen beta.4 collection is not approved")
+    for preview in record["previews"]:
         _validate_preview(record, preview, directory, True, False)
     if _primary().has_sensitive_public_text(record):
         raise ValueError("sensitive public text")
@@ -1664,6 +1693,9 @@ def validate_public_previews(root):
                 raise ValueError("run id mismatch")
             if record.get("schema_version") == FROZEN_PUBLIC_SCHEMA:
                 validate_frozen_v4(root, directory, record)
+                continue
+            if directory.name == FROZEN_OUTFIT_COLLECTION_ID:
+                validate_frozen_outfit(root, directory, record)
                 continue
             _public_record_valid(root, record, directory)
             expected = {"evidence.json", "README.md", "index.html", *[asset['path'] for asset in public_assets(record)]}

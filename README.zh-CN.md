@@ -1,5 +1,8 @@
 # ThreadTruth Studio｜服饰保真人像工坊
 
+**本地 beta.5：**当前源码已整合通用头身关系与电商摄影试点，安装时使用校验过的本地包及[安装指南](docs/INSTALL.md)。beta.4仍是最新公开下载；下方两套图库保留为历史预览，不代表beta.5视觉效果已通过验证。详见[本地验证记录](docs/verification/2026-09-21-beta.5-local.md)。
+
+
 [English](README.md) | [简体中文](README.zh-CN.md)
 
 **面向 Codex 的源图保真服饰人像生产流程。**
@@ -18,7 +21,7 @@ ThreadTruth Studio 是独立维护的社区 Codex Plugin。它从真实单件服
 
 ## 安装并测试识别
 
-从 [`v1.0.0-beta.4` Release](https://github.com/2278091160dg-rgb/threadtruth-studio/releases/tag/v1.0.0-beta.4)分别下载 Plugin ZIP 与校验文件。beta.1–beta.3 保持不可变。真实新宿主 CLI 激活仍是另行披露的兼容性缺口。请按完整的[安装指南](docs/INSTALL.md)操作。
+本地beta.5请使用维护者提供的Plugin ZIP、匹配校验文件和当前[安装指南](docs/INSTALL.md)。若从公开的[`v1.0.0-beta.4` Release](https://github.com/2278091160dg-rgb/threadtruth-studio/releases/tag/v1.0.0-beta.4)下载，请按该归档内的指南安装。历史公开版本保持不可变；真实新宿主CLI激活仍未验证。
 
 安装后新建一个 **Codex 任务**，先上传服饰图，再原样输入：
 
