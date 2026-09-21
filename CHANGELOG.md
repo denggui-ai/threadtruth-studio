@@ -2,7 +2,63 @@
 
 All notable changes are documented here. Versions follow Semantic Versioning.
 
-## Unreleased
+## 2026-09-21 — 1.0.0-beta.5 (prerelease)
+
+### Trigger
+
+- The maintainer authorized integration, regression validation, packaging and local installation after closing the head/gaze review. The active local Plugin was still beta.1.
+
+### Behavior before
+
+- Shared natural head/gaze relations and the ecommerce photography pilot existed only on an experiment branch. Current-rule validation also rejected the immutable, previously accepted beta.4 outfit gallery after runtime prompts changed.
+
+### Behavior after
+
+- Integrates shared head/body relations across the existing six poses and 24 styles, preserving style-specific expression and the ecommerce lighting/scene pilot. It adds no fixed left/right quotas or new head rules.
+- Preserves the exact published beta.3 white-vest and beta.4 outfit collections as hash-checked historical evidence. New previews still require current reproducible prompts and all existing authorization, source-rights and human-review gates.
+- Updates the Plugin version and matching installation/offline guides. After local installation passed, the maintainer authorized GitHub prerelease publication. Public packaging changes distribution documentation only; runtime bytes match local beta.5. The local archive remains immutable with its own checksum. Stable v1.0.0 remains pending.
+
+### Eval coverage
+
+- Existing shared-rule tests cover 24 grid prompts and 144 single-pose prompts; source evals cover expression and face-obscured precedence. Frozen-collection regressions reject changed bytes and preserve strict current-rule checks for new runs. Installer regressions cover dry-run, replacement backups and unrelated marketplace entries.
+
+### Verification
+
+- See [local integration verification](docs/verification/2026-09-21-beta.5-local.md) for actual checks and installation scope. Historical galleries do not verify beta.5 image quality. The latest ecommerce V2 remains a locally corrected candidate, not a universal quality pass; no new image call was made for this integration.
+- External clean-host discovery, Beta exit criteria and stable release remain pending. Earlier experimental plans below are historical; the maintainer closed further head-rule expansion and additional preview generation for this task.
+
+## Pre-integration development history
+
+#### Experimental candidate — shared head/gaze relations across 24 styles (not visually verified)
+
+- Replaces the inherited Korean head/gaze instructions and the ecommerce fixed-left/right override with one six-pose body-relation table. Head direction, tilt and eye contact follow action and existing scene; expression remains in each pack's `model_persona`. No gaze quotas, new props, style categories or schema/CLI changes.
+- Action-0 and action-2 prompt builders read the same head/gaze table and one shared guidance paragraph. Removed the ecommerce head override parser and repeated per-cell expression note. Existing ecommerce photography additions remain scoped independently; lighting, scenes, identity and framing behavior are preserved.
+- Face-obscured and nonportrait instructions retain §1a precedence. Automated coverage exercises 24 grid prompts and all 144 single-pose prompts, including propagation of a shared-rule edit; declarative evals 79–80 cover style expression and output-form precedence. These checks do not establish image quality.
+- Prior accepted images retain their original prompts, hashes and acceptance. Current-rule publication checks are unchanged and historical public evidence is expected to remain stale. This candidate is experimental; planned visual comparison is ecommerce, Korean cold editorial, Japanese lifestyle and athleisure with the same outfit/identity, one grid each under separate generation authorization. No native generation or promotion in this change.
+
+#### Experimental candidate v2 — pilot slimming, anchor isolation and single-image validation entry (not visually verified)
+
+- Trigger: the 2026-09-16 blind re-distillation (`docs/verification/2026-09-16-independent-distillation.md`) found that the v1 pilot lighting block named garment parts (sleeves, lapels, pocket flaps), that the persona implied pockets and a direct gaze, that the preview anchor line lacked the §4.0a "ignore its garment, lighting, background" clause (the public ecommerce preview shows the anchor's lighter denim wash), and that a six-cell grid at ~390 px per cell cannot show contact shadows. The maintainer voided the pending B0 authorization (`ecom-b0-pilot-01`) on 2026-09-16 so these fixes could land before the next native call.
+- Behavior before: `ecommerce-studio.lighting_palette` (~95 words) named garment parts; persona said `in a pocket` / `calm direct … gaze` / unconditional `weight settled on one leg`; the action-0 anchor line only said "identity-only"; framing was the bare token `full-body`; no runtime entry could produce a single-image (action 2) prompt.
+- Behavior after: the pack's `lighting_palette` is ~60 words in the same §4.1 order with no garment-part words; persona is conditional (`when standing`, hands at the side or on an accessory already in the reference, gaze per pose line). For slugs in prompt-build §2a only, the real action-0 prompt adds the §4.0a ignore clause to the anchor line, writes full-body framing as `full body visible, feet and shoes fully inside the frame …`, and adds one `Photorealistic photograph …` line; the other 23 preview prompts stay byte-identical. New `tools/style-preview.py single-prompt --run-id … --style … --pose N [--ratio W:H]` writes one final-stage (§3a negatives, §4.0b exact canvas) single-pose prompt into the run's `prompts/` without touching `evidence.json`, registering a batch, or generating.
+- Eval coverage: `evals/styles/ecommerce-studio.json#ec-single-validation-9`; `tests/test_pilot_ecommerce_lighting.py` (slimming assertions, pilot-only prompt lines, single-prompt shape).
+- Verification: static and dry-run only; no native generation was run and no visual improvement is claimed. Execution plan: `docs/verification/2026-09-16-execution-plan-after-b0.md`.
+
+#### Experimental candidate — ecommerce-studio lighting and expression pilot (not visually verified)
+
+- Trigger: the accepted coordinated-outfit previews show the `ecommerce-studio` board lit flat (no visible key direction, no contact shadow under the shoes, no separation from the white backdrop) and every style inheriting the Korean-baseline "cold detached" head/gaze mood, which contradicts the ecommerce pack's own approachable persona.
+- Behavior before: `ecommerce-studio.lighting_palette` was a single line of adjectives (`even soft-box lighting … low shadow`); prompt-build §2 injected mood adjectives into all 24 packs.
+- Behavior after: the pack's `lighting_palette` is written as visible relations in the core §4.1 order (key direction, fill ratio, shadow transition, contact shadow and backdrop separation, exposure, identical light in all six images); its persona describes weight, hands and gaze without cold detachment. New prompt-build §2a keeps only head/gaze geometry for the slugs listed in `pilot_persona_expression_slugs` (currently only `ecommerce-studio`) and takes expression from `pack.model_persona`; the canonical §2 table and the other 23 packs are unchanged. `tools/style_preview.py` reads §2a so the real action-0 prompt carries the change. `commercial-qa.md` §2/§3 route locatable lighting/expression deviations for the pilot slug to `qa-user-review` with reasons (human decision, no automatic retry, no extra call authorization).
+- Eval coverage: `evals/styles/ecommerce-studio.json#ec-lighting-pilot-8`; `tests/test_pilot_ecommerce_lighting.py` proves the method enters the real preview prompt and that non-pilot packs keep the canonical head/gaze text.
+- Verification: static and dry-run only; no native generation was run and no visual improvement is claimed.
+
+#### Preview evidence binds by prompt equivalence (maintainer decision 2026-09-15)
+
+- Trigger: the public preview collection was bound to the sha256 of the rule files and packs, so any rule edit invalidated all 24 previews even when 23 prompts were byte-identical.
+- Behavior before: `style_preview._check_plan` required `rules` and each preview `pack.sha256` to equal the current files.
+- Behavior after: the recorded `rules`/`pack` hashes are kept as provenance and only checked for shape; every preview must still be reproducible byte for byte under the current rules (`prompt_sha256` equality), and a failure names the style (`<slug>: prompt is not reproducible under the current rules`). Nothing else in the validator was relaxed.
+- Eval coverage: `tests/test_preview_rules_equivalence.py` (failing on the previous validator, passing now).
+- Verification: with the pilot pack change applied, public validation now reports exactly one stale preview (`ecommerce-studio`), which must be regenerated under the new rules and approved before release.
 
 ### Trigger
 
@@ -14,7 +70,7 @@ All notable changes are documented here. Versions follow Semantic Versioning.
 
 ### Behavior after
 
-- The README now leads with the accepted coordinated-outfit preview while retaining the white vest as the distinct six-independent-final case.
+- The README now leads with a left-to-right coordinated-outfit source/result comparison—real source on the left, accepted six-pose preview on the right—while retaining the white vest as the distinct six-independent-final case.
 - Skill and Plugin discovery metadata now explicitly cover both real single-garment and coordinated-outfit photos. Outfit fidelity means preserving every visible item, layering, proportions and shoe/bag/accessory relationships; it does not add virtual try-on or automatic restyling.
 
 ### Eval coverage

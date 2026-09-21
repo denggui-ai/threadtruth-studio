@@ -1,14 +1,19 @@
 # ThreadTruth Studio
 
+**Beta.5:** shared natural head/body relations and the ecommerce photography pilot are now part of the runtime. Use the checksum-verified [beta.5 release](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.5) and matching [installation guide](docs/INSTALL.md). Both galleries below remain immutable historical previews, not verification of beta.5 visual quality. See [local verification](docs/verification/2026-09-21-beta.5-local.md).
+
+
 [English](README.md) | [简体中文](README.zh-CN.md)
 
 **Source-faithful fashion portrait production for Codex**
 
 ThreadTruth Studio is an independent, community-maintained Codex Plugin. It reads visible facts from real single-garment or coordinated-outfit photos, routes among 24 style packs, waits for explicit approval before paid image generation, and governs a six-image delivery with commercial QA. For an outfit, it preserves each garment plus the visible layering, proportions, shoes, bag and accessory relationships rather than restyling the look. It is not an OpenAI product or endorsement.
 
-![The same coordinated beige-blazer outfit shown as a six-pose E-commerce Studio direction preview](docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/ecommerce-studio-display.jpg)
+| Real coordinated-outfit source | Same outfit · six-pose direction preview |
+|---|---|
+| <img src="docs/demo/preview-sources/beige-blazer-denim-outfit/source.jpg" alt="Real source photo of the coordinated beige-blazer outfit" width="300"> | <img src="docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/ecommerce-studio-display.jpg" alt="The same coordinated beige-blazer outfit shown as a six-pose E-commerce Studio direction preview" width="700"> |
 
-This accepted beta.4 direction preview keeps one complete look—beige blazer, white top, dark denim, olive tote and brown loafers—consistent across six poses. It is a preview sheet, not six independent finals. [Browse all 24 outfit styles](docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/index.html) · [Media rights](docs/demo/RIGHTS.md)
+This source-to-result comparison shows the Skill's coordinated-outfit path: the accepted beta.4 direction preview keeps one complete look—beige blazer, white top, dark denim, olive tote and brown loafers—consistent across six poses. It is a preview sheet, not six independent finals. [Browse all 24 outfit styles](docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/index.html) · [Media rights](docs/demo/RIGHTS.md)
 
 ![A real white hooded puffer vest source beside six independent Korean Cold Editorial results](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/hero.jpg)
 
@@ -16,7 +21,7 @@ The white-vest example remains the complete, rights-cleared source-to-six-result
 
 ## Install and try recognition
 
-Download the Plugin ZIP and its separate checksum from the [`v1.0.0-beta.4` Release](https://github.com/2278091160dg-rgb/threadtruth-studio/releases/tag/v1.0.0-beta.4). beta.1–beta.3 remain immutable. New-host CLI activation remains a separately disclosed compatibility gap. Follow the complete matching [installation guide](docs/INSTALL.md).
+Download the Plugin ZIP and matching checksum from the [beta.5 release](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.5), then follow the [installation guide](docs/INSTALL.md). Earlier public releases remain immutable; use each archive's bundled guide for that version. New-host CLI activation remains unverified.
 
 After installation, start a **new Codex task**, upload a garment image first, then enter exactly:
 
@@ -68,7 +73,7 @@ There is no runtime telemetry, MCP server, external connector, API-key flow, or 
 
 ## Release and compatibility status
 
-The public Beta began with [`v1.0.0-beta.1`](https://github.com/2278091160dg-rgb/threadtruth-studio/releases/tag/v1.0.0-beta.1). [`v1.0.0-beta.4`](https://github.com/2278091160dg-rgb/threadtruth-studio/releases/tag/v1.0.0-beta.4) is the newest public download; it adds the accepted coordinated-outfit 24-style preview gallery without changing runtime behavior. Audited host: macOS `26.6.2`, `codex-cli 0.144.1`. Codex desktop build: unavailable, not inferred. See [compatibility](docs/COMPATIBILITY.md) and the [30-day Beta register](docs/BETA.md).
+The public Beta began with [`v1.0.0-beta.1`](https://github.com/2278091160dg-rgb/threadtruth-studio/releases/tag/v1.0.0-beta.1). [`v1.0.0-beta.5`](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.5) integrates shared head/body relations and the ecommerce photography pilot; it preserves beta.3/beta.4 galleries as historical evidence. Maintainer-machine upgrade and installed bytes were verified on macOS `26.6.2` with `codex-cli 0.155.1`. Codex desktop build and fresh-task trigger behavior remain unverified. See [compatibility](docs/COMPATIBILITY.md) and the [30-day Beta register](docs/BETA.md).
 
 The project's own exit targets are at least 30 days, five non-maintainer installations, and three authorized complete cases; these are project targets, not OpenAI admission rules. Codex for Open Source application details live only in [docs/CODEX-FOR-OSS.md](docs/CODEX-FOR-OSS.md).
 

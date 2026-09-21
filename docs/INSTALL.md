@@ -6,18 +6,20 @@
 
 ### Before you begin
 
-Use the Plugin ZIP from the [GitHub Releases landing page](https://github.com/2278091160dg-rgb/threadtruth-studio/releases), plus its separately downloaded `.sha256` sidecar. The optional original-media ZIP is evidence media, not the Plugin, and has a different checksum. This guide describes beta.3; until that GitHub Release exists, continue using the newest published version shown on the Releases page.
+Use the Plugin ZIP from the [GitHub Releases landing page](https://github.com/2278091160dg-rgb/threadtruth-studio/releases), plus its separately downloaded `.sha256` sidecar. The optional original-media ZIP is evidence media, not the Plugin, and has a different checksum. This guide matches the [beta.5 prerelease](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.5). Download its Plugin ZIP and matching checksum; for older versions use the guide bundled in that archive. A checksum checks integrity only when its expected value arrives through a trusted channel; it does not independently authenticate the publisher.
 
-The release ZIP extracts to a versioned root such as `threadtruth-studio-1.0.0-beta.3/`. That whole root, containing `.codex-plugin/plugin.json` and `install-local.py`, is the install source. Do not use the inner `skills/threadtruth-studio/` folder.
+The release ZIP extracts to a versioned root such as `threadtruth-studio-1.0.0-beta.5/`. That whole root, containing `.codex-plugin/plugin.json` and `install-local.py`, is the install source. Do not use the inner `skills/threadtruth-studio/` folder.
+
+On the tested maintainer host, installation requires macOS and Codex CLI with `plugin add` support; no administrator access or additional API key is needed. Allow about 100 MB for the source, cache and one backup, and a few minutes for local setup. A Codex account with native image access is needed for later generation, which requires separate approval and host quota. Fresh-host compatibility is unverified.
 
 ### 1. Verify and extract
 
 Put the Plugin ZIP and its matching sidecar in the same directory, then run:
 
 ```bash
-shasum -a 256 -c threadtruth-studio-1.0.0-beta.3.zip.sha256
-unzip threadtruth-studio-1.0.0-beta.3.zip
-cd threadtruth-studio-1.0.0-beta.3
+shasum -a 256 -c threadtruth-studio-1.0.0-beta.5.zip.sha256
+unzip threadtruth-studio-1.0.0-beta.5.zip
+cd threadtruth-studio-1.0.0-beta.5
 ```
 
 Use the actual published filenames if they differ. Stop if verification fails or extraction does not produce exactly one expected release root.
@@ -86,18 +88,20 @@ See [compatibility](COMPATIBILITY.md). Submit sanitized installation results thr
 
 ### 开始前
 
-请从 [GitHub Releases 落地页](https://github.com/2278091160dg-rgb/threadtruth-studio/releases)下载 Plugin ZIP，并单独下载与它匹配的 `.sha256` 校验文件。可选的原始媒体 ZIP 是证据素材，不是 Plugin，校验文件也不同。本指南对应 beta.3；在该 GitHub Release 出现前，请继续使用 Releases 页面显示的最新已发布版本。
+请从 [GitHub Releases 落地页](https://github.com/2278091160dg-rgb/threadtruth-studio/releases)下载 Plugin ZIP，并单独下载与它匹配的 `.sha256` 校验文件。可选的原始媒体 ZIP 是证据素材，不是 Plugin，校验文件也不同。本指南对应[beta.5预发布版](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.5)。请下载该版本的Plugin ZIP与匹配校验文件；旧版本使用其归档内附带的指南。校验值必须来自可信渠道；checksum本身不能认证发布者身份。
 
-发行 ZIP 会解压为带版本号的根目录，例如 `threadtruth-studio-1.0.0-beta.3/`。安装源是包含 `.codex-plugin/plugin.json` 与 `install-local.py` 的整个根目录，不是内层 `skills/threadtruth-studio/`。
+发行 ZIP 会解压为带版本号的根目录，例如 `threadtruth-studio-1.0.0-beta.5/`。安装源是包含 `.codex-plugin/plugin.json` 与 `install-local.py` 的整个根目录，不是内层 `skills/threadtruth-studio/`。
+
+维护者测试环境为macOS和支持`plugin add`的Codex CLI；无需管理员权限或额外API key。源、缓存和一份备份建议预留约100 MB，安装通常需要几分钟。后续生图需要有原生图片能力的Codex账号、另行授权及宿主额度；新宿主兼容性尚未验证。
 
 ### 1. 校验并解压
 
 把 Plugin ZIP 与匹配的 sidecar 放在同一目录：
 
 ```bash
-shasum -a 256 -c threadtruth-studio-1.0.0-beta.3.zip.sha256
-unzip threadtruth-studio-1.0.0-beta.3.zip
-cd threadtruth-studio-1.0.0-beta.3
+shasum -a 256 -c threadtruth-studio-1.0.0-beta.5.zip.sha256
+unzip threadtruth-studio-1.0.0-beta.5.zip
+cd threadtruth-studio-1.0.0-beta.5
 ```
 
 若正式发布文件名不同，以实际文件名为准。校验失败或未得到唯一、预期的发行根目录时立即停止。

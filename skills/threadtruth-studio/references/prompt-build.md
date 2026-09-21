@@ -42,16 +42,26 @@
 
 非人像输出仍遵守一套 outfit 一组、最多 6 张、串行、计数、服饰保真、风险与 tool gates。它只改变"呈现形态",不允许并发、多套混合、API fallback 或放宽安全。非人像输出保留经 §4.1 `STYLE_VISUAL` 商品事实守卫过滤后的 `pack.visual_language` 与 `pack.lighting_palette`,但其中任何人物、真人、portrait、pose、street portrait、editorial model 等语义都必须转译为服饰呈现、商品构图、材质光线或低干扰场景,不得据此拉回真人模特。`pack.model_persona` 中的脸部、表情、姿态、身份词忽略或转译;克制、松弛、高级、低调、冷感等气质词可保留为光线/场景/构图倾向。童装敏感品类的安全降级优先使用平铺/挂拍/人台,并在前台明示。
 
-## 2. 头部方向 / 视线(6 张各不同但服从姿势母版)
+## 2. 头部方向 / 视线(24 风格共用,服从身体姿势)
 
-| 图 | 头部 / 视线 |
+头部只保留与身体姿势必要的关系。左右、抬低头和是否看镜头不固定;表情沿用所选 pack 的 `model_persona`,视线配合已有动作和场景,不额外发明道具。直视镜头不等于亲和,低头也不等于冷感。服饰展示和自然头肩关系优先。
+
+| 图 | 头部 / 视线关系 |
 |---|---|
-| 1 | 头轻微向侧前方,视线避开镜头,不正面营业 |
-| 2 | 头部微垂,视线偏右下或侧下方,冷静疏离 |
-| 3 | 头朝窗外或侧前方,避免甜美手托腮 |
-| 4 | 头转向斜前侧,避免目录照式正面营业 |
-| 5 | 头轻微前倾下压,视线垂落 |
-| 6 | 必须回眸,头越过肩线看向镜头方向,但不完全正面化 |
+| 1 | 转头与身体回转协调 |
+| 2 | 头颈放松,符合倚靠关系 |
+| 3 | 头部与坐姿平衡 |
+| 4 | 转头与行进动作协调 |
+| 5 | 头颈顺应前倾,不强制垂目 |
+| 6 | 保留越肩回看,避免过度扭颈 |
+
+真人模特的预览、独立图及 prompts-only 在姿势块之前使用下面的共用说明一次;整组以“结合动作和场景形成自然变化,避免机械重复”为目标,不设左右数量、直视比例或角度配额。
+
+```
+Head/gaze guidance: choose head orientation and gaze naturally for the body action and existing scene, with no fixed left/right direction, head tilt or eye-contact quota; expression follows the selected style's Attitude; preserve garment visibility and natural head/neck alignment without adding props; vary naturally with action and scene to avoid mechanical repetition.
+```
+
+§1a 的输出形态覆盖优先于本节:不露脸时用原有遮脸/切头说明替换头部表及共用说明;平铺、挂拍、人台跳过本节。不因回眸要求露脸,不把非人像拉回真人。
 
 ## 3. 负面词(分阶段;**预览阶段和成片阶段不同**)
 
@@ -170,6 +180,7 @@ batch_canvas_baseline: <首张通过比例门禁后的实际 WIDTHxHEIGHT>
    (非人像输出时再把人物/portrait 语义转译为服饰呈现与光线)]
 + [经商品事实守卫过滤后的 pack.model_persona
    (真人模特/不露脸时气质叠加;非人像输出只保留氛围/气质词,忽略或转译表情/脸部/姿态要求)]
++ [真人模特→§2 共用头部说明一次;不露脸/非人像→§1a 覆盖]
 + Pose/composition: [真人模特→姿势母版 #N + 头部视线 #N;
    非人像输出→平铺/挂拍/人台构图 #N,无真人头部视线]
 + Mode/scene: [真人模特/不露脸→棚拍背景 或 pack.scenes #N(对齐 modes-scenes 场景强度);
@@ -184,6 +195,7 @@ batch_canvas_baseline: <首张通过比例门禁后的实际 WIDTHxHEIGHT>
 ### 4.2 六宫格预览 prompt 拼装公式(动作 0,只调一次 image_gen 出 1 张图)
 ```
 [core 安全主体] + [STYLE_VISUAL(先过 §4.1 商品事实守卫;非人像时再转译人物/portrait 语义)] + [经商品事实守卫过滤后的 pack.model_persona(非人像时只保留气质/氛围)]
++ [真人模特→§2 共用头部说明一次;不露脸/非人像→§1a 覆盖]
 + A single 2x3 grid contact-sheet preview showing the SAME one outfit in 6
   different directions.
   - 真人模特/不露脸: show the SAME one model in six pose templates
@@ -202,6 +214,7 @@ batch_canvas_baseline: <首张通过比例门禁后的实际 WIDTHxHEIGHT>
 + Negative: [§3b 预览负面词 + 经商品事实守卫过滤后的 pack.negative_delta_add (+ 露肤追加)]   ← 注意:不拼 no grid/no collage
 ```
 > 多套不同 outfit 的预览(`recognition.md §3.9`):6 格改为「每格一套 outfit 的代表姿势」,其余规则一致。
+> **摄影试点追加句(仅 ecommerce-studio,预览与动作 2 单张共用,独立于 §2 通用头部规则):** ①身份锚点句补齐 §4.0a 第 4 条的忽略项——`is identity-only: preserve face, hair, apparent age and body proportions; ignore its garments, garment colors and washes, lighting, backdrop, pose and crop; never treat it as outfit authority`;②全身母版 1/2/4/6 的 Framing 写成可见动作 `full body visible, feet and shoes fully inside the frame with a small margin below the soles`(半身母版不变);③首行后加一次真实感锚词 `Photorealistic photograph taken with a real camera`。三句都不触碰服饰事实、母版编号、负面词与安全主体;动作 2 单张按 §3a 成片负面词拼装并注入 §4.0b 精确画幅。
 
 ### 4.3 ⛔ 预览→成片的红线(逐字保留,风格无关)
 1. **`preview-grid` 与 `image-ready` 严格互斥。** 六宫格预览**永远**不能当最终成片,哪怕用户主动说"预览就行/不用再出了"也必须拒绝,固定回复:"预览图为低分辨率方向示意,无法逐张做服饰保真审计,不能当成片。要拿到可用成片,需逐张重新生成 6 张高清独立图(消耗订阅额度)。要我现在开始生成这 6 张吗?"**到此停住等用户明确回答,不自动进成片。** 仅当用户明确说"生成/全部生成/动作1/好/开始"等才进成片;用户改口不生成则停在 `preview-grid` 不调 image_gen。

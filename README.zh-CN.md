@@ -1,14 +1,19 @@
 # ThreadTruth Studio｜服饰保真人像工坊
 
+**Beta.5：**运行时已整合通用自然头身关系与电商摄影试点。请使用校验过的[beta.5发行包](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.5)及配套[安装指南](docs/INSTALL.md)。下方两套图库保留为历史预览，不代表beta.5视觉效果已通过验证。详见[本地验证记录](docs/verification/2026-09-21-beta.5-local.md)。
+
+
 [English](README.md) | [简体中文](README.zh-CN.md)
 
 **面向 Codex 的源图保真服饰人像生产流程。**
 
 ThreadTruth Studio 是独立维护的社区 Codex Plugin。它从真实单件服饰或完整搭配套装图提取可见事实，在 24 个风格包中路由，付费生图前等待明确授权，并以商业 QA 管理六张独立成片。处理套装时，不仅保留每件单品，还锁定可见的层次、穿搭比例及鞋包配饰关系，不重新搭配造型。本项目不是 OpenAI 官方产品或背书。
 
-![同一套米色西装完整搭配的六姿势电商棚拍方向预览](docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/ecommerce-studio-display.jpg)
+| 真实完整套装源图 | 同一套装 · 六姿势方向预览 |
+|---|---|
+| <img src="docs/demo/preview-sources/beige-blazer-denim-outfit/source.jpg" alt="米色西装完整搭配的真实源图" width="300"> | <img src="docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/ecommerce-studio-display.jpg" alt="同一套米色西装完整搭配的六姿势电商棚拍方向预览" width="700"> |
 
-这是 beta.4 已验收的完整套装方向预览：米色西装、白色上衣、深色牛仔裤、橄榄色托特包和棕色乐福鞋在六个姿势中保持一致。它是一张预览看板，不是六张独立成片。[查看套装全部24种风格](docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/index.html) · [媒体权利](docs/demo/RIGHTS.md)
+这组“源图 → 结果”对照直接展示 Skill 的完整套装路径：beta.4 已验收的方向预览让米色西装、白色上衣、深色牛仔裤、橄榄色托特包和棕色乐福鞋在六个姿势中保持一致。它是一张预览看板，不是六张独立成片。[查看套装全部24种风格](docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/index.html) · [媒体权利](docs/demo/RIGHTS.md)
 
 ![一件真实白色连帽羽绒马甲的源图与六张独立韩系冷感正式成片](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/hero.jpg)
 
@@ -16,7 +21,7 @@ ThreadTruth Studio 是独立维护的社区 Codex Plugin。它从真实单件服
 
 ## 安装并测试识别
 
-从 [`v1.0.0-beta.4` Release](https://github.com/2278091160dg-rgb/threadtruth-studio/releases/tag/v1.0.0-beta.4)分别下载 Plugin ZIP 与校验文件。beta.1–beta.3 保持不可变。真实新宿主 CLI 激活仍是另行披露的兼容性缺口。请按完整的[安装指南](docs/INSTALL.md)操作。
+从[beta.5发行页](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.5)下载Plugin ZIP与匹配校验文件，再按[安装指南](docs/INSTALL.md)操作。历史公开版本保持不可变，安装旧版请使用其归档内的指南；真实新宿主CLI激活仍未验证。
 
 安装后新建一个 **Codex 任务**，先上传服饰图，再原样输入：
 
@@ -68,7 +73,7 @@ ThreadTruth Studio 是独立维护的社区 Codex Plugin。它从真实单件服
 
 ## 发布与兼容状态
 
-公开 Beta 从 [`v1.0.0-beta.1`](https://github.com/2278091160dg-rgb/threadtruth-studio/releases/tag/v1.0.0-beta.1) 开始。[`v1.0.0-beta.4`](https://github.com/2278091160dg-rgb/threadtruth-studio/releases/tag/v1.0.0-beta.4) 是最新公开下载，增加已验收的完整套装24风格图库，不改变运行时行为。已审计宿主：macOS `26.6.2`、`codex-cli 0.144.1`；Codex 桌面版 build 不可用，不能从 CLI 版本推断。详见[兼容性](docs/COMPATIBILITY.md)与[30 天 Beta 登记](docs/BETA.md)。
+公开Beta从[`v1.0.0-beta.1`](https://github.com/2278091160dg-rgb/threadtruth-studio/releases/tag/v1.0.0-beta.1)开始。[`v1.0.0-beta.5`](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.5)整合自然头身关系与电商摄影试点，beta.3／beta.4图库保留为历史证据。维护者本机升级与安装字节已在macOS `26.6.2`、`codex-cli 0.155.1`上验证；桌面版build和新任务触发仍未验证。详见[兼容性](docs/COMPATIBILITY.md)与[30天Beta登记](docs/BETA.md)。
 
 至少 30 天、5 个非维护者安装、3 个授权完整案例，是项目自己的退出目标，不是 OpenAI 固定准入条件。Codex for Open Source 申请细节只放在 [docs/CODEX-FOR-OSS.md](docs/CODEX-FOR-OSS.md)。
 

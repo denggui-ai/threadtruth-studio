@@ -49,6 +49,7 @@ HISTORICAL_SCHEMAS = {"1.0", "2.0", "3.0"}
 LEGACY_SCHEMAS = HISTORICAL_SCHEMAS
 FROZEN_PUBLIC_SCHEMA = "4.0"
 CURRENT_SCHEMA = "5.0"
+FROZEN_OUTFIT_COLLECTION_ID = "beige-blazer-denim-outfit-24-v1"
 MODE_NAMES = {"B": "棚拍版", "C": "场景版", "D": "混合版"}
 LAYOUT_CONTRACT = {
     "board_aspect_ratio": "1:1",
@@ -243,6 +244,35 @@ def _canonical_action_zero(root):
     return poses, " ".join(negative_match.group(1).split())
 
 
+# Photography pilot scope (prompt-build §4.2), independent of shared head/gaze rules.
+PILOT_PHOTOGRAPHY_SLUGS = frozenset({"ecommerce-studio"})
+PILOT_PHOTOREAL_LINE = "Photorealistic photograph taken with a real camera; not an illustration or render."
+PILOT_ANCHOR_IGNORE = "ignore its garments, garment colors and washes, lighting, backdrop, pose and crop"
+PILOT_FRAMING = {
+    "full-body": "full body visible, feet and shoes fully inside the frame with a small margin below the soles",
+    "half-body-permitted": "half-body-permitted",
+}
+
+
+def _head_gaze_guidance(root):
+    text = child(root, RULE_PATHS["prompt_build"]).read_text(encoding="utf-8")
+    section = text.split("## 2. 头部方向 / 视线", 1)[1].split("## 3.", 1)[0]
+    match = re.search(r"```\n(Head/gaze guidance:.*?)```", section, re.S)
+    if match is None:
+        raise ValueError("shared head/gaze guidance is missing")
+    return " ".join(match.group(1).split())
+
+
+def _final_negatives(root):
+    """prompt-build §3a: final-stage general negatives and the full-body crop append (action 1/2 single images)."""
+    text = child(root, RULE_PATHS["prompt_build"]).read_text(encoding="utf-8")
+    section = text.split("### 3a. 成片阶段通用负面词", 1)[1].split("### 3b.", 1)[0]
+    blocks = re.findall(r"```\n(.*?)```", section, re.S)
+    if len(blocks) < 2:
+        raise ValueError("canonical action-1 negatives are incomplete")
+    return " ".join(blocks[0].split()), " ".join(blocks[1].split())
+
+
 def _registered_packs(root):
     router = child(root, RULE_PATHS["style_router"]).read_text(encoding="utf-8")
     packs = []
@@ -262,16 +292,32 @@ def _registered_packs(root):
 
 
 def _mode_scene(mode, scenes, ordinal):
-    if mode == "B" or (mode == "D" and ordinal <= 2):
+    if mode == "B":
+        return scenes[ordinal - 1]
+    if mode == "D" and ordinal <= 2:
         return "low-distraction white or light-gray studio background"
     return scenes[ordinal - 1]
 
 
-def _prompt(preview, source, anchor, preview_negative):
+def _anchor_line(source_count, pilot):
+    if pilot:
+        return (
+            f"Attached image {source_count + 1} is identity-only: preserve face, hair, apparent age and body proportions; "
+            f"{PILOT_ANCHOR_IGNORE}; never treat it as outfit authority."
+        )
+    return f"Attached image {source_count + 1} is identity-only: preserve face, hair, apparent age and body proportions; never treat it as outfit authority."
+
+
+def _framing_text(framing, pilot):
+    return PILOT_FRAMING.get(framing, framing) if pilot else framing
+
+
+def _prompt(preview, source, anchor, preview_negative, head_gaze_guidance, pilot=False):
     visual = preview["visual"]
     source_count = len(source["assets"])
     lines = [
         f"Create one action-0 preview for style {preview['style']}.",
+        *([PILOT_PHOTOREAL_LINE] if pilot else []),
         "Use a single 2x3 grid contact-sheet preview on a square 1:1 board showing the same complete coordinated outfit in six different directions.",
         "Top row poses 1-2-3; bottom row poses 4-5-6. Six equal 3:4 portrait cells, one pose per cell, one adult female model identity throughout this sheet.",
         "Reserve independent title, subtitle and footer bands outside all six pose cells; keep the three text bands distinct and clear of every subject.",
@@ -281,11 +327,12 @@ def _prompt(preview, source, anchor, preview_negative):
         f"Attached image{'s' if source_count != 1 else ''} 1{'-' + str(source_count) if source_count != 1 else ''} {'are' if source_count != 1 else 'is'} the only authoritative outfit truth.",
         "Preserve every core item exactly: " + "; ".join(source["outfit"]["core_items"]) + ".",
         "Keep the complete coordinated outfit visible in all six cells. Never replace a garment or invent a brand, logo or text.",
-        f"Attached image {source_count + 1} is identity-only: preserve face, hair, apparent age and body proportions; never treat it as outfit authority.",
+        _anchor_line(source_count, pilot),
         "Style may change mood, low-distraction background, pose treatment and lighting only; source truth overrides every style-pack suggestion.",
         f"Mode: {preview['mode']} derived from the registered pack default and runtime mode rules.",
         f"Mood only: {visual['mood']}",
         f"Attitude: {visual['persona']}",
+        head_gaze_guidance,
         f"Lighting/background palette: {visual['lighting']}",
         "This is a LOW-RES DIRECTION PREVIEW, not a final deliverable. Keep the footer visible and unobtrusive, no larger than about 3-4% of image height.",
         "All requested text must be native-rendered in the generated board. Never cover the model, face, vest, shoes, bag or pose. Do not place a large centered watermark.",
@@ -298,7 +345,7 @@ def _prompt(preview, source, anchor, preview_negative):
             f"POSE {pose['ordinal']} / row {pose['row']} column {pose['column']}: {pose['master']} — {pose['description']}",
             f"Head/gaze: {pose['head_gaze']}",
             f"Mode/scene: {pose['scene']}",
-            f"Framing: {preview['layout_contract']['framing'][pose['ordinal'] - 1]}",
+            f"Framing: {_framing_text(preview['layout_contract']['framing'][pose['ordinal'] - 1], pilot)}",
             "Retain every core outfit item and all visible source construction detail.",
         ])
     lines.extend([
@@ -309,11 +356,81 @@ def _prompt(preview, source, anchor, preview_negative):
     return "\n".join(lines) + "\n"
 
 
+def _orientation(ratio):
+    match = re.fullmatch(r"([1-9]\d*):([1-9]\d*)", ratio or "")
+    if not match:
+        raise ValueError("ratio must look like W:H")
+    width, height = int(match.group(1)), int(match.group(2))
+    return "square" if width == height else ("portrait" if height > width else "landscape")
+
+
+def _single_prompt(preview, source, anchor, pose, general_negative, full_body_append, ratio, pilot, head_gaze_guidance):
+    """prompt-build §4.1 single independent image (action 2 test / one look) for one canonical pose template."""
+    visual = preview["visual"]
+    source_count = len(source["assets"])
+    framing = preview["layout_contract"]["framing"][pose["ordinal"] - 1]
+    full_body = framing == "full-body"
+    lines = [
+        f"Create one independent action-2 test image for style {preview['style']}: pose template {pose['ordinal']} "
+        f"({pose['master']} — {pose['description']}), one adult female model, single image only.",
+        *([PILOT_PHOTOREAL_LINE] if pilot else []),
+        f"Canvas contract: exact {ratio} {_orientation(ratio)} canvas; keep the complete required subject, garment, shoes, bag and hem inside safe margins; no extra-tall or alternate-ratio canvas.",
+        f"Attached image{'s' if source_count != 1 else ''} 1{'-' + str(source_count) if source_count != 1 else ''} {'are' if source_count != 1 else 'is'} the only authoritative outfit truth.",
+        "Preserve every core item exactly: " + "; ".join(source["outfit"]["core_items"]) + ".",
+        "Keep the complete coordinated outfit visible. Never replace a garment or invent a brand, logo or text.",
+        _anchor_line(source_count, pilot),
+        "Style may change mood, low-distraction background, pose treatment and lighting only; source truth overrides every style-pack suggestion.",
+        f"Mode: {preview['mode']} derived from the registered pack default and runtime mode rules.",
+        f"Mood only: {visual['mood']}",
+        f"Attitude: {visual['persona']}",
+        head_gaze_guidance,
+        f"Lighting/background palette: {visual['lighting']}",
+        "Outfit references: " + ", ".join(asset["path"] for asset in source["assets"]),
+        "Identity-only reference: " + anchor["path"],
+        "",
+        f"POSE {pose['ordinal']}: {pose['master']} — {pose['description']}",
+        f"Head/gaze: {pose['head_gaze']}",
+        f"Mode/scene: {pose['scene']}",
+        f"Framing: {_framing_text(framing, pilot)}",
+        "Retain every core outfit item and all visible source construction detail.",
+        "",
+        "single image only, one model only, one pose only.",
+        "Final negative: " + general_negative + (" " + full_body_append if full_body else ""),
+        "Style negative append: " + ", ".join(preview["negative_delta_add"]),
+    ]
+    return "\n".join(lines) + "\n"
+
+
+def single_prompt(root, run_id, style, pose, source_case, ratio="1:1"):
+    """Write one action-2 single-image prompt into <run>/prompts/ without touching evidence.json.
+
+    This is a validation aid for a human-authorized single native call; it registers no batch and never generates.
+    """
+    if not isinstance(pose, int) or not 1 <= pose <= 6:
+        raise ValueError("pose must be 1-6")
+    directory = run_dir(root, run_id)
+    plan = _plan_v5(root, run_id, source_case)
+    preview = next((item for item in plan["previews"] if item["style"] == style), None)
+    if preview is None:
+        raise ValueError(f"style {style} is not registered")
+    general_negative, full_body_append = _final_negatives(root)
+    text = _single_prompt(
+        preview, plan["source"], plan["identity_anchor"], preview["poses"][pose - 1],
+        general_negative, full_body_append, ratio, style in PILOT_PHOTOGRAPHY_SLUGS,
+        _head_gaze_guidance(root),
+    )
+    (directory / "prompts").mkdir(parents=True, exist_ok=True)
+    path = child(directory, f"prompts/{style}.action2-pose{pose}.txt")
+    path.write_text(text, encoding="utf-8")
+    return {"path": str(path.relative_to(root.resolve())), "sha256": digest(text.encode()), "words": len(text.split()), "ratio": ratio}
+
+
 def _plan_v5(root, run_id, source_case):
     run_dir(root, run_id)
     source, anchor = load_preview_source(root, source_case)
     rules = _rules(root)
     canonical_poses, preview_negative = _canonical_action_zero(root)
+    head_gaze_guidance = _head_gaze_guidance(root)
     previews = []
     for style, path, text in _registered_packs(root):
         relative = f"{PACK_ROOT}/{path.name}"
@@ -342,7 +459,7 @@ def _plan_v5(root, run_id, source_case):
                 "footer": PREVIEW_MARK,
             },
         }
-        preview["prompt_sha256"] = digest(_prompt(preview, source, anchor, preview_negative).encode())
+        preview["prompt_sha256"] = digest(_prompt(preview, source, anchor, preview_negative, head_gaze_guidance, pilot=style in PILOT_PHOTOGRAPHY_SLUGS).encode())
         preview["display_contract"] = copy.deepcopy(_cards().CONTRACT)
         previews.append(preview)
     return {
@@ -360,6 +477,8 @@ def _require_mutable_v5(record):
     schema = record.get("schema_version")
     if schema == FROZEN_PUBLIC_SCHEMA:
         raise ValueError("preview schema 4.0 is frozen public evidence; mutation is forbidden")
+    if record.get("run_id") == FROZEN_OUTFIT_COLLECTION_ID:
+        raise ValueError("beta.4 outfit collection is frozen public evidence; mutation is forbidden")
     if schema in HISTORICAL_SCHEMAS:
         raise ValueError(_legacy_error(schema))
     if schema != CURRENT_SCHEMA:
@@ -447,6 +566,8 @@ def register_batch(root: Path, run_id: str, manifest: dict) -> dict:
 
 def prepare(root, run_id, source_case=None):
     directory = run_dir(root, run_id)
+    if run_id == FROZEN_OUTFIT_COLLECTION_ID:
+        raise ValueError("beta.4 outfit collection is frozen public evidence; mutation is forbidden")
     if directory.exists():
         existing = read_json(directory / "evidence.json")
         _require_mutable_v5(existing)
@@ -460,9 +581,11 @@ def prepare(root, run_id, source_case=None):
     directory.mkdir(parents=True)
     (directory / "prompts").mkdir()
     _, preview_negative = _canonical_action_zero(root)
+    head_gaze_guidance = _head_gaze_guidance(root)
     for preview in plan["previews"]:
         child(directory, f"prompts/{preview['style']}.txt").write_text(
-            _prompt(preview, plan["source"], plan["identity_anchor"], preview_negative), encoding="utf-8"
+            _prompt(preview, plan["source"], plan["identity_anchor"], preview_negative, head_gaze_guidance, pilot=preview["style"] in PILOT_PHOTOGRAPHY_SLUGS),
+            encoding="utf-8",
         )
     write_json(directory / "evidence.json", plan)
     return plan
@@ -480,9 +603,26 @@ def _check_plan(root, record, directory=None):
     expected = _plan_v5(root, record["run_id"], record.get("source", {}).get("case_id"))
     if set(record) != set(expected):
         raise ValueError("unexpected evidence fields")
-    for key in ("schema_version", "run_id", "role", "source", "identity_anchor", "rules", "ai_label"):
+    for key in ("schema_version", "run_id", "role", "source", "identity_anchor", "ai_label"):
         if record.get(key) != expected[key]:
             raise ValueError(f"stale or invalid {key}")
+    # Rules are bound by equivalence, not by file hash: the recorded rule set keeps the paths and
+    # hashes the run was prepared with (provenance), while every preview below must still be
+    # reproducible byte for byte under the current rules (prompt_sha256 equality). A rule edit
+    # that leaves a preview's prompt unchanged therefore does not invalidate that preview.
+    rules = record.get("rules")
+    if (
+        not isinstance(rules, dict)
+        or set(rules) != set(expected["rules"])
+        or any(
+            not isinstance(value, dict)
+            or set(value) != {"path", "sha256"}
+            or value.get("path") != expected["rules"][name]["path"]
+            or not HASH.fullmatch(str(value.get("sha256")))
+            for name, value in rules.items()
+        )
+    ):
+        raise ValueError("stale or invalid rules")
     actual_previews = record.get("previews")
     if not isinstance(actual_previews, list) or len(actual_previews) != 24:
         raise ValueError("24 previews required")
@@ -492,7 +632,20 @@ def _check_plan(root, record, directory=None):
     for preview, planned in zip(actual_previews, expected["previews"]):
         if not isinstance(preview, dict) or set(preview) - (set(planned) | GENERATED_FIELDS):
             raise ValueError("unexpected preview fields")
-        if any(preview.get(key) != value for key, value in planned.items()):
+        if preview.get("prompt_sha256") != planned["prompt_sha256"]:
+            raise ValueError(
+                f"{planned['style']}: prompt is not reproducible under the current rules; "
+                "regenerate this preview under the current rules or restore the rules"
+            )
+        pack = preview.get("pack")
+        if (
+            not isinstance(pack, dict)
+            or set(pack) != set(planned["pack"])
+            or pack.get("path") != planned["pack"]["path"]
+            or not HASH.fullmatch(str(pack.get("sha256")))
+        ):
+            raise ValueError("stale pack, prompt, mode or pose mapping")
+        if any(preview.get(key) != value for key, value in planned.items() if key != "pack"):
             raise ValueError("stale pack, prompt, mode or pose mapping")
         poses = preview.get("poses")
         if not isinstance(poses, list) or [pose.get("ordinal") for pose in poses if isinstance(pose, dict)] != list(range(1, 7)):
@@ -1477,24 +1630,48 @@ def _public_record_valid(root, record, directory):
         raise ValueError("sensitive public text")
 
 
-def validate_frozen_v4(root: Path, directory: Path, record: dict) -> None:
-    if directory.name != "white-vest-24-v1" or record.get("run_id") != directory.name:
-        raise ValueError("schema 4.0 is reserved for the frozen white-vest collection")
-    manifest_path = child(root, "tests/fixtures/white-vest-24-v1-beta3.sha256.json")
+def _validate_frozen_files(root: Path, directory: Path, manifest_name: str, label: str) -> None:
+    manifest_path = child(root, f"tests/fixtures/{manifest_name}")
     manifest = read_json(manifest_path)
     actual_paths = sorted(path.relative_to(directory).as_posix() for path in directory.rglob("*") if path.is_file())
     if actual_paths != sorted(manifest):
-        raise ValueError("frozen schema 4.0 file set mismatch")
+        raise ValueError(f"frozen {label} file set mismatch")
     for relative, expected in manifest.items():
         data = child(directory, relative).read_bytes()
         if expected != {"sha256": digest(data), "bytes": len(data)}:
-            raise ValueError(f"frozen schema 4.0 asset mismatch: {relative}")
+            raise ValueError(f"frozen {label} asset mismatch: {relative}")
+
+
+def validate_frozen_v4(root: Path, directory: Path, record: dict) -> None:
+    if directory.name != "white-vest-24-v1" or record.get("run_id") != directory.name:
+        raise ValueError("schema 4.0 is reserved for the frozen white-vest collection")
+    _validate_frozen_files(root, directory, "white-vest-24-v1-beta3.sha256.json", "schema 4.0")
     if record.get("schema_version") != FROZEN_PUBLIC_SCHEMA or record.get("status") != "approved":
         raise ValueError("frozen schema 4.0 record invalid")
     previews = record.get("previews")
     if not isinstance(previews, list) or len(previews) != 24 or len({item.get("style") for item in previews}) != 24:
         raise ValueError("frozen schema 4.0 requires 24 unique previews")
     for preview in previews:
+        _validate_preview(record, preview, directory, True, False)
+    if _primary().has_sensitive_public_text(record):
+        raise ValueError("sensitive public text")
+
+
+def validate_frozen_outfit(root: Path, directory: Path, record: dict) -> None:
+    """Preserve exact beta.4 display evidence, without certifying current prompts."""
+    if (directory.name != FROZEN_OUTFIT_COLLECTION_ID
+            or record.get("run_id") != directory.name
+            or record.get("schema_version") != "5.0"):
+        raise ValueError("frozen beta.4 collection identity mismatch")
+    _validate_frozen_files(
+        root, directory, "beige-blazer-denim-outfit-24-v1-beta4.sha256.json", "beta.4 outfit"
+    )
+    source, anchor = load_preview_source(root, "beige-blazer-denim-outfit")
+    if record.get("source") != source or record.get("identity_anchor") != anchor:
+        raise ValueError("frozen beta.4 source or identity anchor mismatch")
+    if record.get("status") != "approved":
+        raise ValueError("frozen beta.4 collection is not approved")
+    for preview in record["previews"]:
         _validate_preview(record, preview, directory, True, False)
     if _primary().has_sensitive_public_text(record):
         raise ValueError("sensitive public text")
@@ -1516,6 +1693,9 @@ def validate_public_previews(root):
                 raise ValueError("run id mismatch")
             if record.get("schema_version") == FROZEN_PUBLIC_SCHEMA:
                 validate_frozen_v4(root, directory, record)
+                continue
+            if directory.name == FROZEN_OUTFIT_COLLECTION_ID:
+                validate_frozen_outfit(root, directory, record)
                 continue
             _public_record_valid(root, record, directory)
             expected = {"evidence.json", "README.md", "index.html", *[asset['path'] for asset in public_assets(record)]}
@@ -1662,11 +1842,15 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
     commands = parser.add_subparsers(dest="command", required=True)
-    for name in ("prepare", "register-batch", "ingest", "compose", "audit", "gallery", "approve", "promote"):
+    for name in ("prepare", "single-prompt", "register-batch", "ingest", "compose", "audit", "gallery", "approve", "promote"):
         command = commands.add_parser(name)
         command.add_argument("--run-id", required=True)
-        if name == "prepare":
+        if name in {"prepare", "single-prompt"}:
             command.add_argument("--source-case", required=True)
+        if name == "single-prompt":
+            command.add_argument("--style", required=True)
+            command.add_argument("--pose", type=int, required=True, help="canonical pose template 1-6")
+            command.add_argument("--ratio", default="1:1", help="canvas contract W:H (modes-scenes §4; ecommerce main image defaults to 1:1)")
         if name == "register-batch":
             command.add_argument("--manifest", type=Path, required=True)
         if name in {"ingest", "compose", "audit", "gallery", "approve"}:
@@ -1690,6 +1874,8 @@ def main(argv=None):
     try:
         if args.command == "register-batch":
             result = register_batch(args.root, args.run_id, read_json(args.manifest))
+        elif args.command == "single-prompt":
+            result = single_prompt(args.root, args.run_id, args.style, args.pose, args.source_case, args.ratio)
         elif args.command == "ingest":
             correction = read_json(args.correction_record) if args.correction_record else None
             failed_retry = read_json(args.failed_retry_record) if args.failed_retry_record else None
