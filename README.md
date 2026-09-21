@@ -1,6 +1,6 @@
 # ThreadTruth Studio
 
-**Local beta.5:** this checkout integrates the shared head/body relations and ecommerce photography pilot. Use its checksum-verified local package and [installation guide](docs/INSTALL.md). beta.4 remains the latest public download; both galleries below are immutable historical previews, not verification of beta.5 visual quality. See [local verification](docs/verification/2026-09-21-beta.5-local.md).
+**Beta.5:** shared natural head/body relations and the ecommerce photography pilot are now part of the runtime. Use the checksum-verified [beta.5 release](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.5) and matching [installation guide](docs/INSTALL.md). Both galleries below remain immutable historical previews, not verification of beta.5 visual quality. See [local verification](docs/verification/2026-09-21-beta.5-local.md).
 
 
 [English](README.md) | [简体中文](README.zh-CN.md)
@@ -21,7 +21,7 @@ The white-vest example remains the complete, rights-cleared source-to-six-result
 
 ## Install and try recognition
 
-For local beta.5, obtain the Plugin ZIP and matching checksum from the maintainer and follow the current [installation guide](docs/INSTALL.md). For the public [`v1.0.0-beta.4` Release](https://github.com/2278091160dg-rgb/threadtruth-studio/releases/tag/v1.0.0-beta.4), use the guide bundled in that archive. Earlier public releases remain immutable; new-host CLI activation is still unverified.
+Download the Plugin ZIP and matching checksum from the [beta.5 release](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.5), then follow the [installation guide](docs/INSTALL.md). Earlier public releases remain immutable; use each archive's bundled guide for that version. New-host CLI activation remains unverified.
 
 After installation, start a **new Codex task**, upload a garment image first, then enter exactly:
 
@@ -73,7 +73,7 @@ There is no runtime telemetry, MCP server, external connector, API-key flow, or 
 
 ## Release and compatibility status
 
-The public Beta began with [`v1.0.0-beta.1`](https://github.com/2278091160dg-rgb/threadtruth-studio/releases/tag/v1.0.0-beta.1). [`v1.0.0-beta.4`](https://github.com/2278091160dg-rgb/threadtruth-studio/releases/tag/v1.0.0-beta.4) is the newest public download; it adds the accepted coordinated-outfit 24-style preview gallery without changing runtime behavior. Audited host: macOS `26.6.2`, `codex-cli 0.144.1`. Codex desktop build: unavailable, not inferred. See [compatibility](docs/COMPATIBILITY.md) and the [30-day Beta register](docs/BETA.md).
+The public Beta began with [`v1.0.0-beta.1`](https://github.com/2278091160dg-rgb/threadtruth-studio/releases/tag/v1.0.0-beta.1). [`v1.0.0-beta.5`](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.5) integrates shared head/body relations and the ecommerce photography pilot; it preserves beta.3/beta.4 galleries as historical evidence. Maintainer-machine upgrade and installed bytes were verified on macOS `26.6.2` with `codex-cli 0.155.1`. Codex desktop build and fresh-task trigger behavior remain unverified. See [compatibility](docs/COMPATIBILITY.md) and the [30-day Beta register](docs/BETA.md).
 
 The project's own exit targets are at least 30 days, five non-maintainer installations, and three authorized complete cases; these are project targets, not OpenAI admission rules. Codex for Open Source application details live only in [docs/CODEX-FOR-OSS.md](docs/CODEX-FOR-OSS.md).
 

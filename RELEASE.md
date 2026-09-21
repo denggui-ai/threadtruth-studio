@@ -1,14 +1,14 @@
 # Release Readiness
 
-## Current local release
+## Current release — beta.5
 
 - Version: `1.0.0-beta.5`
-- Scope: integrates the approved experiment branch, validates the package and updates the maintainer's local Plugin through the backed-up installer.
-- Publication: local only; no beta.5 GitHub tag, push or Release is claimed.
+- Scope: publishes the integrated beta.5 runtime already validated and installed on the maintainer host.
+- Channel: [GitHub prerelease](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.5). Stable v1.0.0 and external Beta exit gates remain pending.
 - Runtime: shared natural head/body relations, style-owned expression and the scoped ecommerce photography pilot. Historical galleries remain immutable and do not establish current-version visual quality.
 - Verification and limitations: [beta.5 local record](docs/verification/2026-09-21-beta.5-local.md). `guide-required`; the version-matched offline guide is outside the runtime skill.
 
-## Latest public Beta (historical)
+## Previous public Beta (historical)
 
 - Version: `1.0.0-beta.4`
 - Status: [`v1.0.0-beta.4`](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.4) published as a GitHub prerelease at `2026-09-15T00:18:31Z` from merge commit `f80b4c4`. beta.1–beta.3 remain available and immutable.
@@ -32,6 +32,10 @@ For beta.4, runtime bytes remain unchanged. The release adds a second 24-style, 
 ## Known limitations
 
 This project does not provide virtual-fit simulation, CAD accuracy, text/logo guarantees, unattended commercial approval, third-party integrations, or platform-performance guarantees. Native image behavior varies by host and must be evidenced in the release compatibility record.
+
+## Public artifact versus local beta.5
+
+The public beta.5 package updates distribution documentation only relative to the installed local beta.5. Runtime bytes are identical. The earlier local archive, checksum and backup receipt remain unchanged; the public archive has its own checksum. This release adds no new image calls, visual acceptance, external installations or maturity promotion. Source tests and public-source privacy checks apply before publication; the merged commit, published assets and fresh download are verified in the release handoff.
 
 ## Release artifacts
 

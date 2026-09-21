@@ -6,7 +6,7 @@
 
 ### Before you begin
 
-Use the Plugin ZIP from the [GitHub Releases landing page](https://github.com/2278091160dg-rgb/threadtruth-studio/releases), plus its separately downloaded `.sha256` sidecar. The optional original-media ZIP is evidence media, not the Plugin, and has a different checksum. This guide describes the local beta.5 package and its matching checksum. beta.5 has not been published to GitHub; beta.4 remains the public download. Obtain the local package from the maintainer, or use the guide bundled with the published version you download. A checksum checks integrity only when its expected value arrives through a trusted channel; it does not independently authenticate the publisher.
+Use the Plugin ZIP from the [GitHub Releases landing page](https://github.com/2278091160dg-rgb/threadtruth-studio/releases), plus its separately downloaded `.sha256` sidecar. The optional original-media ZIP is evidence media, not the Plugin, and has a different checksum. This guide matches the [beta.5 prerelease](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.5). Download its Plugin ZIP and matching checksum; for older versions use the guide bundled in that archive. A checksum checks integrity only when its expected value arrives through a trusted channel; it does not independently authenticate the publisher.
 
 The release ZIP extracts to a versioned root such as `threadtruth-studio-1.0.0-beta.5/`. That whole root, containing `.codex-plugin/plugin.json` and `install-local.py`, is the install source. Do not use the inner `skills/threadtruth-studio/` folder.
 
@@ -88,7 +88,7 @@ See [compatibility](COMPATIBILITY.md). Submit sanitized installation results thr
 
 ### 开始前
 
-请从 [GitHub Releases 落地页](https://github.com/2278091160dg-rgb/threadtruth-studio/releases)下载 Plugin ZIP，并单独下载与它匹配的 `.sha256` 校验文件。可选的原始媒体 ZIP 是证据素材，不是 Plugin，校验文件也不同。本指南对应本地 beta.5 包及其校验文件；beta.5尚未发布到GitHub，公开下载仍为beta.4。请向维护者取得本地包，或使用所下载公开版本附带的指南。校验值必须来自可信渠道；checksum本身不能认证发布者身份。
+请从 [GitHub Releases 落地页](https://github.com/2278091160dg-rgb/threadtruth-studio/releases)下载 Plugin ZIP，并单独下载与它匹配的 `.sha256` 校验文件。可选的原始媒体 ZIP 是证据素材，不是 Plugin，校验文件也不同。本指南对应[beta.5预发布版](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.5)。请下载该版本的Plugin ZIP与匹配校验文件；旧版本使用其归档内附带的指南。校验值必须来自可信渠道；checksum本身不能认证发布者身份。
 
 发行 ZIP 会解压为带版本号的根目录，例如 `threadtruth-studio-1.0.0-beta.5/`。安装源是包含 `.codex-plugin/plugin.json` 与 `install-local.py` 的整个根目录，不是内层 `skills/threadtruth-studio/`。
 

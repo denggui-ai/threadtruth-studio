@@ -2,7 +2,7 @@
 
 All notable changes are documented here. Versions follow Semantic Versioning.
 
-## 2026-09-21 — 1.0.0-beta.5 (local release)
+## 2026-09-21 — 1.0.0-beta.5 (prerelease)
 
 ### Trigger
 
@@ -16,7 +16,7 @@ All notable changes are documented here. Versions follow Semantic Versioning.
 
 - Integrates shared head/body relations across the existing six poses and 24 styles, preserving style-specific expression and the ecommerce lighting/scene pilot. It adds no fixed left/right quotas or new head rules.
 - Preserves the exact published beta.3 white-vest and beta.4 outfit collections as hash-checked historical evidence. New previews still require current reproducible prompts and all existing authorization, source-rights and human-review gates.
-- Updates the local Plugin version and matching installation/offline guides. beta.5 is a local release, not a new public GitHub release or stable v1.0.0.
+- Updates the Plugin version and matching installation/offline guides. After local installation passed, the maintainer authorized GitHub prerelease publication. Public packaging changes distribution documentation only; runtime bytes match local beta.5. The local archive remains immutable with its own checksum. Stable v1.0.0 remains pending.
 
 ### Eval coverage
 

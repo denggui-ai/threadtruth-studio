@@ -1,6 +1,6 @@
 # ThreadTruth Studio｜服饰保真人像工坊
 
-**本地 beta.5：**当前源码已整合通用头身关系与电商摄影试点，安装时使用校验过的本地包及[安装指南](docs/INSTALL.md)。beta.4仍是最新公开下载；下方两套图库保留为历史预览，不代表beta.5视觉效果已通过验证。详见[本地验证记录](docs/verification/2026-09-21-beta.5-local.md)。
+**Beta.5：**运行时已整合通用自然头身关系与电商摄影试点。请使用校验过的[beta.5发行包](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.5)及配套[安装指南](docs/INSTALL.md)。下方两套图库保留为历史预览，不代表beta.5视觉效果已通过验证。详见[本地验证记录](docs/verification/2026-09-21-beta.5-local.md)。
 
 
 [English](README.md) | [简体中文](README.zh-CN.md)
@@ -21,7 +21,7 @@ ThreadTruth Studio 是独立维护的社区 Codex Plugin。它从真实单件服
 
 ## 安装并测试识别
 
-本地beta.5请使用维护者提供的Plugin ZIP、匹配校验文件和当前[安装指南](docs/INSTALL.md)。若从公开的[`v1.0.0-beta.4` Release](https://github.com/2278091160dg-rgb/threadtruth-studio/releases/tag/v1.0.0-beta.4)下载，请按该归档内的指南安装。历史公开版本保持不可变；真实新宿主CLI激活仍未验证。
+从[beta.5发行页](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.5)下载Plugin ZIP与匹配校验文件，再按[安装指南](docs/INSTALL.md)操作。历史公开版本保持不可变，安装旧版请使用其归档内的指南；真实新宿主CLI激活仍未验证。
 
 安装后新建一个 **Codex 任务**，先上传服饰图，再原样输入：
 
@@ -73,7 +73,7 @@ ThreadTruth Studio 是独立维护的社区 Codex Plugin。它从真实单件服
 
 ## 发布与兼容状态
 
-公开 Beta 从 [`v1.0.0-beta.1`](https://github.com/2278091160dg-rgb/threadtruth-studio/releases/tag/v1.0.0-beta.1) 开始。[`v1.0.0-beta.4`](https://github.com/2278091160dg-rgb/threadtruth-studio/releases/tag/v1.0.0-beta.4) 是最新公开下载，增加已验收的完整套装24风格图库，不改变运行时行为。已审计宿主：macOS `26.6.2`、`codex-cli 0.144.1`；Codex 桌面版 build 不可用，不能从 CLI 版本推断。详见[兼容性](docs/COMPATIBILITY.md)与[30 天 Beta 登记](docs/BETA.md)。
+公开Beta从[`v1.0.0-beta.1`](https://github.com/2278091160dg-rgb/threadtruth-studio/releases/tag/v1.0.0-beta.1)开始。[`v1.0.0-beta.5`](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.5)整合自然头身关系与电商摄影试点，beta.3／beta.4图库保留为历史证据。维护者本机升级与安装字节已在macOS `26.6.2`、`codex-cli 0.155.1`上验证；桌面版build和新任务触发仍未验证。详见[兼容性](docs/COMPATIBILITY.md)与[30天Beta登记](docs/BETA.md)。
 
 至少 30 天、5 个非维护者安装、3 个授权完整案例，是项目自己的退出目标，不是 OpenAI 固定准入条件。Codex for Open Source 申请细节只放在 [docs/CODEX-FOR-OSS.md](docs/CODEX-FOR-OSS.md)。
 
