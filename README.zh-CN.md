@@ -1,5 +1,8 @@
 # ThreadTruth Studio｜服饰保真人像工坊
 
+**本地候选 beta.6：**新增有范围限制的生图入口建议，默认 Codex、用户手选优先。该候选尚未公开发布。详见[本地安装记录](docs/verification/2026-09-28-beta.6-local.md)。
+
+
 **Beta.5：**运行时已整合通用自然头身关系与电商摄影试点。请使用校验过的[beta.5发行包](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.5)及配套[安装指南](docs/INSTALL.md)。下方两套图库保留为历史预览，不代表beta.5视觉效果已通过验证。详见[本地验证记录](docs/verification/2026-09-21-beta.5-local.md)。
 
 

@@ -2,13 +2,21 @@
 
 All notable changes are documented here. Versions follow Semantic Versioning.
 
-## Unreleased — 2026-09-27 generation entry recommendations
+## 2026-09-28 — 1.0.0-beta.6 (local candidate)
 
 - Trigger: the maintainer accepted an entry recommendation policy after a 24-style local comparison (48 attempts, 43 saved originals, 19 complete pairs). Rendering votes favored ChatGPT web in 11 pairs, Codex in 7, with 1 tie; five missing pairs are not ties.
+### Behavior before
+
 - Before: the skill described native generation availability but had no bounded entry preference guidance.
+### Behavior after
+
 - After: retains Codex as the default and preserves explicit user selection. Rendering requests receive a style-specific sample recommendation; ties, missing pairs and unmeasured styles retain the default. Rendering preference is not a fidelity, identity or style guarantee. No automatic browser upload, route switch, retry, API fallback, or new generation authorization is introduced.
+### Eval coverage
+
 - Adds a dependency-free local advisory helper and a single runtime evidence table. Source regressions cover defaults, manual override, all 24 styles, missing/tied/unknown evidence and non-rendering goals. The comparison does not verify an image model version or the revised six-image workflow.
-- Development source only: no version bump, installation, new image generation or public release in this change.
+### Verification
+
+- The recommendation change was committed on 2026-09-27; on 2026-09-28 the maintainer authorized continuation into local candidate packaging and installation. No new image generation or public release is included.
 - Scoped checks and limitations: [verification record](docs/verification/2026-09-27-entry-recommendations.md).
 
 ## 2026-09-21 — 1.0.0-beta.5 (prerelease)

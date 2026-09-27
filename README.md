@@ -1,5 +1,8 @@
 # ThreadTruth Studio
 
+**Local candidate beta.6:** adds bounded generation-entry recommendations; Codex remains the default and explicit user selection wins. This candidate is not publicly released. See [local installation record](docs/verification/2026-09-28-beta.6-local.md).
+
+
 **Beta.5:** shared natural head/body relations and the ecommerce photography pilot are now part of the runtime. Use the checksum-verified [beta.5 release](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.5) and matching [installation guide](docs/INSTALL.md). Both galleries below remain immutable historical previews, not verification of beta.5 visual quality. See [local verification](docs/verification/2026-09-21-beta.5-local.md).
 
 

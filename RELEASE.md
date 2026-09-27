@@ -1,5 +1,9 @@
 # Release Readiness
 
+## Local candidate — beta.6
+
+Version `1.0.0-beta.6` contains bounded entry recommendations, with Codex as default and manual choice preserved. Local packaging and installation only; no public beta.6 download or tag is claimed. See [local verification](docs/verification/2026-09-28-beta.6-local.md). The public beta.5 release below remains unchanged.
+
 ## Current release — beta.5
 
 - Version: `1.0.0-beta.5`
