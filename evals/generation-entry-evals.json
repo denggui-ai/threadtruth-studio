@@ -1,0 +1,132 @@
+[
+  {
+    "id": "default",
+    "input": {},
+    "expected": {
+      "recommended_route": "codex_native",
+      "selected_route": "codex_native",
+      "basis": "default"
+    }
+  },
+  {
+    "id": "overall-rendering",
+    "input": {
+      "goal": "rendering"
+    },
+    "expected": {
+      "recommended_route": "chatgpt_web",
+      "selected_route": "codex_native",
+      "basis": "overall_sample"
+    }
+  },
+  {
+    "id": "ecommerce",
+    "input": {
+      "goal": "rendering",
+      "style": "ecommerce-studio"
+    },
+    "expected": {
+      "recommended_route": "codex_native",
+      "selected_route": "codex_native",
+      "basis": "paired_sample"
+    }
+  },
+  {
+    "id": "italian",
+    "input": {
+      "goal": "rendering",
+      "style": "italian-luxe"
+    },
+    "expected": {
+      "recommended_route": "chatgpt_web",
+      "selected_route": "codex_native",
+      "basis": "paired_sample"
+    }
+  },
+  {
+    "id": "manual-codex",
+    "input": {
+      "goal": "rendering",
+      "style": "italian-luxe",
+      "selected": "codex_native"
+    },
+    "expected": {
+      "recommended_route": "chatgpt_web",
+      "selected_route": "codex_native",
+      "basis": "paired_sample"
+    }
+  },
+  {
+    "id": "manual-web",
+    "input": {
+      "goal": "rendering",
+      "style": "office-commute-women",
+      "selected": "chatgpt_web"
+    },
+    "expected": {
+      "recommended_route": "codex_native",
+      "selected_route": "chatgpt_web",
+      "basis": "paired_sample"
+    }
+  },
+  {
+    "id": "missing",
+    "input": {
+      "goal": "rendering",
+      "style": "resort-vacation"
+    },
+    "expected": {
+      "recommended_route": "codex_native",
+      "selected_route": "codex_native",
+      "basis": "missing_pair"
+    }
+  },
+  {
+    "id": "tie",
+    "input": {
+      "goal": "rendering",
+      "style": "clean-fit"
+    },
+    "expected": {
+      "recommended_route": "codex_native",
+      "selected_route": "codex_native",
+      "basis": "tie"
+    }
+  },
+  {
+    "id": "unknown",
+    "input": {
+      "goal": "rendering",
+      "style": "unregistered"
+    },
+    "expected": {
+      "recommended_route": "codex_native",
+      "selected_route": "codex_native",
+      "basis": "unmeasured"
+    }
+  },
+  {
+    "id": "fidelity-not-rendering",
+    "input": {
+      "goal": "fidelity",
+      "style": "italian-luxe"
+    },
+    "expected": {
+      "recommended_route": "codex_native",
+      "selected_route": "codex_native",
+      "basis": "default"
+    }
+  },
+  {
+    "id": "style-not-rendering",
+    "input": {
+      "goal": "style",
+      "style": "italian-luxe"
+    },
+    "expected": {
+      "recommended_route": "codex_native",
+      "selected_route": "codex_native",
+      "basis": "default"
+    }
+  }
+]

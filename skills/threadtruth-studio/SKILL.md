@@ -71,6 +71,7 @@ description: Create source-faithful fashion portrait sets from real garment or c
 - **③ 识别卡字段 + 8 类输入路由 + 性别年龄/品类轴信号** → `references/recognition.md`
 - **③.5/④ 风格推荐+完整 24 包选择面板+确认+冲突检测+rule_id trace+权重表+注册表** → `references/style-router.md`
 - **④ 三模式 B/C/D + 自动推荐;品类矩阵** → `references/modes-scenes.md`、`references/category-matrix.md`
+- **④.5 生图入口建议（默认 Codex、保留用户手选；仅比较咨询/优先渲染时给出本轮样本建议）** → [references/generation-entry.md](references/generation-entry.md)。推荐不自动切换入口，也不替代动作授权。
 - **⑥⑦⑧ 输出形态覆盖层 + 6 姿势母版/非人像构图编号 + 头部视线 + 负面词 + 预览/成片闭集 + look-1 身份锚点 + image_gen 规范 + 重试**(韩系底座→pack 变量)→ `references/prompt-build.md`
 - **商业交付逐张/整组 QA + `qa-pass`/`qa-retry`/`qa-user-review` + `image-ready` 门禁** → `references/commercial-qa.md`
 - **平台政策红线 R1–R7 + 优先级链 + pack 加载二次校验** → `references/safety-core.md`
