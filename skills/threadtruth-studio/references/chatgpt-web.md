@@ -34,7 +34,7 @@ The user signs into ChatGPT themselves. Login required, quota restriction, loadi
 4. When a persistent `/c/` URL appears, use `bind --look N --conversation <observed-url>` on the same reservation. Poll only the existing request, with bounded observations and user updates. After 30 minutes without a verified result, record `unknown --look N` and pause. This stops observation, not remote generation.
 5. Download the original through the supported browser download mechanism into the task's workspace. Do not scrape private image URLs, save a screenshot as the result, or invent a download path. If download is unavailable, ask the user to download and provide that exact original; retain the existing reservation.
 6. Use `returned --look N --file <downloaded-original.png>`. The helper checks dimensions and duplicate bytes and copies to an immutable numbered output. Non-PNG, wrong size or duplicate means pause; do not convert, crop or generate another image automatically. Then inspect actual content with image tools and apply existing commercial QA, garment facts and identity-anchor gates.
-7. Only suitable images receive `accept --look N --qa qa-pass|qa-user-review --note <actual-visible-review>`. `qa-user-review` is allowed only when outstanding issues do not affect hard garment facts, anatomy/safety or anchor suitability. Unsuitable images stay returned; explain the issue and stop. Successful acceptance unlocks the next look. `complete=true` means all recorded images accepted for progression, not commercial `image-ready`; retain final user approval requirements.
+7. Only suitable images receive `accept --look N --qa qa-pass|qa-user-review --note <actual-visible-review>`. `qa-user-review` is allowed only when outstanding issues do not affect hard garment facts, anatomy/safety or anchor suitability. For unsuitable images, record `reject --look N --note <visible-hard-failure>`; explain the issue and stop. Successful acceptance unlocks the next look. `complete=true` means all recorded images accepted for progression, not commercial `image-ready`; retain final user approval requirements.
 
 ## Manual path
 
@@ -42,6 +42,23 @@ Give the user the exported `handoff` directory and its README. They upload numbe
 
 ## Recovery and limits
 
-`reserved` means the Send action may have occurred; count it against budget. `unknown` can import a later recovered original, but cannot reserve again. `failed` records an explicit provider failure and still consumes the reservation. No failure increases the maximum of six. The v1 helper intentionally has no retry/reset command: report remaining budget and obtain a separately reviewed retry/continuation instruction before extending this adapter. Do not silently create a fresh ledger for the same unresolved group.
+`reserved` means the Send action may have occurred; count it against budget. `unknown` can import a later recovered original, but cannot reserve again. `failed` records an explicit provider failure and still consumes the reservation. The initial authorization remains limited to six. Failure never increases it automatically. Do not silently create a fresh ledger for the same unresolved group. Explicitly failed provider requests and unknown requests cannot use the visual-QA retry path below; first reconcile the original request.
 
 A stale `.writer-lock` blocks mutation. Inspect the existing process and task before manual recovery; never delete a lock automatically. A crash after output copy but before state persistence requires reconciliation of that exact file and original request, not another generation. Reference/output hash changes stop progression. Preserve private receipts, original files and unresolved statuses.
+
+## Explicit visual-QA retry (candidate, local tool only)
+
+After a returned original fails visual QA, record `reject` with the visible reason. For old schema-1 tasks left `returned` by an earlier version, inspect the original and record that rejection first. Accepted anchors cannot be rejected/replaced through this path; downstream work must remain pending.
+
+Prepare a corrected single-image prompt and show the user the failed facts, change, exact additional request count and overall budget. Preparation/development approval does not authorize image generation. Only after an explicit retry/upload approval, record a unique approval identifier and the current rejected attempt number (1 for legacy tasks):
+
+```sh
+python3 scripts/web-task.py retry-authorize --task <existing-task> --look 1 --expected-attempt 1 --approval-id <unique-user-approval-id> --note <actual-user-approval> --prompt-file <corrected-prompt.txt>
+python3 scripts/web-task.py export --task <existing-task>
+```
+
+Each grant adds exactly one request to the initial limit; it never resets used requests, creates images or authorizes an automatic retry loop. Repeating an approval ID or targeting an obsolete attempt is rejected. A new rejected attempt requires another explicit approval. Unused initial slots retain their original scope; if the user withdraws continuation authorization, stop regardless of numerical availability.
+
+The previous attempt's prompt, source hashes, conversation, QA and output remain in `history`, with the original file intact. A retry uses a new `look-N-attempt-M` output and handoff directory. Follow the current README; older handoff folders are evidence, never a queue to resubmit. All recorded outputs, including rejected attempts, remain hash-checked and cannot be imported as duplicate results. Do not edit JSON to reset state or use old handoff files for the new request.
+
+Resume the same reserve → one Send → bind → returned → visual QA loop. A corrected look-1 must be accepted before any later look is unlocked. A grant records human authority; the local script cannot verify a human actually gave it, so agents must never fabricate approval receipts.

@@ -1,6 +1,6 @@
 # ThreadTruth Studio
 
-**beta.7 development candidate / 开发候选：** [ChatGPT 网页手动转交与自动执行说明](docs/CHATGPT-WEB.md)。本地规则已实现，真实工作流验收待完成；尚未安装或公开发布。
+**beta.8 development candidate / 开发候选：** [ChatGPT 网页手动转交与自动执行说明](docs/CHATGPT-WEB.md)。本地规则已实现，真实工作流验收待完成；尚未安装或公开发布。
 
 **Local candidate beta.6:** adds bounded generation-entry recommendations; Codex remains the default and explicit user selection wins. This candidate is not publicly released. See [local installation record](docs/verification/2026-09-28-beta.6-local.md).
 

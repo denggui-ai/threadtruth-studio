@@ -1,6 +1,6 @@
 # ThreadTruth Studio｜服饰保真人像工坊
 
-**beta.7 development candidate / 开发候选：** [ChatGPT 网页手动转交与自动执行说明](docs/CHATGPT-WEB.md)。本地规则已实现，真实工作流验收待完成；尚未安装或公开发布。
+**beta.8 development candidate / 开发候选：** [ChatGPT 网页手动转交与自动执行说明](docs/CHATGPT-WEB.md)。本地规则已实现，真实工作流验收待完成；尚未安装或公开发布。
 
 **本地候选 beta.6：**新增有范围限制的生图入口建议，默认 Codex、用户手选优先。该候选尚未公开发布。详见[本地安装记录](docs/verification/2026-09-28-beta.6-local.md)。
 

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Local ChatGPT handoff/automation ledger. No network, browser or generation calls."""
 import argparse
+import copy
 from contextlib import contextmanager
 from datetime import datetime, timezone
 import hashlib
@@ -131,12 +132,27 @@ def reference_hashes(root,look):
     return [r['sha256'] for r in references(root,read(root),look)]
 
 
+def evidence_rows(data):
+    for row in data['looks']:
+        yield from row.get('history', [])
+        yield row
+
+
+def check_evidence(root,data):
+    for row in evidence_rows(data):
+        if hashlib.sha256(row['prompt'].encode()).hexdigest()!=row['prompt_sha256']:
+            raise ValueError('Frozen prompt changed')
+        if 'output' in row and digest(root/row['output']['file'])!=row['output']['sha256']:
+            raise ValueError('Previously imported output changed')
+    for ref in data['references']:
+        if digest(root/ref['file'])!=ref['sha256']:raise ValueError('Frozen reference changed')
+
+
 def update(root,event,**kw):
     root=Path(root)
     with locked(root):
         d=read(root);n=kw.get('look');row=None
-        for previous in d['looks']:
-            if 'output' in previous and digest(root/previous['output']['file'])!=previous['output']['sha256']:raise ValueError('Previously imported output changed')
+        check_evidence(root,d)
         if n is not None:
             if type(n)!=int or not 1<=n<=len(d['looks']):raise ValueError('Unknown look number')
             row=d['looks'][n-1]
@@ -145,12 +161,30 @@ def update(root,event,**kw):
             limit=kw.get('limit');note=kw.get('note','').strip()
             if type(limit)!=int or not 1<=limit<=len(d['looks']) or not note:raise ValueError('Explicit ChatGPT upload and generation approval with limit required')
             d['authorization']={'destination':'ChatGPT','limit':limit,'note':note,'at':stamp()}
+        elif event=='reject':
+            note=kw.get('note','').strip()
+            if row is None or row['state']!='returned' or not note:raise ValueError('Reject only a downloaded result with actual visual QA reasons')
+            row.update(state='rejected',qa='qa-retry',qa_note=note)
+        elif event=='retry-authorize':
+            # One explicit grant replaces one rejected attempt, never resets the task.
+            note=kw.get('note','').strip();approval=kw.get('approval_id','').strip();prompt=kw.get('prompt','')
+            grants=d.get('retry_authorizations',[])
+            if row is None or row['state']!='rejected' or not d['authorization']:raise ValueError('Only a visually rejected downloaded attempt can be retried')
+            attempt=row.get('attempt_number',1)
+            if type(kw.get('expected_attempt'))!=int or kw['expected_attempt']!=attempt:raise ValueError('Approval must target the current rejected attempt')
+            if not note or not approval or not isinstance(prompt,str) or not prompt.strip():raise ValueError('Explicit retry approval, unique approval ID and corrected prompt required')
+            if any(g['approval_id']==approval for g in grants):raise ValueError('Retry approval already used')
+            if any(x['state']!='pending' for x in d['looks'][n:]):raise ValueError('Cannot replace an anchor with existing downstream work')
+            history=copy.deepcopy(row.get('history',[]));old=copy.deepcopy(row);old.pop('history',None);history.append(old)
+            grant={'approval_id':approval,'look':n,'rejected_attempt':attempt,'additional_requests':1,'note':note,'at':stamp(),'prompt_sha256':hashlib.sha256(prompt.encode()).hexdigest()}
+            row.clear();row.update(number=n,state='pending',attempt_number=attempt+1,prompt=prompt,prompt_sha256=grant['prompt_sha256'],history=history)
+            d.setdefault('retry_authorizations',[]).append(grant)
         elif event=='mode':
             if kw.get('mode') not in ('manual','automatic'):raise ValueError('Unknown mode')
             d['mode']=kw['mode']
         elif event=='reserve':
             auth=d['authorization']
-            if not auth or d['attempts']>=auth['limit']:raise ValueError('No authorized request budget remains')
+            if not auth or d['attempts']>=auth['limit']+len(d.get('retry_authorizations',[])):raise ValueError('No authorized request budget remains')
             if row is None or row['state']!='pending':raise ValueError('Submission already reserved or no pending look')
             if any(x['state']!='accepted' for x in d['looks'][:n-1]):raise ValueError('Earlier look is unresolved or not accepted')
             expected=[x['sha256'] for x in references(root,d,n)]
@@ -170,8 +204,8 @@ def update(root,event,**kw):
             if row is None or row['state'] not in ('reserved','unknown'):raise ValueError('No reserved result to recover')
             source=Path(kw['file']);dimensions=png_size(source);sha=digest(source)
             if dimensions!=d['size']:raise ValueError('Wrong canvas: stop without another generation call')
-            if sha in [x.get('output',{}).get('sha256') for x in d['looks']]:raise ValueError('Duplicate output image')
-            out=root/'outputs'/f'look-{n}.png';out.parent.mkdir(exist_ok=True)
+            if sha in [x.get('output',{}).get('sha256') for x in evidence_rows(d)]:raise ValueError('Duplicate output image')
+            suffix=f"-attempt-{row['attempt_number']}" if row.get('attempt_number',1)>1 else '';out=root/'outputs'/f'look-{n}{suffix}.png';out.parent.mkdir(exist_ok=True)
             with out.open('xb') as f:f.write(source.read_bytes())
             row.update(state='returned',output={'file':str(out.relative_to(root)),'sha256':sha,'dimensions':dimensions})
         elif event=='accept':
@@ -189,11 +223,11 @@ def update(root,event,**kw):
 def export(root):
     root=Path(root)
     with locked(root):
-        d=read(root);folder=root/'handoff';folder.mkdir(exist_ok=True);lines=['# ChatGPT 网页转交包','只用内置生图；不要选择其他插件。','参考图按编号上传，确认全部完成；使用新建持久对话。','提交前必须由 Codex 记录 reserve；本包不是新的生图授权。','点击网页原图下载，不使用截图；将原文件回传给 Codex。','尚未确认的请求先查原对话，不要再次发送。','']
+        d=read(root);check_evidence(root,d);folder=root/'handoff';folder.mkdir(exist_ok=True);lines=['# ChatGPT 网页转交包','只用内置生图；不要选择其他插件。','参考图按编号上传，确认全部完成；使用新建持久对话。','提交前必须由 Codex 记录 reserve；本包不是新的生图授权。','点击网页原图下载，不使用截图；将原文件回传给 Codex。','尚未确认的请求先查原对话，不要再次发送。','']
         for row in d['looks']:
             n=row['number'];lines.append(f"- look-{n}: {row['state']}")
             if row['state']!='pending' or any(x['state']!='accepted' for x in d['looks'][:n-1]):continue
-            refs=references(root,d,n);out=folder/f'look-{n}';out.mkdir(exist_ok=True)
+            refs=references(root,d,n);suffix=f"-attempt-{row['attempt_number']}" if row.get('attempt_number',1)>1 else '';out=folder/f'look-{n}{suffix}';out.mkdir(exist_ok=True);lines.append(f'  Current handoff: {out.name}; earlier attempt folders are evidence only, never resubmit them.')
             instruction=[]
             for i,r in enumerate(refs,1):
                 src=root/r['file'];dst=out/f'{i:02d}-{r["role"]}{src.suffix}'
@@ -205,13 +239,16 @@ def export(root):
 
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('command',choices=['init','status','export','authorize','mode','reserve','bind','unknown','failed','returned','accept']);p.add_argument('--task',type=Path,required=True);p.add_argument('--spec',type=Path);p.add_argument('--look',type=int);p.add_argument('--note');p.add_argument('--limit',type=int);p.add_argument('--mode',choices=['manual','automatic']);p.add_argument('--ready',action='store_true');p.add_argument('--refs',nargs='*');p.add_argument('--conversation');p.add_argument('--tab');p.add_argument('--file',type=Path);p.add_argument('--qa',choices=['qa-pass','qa-user-review']);a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('command',choices=['init','status','export','authorize','mode','reserve','bind','unknown','failed','returned','accept','reject','retry-authorize']);p.add_argument('--task',type=Path,required=True);p.add_argument('--spec',type=Path);p.add_argument('--look',type=int);p.add_argument('--note');p.add_argument('--limit',type=int);p.add_argument('--mode',choices=['manual','automatic']);p.add_argument('--ready',action='store_true');p.add_argument('--refs',nargs='*');p.add_argument('--conversation');p.add_argument('--tab');p.add_argument('--file',type=Path);p.add_argument('--qa',choices=['qa-pass','qa-user-review']);p.add_argument('--expected-attempt',type=int);p.add_argument('--approval-id');p.add_argument('--prompt-file',type=Path);a=p.parse_args()
     try:
         if a.command=='init':
             spec=json.loads(a.spec.read_text());result=create(a.task,spec['references'],spec['prompts'],spec['size'],spec.get('identity',True))
         elif a.command=='status':result=read(a.task)
         elif a.command=='export':result=export(a.task)
-        else:result=update(a.task,a.command,**{k:v for k,v in vars(a).items() if k not in ('command','task','spec') and v is not None})
+        else:
+            args={k:v for k,v in vars(a).items() if k not in ('command','task','spec','prompt_file') and v is not None}
+            if a.prompt_file:args['prompt']=a.prompt_file.read_text(encoding='utf-8')
+            result=update(a.task,a.command,**args)
         print(json.dumps(result,ensure_ascii=False,indent=2))
     except (ValueError,OSError,KeyError,TypeError,AttributeError) as error:p.exit(1,str(error)+'\n')
 

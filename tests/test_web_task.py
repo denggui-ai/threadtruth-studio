@@ -82,3 +82,47 @@ class WebTaskTests(unittest.TestCase):
         from unittest.mock import patch
         with patch.object(m.os,'fsync') as sync:m.save(self.job,m.read(self.job))
         self.assertEqual(sync.call_count,2)
+
+    def rejected_first(self):
+        self.authorize();self.reserve();m.update(self.job,'returned',look=1,file=self.result())
+        m.update(self.job,'reject',look=1,note='Duplicate watch, garment QA failed')
+    def retry(self,**overrides):
+        args=dict(look=1,expected_attempt=1,approval_id='user-retry-1',note='User explicitly approves one retry and remaining five',prompt='corrected pose')
+        args.update(overrides);return m.update(self.job,'retry-authorize',**args)
+    def test_retry_preserves_failed_evidence_and_cumulative_budget(self):
+        self.rejected_first();before=m.read(self.job);old=before['looks'][0]['output'];old_bytes=(self.job/old['file']).read_bytes()
+        d=self.retry();self.assertEqual(d['attempts'],1);self.assertEqual(d['authorization'],before['authorization'])
+        self.assertEqual(d['looks'][0]['history'][0]['output'],old)
+        self.assertEqual(d['looks'][0]['history'][0]['prompt'],'pose 0')
+        with self.assertRaises(ValueError):m.reference_hashes(self.job,2)
+        self.reserve();m.update(self.job,'returned',look=1,file=self.result('green'))
+        d=m.update(self.job,'accept',look=1,note='Corrected garment verified',qa='qa-pass')
+        self.assertEqual(d['attempts'],2);self.assertEqual((self.job/old['file']).read_bytes(),old_bytes)
+        self.assertNotEqual(d['looks'][0]['output']['file'],old['file'])
+        for n,color in enumerate(['yellow','purple','orange','black','white'],2):
+            m.update(self.job,'reserve',look=n,ready=True,refs=m.reference_hashes(self.job,n),conversation=f'https://chatgpt.com/c/{n}')
+            m.update(self.job,'returned',look=n,file=self.result(color));m.update(self.job,'accept',look=n,note='QA',qa='qa-pass')
+        self.assertEqual(m.read(self.job)['attempts'],7);self.assertTrue(m.read(self.job)['complete'])
+    def test_retry_blocks_unknown_replay_and_missing_approval(self):
+        self.authorize();self.reserve();m.update(self.job,'unknown',look=1)
+        with self.assertRaises(ValueError):self.retry()
+        m.update(self.job,'returned',look=1,file=self.result());m.update(self.job,'reject',look=1,note='Wrong garment')
+        for kw in [dict(note=''),dict(approval_id=''),dict(expected_attempt=2),dict(prompt='')]:
+            with self.assertRaises(ValueError):self.retry(**kw)
+        self.retry()
+        with self.assertRaises(ValueError):self.retry()
+        self.reserve();m.update(self.job,'returned',look=1,file=self.result('green'));m.update(self.job,'reject',look=1,note='Still wrong')
+        with self.assertRaises(ValueError):self.retry(expected_attempt=2)
+        self.assertEqual(m.read(self.job)['attempts'],2)
+    def test_retry_history_integrity_duplicate_and_export(self):
+        self.rejected_first();m.export(self.job);self.retry();m.export(self.job)
+        self.assertTrue((self.job/'handoff/look-1-attempt-2/prompt.txt').exists())
+        self.reserve()
+        with self.assertRaises(ValueError):m.update(self.job,'returned',look=1,file=self.result())
+        (self.job/'outputs/look-1.png').write_bytes(b'tampered')
+        with self.assertRaises(ValueError):m.update(self.job,'mode',mode='automatic')
+        with self.assertRaises(ValueError):m.export(self.job)
+    def test_accepted_anchor_cannot_be_retried(self):
+        self.authorize();self.reserve();m.update(self.job,'returned',look=1,file=self.result());m.update(self.job,'accept',look=1,note='QA',qa='qa-pass')
+        with self.assertRaises(ValueError):m.update(self.job,'reject',look=1,note='Later change')
+        with self.assertRaises(ValueError):self.retry()

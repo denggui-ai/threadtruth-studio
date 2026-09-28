@@ -2,6 +2,12 @@
 
 All notable changes are documented here. Versions follow Semantic Versioning.
 
+## Unreleased — beta.8 controlled retry candidate
+
+- Add explicit visual rejection and one-request retry grants bound to an approval ID and rejected attempt number; preserve initial authorization and cumulative request count.
+- Retain failed prompts, conversations, QA and immutable originals; version retry outputs and handoffs, and validate historical evidence.
+- Reject unknown-request retries, approval replay, duplicate old results and accepted-anchor replacement. No automatic retries, new live generation, installation or publication in this implementation round.
+
 ## Unreleased — beta.7 web delivery candidate
 
 ### Behavior before
