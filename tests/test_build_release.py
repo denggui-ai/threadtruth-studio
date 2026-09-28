@@ -56,6 +56,7 @@ class ReleaseBuildTests(unittest.TestCase):
                 len([name for name in names if name.startswith(preview_prefix) and name.endswith(".jpg")]),
                 72,
             )
+            self.assertFalse(any("/docs/superpowers/" in name for name in names))
             self.assertFalse(any("/evals/" in name for name in names))
             self.assertFalse(any("/tests/" in name for name in names))
             self.assertFalse(any("/tools/" in name for name in names))

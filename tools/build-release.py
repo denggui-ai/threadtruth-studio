@@ -76,7 +76,7 @@ def _copy_allowlist(root: Path, stage: Path) -> None:
         shutil.copytree(
             source,
             stage / name,
-            ignore=shutil.ignore_patterns("__pycache__", "*.pyc", "*.pyo", ".DS_Store"),
+            ignore=shutil.ignore_patterns("__pycache__", "*.pyc", "*.pyo", ".DS_Store", "superpowers"),
         )
     for name in PUBLIC_FILES:
         source = root / name

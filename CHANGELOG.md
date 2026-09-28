@@ -2,6 +2,25 @@
 
 All notable changes are documented here. Versions follow Semantic Versioning.
 
+## Unreleased — beta.7 web delivery candidate
+
+### Behavior before
+
+- Entry recommendations existed, but no shared submission ledger or staged handoff package existed. Comparison search failed for multiword English labels, and hiding conclusions left visible advice.
+
+### Behavior after
+
+- Adds a local task ledger and staged manual handoff plus host-browser execution instructions. One/six-image budgets, durable reservations, recovery, frozen ordered references, accepted look-1 identity anchor, complete PNG validation and output checks gate progression. No network or browser calls occur in the helper.
+- Fixes comparison search and hidden-result leaks, separates the product-first local landing page from the research gallery. New gallery files are not included in the plugin allowlist.
+
+### Eval coverage
+
+- Adds request/authorization, recovery, anchor, order, canvas, duplicate/truncated image, changed output and durability regressions. Browser checks exercise English/Chinese searches and hidden conclusion visibility.
+
+### Verification
+
+- Candidate only. No provider call, new-task real workflow, install or publication is claimed. Supplementary comparison and workflow requests require separately approved material list and exact budget. Existing beta.6 and historical evidence remain immutable.
+
 ## 2026-09-28 — 1.0.0-beta.6 (local candidate)
 
 - Trigger: the maintainer accepted an entry recommendation policy after a 24-style local comparison (48 attempts, 43 saved originals, 19 complete pairs). Rendering votes favored ChatGPT web in 11 pairs, Codex in 7, with 1 tie; five missing pairs are not ties.
