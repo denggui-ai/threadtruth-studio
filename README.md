@@ -4,19 +4,17 @@
 
 **Turn real garment and outfit photos into fashion portraits, with source details guiding every image.**
 
-[Browse 24 styles · 48 paired results](https://denggui-ai.github.io/threadtruth-studio/) · [Install beta.8](docs/INSTALL.md) · [ChatGPT web tutorial (中文)](docs/CHATGPT-WEB-TUTORIAL.md)
-
-ThreadTruth Studio is a community-maintained Codex Plugin for apparel portraits, fashion editorial, and ecommerce imagery. Upload a single garment or a complete outfit, choose from 24 styles, then approve a plan before generation. The workflow checks clothing details, outfit relationships, character consistency, and image dimensions throughout a six-image set. It is independent of OpenAI and is not an official product or endorsement.
-
-The **24-style paired gallery** compares Codex and ChatGPT web results, with source credits, rights disclosures, and per-case reviews. These are AI-generated research comparisons; they do not establish a model ranking or permission to reuse every image. [Read the gallery's source and rights records](https://denggui-ai.github.io/threadtruth-studio/rights.json).
-
 ![A real white-vest source photo alongside six independent AI-generated Korean Cold Editorial portraits](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/hero.jpg)
 
-**A complete source-to-six-image example:** four photos of one white hooded puffer vest led to six independent portraits with recorded hashes and human review. This historical case is separate from the paired gallery. [View the case and media terms](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md).
+**A complete source-to-six-image example:** four photos of one white hooded puffer vest led to six independent AI-generated portraits with recorded hashes and human review. This is a historical case, not a new beta.8 result or part of the paired gallery. [View the case and media terms](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md).
+
+**[Install in Codex · beta.8](docs/INSTALL.md#english)** · [Browse 24 styles · 48 paired results](https://denggui-ai.github.io/threadtruth-studio/) · [ChatGPT web handoff tutorial (中文)](docs/CHATGPT-WEB-TUTORIAL.md)
+
+For apparel portraits, fashion editorial, and ecommerce imagery: upload a real garment or complete outfit, choose a style, then review the plan before generation. Install the Plugin in **Codex**; ChatGPT web is an optional handoff route from Codex, not a separate Plugin installation.
 
 ## Get started
 
-1. Download the Plugin ZIP and matching `.sha256` from the [beta.8 release](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.8). Follow the [installation guide](docs/INSTALL.md) to verify, register, and enable it.
+1. Follow the [English installation guide](docs/INSTALL.md#english) to download the beta.8 Plugin ZIP and matching `.sha256`, check prerequisites, verify the archive, and enable the Plugin. Use the named Plugin download, not GitHub's automatic source-code ZIP.
 2. Start a **new Codex task** and upload a real garment or coordinated-outfit photo you are authorized to use.
 3. Ask for recognition and style recommendations:
 
@@ -26,7 +24,7 @@ Use $threadtruth-studio to identify this garment and recommend styles. Do not ge
 
 Expect a garment recognition card, a primary recommendation with alternatives, and the full 24-style catalogue. This first step does **not** authorize image generation. Confirm the style, composition, dimensions, and number of images before approving generation, which uses the selected account's image quota.
 
-Installation and enablement have been verified on the maintainer's macOS machine. A fresh non-maintainer environment remains unverified; see [compatibility and verification scope](docs/COMPATIBILITY.md).
+If recognition does not appear, follow [installation troubleshooting](docs/INSTALL.md#troubleshooting). Share a brief success or failure through the [installation feedback form](https://github.com/denggui-ai/threadtruth-studio/issues/new?template=installation-feedback.yml).
 
 ## Choose where to generate
 
@@ -38,6 +36,8 @@ Installation and enablement have been verified on the maintainer's macOS machine
 Install ThreadTruth in **Codex**. The ChatGPT route uses the web handoff described in the [tutorial (中文)](docs/CHATGPT-WEB-TUTORIAL.md); installing this Plugin does not install browser tools. Uploading references to ChatGPT requires permission. Failed or uncertain requests are checked before any separately authorized retry, and used attempts remain recorded. [Web workflow details (中文)](docs/CHATGPT-WEB.md).
 
 ## Examples and what they demonstrate
+
+The **24-style paired gallery** compares Codex and ChatGPT web results, with source credits, rights disclosures, and per-case reviews. These are AI-generated research comparisons; they do not establish a model ranking or permission to reuse every image. [Read the gallery's source and rights records](https://denggui-ai.github.io/threadtruth-studio/rights.json).
 
 | Collection | Published scope | What it establishes |
 |---|---|---|
@@ -74,6 +74,8 @@ These historical previews retain their source records, reviews, and hashes. They
 </details>
 
 ## Scope and limits
+
+ThreadTruth Studio is independent and community-maintained, not an OpenAI product or endorsement. Installation and enablement have been verified on the maintainer's macOS machine; a fresh non-maintainer environment remains unverified. See [compatibility and verification scope](docs/COMPATIBILITY.md).
 
 - **Source details guide the output.** Color, material appearance, silhouette, construction, pattern, and logo placement come from the source. For an outfit, this also includes layering, proportions, shoes, bags, and accessories. Check the generated result against your source; exact small text, logos, and fit are not guaranteed.
 - **Human review remains part of delivery.** This workflow supports apparel imagery, not general virtual try-on, CAD fit simulation, non-apparel products, text-only concepts, API integration, or unattended commercial delivery. It does not guarantee platform approval or sales results.
