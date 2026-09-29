@@ -1,0 +1,1267 @@
+{
+  "scope": "local proposed editorial gallery; not publication approval or legal clearance",
+  "review_date": "2026-09-29",
+  "counts": {
+    "cases": 24,
+    "local_images": 48,
+    "candidate_pairs": 24,
+    "held_pairs": 0,
+    "candidate_images": 48
+  },
+  "cases": [
+    {
+      "style": "american-street",
+      "status": "candidate",
+      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "source_page": "https://www.pexels.com/photo/trendy-urban-fashion-with-a-casual-vibe-32819862/",
+      "author_record": "Hakim LEVEL",
+      "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
+      "source_sha256": "78971f8b48a29a75efd9fdfe3642f73ba08b1dd8b1259b2ce7dbcdc2dddcef4b",
+      "identity_sha256": "7aa00a85b9219d338de2e933d5dc3b5f10ae7cb0cbbf910a087e118d6be2855a",
+      "identity_basis": "Pexels 真实摄影身份参考；未见本项目单独人物授权记录。",
+      "source_page_check": "保留前次网页核验；本轮复核历史记录与文件哈希，不冒称重新在线读取。",
+      "identity_source_page": "https://www.pexels.com/photo/portrait-of-a-man-in-a-white-shirt-indoors-32887331/",
+      "identity_author_record": "Eyüpcan Timur",
+      "rights_caveat": "身份参考来自署名摄影作品，不是AI身份素材。此页仅展示AI合成比较结果，不表示本人参与、同意或为项目与品牌背书；不声称人物权利已全部清理。",
+      "label": "美式街头 / American Street",
+      "batch": "缺图补测 · 与历史另一端配对",
+      "winners": {
+        "rendering": "web",
+        "product": "tie",
+        "identity": "web"
+      },
+      "prompt_sha256": "d640403242aba56404c80022a79783938fc9d666d7e01ee0398adbe336a99159",
+      "selection_sha256": "0014ece68a1676259d0c6b654183ec513e9e6112b3651b1e5a3af13d81769b74",
+      "review_sha256": "6c936fb0e8f294f7d7a717c7942c2ca5c3e568cb04e8cee20b7676b8aab1a138",
+      "review_selector": "/0",
+      "review_binding_sha256": "ed9dbb4613f9f4037c40d4ce2a80398ab9dd19bcb93489018d2c7839bf369f11",
+      "decision_sha256": "a4974d21bce9fbd0bbc51598ef72239b465b24b57a23b49fa0f38106318dc90c",
+      "evidence_sha256": [
+        "be25b4c2bda3ff89472ce20ec81dcaca078c42c0ce994b7dc3af97ed3f6347d6",
+        "efcc908742eba0dc1cb5bcbd48e788f67c351a99e703bfc28b340951feeb7a96",
+        "c7c7818a440dc8d78f70cf5a275636f1f142cb2dbe293b344bf40692c93d3d91",
+        "af9767feea81c30063295edd75b3544d16753cd65a98bc45f19956d3bd9e21b1",
+        "28e379870aa1c86d11a53079891b093554d1f1e7dc27c0acea5715cfa84c1d5c"
+      ],
+      "images": [
+        {
+          "side": "A",
+          "route": "native",
+          "sha256": "37e43e0afb1dfab78126305138f8f34fb839cbb741625a53d1c6c84820011fd3",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        },
+        {
+          "side": "B",
+          "route": "web",
+          "sha256": "9b0f49b345c0b951e7619d0fb572cc5b7447caff4b21e18f710ef8e882cc1db8",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        }
+      ]
+    },
+    {
+      "style": "athleisure",
+      "status": "candidate",
+      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "source_page": "https://www.pexels.com/photo/smiling-ethnic-woman-in-sportswear-in-park-7242837/",
+      "author_record": "Blue Bird",
+      "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
+      "source_sha256": "05c0794ea3fc6576dcbd2f832d788cc7df2a3974d3826fc14be99b8b393db3a5",
+      "identity_sha256": "843daf8b554d1350d0060800b778fd34bd5ce2a8a775e1c48bcef42268821c7a",
+      "identity_basis": "既有AI女性身份参考；文件哈希与公开权利记录一致。",
+      "source_page_check": "retrieved via web tool",
+      "identity_source_page": "https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/rights.json",
+      "identity_author_record": "ThreadTruth 既有公开AI案例",
+      "label": "运动休闲 / Athleisure",
+      "batch": "历史完整配对",
+      "winners": {
+        "rendering": "web",
+        "product": "tie",
+        "identity": "tie"
+      },
+      "prompt_sha256": "91c91e96a107caeab2b6fcca64b57463804777c53c40ac16ae9288838ee8d831",
+      "selection_sha256": "1d1d7d66f0fae434c529070b211c465ddc9e0cd0f19ffe4442d8043c3e38273b",
+      "review_sha256": "6c936fb0e8f294f7d7a717c7942c2ca5c3e568cb04e8cee20b7676b8aab1a138",
+      "review_selector": "/1",
+      "review_binding_sha256": "ed9dbb4613f9f4037c40d4ce2a80398ab9dd19bcb93489018d2c7839bf369f11",
+      "decision_sha256": "a4974d21bce9fbd0bbc51598ef72239b465b24b57a23b49fa0f38106318dc90c",
+      "evidence_sha256": [
+        "be25b4c2bda3ff89472ce20ec81dcaca078c42c0ce994b7dc3af97ed3f6347d6",
+        "efcc908742eba0dc1cb5bcbd48e788f67c351a99e703bfc28b340951feeb7a96"
+      ],
+      "images": [
+        {
+          "side": "A",
+          "route": "native",
+          "sha256": "36f0ed61614c63a7b9cec8f35ae91fefeef8a0405cd71b3f752feafb1bb7eb40",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        },
+        {
+          "side": "B",
+          "route": "web",
+          "sha256": "117cf26a13681160823545db43e84bcaae90d91d21815ae9b1fda736869e3d1a",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        }
+      ]
+    },
+    {
+      "style": "balletcore",
+      "status": "candidate",
+      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "source_page": "https://www.pexels.com/photo/a-woman-practicing-ballet-8935607/",
+      "author_record": "Anastasia Shuraeva",
+      "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
+      "source_sha256": "d0199bbdeafa050459b64e4f249775d347693e366e390e5224fddf0247f5af1e",
+      "identity_sha256": "843daf8b554d1350d0060800b778fd34bd5ce2a8a775e1c48bcef42268821c7a",
+      "identity_basis": "既有AI女性身份参考；文件哈希与公开权利记录一致。",
+      "source_page_check": "历史结构化许可与作者记录、下载文件哈希已复核；本轮未取得来源页正文，不等于下架或许可失效。",
+      "identity_source_page": "https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/rights.json",
+      "identity_author_record": "ThreadTruth 既有公开AI案例",
+      "rights_caveat": "历史结构化许可与作者记录、下载文件哈希已复核；本轮未取得来源页正文，不等于下架或许可失效。",
+      "label": "芭蕾柔美 / Balletcore",
+      "batch": "历史完整配对",
+      "winners": {
+        "rendering": "web",
+        "product": "web",
+        "identity": "tie"
+      },
+      "prompt_sha256": "6c0f1e677df8d7486d57912eea7024ce381dc9ff1199421bb2a02d61720bdc77",
+      "selection_sha256": "6650ee0ecb4e453c5928c6a15d1d9ff972582b60c2a12c639b9eced81c04f957",
+      "review_sha256": "6c936fb0e8f294f7d7a717c7942c2ca5c3e568cb04e8cee20b7676b8aab1a138",
+      "review_selector": "/2",
+      "review_binding_sha256": "ed9dbb4613f9f4037c40d4ce2a80398ab9dd19bcb93489018d2c7839bf369f11",
+      "decision_sha256": "a4974d21bce9fbd0bbc51598ef72239b465b24b57a23b49fa0f38106318dc90c",
+      "evidence_sha256": [
+        "be25b4c2bda3ff89472ce20ec81dcaca078c42c0ce994b7dc3af97ed3f6347d6",
+        "efcc908742eba0dc1cb5bcbd48e788f67c351a99e703bfc28b340951feeb7a96",
+        "c7c7818a440dc8d78f70cf5a275636f1f142cb2dbe293b344bf40692c93d3d91",
+        "af9767feea81c30063295edd75b3544d16753cd65a98bc45f19956d3bd9e21b1"
+      ],
+      "images": [
+        {
+          "side": "A",
+          "route": "web",
+          "sha256": "ab9e73380e905183cbb391fff0cabf77161ec2aef4cae6aee0467f7ef1845996",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        },
+        {
+          "side": "B",
+          "route": "native",
+          "sha256": "afdcfdbb1823c6561e0aa062e1374bb8fe97aff5f1571874834c033b9126e751",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        }
+      ]
+    },
+    {
+      "style": "british-heritage",
+      "status": "candidate",
+      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "source_page": "https://www.pexels.com/photo/stylish-man-in-forest-with-long-coat-32277792/",
+      "author_record": "Patrick Bryan",
+      "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
+      "source_sha256": "a268c8411ae30ca33385dab9509ed64b92b6af4d381cd0a86e0c5df74cca548d",
+      "identity_sha256": "7aa00a85b9219d338de2e933d5dc3b5f10ae7cb0cbbf910a087e118d6be2855a",
+      "identity_basis": "Pexels 真实摄影身份参考；未见本项目单独人物授权记录。",
+      "source_page_check": "保留前次网页核验；本轮复核历史记录与文件哈希，不冒称重新在线读取。",
+      "identity_source_page": "https://www.pexels.com/photo/portrait-of-a-man-in-a-white-shirt-indoors-32887331/",
+      "identity_author_record": "Eyüpcan Timur",
+      "rights_caveat": "身份参考来自署名摄影作品，不是AI身份素材。此页仅展示AI合成比较结果，不表示本人参与、同意或为项目与品牌背书；不声称人物权利已全部清理。",
+      "label": "英伦传承 / British Heritage",
+      "batch": "历史完整配对",
+      "winners": {
+        "rendering": "web",
+        "product": "native",
+        "identity": "web"
+      },
+      "prompt_sha256": "13239fd307f22b9e18aa389ee3aff9837a831496e24b332a30c81ab98ebcd939",
+      "selection_sha256": "24dc4afdb00675b75c68b2e554e52ffcda85ad9ddd59cb82eb8c97dd926f54fe",
+      "review_sha256": "6c936fb0e8f294f7d7a717c7942c2ca5c3e568cb04e8cee20b7676b8aab1a138",
+      "review_selector": "/3",
+      "review_binding_sha256": "ed9dbb4613f9f4037c40d4ce2a80398ab9dd19bcb93489018d2c7839bf369f11",
+      "decision_sha256": "a4974d21bce9fbd0bbc51598ef72239b465b24b57a23b49fa0f38106318dc90c",
+      "evidence_sha256": [
+        "be25b4c2bda3ff89472ce20ec81dcaca078c42c0ce994b7dc3af97ed3f6347d6",
+        "efcc908742eba0dc1cb5bcbd48e788f67c351a99e703bfc28b340951feeb7a96",
+        "c7c7818a440dc8d78f70cf5a275636f1f142cb2dbe293b344bf40692c93d3d91",
+        "af9767feea81c30063295edd75b3544d16753cd65a98bc45f19956d3bd9e21b1",
+        "28e379870aa1c86d11a53079891b093554d1f1e7dc27c0acea5715cfa84c1d5c"
+      ],
+      "images": [
+        {
+          "side": "A",
+          "route": "native",
+          "sha256": "aee79962bd5e9027b43fa5ef611a64244e4c70aea7e4ac28e327b40e1ab17457",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        },
+        {
+          "side": "B",
+          "route": "web",
+          "sha256": "a32ea0b9e5b0173d355f0a40bc66a6e66fa1bf1b25061ac8e219837e98f3f1ef",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        }
+      ]
+    },
+    {
+      "style": "cityboy",
+      "status": "candidate",
+      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "source_page": "https://www.pexels.com/photo/trendy-young-man-leaning-against-urban-wall-36510883/",
+      "author_record": "Mert Coşkun",
+      "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
+      "source_sha256": "1850cbc308002f3244b14818a8313bba22636ed7a2e83b42a892af85ad97c062",
+      "identity_sha256": "7aa00a85b9219d338de2e933d5dc3b5f10ae7cb0cbbf910a087e118d6be2855a",
+      "identity_basis": "Pexels 真实摄影身份参考；未见本项目单独人物授权记录。",
+      "source_page_check": "历史结构化许可与作者记录、下载文件哈希已复核；本轮未取得来源页正文，不等于下架或许可失效。",
+      "identity_source_page": "https://www.pexels.com/photo/portrait-of-a-man-in-a-white-shirt-indoors-32887331/",
+      "identity_author_record": "Eyüpcan Timur",
+      "rights_caveat": "身份参考来自署名摄影作品，不是AI身份素材。此页仅展示AI合成比较结果，不表示本人参与、同意或为项目与品牌背书；不声称人物权利已全部清理。 历史结构化许可与作者记录、下载文件哈希已复核；本轮未取得来源页正文，不等于下架或许可失效。",
+      "label": "都市宽松男装 / Cityboy",
+      "batch": "历史完整配对",
+      "winners": {
+        "rendering": "web",
+        "product": "web",
+        "identity": "tie"
+      },
+      "prompt_sha256": "ff857a514b357b48f9c405a0428816fde88aaaf5e24c524f4286f3ed3dee5ad9",
+      "selection_sha256": "93d260bef11848c1a8bcda54f3c9da859e29a3f4699027d13869ab7317d47621",
+      "review_sha256": "6c936fb0e8f294f7d7a717c7942c2ca5c3e568cb04e8cee20b7676b8aab1a138",
+      "review_selector": "/4",
+      "review_binding_sha256": "ed9dbb4613f9f4037c40d4ce2a80398ab9dd19bcb93489018d2c7839bf369f11",
+      "decision_sha256": "a4974d21bce9fbd0bbc51598ef72239b465b24b57a23b49fa0f38106318dc90c",
+      "evidence_sha256": [
+        "be25b4c2bda3ff89472ce20ec81dcaca078c42c0ce994b7dc3af97ed3f6347d6",
+        "efcc908742eba0dc1cb5bcbd48e788f67c351a99e703bfc28b340951feeb7a96",
+        "c7c7818a440dc8d78f70cf5a275636f1f142cb2dbe293b344bf40692c93d3d91",
+        "af9767feea81c30063295edd75b3544d16753cd65a98bc45f19956d3bd9e21b1",
+        "28e379870aa1c86d11a53079891b093554d1f1e7dc27c0acea5715cfa84c1d5c"
+      ],
+      "images": [
+        {
+          "side": "A",
+          "route": "web",
+          "sha256": "ae57786bd50dfc73121133a17c78fbac59210e69b98388677ffa66d7fcce5f17",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        },
+        {
+          "side": "B",
+          "route": "native",
+          "sha256": "e08b64a1689ff2988006fe31f79030e11a6d2d38e1a7fb15572cc46de54862f2",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        }
+      ]
+    },
+    {
+      "style": "clean-fit",
+      "status": "candidate",
+      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "source_page": "https://www.pexels.com/photo/woman-in-white-shirt-and-jeans-17658565/",
+      "author_record": "Dmitriy Steinke",
+      "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
+      "source_sha256": "9f9b4307cbad306929eb7ee3be3a27e9e6ab970a4c2dc178075e922b39f3a719",
+      "identity_sha256": "843daf8b554d1350d0060800b778fd34bd5ce2a8a775e1c48bcef42268821c7a",
+      "identity_basis": "既有AI女性身份参考；文件哈希与公开权利记录一致。",
+      "source_page_check": "retrieved via web tool",
+      "identity_source_page": "https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/rights.json",
+      "identity_author_record": "ThreadTruth 既有公开AI案例",
+      "label": "极简基础 / Clean Fit",
+      "batch": "历史完整配对",
+      "winners": {
+        "rendering": "tie",
+        "product": "tie",
+        "identity": "tie"
+      },
+      "prompt_sha256": "38c1baf6efd949225de6521b0812a6fc9ee109c84d22aebbc320ad75f6fe0d80",
+      "selection_sha256": "f7d142b8a5dc034fc7f9a70d2d32b592205ff8cbe9ff06ee56b59694dfa5f7d0",
+      "review_sha256": "6c936fb0e8f294f7d7a717c7942c2ca5c3e568cb04e8cee20b7676b8aab1a138",
+      "review_selector": "/5",
+      "review_binding_sha256": "ed9dbb4613f9f4037c40d4ce2a80398ab9dd19bcb93489018d2c7839bf369f11",
+      "decision_sha256": "a4974d21bce9fbd0bbc51598ef72239b465b24b57a23b49fa0f38106318dc90c",
+      "evidence_sha256": [
+        "be25b4c2bda3ff89472ce20ec81dcaca078c42c0ce994b7dc3af97ed3f6347d6",
+        "efcc908742eba0dc1cb5bcbd48e788f67c351a99e703bfc28b340951feeb7a96"
+      ],
+      "images": [
+        {
+          "side": "A",
+          "route": "native",
+          "sha256": "6fe791fa1b856f75794da4cbb125832840447cccf15dea5d3c4ee9db1629596f",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        },
+        {
+          "side": "B",
+          "route": "web",
+          "sha256": "c368a17a3a0980f1bd7aa1987f6a2bfc4c04abf405e496e927b2ff96dbc72d4e",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        }
+      ]
+    },
+    {
+      "style": "coquette-ladylike",
+      "status": "candidate",
+      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "source_page": "https://www.pexels.com/photo/photo-of-woman-in-pink-dress-standing-on-grass-13617197/",
+      "author_record": "Brian Jiz",
+      "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
+      "source_sha256": "2f2f872a6d69e4f40b1268c5584bdcad5dbfbe64d7eb1eb52660a4846162c9e0",
+      "identity_sha256": "843daf8b554d1350d0060800b778fd34bd5ce2a8a775e1c48bcef42268821c7a",
+      "identity_basis": "既有AI女性身份参考；文件哈希与公开权利记录一致。",
+      "source_page_check": "历史结构化许可与作者记录、下载文件哈希已复核；本轮未取得来源页正文，不等于下架或许可失效。",
+      "identity_source_page": "https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/rights.json",
+      "identity_author_record": "ThreadTruth 既有公开AI案例",
+      "rights_caveat": "历史结构化许可与作者记录、下载文件哈希已复核；本轮未取得来源页正文，不等于下架或许可失效。",
+      "label": "甜美名媛 / Coquette Ladylike",
+      "batch": "历史完整配对",
+      "winners": {
+        "rendering": "web",
+        "product": "native",
+        "identity": "tie"
+      },
+      "prompt_sha256": "5ed940f9d5d7664db838459914b18ba58514f78f53142ad5ab7defd863f216f2",
+      "selection_sha256": "348d0c9ff294f98e430bad799bbc8ccd8805983cb9eed7caada3ef72514e7111",
+      "review_sha256": "6c936fb0e8f294f7d7a717c7942c2ca5c3e568cb04e8cee20b7676b8aab1a138",
+      "review_selector": "/6",
+      "review_binding_sha256": "ed9dbb4613f9f4037c40d4ce2a80398ab9dd19bcb93489018d2c7839bf369f11",
+      "decision_sha256": "a4974d21bce9fbd0bbc51598ef72239b465b24b57a23b49fa0f38106318dc90c",
+      "evidence_sha256": [
+        "be25b4c2bda3ff89472ce20ec81dcaca078c42c0ce994b7dc3af97ed3f6347d6",
+        "efcc908742eba0dc1cb5bcbd48e788f67c351a99e703bfc28b340951feeb7a96",
+        "c7c7818a440dc8d78f70cf5a275636f1f142cb2dbe293b344bf40692c93d3d91",
+        "af9767feea81c30063295edd75b3544d16753cd65a98bc45f19956d3bd9e21b1"
+      ],
+      "images": [
+        {
+          "side": "A",
+          "route": "web",
+          "sha256": "331bfc8852ddeb4a2ea3ba8f3d950074e89de07b0ccd97ed38c0388dbc6e02d5",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        },
+        {
+          "side": "B",
+          "route": "native",
+          "sha256": "4aa7fabe04ba0c06c714b52118d73946a759fc8adf0e62c0a0a8164d252ea13f",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        }
+      ]
+    },
+    {
+      "style": "ecommerce-studio",
+      "status": "candidate",
+      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "source_page": "https://www.pexels.com/photo/woman-standing-in-dress-6976616/",
+      "author_record": "KATRIN BOLOVTSOVA",
+      "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
+      "source_sha256": "c7cf3c29d4c8614a48074541c2313e320aef23c90b20618afc0869a239f2db14",
+      "identity_sha256": "843daf8b554d1350d0060800b778fd34bd5ce2a8a775e1c48bcef42268821c7a",
+      "identity_basis": "既有AI女性身份参考；文件哈希与公开权利记录一致。",
+      "source_page_check": "retrieved via web tool",
+      "identity_source_page": "https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/rights.json",
+      "identity_author_record": "ThreadTruth 既有公开AI案例",
+      "label": "电商棚拍 / E-commerce Studio",
+      "batch": "历史完整配对",
+      "winners": {
+        "rendering": "native",
+        "product": "tie",
+        "identity": "tie"
+      },
+      "prompt_sha256": "3a4a26532da1da31acd45540cee405d9a6e742262e269946193fabf166e4fdd2",
+      "selection_sha256": "60a4497385f8cb6abe24c4e153a4fb026de0c081308c23a77470a3a2de83e328",
+      "review_sha256": "6c936fb0e8f294f7d7a717c7942c2ca5c3e568cb04e8cee20b7676b8aab1a138",
+      "review_selector": "/7",
+      "review_binding_sha256": "ed9dbb4613f9f4037c40d4ce2a80398ab9dd19bcb93489018d2c7839bf369f11",
+      "decision_sha256": "a4974d21bce9fbd0bbc51598ef72239b465b24b57a23b49fa0f38106318dc90c",
+      "evidence_sha256": [
+        "be25b4c2bda3ff89472ce20ec81dcaca078c42c0ce994b7dc3af97ed3f6347d6",
+        "efcc908742eba0dc1cb5bcbd48e788f67c351a99e703bfc28b340951feeb7a96"
+      ],
+      "images": [
+        {
+          "side": "A",
+          "route": "native",
+          "sha256": "c31f01fad17118b167dca0b08b250a0347a068cb2220131ae41832539efc15b6",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        },
+        {
+          "side": "B",
+          "route": "web",
+          "sha256": "345f0e9501af37ec3f234b46667a8dfbaaae30471ad3a75e8fdb62614dd1fc48",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        }
+      ]
+    },
+    {
+      "style": "french-effortless",
+      "status": "candidate",
+      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "source_page": "https://www.pexels.com/photo/studio-shoot-of-a-woman-in-striped-long-sleeve-and-denim-pants-8811247/",
+      "author_record": "Alexandr",
+      "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
+      "source_sha256": "50b8ecf4bbf569e0c905df9593bbcea463991157ccbc2f32592e35d4cee47ef6",
+      "identity_sha256": "843daf8b554d1350d0060800b778fd34bd5ce2a8a775e1c48bcef42268821c7a",
+      "identity_basis": "既有AI女性身份参考；文件哈希与公开权利记录一致。",
+      "source_page_check": "retrieved via web tool",
+      "identity_source_page": "https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/rights.json",
+      "identity_author_record": "ThreadTruth 既有公开AI案例",
+      "label": "法式松弛 / French Effortless",
+      "batch": "缺图补测 · 与历史另一端配对",
+      "winners": {
+        "rendering": "native",
+        "product": "web",
+        "identity": "native"
+      },
+      "prompt_sha256": "79f5115a888b776fee787ffa00b01c4f18c8b9813cc54cb8872ad63d886f009e",
+      "selection_sha256": "a8ca3b6ea95238f562d34a99877f91f68e238d3c62c866b03e92b2e40caaab31",
+      "review_sha256": "6c936fb0e8f294f7d7a717c7942c2ca5c3e568cb04e8cee20b7676b8aab1a138",
+      "review_selector": "/8",
+      "review_binding_sha256": "ed9dbb4613f9f4037c40d4ce2a80398ab9dd19bcb93489018d2c7839bf369f11",
+      "decision_sha256": "a4974d21bce9fbd0bbc51598ef72239b465b24b57a23b49fa0f38106318dc90c",
+      "evidence_sha256": [
+        "be25b4c2bda3ff89472ce20ec81dcaca078c42c0ce994b7dc3af97ed3f6347d6",
+        "efcc908742eba0dc1cb5bcbd48e788f67c351a99e703bfc28b340951feeb7a96"
+      ],
+      "images": [
+        {
+          "side": "A",
+          "route": "native",
+          "sha256": "16c85402017a3a87d7972a285e7a89dcb6b7b5388693d2a9d50904aa02cff059",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        },
+        {
+          "side": "B",
+          "route": "web",
+          "sha256": "8b5cfc8a67ad2351fe58cac94b434fce4f6b2fde6c197f66afa10a43b5eb178a",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        }
+      ]
+    },
+    {
+      "style": "gorpcore",
+      "status": "candidate",
+      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "source_page": "https://www.pexels.com/photo/woman-in-jacket-posing-on-rocks-17287746/",
+      "author_record": "Susanna Davtyan",
+      "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
+      "source_sha256": "3df11135292ee2def4205ce91def28b67d5d28a095424070c8d230eafac3253c",
+      "identity_sha256": "843daf8b554d1350d0060800b778fd34bd5ce2a8a775e1c48bcef42268821c7a",
+      "identity_basis": "既有AI女性身份参考；文件哈希与公开权利记录一致。",
+      "source_page_check": "retrieved via web tool",
+      "identity_source_page": "https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/rights.json",
+      "identity_author_record": "ThreadTruth 既有公开AI案例",
+      "label": "山系机能 / Gorpcore",
+      "batch": "缺图补测 · 与历史另一端配对",
+      "winners": {
+        "rendering": "tie",
+        "product": "web",
+        "identity": "native"
+      },
+      "prompt_sha256": "ff6cbfed66f76482963c7f1ef73a7d7cb11672927adcc6720a8179b6576c2705",
+      "selection_sha256": "a6a1b6b1e8aa9d5f7f6bc5a57c264f5dbe9f9fce485832dc3a35ca5e97b0c48f",
+      "review_sha256": "6c936fb0e8f294f7d7a717c7942c2ca5c3e568cb04e8cee20b7676b8aab1a138",
+      "review_selector": "/9",
+      "review_binding_sha256": "ed9dbb4613f9f4037c40d4ce2a80398ab9dd19bcb93489018d2c7839bf369f11",
+      "decision_sha256": "a4974d21bce9fbd0bbc51598ef72239b465b24b57a23b49fa0f38106318dc90c",
+      "evidence_sha256": [
+        "be25b4c2bda3ff89472ce20ec81dcaca078c42c0ce994b7dc3af97ed3f6347d6",
+        "efcc908742eba0dc1cb5bcbd48e788f67c351a99e703bfc28b340951feeb7a96"
+      ],
+      "images": [
+        {
+          "side": "A",
+          "route": "native",
+          "sha256": "e9f74381cdaf45365e45e3c2166b64b6fff87eff5db0c063d0ac2156f88fb189",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        },
+        {
+          "side": "B",
+          "route": "web",
+          "sha256": "92a04d1d2d5d34111891e54f8fb3c5fb65431dee1eb424233001e909476e6650",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        }
+      ]
+    },
+    {
+      "style": "guochao-street",
+      "status": "candidate",
+      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "source_page": "https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/demo/preview-sources/beige-blazer-denim-outfit/README.md",
+      "author_record": "项目已授权米色套装；既有AI女性身份参考",
+      "license": "ThreadTruth-Demo-Only-1.0",
+      "source_sha256": "f749e5b021f95608d8098058a6b0ce84b302e372f6fa48aba815aca9ab5b5d58",
+      "identity_sha256": "843daf8b554d1350d0060800b778fd34bd5ce2a8a775e1c48bcef42268821c7a",
+      "identity_basis": "既有AI女性身份参考；文件哈希与公开权利记录一致。",
+      "source_page_check": "project rights record",
+      "identity_source_page": "https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/rights.json",
+      "identity_author_record": "ThreadTruth 既有公开AI案例",
+      "label": "国潮街头 / Guochao Street",
+      "batch": "替换输入 · 两端重测",
+      "winners": {
+        "rendering": "native",
+        "product": "tie",
+        "identity": "tie"
+      },
+      "prompt_sha256": "aefdca3ee974018cd87494599dc134ec7aa14932366e3f2bb8bfb94cf1a704d9",
+      "selection_sha256": "49cacaba16407ec5a29a9ff85d2f35176f563b2add6bb747419368a551bc50cb",
+      "review_sha256": "6c936fb0e8f294f7d7a717c7942c2ca5c3e568cb04e8cee20b7676b8aab1a138",
+      "review_selector": "/10",
+      "review_binding_sha256": "ed9dbb4613f9f4037c40d4ce2a80398ab9dd19bcb93489018d2c7839bf369f11",
+      "decision_sha256": "a4974d21bce9fbd0bbc51598ef72239b465b24b57a23b49fa0f38106318dc90c",
+      "evidence_sha256": [
+        "be25b4c2bda3ff89472ce20ec81dcaca078c42c0ce994b7dc3af97ed3f6347d6",
+        "efcc908742eba0dc1cb5bcbd48e788f67c351a99e703bfc28b340951feeb7a96"
+      ],
+      "images": [
+        {
+          "side": "A",
+          "route": "native",
+          "sha256": "a1a10054a7610fd1cca85dd99b0d4fc19e68c2805a60082b9aea4c053f96471d",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        },
+        {
+          "side": "B",
+          "route": "web",
+          "sha256": "88b0d86f4a1421f24ad44a6f838018bd89f761cd3d17903abc7cb89a3c41e4bd",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        }
+      ]
+    },
+    {
+      "style": "italian-luxe",
+      "status": "candidate",
+      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "source_page": "https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/demo/preview-sources/beige-blazer-denim-outfit/README.md",
+      "author_record": "项目已授权米色套装；既有AI女性身份参考",
+      "license": "ThreadTruth-Demo-Only-1.0",
+      "source_sha256": "f749e5b021f95608d8098058a6b0ce84b302e372f6fa48aba815aca9ab5b5d58",
+      "identity_sha256": "843daf8b554d1350d0060800b778fd34bd5ce2a8a775e1c48bcef42268821c7a",
+      "identity_basis": "既有AI女性身份参考；文件哈希与公开权利记录一致。",
+      "source_page_check": "project rights record",
+      "identity_source_page": "https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/rights.json",
+      "identity_author_record": "ThreadTruth 既有公开AI案例",
+      "label": "意式奢华 / Italian Luxe",
+      "batch": "替换输入 · 两端重测",
+      "winners": {
+        "rendering": "web",
+        "product": "tie",
+        "identity": "tie"
+      },
+      "prompt_sha256": "30503b99e74c1dcb2b8a4d407132e950149cbcb625de9985be8935bd79160c4e",
+      "selection_sha256": "92b2ce0038ba01d4bfef85f46e8f4d4d9b93b8af60670d00935d8c7232267cf6",
+      "review_sha256": "6c936fb0e8f294f7d7a717c7942c2ca5c3e568cb04e8cee20b7676b8aab1a138",
+      "review_selector": "/11",
+      "review_binding_sha256": "ed9dbb4613f9f4037c40d4ce2a80398ab9dd19bcb93489018d2c7839bf369f11",
+      "decision_sha256": "a4974d21bce9fbd0bbc51598ef72239b465b24b57a23b49fa0f38106318dc90c",
+      "evidence_sha256": [
+        "be25b4c2bda3ff89472ce20ec81dcaca078c42c0ce994b7dc3af97ed3f6347d6",
+        "efcc908742eba0dc1cb5bcbd48e788f67c351a99e703bfc28b340951feeb7a96"
+      ],
+      "images": [
+        {
+          "side": "A",
+          "route": "native",
+          "sha256": "f4f1c0458e97793efb0c29de12afb424a05a83f37991d934d7831992aed3d969",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        },
+        {
+          "side": "B",
+          "route": "web",
+          "sha256": "11cc6384eb42dee85970867950f42664c77e15fce0d4953a491ea603ebfd6c81",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        }
+      ]
+    },
+    {
+      "style": "japanese-lifestyle",
+      "status": "candidate",
+      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "source_page": "https://www.pexels.com/photo/smiling-woman-sitting-on-couch-with-legs-crossed-6996139/",
+      "author_record": "Alena Shekhovtcova",
+      "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
+      "source_sha256": "6f4fa06f31e4c9f3427e1eb79bd1abb6486f51603b4419062836c63b2280972f",
+      "identity_sha256": "843daf8b554d1350d0060800b778fd34bd5ce2a8a775e1c48bcef42268821c7a",
+      "identity_basis": "既有AI女性身份参考；文件哈希与公开权利记录一致。",
+      "source_page_check": "retrieved via web tool",
+      "identity_source_page": "https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/rights.json",
+      "identity_author_record": "ThreadTruth 既有公开AI案例",
+      "label": "日系生活感 / Japanese Lifestyle",
+      "batch": "历史完整配对",
+      "winners": {
+        "rendering": "web",
+        "product": "tie",
+        "identity": "native"
+      },
+      "prompt_sha256": "4459334fce04d9315173f971519049d3d0355394b6bd6d81d846cd08b7488d4f",
+      "selection_sha256": "93db31c3a5832e7e37aaa423bd6cb37c8a7c25a94ab808291b17025c155a4f12",
+      "review_sha256": "6c936fb0e8f294f7d7a717c7942c2ca5c3e568cb04e8cee20b7676b8aab1a138",
+      "review_selector": "/12",
+      "review_binding_sha256": "ed9dbb4613f9f4037c40d4ce2a80398ab9dd19bcb93489018d2c7839bf369f11",
+      "decision_sha256": "a4974d21bce9fbd0bbc51598ef72239b465b24b57a23b49fa0f38106318dc90c",
+      "evidence_sha256": [
+        "be25b4c2bda3ff89472ce20ec81dcaca078c42c0ce994b7dc3af97ed3f6347d6",
+        "efcc908742eba0dc1cb5bcbd48e788f67c351a99e703bfc28b340951feeb7a96"
+      ],
+      "images": [
+        {
+          "side": "A",
+          "route": "native",
+          "sha256": "4138bf7ead770fe0695cb158d6f37a173ae742219c487d07c40d1b579121d9ab",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        },
+        {
+          "side": "B",
+          "route": "web",
+          "sha256": "bbeced9ec36a0d6ddfc02d360da97cb92d241917251ebf63f397590f6b0ee0c1",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        }
+      ]
+    },
+    {
+      "style": "korean-cold-editorial",
+      "status": "candidate",
+      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "source_page": "https://www.pexels.com/photo/woman-in-grey-suit-standing-by-the-table-15877298/",
+      "author_record": "Александр Слесарев",
+      "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
+      "source_sha256": "f93e806da32ae8d4539e7eb10dd69e5759da2caecfe504a1327e16d67968164e",
+      "identity_sha256": "843daf8b554d1350d0060800b778fd34bd5ce2a8a775e1c48bcef42268821c7a",
+      "identity_basis": "既有AI女性身份参考；文件哈希与公开权利记录一致。",
+      "source_page_check": "retrieved via web tool",
+      "identity_source_page": "https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/rights.json",
+      "identity_author_record": "ThreadTruth 既有公开AI案例",
+      "label": "韩系冷感杂志风 / Korean Cold Editorial",
+      "batch": "历史完整配对",
+      "winners": {
+        "rendering": "web",
+        "product": "web",
+        "identity": "tie"
+      },
+      "prompt_sha256": "314ce2a6173dc3aa467abe0ca30722b69d764264280dc4971ba1898f25688f28",
+      "selection_sha256": "4e118ff98a521803f8247bdeaad6e84b36ad1bb2074ec702dbe5db5212810222",
+      "review_sha256": "6c936fb0e8f294f7d7a717c7942c2ca5c3e568cb04e8cee20b7676b8aab1a138",
+      "review_selector": "/13",
+      "review_binding_sha256": "ed9dbb4613f9f4037c40d4ce2a80398ab9dd19bcb93489018d2c7839bf369f11",
+      "decision_sha256": "a4974d21bce9fbd0bbc51598ef72239b465b24b57a23b49fa0f38106318dc90c",
+      "evidence_sha256": [
+        "be25b4c2bda3ff89472ce20ec81dcaca078c42c0ce994b7dc3af97ed3f6347d6",
+        "efcc908742eba0dc1cb5bcbd48e788f67c351a99e703bfc28b340951feeb7a96"
+      ],
+      "images": [
+        {
+          "side": "A",
+          "route": "web",
+          "sha256": "8ceba6ee43069f53c6dc351183ded51535dd2a0e58979e37d6a368d32b012ddd",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        },
+        {
+          "side": "B",
+          "route": "native",
+          "sha256": "f1f812755e3f7a3019805f59b3f0157d7a759f76fd585f4cb189636fbb5ea0d6",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        }
+      ]
+    },
+    {
+      "style": "korean-menswear",
+      "status": "candidate",
+      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "source_page": "https://www.pexels.com/photo/handsome-man-looking-sideways-while-holding-a-doorknob-8460708/",
+      "author_record": "Joon Tae Kim",
+      "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
+      "source_sha256": "1e147d8b94be1a2db1ef33591b1c7ea5ef4b477b0a665441cc7ce2aa24e8031d",
+      "identity_sha256": "7aa00a85b9219d338de2e933d5dc3b5f10ae7cb0cbbf910a087e118d6be2855a",
+      "identity_basis": "Pexels 真实摄影身份参考；未见本项目单独人物授权记录。",
+      "source_page_check": "保留前次网页核验；本轮复核历史记录与文件哈希，不冒称重新在线读取。",
+      "identity_source_page": "https://www.pexels.com/photo/portrait-of-a-man-in-a-white-shirt-indoors-32887331/",
+      "identity_author_record": "Eyüpcan Timur",
+      "rights_caveat": "身份参考来自署名摄影作品，不是AI身份素材。此页仅展示AI合成比较结果，不表示本人参与、同意或为项目与品牌背书；不声称人物权利已全部清理。",
+      "label": "韩式男装 / Korean Menswear",
+      "batch": "历史完整配对",
+      "winners": {
+        "rendering": "web",
+        "product": "web",
+        "identity": "tie"
+      },
+      "prompt_sha256": "905159fe5017c23cc59f453058640f1cbdf99886bcd7409693ebf481b7c07ce3",
+      "selection_sha256": "8456bf38e85577803588eae5534854f6c1ab2f302332b41e6a87be7055f05aae",
+      "review_sha256": "6c936fb0e8f294f7d7a717c7942c2ca5c3e568cb04e8cee20b7676b8aab1a138",
+      "review_selector": "/14",
+      "review_binding_sha256": "ed9dbb4613f9f4037c40d4ce2a80398ab9dd19bcb93489018d2c7839bf369f11",
+      "decision_sha256": "a4974d21bce9fbd0bbc51598ef72239b465b24b57a23b49fa0f38106318dc90c",
+      "evidence_sha256": [
+        "be25b4c2bda3ff89472ce20ec81dcaca078c42c0ce994b7dc3af97ed3f6347d6",
+        "efcc908742eba0dc1cb5bcbd48e788f67c351a99e703bfc28b340951feeb7a96",
+        "c7c7818a440dc8d78f70cf5a275636f1f142cb2dbe293b344bf40692c93d3d91",
+        "af9767feea81c30063295edd75b3544d16753cd65a98bc45f19956d3bd9e21b1",
+        "28e379870aa1c86d11a53079891b093554d1f1e7dc27c0acea5715cfa84c1d5c"
+      ],
+      "images": [
+        {
+          "side": "A",
+          "route": "native",
+          "sha256": "427af75922e3f5bacaf42c04146cd45415377fe0ddb85d0a52415eb629942860",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        },
+        {
+          "side": "B",
+          "route": "web",
+          "sha256": "43df86331c05267e995d959f7b33392f89b4528f9ab5e49213013a8b5765b663",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        }
+      ]
+    },
+    {
+      "style": "neo-chinese",
+      "status": "candidate",
+      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "source_page": "https://www.pexels.com/photo/elegant-woman-in-traditional-cheongsam-dress-33928025/",
+      "author_record": "Đan Thy Nguyễn Mai",
+      "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
+      "source_sha256": "1520cfa390f2cc26f826fc1cec3f3a6428532259506885351636f0074af7ca76",
+      "identity_sha256": "843daf8b554d1350d0060800b778fd34bd5ce2a8a775e1c48bcef42268821c7a",
+      "identity_basis": "既有AI女性身份参考；文件哈希与公开权利记录一致。",
+      "source_page_check": "retrieved via web tool",
+      "identity_source_page": "https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/rights.json",
+      "identity_author_record": "ThreadTruth 既有公开AI案例",
+      "label": "新中式 / Neo Chinese",
+      "batch": "历史完整配对",
+      "winners": {
+        "rendering": "web",
+        "product": "web",
+        "identity": "tie"
+      },
+      "prompt_sha256": "206c0a07150317f41cec93ddfc009b5e841bca26ad7e45a675c1d1387a25d037",
+      "selection_sha256": "b94917ac4d0aa693a3016a0faa58157b6e868d9d2acf58ab563aaad68f177e5e",
+      "review_sha256": "6c936fb0e8f294f7d7a717c7942c2ca5c3e568cb04e8cee20b7676b8aab1a138",
+      "review_selector": "/15",
+      "review_binding_sha256": "ed9dbb4613f9f4037c40d4ce2a80398ab9dd19bcb93489018d2c7839bf369f11",
+      "decision_sha256": "a4974d21bce9fbd0bbc51598ef72239b465b24b57a23b49fa0f38106318dc90c",
+      "evidence_sha256": [
+        "be25b4c2bda3ff89472ce20ec81dcaca078c42c0ce994b7dc3af97ed3f6347d6",
+        "efcc908742eba0dc1cb5bcbd48e788f67c351a99e703bfc28b340951feeb7a96"
+      ],
+      "images": [
+        {
+          "side": "A",
+          "route": "native",
+          "sha256": "ca05f2dcedd3f4e778658bf1d18ddbca0d65ea5f65c13ac116fe256138b4b234",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        },
+        {
+          "side": "B",
+          "route": "web",
+          "sha256": "a1069cd8c018e966ae589bf26f8f6933f80ad14bbe0b32e9242aaa048508ea82",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        }
+      ]
+    },
+    {
+      "style": "nordic-minimal",
+      "status": "candidate",
+      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "source_page": "https://www.pexels.com/photo/woman-in-sweater-27028696/",
+      "author_record": "Micheal Birhane",
+      "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
+      "source_sha256": "559a9779f28cbdb1e8f6ecabfe72475ccdf9b7e27f4e03f2fd216c66722b962e",
+      "identity_sha256": "843daf8b554d1350d0060800b778fd34bd5ce2a8a775e1c48bcef42268821c7a",
+      "identity_basis": "既有AI女性身份参考；文件哈希与公开权利记录一致。",
+      "source_page_check": "retrieved via web tool",
+      "identity_source_page": "https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/rights.json",
+      "identity_author_record": "ThreadTruth 既有公开AI案例",
+      "label": "北欧极简 / Nordic Minimal",
+      "batch": "历史完整配对",
+      "winners": {
+        "rendering": "native",
+        "product": "native",
+        "identity": "tie"
+      },
+      "prompt_sha256": "8fac9ae9768042f9859ff62c1f3c22fcecc9cfcf2af7cc40a49d57181c9dc12a",
+      "selection_sha256": "ca0058e3abeeac1c8093f6fc286218947e9e2edef26815b20982b2c488d0d43b",
+      "review_sha256": "6c936fb0e8f294f7d7a717c7942c2ca5c3e568cb04e8cee20b7676b8aab1a138",
+      "review_selector": "/16",
+      "review_binding_sha256": "ed9dbb4613f9f4037c40d4ce2a80398ab9dd19bcb93489018d2c7839bf369f11",
+      "decision_sha256": "a4974d21bce9fbd0bbc51598ef72239b465b24b57a23b49fa0f38106318dc90c",
+      "evidence_sha256": [
+        "be25b4c2bda3ff89472ce20ec81dcaca078c42c0ce994b7dc3af97ed3f6347d6",
+        "efcc908742eba0dc1cb5bcbd48e788f67c351a99e703bfc28b340951feeb7a96"
+      ],
+      "images": [
+        {
+          "side": "A",
+          "route": "web",
+          "sha256": "afc85cd704b22a160c8762bba58ad520beaa5ee4c0255cbed5a148943e3e4ef6",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        },
+        {
+          "side": "B",
+          "route": "native",
+          "sha256": "41db90d80a85829fa9daa7ae4a5c9c64a40d5c50bc873aacd0d825f189b5c1e6",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        }
+      ]
+    },
+    {
+      "style": "office-commute-women",
+      "status": "candidate",
+      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "source_page": "https://www.pexels.com/photo/woman-in-grey-suit-standing-by-the-table-15877298/",
+      "author_record": "Александр Слесарев",
+      "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
+      "source_sha256": "f93e806da32ae8d4539e7eb10dd69e5759da2caecfe504a1327e16d67968164e",
+      "identity_sha256": "843daf8b554d1350d0060800b778fd34bd5ce2a8a775e1c48bcef42268821c7a",
+      "identity_basis": "既有AI女性身份参考；文件哈希与公开权利记录一致。",
+      "source_page_check": "retrieved via web tool",
+      "identity_source_page": "https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/rights.json",
+      "identity_author_record": "ThreadTruth 既有公开AI案例",
+      "label": "职场通勤女装 / Office Commute Women",
+      "batch": "历史完整配对",
+      "winners": {
+        "rendering": "native",
+        "product": "native",
+        "identity": "tie"
+      },
+      "prompt_sha256": "73520596ddc9201303ba6225d88756ed92a71125e17edb7f4899cd874d15f184",
+      "selection_sha256": "90eef5cb77cbad534b6b677a122dc6f990fffa1f1b168e600eed2f13465f457d",
+      "review_sha256": "6c936fb0e8f294f7d7a717c7942c2ca5c3e568cb04e8cee20b7676b8aab1a138",
+      "review_selector": "/17",
+      "review_binding_sha256": "ed9dbb4613f9f4037c40d4ce2a80398ab9dd19bcb93489018d2c7839bf369f11",
+      "decision_sha256": "a4974d21bce9fbd0bbc51598ef72239b465b24b57a23b49fa0f38106318dc90c",
+      "evidence_sha256": [
+        "be25b4c2bda3ff89472ce20ec81dcaca078c42c0ce994b7dc3af97ed3f6347d6",
+        "efcc908742eba0dc1cb5bcbd48e788f67c351a99e703bfc28b340951feeb7a96"
+      ],
+      "images": [
+        {
+          "side": "A",
+          "route": "native",
+          "sha256": "17ef974858c7f8befe4edee07cf73af34544ce47611ef80232d436e9785503d4",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        },
+        {
+          "side": "B",
+          "route": "web",
+          "sha256": "0f8aa603cc54833bdea271cb7da1caccdd26d5f77539e9b9edd9effc5a066232",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        }
+      ]
+    },
+    {
+      "style": "old-money",
+      "status": "candidate",
+      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "source_page": "https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/demo/preview-sources/beige-blazer-denim-outfit/README.md",
+      "author_record": "项目已授权米色套装；既有AI女性身份参考",
+      "license": "ThreadTruth-Demo-Only-1.0",
+      "source_sha256": "f749e5b021f95608d8098058a6b0ce84b302e372f6fa48aba815aca9ab5b5d58",
+      "identity_sha256": "843daf8b554d1350d0060800b778fd34bd5ce2a8a775e1c48bcef42268821c7a",
+      "identity_basis": "既有AI女性身份参考；文件哈希与公开权利记录一致。",
+      "source_page_check": "project rights record",
+      "identity_source_page": "https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/rights.json",
+      "identity_author_record": "ThreadTruth 既有公开AI案例",
+      "label": "老钱风 / Old Money",
+      "batch": "替换输入 · 两端重测",
+      "winners": {
+        "rendering": "web",
+        "product": "web",
+        "identity": "tie"
+      },
+      "prompt_sha256": "c456a4da9cdf31fa51faa60c40960b366e04689d64b438a33fd05f9f9b549365",
+      "selection_sha256": "75564365f8ddc2da8f58eb5bc46a59f5cf61aaa2f62828539526673bdeddd549",
+      "review_sha256": "6c936fb0e8f294f7d7a717c7942c2ca5c3e568cb04e8cee20b7676b8aab1a138",
+      "review_selector": "/18",
+      "review_binding_sha256": "ed9dbb4613f9f4037c40d4ce2a80398ab9dd19bcb93489018d2c7839bf369f11",
+      "decision_sha256": "a4974d21bce9fbd0bbc51598ef72239b465b24b57a23b49fa0f38106318dc90c",
+      "evidence_sha256": [
+        "be25b4c2bda3ff89472ce20ec81dcaca078c42c0ce994b7dc3af97ed3f6347d6",
+        "efcc908742eba0dc1cb5bcbd48e788f67c351a99e703bfc28b340951feeb7a96"
+      ],
+      "images": [
+        {
+          "side": "A",
+          "route": "native",
+          "sha256": "e65df5c86555e9e500908ba3bb95294cd13b7081d92f65c6afc84948e9731e1c",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        },
+        {
+          "side": "B",
+          "route": "web",
+          "sha256": "b05c5b0d2fa8d088d04cff4ecd65ee0b1a77061a8fc0cf3a97343823edf8695a",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        }
+      ]
+    },
+    {
+      "style": "preppy",
+      "status": "candidate",
+      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "source_page": "https://www.pexels.com/photo/a-man-wearing-a-sweater-vest-standing-on-a-stairs-7776753/",
+      "author_record": "Mikhail Nilov",
+      "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
+      "source_sha256": "411f8c5e8d65a14b69122897ea8000ba4543315d9040eb2ef4998f736bca9eb9",
+      "identity_sha256": "7aa00a85b9219d338de2e933d5dc3b5f10ae7cb0cbbf910a087e118d6be2855a",
+      "identity_basis": "Pexels 真实摄影身份参考；未见本项目单独人物授权记录。",
+      "source_page_check": "保留前次网页核验；本轮复核历史记录与文件哈希，不冒称重新在线读取。",
+      "identity_source_page": "https://www.pexels.com/photo/portrait-of-a-man-in-a-white-shirt-indoors-32887331/",
+      "identity_author_record": "Eyüpcan Timur",
+      "rights_caveat": "身份参考来自署名摄影作品，不是AI身份素材。此页仅展示AI合成比较结果，不表示本人参与、同意或为项目与品牌背书；不声称人物权利已全部清理。",
+      "label": "美式学院 / Preppy",
+      "batch": "历史完整配对",
+      "winners": {
+        "rendering": "native",
+        "product": "tie",
+        "identity": "tie"
+      },
+      "prompt_sha256": "06aacf146cc960d0b9c07d21e49c6cdcac1e55555f570a5d26ad2e82f045b19a",
+      "selection_sha256": "597195989360ad0eeafe3dd336bca678840f37906fbf1adc4519c28b6cf07a24",
+      "review_sha256": "6c936fb0e8f294f7d7a717c7942c2ca5c3e568cb04e8cee20b7676b8aab1a138",
+      "review_selector": "/19",
+      "review_binding_sha256": "ed9dbb4613f9f4037c40d4ce2a80398ab9dd19bcb93489018d2c7839bf369f11",
+      "decision_sha256": "a4974d21bce9fbd0bbc51598ef72239b465b24b57a23b49fa0f38106318dc90c",
+      "evidence_sha256": [
+        "be25b4c2bda3ff89472ce20ec81dcaca078c42c0ce994b7dc3af97ed3f6347d6",
+        "efcc908742eba0dc1cb5bcbd48e788f67c351a99e703bfc28b340951feeb7a96",
+        "c7c7818a440dc8d78f70cf5a275636f1f142cb2dbe293b344bf40692c93d3d91",
+        "af9767feea81c30063295edd75b3544d16753cd65a98bc45f19956d3bd9e21b1",
+        "28e379870aa1c86d11a53079891b093554d1f1e7dc27c0acea5715cfa84c1d5c"
+      ],
+      "images": [
+        {
+          "side": "A",
+          "route": "web",
+          "sha256": "8dce36e639bc57ce7ce1025dee767c440ee0661760882d5e9ed6140900fa9699",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        },
+        {
+          "side": "B",
+          "route": "native",
+          "sha256": "4f40372882cba7cf970e7912fded1f30feefdb21bf88f1d95bbcfbd5523b9c34",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        }
+      ]
+    },
+    {
+      "style": "quiet-luxury",
+      "status": "candidate",
+      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "source_page": "https://www.pexels.com/photo/woman-in-sweater-27028696/",
+      "author_record": "Micheal Birhane",
+      "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
+      "source_sha256": "559a9779f28cbdb1e8f6ecabfe72475ccdf9b7e27f4e03f2fd216c66722b962e",
+      "identity_sha256": "843daf8b554d1350d0060800b778fd34bd5ce2a8a775e1c48bcef42268821c7a",
+      "identity_basis": "既有AI女性身份参考；文件哈希与公开权利记录一致。",
+      "source_page_check": "retrieved via web tool",
+      "identity_source_page": "https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/rights.json",
+      "identity_author_record": "ThreadTruth 既有公开AI案例",
+      "label": "静奢风 / Quiet Luxury",
+      "batch": "历史完整配对",
+      "winners": {
+        "rendering": "native",
+        "product": "tie",
+        "identity": "tie"
+      },
+      "prompt_sha256": "c36db9983053b308ebb853f34fc803872f2297f6fb9e3eee235d38bfd5ef8801",
+      "selection_sha256": "1baf7024430a8020dd6ada4bbdecf5a12a3e1e58a87652bc4807b665727fa277",
+      "review_sha256": "6c936fb0e8f294f7d7a717c7942c2ca5c3e568cb04e8cee20b7676b8aab1a138",
+      "review_selector": "/20",
+      "review_binding_sha256": "ed9dbb4613f9f4037c40d4ce2a80398ab9dd19bcb93489018d2c7839bf369f11",
+      "decision_sha256": "a4974d21bce9fbd0bbc51598ef72239b465b24b57a23b49fa0f38106318dc90c",
+      "evidence_sha256": [
+        "be25b4c2bda3ff89472ce20ec81dcaca078c42c0ce994b7dc3af97ed3f6347d6",
+        "efcc908742eba0dc1cb5bcbd48e788f67c351a99e703bfc28b340951feeb7a96"
+      ],
+      "images": [
+        {
+          "side": "A",
+          "route": "web",
+          "sha256": "4ec5e1ee659806377d89a559d02cbc05ef24e5162e896e2f98b4c4fe58c87228",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        },
+        {
+          "side": "B",
+          "route": "native",
+          "sha256": "637cacc48580bca6c625b14999486886ed7fe8ba1f9c47114dd6fc0a3b240c07",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        }
+      ]
+    },
+    {
+      "style": "resort-vacation",
+      "status": "candidate",
+      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "source_page": "https://www.pexels.com/photo/woman-in-white-sleeveless-dress-standing-on-beach-5184223/",
+      "author_record": "Bethany Ferr",
+      "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
+      "source_sha256": "89a03ee95c652fcdfe83f08d8528ffd28c29226b965a7cf081ee140de2ea7668",
+      "identity_sha256": "843daf8b554d1350d0060800b778fd34bd5ce2a8a775e1c48bcef42268821c7a",
+      "identity_basis": "既有AI女性身份参考；文件哈希与公开权利记录一致。",
+      "source_page_check": "retrieved via web tool",
+      "identity_source_page": "https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/rights.json",
+      "identity_author_record": "ThreadTruth 既有公开AI案例",
+      "label": "度假 / Resort Vacation",
+      "batch": "缺图补测 · 与历史另一端配对",
+      "winners": {
+        "rendering": "web",
+        "product": "web",
+        "identity": "tie"
+      },
+      "prompt_sha256": "eac4e85652a13e1931630efa196f3685e3c4b4b7d58ad72da39796dfd921ae9f",
+      "selection_sha256": "1d69679a1207a4976f8a4f4baec43e3c3f70e8228a20a72bd5d75af7caea6b23",
+      "review_sha256": "6c936fb0e8f294f7d7a717c7942c2ca5c3e568cb04e8cee20b7676b8aab1a138",
+      "review_selector": "/21",
+      "review_binding_sha256": "ed9dbb4613f9f4037c40d4ce2a80398ab9dd19bcb93489018d2c7839bf369f11",
+      "decision_sha256": "a4974d21bce9fbd0bbc51598ef72239b465b24b57a23b49fa0f38106318dc90c",
+      "evidence_sha256": [
+        "be25b4c2bda3ff89472ce20ec81dcaca078c42c0ce994b7dc3af97ed3f6347d6",
+        "efcc908742eba0dc1cb5bcbd48e788f67c351a99e703bfc28b340951feeb7a96"
+      ],
+      "images": [
+        {
+          "side": "A",
+          "route": "native",
+          "sha256": "beee28537e5ab78211f2c097d0e6b42615ef8ae30444a5a2ee6ace8a9b249f9d",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        },
+        {
+          "side": "B",
+          "route": "web",
+          "sha256": "2fbd1d3b7b748af6dca640ab4e4883b967e70a18a4e7765db438770fc071ec02",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        }
+      ]
+    },
+    {
+      "style": "workwear-vintage",
+      "status": "candidate",
+      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "source_page": "https://www.pexels.com/photo/a-man-in-a-denim-jacket-carrying-a-leather-bag-9414533/",
+      "author_record": "Potters Media",
+      "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
+      "source_sha256": "07ed11504c5362e4453b186edeb57d434fdf7be5ee52d18e042c02802a7d0e6f",
+      "identity_sha256": "7aa00a85b9219d338de2e933d5dc3b5f10ae7cb0cbbf910a087e118d6be2855a",
+      "identity_basis": "Pexels 真实摄影身份参考；未见本项目单独人物授权记录。",
+      "source_page_check": "保留前次网页核验；本轮复核历史记录与文件哈希，不冒称重新在线读取。",
+      "identity_source_page": "https://www.pexels.com/photo/portrait-of-a-man-in-a-white-shirt-indoors-32887331/",
+      "identity_author_record": "Eyüpcan Timur",
+      "rights_caveat": "身份参考来自署名摄影作品，不是AI身份素材。此页仅展示AI合成比较结果，不表示本人参与、同意或为项目与品牌背书；不声称人物权利已全部清理。",
+      "label": "复古工装 / Workwear Vintage",
+      "batch": "历史完整配对",
+      "winners": {
+        "rendering": "native",
+        "product": "native",
+        "identity": "tie"
+      },
+      "prompt_sha256": "6e53bc456306f62c28858a9f8923f682d258ce43bc3332c8d554dcdf1370c9b7",
+      "selection_sha256": "f7121d7507daa2e239af2ced8afb6002b3cc13f581d2cbbda7e22130d5c02a46",
+      "review_sha256": "6c936fb0e8f294f7d7a717c7942c2ca5c3e568cb04e8cee20b7676b8aab1a138",
+      "review_selector": "/22",
+      "review_binding_sha256": "ed9dbb4613f9f4037c40d4ce2a80398ab9dd19bcb93489018d2c7839bf369f11",
+      "decision_sha256": "a4974d21bce9fbd0bbc51598ef72239b465b24b57a23b49fa0f38106318dc90c",
+      "evidence_sha256": [
+        "be25b4c2bda3ff89472ce20ec81dcaca078c42c0ce994b7dc3af97ed3f6347d6",
+        "efcc908742eba0dc1cb5bcbd48e788f67c351a99e703bfc28b340951feeb7a96",
+        "c7c7818a440dc8d78f70cf5a275636f1f142cb2dbe293b344bf40692c93d3d91",
+        "af9767feea81c30063295edd75b3544d16753cd65a98bc45f19956d3bd9e21b1",
+        "28e379870aa1c86d11a53079891b093554d1f1e7dc27c0acea5715cfa84c1d5c"
+      ],
+      "images": [
+        {
+          "side": "A",
+          "route": "web",
+          "sha256": "e55d3a281927f955a061ae19551561f404ffa46f7cf8370a98cfdd815a69be58",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        },
+        {
+          "side": "B",
+          "route": "native",
+          "sha256": "f312733d086a3dc223431b17468275a37a150742a74d689c393c507b7a8dcaf3",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        }
+      ]
+    },
+    {
+      "style": "y2k-millennium",
+      "status": "candidate",
+      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "source_page": "https://www.pexels.com/photo/blonde-in-mini-skirt-and-platform-shoes-13515054/",
+      "author_record": "Brian Jiz",
+      "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
+      "source_sha256": "3998b083afce4333d08b7df3a63ad47f2c52abb4172d7f2dcbe46284231b9bbf",
+      "identity_sha256": "843daf8b554d1350d0060800b778fd34bd5ce2a8a775e1c48bcef42268821c7a",
+      "identity_basis": "既有AI女性身份参考；文件哈希与公开权利记录一致。",
+      "source_page_check": "retrieved via web tool",
+      "identity_source_page": "https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/rights.json",
+      "identity_author_record": "ThreadTruth 既有公开AI案例",
+      "label": "千禧 Y2K / Y2K Millennium",
+      "batch": "历史完整配对",
+      "winners": {
+        "rendering": "web",
+        "product": "tie",
+        "identity": "tie"
+      },
+      "prompt_sha256": "9fd8428900c8def9a17dc104b1f4ff092465d826d7d49149185e426fb08bec91",
+      "selection_sha256": "2f5c0cca764d52ab8bfc4d62bc4bddad4df2d86a1989126d34ffcc00f4b85838",
+      "review_sha256": "6c936fb0e8f294f7d7a717c7942c2ca5c3e568cb04e8cee20b7676b8aab1a138",
+      "review_selector": "/23",
+      "review_binding_sha256": "ed9dbb4613f9f4037c40d4ce2a80398ab9dd19bcb93489018d2c7839bf369f11",
+      "decision_sha256": "a4974d21bce9fbd0bbc51598ef72239b465b24b57a23b49fa0f38106318dc90c",
+      "evidence_sha256": [
+        "be25b4c2bda3ff89472ce20ec81dcaca078c42c0ce994b7dc3af97ed3f6347d6",
+        "efcc908742eba0dc1cb5bcbd48e788f67c351a99e703bfc28b340951feeb7a96"
+      ],
+      "images": [
+        {
+          "side": "A",
+          "route": "web",
+          "sha256": "069f220696a29a1d5c0505c88bfd2d29b392833f917bc7ab0815b4e286e8e635",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        },
+        {
+          "side": "B",
+          "route": "native",
+          "sha256": "25586e1b30107e6ac20f9a398f55797533b9f8f3061904d6d8a52430bfdec014",
+          "dimensions": [
+            1024,
+            1536
+          ]
+        }
+      ]
+    }
+  ]
+}
