@@ -1,5 +1,7 @@
 # ThreadTruth Studio
 
+**ChatGPT 网页生图教程（中文）：** [查看操作步骤与适用版本](docs/CHATGPT-WEB-TUTORIAL.md)。这是 beta.8 本地候选的流程预览；本次仅发布文档，不代表新安装包或自动化功能已公开发行。
+
 **Beta.5:** shared natural head/body relations and the ecommerce photography pilot are now part of the runtime. Use the checksum-verified [beta.5 release](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.5) and matching [installation guide](docs/INSTALL.md). Both galleries below remain immutable historical previews, not verification of beta.5 visual quality. See [local verification](docs/verification/2026-09-21-beta.5-local.md).
 
 
