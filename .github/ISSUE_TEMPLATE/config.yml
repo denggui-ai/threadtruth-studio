@@ -1,1 +1,11 @@
 blank_issues_enabled: false
+contact_links:
+  - name: Installation troubleshooting / 安装排查
+    url: https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/INSTALL.md#troubleshooting
+    about: Check common installation problems before opening an Issue. / 提交 Issue 前先查看常见安装问题（中文见同页“安装排查”）。
+  - name: Questions and ideas / 提问与建议
+    url: https://github.com/denggui-ai/threadtruth-studio/discussions
+    about: Ask usage questions or share ideas in Discussions. / 使用问题与建议请到 Discussions。
+  - name: Security report / 安全问题
+    url: https://github.com/denggui-ai/threadtruth-studio/security/advisories/new
+    about: Report vulnerabilities privately, not in a public Issue. / 安全漏洞请私下报告，不要公开发 Issue。

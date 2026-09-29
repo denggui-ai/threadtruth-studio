@@ -43,7 +43,7 @@ Use `pass`, `fail` or `not-tested` for each step, with a brief sanitized observa
 
 For Issue #1, a separately authorized recognition-only discovery check should compare fresh tasks with (a) a minimal implicit request, (b) the same wording with explicit `$threadtruth-studio`, and (c) a substantive implicit apparel request. Retain the exact sanitized request, first response, actual host/build and observable Skill-load trace; record unavailable trace as unavailable. These checks make zero image-generation calls. Current static style routing tests cannot prove host discovery; the issue remains `open / needs-reproduction` until actual evidence identifies the boundary.
 
-Copyable checks / 可直接复制的检查指令：A is the original public [Issue #1](https://github.com/2278091160dg-rgb/threadtruth-studio/issues/1) reproduction, recovered on 2026-09-14; B and C are proposed controls, not newly observed passes. Run each in a separate fresh task with the same installed version and no attachment. Do not continue to generation.
+Copyable checks / 可直接复制的检查指令：A is the original public [Issue #1](https://github.com/denggui-ai/threadtruth-studio/issues/1) reproduction, recovered on 2026-09-14; B and C are proposed controls, not newly observed passes. Run each in a separate fresh task with the same installed version and no attachment. Do not continue to generation.
 
 ```text
 A — 原始隐式请求
@@ -65,7 +65,7 @@ Each participant separately decides:
 - Whether to be recorded. / 是否允许录屏。
 - Whether the reviewed, redacted recording may be published, and where. / 是否允许发布脱敏后的最终录屏及发布渠道。
 
-The [installation Issue form](https://github.com/2278091160dg-rgb/threadtruth-studio/issues/new?template=installation-feedback.yml) is public and uses the GitHub handle. Declining evidence consent does not make an Issue private. Someone who prefers a pseudonym can contact DENGGUI via WeChat `Lvmusic0930`, provide only a sanitized result and chosen public ID, then approve the exact redacted record before it is published. Do not send passwords, account tokens, customer images or full logs through either channel. No installation is counted until actual non-maintainer and publication-counting consent are recorded; repeated versions or reports count as one person.
+The [installation Issue form](https://github.com/denggui-ai/threadtruth-studio/issues/new?template=installation-feedback.yml) is public and uses the GitHub handle. Declining evidence consent does not make an Issue private. Someone who prefers a pseudonym can contact DENGGUI via WeChat `Lvmusic0930`, provide only a sanitized result and chosen public ID, then approve the exact redacted record before it is published. Do not send passwords, account tokens, customer images or full logs through either channel. No installation is counted until actual non-maintainer and publication-counting consent are recorded; repeated versions or reports count as one person.
 
 公开 Issue 不能作为私密入口。偏好化名者可通过微信联系 DENGGUI，仅提供脱敏结果与希望公开的化名；维护者展示拟公开记录，取得明确同意后才登记。不要提交凭据、客户图片或完整日志。是否录屏、是否公开录屏和是否计入安装统计是不同的授权，不能相互替代。
 

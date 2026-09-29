@@ -14,6 +14,8 @@
 
 ## 三步开始
 
+**需要准备：** macOS、Python 3、终端，以及支持 `codex plugin add` 的 Codex CLI。目前只有这一环境经过测试；Windows、Linux 和全新机器尚未验证。首次识别不生成图片；之后生图需要具备原生生图能力的 Codex 账号，选择网页路线时则需要有生图权限的 ChatGPT 账号。
+
 1. 按[中文安装指南](docs/INSTALL.md#简体中文)下载 beta.8 插件 ZIP 与匹配的 `.sha256`，检查环境、校验归档并启用插件。请选择有完整插件名称的下载项，不要使用 GitHub 自动生成的源码 ZIP。
 2. 新建一个 **Codex 任务**，上传你有权使用的真实单件服饰或完整套装照片。
 3. 先请求识别与风格推荐：
@@ -52,7 +54,7 @@ ThreadTruth 安装在 **Codex** 中。ChatGPT 入口按[网页教程](docs/CHATG
 |---|---|
 | <img src="docs/demo/preview-sources/beige-blazer-denim-outfit/source.jpg" alt="米色西装完整搭配的真实源图" width="300"> | <img src="docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/ecommerce-studio-display.jpg" alt="同一套米色西装搭配的 AI 六姿势方向预览" width="700"> |
 
-**完整套装 · 24种风格** — 米色西装、白色上衣、深色牛仔裤、橄榄色托特包和棕色乐福鞋作为一套搭配锁定。此处是一张预览看板。[查看套装全部 24 种方向](docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/index.html) · [媒体权利](docs/demo/RIGHTS.md)。
+**完整套装 · 24种风格** — 米色西装、白色上衣、深色牛仔裤、橄榄色托特包和棕色乐福鞋作为一套搭配锁定。此处是一张预览看板。[查看套装全部 24 张看板](docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/)（GitHub 上列出图片文件；目录中的 `index.html` 是供下载后本地打开的图库页） · [媒体权利](docs/demo/RIGHTS.md)。
 
 **单件服饰 · 24种风格** — 下方缩略图来自冻结的白马甲集合，点击可查看单张六姿势大图。[风格证据索引](docs/demo/STYLES.md) · [历史任务台账](docs/WORK-STATUS.md)。
 
@@ -85,7 +87,7 @@ ThreadTruth Studio 由社区独立维护，不是 OpenAI 官方产品，也不�
 
 ## 文档与反馈
 
-[安装、升级与回滚](docs/INSTALL.md) · [兼容性](docs/COMPATIBILITY.md) · [离线指南](USER-GUIDE.html) · [更新记录](CHANGELOG.md) · [Beta 进度](docs/BETA.md)
+[安装、升级与回滚](docs/INSTALL.md) · [兼容性](docs/COMPATIBILITY.md) · [离线指南](USER-GUIDE.html)（随插件 ZIP 提供，请在本地用浏览器打开；GitHub 上只显示 HTML 源码） · [更新记录](CHANGELOG.md) · [Beta 进度](docs/BETA.md)
 
 **当前预发布版：beta.8。** 新增 ChatGPT 网页转交、请求记录与受控重试。旧版本和对应图库作为历史记录保留；安装旧版时使用其归档内的指南。Beta 退出目标与待验证事项见 [Beta 登记](docs/BETA.md)。
 

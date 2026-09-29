@@ -2,6 +2,13 @@
 
 All notable changes are documented here. Versions follow Semantic Versioning.
 
+## Unreleased — first-use and gallery clarity
+
+- Clarify the tested installation environment, download location, dry-run review, first-use checks and troubleshooting in both languages. Copied verification commands stop before extraction if changing directory or checksum verification fails.
+- Add bilingual gallery controls, English per-style prompts, a direct case jump and text-only sharing metadata; preserve the paired images, source credits and review records.
+- Expand bilingual installation feedback and bug-report forms, link to troubleshooting and support, and update current support links to the renamed repository.
+- This is a documentation and gallery update; published beta.8 archives, tags and checksums remain unchanged.
+
 ## Unreleased — beta.8 controlled retry candidate
 
 - Add explicit visual rejection and one-request retry grants bound to an approval ID and rejected attempt number; preserve initial authorization and cumulative request count.

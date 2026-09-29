@@ -14,6 +14,8 @@ For apparel portraits, fashion editorial, and ecommerce imagery: upload a real g
 
 ## Get started
 
+**What you need:** macOS, Python 3, a terminal, and a Codex CLI that supports `codex plugin add`. This is the only tested setup; Windows, Linux, and fresh machines are unverified. The first recognition step generates no images. Generating images later needs a Codex account with native image generation, or a ChatGPT account with image access if you choose the web route.
+
 1. Follow the [English installation guide](docs/INSTALL.md#english) to download the beta.8 Plugin ZIP and matching `.sha256`, check prerequisites, verify the archive, and enable the Plugin. Use the named Plugin download, not GitHub's automatic source-code ZIP.
 2. Start a **new Codex task** and upload a real garment or coordinated-outfit photo you are authorized to use.
 3. Ask for recognition and style recommendations:
@@ -52,7 +54,7 @@ The **24-style paired gallery** compares Codex and ChatGPT web results, with sou
 |---|---|
 | <img src="docs/demo/preview-sources/beige-blazer-denim-outfit/source.jpg" alt="Real source photo of the coordinated beige-blazer outfit" width="300"> | <img src="docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/ecommerce-studio-display.jpg" alt="AI-generated six-pose preview of the same beige-blazer outfit" width="700"> |
 
-**coordinated outfit · 24 styles** — the beige blazer, white top, dark denim, olive tote, and brown loafers form one locked outfit. This is a single preview sheet. [Browse all 24 outfit directions](docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/index.html) · [Media rights](docs/demo/RIGHTS.md).
+**coordinated outfit · 24 styles** — the beige blazer, white top, dark denim, olive tote, and brown loafers form one locked outfit. This is a single preview sheet. [Browse all 24 outfit sheets](docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/) (GitHub lists the image files; the folder's `index.html` is a gallery page for a downloaded copy) · [Media rights](docs/demo/RIGHTS.md).
 
 **single garment · 24 styles** — the thumbnails below show the frozen white-vest collection. Each opens a larger six-pose sheet. [Style evidence index](docs/demo/STYLES.md) · [Historical work register](docs/WORK-STATUS.md).
 
@@ -85,7 +87,7 @@ ThreadTruth Studio is independent and community-maintained, not an OpenAI produc
 
 ## Documentation and support
 
-[Install, upgrade, and rollback](docs/INSTALL.md) · [Compatibility](docs/COMPATIBILITY.md) · [Offline guide](USER-GUIDE.html) · [Changelog](CHANGELOG.md) · [Beta progress](docs/BETA.md)
+[Install, upgrade, and rollback](docs/INSTALL.md) · [Compatibility](docs/COMPATIBILITY.md) · [Offline guide](USER-GUIDE.html) (bundled in the Plugin ZIP; open it locally, since GitHub shows its HTML source) · [Changelog](CHANGELOG.md) · [Beta progress](docs/BETA.md)
 
 **Current prerelease: beta.8.** It adds ChatGPT web handoff, request records, and controlled retries. Earlier releases and their galleries remain historical records; use each old archive's bundled guide when installing that version. Beta exit targets and remaining validation are tracked in the [Beta register](docs/BETA.md).
 
