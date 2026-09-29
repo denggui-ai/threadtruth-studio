@@ -5,6 +5,12 @@ on:
     branches: [main]
     paths:
       - 'gallery/style24-comparison-20260929/**'
+      - 'tools/check_showcase.py'
+      - 'tools/showcase_assets.py'
+      - 'tests/test_showcase.py'
+      - 'requirements-dev.txt'
+      - 'docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/**'
+      - 'docs/demo/preview-sources/beige-blazer-denim-outfit/**'
       - '.github/workflows/gallery-pages.yml'
   workflow_dispatch:
 
@@ -25,6 +31,17 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install showcase checker dependency
+        run: python -m pip install -r requirements-dev.txt
+      - name: Verify committed showcase assets
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          python -m unittest tests.test_showcase
+          python tools/check_showcase.py --gallery gallery/style24-comparison-20260929 --repo-root .
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
         with:

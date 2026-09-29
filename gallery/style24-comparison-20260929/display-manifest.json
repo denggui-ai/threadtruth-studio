@@ -1,0 +1,2188 @@
+{
+  "schema_version": "1.0",
+  "gallery_path": "gallery/style24-comparison-20260929",
+  "rights_path": "rights.json",
+  "rights_sha256": "6d318694921029b716ff262525cf7cb5a0393d54327a8500ac94461d8203c163",
+  "assets": [
+    {
+      "kind": "comparison-display",
+      "style": "american-street",
+      "side": "A",
+      "route": "native",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/american-street/A.png",
+        "sha256": "37e43e0afb1dfab78126305138f8f34fb839cbb741625a53d1c6c84820011fd3",
+        "bytes": 2547326,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/american-street/A.webp",
+        "sha256": "8ddcac97da3dd201ee98eb7285b4ac917831489f51e4115c1d138410d66e2b4c",
+        "bytes": 139662,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "american-street",
+      "side": "B",
+      "route": "web",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/american-street/B.png",
+        "sha256": "9b0f49b345c0b951e7619d0fb572cc5b7447caff4b21e18f710ef8e882cc1db8",
+        "bytes": 2456179,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/american-street/B.webp",
+        "sha256": "f784a3f2c7db90a5f3cb139fb4c197d711fc25a4eed308862be71a6ab27cfdba",
+        "bytes": 111580,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "athleisure",
+      "side": "A",
+      "route": "native",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/athleisure/A.png",
+        "sha256": "36f0ed61614c63a7b9cec8f35ae91fefeef8a0405cd71b3f752feafb1bb7eb40",
+        "bytes": 2263414,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/athleisure/A.webp",
+        "sha256": "14de8029e208b69c788de570999b411a12ca9935d8d367a264fd6ff941040b10",
+        "bytes": 98762,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "athleisure",
+      "side": "B",
+      "route": "web",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/athleisure/B.png",
+        "sha256": "117cf26a13681160823545db43e84bcaae90d91d21815ae9b1fda736869e3d1a",
+        "bytes": 2269871,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/athleisure/B.webp",
+        "sha256": "40b18bfaf4804bddf0cdeeb047037bdc6f48eee08bf080e0c9ab047b4fbe87f9",
+        "bytes": 113314,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "balletcore",
+      "side": "A",
+      "route": "web",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/balletcore/A.png",
+        "sha256": "ab9e73380e905183cbb391fff0cabf77161ec2aef4cae6aee0467f7ef1845996",
+        "bytes": 1791074,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/balletcore/A.webp",
+        "sha256": "bfa177bcbc91782545e2021a69a78962141bc322ae38bdd5f92ed87e5297c6e3",
+        "bytes": 57506,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "balletcore",
+      "side": "B",
+      "route": "native",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/balletcore/B.png",
+        "sha256": "afdcfdbb1823c6561e0aa062e1374bb8fe97aff5f1571874834c033b9126e751",
+        "bytes": 1843602,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/balletcore/B.webp",
+        "sha256": "7a56ce450fd63f8b28a06cbef3dfb9d495085f5ecb08699c09e188f8ff78222d",
+        "bytes": 53902,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "british-heritage",
+      "side": "A",
+      "route": "native",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/british-heritage/A.png",
+        "sha256": "aee79962bd5e9027b43fa5ef611a64244e4c70aea7e4ac28e327b40e1ab17457",
+        "bytes": 2926693,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/british-heritage/A.webp",
+        "sha256": "5e3fb966be84b7c2104d8d009b40ce4646139781fe66c817ae0154877f6661e8",
+        "bytes": 219926,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "british-heritage",
+      "side": "B",
+      "route": "web",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/british-heritage/B.png",
+        "sha256": "a32ea0b9e5b0173d355f0a40bc66a6e66fa1bf1b25061ac8e219837e98f3f1ef",
+        "bytes": 2831451,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/british-heritage/B.webp",
+        "sha256": "13528add00705173fae626c33d530bdd82c9c4c4e44c28e17ae6a99693a573f5",
+        "bytes": 201822,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "cityboy",
+      "side": "A",
+      "route": "web",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/cityboy/A.png",
+        "sha256": "ae57786bd50dfc73121133a17c78fbac59210e69b98388677ffa66d7fcce5f17",
+        "bytes": 2434776,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/cityboy/A.webp",
+        "sha256": "2539a4e26c3b87a30910adfa5a91b3e800b933114109295229223ecece1e6f33",
+        "bytes": 127412,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "cityboy",
+      "side": "B",
+      "route": "native",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/cityboy/B.png",
+        "sha256": "e08b64a1689ff2988006fe31f79030e11a6d2d38e1a7fb15572cc46de54862f2",
+        "bytes": 2623634,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/cityboy/B.webp",
+        "sha256": "db5746441f765d3d54e233a4838e331a5fcca9a626634ddf478b6a3b72a694c1",
+        "bytes": 147124,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "clean-fit",
+      "side": "A",
+      "route": "native",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/clean-fit/A.png",
+        "sha256": "6fe791fa1b856f75794da4cbb125832840447cccf15dea5d3c4ee9db1629596f",
+        "bytes": 1828779,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/clean-fit/A.webp",
+        "sha256": "d74e669f0f42f69b0ccf4c7ccd81373eadbfde37cd34de48cd295c2d87c063e8",
+        "bytes": 39684,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "clean-fit",
+      "side": "B",
+      "route": "web",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/clean-fit/B.png",
+        "sha256": "c368a17a3a0980f1bd7aa1987f6a2bfc4c04abf405e496e927b2ff96dbc72d4e",
+        "bytes": 1822549,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/clean-fit/B.webp",
+        "sha256": "f2d33cf79d276e2794741c205ba314d0403fc3db5dfe0ddc3da9f932d913a4f0",
+        "bytes": 38138,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "coquette-ladylike",
+      "side": "A",
+      "route": "web",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/coquette-ladylike/A.png",
+        "sha256": "331bfc8852ddeb4a2ea3ba8f3d950074e89de07b0ccd97ed38c0388dbc6e02d5",
+        "bytes": 2241794,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/coquette-ladylike/A.webp",
+        "sha256": "b92dfa46907daf5a62ff7a136422ac8db2f637eab7777663f98744dc0d825e99",
+        "bytes": 127214,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "coquette-ladylike",
+      "side": "B",
+      "route": "native",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/coquette-ladylike/B.png",
+        "sha256": "4aa7fabe04ba0c06c714b52118d73946a759fc8adf0e62c0a0a8164d252ea13f",
+        "bytes": 2196606,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/coquette-ladylike/B.webp",
+        "sha256": "60dc46dc116b5f92c62c4db940bf39aba66330a8965cf18d9255438a56aaa0e2",
+        "bytes": 105680,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "ecommerce-studio",
+      "side": "A",
+      "route": "native",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/ecommerce-studio/A.png",
+        "sha256": "c31f01fad17118b167dca0b08b250a0347a068cb2220131ae41832539efc15b6",
+        "bytes": 1710104,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/ecommerce-studio/A.webp",
+        "sha256": "3c150caecb4f9ad0738715aeb774f08d4085e1d938e65e89f076843f905ec268",
+        "bytes": 26662,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "ecommerce-studio",
+      "side": "B",
+      "route": "web",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/ecommerce-studio/B.png",
+        "sha256": "345f0e9501af37ec3f234b46667a8dfbaaae30471ad3a75e8fdb62614dd1fc48",
+        "bytes": 1704307,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/ecommerce-studio/B.webp",
+        "sha256": "37165a4a0cbeff1b2fd31732ba05337b920c93dd5adf1c7a8850e91237a3cd57",
+        "bytes": 25342,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "french-effortless",
+      "side": "A",
+      "route": "native",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/french-effortless/A.png",
+        "sha256": "16c85402017a3a87d7972a285e7a89dcb6b7b5388693d2a9d50904aa02cff059",
+        "bytes": 2354936,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/french-effortless/A.webp",
+        "sha256": "a673b038600356d64e930f7fa5b0ce56f57d8daac1e1fce684947ba24d5a31eb",
+        "bytes": 97448,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "french-effortless",
+      "side": "B",
+      "route": "web",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/french-effortless/B.png",
+        "sha256": "8b5cfc8a67ad2351fe58cac94b434fce4f6b2fde6c197f66afa10a43b5eb178a",
+        "bytes": 2042841,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/french-effortless/B.webp",
+        "sha256": "fabdf82fe89184e43b1fc3d39e1908a397ff65454386f291dd1e92bbff91c3cf",
+        "bytes": 85146,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "gorpcore",
+      "side": "A",
+      "route": "native",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/gorpcore/A.png",
+        "sha256": "e9f74381cdaf45365e45e3c2166b64b6fff87eff5db0c063d0ac2156f88fb189",
+        "bytes": 2538891,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/gorpcore/A.webp",
+        "sha256": "bf7c0856d6d15ebd45841485d88f8a7000a259e05cb996a25fe6c00b440724a2",
+        "bytes": 153534,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "gorpcore",
+      "side": "B",
+      "route": "web",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/gorpcore/B.png",
+        "sha256": "92a04d1d2d5d34111891e54f8fb3c5fb65431dee1eb424233001e909476e6650",
+        "bytes": 2556025,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/gorpcore/B.webp",
+        "sha256": "fa2a9c2b015ac03d9b3deb6f6d0807a556f8284b49f481f1bf0291212ed9dd73",
+        "bytes": 142500,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "guochao-street",
+      "side": "A",
+      "route": "native",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/guochao-street/A.png",
+        "sha256": "a1a10054a7610fd1cca85dd99b0d4fc19e68c2805a60082b9aea4c053f96471d",
+        "bytes": 2722000,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/guochao-street/A.webp",
+        "sha256": "d2ca88968b4de2352381f97da0118908795c1b89acfc692ea2ff0a0a460f6b05",
+        "bytes": 184120,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "guochao-street",
+      "side": "B",
+      "route": "web",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/guochao-street/B.png",
+        "sha256": "88b0d86f4a1421f24ad44a6f838018bd89f761cd3d17903abc7cb89a3c41e4bd",
+        "bytes": 2617902,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/guochao-street/B.webp",
+        "sha256": "33c36a9da5bd8857a1fb7343ee1825078c57d4e3821c7332f02358215e5b4180",
+        "bytes": 159564,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "italian-luxe",
+      "side": "A",
+      "route": "native",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/italian-luxe/A.png",
+        "sha256": "f4f1c0458e97793efb0c29de12afb424a05a83f37991d934d7831992aed3d969",
+        "bytes": 2520452,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/italian-luxe/A.webp",
+        "sha256": "ffc9b85bf894bf1524d440cd54b60bd6d4adca1e6757aaaed7d5c5872faea0de",
+        "bytes": 153536,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "italian-luxe",
+      "side": "B",
+      "route": "web",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/italian-luxe/B.png",
+        "sha256": "11cc6384eb42dee85970867950f42664c77e15fce0d4953a491ea603ebfd6c81",
+        "bytes": 2611438,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/italian-luxe/B.webp",
+        "sha256": "ab9c0b9d1154dcd3da0bda618f73fb4b0aee91fd882ebcef8bc79b67563272b7",
+        "bytes": 157906,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "japanese-lifestyle",
+      "side": "A",
+      "route": "native",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/japanese-lifestyle/A.png",
+        "sha256": "4138bf7ead770fe0695cb158d6f37a173ae742219c487d07c40d1b579121d9ab",
+        "bytes": 2397316,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/japanese-lifestyle/A.webp",
+        "sha256": "5939a018342c41103819b8fc4e46762416a9a36b0cc2d302a708820628bae41f",
+        "bytes": 101036,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "japanese-lifestyle",
+      "side": "B",
+      "route": "web",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/japanese-lifestyle/B.png",
+        "sha256": "bbeced9ec36a0d6ddfc02d360da97cb92d241917251ebf63f397590f6b0ee0c1",
+        "bytes": 2468258,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/japanese-lifestyle/B.webp",
+        "sha256": "921e4ba62edfebbd0a81ca340529064a8ed0ed6394526256ad394be564867098",
+        "bytes": 119766,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "korean-cold-editorial",
+      "side": "A",
+      "route": "web",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/korean-cold-editorial/A.png",
+        "sha256": "8ceba6ee43069f53c6dc351183ded51535dd2a0e58979e37d6a368d32b012ddd",
+        "bytes": 2301242,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/korean-cold-editorial/A.webp",
+        "sha256": "5a2165dd0d03d7b8fe29719a0ec06ea0dfdfe1e20bb60ada9a6ab07560adc33f",
+        "bytes": 117182,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "korean-cold-editorial",
+      "side": "B",
+      "route": "native",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/korean-cold-editorial/B.png",
+        "sha256": "f1f812755e3f7a3019805f59b3f0157d7a759f76fd585f4cb189636fbb5ea0d6",
+        "bytes": 2526039,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/korean-cold-editorial/B.webp",
+        "sha256": "f36a6df7e927a36a7ec4a7a6ad998c53c881e6f37a1d567f59c6c1a061883861",
+        "bytes": 129174,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "korean-menswear",
+      "side": "A",
+      "route": "native",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/korean-menswear/A.png",
+        "sha256": "427af75922e3f5bacaf42c04146cd45415377fe0ddb85d0a52415eb629942860",
+        "bytes": 2305839,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/korean-menswear/A.webp",
+        "sha256": "b6adb07c355dbe7cdedd6a5618c72423e1caaf193d0566a582cd31f9262c13cf",
+        "bytes": 93776,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "korean-menswear",
+      "side": "B",
+      "route": "web",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/korean-menswear/B.png",
+        "sha256": "43df86331c05267e995d959f7b33392f89b4528f9ab5e49213013a8b5765b663",
+        "bytes": 2161310,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/korean-menswear/B.webp",
+        "sha256": "b24357e9c490b52d3100ee2f8df14cea5e504687a749c1dd6cae17daad3bf534",
+        "bytes": 85192,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "neo-chinese",
+      "side": "A",
+      "route": "native",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/neo-chinese/A.png",
+        "sha256": "ca05f2dcedd3f4e778658bf1d18ddbca0d65ea5f65c13ac116fe256138b4b234",
+        "bytes": 2156114,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/neo-chinese/A.webp",
+        "sha256": "2208597cf478b89178b4865d2225b6b7f6bbbd2499e87e4177f2a9fa2c8da322",
+        "bytes": 93176,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "neo-chinese",
+      "side": "B",
+      "route": "web",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/neo-chinese/B.png",
+        "sha256": "a1069cd8c018e966ae589bf26f8f6933f80ad14bbe0b32e9242aaa048508ea82",
+        "bytes": 2120498,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/neo-chinese/B.webp",
+        "sha256": "569b04062c4b0aa63d48afc98949eea8a0b5ffd02bf8af1cb0ed35ab67ad0715",
+        "bytes": 95734,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "nordic-minimal",
+      "side": "A",
+      "route": "web",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/nordic-minimal/A.png",
+        "sha256": "afc85cd704b22a160c8762bba58ad520beaa5ee4c0255cbed5a148943e3e4ef6",
+        "bytes": 2120193,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/nordic-minimal/A.webp",
+        "sha256": "92fbed854adcef57c4e30f6a14d930e216e2054ca46175644335edae9328b033",
+        "bytes": 73848,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "nordic-minimal",
+      "side": "B",
+      "route": "native",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/nordic-minimal/B.png",
+        "sha256": "41db90d80a85829fa9daa7ae4a5c9c64a40d5c50bc873aacd0d825f189b5c1e6",
+        "bytes": 2012470,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/nordic-minimal/B.webp",
+        "sha256": "1d28c97038d5af22b46f69e78e7cc5e636b9a4b516ea40fecf4faa2caf17f71b",
+        "bytes": 56920,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "office-commute-women",
+      "side": "A",
+      "route": "native",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/office-commute-women/A.png",
+        "sha256": "17ef974858c7f8befe4edee07cf73af34544ce47611ef80232d436e9785503d4",
+        "bytes": 2424132,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/office-commute-women/A.webp",
+        "sha256": "4c2b1264795ec0bf41adcd283062494b45cbbc559a573f6c2ae9a84e9588487b",
+        "bytes": 125456,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "office-commute-women",
+      "side": "B",
+      "route": "web",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/office-commute-women/B.png",
+        "sha256": "0f8aa603cc54833bdea271cb7da1caccdd26d5f77539e9b9edd9effc5a066232",
+        "bytes": 2362891,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/office-commute-women/B.webp",
+        "sha256": "9b43d5b99bac7e47dbc547b0f909d6b27a4735b2907cefc0ec84e976641a9ada",
+        "bytes": 133990,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "old-money",
+      "side": "A",
+      "route": "native",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/old-money/A.png",
+        "sha256": "e65df5c86555e9e500908ba3bb95294cd13b7081d92f65c6afc84948e9731e1c",
+        "bytes": 2518000,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/old-money/A.webp",
+        "sha256": "f25a9603beeb98767deb8dcbe4558fb1e70093ea2bb5d52ed47c8b9d77b344f4",
+        "bytes": 143400,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "old-money",
+      "side": "B",
+      "route": "web",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/old-money/B.png",
+        "sha256": "b05c5b0d2fa8d088d04cff4ecd65ee0b1a77061a8fc0cf3a97343823edf8695a",
+        "bytes": 2518383,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/old-money/B.webp",
+        "sha256": "a70d27a4ce2d52c341bfbd636ced98c93d4b120da76d02b33f6f17345ab242c2",
+        "bytes": 143854,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "preppy",
+      "side": "A",
+      "route": "web",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/preppy/A.png",
+        "sha256": "8dce36e639bc57ce7ce1025dee767c440ee0661760882d5e9ed6140900fa9699",
+        "bytes": 2567787,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/preppy/A.webp",
+        "sha256": "2998f611d0e2ec60bd1d4005cdc4464f8ef802599e372dedc3eccf61db1f5253",
+        "bytes": 144600,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "preppy",
+      "side": "B",
+      "route": "native",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/preppy/B.png",
+        "sha256": "4f40372882cba7cf970e7912fded1f30feefdb21bf88f1d95bbcfbd5523b9c34",
+        "bytes": 2547098,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/preppy/B.webp",
+        "sha256": "17afeed05b61fc5fa19e8e4c83f5a5cc019d4b0d73d66d6c25ad4571c1886ad6",
+        "bytes": 148630,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "quiet-luxury",
+      "side": "A",
+      "route": "web",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/quiet-luxury/A.png",
+        "sha256": "4ec5e1ee659806377d89a559d02cbc05ef24e5162e896e2f98b4c4fe58c87228",
+        "bytes": 2284239,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/quiet-luxury/A.webp",
+        "sha256": "e6e022314a895247b0c41d0b42f3c111fc2d212edcaa16eee103733fa3953dc6",
+        "bytes": 103556,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "quiet-luxury",
+      "side": "B",
+      "route": "native",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/quiet-luxury/B.png",
+        "sha256": "637cacc48580bca6c625b14999486886ed7fe8ba1f9c47114dd6fc0a3b240c07",
+        "bytes": 2334739,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/quiet-luxury/B.webp",
+        "sha256": "47f41c26529e540622642c90c9733c6fc69c030d166277df0130872e5159b973",
+        "bytes": 103118,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "resort-vacation",
+      "side": "A",
+      "route": "native",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/resort-vacation/A.png",
+        "sha256": "beee28537e5ab78211f2c097d0e6b42615ef8ae30444a5a2ee6ace8a9b249f9d",
+        "bytes": 2347914,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/resort-vacation/A.webp",
+        "sha256": "d8364fb19f49f9a73da16b048b8e4453bf331b7dfc30f13933df5843f0678d5e",
+        "bytes": 115860,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "resort-vacation",
+      "side": "B",
+      "route": "web",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/resort-vacation/B.png",
+        "sha256": "2fbd1d3b7b748af6dca640ab4e4883b967e70a18a4e7765db438770fc071ec02",
+        "bytes": 2366485,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/resort-vacation/B.webp",
+        "sha256": "167894483e99d322157e14d26825090eee81a47f360a3ecb0cab9b85f6740015",
+        "bytes": 132136,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "workwear-vintage",
+      "side": "A",
+      "route": "web",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/workwear-vintage/A.png",
+        "sha256": "e55d3a281927f955a061ae19551561f404ffa46f7cf8370a98cfdd815a69be58",
+        "bytes": 2329077,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/workwear-vintage/A.webp",
+        "sha256": "7ce7647abcdeda8a6a022ed4c477b797ae444c1ca0918ba0f886b3460c58c183",
+        "bytes": 130016,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "workwear-vintage",
+      "side": "B",
+      "route": "native",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/workwear-vintage/B.png",
+        "sha256": "f312733d086a3dc223431b17468275a37a150742a74d689c393c507b7a8dcaf3",
+        "bytes": 2561063,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/workwear-vintage/B.webp",
+        "sha256": "d2e07852fcb5598c224b9552be70e12a9699c02ccdebc0d6ff59f94ee56b1349",
+        "bytes": 153218,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "y2k-millennium",
+      "side": "A",
+      "route": "web",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/y2k-millennium/A.png",
+        "sha256": "069f220696a29a1d5c0505c88bfd2d29b392833f917bc7ab0815b4e286e8e635",
+        "bytes": 2519939,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/y2k-millennium/A.webp",
+        "sha256": "2e4800446236034a1a3fe44fd7a8f81ac1dc113680a62d99a93c1319f6b6e573",
+        "bytes": 167714,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "comparison-display",
+      "style": "y2k-millennium",
+      "side": "B",
+      "route": "native",
+      "rights_path": "rights.json",
+      "source": {
+        "path": "gallery/style24-comparison-20260929/images/y2k-millennium/B.png",
+        "sha256": "25586e1b30107e6ac20f9a398f55797533b9f8f3061904d6d8a52430bfdec014",
+        "bytes": 2519232,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "PNG"
+      },
+      "output": {
+        "path": "display/y2k-millennium/B.webp",
+        "sha256": "16ff3e60a457b99a76290a68742e2f7aac04927a797663c0250ab0278155f5f2",
+        "bytes": 156794,
+        "dimensions": [
+          960,
+          1440
+        ],
+        "format": "WEBP"
+      },
+      "derivation": {
+        "operation": "resize-and-encode",
+        "format": "WEBP",
+        "max_width": 960,
+        "quality": 82,
+        "method": 6,
+        "resample": "LANCZOS",
+        "upscale": false,
+        "crop": false,
+        "retouch": false
+      }
+    },
+    {
+      "kind": "authorized-copy",
+      "rights_path": "assets/primary/rights.json",
+      "source": {
+        "path": "docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/source-1-front.jpg",
+        "sha256": "c264f4af5e457dac47100e0fec13810a9d0809d265b777949af0f4fd266aa773",
+        "bytes": 33851,
+        "dimensions": [
+          750,
+          874
+        ],
+        "format": "JPEG"
+      },
+      "output": {
+        "path": "assets/primary/source-1-front.jpg",
+        "sha256": "c264f4af5e457dac47100e0fec13810a9d0809d265b777949af0f4fd266aa773",
+        "bytes": 33851,
+        "dimensions": [
+          750,
+          874
+        ],
+        "format": "JPEG"
+      },
+      "derivation": {
+        "operation": "byte-identical-copy"
+      }
+    },
+    {
+      "kind": "authorized-copy",
+      "rights_path": "assets/primary/rights.json",
+      "source": {
+        "path": "docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/source-2-hood-collar.jpg",
+        "sha256": "6917e4bcdeea358b13a935ee63416298faa66eef656f5d54aac1b4e024a044d8",
+        "bytes": 43435,
+        "dimensions": [
+          750,
+          759
+        ],
+        "format": "JPEG"
+      },
+      "output": {
+        "path": "assets/primary/source-2-hood-collar.jpg",
+        "sha256": "6917e4bcdeea358b13a935ee63416298faa66eef656f5d54aac1b4e024a044d8",
+        "bytes": 43435,
+        "dimensions": [
+          750,
+          759
+        ],
+        "format": "JPEG"
+      },
+      "derivation": {
+        "operation": "byte-identical-copy"
+      }
+    },
+    {
+      "kind": "authorized-copy",
+      "rights_path": "assets/primary/rights.json",
+      "source": {
+        "path": "docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/source-3-zipper-detail.jpg",
+        "sha256": "03bc175d0164ce47eb57d85c8d60ea3fec55b558da114e28394e827091826bda",
+        "bytes": 48325,
+        "dimensions": [
+          750,
+          748
+        ],
+        "format": "JPEG"
+      },
+      "output": {
+        "path": "assets/primary/source-3-zipper-detail.jpg",
+        "sha256": "03bc175d0164ce47eb57d85c8d60ea3fec55b558da114e28394e827091826bda",
+        "bytes": 48325,
+        "dimensions": [
+          750,
+          748
+        ],
+        "format": "JPEG"
+      },
+      "derivation": {
+        "operation": "byte-identical-copy"
+      }
+    },
+    {
+      "kind": "authorized-copy",
+      "rights_path": "assets/primary/rights.json",
+      "source": {
+        "path": "docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/source-4-back.jpg",
+        "sha256": "140b58b75d4f2ff945ec22e7609fdd4bcd2973eeb1ac19cc64a1d4b1d59f7107",
+        "bytes": 58283,
+        "dimensions": [
+          750,
+          799
+        ],
+        "format": "JPEG"
+      },
+      "output": {
+        "path": "assets/primary/source-4-back.jpg",
+        "sha256": "140b58b75d4f2ff945ec22e7609fdd4bcd2973eeb1ac19cc64a1d4b1d59f7107",
+        "bytes": 58283,
+        "dimensions": [
+          750,
+          799
+        ],
+        "format": "JPEG"
+      },
+      "derivation": {
+        "operation": "byte-identical-copy"
+      }
+    },
+    {
+      "kind": "authorized-copy",
+      "rights_path": "assets/primary/rights.json",
+      "source": {
+        "path": "docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/look-1.jpg",
+        "sha256": "843daf8b554d1350d0060800b778fd34bd5ce2a8a775e1c48bcef42268821c7a",
+        "bytes": 119861,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "JPEG"
+      },
+      "output": {
+        "path": "assets/primary/look-1.jpg",
+        "sha256": "843daf8b554d1350d0060800b778fd34bd5ce2a8a775e1c48bcef42268821c7a",
+        "bytes": 119861,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "JPEG"
+      },
+      "derivation": {
+        "operation": "byte-identical-copy"
+      }
+    },
+    {
+      "kind": "authorized-copy",
+      "rights_path": "assets/primary/rights.json",
+      "source": {
+        "path": "docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/look-2.jpg",
+        "sha256": "fc3ee043c97d69ad734f9eaff010b2409aecae8086923142d6b27f9f14849043",
+        "bytes": 124257,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "JPEG"
+      },
+      "output": {
+        "path": "assets/primary/look-2.jpg",
+        "sha256": "fc3ee043c97d69ad734f9eaff010b2409aecae8086923142d6b27f9f14849043",
+        "bytes": 124257,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "JPEG"
+      },
+      "derivation": {
+        "operation": "byte-identical-copy"
+      }
+    },
+    {
+      "kind": "authorized-copy",
+      "rights_path": "assets/primary/rights.json",
+      "source": {
+        "path": "docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/look-3.jpg",
+        "sha256": "41d34ce6fa18280dab62270751ed9ffe77c77a231d3deb410de297246e60da1e",
+        "bytes": 155098,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "JPEG"
+      },
+      "output": {
+        "path": "assets/primary/look-3.jpg",
+        "sha256": "41d34ce6fa18280dab62270751ed9ffe77c77a231d3deb410de297246e60da1e",
+        "bytes": 155098,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "JPEG"
+      },
+      "derivation": {
+        "operation": "byte-identical-copy"
+      }
+    },
+    {
+      "kind": "authorized-copy",
+      "rights_path": "assets/primary/rights.json",
+      "source": {
+        "path": "docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/look-4.jpg",
+        "sha256": "216f3ccbb530d4104cf28379c158e54f6d842a046fe83df80e4e31eb325152d9",
+        "bytes": 111095,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "JPEG"
+      },
+      "output": {
+        "path": "assets/primary/look-4.jpg",
+        "sha256": "216f3ccbb530d4104cf28379c158e54f6d842a046fe83df80e4e31eb325152d9",
+        "bytes": 111095,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "JPEG"
+      },
+      "derivation": {
+        "operation": "byte-identical-copy"
+      }
+    },
+    {
+      "kind": "authorized-copy",
+      "rights_path": "assets/primary/rights.json",
+      "source": {
+        "path": "docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/look-5.jpg",
+        "sha256": "01242181973b6e0176db65eb5a4e58ecd8521d6a774bdd4118c5d540f788c990",
+        "bytes": 136446,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "JPEG"
+      },
+      "output": {
+        "path": "assets/primary/look-5.jpg",
+        "sha256": "01242181973b6e0176db65eb5a4e58ecd8521d6a774bdd4118c5d540f788c990",
+        "bytes": 136446,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "JPEG"
+      },
+      "derivation": {
+        "operation": "byte-identical-copy"
+      }
+    },
+    {
+      "kind": "authorized-copy",
+      "rights_path": "assets/primary/rights.json",
+      "source": {
+        "path": "docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/look-6.jpg",
+        "sha256": "e87339d9ed8658d4af895bdef70e5cc48f2663c25d109418dee6fb5fd7e3db24",
+        "bytes": 112592,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "JPEG"
+      },
+      "output": {
+        "path": "assets/primary/look-6.jpg",
+        "sha256": "e87339d9ed8658d4af895bdef70e5cc48f2663c25d109418dee6fb5fd7e3db24",
+        "bytes": 112592,
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "format": "JPEG"
+      },
+      "derivation": {
+        "operation": "byte-identical-copy"
+      }
+    },
+    {
+      "kind": "authorized-copy",
+      "rights_path": "assets/primary/rights.json",
+      "source": {
+        "path": "docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/hero.jpg",
+        "sha256": "a8a1ab248cb02a7ea65383525418a87595fa0438d424c76a0394b7decb32a3d0",
+        "bytes": 73819,
+        "dimensions": [
+          1280,
+          640
+        ],
+        "format": "JPEG"
+      },
+      "output": {
+        "path": "assets/primary/hero.jpg",
+        "sha256": "a8a1ab248cb02a7ea65383525418a87595fa0438d424c76a0394b7decb32a3d0",
+        "bytes": 73819,
+        "dimensions": [
+          1280,
+          640
+        ],
+        "format": "JPEG"
+      },
+      "derivation": {
+        "operation": "byte-identical-copy"
+      }
+    },
+    {
+      "kind": "authorized-copy",
+      "rights_path": "assets/beige-outfit-rights.json",
+      "source": {
+        "path": "docs/demo/preview-sources/beige-blazer-denim-outfit/source.jpg",
+        "sha256": "f749e5b021f95608d8098058a6b0ce84b302e372f6fa48aba815aca9ab5b5d58",
+        "bytes": 189863,
+        "dimensions": [
+          1086,
+          1448
+        ],
+        "format": "JPEG"
+      },
+      "output": {
+        "path": "assets/beige-outfit.jpg",
+        "sha256": "f749e5b021f95608d8098058a6b0ce84b302e372f6fa48aba815aca9ab5b5d58",
+        "bytes": 189863,
+        "dimensions": [
+          1086,
+          1448
+        ],
+        "format": "JPEG"
+      },
+      "derivation": {
+        "operation": "byte-identical-copy"
+      }
+    },
+    {
+      "kind": "rights-copy",
+      "source": {
+        "path": "docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/rights.json",
+        "sha256": "292be4169e37e0bd39a0bf404dc989e9cafc1781122e55f7a59df768361329d3",
+        "bytes": 6648
+      },
+      "output": {
+        "path": "assets/primary/rights.json",
+        "sha256": "292be4169e37e0bd39a0bf404dc989e9cafc1781122e55f7a59df768361329d3",
+        "bytes": 6648
+      },
+      "derivation": {
+        "operation": "byte-identical-copy"
+      }
+    },
+    {
+      "kind": "rights-copy",
+      "source": {
+        "path": "docs/demo/preview-sources/beige-blazer-denim-outfit/rights.json",
+        "sha256": "a14e9b10863b6c8be3d3df8147177bb255f1fb17359f0bd513528585032969c3",
+        "bytes": 1683
+      },
+      "output": {
+        "path": "assets/beige-outfit-rights.json",
+        "sha256": "a14e9b10863b6c8be3d3df8147177bb255f1fb17359f0bd513528585032969c3",
+        "bytes": 1683
+      },
+      "derivation": {
+        "operation": "byte-identical-copy"
+      }
+    }
+  ]
+}

@@ -4,13 +4,19 @@
 
 **Turn real garment and outfit photos into fashion portraits, with source details guiding every image.**
 
-![A real white-vest source photo alongside six independent AI-generated Korean Cold Editorial portraits](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/hero.jpg)
+**[Install in Codex · beta.8](docs/INSTALL.md#english)** · **[See results · 24 styles, 48 paired images](https://denggui-ai.github.io/threadtruth-studio/compare.html)**
 
-**A complete source-to-six-image example:** four photos of one white hooded puffer vest led to six independent AI-generated portraits with recorded hashes and human review. This is a historical case, not a new beta.8 result or part of the paired gallery. [View the case and media terms](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md).
+[![A real white-vest source photo alongside six independent AI-generated Korean Cold Editorial portraits](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/hero.jpg)](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)
 
-**[Install in Codex · beta.8](docs/INSTALL.md#english)** · [Browse 24 styles · 48 paired results](https://denggui-ai.github.io/threadtruth-studio/) · [ChatGPT web handoff tutorial (中文)](docs/CHATGPT-WEB-TUTORIAL.md)
+**Four source photos → six independent AI portraits.** This reviewed historical case is separate from the paired gallery and was not generated under beta.8. [Explore the complete case and its media terms](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md).
 
-For apparel portraits, fashion editorial, and ecommerce imagery: upload a real garment or complete outfit, choose a style, then review the plan before generation. Install the Plugin in **Codex**; ChatGPT web is an optional handoff route from Codex, not a separate Plugin installation.
+## What you can do
+
+- **Keep garment details in view.** Start from a real garment or coordinated outfit. Source color, construction, silhouette, and outfit accessories guide the result.
+- **Choose from 24 visual directions.** Review style recommendations or select a direction, from ecommerce studio to fashion editorial.
+- **Create a reviewed image set.** Confirm the plan before generation, inspect the first result, and continue with independent portraits at consistent dimensions.
+
+Install the Plugin in **Codex**. Generate there by default, or explicitly choose the optional ChatGPT web handoff described below.
 
 ## Get started
 
@@ -43,7 +49,7 @@ The **24-style paired gallery** compares Codex and ChatGPT web results, with sou
 
 | Collection | Published scope | What it establishes |
 |---|---|---|
-| [Paired comparison gallery](https://denggui-ai.github.io/threadtruth-studio/) | **24 styles × 2 routes = 48 images** | Same-input comparisons with reviews and rights disclosures. These are not 24 complete six-image sets or verification of every style under beta.8. |
+| [Paired comparison gallery](https://denggui-ai.github.io/threadtruth-studio/compare.html) | **24 styles × 2 routes = 48 images** | Same-input comparisons with reviews and rights disclosures. These are not 24 complete six-image sets or verification of every style under beta.8. |
 | [White-vest complete case](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md) | **1 style × 6 independent images** | One reviewed complete case; the public primary-case style index remains **1/24**. |
 | Historical direction previews | **2 collections × 24 styles** | One six-pose preview sheet per style, with layout checks and maintainer acceptance. The white-vest beta.3 and outfit beta.4 collections retain their original evidence. |
 

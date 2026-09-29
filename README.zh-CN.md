@@ -4,13 +4,19 @@
 
 **从真实服饰或套装照片出发，以源图细节为依据，制作不同风格的服饰人像。**
 
-![真实白色马甲源图，以及六张独立生成的韩系冷感 AI 人像](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/hero.jpg)
+**[安装到 Codex · beta.8](docs/INSTALL.md#简体中文)** · **[查看效果 · 24 风格、48 张配对结果](https://denggui-ai.github.io/threadtruth-studio/compare.html)**
 
-**完整的“源图 → 六张成片”示例：** 同一件白色连帽羽绒马甲的 4 张照片，生成 6 张独立 AI 人像，留有哈希记录并完成人工验收。这是历史案例，不是 beta.8 新生成的结果，也不属于配对图库。[查看完整案例与媒体条款](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)。
+[![真实白色马甲源图，以及六张独立生成的韩系冷感 AI 人像](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/hero.jpg)](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)
 
-**[安装到 Codex · beta.8](docs/INSTALL.md#简体中文)** · [浏览 24 风格 · 48 张配对结果](https://denggui-ai.github.io/threadtruth-studio/) · [ChatGPT 网页转交教程](docs/CHATGPT-WEB-TUTORIAL.md)
+**4 张源图 → 6 张独立 AI 人像。** 这组历史案例已完成人工验收，与配对图库分开记录，也不是 beta.8 新生成的结果。[查看完整案例与媒体条款](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)。
 
-适用于服饰模特、电商人像和时尚编辑：上传真实单件服饰或完整套装，选择风格，确认方案后再生图。插件安装在 **Codex**；ChatGPT 网页是从 Codex 发起的可选转交路线，无需在 ChatGPT 中安装此插件。
+## 你可以用它做什么
+
+- **让服饰细节有据可依。** 从真实单件服饰或完整套装出发，以源图中的颜色、结构、廓形及搭配配饰指导结果。
+- **选择 24 种视觉方向。** 查看风格推荐或自行选择，覆盖电商棚拍与时尚编辑等方向。
+- **制作逐步验收的人像套组。** 生图前确认方案，检查首张结果，再继续生成尺寸一致的独立人像。
+
+插件安装在 **Codex** 中，默认在 Codex 生图；也可明确选择下方说明的 ChatGPT 网页转交路线。
 
 ## 三步开始
 
@@ -43,7 +49,7 @@ ThreadTruth 安装在 **Codex** 中。ChatGPT 入口按[网页教程](docs/CHATG
 
 | 集合 | 已公开内容 | 能说明什么 |
 |---|---|---|
-| [配对比较图库](https://denggui-ai.github.io/threadtruth-studio/) | **24 风格 × 2 个入口 = 48 张图片** | 同一输入的结果对照，含评审与权利披露；不等于 24 套完整六图交付，也不代表 beta.8 全风格验证。 |
+| [配对比较图库](https://denggui-ai.github.io/threadtruth-studio/compare.html) | **24 风格 × 2 个入口 = 48 张图片** | 同一输入的结果对照，含评审与权利披露；不等于 24 套完整六图交付，也不代表 beta.8 全风格验证。 |
 | [白马甲完整案例](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md) | **1 种风格 × 6 张独立成片** | 一组完成人工验收的完整案例；公开主案例风格索引仍为 **1/24**。 |
 | 历史方向预览 | **2 个集合 × 24 种风格** | 每种风格一张六姿势看板，经过版式检查与维护者验收；保留白马甲 beta.3、套装 beta.4 的原始证据。 |
 
