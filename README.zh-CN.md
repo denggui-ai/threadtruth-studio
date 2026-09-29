@@ -1,9 +1,8 @@
 # ThreadTruth Studio｜服饰保真人像工坊
 
-**beta.8 development candidate / 开发候选：** [ChatGPT 网页手动转交与自动执行说明](docs/CHATGPT-WEB.md)。本地规则已实现，真实工作流验收待完成；尚未安装或公开发布。
+**beta.8 本地候选：**网页六图已完成生成与用户验收，单张转交包已通过自动化上传、发送、下载和回传检查。候选包仍待最终发布批准；不承诺特定生图型号。
 
-**本地候选 beta.6：**新增有范围限制的生图入口建议，默认 Codex、用户手选优先。该候选尚未公开发布。详见[本地安装记录](docs/verification/2026-09-28-beta.6-local.md)。
-
+[网页操作教程](docs/CHATGPT-WEB-TUTORIAL.md) · [候选功能说明](docs/CHATGPT-WEB.md) · [安装指南](docs/INSTALL.md)
 
 **Beta.5：**运行时已整合通用自然头身关系与电商摄影试点。请使用校验过的[beta.5发行包](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.5)及配套[安装指南](docs/INSTALL.md)。下方两套图库保留为历史预览，不代表beta.5视觉效果已通过验证。详见[本地验证记录](docs/verification/2026-09-21-beta.5-local.md)。
 

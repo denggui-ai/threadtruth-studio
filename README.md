@@ -1,9 +1,8 @@
 # ThreadTruth Studio
 
-**beta.8 development candidate / 开发候选：** [ChatGPT 网页手动转交与自动执行说明](docs/CHATGPT-WEB.md)。本地规则已实现，真实工作流验收待完成；尚未安装或公开发布。
+**beta.8 本地候选：**网页六图已完成生成与用户验收，单张转交包已通过自动化上传、发送、下载和回传检查。候选包仍待最终发布批准；不承诺特定生图型号。
 
-**Local candidate beta.6:** adds bounded generation-entry recommendations; Codex remains the default and explicit user selection wins. This candidate is not publicly released. See [local installation record](docs/verification/2026-09-28-beta.6-local.md).
-
+[网页操作教程](docs/CHATGPT-WEB-TUTORIAL.md) · [候选功能说明](docs/CHATGPT-WEB.md) · [安装指南](docs/INSTALL.md)
 
 **Beta.5:** shared natural head/body relations and the ecommerce photography pilot are now part of the runtime. Use the checksum-verified [beta.5 release](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.5) and matching [installation guide](docs/INSTALL.md). Both galleries below remain immutable historical previews, not verification of beta.5 visual quality. See [local verification](docs/verification/2026-09-21-beta.5-local.md).
 
