@@ -4,6 +4,8 @@
 
 [网页操作教程](docs/CHATGPT-WEB-TUTORIAL.md) · [候选功能说明](docs/CHATGPT-WEB.md) · [安装指南](docs/INSTALL.md)
 
+[在线浏览24风格配对图库](https://denggui-ai.github.io/threadtruth-studio/)：48张 Codex 与 ChatGPT 网页端的AI合成对照结果，含来源署名、权利披露与逐组评审。
+
 **历史 beta.5：**运行时已整合通用自然头身关系与电商摄影试点。请使用校验过的[beta.5发行包](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.5)及配套[安装指南](docs/INSTALL.md)。下方两套图库保留为历史预览，不代表beta.5视觉效果已通过验证。详见[本地验证记录](docs/verification/2026-09-21-beta.5-local.md)。
 
 

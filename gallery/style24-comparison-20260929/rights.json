@@ -1,18 +1,18 @@
 {
-  "scope": "local proposed editorial gallery; not publication approval or legal clearance",
+  "scope": "published editorial research gallery; maintainer-approved project display, not legal clearance",
   "review_date": "2026-09-29",
   "counts": {
     "cases": 24,
     "local_images": 48,
-    "candidate_pairs": 24,
     "held_pairs": 0,
-    "candidate_images": 48
+    "published_pairs": 24,
+    "published_images": 48
   },
   "cases": [
     {
       "style": "american-street",
-      "status": "candidate",
-      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "status": "published",
+      "reason": "带署名的AI合成研究比较，已获维护者批准公开；不作人物或品牌代言，也不作为商品实拍或广告投放。",
       "source_page": "https://www.pexels.com/photo/trendy-urban-fashion-with-a-casual-vibe-32819862/",
       "author_record": "Hakim LEVEL",
       "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
@@ -66,8 +66,8 @@
     },
     {
       "style": "athleisure",
-      "status": "candidate",
-      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "status": "published",
+      "reason": "带署名的AI合成研究比较，已获维护者批准公开；不作人物或品牌代言，也不作为商品实拍或广告投放。",
       "source_page": "https://www.pexels.com/photo/smiling-ethnic-woman-in-sportswear-in-park-7242837/",
       "author_record": "Blue Bird",
       "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
@@ -117,8 +117,8 @@
     },
     {
       "style": "balletcore",
-      "status": "candidate",
-      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "status": "published",
+      "reason": "带署名的AI合成研究比较，已获维护者批准公开；不作人物或品牌代言，也不作为商品实拍或广告投放。",
       "source_page": "https://www.pexels.com/photo/a-woman-practicing-ballet-8935607/",
       "author_record": "Anastasia Shuraeva",
       "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
@@ -171,8 +171,8 @@
     },
     {
       "style": "british-heritage",
-      "status": "candidate",
-      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "status": "published",
+      "reason": "带署名的AI合成研究比较，已获维护者批准公开；不作人物或品牌代言，也不作为商品实拍或广告投放。",
       "source_page": "https://www.pexels.com/photo/stylish-man-in-forest-with-long-coat-32277792/",
       "author_record": "Patrick Bryan",
       "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
@@ -226,8 +226,8 @@
     },
     {
       "style": "cityboy",
-      "status": "candidate",
-      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "status": "published",
+      "reason": "带署名的AI合成研究比较，已获维护者批准公开；不作人物或品牌代言，也不作为商品实拍或广告投放。",
       "source_page": "https://www.pexels.com/photo/trendy-young-man-leaning-against-urban-wall-36510883/",
       "author_record": "Mert Coşkun",
       "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
@@ -281,8 +281,8 @@
     },
     {
       "style": "clean-fit",
-      "status": "candidate",
-      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "status": "published",
+      "reason": "带署名的AI合成研究比较，已获维护者批准公开；不作人物或品牌代言，也不作为商品实拍或广告投放。",
       "source_page": "https://www.pexels.com/photo/woman-in-white-shirt-and-jeans-17658565/",
       "author_record": "Dmitriy Steinke",
       "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
@@ -332,8 +332,8 @@
     },
     {
       "style": "coquette-ladylike",
-      "status": "candidate",
-      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "status": "published",
+      "reason": "带署名的AI合成研究比较，已获维护者批准公开；不作人物或品牌代言，也不作为商品实拍或广告投放。",
       "source_page": "https://www.pexels.com/photo/photo-of-woman-in-pink-dress-standing-on-grass-13617197/",
       "author_record": "Brian Jiz",
       "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
@@ -386,8 +386,8 @@
     },
     {
       "style": "ecommerce-studio",
-      "status": "candidate",
-      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "status": "published",
+      "reason": "带署名的AI合成研究比较，已获维护者批准公开；不作人物或品牌代言，也不作为商品实拍或广告投放。",
       "source_page": "https://www.pexels.com/photo/woman-standing-in-dress-6976616/",
       "author_record": "KATRIN BOLOVTSOVA",
       "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
@@ -437,8 +437,8 @@
     },
     {
       "style": "french-effortless",
-      "status": "candidate",
-      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "status": "published",
+      "reason": "带署名的AI合成研究比较，已获维护者批准公开；不作人物或品牌代言，也不作为商品实拍或广告投放。",
       "source_page": "https://www.pexels.com/photo/studio-shoot-of-a-woman-in-striped-long-sleeve-and-denim-pants-8811247/",
       "author_record": "Alexandr",
       "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
@@ -488,8 +488,8 @@
     },
     {
       "style": "gorpcore",
-      "status": "candidate",
-      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "status": "published",
+      "reason": "带署名的AI合成研究比较，已获维护者批准公开；不作人物或品牌代言，也不作为商品实拍或广告投放。",
       "source_page": "https://www.pexels.com/photo/woman-in-jacket-posing-on-rocks-17287746/",
       "author_record": "Susanna Davtyan",
       "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
@@ -539,8 +539,8 @@
     },
     {
       "style": "guochao-street",
-      "status": "candidate",
-      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "status": "published",
+      "reason": "带署名的AI合成研究比较，已获维护者批准公开；不作人物或品牌代言，也不作为商品实拍或广告投放。",
       "source_page": "https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/demo/preview-sources/beige-blazer-denim-outfit/README.md",
       "author_record": "项目已授权米色套装；既有AI女性身份参考",
       "license": "ThreadTruth-Demo-Only-1.0",
@@ -590,8 +590,8 @@
     },
     {
       "style": "italian-luxe",
-      "status": "candidate",
-      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "status": "published",
+      "reason": "带署名的AI合成研究比较，已获维护者批准公开；不作人物或品牌代言，也不作为商品实拍或广告投放。",
       "source_page": "https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/demo/preview-sources/beige-blazer-denim-outfit/README.md",
       "author_record": "项目已授权米色套装；既有AI女性身份参考",
       "license": "ThreadTruth-Demo-Only-1.0",
@@ -641,8 +641,8 @@
     },
     {
       "style": "japanese-lifestyle",
-      "status": "candidate",
-      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "status": "published",
+      "reason": "带署名的AI合成研究比较，已获维护者批准公开；不作人物或品牌代言，也不作为商品实拍或广告投放。",
       "source_page": "https://www.pexels.com/photo/smiling-woman-sitting-on-couch-with-legs-crossed-6996139/",
       "author_record": "Alena Shekhovtcova",
       "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
@@ -692,8 +692,8 @@
     },
     {
       "style": "korean-cold-editorial",
-      "status": "candidate",
-      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "status": "published",
+      "reason": "带署名的AI合成研究比较，已获维护者批准公开；不作人物或品牌代言，也不作为商品实拍或广告投放。",
       "source_page": "https://www.pexels.com/photo/woman-in-grey-suit-standing-by-the-table-15877298/",
       "author_record": "Александр Слесарев",
       "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
@@ -743,8 +743,8 @@
     },
     {
       "style": "korean-menswear",
-      "status": "candidate",
-      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "status": "published",
+      "reason": "带署名的AI合成研究比较，已获维护者批准公开；不作人物或品牌代言，也不作为商品实拍或广告投放。",
       "source_page": "https://www.pexels.com/photo/handsome-man-looking-sideways-while-holding-a-doorknob-8460708/",
       "author_record": "Joon Tae Kim",
       "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
@@ -798,8 +798,8 @@
     },
     {
       "style": "neo-chinese",
-      "status": "candidate",
-      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "status": "published",
+      "reason": "带署名的AI合成研究比较，已获维护者批准公开；不作人物或品牌代言，也不作为商品实拍或广告投放。",
       "source_page": "https://www.pexels.com/photo/elegant-woman-in-traditional-cheongsam-dress-33928025/",
       "author_record": "Đan Thy Nguyễn Mai",
       "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
@@ -849,8 +849,8 @@
     },
     {
       "style": "nordic-minimal",
-      "status": "candidate",
-      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "status": "published",
+      "reason": "带署名的AI合成研究比较，已获维护者批准公开；不作人物或品牌代言，也不作为商品实拍或广告投放。",
       "source_page": "https://www.pexels.com/photo/woman-in-sweater-27028696/",
       "author_record": "Micheal Birhane",
       "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
@@ -900,8 +900,8 @@
     },
     {
       "style": "office-commute-women",
-      "status": "candidate",
-      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "status": "published",
+      "reason": "带署名的AI合成研究比较，已获维护者批准公开；不作人物或品牌代言，也不作为商品实拍或广告投放。",
       "source_page": "https://www.pexels.com/photo/woman-in-grey-suit-standing-by-the-table-15877298/",
       "author_record": "Александр Слесарев",
       "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
@@ -951,8 +951,8 @@
     },
     {
       "style": "old-money",
-      "status": "candidate",
-      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "status": "published",
+      "reason": "带署名的AI合成研究比较，已获维护者批准公开；不作人物或品牌代言，也不作为商品实拍或广告投放。",
       "source_page": "https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/demo/preview-sources/beige-blazer-denim-outfit/README.md",
       "author_record": "项目已授权米色套装；既有AI女性身份参考",
       "license": "ThreadTruth-Demo-Only-1.0",
@@ -1002,8 +1002,8 @@
     },
     {
       "style": "preppy",
-      "status": "candidate",
-      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "status": "published",
+      "reason": "带署名的AI合成研究比较，已获维护者批准公开；不作人物或品牌代言，也不作为商品实拍或广告投放。",
       "source_page": "https://www.pexels.com/photo/a-man-wearing-a-sweater-vest-standing-on-a-stairs-7776753/",
       "author_record": "Mikhail Nilov",
       "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
@@ -1057,8 +1057,8 @@
     },
     {
       "style": "quiet-luxury",
-      "status": "candidate",
-      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "status": "published",
+      "reason": "带署名的AI合成研究比较，已获维护者批准公开；不作人物或品牌代言，也不作为商品实拍或广告投放。",
       "source_page": "https://www.pexels.com/photo/woman-in-sweater-27028696/",
       "author_record": "Micheal Birhane",
       "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
@@ -1108,8 +1108,8 @@
     },
     {
       "style": "resort-vacation",
-      "status": "candidate",
-      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "status": "published",
+      "reason": "带署名的AI合成研究比较，已获维护者批准公开；不作人物或品牌代言，也不作为商品实拍或广告投放。",
       "source_page": "https://www.pexels.com/photo/woman-in-white-sleeveless-dress-standing-on-beach-5184223/",
       "author_record": "Bethany Ferr",
       "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
@@ -1159,8 +1159,8 @@
     },
     {
       "style": "workwear-vintage",
-      "status": "candidate",
-      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "status": "published",
+      "reason": "带署名的AI合成研究比较，已获维护者批准公开；不作人物或品牌代言，也不作为商品实拍或广告投放。",
       "source_page": "https://www.pexels.com/photo/a-man-in-a-denim-jacket-carrying-a-leather-bag-9414533/",
       "author_record": "Potters Media",
       "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
@@ -1214,8 +1214,8 @@
     },
     {
       "style": "y2k-millennium",
-      "status": "candidate",
-      "reason": "带署名的AI合成研究比较候选，等待用户页面终审；不作人物或品牌代言，也不作为商品实拍或广告投放。",
+      "status": "published",
+      "reason": "带署名的AI合成研究比较，已获维护者批准公开；不作人物或品牌代言，也不作为商品实拍或广告投放。",
       "source_page": "https://www.pexels.com/photo/blonde-in-mini-skirt-and-platform-shoes-13515054/",
       "author_record": "Brian Jiz",
       "license": "Pexels License（非CC0；图片权利不随代码Apache-2.0许可）",
@@ -1263,5 +1263,6 @@
         }
       ]
     }
-  ]
+  ],
+  "review_evidence_context": "selection_sha256、review_sha256、review_binding_sha256、decision_sha256、evidence_sha256及review_selector保留发布前审阅证据的原值；它们不代表本次公开状态决定。原审阅快照保留于Git提交e417f2c。维护者批准仅针对本项目的研究比较展示，不等于已清理全部第三方权利。"
 }

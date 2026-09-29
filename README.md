@@ -4,6 +4,8 @@
 
 [网页操作教程](docs/CHATGPT-WEB-TUTORIAL.md) · [候选功能说明](docs/CHATGPT-WEB.md) · [安装指南](docs/INSTALL.md)
 
+[Browse the 24-style paired gallery](https://denggui-ai.github.io/threadtruth-studio/) — 48 AI-generated comparison results from Codex and ChatGPT web, with source credits, rights disclosures, and per-case reviews.
+
 **Historical beta.5:** shared natural head/body relations and the ecommerce photography pilot are now part of the runtime. Use the checksum-verified [beta.5 release](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.5) and matching [installation guide](docs/INSTALL.md). Both galleries below remain immutable historical previews, not verification of beta.5 visual quality. See [local verification](docs/verification/2026-09-21-beta.5-local.md).
 
 
