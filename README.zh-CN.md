@@ -4,19 +4,17 @@
 
 **从真实服饰或套装照片出发，以源图细节为依据，制作不同风格的服饰人像。**
 
-[浏览 24 风格 · 48 张配对结果](https://denggui-ai.github.io/threadtruth-studio/) · [安装 beta.8](docs/INSTALL.md) · [ChatGPT 网页教程](docs/CHATGPT-WEB-TUTORIAL.md)
-
-ThreadTruth Studio 是社区维护的 Codex 插件，适用于服饰模特、电商人像和时尚编辑。上传单件服饰或完整套装，从 24 种风格中选择方向，确认方案后再生图。六图流程会逐步检查服饰细节、搭配关系、人物一致性和画面尺寸。本项目独立维护，不是 OpenAI 官方产品，也不代表官方背书。
-
-**24 风格配对图库**展示 Codex 与 ChatGPT 网页端的结果，附来源署名、权利披露和逐组评审。图片为 AI 合成研究对照，不代表模型排名，也不代表每张图片均可自由复用。[查看图库来源与权利记录](https://denggui-ai.github.io/threadtruth-studio/rights.json)。
-
 ![真实白色马甲源图，以及六张独立生成的韩系冷感 AI 人像](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/hero.jpg)
 
-**完整的“源图 → 六张成片”示例：** 同一件白色连帽羽绒马甲的 4 张照片，生成 6 张独立人像，留有哈希记录并完成人工验收。这是与配对图库分别记录的历史案例。[查看完整案例与媒体条款](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)。
+**完整的“源图 → 六张成片”示例：** 同一件白色连帽羽绒马甲的 4 张照片，生成 6 张独立 AI 人像，留有哈希记录并完成人工验收。这是历史案例，不是 beta.8 新生成的结果，也不属于配对图库。[查看完整案例与媒体条款](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)。
+
+**[安装到 Codex · beta.8](docs/INSTALL.md#简体中文)** · [浏览 24 风格 · 48 张配对结果](https://denggui-ai.github.io/threadtruth-studio/) · [ChatGPT 网页转交教程](docs/CHATGPT-WEB-TUTORIAL.md)
+
+适用于服饰模特、电商人像和时尚编辑：上传真实单件服饰或完整套装，选择风格，确认方案后再生图。插件安装在 **Codex**；ChatGPT 网页是从 Codex 发起的可选转交路线，无需在 ChatGPT 中安装此插件。
 
 ## 三步开始
 
-1. 从 [beta.8 发行页](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.8)下载插件 ZIP 与匹配的 `.sha256` 文件，按[安装指南](docs/INSTALL.md)完成校验、注册和启用。
+1. 按[中文安装指南](docs/INSTALL.md#简体中文)下载 beta.8 插件 ZIP 与匹配的 `.sha256`，检查环境、校验归档并启用插件。请选择有完整插件名称的下载项，不要使用 GitHub 自动生成的源码 ZIP。
 2. 新建一个 **Codex 任务**，上传你有权使用的真实单件服饰或完整套装照片。
 3. 先请求识别与风格推荐：
 
@@ -26,7 +24,7 @@ ThreadTruth Studio 是社区维护的 Codex 插件，适用于服饰模特、电
 
 预期返回服饰识别卡、主推与备选方向，以及完整的 24 风格目录。这一步**不授权生图**。随后确认风格、构图、尺寸和张数，再明确授权生成；生图会使用所选账号的图片额度。
 
-安装与启用已在维护者的 macOS 本机验证，非维护者新环境仍待验证。详见[兼容性与验证范围](docs/COMPATIBILITY.md)。
+没有返回识别结果时，先看[安装排查](docs/INSTALL.md#安装排查)。安装成功或失败都可通过[安装反馈表](https://github.com/denggui-ai/threadtruth-studio/issues/new?template=installation-feedback.yml)简短反馈。
 
 ## 选择在哪里生图
 
@@ -38,6 +36,8 @@ ThreadTruth Studio 是社区维护的 Codex 插件，适用于服饰模特、电
 ThreadTruth 安装在 **Codex** 中。ChatGPT 入口按[网页教程](docs/CHATGPT-WEB-TUTORIAL.md)转交，安装插件本身不会安装浏览器工具。参考图上传 ChatGPT 需要授权；失败或状态不明时先检查原请求，重试须另行授权，已用次数会保留。[网页流程说明](docs/CHATGPT-WEB.md)。
 
 ## 案例与验证范围
+
+**24 风格配对图库**展示 Codex 与 ChatGPT 网页端的结果，附来源署名、权利披露和逐组评审。图片为 AI 合成研究对照，不代表模型排名，也不代表每张图片均可自由复用。[查看图库来源与权利记录](https://denggui-ai.github.io/threadtruth-studio/rights.json)。
 
 | 集合 | 已公开内容 | 能说明什么 |
 |---|---|---|
@@ -74,6 +74,8 @@ ThreadTruth 安装在 **Codex** 中。ChatGPT 入口按[网页教程](docs/CHATG
 </details>
 
 ## 适用范围与限制
+
+ThreadTruth Studio 由社区独立维护，不是 OpenAI 官方产品，也不代表官方背书。安装与启用已在维护者的 macOS 本机验证，非维护者新环境仍待验证。详见[兼容性与验证范围](docs/COMPATIBILITY.md)。
 
 - **以源图细节为依据。** 颜色、材质观感、廓形、结构、图案和 Logo 位置来自源图；完整套装还包括层次、比例及鞋包配饰。生成后仍需对照源图检查，不能保证小字、Logo 或合体效果完全准确。
 - **交付需要人工验收。** 适用于服饰图像，不适用于通用虚拟试衣、CAD 合体模拟、非服饰商品、纯文字概念图、API 集成或无人值守商业交付；不保证平台审核通过或销售效果。

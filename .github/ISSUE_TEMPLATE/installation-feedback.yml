@@ -11,7 +11,8 @@ body:
     id: plugin_version
     attributes:
       label: Plugin version / 插件版本
-      placeholder: 1.0.0-beta.2
+      description: If installed, copy the actual version from the plugin list, including any +codex suffix. Otherwise enter "not installed" and the version you tried to install. / 已安装时填写插件列表中的完整实际版本（含 +codex 后缀）；未安装成功时填写 not installed 和尝试安装的版本。
+      placeholder: "not installed; attempted / 尝试版本: 1.0.0-beta.8"
     validations:
       required: true
   - type: input
