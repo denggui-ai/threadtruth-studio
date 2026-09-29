@@ -1,10 +1,16 @@
 # Release Readiness
 
+## Current prerelease — beta.8
+
+Download: https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.8
+
+Publishes the approved 290-file archive from source commit `2450e14`, unchanged SHA256 `815529f52ddf8e0b317fba8f36cb291214c56be041ace42cbd31872e2879c174`. Post-build website documentation clarifies publication; frozen archive wording remains historical. Includes ChatGPT web handoff and bounded retry accounting. Browser capability comes from the host; image model and fresh-host behavior remain unverified. No new comparison gallery or private test records are included.
+
 ## Local candidate — beta.6
 
 Version `1.0.0-beta.6` contains bounded entry recommendations, with Codex as default and manual choice preserved. Local packaging and installation only; no public beta.6 download or tag is claimed. See [local verification](docs/verification/2026-09-28-beta.6-local.md). The public beta.5 release below remains unchanged.
 
-## Current release — beta.5
+## Historical release — beta.5
 
 - Version: `1.0.0-beta.5`
 - Scope: publishes the integrated beta.5 runtime already validated and installed on the maintainer host.

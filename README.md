@@ -1,10 +1,10 @@
 # ThreadTruth Studio
 
-**beta.8 本地候选：**网页六图已完成生成与用户验收，单张转交包已通过自动化上传、发送、下载和回传检查。候选包仍待最终发布批准；不承诺特定生图型号。
+**beta.8 预发布版：**[下载插件与校验文件](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.8)。新增 ChatGPT 网页转交、请求记录与受控重试；自动执行依赖宿主浏览器工具，不承诺特定生图型号。
 
 [网页操作教程](docs/CHATGPT-WEB-TUTORIAL.md) · [候选功能说明](docs/CHATGPT-WEB.md) · [安装指南](docs/INSTALL.md)
 
-**Beta.5:** shared natural head/body relations and the ecommerce photography pilot are now part of the runtime. Use the checksum-verified [beta.5 release](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.5) and matching [installation guide](docs/INSTALL.md). Both galleries below remain immutable historical previews, not verification of beta.5 visual quality. See [local verification](docs/verification/2026-09-21-beta.5-local.md).
+**Historical beta.5:** shared natural head/body relations and the ecommerce photography pilot are now part of the runtime. Use the checksum-verified [beta.5 release](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.5) and matching [installation guide](docs/INSTALL.md). Both galleries below remain immutable historical previews, not verification of beta.5 visual quality. See [local verification](docs/verification/2026-09-21-beta.5-local.md).
 
 
 [English](README.md) | [简体中文](README.zh-CN.md)
@@ -25,7 +25,7 @@ The white-vest example remains the complete, rights-cleared source-to-six-result
 
 ## Install and try recognition
 
-Download the Plugin ZIP and matching checksum from the [beta.5 release](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.5), then follow the [installation guide](docs/INSTALL.md). Earlier public releases remain immutable; use each archive's bundled guide for that version. New-host CLI activation remains unverified.
+Download the Plugin ZIP and matching checksum from the [beta.8 release](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.8), then follow the [installation guide](docs/INSTALL.md). Earlier public releases remain immutable; use each archive's bundled guide for that version. New-host CLI activation remains unverified.
 
 After installation, start a **new Codex task**, upload a garment image first, then enter exactly:
 
