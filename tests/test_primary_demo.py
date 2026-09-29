@@ -173,7 +173,7 @@ class PrimaryDemoTests(unittest.TestCase):
         for phrase in ("单件服饰 · 24种风格", "完整套装 · 24种风格"):
             self.assertIn(phrase, chinese)
         for phrase in (
-            "@threadtruth-studio", "$threadtruth-studio", "/skills",
+            "ChatGPT web handoff", "$threadtruth-studio", "/skills",
             "not claiming an official marketplace listing",
         ):
             self.assertIn(phrase, english + demo)

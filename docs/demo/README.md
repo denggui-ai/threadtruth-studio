@@ -2,9 +2,9 @@
 
 Primary status: one `image-ready` public case. Auxiliary status: one `auxiliary-demo-ready` case.
 
-Preview demonstrations are separate from primary-case evidence: **single garment · 24 styles** is the frozen published white-vest schema-v4 collection; **coordinated outfit · 24 styles** is a source-selected schema-v5 workflow whose beige-blazer outfit source is registered but whose 24 sheets remain generation-, review- and publication-gated. Neither collection is six independent finals, external adoption or another complete primary case.
+Preview demonstrations are separate from primary-case evidence: **single garment · 24 styles** is the frozen published white-vest schema-v4 collection; **coordinated outfit · 24 styles** is the published, maintainer-accepted [beige-blazer schema-v5 collection](style-previews/beige-blazer-denim-outfit-24-v1/index.html) from beta.4. Neither collection is six independent finals, external adoption or another complete primary case.
 
-Host invocation is surface-specific. In ChatGPT, use the Plugin picker or `@threadtruth-studio`. On supported Codex surfaces, use the skill picker or `$threadtruth-studio`; Codex CLI can inspect `/skills`. The project is not claiming an official marketplace listing.
+ThreadTruth is installed in Codex. On supported Codex surfaces, use the skill picker or `$threadtruth-studio`; Codex CLI can inspect `/skills`. For ChatGPT, explicitly select the [ChatGPT web handoff](../CHATGPT-WEB-TUTORIAL.md): transfer the numbered references and prompts manually, or use host-provided browser tools after authorization. The project is not claiming an official marketplace listing.
 
 The first primary case is the [white hooded puffer vest in Korean Cold Editorial B1](primary-cases/white-hooded-puffer-vest-korean-cold/README.md). It includes four authorized source photographs, six independent accepted results, file hashes, canvas evidence, a closed human QA review, and an AI-generated-media disclosure. Original PNG results are distributed separately as a checksummed GitHub Release asset; the repository carries optimized display JPEGs.
 
@@ -19,7 +19,7 @@ A complete demo must contain:
 7. user confirmation closing every `qa-user-review` item;
 8. completed rights record in `RIGHTS.md`, including the AI-generated-media label where applicable.
 
-The [24-style evidence index](STYLES.md) now links all24 accepted direction previews in the beta.3 repository candidate. Every entry has one optimized native sheet, one labeled fixed-card derivative and one thumbnail. Six maintainer-requested corrections retain explicit replacement lineage. These previews do not change the separate 1/24 independent-final coverage or 1/3 complete-primary-case count, and they are not public on GitHub until the candidate is pushed and released.
+The [24-style evidence index](STYLES.md) links all 24 accepted white-vest direction previews published in beta.3. Every entry has one optimized native sheet, one labeled fixed-card derivative and one thumbnail. Six maintainer-requested corrections retain explicit replacement lineage. These historical previews do not change the separate 1/24 independent-final coverage or 1/3 complete-primary-case count. The newer [24-style paired gallery](https://denggui-ai.github.io/threadtruth-studio/) separately presents 48 comparison results with their own source records, rights disclosures, and reviews; it does not add complete six-image primary cases.
 
 The optional The Met pipeline can create reproducible CC0 auxiliary cases, but it cannot replace a primary case or count toward Beta adoption. Candidate files stay in ignored local quarantine and need a complete human review before promotion. See [MEDIA-POLICY.md](MEDIA-POLICY.md).
 
