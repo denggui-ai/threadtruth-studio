@@ -51,4 +51,4 @@ Name, ChatGPT email, GitHub username, and OpenAI Organization ID are collected o
 
 Never infer `accepted` from a successful form submission.
 
-Public project contact: [DENGGUI](https://github.com/2278091160dg-rgb) · WeChat `Lvmusic0930`. Application identifiers and account details remain private and must not be committed.
+Public project contact: [DENGGUI](https://github.com/denggui-ai) · WeChat `Lvmusic0930`. Application identifiers and account details remain private and must not be committed.

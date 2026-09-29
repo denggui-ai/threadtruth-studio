@@ -1,12 +1,15 @@
 name: Installation feedback / 安装反馈
-description: Optional, sanitized Beta installation and recognition report.
+description: Optional, sanitized installation and recognition report; failures are welcome. / 自愿提交的脱敏安装与识别结果，成功或失败均可。
 title: "[Install feedback] "
+labels: [feedback]
 body:
   - type: markdown
     attributes:
       value: |
         This Issue is public. Do not attach customer media, local paths, private prompts, credentials or full logs.
         此 Issue 公开可见；是否计入 Beta 统计需下方单独同意。不要提供私有素材或凭据。
+
+        Before reporting a failure, check [Troubleshooting](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/INSTALL.md#troubleshooting). / 提交失败反馈前，可先查看[安装排查](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/INSTALL.md#安装排查)。
   - type: input
     id: plugin_version
     attributes:
@@ -19,6 +22,8 @@ body:
     id: host_version
     attributes:
       label: Host, host version, OS / 宿主、版本与系统
+      description: In Terminal, `codex --version` prints the CLI version and `sw_vers -productVersion` prints the macOS version. No local paths. / 在终端运行 `codex --version` 查看 CLI 版本，运行 `sw_vers -productVersion` 查看 macOS 版本；不要填写本机路径。
+      placeholder: "Codex CLI <version> / Codex desktop; macOS <version>"
     validations:
       required: true
   - type: dropdown
@@ -32,6 +37,7 @@ body:
     id: discovery
     attributes:
       label: Explicit Skill discovery / 显式发现
+      description: Did a new Codex task accept `$threadtruth-studio`? / 新建的 Codex 任务能否调用 `$threadtruth-studio`？
       options: [pass, fail, not-tested]
     validations:
       required: true
@@ -39,14 +45,28 @@ body:
     id: recognition
     attributes:
       label: Recognition only with garment input / 上传服饰后的只识别测试
+      description: Did the recognition card and style catalogue appear without generating images? / 是否在不生图的情况下返回识别卡和风格目录？
       options: [pass, fail, not-tested]
     validations:
       required: true
+  - type: dropdown
+    id: stopped_at
+    attributes:
+      label: Last step reached / 进行到哪一步
+      description: Optional. Steps follow the installation guide. / 选填；步骤与安装指南一致。
+      options:
+        - download / 下载
+        - tool check / 检查工具
+        - verify and extract / 校验并解压
+        - installer preview or apply / 安装器预检或应用
+        - enable with codex plugin add / 启用
+        - recognition in a new task / 新任务识别
+        - completed all steps / 全部完成
   - type: textarea
     id: outcome
     attributes:
       label: Sanitized result / 脱敏结果
-      description: Optional brief error or result; no full logs or private files.
+      description: Optional brief error or result; no full logs or private files. / 选填；简述报错或结果，不要粘贴完整日志或私有文件。
   - type: checkboxes
     id: consent
     attributes:

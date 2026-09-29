@@ -6,6 +6,8 @@
 
 ### Before you begin
 
+The path is: download two files → check your tools → verify and extract → preview and register → enable → run recognition in a new Codex task. Download the files in your browser, run the setup commands in Terminal, then switch to Codex for recognition.
+
 Download both files from the same [beta.8 prerelease](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.8):
 
 - [Plugin ZIP — threadtruth-studio-1.0.0-beta.8.zip](https://github.com/denggui-ai/threadtruth-studio/releases/download/v1.0.0-beta.8/threadtruth-studio-1.0.0-beta.8.zip)
@@ -30,15 +32,16 @@ Continue only if the first command reports Python 3 and the second displays help
 
 ### 1. Verify and extract
 
-Put the Plugin ZIP and its matching sidecar in the same directory, then run:
+Keep the Plugin ZIP and its matching sidecar in the same folder. In Terminal, go to that folder first. Browsers normally save to `Downloads` in your home folder; change the first line if you saved the files elsewhere:
 
 ```bash
-shasum -a 256 -c threadtruth-studio-1.0.0-beta.8.zip.sha256
-unzip threadtruth-studio-1.0.0-beta.8.zip
+cd "$HOME/Downloads" &&
+shasum -a 256 -c threadtruth-studio-1.0.0-beta.8.zip.sha256 &&
+unzip threadtruth-studio-1.0.0-beta.8.zip &&
 cd threadtruth-studio-1.0.0-beta.8
 ```
 
-Use the actual published filenames if they differ. Stop if verification fails or extraction does not produce exactly one expected release root.
+Extract only after the checksum command prints `threadtruth-studio-1.0.0-beta.8.zip: OK`. Use the actual published filenames if they differ. Stop if verification fails or extraction does not produce exactly one expected release root.
 
 ### 2. Preview, register, then enable
 
@@ -46,8 +49,15 @@ The helper is dry-run by default and prints JSON, including the source path, per
 
 ```bash
 python3 install-local.py
+```
+
+Inspect the previewed paths and version. If they are correct and the preview succeeds, register the source:
+
+```bash
 python3 install-local.py --apply
 ```
+
+The preview ends with `Dry run: inspect the paths; repeat with --apply to register.` and writes nothing. A successful `--apply` prints a command beginning `Next:`. If you see `Installation stopped:` instead, installation did not complete; some directories or backups may already have been created. Keep them intact and find the message in [Troubleshooting](#troubleshooting).
 
 `--apply` copies the verified release to **home directory → `plugins` → `threadtruth-studio`** and registers that source in the implicitly discovered personal marketplace. It preserves unrelated marketplace entries. It does **not** enable the Plugin or edit Codex enabled-plugin state.
 
@@ -78,8 +88,11 @@ First use succeeds when the installed entry is enabled, the new task can invoke 
 
 | What happened | What to do next |
 |---|---|
+| `No such file or directory` during verification or extraction | Terminal is not in the folder that holds both downloads; `cd` to that folder and repeat. If your browser extracted the ZIP automatically and the `.zip` file is no longer there, download the named Plugin ZIP again so its checksum can be verified. Do not install from a folder that was never verified. |
 | Checksum fails, or the expected release root is missing | Stop before installation. Download the named Plugin ZIP and its matching checksum from the same release again, then repeat verification and extraction. Do not substitute the source-code ZIP. |
-| The helper reports an existing installation | Keep it intact. Follow **Upgrade and rollback** below, previewing with `--replace` before applying; retain the reported backups. |
+| `can't open file` for `install-local.py` | Terminal is outside the extracted release root. Run `cd threadtruth-studio-1.0.0-beta.8` inside the folder where you extracted the verified Plugin ZIP, then repeat the preview. |
+| `Installation stopped:` followed by another message | Installation did not complete; some directories or backups may already exist. Keep them intact and do not edit Codex configuration to work around it. Report the short message, with local paths removed, through the feedback form. |
+| The helper reports an existing installation (`active source exists`) | Keep it intact. Follow **Upgrade and rollback** below, previewing with `--replace` before applying; retain the reported backups. |
 | Python or `codex plugin add` is unavailable | Stop before `--apply`. Check the supported setup in [compatibility](COMPATIBILITY.md), make the required command available, then rerun the preflight. Fresh-host support is not assumed. |
 | The Plugin is missing, disabled, or recognition does not appear | Run the helper's exact `Next:` command, then check its selector in the `installed` list without `--available`. Start a new task, upload your garment image and use the explicit prompt above. If it still fails, report your host/version and a short sanitized result through the feedback form. Do not retry by generating images. |
 
@@ -117,6 +130,8 @@ See [compatibility](COMPATIBILITY.md). Submit sanitized installation results thr
 
 ### 开始前
 
+整体流程：下载两个文件 → 检查工具 → 校验并解压 → 预检并注册 → 启用 → 在新的 Codex 任务中做首次识别。在浏览器中下载文件，在“终端”中运行安装命令，最后切换到 Codex 做识别。
+
 从同一个 [beta.8 预发布页](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.8)下载这两个文件：
 
 - [插件 ZIP — threadtruth-studio-1.0.0-beta.8.zip](https://github.com/denggui-ai/threadtruth-studio/releases/download/v1.0.0-beta.8/threadtruth-studio-1.0.0-beta.8.zip)
@@ -141,15 +156,16 @@ codex plugin add --help
 
 ### 1. 校验并解压
 
-把 Plugin ZIP 与匹配的 sidecar 放在同一目录：
+把插件 ZIP 与匹配的校验文件放在同一个文件夹，并先在终端进入该文件夹。浏览器通常保存到用户主目录下的 `Downloads`（“下载”）；若保存在别处，请修改第一行：
 
 ```bash
-shasum -a 256 -c threadtruth-studio-1.0.0-beta.8.zip.sha256
-unzip threadtruth-studio-1.0.0-beta.8.zip
+cd "$HOME/Downloads" &&
+shasum -a 256 -c threadtruth-studio-1.0.0-beta.8.zip.sha256 &&
+unzip threadtruth-studio-1.0.0-beta.8.zip &&
 cd threadtruth-studio-1.0.0-beta.8
 ```
 
-若正式发布文件名不同，以实际文件名为准。校验失败或未得到唯一、预期的发行根目录时立即停止。
+校验命令输出 `threadtruth-studio-1.0.0-beta.8.zip: OK` 后再解压。若正式发布文件名不同，以实际文件名为准。校验失败或未得到唯一、预期的发行根目录时立即停止。
 
 ### 2. 预检、注册、启用
 
@@ -157,8 +173,15 @@ cd threadtruth-studio-1.0.0-beta.8
 
 ```bash
 python3 install-local.py
+```
+
+核对预检中的路径与版本。预检成功且信息正确后，再注册插件源：
+
+```bash
 python3 install-local.py --apply
 ```
+
+预检以 `Dry run: inspect the paths; repeat with --apply to register.` 结尾，不写入任何文件。`--apply` 成功后，输出中包含一行以 `Next:` 开头的命令。若看到的是 `Installation stopped:`，说明安装未完成，可能已创建部分目录或备份；请保留现状，并到[安装排查](#安装排查)查找对应情况。
 
 `--apply` 把已校验发行包复制到**用户主目录 → `plugins` → `threadtruth-studio`**，并注册到系统隐式发现的 personal marketplace，同时保留无关条目。它**不会**启用 Plugin，也不会修改 Codex 的启用状态。
 
@@ -189,8 +212,11 @@ codex plugin list --marketplace personal --json
 
 | 遇到的问题 | 下一步 |
 |---|---|
+| 校验或解压时提示 `No such file or directory` | 终端当前不在存放两个下载文件的文件夹；先 `cd` 进入该文件夹再重试。若浏览器已自动解压且 `.zip` 文件不在了，请重新下载有完整插件名称的 ZIP，以便完成校验；不要从未校验的文件夹安装。 |
 | 校验失败，或解压后没有预期根目录 | 暂停安装。从同一个发行页重新下载有完整插件名称的 ZIP 和匹配校验文件，再校验、解压；不要改用源码 ZIP。 |
-| 安装器提示已有安装 | 保留现有安装，按下方“升级与回滚”操作；先带 `--replace` 预检，再应用，并保留输出的备份。 |
+| 提示 `can't open file`（找不到 `install-local.py`） | 终端当前不在解压出的发行根目录。在解压已校验插件 ZIP 的文件夹里执行 `cd threadtruth-studio-1.0.0-beta.8`，再重新预检。 |
+| `Installation stopped:` 后面是其他提示 | 安装未完成，可能已创建部分目录或备份。请保留现状，不要手改 Codex 配置绕过；去除本机路径后，把这条简短提示通过反馈表提交。 |
+| 安装器提示已有安装（`active source exists`） | 保留现有安装，按下方“升级与回滚”操作；先带 `--replace` 预检，再应用，并保留输出的备份。 |
 | 找不到 Python 或不支持 `codex plugin add` | 不执行 `--apply`。查看[兼容性说明](COMPATIBILITY.md)，使所需命令可用后重新预检；不默认所有新宿主都兼容。 |
 | 插件未出现、未启用，或没有识别结果 | 执行安装器打印的完整 `Next:` 命令，再用不带 `--available` 的列表检查对应 selector。新建任务、上传服饰图并使用上方显式提示；仍失败时通过反馈表提交宿主、版本与简短脱敏结果，不通过生图来重试。 |
 

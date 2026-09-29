@@ -1,48 +1,50 @@
-name: Bug report
-description: Report a reproducible workflow, routing, QA, or packaging defect
+name: Bug report / 问题报告
+description: Report a reproducible workflow, routing, QA, or packaging defect. / 报告可复现的流程、路线、质检或打包问题。
 title: "[Bug]: "
 labels: [bug]
 body:
   - type: markdown
     attributes:
-      value: Do not upload customer media, secrets, personal data, or private logs.
+      value: |
+        Do not upload customer media, secrets, personal data, or private logs.
+        请勿上传客户素材、密钥、个人数据或私有日志。安装问题请使用“安装反馈 / Installation feedback”表单。
   - type: input
     id: version
     attributes:
-      label: Version
-      placeholder: 1.0.0-beta.1
+      label: Version / 版本
+      placeholder: 1.0.0-beta.8
     validations:
       required: true
   - type: dropdown
     id: severity
     attributes:
-      label: Severity
+      label: Severity / 严重程度
       options: [low, medium, high]
     validations:
       required: true
   - type: textarea
     id: request
     attributes:
-      label: Sanitized request and input class
-      description: Describe the request and garment category without private media.
+      label: Sanitized request and input class / 脱敏后的请求与输入类型
+      description: Describe the request and garment category without private media. / 描述请求内容和服饰品类，不附私有素材。
     validations:
       required: true
   - type: textarea
     id: expected
     attributes:
-      label: Expected state or behavior
+      label: Expected state or behavior / 预期结果
     validations:
       required: true
   - type: textarea
     id: actual
     attributes:
-      label: Actual state or behavior
+      label: Actual state or behavior / 实际结果
     validations:
       required: true
   - type: checkboxes
     id: safety
     attributes:
-      label: Safety check
+      label: Safety check / 安全确认
       options:
-        - label: I removed secrets, private paths, customer content, and unlicensed media.
+        - label: I removed secrets, private paths, customer content, and unlicensed media. / 我已去除密钥、私有路径、客户内容和未授权素材。
           required: true

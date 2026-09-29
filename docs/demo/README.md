@@ -2,7 +2,7 @@
 
 Primary status: one `image-ready` public case. Auxiliary status: one `auxiliary-demo-ready` case.
 
-Preview demonstrations are separate from primary-case evidence: **single garment · 24 styles** is the frozen published white-vest schema-v4 collection; **coordinated outfit · 24 styles** is the published, maintainer-accepted [beige-blazer schema-v5 collection](style-previews/beige-blazer-denim-outfit-24-v1/index.html) from beta.4. Neither collection is six independent finals, external adoption or another complete primary case.
+Preview demonstrations are separate from primary-case evidence: **single garment · 24 styles** is the frozen published white-vest schema-v4 collection; **coordinated outfit · 24 styles** is the published, maintainer-accepted [beige-blazer schema-v5 collection](style-previews/beige-blazer-denim-outfit-24-v1/) from beta.4. Neither collection is six independent finals, external adoption or another complete primary case.
 
 ThreadTruth is installed in Codex. On supported Codex surfaces, use the skill picker or `$threadtruth-studio`; Codex CLI can inspect `/skills`. For ChatGPT, explicitly select the [ChatGPT web handoff](../CHATGPT-WEB-TUTORIAL.md): transfer the numbered references and prompts manually, or use host-provided browser tools after authorization. The project is not claiming an official marketplace listing.
 
