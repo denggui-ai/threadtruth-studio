@@ -1,60 +1,60 @@
 # ThreadTruth Studio
 
-**beta.8 预发布版：**[下载插件与校验文件](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.8)。新增 ChatGPT 网页转交、请求记录与受控重试；自动执行依赖宿主浏览器工具，不承诺特定生图型号。
-
-[网页操作教程](docs/CHATGPT-WEB-TUTORIAL.md) · [候选功能说明](docs/CHATGPT-WEB.md) · [安装指南](docs/INSTALL.md)
-
-[Browse the 24-style paired gallery](https://denggui-ai.github.io/threadtruth-studio/) — 48 AI-generated comparison results from Codex and ChatGPT web, with source credits, rights disclosures, and per-case reviews.
-
-**Historical beta.5:** shared natural head/body relations and the ecommerce photography pilot are now part of the runtime. Use the checksum-verified [beta.5 release](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.5) and matching [installation guide](docs/INSTALL.md). Both galleries below remain immutable historical previews, not verification of beta.5 visual quality. See [local verification](docs/verification/2026-09-21-beta.5-local.md).
-
-
 [English](README.md) | [简体中文](README.zh-CN.md)
 
-**Source-faithful fashion portrait production for Codex**
+**Turn real garment and outfit photos into fashion portraits, with source details guiding every image.**
 
-ThreadTruth Studio is an independent, community-maintained Codex Plugin. It reads visible facts from real single-garment or coordinated-outfit photos, routes among 24 style packs, waits for explicit approval before paid image generation, and governs a six-image delivery with commercial QA. For an outfit, it preserves each garment plus the visible layering, proportions, shoes, bag and accessory relationships rather than restyling the look. It is not an OpenAI product or endorsement.
+[Browse 24 styles · 48 paired results](https://denggui-ai.github.io/threadtruth-studio/) · [Install beta.8](docs/INSTALL.md) · [ChatGPT web tutorial (中文)](docs/CHATGPT-WEB-TUTORIAL.md)
 
-| Real coordinated-outfit source | Same outfit · six-pose direction preview |
-|---|---|
-| <img src="docs/demo/preview-sources/beige-blazer-denim-outfit/source.jpg" alt="Real source photo of the coordinated beige-blazer outfit" width="300"> | <img src="docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/ecommerce-studio-display.jpg" alt="The same coordinated beige-blazer outfit shown as a six-pose E-commerce Studio direction preview" width="700"> |
+ThreadTruth Studio is a community-maintained Codex Plugin for apparel portraits, fashion editorial, and ecommerce imagery. Upload a single garment or a complete outfit, choose from 24 styles, then approve a plan before generation. The workflow checks clothing details, outfit relationships, character consistency, and image dimensions throughout a six-image set. It is independent of OpenAI and is not an official product or endorsement.
 
-This source-to-result comparison shows the Skill's coordinated-outfit path: the accepted beta.4 direction preview keeps one complete look—beige blazer, white top, dark denim, olive tote and brown loafers—consistent across six poses. It is a preview sheet, not six independent finals. [Browse all 24 outfit styles](docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/index.html) · [Media rights](docs/demo/RIGHTS.md)
+The **24-style paired gallery** compares Codex and ChatGPT web results, with source credits, rights disclosures, and per-case reviews. These are AI-generated research comparisons; they do not establish a model ranking or permission to reuse every image. [Read the gallery's source and rights records](https://denggui-ai.github.io/threadtruth-studio/rights.json).
 
-![A real white hooded puffer vest source beside six independent Korean Cold Editorial results](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/hero.jpg)
+![A real white-vest source photo alongside six independent AI-generated Korean Cold Editorial portraits](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/hero.jpg)
 
-The white-vest example remains the complete, rights-cleared source-to-six-result case: four photos of one garment produced six independent Korean Cold Editorial B1 images, with SHA-256 records and closed human review. [Open the complete case](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)
+**A complete source-to-six-image example:** four photos of one white hooded puffer vest led to six independent portraits with recorded hashes and human review. This historical case is separate from the paired gallery. [View the case and media terms](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md).
 
-## Install and try recognition
+## Get started
 
-Download the Plugin ZIP and matching checksum from the [beta.8 release](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.8), then follow the [installation guide](docs/INSTALL.md). Earlier public releases remain immutable; use each archive's bundled guide for that version. New-host CLI activation remains unverified.
-
-After installation, start a **new Codex task**, upload a garment image first, then enter exactly:
+1. Download the Plugin ZIP and matching `.sha256` from the [beta.8 release](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.8). Follow the [installation guide](docs/INSTALL.md) to verify, register, and enable it.
+2. Start a **new Codex task** and upload a real garment or coordinated-outfit photo you are authorized to use.
+3. Ask for recognition and style recommendations:
 
 ```text
-请用 $threadtruth-studio 识别并推荐风格，不要生图
+Use $threadtruth-studio to identify this garment and recommend styles. Do not generate images.
 ```
 
-Expected: a garment recognition card, primary and alternative recommendations, and the full 24-style catalogue. This prompt does **not** authorize image generation.
+Expect a garment recognition card, a primary recommendation with alternatives, and the full 24-style catalogue. This first step does **not** authorize image generation. Confirm the style, composition, dimensions, and number of images before approving generation, which uses the selected account's image quota.
 
-Installed it? Share a sanitized result through the [installation feedback form](https://github.com/2278091160dg-rgb/threadtruth-studio/issues/new?template=installation-feedback.yml). Use [GitHub Issues](https://github.com/2278091160dg-rgb/threadtruth-studio/issues) for bugs or [Discussions](https://github.com/2278091160dg-rgb/threadtruth-studio/discussions) for questions. Do not post private garments, customer data, credentials, or full logs. Maintainer: [DENGGUI](https://github.com/2278091160dg-rgb) · WeChat: `Lvmusic0930`.
+Installation and enablement have been verified on the maintainer's macOS machine. A fresh non-maintainer environment remains unverified; see [compatibility and verification scope](docs/COMPATIBILITY.md).
 
-## What is public today
+## Choose where to generate
 
-- Independent six-final coverage: `1/24`, the real case above.
-- Single-style preview coverage: **two 24/24 collections are machine-layout checked, maintainer accepted and published in beta.4**: the frozen white vest and the coordinated beige-blazer outfit. Each style has an optimized native sheet, a labeled `1200×1200` display derivative and a whole-board thumbnail. Corrections and failed retries retain hash-bound lineage without publishing private working paths. These are AI-generated direction previews, not independent finals. Full counts and remaining gates: [work register](docs/WORK-STATUS.md).
-- Gendered and culturally named styles translate atmosphere, styling language, lighting, and setting only. They never infer identity, ethnicity, nationality, body, or gender from the garment or wearer.
+| Route | How it works | What you need |
+|---|---|---|
+| **Codex · default** | Generate within Codex after approval; review the first image before continuing the set. | A Codex host with native image generation and available quota. |
+| **ChatGPT web · explicitly selected** | Codex prepares numbered references and prompts. Transfer them manually, or authorize Codex to operate a supported browser. | A ChatGPT account with image access and quota. Automatic execution also requires host browser tools for uploading and downloading original files. |
 
-[Browse the 24-style evidence index](docs/demo/STYLES.md). A six-tile board is a direction preview, not six independent finals and not a completed workflow.
+Install ThreadTruth in **Codex**. The ChatGPT route uses the web handoff described in the [tutorial (中文)](docs/CHATGPT-WEB-TUTORIAL.md); installing this Plugin does not install browser tools. Uploading references to ChatGPT requires permission. Failed or uncertain requests are checked before any separately authorized retry, and used attempts remain recorded. [Web workflow details (中文)](docs/CHATGPT-WEB.md).
 
-Two bounded demonstrations are maintained separately:
+## Examples and what they demonstrate
 
-- **single garment · 24 styles** — the published white-vest beta.3 collection remains the sole representative source for the style index and gallery below;
-- **coordinated outfit · 24 styles** — the authorized beige-blazer, white-top, dark-denim, olive-tote and brown-loafer [beta.4 collection](docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/index.html) is published under `ThreadTruth-Demo-Only-1.0` with 24/24 approval.
+| Collection | Published scope | What it establishes |
+|---|---|---|
+| [Paired comparison gallery](https://denggui-ai.github.io/threadtruth-studio/) | **24 styles × 2 routes = 48 images** | Same-input comparisons with reviews and rights disclosures. These are not 24 complete six-image sets or verification of every style under beta.8. |
+| [White-vest complete case](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md) | **1 style × 6 independent images** | One reviewed complete case; the public primary-case style index remains **1/24**. |
+| Historical direction previews | **2 collections × 24 styles** | One six-pose preview sheet per style, with layout checks and maintainer acceptance. The white-vest beta.3 and outfit beta.4 collections retain their original evidence. |
 
-These two examples demonstrate the governed workflows; they do not prove universal garment or outfit coverage and do not count as non-maintainer adoption or additional complete primary cases.
+<details>
+<summary>Explore the historical single-garment and complete-outfit previews</summary>
 
-In ChatGPT, use the Plugin picker or `@threadtruth-studio`. On supported Codex surfaces, use the skill picker or `$threadtruth-studio`; in Codex CLI, inspect `/skills`. This project is not claiming an official marketplace listing.
+| Real coordinated-outfit source | AI-generated six-pose direction preview |
+|---|---|
+| <img src="docs/demo/preview-sources/beige-blazer-denim-outfit/source.jpg" alt="Real source photo of the coordinated beige-blazer outfit" width="300"> | <img src="docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/ecommerce-studio-display.jpg" alt="AI-generated six-pose preview of the same beige-blazer outfit" width="700"> |
+
+**coordinated outfit · 24 styles** — the beige blazer, white top, dark denim, olive tote, and brown loafers form one locked outfit. This is a single preview sheet. [Browse all 24 outfit directions](docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/index.html) · [Media rights](docs/demo/RIGHTS.md).
+
+**single garment · 24 styles** — the thumbnails below show the frozen white-vest collection. Each opens a larger six-pose sheet. [Style evidence index](docs/demo/STYLES.md) · [Historical work register](docs/WORK-STATUS.md).
 
 <!-- STYLE_PREVIEWS:START -->
 
@@ -69,21 +69,28 @@ In ChatGPT, use the Plugin picker or `@threadtruth-studio`. On supported Codex s
 
 <!-- STYLE_PREVIEWS:END -->
 
-## Why it exists and its boundaries
+These historical previews retain their source records, reviews, and hashes. They do not prove universal garment or outfit coverage or establish current-runtime visual quality, additional complete cases, or non-maintainer adoption.
 
-The uploaded garment or locked coordinated outfit remains authoritative for color, material appearance, silhouette, length, construction, pattern, logo placement, and accessories. For a complete outfit, the same rule also covers every included item, layering, proportions, and visible shoe/bag/accessory relationships. Style changes treatment, never product facts or styling. The workflow adds a real-garment input gate, deterministic style routing, a separate paid-generation consent gate, serial six-image delivery, identity anchoring, canvas checks, and evidence-backed QA.
+</details>
 
-Use it for apparel portraits, fashion editorial, and ecommerce portrait sets. Do not use it for non-apparel products, text-only concept generation, general virtual try-on, CAD-grade fit simulation, API integration, or unattended commercial delivery. It does not promise exact small text/logo reproduction, platform approval, or sales performance.
+## Scope and limits
 
-There is no runtime telemetry, MCP server, external connector, API-key flow, or network fallback. Native image generation is used only after explicit approval. Without that host capability, recognition and prompt work can continue, but generation stops at `tool-blocked`.
+- **Source details guide the output.** Color, material appearance, silhouette, construction, pattern, and logo placement come from the source. For an outfit, this also includes layering, proportions, shoes, bags, and accessories. Check the generated result against your source; exact small text, logos, and fit are not guaranteed.
+- **Human review remains part of delivery.** This workflow supports apparel imagery, not general virtual try-on, CAD fit simulation, non-apparel products, text-only concepts, API integration, or unattended commercial delivery. It does not guarantee platform approval or sales results.
+- **Style names describe visual direction.** Gendered or culturally named styles do not infer a person's identity, ethnicity, nationality, body, or gender.
+- **Use authorized material and keep rights separate.** Images are AI-generated and need applicable labeling. Gallery publication does not mean all third-party rights are cleared; follow the per-case disclosures. Apache-2.0 covers code and documentation, not demo media.
+- **Generation depends on the chosen host.** The Plugin adds no API-key flow, third-party generation service, MCP server, or telemetry. Without the required tools, recognition and prompt preparation can continue; generation pauses or you can explicitly choose the web handoff route.
 
-## Release and compatibility status
+## Documentation and support
 
-The public Beta began with [`v1.0.0-beta.1`](https://github.com/2278091160dg-rgb/threadtruth-studio/releases/tag/v1.0.0-beta.1). [`v1.0.0-beta.5`](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.5) integrates shared head/body relations and the ecommerce photography pilot; it preserves beta.3/beta.4 galleries as historical evidence. Maintainer-machine upgrade and installed bytes were verified on macOS `26.6.2` with `codex-cli 0.155.1`. Codex desktop build and fresh-task trigger behavior remain unverified. See [compatibility](docs/COMPATIBILITY.md) and the [30-day Beta register](docs/BETA.md).
+[Install, upgrade, and rollback](docs/INSTALL.md) · [Compatibility](docs/COMPATIBILITY.md) · [Offline guide](USER-GUIDE.html) · [Changelog](CHANGELOG.md) · [Beta progress](docs/BETA.md)
 
-The project's own exit targets are at least 30 days, five non-maintainer installations, and three authorized complete cases; these are project targets, not OpenAI admission rules. Codex for Open Source application details live only in [docs/CODEX-FOR-OSS.md](docs/CODEX-FOR-OSS.md).
+**Current prerelease: beta.8.** It adds ChatGPT web handoff, request records, and controlled retries. Earlier releases and their galleries remain historical records; use each old archive's bundled guide when installing that version. Beta exit targets and remaining validation are tracked in the [Beta register](docs/BETA.md).
 
-## Development
+Share sanitized installation results through the [feedback form](https://github.com/denggui-ai/threadtruth-studio/issues/new?template=installation-feedback.yml). Report bugs in [Issues](https://github.com/denggui-ai/threadtruth-studio/issues) and ask questions in [Discussions](https://github.com/denggui-ai/threadtruth-studio/discussions). Keep private garments, customer data, credentials, and full logs out of public posts. Maintainer: DENGGUI · WeChat: `Lvmusic0930`.
+
+<details>
+<summary>Development and project records</summary>
 
 ```bash
 python3 -m unittest discover -s tests -v
@@ -92,4 +99,6 @@ python3 tools/trigger-eval.py
 python3 tools/build-release.py
 ```
 
-Runtime lives under `skills/threadtruth-studio/`; repository tests, evals, release tooling, and evidence stay outside it. Read [CONTRIBUTING.md](CONTRIBUTING.md), [SECURITY.md](SECURITY.md), [USER-GUIDE.html](USER-GUIDE.html), [MIGRATION.md](MIGRATION.md), and [PROVENANCE.md](PROVENANCE.md). Apache-2.0 covers code and documentation, not demo media.
+Runtime lives under `skills/threadtruth-studio/`; tests, evals, release tooling, and evidence stay outside it. See [Contributing](CONTRIBUTING.md), [Security](SECURITY.md), [Migration](MIGRATION.md), and [Provenance](PROVENANCE.md). Project Beta targets are not OpenAI admission rules; application details are kept in [Codex for Open Source](docs/CODEX-FOR-OSS.md).
+
+</details>

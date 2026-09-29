@@ -1,60 +1,60 @@
 # ThreadTruth Studio｜服饰保真人像工坊
 
-**beta.8 预发布版：**[下载插件与校验文件](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.8)。新增 ChatGPT 网页转交、请求记录与受控重试；自动执行依赖宿主浏览器工具，不承诺特定生图型号。
-
-[网页操作教程](docs/CHATGPT-WEB-TUTORIAL.md) · [候选功能说明](docs/CHATGPT-WEB.md) · [安装指南](docs/INSTALL.md)
-
-[在线浏览24风格配对图库](https://denggui-ai.github.io/threadtruth-studio/)：48张 Codex 与 ChatGPT 网页端的AI合成对照结果，含来源署名、权利披露与逐组评审。
-
-**历史 beta.5：**运行时已整合通用自然头身关系与电商摄影试点。请使用校验过的[beta.5发行包](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.5)及配套[安装指南](docs/INSTALL.md)。下方两套图库保留为历史预览，不代表beta.5视觉效果已通过验证。详见[本地验证记录](docs/verification/2026-09-21-beta.5-local.md)。
-
-
 [English](README.md) | [简体中文](README.zh-CN.md)
 
-**面向 Codex 的源图保真服饰人像生产流程。**
+**从真实服饰或套装照片出发，以源图细节为依据，制作不同风格的服饰人像。**
 
-ThreadTruth Studio 是独立维护的社区 Codex Plugin。它从真实单件服饰或完整搭配套装图提取可见事实，在 24 个风格包中路由，付费生图前等待明确授权，并以商业 QA 管理六张独立成片。处理套装时，不仅保留每件单品，还锁定可见的层次、穿搭比例及鞋包配饰关系，不重新搭配造型。本项目不是 OpenAI 官方产品或背书。
+[浏览 24 风格 · 48 张配对结果](https://denggui-ai.github.io/threadtruth-studio/) · [安装 beta.8](docs/INSTALL.md) · [ChatGPT 网页教程](docs/CHATGPT-WEB-TUTORIAL.md)
 
-| 真实完整套装源图 | 同一套装 · 六姿势方向预览 |
-|---|---|
-| <img src="docs/demo/preview-sources/beige-blazer-denim-outfit/source.jpg" alt="米色西装完整搭配的真实源图" width="300"> | <img src="docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/ecommerce-studio-display.jpg" alt="同一套米色西装完整搭配的六姿势电商棚拍方向预览" width="700"> |
+ThreadTruth Studio 是社区维护的 Codex 插件，适用于服饰模特、电商人像和时尚编辑。上传单件服饰或完整套装，从 24 种风格中选择方向，确认方案后再生图。六图流程会逐步检查服饰细节、搭配关系、人物一致性和画面尺寸。本项目独立维护，不是 OpenAI 官方产品，也不代表官方背书。
 
-这组“源图 → 结果”对照直接展示 Skill 的完整套装路径：beta.4 已验收的方向预览让米色西装、白色上衣、深色牛仔裤、橄榄色托特包和棕色乐福鞋在六个姿势中保持一致。它是一张预览看板，不是六张独立成片。[查看套装全部24种风格](docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/index.html) · [媒体权利](docs/demo/RIGHTS.md)
+**24 风格配对图库**展示 Codex 与 ChatGPT 网页端的结果，附来源署名、权利披露和逐组评审。图片为 AI 合成研究对照，不代表模型排名，也不代表每张图片均可自由复用。[查看图库来源与权利记录](https://denggui-ai.github.io/threadtruth-studio/rights.json)。
 
-![一件真实白色连帽羽绒马甲的源图与六张独立韩系冷感正式成片](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/hero.jpg)
+![真实白色马甲源图，以及六张独立生成的韩系冷感 AI 人像](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/hero.jpg)
 
-白马甲仍是权利清晰的完整“源图 → 六张成片”案例：同一件服饰的4张照片生成6张独立韩系冷感杂志风 B1 图片，登记 SHA-256 并完成人工验收。[查看完整案例](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)
+**完整的“源图 → 六张成片”示例：** 同一件白色连帽羽绒马甲的 4 张照片，生成 6 张独立人像，留有哈希记录并完成人工验收。这是与配对图库分别记录的历史案例。[查看完整案例与媒体条款](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)。
 
-## 安装并测试识别
+## 三步开始
 
-从[beta.5发行页](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.5)下载Plugin ZIP与匹配校验文件，再按[安装指南](docs/INSTALL.md)操作。历史公开版本保持不可变，安装旧版请使用其归档内的指南；真实新宿主CLI激活仍未验证。
-
-安装后新建一个 **Codex 任务**，先上传服饰图，再原样输入：
+1. 从 [beta.8 发行页](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.8)下载插件 ZIP 与匹配的 `.sha256` 文件，按[安装指南](docs/INSTALL.md)完成校验、注册和启用。
+2. 新建一个 **Codex 任务**，上传你有权使用的真实单件服饰或完整套装照片。
+3. 先请求识别与风格推荐：
 
 ```text
 请用 $threadtruth-studio 识别并推荐风格，不要生图
 ```
 
-预期返回服饰识别卡、主推与备选方向、完整 24 风格目录；这句话**不授权生图**。
+预期返回服饰识别卡、主推与备选方向，以及完整的 24 风格目录。这一步**不授权生图**。随后确认风格、构图、尺寸和张数，再明确授权生成；生图会使用所选账号的图片额度。
 
-安装完成后可通过[安装反馈表](https://github.com/2278091160dg-rgb/threadtruth-studio/issues/new?template=installation-feedback.yml)提交脱敏结果；Bug 发到 [GitHub Issues](https://github.com/2278091160dg-rgb/threadtruth-studio/issues)，一般问题使用 [Discussions](https://github.com/2278091160dg-rgb/threadtruth-studio/discussions)。不要公开私有服饰图、客户数据、凭据或完整日志。维护者：[DENGGUI](https://github.com/2278091160dg-rgb) · 微信：`Lvmusic0930`。
+安装与启用已在维护者的 macOS 本机验证，非维护者新环境仍待验证。详见[兼容性与验证范围](docs/COMPATIBILITY.md)。
 
-## 当前公开证据
+## 选择在哪里生图
 
-- 六张独立正式成片覆盖：`1/24`，即上方真实案例。
-- 单风格预览覆盖：**两个集合均为机器版式24/24、维护者验收24/24、beta.4公开24/24**，分别是冻结的白马甲和米色西装完整套装。每个风格均有原生整板优化副本、`1200×1200`展示图和整板缩略图；纠正与失败重试保留哈希证据，但不公开本地工作路径。所有图片均为AI生成方向预览、非独立成片。完整进度见[任务台账](docs/WORK-STATUS.md)。
-- 性别或文化命名风格只翻译氛围、造型语言、光线与场景，不从服饰或人物推断身份、族裔、国籍、身体或性别。
+| 入口 | 使用方式 | 需要什么 |
+|---|---|---|
+| **Codex · 默认** | 授权后在 Codex 内生成，首张通过检查后再继续套组。 | 宿主具备原生生图能力，账号有可用额度。 |
+| **ChatGPT 网页 · 明确选择** | Codex 准备编号参考图与提示词，由你手动转交，或授权 Codex 操作受支持的浏览器。 | ChatGPT 账号有生图权限和额度；自动执行还需要宿主提供上传文件、下载原图的浏览器工具。 |
 
-[查看 24 风格证据索引](docs/demo/STYLES.md)。六格看板只是方向预览，不等于六张独立成片，也不计为完整案例。
+ThreadTruth 安装在 **Codex** 中。ChatGPT 入口按[网页教程](docs/CHATGPT-WEB-TUTORIAL.md)转交，安装插件本身不会安装浏览器工具。参考图上传 ChatGPT 需要授权；失败或状态不明时先检查原请求，重试须另行授权，已用次数会保留。[网页流程说明](docs/CHATGPT-WEB.md)。
 
-两个边界清晰的演示分别维护：
+## 案例与验证范围
 
-- **单件服饰 · 24种风格** — 已公开的白马甲 beta.3 集合仍是下方图库与风格索引的唯一代表来源；
-- **完整套装 · 24种风格** — 米色西装、白色上衣、深色牛仔裤、橄榄色托特包与棕色乐福鞋的 [beta.4 集合](docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/index.html) 已按 `ThreadTruth-Demo-Only-1.0` 公开并完成24/24验收。
+| 集合 | 已公开内容 | 能说明什么 |
+|---|---|---|
+| [配对比较图库](https://denggui-ai.github.io/threadtruth-studio/) | **24 风格 × 2 个入口 = 48 张图片** | 同一输入的结果对照，含评审与权利披露；不等于 24 套完整六图交付，也不代表 beta.8 全风格验证。 |
+| [白马甲完整案例](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md) | **1 种风格 × 6 张独立成片** | 一组完成人工验收的完整案例；公开主案例风格索引仍为 **1/24**。 |
+| 历史方向预览 | **2 个集合 × 24 种风格** | 每种风格一张六姿势看板，经过版式检查与维护者验收；保留白马甲 beta.3、套装 beta.4 的原始证据。 |
 
-这两个示例只展示受治理的流程，不证明所有服饰或套装均已覆盖，也不计为非维护者采用或新增完整主案例。
+<details>
+<summary>展开历史单件服饰与完整套装预览</summary>
 
-在 ChatGPT 中可用 Plugin 选择器或 `@threadtruth-studio`；受支持的 Codex 界面可用 skill 选择器或 `$threadtruth-studio`，Codex CLI 可查看 `/skills`。本项目不声称已获官方 marketplace 上架。
+| 真实完整套装源图 | AI 合成的六姿势方向预览 |
+|---|---|
+| <img src="docs/demo/preview-sources/beige-blazer-denim-outfit/source.jpg" alt="米色西装完整搭配的真实源图" width="300"> | <img src="docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/ecommerce-studio-display.jpg" alt="同一套米色西装搭配的 AI 六姿势方向预览" width="700"> |
+
+**完整套装 · 24种风格** — 米色西装、白色上衣、深色牛仔裤、橄榄色托特包和棕色乐福鞋作为一套搭配锁定。此处是一张预览看板。[查看套装全部 24 种方向](docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/index.html) · [媒体权利](docs/demo/RIGHTS.md)。
+
+**单件服饰 · 24种风格** — 下方缩略图来自冻结的白马甲集合，点击可查看单张六姿势大图。[风格证据索引](docs/demo/STYLES.md) · [历史任务台账](docs/WORK-STATUS.md)。
 
 <!-- STYLE_PREVIEWS:START -->
 
@@ -69,21 +69,28 @@ ThreadTruth Studio 是独立维护的社区 Codex Plugin。它从真实单件服
 
 <!-- STYLE_PREVIEWS:END -->
 
-## 工作边界
+历史预览的来源、评审与哈希记录继续保留，不作为当前运行时视觉质量、新增完整案例或非维护者采用的证明。
 
-上传的单件服饰或已锁定完整套装始终是颜色、材质观感、廓形、长度、结构、图案、Logo 位置和配饰的事实源。完整套装还必须保留每件单品、穿搭层次、比例以及可见鞋包配饰关系。风格只改变视觉处理，不改变商品事实或重新搭配造型。流程包含真实服饰输入门禁、确定性路由、独立付费授权、串行六图、身份锚、画布检查和证据化 QA。
+</details>
 
-适用于服饰模特、电商人像和时尚编辑；不适用于非服饰商品、纯文字概念图、通用虚拟试衣、CAD 级合体模拟、API 集成或无人值守商业交付。不保证小字/Logo 完全准确、平台审核通过或销售效果。
+## 适用范围与限制
 
-运行时无遥测、MCP 服务、外部连接器、API key 流程或联网降级。仅在明确授权后调用宿主原生生图；宿主无该能力时，仍可识别或输出提示词，但生图停在 `tool-blocked`。
+- **以源图细节为依据。** 颜色、材质观感、廓形、结构、图案和 Logo 位置来自源图；完整套装还包括层次、比例及鞋包配饰。生成后仍需对照源图检查，不能保证小字、Logo 或合体效果完全准确。
+- **交付需要人工验收。** 适用于服饰图像，不适用于通用虚拟试衣、CAD 合体模拟、非服饰商品、纯文字概念图、API 集成或无人值守商业交付；不保证平台审核通过或销售效果。
+- **风格名称只描述视觉方向。** 带性别或文化名称的风格，不用于推断人物身份、族裔、国籍、身体或性别。
+- **使用有授权的素材，单独核对图片权利。** 生成结果需要适用的 AI 内容标识；图库公开不表示第三方权利已全部清理，应查看逐组披露。Apache-2.0 覆盖代码和文档，不覆盖演示媒体。
+- **生图能力由所选宿主提供。** 插件不增加 API key 流程、第三方生图服务、MCP 服务或遥测。工具不可用时仍可识别和准备提示词，生图暂停；也可明确选择网页转交入口。
 
-## 发布与兼容状态
+## 文档与反馈
 
-公开Beta从[`v1.0.0-beta.1`](https://github.com/2278091160dg-rgb/threadtruth-studio/releases/tag/v1.0.0-beta.1)开始。[`v1.0.0-beta.5`](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.5)整合自然头身关系与电商摄影试点，beta.3／beta.4图库保留为历史证据。维护者本机升级与安装字节已在macOS `26.6.2`、`codex-cli 0.155.1`上验证；桌面版build和新任务触发仍未验证。详见[兼容性](docs/COMPATIBILITY.md)与[30天Beta登记](docs/BETA.md)。
+[安装、升级与回滚](docs/INSTALL.md) · [兼容性](docs/COMPATIBILITY.md) · [离线指南](USER-GUIDE.html) · [更新记录](CHANGELOG.md) · [Beta 进度](docs/BETA.md)
 
-至少 30 天、5 个非维护者安装、3 个授权完整案例，是项目自己的退出目标，不是 OpenAI 固定准入条件。Codex for Open Source 申请细节只放在 [docs/CODEX-FOR-OSS.md](docs/CODEX-FOR-OSS.md)。
+**当前预发布版：beta.8。** 新增 ChatGPT 网页转交、请求记录与受控重试。旧版本和对应图库作为历史记录保留；安装旧版时使用其归档内的指南。Beta 退出目标与待验证事项见 [Beta 登记](docs/BETA.md)。
 
-## 开发
+安装结果可通过[反馈表](https://github.com/denggui-ai/threadtruth-studio/issues/new?template=installation-feedback.yml)提交；Bug 使用 [Issues](https://github.com/denggui-ai/threadtruth-studio/issues)，一般问题使用 [Discussions](https://github.com/denggui-ai/threadtruth-studio/discussions)。公开反馈前请去除私有服饰图、客户数据、凭据和完整日志。维护者：DENGGUI · 微信：`Lvmusic0930`。
+
+<details>
+<summary>开发与项目记录</summary>
 
 ```bash
 python3 -m unittest discover -s tests -v
@@ -92,4 +99,6 @@ python3 tools/trigger-eval.py
 python3 tools/build-release.py
 ```
 
-运行时位于 `skills/threadtruth-studio/`；测试、eval、发布工具和证据位于其外。另见[贡献指南](CONTRIBUTING.md)、[安全策略](SECURITY.md)、[离线用户指南](USER-GUIDE.html)、[迁移说明](MIGRATION.md)与[来源记录](PROVENANCE.md)。Apache-2.0 覆盖代码与文档，不覆盖 demo 媒体。
+运行时位于 `skills/threadtruth-studio/`；测试、eval、发布工具和证据位于其外。另见[贡献指南](CONTRIBUTING.md)、[安全策略](SECURITY.md)、[迁移说明](MIGRATION.md)与[来源记录](PROVENANCE.md)。项目 Beta 目标不属于 OpenAI 准入规则，申请说明单独保存在 [Codex for Open Source](docs/CODEX-FOR-OSS.md)。
+
+</details>
