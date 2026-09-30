@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+from html import escape
 import importlib.util
 import json
 import re
@@ -694,15 +695,66 @@ def promote_primary_case(
 
 
 def primary_case_readme(rights: dict[str, object]) -> str:
-    return f"""# Primary demo — {rights['case_id']}
+    def image_table(role: str, columns: int, width: int) -> str:
+        assets = [asset for asset in rights["assets"] if asset["role"] == role]
+        cells = []
+        for asset in assets:
+            path = escape(str(asset["path"]), quote=True)
+            name = escape(str(asset["name"]).replace("-", " ").capitalize(), quote=True)
+            kind = "Real garment source" if role == "source" else "AI-generated portrait"
+            cells.append(
+                f'<a href="{path}"><img src="{path}" alt="{kind}: {name}" width="{width}"></a><br>{name}'
+            )
+        rows = ["| " + " | ".join([""] * columns) + " |", "|" + "---|" * columns]
+        for offset in range(0, len(cells), columns):
+            row = cells[offset:offset + columns]
+            rows.append("| " + " | ".join(row + [""] * (columns - len(row))) + " |")
+        return "\n".join(rows)
 
-Status: `image-ready` and `promoted`.
+    quality = rights["quality"]
+    canvas = quality["canvas_contract"]
+    return f"""# {str(rights['style']).replace('-', ' ').title()} · complete garment case
 
-This maintainer-authorized real-garment case uses the `{rights['style']}` route `{rights['route']}`. Four source views remain authoritative for garment facts; six independent generated images passed the 2:3 canvas contract, unique-hash check, commercial QA, and maintainer source review.
+[Install in Codex](../../../INSTALL.md#english) · [中文安装](../../../INSTALL.md#简体中文) · [Back to ThreadTruth Studio](../../../../README.md) · [Compare 24 styles](https://denggui-ai.github.io/threadtruth-studio/compare.html)
 
-The source derivatives and generated demo media are offered under CC0 only to the extent the project can grant rights. Apache-2.0 covers project code and documentation, not this media. Public use of the generated images requires applicable AI-generated or synthetic-content labeling.
+**Four real source views → six independent AI-generated portraits.** Generated on {quality['generated_at'][:10]}, this historical case records one reviewed set. It is separate from the paired comparison gallery and does not verify every style under the current runtime.
 
-See `rights.json` for hashes, rights evidence, QA closure, and limitations.
+Case: `{rights['case_id']}` · Status: `{quality['state']}` and `{rights['status']}` · Route: `{rights['route']}`.
+
+## The garment sources
+
+The four source views remain authoritative for garment facts. Open any image to inspect the published source derivative.
+
+{image_table('source', 4, 190)}
+
+## The six results
+
+Each image below is an independent AI-generated portrait. Open a portrait to inspect its published image; these are six separate results, with no preview sheets included.
+
+{image_table('generated-final', 3, 300)}
+
+## How this set was made
+
+1. The maintainer authorized the four source views, including the model display, for this public case and accepted the project media policy.
+2. The `{rights['style']}` direction and `{rights['route']}` route produced six independent images, using the source views as the authority for garment details.
+3. The set passed canvas and unique-hash checks plus commercial QA. The maintainer compared all six images with the sources, accepted garment details and model consistency, and approved `image-ready` after the AI-labeling notice.
+
+## What was verified
+
+| Check | Recorded result |
+|---|---|
+| Independent results | {quality['actual_images']} images; {quality['preview_images_included']} preview sheets |
+| Canvas | {canvas['target_ratio']} portrait; {canvas['batch_canvas_baseline']} pixels across the set |
+| Original output hashes | {quality['unique_original_output_hashes']} unique hashes |
+| Garment details and model consistency | Commercial QA passed; maintainer source review closed on {rights['human_review']['reviewed_at'][:10]} |
+
+This acceptance applies to this set. Small garment details and fit still need source review in future runs. [Read the hashes, rights evidence, QA closure, and limitations](rights.json).
+
+## Media rights
+
+The source derivatives and generated demo media are offered under [CC0]({rights['media_license']['url']}) only to the extent the project can grant rights. This does not remove third-party rights. Apache-2.0 covers project code and documentation, not this media. Public use of the generated images requires applicable AI-generated or synthetic-content labeling.
+
+[Case rights and review record](rights.json) · [Project media policy](../../RIGHTS.md) · [Install in Codex](../../../INSTALL.md#english) · [Return to the project](../../../../README.md)
 """
 
 
@@ -1017,6 +1069,8 @@ def validate_public_primary_cases(root: Path) -> list[str]:
                 findings.append(f"{case_dir.name}: primary case README is stale")
         except OSError:
             findings.append(f"{case_dir.name}: primary case README is missing")
+        except (KeyError, TypeError):
+            findings.append(f"{case_dir.name}: primary case README cannot be rendered from incomplete rights")
         if has_sensitive_public_text(rights):
             findings.append(f"{case_dir.name}: primary rights contain sensitive text")
     if len(case_styles) != len(set(case_styles)):

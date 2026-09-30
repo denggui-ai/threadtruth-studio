@@ -20,7 +20,7 @@ Installation does not provide browser automation tools. Open a new Codex task af
 
 ## Public gallery and historical evidence / 公开图库与历史证据
 
-- The [24-style paired gallery](https://denggui-ai.github.io/threadtruth-studio/) contains 48 comparison results from historical and supplementary batches, with per-case source credits, rights disclosures and reviews. It is not 24 completed six-image workflows or a claim that all results were generated with beta.8. / 新图库汇集历史及补测批次的24风格、48张对照结果，逐组列明来源、权利披露与评审；不等于24套完整六图流程，也不表示全部由beta.8生成。
+- The [24-style paired gallery](https://denggui-ai.github.io/threadtruth-studio/compare.html) contains 48 comparison results from historical and supplementary batches, with per-case source credits, rights disclosures and reviews. It is not 24 completed six-image workflows or a claim that all results were generated with beta.8. / 新图库汇集历史及补测批次的24风格、48张对照结果，逐组列明来源、权利披露与评审；不等于24套完整六图流程，也不表示全部由beta.8生成。
 - The [beta.5 local verification](verification/2026-09-21-beta.5-local.md) remains historical evidence for source/runtime checks, packaging and maintainer installation. The previously recorded macOS `26.6.2` and `codex-cli 0.155.1` environment belongs to that record, not a newly verified beta.8 compatibility matrix. / beta.5的源码、打包与本机安装记录保留；此前记录的系统及CLI版本不能自动当作beta.8的新兼容矩阵。
 - The beta.3/beta.4 white-vest and coordinated-outfit direction-preview collections remain unchanged historical examples. Their acceptance does not validate current-runtime visual quality. Earlier beta.1 lifecycle checks also remain version-specific evidence. / beta.3／beta.4白马甲与完整套装方向预览保持不变，其验收不代表当前运行时画质；beta.1生命周期检查也仅证明当时版本的范围。
 

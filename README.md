@@ -1,16 +1,22 @@
-# ThreadTruth Studio
+# 裁光 · ThreadTruth Studio
 
 [English](README.md) | [简体中文](README.zh-CN.md)
 
-**Turn real garment and outfit photos into fashion portraits, with source details guiding every image.**
+**An AI studio for apparel. Turn real garment and outfit photos into fashion portraits, with source details guiding every image.**
 
-![A real white-vest source photo alongside six independent AI-generated Korean Cold Editorial portraits](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/hero.jpg)
+**[Product homepage](https://denggui-ai.github.io/threadtruth-studio/)** · **[Install in Codex · beta.8](docs/INSTALL.md#english)** · **[See results · 24 styles, 48 paired images](https://denggui-ai.github.io/threadtruth-studio/compare.html)**
 
-**A complete source-to-six-image example:** four photos of one white hooded puffer vest led to six independent AI-generated portraits with recorded hashes and human review. This is a historical case, not a new beta.8 result or part of the paired gallery. [View the case and media terms](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md).
+[![A real white-vest source photo alongside six independent AI-generated Korean Cold Editorial portraits](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/hero.jpg)](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)
 
-**[Install in Codex · beta.8](docs/INSTALL.md#english)** · [Browse 24 styles · 48 paired results](https://denggui-ai.github.io/threadtruth-studio/) · [ChatGPT web handoff tutorial (中文)](docs/CHATGPT-WEB-TUTORIAL.md)
+**Four source photos → six independent AI portraits.** This reviewed historical case is separate from the paired gallery and was not generated under beta.8. [Explore the complete case and its media terms](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md).
 
-For apparel portraits, fashion editorial, and ecommerce imagery: upload a real garment or complete outfit, choose a style, then review the plan before generation. Install the Plugin in **Codex**; ChatGPT web is an optional handoff route from Codex, not a separate Plugin installation.
+## What you can do
+
+- **Keep garment details in view.** Start from a real garment or coordinated outfit. Source color, construction, silhouette, and outfit accessories guide the result.
+- **Choose from 24 visual directions.** Review style recommendations or select a direction, from ecommerce studio to fashion editorial.
+- **Create a reviewed image set.** Confirm the plan before generation, inspect the first result, and continue with independent portraits at consistent dimensions.
+
+Install **裁光 · ThreadTruth Studio** in **Codex**, where the Plugin is still listed as **ThreadTruth Studio**. Generate there by default, or explicitly choose the optional ChatGPT web handoff described below.
 
 ## Get started
 
@@ -35,7 +41,7 @@ If recognition does not appear, follow [installation troubleshooting](docs/INSTA
 | **Codex · default** | Generate within Codex after approval; review the first image before continuing the set. | A Codex host with native image generation and available quota. |
 | **ChatGPT web · explicitly selected** | Codex prepares numbered references and prompts. Transfer them manually, or authorize Codex to operate a supported browser. | A ChatGPT account with image access and quota. Automatic execution also requires host browser tools for uploading and downloading original files. |
 
-Install ThreadTruth in **Codex**. The ChatGPT route uses the web handoff described in the [tutorial (中文)](docs/CHATGPT-WEB-TUTORIAL.md); installing this Plugin does not install browser tools. Uploading references to ChatGPT requires permission. Failed or uncertain requests are checked before any separately authorized retry, and used attempts remain recorded. [Web workflow details (中文)](docs/CHATGPT-WEB.md).
+Install 裁光 · ThreadTruth Studio in **Codex**. The ChatGPT route uses the web handoff described in the [tutorial (中文)](docs/CHATGPT-WEB-TUTORIAL.md); installing this Plugin does not install browser tools. Uploading references to ChatGPT requires permission. Failed or uncertain requests are checked before any separately authorized retry, and used attempts remain recorded. [Web workflow details (中文)](docs/CHATGPT-WEB.md).
 
 ## Examples and what they demonstrate
 
@@ -43,7 +49,7 @@ The **24-style paired gallery** compares Codex and ChatGPT web results, with sou
 
 | Collection | Published scope | What it establishes |
 |---|---|---|
-| [Paired comparison gallery](https://denggui-ai.github.io/threadtruth-studio/) | **24 styles × 2 routes = 48 images** | Same-input comparisons with reviews and rights disclosures. These are not 24 complete six-image sets or verification of every style under beta.8. |
+| [Paired comparison gallery](https://denggui-ai.github.io/threadtruth-studio/compare.html) | **24 styles × 2 routes = 48 images** | Same-input comparisons with reviews and rights disclosures. These are not 24 complete six-image sets or verification of every style under beta.8. |
 | [White-vest complete case](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md) | **1 style × 6 independent images** | One reviewed complete case; the public primary-case style index remains **1/24**. |
 | Historical direction previews | **2 collections × 24 styles** | One six-pose preview sheet per style, with layout checks and maintainer acceptance. The white-vest beta.3 and outfit beta.4 collections retain their original evidence. |
 
@@ -77,7 +83,7 @@ These historical previews retain their source records, reviews, and hashes. They
 
 ## Scope and limits
 
-ThreadTruth Studio is independent and community-maintained, not an OpenAI product or endorsement. Installation and enablement have been verified on the maintainer's macOS machine; a fresh non-maintainer environment remains unverified. See [compatibility and verification scope](docs/COMPATIBILITY.md).
+裁光 · ThreadTruth Studio is independent and community-maintained, not an OpenAI product or endorsement. Installation and enablement have been verified on the maintainer's macOS machine; a fresh non-maintainer environment remains unverified. See [compatibility and verification scope](docs/COMPATIBILITY.md).
 
 - **Source details guide the output.** Color, material appearance, silhouette, construction, pattern, and logo placement come from the source. For an outfit, this also includes layering, proportions, shoes, bags, and accessories. Check the generated result against your source; exact small text, logos, and fit are not guaranteed.
 - **Human review remains part of delivery.** This workflow supports apparel imagery, not general virtual try-on, CAD fit simulation, non-apparel products, text-only concepts, API integration, or unattended commercial delivery. It does not guarantee platform approval or sales results.

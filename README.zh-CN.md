@@ -1,16 +1,22 @@
-# ThreadTruth Studio｜服饰保真人像工坊
+# 裁光 · ThreadTruth Studio
 
 [English](README.md) | [简体中文](README.zh-CN.md)
 
-**从真实服饰或套装照片出发，以源图细节为依据，制作不同风格的服饰人像。**
+**服饰 AI 影棚。从真实服饰或套装照片出发，以源图细节为依据，制作不同风格的服饰人像。**
 
-![真实白色马甲源图，以及六张独立生成的韩系冷感 AI 人像](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/hero.jpg)
+**[在线产品首页](https://denggui-ai.github.io/threadtruth-studio/)** · **[安装到 Codex · beta.8](docs/INSTALL.md#简体中文)** · **[查看效果 · 24 风格、48 张配对结果](https://denggui-ai.github.io/threadtruth-studio/compare.html)**
 
-**完整的“源图 → 六张成片”示例：** 同一件白色连帽羽绒马甲的 4 张照片，生成 6 张独立 AI 人像，留有哈希记录并完成人工验收。这是历史案例，不是 beta.8 新生成的结果，也不属于配对图库。[查看完整案例与媒体条款](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)。
+[![真实白色马甲源图，以及六张独立生成的韩系冷感 AI 人像](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/hero.jpg)](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)
 
-**[安装到 Codex · beta.8](docs/INSTALL.md#简体中文)** · [浏览 24 风格 · 48 张配对结果](https://denggui-ai.github.io/threadtruth-studio/) · [ChatGPT 网页转交教程](docs/CHATGPT-WEB-TUTORIAL.md)
+**4 张源图 → 6 张独立 AI 人像。** 这组历史案例已完成人工验收，与配对图库分开记录，也不是 beta.8 新生成的结果。[查看完整案例与媒体条款](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)。
 
-适用于服饰模特、电商人像和时尚编辑：上传真实单件服饰或完整套装，选择风格，确认方案后再生图。插件安装在 **Codex**；ChatGPT 网页是从 Codex 发起的可选转交路线，无需在 ChatGPT 中安装此插件。
+## 你可以用它做什么
+
+- **让服饰细节有据可依。** 从真实单件服饰或完整套装出发，以源图中的颜色、结构、廓形及搭配配饰指导结果。
+- **选择 24 种视觉方向。** 查看风格推荐或自行选择，覆盖电商棚拍与时尚编辑等方向。
+- **制作逐步验收的人像套组。** 生图前确认方案，检查首张结果，再继续生成尺寸一致的独立人像。
+
+裁光插件安装在 **Codex** 中，插件名称仍显示为 **ThreadTruth Studio**。默认在 Codex 生图；也可明确选择下方说明的 ChatGPT 网页转交路线。
 
 ## 三步开始
 
@@ -35,7 +41,7 @@
 | **Codex · 默认** | 授权后在 Codex 内生成，首张通过检查后再继续套组。 | 宿主具备原生生图能力，账号有可用额度。 |
 | **ChatGPT 网页 · 明确选择** | Codex 准备编号参考图与提示词，由你手动转交，或授权 Codex 操作受支持的浏览器。 | ChatGPT 账号有生图权限和额度；自动执行还需要宿主提供上传文件、下载原图的浏览器工具。 |
 
-ThreadTruth 安装在 **Codex** 中。ChatGPT 入口按[网页教程](docs/CHATGPT-WEB-TUTORIAL.md)转交，安装插件本身不会安装浏览器工具。参考图上传 ChatGPT 需要授权；失败或状态不明时先检查原请求，重试须另行授权，已用次数会保留。[网页流程说明](docs/CHATGPT-WEB.md)。
+裁光安装在 **Codex** 中。ChatGPT 入口按[网页教程](docs/CHATGPT-WEB-TUTORIAL.md)转交，安装插件本身不会安装浏览器工具。参考图上传 ChatGPT 需要授权；失败或状态不明时先检查原请求，重试须另行授权，已用次数会保留。[网页流程说明](docs/CHATGPT-WEB.md)。
 
 ## 案例与验证范围
 
@@ -43,7 +49,7 @@ ThreadTruth 安装在 **Codex** 中。ChatGPT 入口按[网页教程](docs/CHATG
 
 | 集合 | 已公开内容 | 能说明什么 |
 |---|---|---|
-| [配对比较图库](https://denggui-ai.github.io/threadtruth-studio/) | **24 风格 × 2 个入口 = 48 张图片** | 同一输入的结果对照，含评审与权利披露；不等于 24 套完整六图交付，也不代表 beta.8 全风格验证。 |
+| [配对比较图库](https://denggui-ai.github.io/threadtruth-studio/compare.html) | **24 风格 × 2 个入口 = 48 张图片** | 同一输入的结果对照，含评审与权利披露；不等于 24 套完整六图交付，也不代表 beta.8 全风格验证。 |
 | [白马甲完整案例](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md) | **1 种风格 × 6 张独立成片** | 一组完成人工验收的完整案例；公开主案例风格索引仍为 **1/24**。 |
 | 历史方向预览 | **2 个集合 × 24 种风格** | 每种风格一张六姿势看板，经过版式检查与维护者验收；保留白马甲 beta.3、套装 beta.4 的原始证据。 |
 
@@ -77,7 +83,7 @@ ThreadTruth 安装在 **Codex** 中。ChatGPT 入口按[网页教程](docs/CHATG
 
 ## 适用范围与限制
 
-ThreadTruth Studio 由社区独立维护，不是 OpenAI 官方产品，也不代表官方背书。安装与启用已在维护者的 macOS 本机验证，非维护者新环境仍待验证。详见[兼容性与验证范围](docs/COMPATIBILITY.md)。
+裁光 · ThreadTruth Studio 由社区独立维护，不是 OpenAI 官方产品，也不代表官方背书。安装与启用已在维护者的 macOS 本机验证，非维护者新环境仍待验证。详见[兼容性与验证范围](docs/COMPATIBILITY.md)。
 
 - **以源图细节为依据。** 颜色、材质观感、廓形、结构、图案和 Logo 位置来自源图；完整套装还包括层次、比例及鞋包配饰。生成后仍需对照源图检查，不能保证小字、Logo 或合体效果完全准确。
 - **交付需要人工验收。** 适用于服饰图像，不适用于通用虚拟试衣、CAD 合体模拟、非服饰商品、纯文字概念图、API 集成或无人值守商业交付；不保证平台审核通过或销售效果。

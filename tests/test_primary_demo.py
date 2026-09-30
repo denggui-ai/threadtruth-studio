@@ -1,5 +1,6 @@
 import copy
 import hashlib
+from html.parser import HTMLParser
 import importlib.util
 import json
 import shutil
@@ -164,6 +165,48 @@ def write_staging(root, *, state="image-ready", ai_notice="informed"):
 
 
 class PrimaryDemoTests(unittest.TestCase):
+    def test_primary_case_readme_renders_clickable_assets_by_role_from_rights(self):
+        module = load_module()
+        rights = json.loads(
+            (ROOT / "docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/rights.json")
+            .read_text()
+        )
+        asset_paths = [
+            "garment-overview.jpg", "construction-detail.jpg", "closure-detail.jpg", "rear-view.jpg",
+            "editorial-a.jpg", "editorial-b.jpg", "editorial-c.jpg",
+            "editorial-d.jpg", "editorial-e.jpg", "editorial-f.jpg",
+        ]
+        for asset, path in zip(rights["assets"], asset_paths):
+            asset["path"] = path
+        sources, finals = rights["assets"][:4], rights["assets"][4:]
+        rights["assets"] = [finals[0], sources[0], finals[1], sources[1],
+                            finals[2], sources[2], finals[3], sources[3], *finals[4:]]
+
+        class LinkedImages(HTMLParser):
+            def __init__(self):
+                super().__init__()
+                self.href = None
+                self.images = []
+
+            def handle_starttag(self, tag, attrs):
+                attrs = dict(attrs)
+                if tag == "a":
+                    self.href = attrs.get("href")
+                elif tag == "img":
+                    self.images.append((self.href, attrs.get("src"), attrs.get("alt")))
+
+            def handle_endtag(self, tag):
+                if tag == "a":
+                    self.href = None
+
+        parsed = LinkedImages()
+        parsed.feed(module.primary_case_readme(rights))
+        self.assertEqual(
+            [(href, src) for href, src, _ in parsed.images],
+            [(path, path) for path in asset_paths],
+        )
+        self.assertTrue(all(alt and alt.strip() for _, _, alt in parsed.images))
+
     def test_public_homepages_describe_two_bounded_demonstrations(self):
         english = (ROOT / "README.md").read_text()
         chinese = (ROOT / "README.zh-CN.md").read_text()
@@ -474,6 +517,10 @@ class PrimaryDemoTests(unittest.TestCase):
                 lambda value: value["human_review"].pop("closed_items"),
                 lambda value: value["ai_content_label"].pop("informed_at"),
                 lambda value: value.update(promoted_at="2026-09-12T00:00:00Z"),
+                lambda value: value.pop("quality"),
+                lambda value: value.update(human_review=None),
+                lambda value: value.update(media_license=None),
+                lambda value: value.update(assets=None),
             )
             for mutate in mutations:
                 tampered = json.loads(json.dumps(original))

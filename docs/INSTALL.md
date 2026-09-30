@@ -1,8 +1,10 @@
-# Install ThreadTruth Studio / 安装 ThreadTruth Studio
+# 裁光 · ThreadTruth Studio — Installation / 安装
 
 [English](#english) | [简体中文](#简体中文)
 
 ## English
+
+**裁光 (ThreadTruth Studio)** is an AI studio for apparel. In Codex, the Plugin is still listed as **ThreadTruth Studio** and is invoked with `$threadtruth-studio`.
 
 ### Before you begin
 
@@ -127,6 +129,8 @@ Again, use the helper's exact printed `Next:` command if the marketplace name is
 See [compatibility](COMPATIBILITY.md). Submit sanitized installation results through the [installation feedback form](https://github.com/denggui-ai/threadtruth-studio/issues/new?template=installation-feedback.yml); use [Discussions](https://github.com/denggui-ai/threadtruth-studio/discussions) for broader questions.
 
 ## 简体中文
+
+**裁光 · ThreadTruth Studio** 是服饰 AI 影棚。在 Codex 中，插件名称仍为 **ThreadTruth Studio**，调用名仍为 `$threadtruth-studio`。
 
 ### 开始前
 
