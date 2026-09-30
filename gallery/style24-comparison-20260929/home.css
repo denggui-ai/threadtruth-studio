@@ -106,9 +106,9 @@ footer p>span[lang=en]{color:#d6e2d8}
 @media(max-width:350px){.wrap{padding-inline:16px}.site-header nav{gap:12px}h1{font-size:30px}.hero-en{font-size:19px}.hero-meta span[lang=en]{font-size:8px}.button{padding-inline:12px}.hero{gap:18px}.hero-description{font-size:13px}.hero-description span[lang=en]{font-size:11px}.source-grid{grid-template-columns:repeat(2,1fr)}.principles>div{grid-template-columns:1fr 1.05fr}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.button{transition:none}}
 
-/* Selected test examples reuse the gallery previews and their original aspect ratio. */
+/* All 24 style examples reuse gallery previews without changing their aspect ratio. */
 .highlights-section{padding-top:68px;padding-bottom:76px;border-top:1px solid var(--line)}
-.highlights-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:24px 16px}
+.highlights-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:36px 16px}
 .highlights-grid figure{min-width:0}
 .highlight-image{display:block;background:var(--soft)}
 .highlight-image img{width:100%;height:auto;aspect-ratio:2/3;object-fit:contain}
@@ -122,3 +122,5 @@ footer p>span[lang=en]{color:#d6e2d8}
 @media(max-width:1000px){.highlights-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:30px 18px}.highlights-grid h3 span{min-height:0}.highlight-credit{min-height:3.3em}}
 @media(max-width:640px){.highlights-section{padding-block:45px}.highlights-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 12px}.highlights-grid h3{font-size:14px}.highlights-grid h3 span{font-size:11px;min-height:2.7em}.highlight-route{font-size:9px}.highlight-credit{font-size:10px;min-height:5em}.highlight-compare{font-size:10px}.highlight-rights{font-size:10px}}
 @media(max-width:640px){.highlights-section .text-link span{display:block;margin-top:4px}}
+
+.style-number{display:inline-block;font-size:10px;font-weight:400;letter-spacing:.03em;color:var(--subtle);margin-right:7px;vertical-align:2px}
