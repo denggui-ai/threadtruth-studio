@@ -1,5 +1,13 @@
 # Public demo
 
+## Find an example
+
+- [Single garment: 24 historical direction previews](style-previews/white-vest-24-v1/).
+- [Coordinated outfit: 24 historical direction previews](style-previews/beige-blazer-denim-outfit-24-v1/).
+- [Single garment: six independent final images](primary-cases/white-hooded-puffer-vest-korean-cold/README.md).
+
+Each direction preview is one six-panel sheet, not six independent finals. A complete public coordinated-outfit six-image case remains to be added. Existing previews establish their documented historical scope only. [Prepare your own photos](../INPUT-GUIDE.md) · [Choose an output](../CAPABILITIES.md).
+
 Primary status: one `image-ready` public case. Auxiliary status: one `auxiliary-demo-ready` case.
 
 Preview demonstrations are separate from primary-case evidence: **single garment · 24 styles** is the frozen published white-vest schema-v4 collection; **coordinated outfit · 24 styles** is the published, maintainer-accepted [beige-blazer schema-v5 collection](style-previews/beige-blazer-denim-outfit-24-v1/) from beta.4. Neither collection is six independent finals, external adoption or another complete primary case.

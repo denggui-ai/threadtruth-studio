@@ -6,6 +6,31 @@ Start with real garment photos, identify the source and choose a direction befor
 
 [开始安装 / Install](INSTALL.md) · [产品首页 / Website](https://denggui-ai.github.io/threadtruth-studio/) · [24 风格样例 / Style examples](https://denggui-ai.github.io/threadtruth-studio/#style-highlights) · [兼容性 / Compatibility](COMPATIBILITY.md)
 
+## 单件、套装与六姿势 / Garments, outfits and six poses
+
+单件服饰和完整套装都可以生成 AI 模特上身展示。两者均可从 24 风格中选择一个主风格，按默认六姿势生成六张独立图片；不是指定真人换装或尺码合体仿真。套装同时关注单品、层次、比例及鞋包配饰。单件上装所需的补全搭配应在方案中确认，不当作源图事实。
+
+Both a single garment and a coordinated outfit can become AI model portraits in one of 24 styles. A full set contains six independent images; it is not a supplied-person identity or fit simulation. Outfits preserve the identified items, layers, proportions and accessories. Complementary styling for a single top is confirmed in the plan, not treated as source evidence.
+
+<a id="six-poses"></a>
+
+| 默认姿势 / Default pose | 英文 / English |
+|---|---|
+| 1. 侧身回转站姿 | Side-turn standing |
+| 2. 侧身倚靠墙面 | Side-leaning against a wall |
+| 3. 端正半身坐姿 | Upright half-body seated |
+| 4. 正面轻步迈步 | Front-facing gentle step |
+| 5. 微前倾俯身 | Slight forward lean |
+| 6. 背身回眸 | Back-turn glance |
+
+姿势是默认人像方案，实际构图还需结合素材、服饰与所选模式确认。平铺、挂拍、人台使用对应非人像构图，不把六个真人姿势直接套用过去。首张验收后作为后续人物参考，并逐张检查服饰、人物一致性与画幅。
+
+These are default portrait poses, subject to source coverage, garment and mode constraints. Flat-lay, hanger and mannequin outputs use their own compositions. The accepted first portrait anchors later identity references; each image still needs review.
+
+[准备素材 / Photo guide](INPUT-GUIDE.md) · [单件 24 风格预览 / Garment previews](demo/style-previews/white-vest-24-v1/) · [套装 24 风格预览 / Outfit previews](demo/style-previews/beige-blazer-denim-outfit-24-v1/)
+
+两套历史预览均为每风格一张六宫格，不是独立成片。公开完整六图案例目前只有白马甲单件；完整套装六图公开证据待补。 / Both historical collections contain one six-panel sheet per style, not independent finals. The complete public six-image case is a single white vest; complete public outfit-set evidence remains to be added.
+
 ## 第一次用，先做这一步 / Start here
 
 安装并启用插件后，在**新的 Codex 任务**中上传一张清晰、有权使用的真实服饰或完整套装照片。以下两条指令任选一种语言；这一步不调用生图。
@@ -72,6 +97,8 @@ Use cases can guide canvas and composition; see the linked mode/canvas reference
 
 A preview cannot be cropped or upscaled into independent finals. Accepting it does not automatically authorize six images. Retries need explicit approval with used attempts retained. Handle multiple outfits separately and review outputs against the sources.
 
+<a id="first-generation"></a>
+
 ## 可复制的任务指令 / Copyable task prompts
 
 先完成上方识别步骤，再使用后续指令。将风格替换为目录中的实际选项；这些是操作示例，不是已测结果。
@@ -108,6 +135,26 @@ Use the confirmed style and plan. Return six numbered prompts and shared negativ
 Using the confirmed plan, I authorize one test image in Codex. Check the garment and dimensions. Do not retry automatically or generate more images.
 ```
 
+**单件六图 / Six images of one garment — 使用生图额度 / uses image quota**
+
+```text
+按已确认的单件服饰、主风格和方案，授权在 Codex 按默认六姿势生成六张独立图片。首张验收通过后再继续，整组人物和画幅保持一致；失败暂停，不自动重试。
+```
+
+```text
+Using the confirmed garment, main style and plan, I authorize six independent images in Codex with the default six poses. Review the first image before continuing; keep model identity and canvas consistent. Stop on failure; no automatic retries.
+```
+
+**套装六图 / Six images of a coordinated outfit — 使用生图额度 / uses image quota**
+
+```text
+按已确认的整套服饰、主风格和方案，授权在 Codex 按默认六姿势生成六张独立图片，保留已确认的单品、层次和鞋包配饰。首张验收通过后再继续，人物和画幅保持一致；失败暂停，不自动重试。
+```
+
+```text
+Using the confirmed coordinated outfit, main style and plan, I authorize six independent images in Codex with the default six poses. Preserve the confirmed items, layers and accessories. Review the first image before continuing, keep identity and canvas consistent, and stop on failure without automatic retries.
+```
+
 **准备网页转交 / Prepare a web handoff — 此步不上传 / no upload yet**
 
 ```text
@@ -128,9 +175,9 @@ See the web tutorial for upload approval, manual steps, browser requirements and
 - **工具测试 / Helper tests：** 可证明测试覆盖的顺序、次数、文件和尺寸检查行为；不能代替生成图片的视觉验收。 / Tests establish covered helper behavior, not the visual quality of generated images.
 - **环境实测 / Environment runs：** 当前公开记录以维护者 macOS 为主。其他系统、新用户安装和人工手动易用性仍需各自验证。 / Published records focus on the maintainer's Mac. Other systems, fresh-user installation and manual usability need their own evidence.
 
-不是通用虚拟试衣、尺码/合体仿真、非服饰商品生成或无人值守商业交付工具。真实人物照片用于读取服饰，不承诺复刻该人物身份。样例有各自媒体条款，公开可见不等于可任意商用。详见 [README 限制](../README.zh-CN.md#适用范围与限制) 与[媒体条款](demo/RIGHTS.md)。
+这里的“试穿”指 AI 模特上身展示；不承诺指定真人身份换装、尺码/合体仿真、非服饰商品生成或无人值守商业交付工具。真实人物照片用于读取服饰，不承诺复刻该人物身份。样例有各自媒体条款，公开可见不等于可任意商用。详见 [README 限制](../README.zh-CN.md#适用范围与限制) 与[媒体条款](demo/RIGHTS.md)。
 
-This is not general virtual try-on, size/fit simulation, non-apparel generation or unattended commercial delivery. A person's photo supplies garment facts, not a promise to reproduce that person's identity. Public examples retain their own media terms; public visibility is not unrestricted commercial permission.
+Here, “try-on” means apparel presented on an AI model. This does not promise identity-preserving try-on on a supplied person, size/fit simulation, non-apparel generation or unattended commercial delivery. A person's photo supplies garment facts, not a promise to reproduce that person's identity. Public examples retain their own media terms; public visibility is not unrestricted commercial permission.
 
 维护说明：本页是完整能力说明的维护入口，README 与首页仅提炼摘要。更新能力时同时核对当前发布版本、规则来源和实际证据；有新指令或测试并不自动升级“已实测”表述。
 
