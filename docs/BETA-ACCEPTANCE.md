@@ -108,4 +108,4 @@ Retain the real external report, reporter's non-maintainer status, affected vers
 
 ## Current status / 当前状态
 
-This packet supplies intake and acceptance instructions only. External lifecycle **0/1**, consented installers **0/5**, new complete cases **0/2**, feedback-driven patch **0/1**, and real recording **not recorded** remain unchanged until real evidence is obtained. Use the [task register](WORK-STATUS.md) for the current schedule and status.
+This packet supplies intake and acceptance instructions only. External lifecycle **0/1**, consented installers **0/5**, new complete cases **0/2**, feedback-driven patch **0/1**, and real recording **not recorded** remain unchanged until real evidence is obtained. Use the [task register](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/WORK-STATUS.md) for the current schedule and status.

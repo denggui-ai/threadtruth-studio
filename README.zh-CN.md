@@ -2,7 +2,9 @@
 
 **AI Fashion Studio · 服饰 AI 影棚**
 
-[![裁光 · Caiguang — AI Fashion Studio。米色套装参考图与 AI 生成效果。](gallery/style24-comparison-20260929/assets/brand/og-home.png)](https://denggui-ai.github.io/threadtruth-studio/)
+**开发候选：beta.9。** 候选版在 Codex 中显示为“裁光 · Caiguang”，调用名仍为 `$threadtruth-studio`。收到 beta.9 安装包后，请使用[对应版本的试用指南](docs/BETA9-TRYOUT.md)；下方公开下载仍指向未修改的 beta.8。
+
+[![裁光 · Caiguang — AI Fashion Studio。米色套装参考图与 AI 生成效果。](https://denggui-ai.github.io/threadtruth-studio/assets/brand/og-home.png)](https://denggui-ai.github.io/threadtruth-studio/)
 
 **单件或整套服饰，生成六姿势 AI 模特图，24 种风格可选。**<br>Turn a garment or coordinated outfit into six-pose AI model portraits. Choose from 24 styles.
 
@@ -37,7 +39,7 @@
 
 [完整能力、可复制指令与验证范围 →](docs/CAPABILITIES.md)
 
-裁光插件安装在 **Codex** 中，插件名称仍显示为 **ThreadTruth Studio**。默认在 Codex 生图；也可明确选择下方说明的 ChatGPT 网页转交路线。
+裁光插件安装在 **Codex** 中，公开 beta.8 的插件名称仍显示为 **ThreadTruth Studio**，beta.9 候选版显示为 **裁光 · Caiguang**。默认在 Codex 生图；也可明确选择下方说明的 ChatGPT 网页转交路线。
 
 ## 三步开始
 
@@ -87,7 +89,7 @@
 
 **完整套装 · 24种风格** — 米色西装、白色上衣、深色牛仔裤、橄榄色托特包和棕色乐福鞋作为一套搭配锁定。此处是一张预览看板。[查看套装全部 24 张看板](docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/)（GitHub 上列出图片文件；目录中的 `index.html` 是供下载后本地打开的图库页） · [媒体权利](docs/demo/RIGHTS.md)。
 
-**单件服饰 · 24种风格** — 下方缩略图来自冻结的白马甲集合，点击可查看单张六姿势大图。[风格证据索引](docs/demo/STYLES.md) · [历史任务台账](docs/WORK-STATUS.md)。
+**单件服饰 · 24种风格** — 下方缩略图来自冻结的白马甲集合，点击可查看单张六姿势大图。[风格证据索引](docs/demo/STYLES.md) · [历史任务台账](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/WORK-STATUS.md)。
 
 <!-- STYLE_PREVIEWS:START -->
 
@@ -118,7 +120,7 @@
 
 ## 文档与反馈
 
-[安装、升级与回滚](docs/INSTALL.md) · [兼容性](docs/COMPATIBILITY.md) · [离线指南](USER-GUIDE.html)（随插件 ZIP 提供，请在本地用浏览器打开；GitHub 上只显示 HTML 源码） · [更新记录](CHANGELOG.md) · [Beta 进度](docs/BETA.md)
+[安装、升级与回滚](docs/INSTALL.md) · [兼容性](docs/COMPATIBILITY.md) · [离线指南](USER-GUIDE.html)（随插件 ZIP 提供，请在本地用浏览器打开；GitHub 上只显示 HTML 源码） · [更新记录](https://github.com/denggui-ai/threadtruth-studio/blob/main/CHANGELOG.md) · [Beta 进度](docs/BETA.md)
 
 **当前预发布版：beta.8。** 新增 ChatGPT 网页转交、请求记录与受控重试。旧版本和对应图库作为历史记录保留；安装旧版时使用其归档内的指南。Beta 退出目标与待验证事项见 [Beta 登记](docs/BETA.md)。
 
@@ -134,6 +136,6 @@ python3 tools/trigger-eval.py
 python3 tools/build-release.py
 ```
 
-运行时位于 `skills/threadtruth-studio/`；测试、eval、发布工具和证据位于其外。另见[贡献指南](CONTRIBUTING.md)、[安全策略](SECURITY.md)、[迁移说明](MIGRATION.md)与[来源记录](PROVENANCE.md)。项目 Beta 目标不属于 OpenAI 准入规则，申请说明单独保存在 [Codex for Open Source](docs/CODEX-FOR-OSS.md)。
+运行时位于 `skills/threadtruth-studio/`；测试、eval、发布工具和证据位于其外。另见[贡献指南](CONTRIBUTING.md)、[安全策略](SECURITY.md)、[迁移说明](MIGRATION.md)与[来源记录](PROVENANCE.md)。项目 Beta 目标不属于 OpenAI 准入规则，申请说明单独保存在 [Codex for Open Source](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/CODEX-FOR-OSS.md)。
 
 </details>

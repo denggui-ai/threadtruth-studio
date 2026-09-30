@@ -2,7 +2,9 @@
 
 **AI Fashion Studio · 服饰 AI 影棚**
 
-[![裁光 · Caiguang — AI Fashion Studio。米色套装参考图与 AI 生成效果。](gallery/style24-comparison-20260929/assets/brand/og-home.png)](https://denggui-ai.github.io/threadtruth-studio/)
+**Development candidate: beta.9.** The candidate displays “裁光 · Caiguang” in Codex and keeps `$threadtruth-studio`. If you received the beta.9 ZIP, use the [version-matched trial guide](docs/BETA9-TRYOUT.md). Public download links below still point to the unchanged beta.8 release.
+
+[![裁光 · Caiguang — AI Fashion Studio。米色套装参考图与 AI 生成效果。](https://denggui-ai.github.io/threadtruth-studio/assets/brand/og-home.png)](https://denggui-ai.github.io/threadtruth-studio/)
 
 **单件或整套服饰，生成六姿势 AI 模特图，24 种风格可选。**<br>Turn a garment or coordinated outfit into six-pose AI model portraits. Choose from 24 styles.
 
@@ -37,7 +39,7 @@ Both collections are historical direction previews: one six-panel sheet per styl
 
 [Full capabilities, copyable prompts and verification scope →](docs/CAPABILITIES.md)
 
-Install **裁光 · Caiguang** in **Codex**, where the Plugin is still listed as **ThreadTruth Studio**. Generate there by default, or explicitly choose the optional ChatGPT web handoff described below.
+Install **裁光 · Caiguang** in **Codex**. The public beta.8 still displays **ThreadTruth Studio**; the beta.9 candidate displays **裁光 · Caiguang**. Generate there by default, or explicitly choose the optional ChatGPT web handoff described below.
 
 ## Get started
 
@@ -87,7 +89,7 @@ The **24-style paired gallery** compares Codex and ChatGPT web results, with sou
 
 **coordinated outfit · 24 styles** — the beige blazer, white top, dark denim, olive tote, and brown loafers form one locked outfit. This is a single preview sheet. [Browse all 24 outfit sheets](docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/) (GitHub lists the image files; the folder's `index.html` is a gallery page for a downloaded copy) · [Media rights](docs/demo/RIGHTS.md).
 
-**single garment · 24 styles** — the thumbnails below show the frozen white-vest collection. Each opens a larger six-pose sheet. [Style evidence index](docs/demo/STYLES.md) · [Historical work register](docs/WORK-STATUS.md).
+**single garment · 24 styles** — the thumbnails below show the frozen white-vest collection. Each opens a larger six-pose sheet. [Style evidence index](docs/demo/STYLES.md) · [Historical work register](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/WORK-STATUS.md).
 
 <!-- STYLE_PREVIEWS:START -->
 
@@ -118,7 +120,7 @@ These historical previews retain their source records, reviews, and hashes. They
 
 ## Documentation and support
 
-[Install, upgrade, and rollback](docs/INSTALL.md) · [Compatibility](docs/COMPATIBILITY.md) · [Offline guide](USER-GUIDE.html) (bundled in the Plugin ZIP; open it locally, since GitHub shows its HTML source) · [Changelog](CHANGELOG.md) · [Beta progress](docs/BETA.md)
+[Install, upgrade, and rollback](docs/INSTALL.md) · [Compatibility](docs/COMPATIBILITY.md) · [Offline guide](USER-GUIDE.html) (bundled in the Plugin ZIP; open it locally, since GitHub shows its HTML source) · [Changelog](https://github.com/denggui-ai/threadtruth-studio/blob/main/CHANGELOG.md) · [Beta progress](docs/BETA.md)
 
 **Current prerelease: beta.8.** It adds ChatGPT web handoff, request records, and controlled retries. Earlier releases and their galleries remain historical records; use each old archive's bundled guide when installing that version. Beta exit targets and remaining validation are tracked in the [Beta register](docs/BETA.md).
 
@@ -134,6 +136,6 @@ python3 tools/trigger-eval.py
 python3 tools/build-release.py
 ```
 
-Runtime lives under `skills/threadtruth-studio/`; tests, evals, release tooling, and evidence stay outside it. See [Contributing](CONTRIBUTING.md), [Security](SECURITY.md), [Migration](MIGRATION.md), and [Provenance](PROVENANCE.md). Project Beta targets are not OpenAI admission rules; application details are kept in [Codex for Open Source](docs/CODEX-FOR-OSS.md).
+Runtime lives under `skills/threadtruth-studio/`; tests, evals, release tooling, and evidence stay outside it. See [Contributing](CONTRIBUTING.md), [Security](SECURITY.md), [Migration](MIGRATION.md), and [Provenance](PROVENANCE.md). Project Beta targets are not OpenAI admission rules; application details are kept in [Codex for Open Source](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/CODEX-FOR-OSS.md).
 
 </details>

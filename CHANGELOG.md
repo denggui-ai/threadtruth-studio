@@ -2,6 +2,13 @@
 
 All notable changes are documented here. Versions follow Semantic Versioning.
 
+## Unreleased — 1.0.0-beta.9 candidate: Caiguang onboarding
+
+- Unify plugin and skill display names as 裁光 / Caiguang, update public metadata URLs and describe the AI Fashion Studio. Preserve the `threadtruth-studio` IDs, invocation, install path, implicit policy and generation instructions.
+- Add version-matched candidate installation, upgrade/rollback and first-use trial instructions; keep public beta.8 download links and frozen assets unchanged.
+- Narrow the package document allowlist to recipient material; exclude development changelog, verification records, work register, release-readiness notes and application drafts. Retain public demo media and its required rights/provenance records.
+- Regression coverage checks excluded development files and the existing manifest identity contract. No new provider call, live installation, external user adoption or fresh-host discovery is claimed.
+
 ## Unreleased — complete product guide
 
 - Explain garment and coordinated-outfit AI model portraits, the six default poses, six independent images and a choice of 24 styles across both READMEs and the homepage.

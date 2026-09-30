@@ -3,7 +3,7 @@ name: threadtruth-studio
 description: Create source-faithful fashion portrait sets from real garment or coordinated-outfit photos using 24 routed styles, explicit generation approval, six-image delivery, and commercial QA. Use for apparel model, editorial, and ecommerce portraits. Do not use for non-apparel products, text-only concepts, or general virtual try-on/API integration.
 ---
 
-# ThreadTruth Studio｜服饰保真人像工坊
+# 裁光 · Caiguang｜服饰 AI 影棚
 
 > 把真实单件服饰或完整搭配套装图,转译成 6 张指定**风格**的高端服饰人像图。
 > 服饰是唯一事实源,模型负责重塑姿势·头部·场景·氛围,**绝不重新设计服饰**。

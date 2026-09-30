@@ -88,10 +88,10 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertEqual(manifest["license"], "Apache-2.0")
         self.assertEqual(
             manifest["repository"],
-            "https://github.com/2278091160dg-rgb/threadtruth-studio",
+            "https://github.com/denggui-ai/threadtruth-studio",
         )
         self.assertEqual(manifest["skills"], "./skills/")
-        self.assertEqual(manifest["interface"]["displayName"], "ThreadTruth Studio")
+        self.assertEqual(manifest["interface"]["displayName"], "裁光 · Caiguang")
         self.assertIsInstance(manifest["interface"]["defaultPrompt"], list)
         self.assertLessEqual(len(manifest["interface"]["defaultPrompt"]), 3)
         self.assertNotIn("mcpServers", manifest)

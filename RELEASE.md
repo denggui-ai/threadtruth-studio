@@ -1,5 +1,13 @@
 # Release Readiness
 
+## Local candidate — beta.9
+
+Status: `candidate`, not published. Public brand and displayed plugin name become **裁光 · Caiguang**; technical IDs, invocation and generation rules are unchanged. The candidate ships a version-matched [trial guide](docs/BETA9-TRYOUT.md) and offline guide, while the public beta.8 download below stays immutable.
+
+Scope: metadata, onboarding and a narrower recipient-document allowlist. Development audits, changelog, application draft and work register stay in source; authorized public demo provenance remains with its images. `guide-required`.
+
+Before public beta.9: verify the candidate package and isolated registration, obtain a non-maintainer installation/name/recognition trial, record the optional one-image outcome separately, fix and retest reported issues, then review final archive/checksum and release notes. No live installation, provider run, fresh-host success, automatic triggering or stable-release claim is made by preparation alone.
+
 ## Current prerelease — beta.8
 
 Download: https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.8

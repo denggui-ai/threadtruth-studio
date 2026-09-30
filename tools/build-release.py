@@ -19,7 +19,6 @@ from pathlib import Path
 
 PUBLIC_FILES = (
     "install-local.py",
-    "CHANGELOG.md",
     "CODE_OF_CONDUCT.md",
     "CONTRIBUTING.md",
     "LICENSE",
@@ -28,11 +27,21 @@ PUBLIC_FILES = (
     "USER-GUIDE.html",
     "MIGRATION.md",
     "PROVENANCE.md",
-    "RELEASE.md",
-    "ROADMAP.md",
     "SECURITY.md",
+    "docs/INSTALL.md",
+    "docs/BETA9-TRYOUT.md",
+    "docs/INPUT-GUIDE.md",
+    "docs/CAPABILITIES.md",
+    "docs/COMPATIBILITY.md",
+    "docs/CHATGPT-WEB.md",
+    "docs/CHATGPT-WEB-TUTORIAL.md",
+    "docs/CHATGPT-WEB-TUTORIAL.html",
+    "docs/BETA.md",
+    "docs/BETA-ACCEPTANCE.md",
+    "docs/BETA-RECRUITMENT.md",
+    "docs/COMPETITIVE-LANDSCAPE.md",
 )
-SOURCE_DIRS = (".codex-plugin", "skills", "docs")
+SOURCE_DIRS = (".codex-plugin", "skills", "docs/demo")
 
 
 def _validate_public_demo(root: Path) -> None:
@@ -82,6 +91,7 @@ def _copy_allowlist(root: Path, stage: Path) -> None:
         source = root / name
         if not source.is_file():
             raise FileNotFoundError(f"missing release file: {source}")
+        (stage / name).parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source, stage / name)
 
 

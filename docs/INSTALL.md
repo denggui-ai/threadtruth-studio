@@ -1,5 +1,7 @@
 # 裁光 · Codex 服饰 AI 插件 / Caiguang — Installation
 
+> **本页用于已公开的 beta.8 / This page covers public beta.8.** 收到 beta.9 候选包时请用 [beta.9 试用指南 / candidate guide](BETA9-TRYOUT.md)，不要混用版本、命令和校验文件。
+
 [English](#english) | [简体中文](#简体中文)
 
 ## English

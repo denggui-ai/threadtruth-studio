@@ -1,5 +1,5 @@
 interface:
-  display_name: "ThreadTruth Studio｜服饰保真人像工坊"
+  display_name: "裁光 · Caiguang｜服饰 AI 影棚"
   short_description: "真实单件或完整套装驱动的 24 风格人像与商业 QA"
   default_prompt: "上传真实单件服饰或完整搭配套装图,用 $threadtruth-studio 识别并锁定商品事实,给出主推+2备选和完整24风格;确认风格代号+动作后生成 6 张独立草稿并逐张做商业 QA。"
   brand_color: "#1A1A1A"

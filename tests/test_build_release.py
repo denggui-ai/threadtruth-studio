@@ -33,7 +33,7 @@ class ReleaseBuildTests(unittest.TestCase):
             self.assertIn(prefix + "install-local.py", names)
             self.assertIn(prefix + "CONTRIBUTING.md", names)
             self.assertIn(prefix + "SECURITY.md", names)
-            self.assertIn(prefix + "ROADMAP.md", names)
+            self.assertIn(prefix + "docs/BETA9-TRYOUT.md", names)
             self.assertIn(prefix + "docs/COMPETITIVE-LANDSCAPE.md", names)
             self.assertIn(
                 prefix
@@ -56,6 +56,9 @@ class ReleaseBuildTests(unittest.TestCase):
                 len([name for name in names if name.startswith(preview_prefix) and name.endswith(".jpg")]),
                 72,
             )
+            for excluded in ("CHANGELOG.md", "RELEASE.md", "ROADMAP.md", "docs/WORK-STATUS.md", "docs/CODEX-FOR-OSS.md"):
+                self.assertNotIn(prefix + excluded, names)
+            self.assertFalse(any("/docs/verification/" in name for name in names))
             self.assertFalse(any("/docs/superpowers/" in name for name in names))
             self.assertFalse(any("/evals/" in name for name in names))
             self.assertFalse(any("/tests/" in name for name in names))
