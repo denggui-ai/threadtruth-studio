@@ -2,7 +2,7 @@
 
 **状态：candidate，尚未公开发布。** 本页针对维护者交付的 `threadtruth-studio-1.0.0-beta.9.zip` 与同名 `.sha256` 文件。当前公开下载仍是 beta.8；不要把 beta.8 的校验文件用于 beta.9，也不要改 ZIP 名称来升级。
 
-本轮只统一显示名称、介绍和包内指南，不改变生图规则。安装后预期显示 **裁光 · Caiguang**；技术名称、目录与调用指令继续使用 `threadtruth-studio`。
+本候选包含显示名称、介绍、包内指南与缺图首答边界修复；生图授权、额度和逐张验收规则保持不变。安装后预期显示 **裁光 · Caiguang**；技术名称、目录与调用指令继续使用 `threadtruth-studio`。
 
 **English:** This is an unpublished beta.9 candidate supplied by the maintainer as a ZIP plus matching checksum. The expected display name is **裁光 · Caiguang**, while `$threadtruth-studio` and the installation directory stay unchanged. The public download is still beta.8. This trial does not authorize image generation or public sharing of your materials.
 

@@ -1,9 +1,11 @@
 import importlib.util
 import json
+import re
 import shutil
 import tempfile
 import unittest
 import zipfile
+from urllib.parse import unquote, urlsplit
 from pathlib import Path
 
 
@@ -65,6 +67,28 @@ class ReleaseBuildTests(unittest.TestCase):
             self.assertFalse(any("/tools/" in name for name in names))
             self.assertFalse(any("/.threadtruth/" in name for name in names))
             self.assertFalse(any(name.endswith("image-1.png") for name in names))
+
+    def test_release_document_local_links_are_shipped(self):
+        spec = importlib.util.spec_from_file_location("build_release_links", SCRIPT)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        with tempfile.TemporaryDirectory() as output_dir:
+            archive, _ = module.build_release(ROOT, Path(output_dir))
+            stage = Path(output_dir) / archive.stem
+            missing = []
+            for document in stage.rglob("*"):
+                if document.suffix not in (".md", ".html"):
+                    continue
+                content = document.read_text()
+                links = re.findall(r"\]\(([^\s)]+)", content)
+                links += re.findall(r"(?:href|src)=[\"']([^\"']+)", content)
+                for link in links:
+                    parsed = urlsplit(link)
+                    if parsed.scheme or parsed.netloc or not parsed.path:
+                        continue
+                    if not (document.parent / unquote(parsed.path)).exists():
+                        missing.append(f"{document.relative_to(stage)} -> {link}")
+            self.assertEqual(missing, [], "Offline links must resolve; source-only references need an explicit online URL")
 
     def test_release_rejects_tampered_primary_demo_media(self):
         spec = importlib.util.spec_from_file_location("build_release", SCRIPT)

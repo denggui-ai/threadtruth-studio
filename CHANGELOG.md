@@ -4,6 +4,8 @@ All notable changes are documented here. Versions follow Semantic Versioning.
 
 ## Unreleased — 1.0.0-beta.9 candidate: Caiguang onboarding
 
+- Closeout: repair a source-only test link in the packaged capability guide and add a staged-document reference regression. Summarize current public/candidate/evidence status in the existing Beta register; label the older work ledger as historical and surface the retained installed-plugin text result in compatibility. Runtime files and frozen demo media are unchanged; public beta.8 assets remain immutable.
+
 - Unify plugin and skill display names as 裁光 / Caiguang, update public metadata URLs and describe the AI Fashion Studio. Preserve the `threadtruth-studio` IDs, invocation, install path and implicit policy.
 - Fix Issue #1 in the local candidate: include preparation before photo upload in discovery, distinguish missing photos from fictional text-only design, and end missing-photo replies with a source-photo request rather than a conditional generation promise. Add six source evals, matched fresh CLI runs and sanitized output grading; installed beta.8 remains unchanged.
 - Installed-plugin forward test exposed a pre-read commentary gap not seen in project-scoped confirmation: 2/3 original prompts forecast generation before reading the skill, although final replies passed. Front-load the first-reply boundary in discovery metadata, quote it as valid YAML, and retain failures. The final installed candidate passed 8 fresh text probes including pre-read commentary; beta.8 backups and other plugin states were preserved. Desktop UI and fresh-host verification remain pending.

@@ -24,6 +24,13 @@ python3 tools/build-release.py
 
 Contributions must also pass the repository CI.
 
+## File placement and current information
+
+- README holds the introduction and start links; installation guides own the version-specific lifecycle steps; `docs/COMPATIBILITY.md` owns verification boundaries; `docs/BETA.md` owns current Beta status and opt-in adoption counts.
+- Keep dated plans and verification receipts in the development tree. `docs/WORK-STATUS.md` is a historical work ledger; preserve its dated facts and link to current status from its introduction. Frozen case records, originals and hashes remain unchanged.
+- Source, website and plugin ZIP are separate distribution scopes. Update the existing release allowlist only when a recipient needs a file. Keep local evidence, build outputs and unpublished candidate media outside the package. The package link regression checks that inline relative document links and HTML media references resolve after staging; source-only references must use clearly labeled online URLs.
+- Before moving a file, inspect its references and retain necessary public entrypoints. Do not delete by filename, copy whole development directories into the ZIP, or introduce a second governance handbook.
+
 ## Pull requests
 
 Include:
