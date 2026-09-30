@@ -1,14 +1,12 @@
 # 裁光 · ThreadTruth Studio
 
-[English](README.md) | [简体中文](README.zh-CN.md)
+[![裁光 · 真实服饰，新的光景。Real garments. New perspectives. 真实白马甲源图与两张 AI 历史案例成片。](gallery/style24-comparison-20260929/assets/brand/og-home.png)](https://denggui-ai.github.io/threadtruth-studio/)
 
-**服饰 AI 影棚。从真实服饰或套装照片出发，以源图细节为依据，制作不同风格的服饰人像。**
+**从真实服饰照片出发，以源图细节为依据，探索 24 种风格的 AI 模特图。**<br>AI fashion portraits in 24 styles, guided by your real garment photos.
 
-**[在线产品首页](https://denggui-ai.github.io/threadtruth-studio/)** · **[安装到 Codex · beta.8](docs/INSTALL.md#简体中文)** · **[查看效果 · 24 风格、48 张配对结果](https://denggui-ai.github.io/threadtruth-studio/compare.html)**
+**[开始安装 · Install](docs/INSTALL.md#简体中文)**　·　**[查看成片 · See results](https://denggui-ai.github.io/threadtruth-studio/#complete-case)**　·　**[探索 24 风格 · Explore styles](https://denggui-ai.github.io/threadtruth-studio/#style-highlights)**
 
-[![真实白色马甲源图，以及六张独立生成的韩系冷感 AI 人像](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/hero.jpg)](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)
-
-**4 张源图 → 6 张独立 AI 人像。** 这组历史案例已完成人工验收，与配对图库分开记录，也不是 beta.8 新生成的结果。[查看完整案例与媒体条款](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)。
+[English guide](README.md) · [中文说明](README.zh-CN.md) · [产品首页 / Website](https://denggui-ai.github.io/threadtruth-studio/)
 
 ## 你可以用它做什么
 
@@ -44,6 +42,10 @@
 裁光安装在 **Codex** 中。ChatGPT 入口按[网页教程](docs/CHATGPT-WEB-TUTORIAL.md)转交，安装插件本身不会安装浏览器工具。参考图上传 ChatGPT 需要授权；失败或状态不明时先检查原请求，重试须另行授权，已用次数会保留。[网页流程说明](docs/CHATGPT-WEB.md)。
 
 ## 案例与验证范围
+
+[![真实白色马甲源图，以及六张独立生成的韩系冷感 AI 人像](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/hero.jpg)](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)
+
+**4 张源图 → 6 张独立 AI 人像。** 这组历史案例已完成人工验收，与配对图库分开记录，也不是 beta.8 新生成的结果。[查看完整案例与媒体条款](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)。
 
 **24 风格配对图库**展示 Codex 与 ChatGPT 网页端的结果，附来源署名、权利披露和逐组评审。图片为 AI 合成研究对照，不代表模型排名，也不代表每张图片均可自由复用。[查看图库来源与权利记录](https://denggui-ai.github.io/threadtruth-studio/rights.json)。
 

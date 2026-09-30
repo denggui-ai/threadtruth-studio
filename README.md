@@ -1,14 +1,12 @@
 # 裁光 · ThreadTruth Studio
 
-[English](README.md) | [简体中文](README.zh-CN.md)
+[![裁光 · 真实服饰，新的光景。Real garments. New perspectives. 真实白马甲源图与两张 AI 历史案例成片。](gallery/style24-comparison-20260929/assets/brand/og-home.png)](https://denggui-ai.github.io/threadtruth-studio/)
 
-**An AI studio for apparel. Turn real garment and outfit photos into fashion portraits, with source details guiding every image.**
+**从真实服饰照片出发，以源图细节为依据，探索 24 种风格的 AI 模特图。**<br>AI fashion portraits in 24 styles, guided by your real garment photos.
 
-**[Product homepage](https://denggui-ai.github.io/threadtruth-studio/)** · **[Install in Codex · beta.8](docs/INSTALL.md#english)** · **[See results · 24 styles, 48 paired images](https://denggui-ai.github.io/threadtruth-studio/compare.html)**
+**[开始安装 · Install](docs/INSTALL.md#english)**　·　**[查看成片 · See results](https://denggui-ai.github.io/threadtruth-studio/#complete-case)**　·　**[探索 24 风格 · Explore styles](https://denggui-ai.github.io/threadtruth-studio/#style-highlights)**
 
-[![A real white-vest source photo alongside six independent AI-generated Korean Cold Editorial portraits](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/hero.jpg)](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)
-
-**Four source photos → six independent AI portraits.** This reviewed historical case is separate from the paired gallery and was not generated under beta.8. [Explore the complete case and its media terms](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md).
+[English guide](README.md) · [中文说明](README.zh-CN.md) · [产品首页 / Website](https://denggui-ai.github.io/threadtruth-studio/)
 
 ## What you can do
 
@@ -44,6 +42,10 @@ If recognition does not appear, follow [installation troubleshooting](docs/INSTA
 Install 裁光 · ThreadTruth Studio in **Codex**. The ChatGPT route uses the web handoff described in the [tutorial (中文)](docs/CHATGPT-WEB-TUTORIAL.md); installing this Plugin does not install browser tools. Uploading references to ChatGPT requires permission. Failed or uncertain requests are checked before any separately authorized retry, and used attempts remain recorded. [Web workflow details (中文)](docs/CHATGPT-WEB.md).
 
 ## Examples and what they demonstrate
+
+[![A real white-vest source photo alongside six independent AI-generated Korean Cold Editorial portraits](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/hero.jpg)](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)
+
+**Four source photos → six independent AI portraits.** This reviewed historical case is separate from the paired gallery and was not generated under beta.8. [Explore the complete case and its media terms](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md).
 
 The **24-style paired gallery** compares Codex and ChatGPT web results, with source credits, rights disclosures, and per-case reviews. These are AI-generated research comparisons; they do not establish a model ranking or permission to reuse every image. [Read the gallery's source and rights records](https://denggui-ai.github.io/threadtruth-studio/rights.json).
 
