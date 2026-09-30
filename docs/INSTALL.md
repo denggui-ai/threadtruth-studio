@@ -6,7 +6,7 @@
 
 ## English
 
-**裁光 (Caiguang)** is an AI studio for apparel. In Codex, the Plugin is still listed as **ThreadTruth Studio** and is invoked with `$threadtruth-studio`.
+**裁光 (Caiguang)** is an AI studio for apparel. In Codex, beta.9 is expected to display **裁光 · Caiguang** and is invoked with `$threadtruth-studio`.
 
 ### Before you begin
 
@@ -136,7 +136,7 @@ See [compatibility](COMPATIBILITY.md). Submit sanitized installation results thr
 
 ## 简体中文
 
-**裁光 · Caiguang** 是服饰 AI 影棚。在 Codex 中，插件名称仍为 **ThreadTruth Studio**，调用名仍为 `$threadtruth-studio`。
+**裁光 · Caiguang** 是服饰 AI 影棚。在 Codex 中，beta.9 预期显示名为 **裁光 · Caiguang**，调用名仍为 `$threadtruth-studio`。
 
 ### 开始前
 
