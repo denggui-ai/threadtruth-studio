@@ -82,10 +82,13 @@ def _copy_allowlist(root: Path, stage: Path) -> None:
         source = root / name
         if not source.is_dir():
             raise FileNotFoundError(f"missing release directory: {source}")
+        ignored = ["__pycache__", "*.pyc", "*.pyo", ".DS_Store", "superpowers"]
+        if name == "docs/demo":
+            ignored.append("GROWTH.md")
         shutil.copytree(
             source,
             stage / name,
-            ignore=shutil.ignore_patterns("__pycache__", "*.pyc", "*.pyo", ".DS_Store", "superpowers"),
+            ignore=shutil.ignore_patterns(*ignored),
         )
     for name in PUBLIC_FILES:
         source = root / name

@@ -56,7 +56,7 @@ class ReleaseBuildTests(unittest.TestCase):
                 len([name for name in names if name.startswith(preview_prefix) and name.endswith(".jpg")]),
                 72,
             )
-            for excluded in ("CHANGELOG.md", "RELEASE.md", "ROADMAP.md", "docs/WORK-STATUS.md", "docs/CODEX-FOR-OSS.md"):
+            for excluded in ("CHANGELOG.md", "RELEASE.md", "ROADMAP.md", "docs/WORK-STATUS.md", "docs/CODEX-FOR-OSS.md", "docs/demo/GROWTH.md"):
                 self.assertNotIn(prefix + excluded, names)
             self.assertFalse(any("/docs/verification/" in name for name in names))
             self.assertFalse(any("/docs/superpowers/" in name for name in names))
