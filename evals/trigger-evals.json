@@ -33,5 +33,11 @@
   {"id": "L1-neg-9", "layer": "L1", "query": "给这盒月饼做节日包装电商图", "should_trigger": false, "expect": "不触发(食品包装非服饰)"},
   {"id": "public-old-name-negative", "layer": "L1", "query": "调用旧版 clothing portrait studio", "should_trigger": false, "expect": "旧名称不是活动触发器；仅迁移文档保留历史名称"},
   {"id": "public-virtual-tryon-negative", "layer": "L1", "query": "帮我做一个通用虚拟试衣系统，把衣服自动穿到任意用户身上", "should_trigger": false, "expect": "不触发；通用虚拟试衣和拟合模拟超出边界"},
-  {"id": "public-api-integration-negative", "layer": "L1", "query": "帮我接入图片 API，做并发批量生成和 provider fallback", "should_trigger": false, "expect": "不触发；API 集成、并发批处理与 provider fallback 超出边界"}
+  {"id": "public-api-integration-negative", "layer": "L1", "query": "帮我接入图片 API，做并发批量生成和 provider fallback", "should_trigger": false, "expect": "不触发；API 集成、并发批处理与 provider fallback 超出边界"},
+  {"id": "issue1-missing_photo_implicit", "layer": "L1", "query": "帮我把一件外套做成电商模特图。目前还没有上传图片，也没有授权生图。请简短回应。", "should_trigger": true, "expect": "真实新会话校验；应读入完整技能，缺图停在补图请求，无条件式生图预告"},
+  {"id": "issue1-missing_photo_explicit", "layer": "L1", "query": "请用 $threadtruth-studio。帮我把一件外套做成电商模特图。目前还没有上传图片，也没有授权生图。请简短回应。", "should_trigger": true, "expect": "真实新会话校验；应读入完整技能，缺图停在补图请求，无条件式生图预告"},
+  {"id": "issue1-missing_photo_full_catalog", "layer": "L1", "query": "我想把真实外套照片做成电商模特图，目前还没上传图片，也没有授权生图。请先告诉我需要准备什么，并列出完整 24 种可选风格。", "should_trigger": true, "expect": "真实新会话校验；应读入完整技能，缺图停在补图请求，无条件式生图预告"},
+  {"id": "issue1-missing_photo_non_apparel", "layer": "L1", "query": "帮我把一台咖啡机做成电商商品图。目前还没有上传图片，也没有授权生图。请简短回应。", "should_trigger": false, "expect": "真实新会话校验；非服饰，不读服饰技能"},
+  {"id": "issue1-missing_photo_shirt_paraphrase", "layer": "L1", "query": "想给一件衬衫做模特上身主图，还没拍实物照片，先说我该准备什么，暂时不要生成图片。", "should_trigger": true, "expect": "真实新会话校验；应读入完整技能，缺图停在补图请求，无条件式生图预告"},
+  {"id": "issue1-missing_photo_english_paraphrase", "layer": "L1", "query": "I want ecommerce model photos for a real dress, but I have not uploaded any photos and have not approved image generation. Please respond briefly.", "should_trigger": true, "expect": "真实新会话校验；应读入完整技能，缺图停在补图请求，无条件式生图预告"}
 ]

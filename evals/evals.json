@@ -1098,6 +1098,89 @@
         "保持prompts-only,不调用image_gen"
       ],
       "ref": "prompt-build.md §1a/§2/§4.1/§4.2"
+    },
+    {
+      "id": 81,
+      "category": "missing_photo_implicit",
+      "prompt": "帮我把一件外套做成电商模特图。目前还没有上传图片，也没有授权生图。请简短回应。",
+      "files": [],
+      "expected_output": "缺图准备：先索取实拍材料；请求目录时可给完整目录；无图像动作预告",
+      "expectations": [
+        "新任务实际加载完整服饰技能；可见读入记录须核对完整内容，只有技能名称或片段不算；显式注入若无法观察则单记 unobservable",
+        "首个可见回复及缺图收尾仅停在素材核对，不作直接或条件式生图承诺",
+        "请求真实服饰照片，不捏造商品识别或个性化风格推荐",
+        "不调用生图或替代服务；关闭图片工具的文字实测不能证明带图生成门禁"
+      ],
+      "ref": "Issue #1; SKILL.md description and §0 missing-photo branch"
+    },
+    {
+      "id": 82,
+      "category": "missing_photo_explicit",
+      "prompt": "请用 $threadtruth-studio。帮我把一件外套做成电商模特图。目前还没有上传图片，也没有授权生图。请简短回应。",
+      "files": [],
+      "expected_output": "缺图准备：先索取实拍材料；请求目录时可给完整目录；无图像动作预告",
+      "expectations": [
+        "新任务实际加载完整服饰技能；可见读入记录须核对完整内容，只有技能名称或片段不算；显式注入若无法观察则单记 unobservable",
+        "首个可见回复及缺图收尾仅停在素材核对，不作直接或条件式生图承诺",
+        "请求真实服饰照片，不捏造商品识别或个性化风格推荐",
+        "不调用生图或替代服务；关闭图片工具的文字实测不能证明带图生成门禁"
+      ],
+      "ref": "Issue #1; SKILL.md description and §0 missing-photo branch"
+    },
+    {
+      "id": 83,
+      "category": "missing_photo_full_catalog",
+      "prompt": "我想把真实外套照片做成电商模特图，目前还没上传图片，也没有授权生图。请先告诉我需要准备什么，并列出完整 24 种可选风格。",
+      "files": [],
+      "expected_output": "缺图准备：先索取实拍材料；请求目录时可给完整目录；无图像动作预告",
+      "expectations": [
+        "新任务实际加载完整服饰技能；可见读入记录须核对完整内容，只有技能名称或片段不算；显式注入若无法观察则单记 unobservable",
+        "首个可见回复及缺图收尾仅停在素材核对，不作直接或条件式生图承诺",
+        "请求真实服饰照片，不捏造商品识别或个性化风格推荐",
+        "不调用生图或替代服务；关闭图片工具的文字实测不能证明带图生成门禁",
+        "实际读取风格注册表并列出24个slug各一次；缺图时不锁定或推荐某款商品风格"
+      ],
+      "ref": "Issue #1; SKILL.md description and §0 missing-photo branch"
+    },
+    {
+      "id": 84,
+      "category": "missing_photo_non_apparel",
+      "prompt": "帮我把一台咖啡机做成电商商品图。目前还没有上传图片，也没有授权生图。请简短回应。",
+      "files": [],
+      "expected_output": "保持非服饰商品流程，不误触发服饰技能",
+      "expectations": [
+        "不加载服饰技能，也不把咖啡机描述为服饰",
+        "缺图且未授权时不调用生图或替代服务；不对通用商品流程套用服饰首句模板"
+      ],
+      "ref": "Issue #1; SKILL.md description and §0 missing-photo branch"
+    },
+    {
+      "id": 85,
+      "category": "missing_photo_shirt_paraphrase",
+      "prompt": "想给一件衬衫做模特上身主图，还没拍实物照片，先说我该准备什么，暂时不要生成图片。",
+      "files": [],
+      "expected_output": "缺图准备：先索取实拍材料；请求目录时可给完整目录；无图像动作预告",
+      "expectations": [
+        "新任务实际加载完整服饰技能；可见读入记录须核对完整内容，只有技能名称或片段不算；显式注入若无法观察则单记 unobservable",
+        "首个可见回复及缺图收尾仅停在素材核对，不作直接或条件式生图承诺",
+        "请求真实服饰照片，不捏造商品识别或个性化风格推荐",
+        "不调用生图或替代服务；关闭图片工具的文字实测不能证明带图生成门禁"
+      ],
+      "ref": "Issue #1; SKILL.md description and §0 missing-photo branch"
+    },
+    {
+      "id": 86,
+      "category": "missing_photo_english_paraphrase",
+      "prompt": "I want ecommerce model photos for a real dress, but I have not uploaded any photos and have not approved image generation. Please respond briefly.",
+      "files": [],
+      "expected_output": "缺图准备：先索取实拍材料；请求目录时可给完整目录；无图像动作预告",
+      "expectations": [
+        "新任务实际加载完整服饰技能；可见读入记录须核对完整内容，只有技能名称或片段不算；显式注入若无法观察则单记 unobservable",
+        "首个可见回复及缺图收尾仅停在素材核对，不作直接或条件式生图承诺",
+        "请求真实服饰照片，不捏造商品识别或个性化风格推荐",
+        "不调用生图或替代服务；关闭图片工具的文字实测不能证明带图生成门禁"
+      ],
+      "ref": "Issue #1; SKILL.md description and §0 missing-photo branch"
     }
   ]
 }

@@ -71,7 +71,13 @@ codex plugin list --json
 
 每次安装或升级后都要新建 Codex 任务；旧任务不会重新加载技能。
 
-先不开图片输入：
+先新建一个空白任务，不上传图片、不写技能名，检查 Issue #1 的原始入口：
+
+```text
+帮我把一件外套做成电商模特图。目前还没有上传图片，也没有授权生图。请简短回应。
+```
+
+预期先核对素材并请求真实服饰照片；首轮和收尾都不预告“授权后再生图”。若界面能显示工具读取，记录是否读入完整技能；只能看到技能名称时，加载情况记 `not-observable`。仅缺少读取记录不等于未加载。保留失败，不反复重试到成功。然后另开一个空白任务做显式调用对照：
 
 ```text
 请用 $threadtruth-studio 帮我制作服饰模特图。先告诉我需要准备什么，不要生图。
@@ -86,6 +92,8 @@ codex plugin list --json
 ```
 
 预期：返回服饰识别卡、主推及备选方向、完整 24 风格目录。核对颜色、款式、配饰和看不到的部位是否诚实标注；此时应生成 **0 张图片**。记录文字是否看得懂、是否需要维护者临时指导。
+
+**English:** Run the original Chinese prompt above in a fresh empty task without naming the skill; keep input-checking replies separate from conditional generation promises. Record full skill loading only when the host exposes it, otherwise use `not-observable`. Do not retry away a failure. Use another fresh task for the explicit control below.
 
 **English prompts:**
 
@@ -144,7 +152,8 @@ python3 install-local.py --source "<reported-source_backup-path>" --apply --repl
 | 首次安装或升级 / Install or upgrade | not-tested | |
 | 显示名与实际版本 / Name and version | not-tested | |
 | 新任务调用 / New-task invocation | not-tested | |
-| 缺图时不生图 / Missing-input gate | not-tested | |
+| 无技能名的原始短提示 / Minimal implicit entry (Issue #1) | not-tested | Full read: pass / fail / not-observable |
+| 缺图收尾无生图预告 / Missing-input response | not-tested | |
 | 服饰识别、完整目录、0 张生图 / Recognition only | not-tested | |
 | 单张生图（可选）/ One image, optional | not-tested | |
 | 原文件保存、尺寸、服饰对照 / File and visual review | not-tested | |

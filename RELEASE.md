@@ -2,11 +2,11 @@
 
 ## Local candidate — beta.9
 
-Status: `candidate`, not published. Public brand and displayed plugin name become **裁光 · Caiguang**; technical IDs, invocation and generation rules are unchanged. The candidate ships a version-matched [trial guide](docs/BETA9-TRYOUT.md) and offline guide, while the public beta.8 download below stays immutable.
+Status: `candidate`, not published. Public brand and displayed plugin name become **裁光 · Caiguang**; technical IDs and invocation remain unchanged. Missing-photo discovery and response handling are revised for Issue #1; image-generation rules are unchanged. The candidate ships a version-matched [trial guide](docs/BETA9-TRYOUT.md) and offline guide, while the public beta.8 download below stays immutable.
 
-Scope: metadata, onboarding and a narrower recipient-document allowlist. Development audits, changelog, application draft and work register stay in source; authorized public demo provenance remains with its images. `guide-required`.
+Scope: metadata, onboarding, missing-photo handling and a narrower recipient-document allowlist. Development audits, changelog, application draft and work register stay in source; authorized public demo provenance remains with its images. `guide-required`.
 
-Before public beta.9: verify the candidate package and isolated registration, obtain a non-maintainer installation/name/recognition trial, record the optional one-image outcome separately, fix and retest reported issues, then review final archive/checksum and release notes. No live installation, provider run, fresh-host success, automatic triggering or stable-release claim is made by preparation alone.
+Before public beta.9: verify the candidate package and isolated registration, obtain a non-maintainer installation/name/recognition trial, record the optional one-image outcome separately, fix and retest reported issues, then review final archive/checksum and release notes. The scoped maintainer CLI retest is recorded in [Issue #1 verification](docs/verification/2026-09-30-issue1-missing-photo.md). It does not establish candidate plugin installation, fresh-host or GUI discovery, image-generation behavior, or stable-release readiness.
 
 ## Current prerelease — beta.8
 
@@ -41,7 +41,7 @@ Version `1.0.0-beta.6` contains bounded entry recommendations, with Codex as def
 - All repository tests, 24/24 pack lint, trigger eval, Plugin validation, production strict validation, runtime-stage validation, JSON/YAML/Python checks, privacy/history scans, and release staging checks pass.
 - A rights-cleared source garment and full demo chain have a completed rights manifest.
 - Maintainer-machine installation proves explicit invocation, substantive implicit discovery, negative isolation, uninstall, upgrade, and rollback.
-- The minimal implicit missing-image behavior in [Issue #1](https://github.com/denggui-ai/threadtruth-studio/issues/1) is release-noted and accepted for this Beta after a rights-cleared real-image workflow passed through explicit invocation.
+- Historical Beta acceptance retained [Issue #1](https://github.com/denggui-ai/threadtruth-studio/issues/1) as a documented limitation after an explicit real-image workflow; it did not close the issue. The beta.9 project-scoped fix candidate still requires installed-plugin and fresh-host retesting before closure.
 - A non-maintainer clean environment repeats installation and discovery before the Beta exits.
 - The maintainer reviews the final artifact names, checksums, and release notes before publication.
 
