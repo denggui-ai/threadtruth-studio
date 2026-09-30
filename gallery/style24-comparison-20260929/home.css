@@ -177,3 +177,22 @@ footer p>span[lang=en]{color:#ccd9cf}
 .preview-links>a{font-size:18px;padding-block:12px}
 .generation-next{margin-block:25px;font-size:15px}
 @media(max-width:650px){.pose-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}.guide-section{padding-block:44px}.preview-links{gap:12px 30px}}
+
+/* The pose choices are backed by the existing reviewed garment photographs. */
+.pose-case-label{margin-top:28px;font-weight:600}
+.pose-gallery{grid-template-columns:repeat(6,minmax(0,1fr));list-style:none;padding:0;gap:16px;margin-top:22px}
+.pose-gallery li{padding:0;min-width:0;font-size:14px}
+.pose-gallery a{display:block}
+.pose-gallery img{display:block;width:100%;height:auto;aspect-ratio:2/3;object-fit:contain;background:var(--soft)}
+.pose-caption{display:flex;align-items:baseline;gap:8px;margin-top:12px;line-height:1.5}
+.pose-caption b{font-size:11px;color:var(--subtle);font-weight:500}
+.pose-caption span{font-size:12px;line-height:1.45}
+.pose-case-note{font-size:12px!important;color:var(--subtle);margin-top:14px}
+.pose-case-note>span[lang=en]{font-size:12px}
+.source-preview-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;border-top:1px solid var(--line);padding-top:24px}
+.source-preview-links>a{display:flex;align-items:center;gap:22px;text-decoration:none;padding:0}
+.source-preview-links>a:hover div{text-decoration:underline}
+.source-preview-links img{display:block;width:100px;height:134px;object-fit:contain;background:var(--soft)}
+.source-preview-links small{display:block;color:var(--subtle);font-size:11px;margin-bottom:10px}
+@media(max-width:1000px){.pose-gallery{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:650px){.pose-gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 14px}.source-preview-links{grid-template-columns:1fr}.source-preview-links img{width:88px;height:118px}.pose-caption{gap:6px}}
