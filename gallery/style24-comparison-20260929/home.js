@@ -36,7 +36,7 @@
   function applyLanguage() {
     root.dataset.language = language;
     root.lang = language === 'en' ? 'en' : 'zh-CN';
-    document.title = language === 'en' ? 'ThreadTruth Studio · Your garments. A new perspective.' : '裁光 · 你的衣服。下一组大片。';
+    document.title = language === 'en' ? 'Caiguang · Your garments. A new perspective.' : '裁光 · 你的衣服。下一组大片。';
     toggle.textContent = language === 'en' ? '中文' : 'EN';
     toggle.lang = language === 'en' ? 'zh-CN' : 'en';
     toggle.setAttribute('aria-label', language === 'en' ? '切换为中文' : 'Switch to English');

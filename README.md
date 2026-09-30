@@ -1,10 +1,12 @@
-# 裁光 · ThreadTruth Studio
+# 裁光 · Caiguang
 
-[![裁光 · 真实服饰，新的光景。Real garments. New perspectives. 真实白马甲源图与两张 AI 历史案例成片。](gallery/style24-comparison-20260929/assets/brand/og-home.png)](https://denggui-ai.github.io/threadtruth-studio/)
+**AI Fashion Studio · 服饰 AI 影棚**
+
+[![裁光 · Caiguang — AI Fashion Studio。米色套装参考图与 AI 生成效果。](gallery/style24-comparison-20260929/assets/brand/og-home.png)](https://denggui-ai.github.io/threadtruth-studio/)
 
 **单件或整套服饰，生成六姿势 AI 模特图，24 种风格可选。**<br>Turn a garment or coordinated outfit into six-pose AI model portraits. Choose from 24 styles.
 
-**[开始安装 · Install](docs/INSTALL.md#english)**　·　**[查看成片 · See results](https://denggui-ai.github.io/threadtruth-studio/#complete-case)**　·　**[探索 24 风格 · Explore styles](https://denggui-ai.github.io/threadtruth-studio/#style-highlights)**
+**[下载裁光插件 · Download Caiguang](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.8)**　·　**[开始安装 · Install](docs/INSTALL.md#english)**　·　**[查看成片 · See results](https://denggui-ai.github.io/threadtruth-studio/#complete-case)**　·　**[探索 24 风格 · Explore styles](https://denggui-ai.github.io/threadtruth-studio/#style-highlights)**
 
 [English guide](README.md) · [中文说明](README.zh-CN.md) · [产品首页 / Website](https://denggui-ai.github.io/threadtruth-studio/)
 
@@ -16,7 +18,7 @@ Upload a garment or coordinated outfit, choose **one of 24 styles**, and create 
 
 Both collections are historical direction previews: one six-panel sheet per style, not independent finals. The public complete six-image case is a single white vest; a complete public outfit set remains to be added.
 
-## Why create with ThreadTruth Studio?
+## Why create with Caiguang?
 
 **Keep your real garment at the heart of every creative decision.**
 
@@ -35,7 +37,7 @@ Both collections are historical direction previews: one six-panel sheet per styl
 
 [Full capabilities, copyable prompts and verification scope →](docs/CAPABILITIES.md)
 
-Install **裁光 · ThreadTruth Studio** in **Codex**, where the Plugin is still listed as **ThreadTruth Studio**. Generate there by default, or explicitly choose the optional ChatGPT web handoff described below.
+Install **裁光 · Caiguang** in **Codex**, where the Plugin is still listed as **ThreadTruth Studio**. Generate there by default, or explicitly choose the optional ChatGPT web handoff described below.
 
 ## Get started
 
@@ -60,7 +62,7 @@ If recognition does not appear, follow [installation troubleshooting](docs/INSTA
 | **Codex · default** | Generate within Codex after approval; review the first image before continuing the set. | A Codex host with native image generation and available quota. |
 | **ChatGPT web · explicitly selected** | Codex prepares numbered references and prompts. Transfer them manually, or authorize Codex to operate a supported browser. | A ChatGPT account with image access and quota. Automatic execution also requires host browser tools for uploading and downloading original files. |
 
-Install 裁光 · ThreadTruth Studio in **Codex**. The ChatGPT route uses the web handoff described in the [tutorial (中文)](docs/CHATGPT-WEB-TUTORIAL.md); installing this Plugin does not install browser tools. Uploading references to ChatGPT requires permission. Failed or uncertain requests are checked before any separately authorized retry, and used attempts remain recorded. [Web workflow details (中文)](docs/CHATGPT-WEB.md).
+Install 裁光 · Caiguang in **Codex**. The ChatGPT route uses the web handoff described in the [tutorial (中文)](docs/CHATGPT-WEB-TUTORIAL.md); installing this Plugin does not install browser tools. Uploading references to ChatGPT requires permission. Failed or uncertain requests are checked before any separately authorized retry, and used attempts remain recorded. [Web workflow details (中文)](docs/CHATGPT-WEB.md).
 
 ## Examples and what they demonstrate
 
@@ -106,7 +108,7 @@ These historical previews retain their source records, reviews, and hashes. They
 
 ## Scope and limits
 
-裁光 · ThreadTruth Studio is independent and community-maintained, not an OpenAI product or endorsement. Installation and enablement have been verified on the maintainer's macOS machine; a fresh non-maintainer environment remains unverified. See [compatibility and verification scope](docs/COMPATIBILITY.md).
+裁光 · Caiguang is independent and community-maintained, not an OpenAI product or endorsement. Installation and enablement have been verified on the maintainer's macOS machine; a fresh non-maintainer environment remains unverified. See [compatibility and verification scope](docs/COMPATIBILITY.md).
 
 - **Source details guide the output.** Color, material appearance, silhouette, construction, pattern, and logo placement come from the source. For an outfit, this also includes layering, proportions, shoes, bags, and accessories. Check the generated result against your source; exact small text, logos, and fit are not guaranteed.
 - **Human review remains part of delivery.** This workflow supports apparel imagery, not identity-preserving try-on on a supplied person, CAD fit simulation, non-apparel products, text-only concepts, API integration, or unattended commercial delivery. It does not guarantee platform approval or sales results.

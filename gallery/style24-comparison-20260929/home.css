@@ -275,3 +275,5 @@ html.image-open { overflow:hidden; }
  #dialog-caption,.dialog-bottom { font-size:11px; }
 }
 @media(prefers-reduced-motion:reduce) { .highlight-image img { transition:none; } }
+
+.install-path .download-plugin{display:inline-block;margin-top:20px}
