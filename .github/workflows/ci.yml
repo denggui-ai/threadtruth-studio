@@ -27,6 +27,11 @@ jobs:
           test -f /usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc
       - name: Repository contracts
         run: python3 -m unittest discover -s tests -v
+      - name: Homepage browser regression
+        run: |
+          npm install --prefix "$RUNNER_TEMP/threadtruth-browser" --no-package-lock --ignore-scripts playwright@1.58.2
+          "$RUNNER_TEMP/threadtruth-browser/node_modules/.bin/playwright" install --with-deps chromium
+          NODE_PATH="$RUNNER_TEMP/threadtruth-browser/node_modules" node tests/check_home_ui.cjs
       - name: Style-pack lint
         run: python3 tools/pack-lint.py --strict skills/threadtruth-studio/references/styles/*.pack.yaml
       - name: Trigger regression

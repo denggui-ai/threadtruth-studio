@@ -13,6 +13,7 @@ on:
       - 'tests/test_brand_assets.py'
       - 'tests/test_home_copy.py'
       - 'tests/test_showcase_navigation.py'
+      - 'tests/check_home_ui.cjs'
       - 'requirements-dev.txt'
       - 'docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/**'
       - 'docs/demo/preview-sources/beige-blazer-denim-outfit/**'
@@ -47,6 +48,11 @@ jobs:
         run: |
           python -m unittest tests.test_showcase tests.test_brand_assets tests.test_home_copy tests.test_showcase_navigation
           python tools/check_showcase.py --gallery gallery/style24-comparison-20260929 --repo-root .
+      - name: Verify homepage in Chromium
+        run: |
+          npm install --prefix "$RUNNER_TEMP/threadtruth-browser" --no-package-lock --ignore-scripts playwright@1.58.2
+          "$RUNNER_TEMP/threadtruth-browser/node_modules/.bin/playwright" install --with-deps chromium
+          NODE_PATH="$RUNNER_TEMP/threadtruth-browser/node_modules" node tests/check_home_ui.cjs
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
         with:

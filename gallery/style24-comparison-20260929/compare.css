@@ -3,7 +3,7 @@ html { scroll-behavior: smooth; scroll-padding-top: 24px; }
 body { margin: 0; background: var(--canvas); color: var(--ink); font: 16px/1.65 "Manrope", "Noto Sans SC", sans-serif; }
 main, .site-header { width:min(1160px,calc(100% - 80px)); margin-inline:auto; }
 .site-header { min-height:92px; border-bottom:1px solid var(--line); }
-button,input{border:1px solid #849c8a;border-radius:0;background:var(--surface);color:var(--ink)}
+button,input{border:1px solid #a9aaa6;border-radius:0;background:var(--surface);color:var(--ink)}
 button{padding:10px 14px;min-height:44px;transition:background-color .18s,color .18s}
 button:hover{background:var(--tint)}
 button[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
@@ -12,7 +12,7 @@ p{text-wrap:pretty}
 code,pre{overflow-wrap:anywhere}
 .site-header nav span{color:var(--subtle)}
 .site-header .nav-start{padding:10px 20px;background:var(--accent);color:#fff;min-height:60px}
-.site-header .nav-start span{color:#e4ecdf}
+.site-header .nav-start span{color:#F7F7F5}
 .gallery-intro { padding: 34px 0 23px; display: flex; justify-content: space-between; gap: 24px; align-items: end; }
 .gallery-intro h1 { margin: 0 0 8px; font-size: clamp(28px, 3.2vw, 36px); font-weight: 800; }
 .gallery-intro h1 span { display: block; margin-top: 5px; font-size: .57em; font-weight: 450; letter-spacing: -.018em; }
@@ -55,7 +55,7 @@ article + article { margin-top: 20px; }
 figure { margin: 0; min-width: 0; }
 figcaption { display: flex; align-items: baseline; gap: 9px; padding: 0 0 8px; font-weight: 700; font-size: 15px; }
 figcaption span { font-weight: 450; font-size: 12px; color: var(--muted); }
-figure > a { display: block; background: #e4e6df; }
+figure > a { display: block; background: #ECEDEA; }
 figure img { width: 100%; aspect-ratio: 2 / 3; object-fit: contain; }
 figure small { display: block; font-size: 11px; line-height: 1.65; color: var(--muted); padding: 8px 0 0; }
 .source-notes { margin-top: 17px; font-size: 12px; color: var(--muted); line-height: 1.8; }

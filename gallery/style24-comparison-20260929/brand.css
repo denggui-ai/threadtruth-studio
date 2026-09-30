@@ -1,6 +1,6 @@
 @font-face{font-family:'Noto Sans SC';src:url('assets/brand/fonts/noto-sans-sc.woff2') format('woff2');font-weight:400 900;font-display:swap}
 @font-face{font-family:'Manrope';src:url('assets/brand/fonts/manrope.woff2') format('woff2');font-weight:400 800;font-display:swap}
-:root{--ink:#161c18;--accent:#173f33;--subtle:#52635b;--surface:#f5f6f3;--line:#cdd5ce;--white:#fff;--soft:#e9eee8;--focus:#a74c20;--canvas:#f5f6f3;--brand:#173f33;--muted:#52635b;--tint:#e9eee8;color-scheme:light}
+:root{--ink:#20211F;--accent:#20211F;--subtle:#646660;--surface:#F7F7F5;--line:#D7D8D3;--white:#fff;--soft:#ECEDEA;--focus:#3B5B9B;--canvas:#F7F7F5;--brand:#20211F;--muted:#646660;--tint:#ECEDEA;color-scheme:light}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:24px}
 body{margin:0;background:var(--surface);color:var(--ink);font-family:'Manrope','Noto Sans SC',sans-serif;font-size:16px;line-height:1.65}
@@ -22,7 +22,7 @@ button,summary{cursor:pointer}
 .button span{font-size:12px;font-weight:500;margin-top:4px}
 .primary{background:var(--accent);color:#fff}
 .secondary{color:var(--accent)}
-.primary:hover{background:#0b2b21}
+.primary:hover{background:#3d3e3b}
 .secondary:hover{background:var(--soft)}
 @media(max-width:640px){.wordmark{gap:10px}.wordmark img{width:49px}.wordmark span{font-size:11px}.site-header{gap:16px}.site-header nav{gap:17px}.site-header nav a{font-size:12px}.site-header nav span{font-size:12px}.button{padding:11px 18px;min-height:60px;font-size:14px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}

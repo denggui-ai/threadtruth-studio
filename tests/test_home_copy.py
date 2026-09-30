@@ -38,7 +38,9 @@ if (!options.empty) {
   }
 }
 const status = {textContent: '', lang: 'zh-CN'};
+const documentListeners = {};
 const document = {
+  addEventListener(type, listener) { documentListeners[type] = listener; },
   querySelectorAll(selector) {
     assert.equal(selector, '[data-copy]');
     return buttons;

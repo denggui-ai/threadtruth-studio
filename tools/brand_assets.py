@@ -26,7 +26,7 @@ except ImportError:
 
 MANIFEST_PATH = "brand-assets.json"
 TEXT_FILES = ("index.html", "compare.html", "home.css", "compare.css", "brand.css", "home.js", "compare.js", "prompt-copy.js")
-BASE_TEXT = "裁光 ThreadTruthStudio 服饰AI影棚 真实服饰。新的光景。Real garments. New perspectives. 开始使用 Get started 查看24风格 Explore24styles 已复制 复制失败 请手动复制"
+BASE_TEXT = "裁光 ThreadTruthStudio 服饰AI影棚 你的衣服。下一组大片。Your garments. A new perspective. 开始使用 Get started 查看24风格 Explore24styles 已复制 复制失败 请手动复制"
 FONT_SPECS = {
     "notosanssc": {"family": "Noto Sans SC", "filename": "NotoSansSC[wght].ttf", "weights": [400, 900],
                    "output": "assets/brand/fonts/noto-sans-sc.woff2", "license_output": "assets/brand/fonts/NotoSansSC-OFL.txt"},
@@ -137,10 +137,10 @@ def _outline_svg(font_path: Path, text: str, output: Path, *, icon: bool = False
         advance += glyph.width + (80 if not icon else 0)
     # Font em is 1000. Keep a generous fixed canvas so all outline extrema fit.
     if icon:
-        body = '<rect width="1200" height="1200" rx="220" fill="#143e34"/>' + '<g fill="#f6f4ed" transform="translate(100 990) scale(1 -1)">' + "".join(paths) + '</g>'
+        body = '<rect width="1200" height="1200" rx="220" fill="#20211F"/>' + '<g fill="#F7F7F5" transform="translate(100 990) scale(1 -1)">' + "".join(paths) + '</g>'
         viewbox = "0 0 1200 1200"
     else:
-        body = '<g fill="#143e34" transform="translate(0 940) scale(1 -1)">' + "".join(paths) + '</g>'
+        body = '<g fill="#20211F" transform="translate(0 940) scale(1 -1)">' + "".join(paths) + '</g>'
         viewbox = f"0 0 {advance - 80} 1100"
     output.write_text(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{viewbox}" role="img" aria-label="{text}">{body}</svg>\n')
 
@@ -214,8 +214,8 @@ def asset_provenance(path: str) -> dict:
         return {"kind": "share-cover", "source": "project-layout-and-authorized-showcase-assets" if home else "project-typographic-layout",
                 "usage_page": "index.html" if home else "compare.html",
                 "source_template": f"tools/brand_cards/og-{'home' if home else 'compare'}.html",
-                "source_images": ["assets/primary/look-3.jpg", "assets/primary/look-1.jpg", "assets/primary/source-1-front.jpg"] if home else [],
-                "rights_paths": ["assets/primary/rights.json"] if home else [], "derivation": "browser-render"}
+                "source_images": ["display/italian-luxe/A.webp", "assets/beige-outfit.jpg"] if home else [],
+                "rights_paths": ["rights.json", "assets/beige-outfit-rights.json"] if home else [], "derivation": "browser-render"}
     raise ValueError(f"unexpected brand path: {path}")
 
 
