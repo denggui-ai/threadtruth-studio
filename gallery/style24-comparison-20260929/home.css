@@ -47,6 +47,7 @@ h2>span[lang=en]{display:block;font-size:.53em;font-weight:400;letter-spacing:0;
 .principles h2 span{font-size:14px;margin-top:7px}
 .principles p{font-size:14px;margin-top:16px}
 .principles p>span[lang=en]{font-size:13px}
+.principles .capabilities-link{grid-column:1/-1;margin-top:0;font-size:14px}
 .highlights-section{padding-top:86px;padding-bottom:82px}
 .section-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;margin-bottom:26px}
 .section-context{font-size:12px;color:var(--subtle);margin-bottom:17px;letter-spacing:.07em}

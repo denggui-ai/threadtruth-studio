@@ -10,9 +10,14 @@
 
 ## What you can do
 
-- **Keep garment details in view.** Start from a real garment or coordinated outfit. Source color, construction, silhouette, and outfit accessories guide the result.
-- **Choose from 24 visual directions.** Review style recommendations or select a direction, from ecommerce studio to fashion editorial.
-- **Create a reviewed image set.** Confirm the plan before generation, inspect the first result, and continue with independent portraits at consistent dimensions.
+- **Identify the garment.** Read visible details from a single item, an outfit or multiple views.
+- **Choose a direction.** Get recommendations or choose freely from all 24 styles.
+- **Set the shoot.** Choose studio, location or hybrid, plus presentation and canvas. Alternate forms have limited public validation.
+- **Choose the output.** Request one test, a labeled direction preview, six independent images, or prompts only.
+- **Choose the route.** Use Codex by default or request a ChatGPT web handoff; automation needs host browser tools.
+- **Review and refine.** Compare with the source, check dimensions, and authorize a specific retry when needed.
+
+[Full capabilities, copyable prompts and verification scope →](docs/CAPABILITIES.md)
 
 Install **裁光 · ThreadTruth Studio** in **Codex**, where the Plugin is still listed as **ThreadTruth Studio**. Generate there by default, or explicitly choose the optional ChatGPT web handoff described below.
 
