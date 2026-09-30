@@ -54,6 +54,7 @@
     promptButtons.forEach(button => { button.textContent = promptLabels.get(button); });
     document.getElementById('home-copy-status').textContent = '';
     document.getElementById('page-copy-status').textContent = '';
+    document.dispatchEvent(new Event('threadtruth:languagechange'));
     if (opener && dialog.open) updateDialog();
   }
   toggle.addEventListener('click', () => {

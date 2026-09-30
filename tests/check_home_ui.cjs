@@ -103,6 +103,32 @@ async function check(name, fn) {
         } finally { await context.close(); }
       });
     }
+    for (const outcome of ['resolve', 'reject']) {
+      await check('language change cancels stale clipboard feedback: ' + outcome, async () => {
+        const context = await browser.newContext();
+        try {
+          await context.addInitScript(() => {
+            Object.defineProperty(navigator, 'clipboard', {value:{writeText:()=>new Promise((resolve,reject)=>{
+              window.pendingCopy={resolve,reject};
+            })}});
+          });
+          const p=await context.newPage(); await p.goto(origin);
+          if (outcome === 'reject') await p.locator('#language-toggle').click();
+          const from = outcome === 'resolve' ? 'zh' : 'en';
+          await p.locator(`[data-copy="home-prompt-${from}"]`).click();
+          await p.locator('#language-toggle').click();
+          await p.evaluate(outcome => window.pendingCopy[outcome](), outcome);
+          assert.equal(await p.locator('#home-copy-status').innerText(), '', 'stale feedback reappeared after language switch');
+          assert.equal(await p.evaluate(()=>window.getSelection().toString()), '');
+          assert.equal(await p.locator('#language-toggle').evaluate(el=>el===document.activeElement),true,'stale fallback moved focus');
+          // The new language remains fully usable after the stale operation is ignored.
+          const to = from === 'zh' ? 'en' : 'zh';
+          await p.locator(`[data-copy="home-prompt-${to}"]`).click();
+          await p.evaluate(()=>window.pendingCopy.resolve());
+          assert.equal(await p.locator('#home-copy-status').innerText(),to==='en'?'Copied':'已复制');
+        } finally { await context.close(); }
+      });
+    }
     await check('no JavaScript: Chinese content, all styles and original links remain usable', async () => {
       const context = await browser.newContext({javaScriptEnabled:false});
       try {
