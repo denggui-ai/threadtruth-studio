@@ -8,6 +8,14 @@
 
 [English guide](README.md) · [中文说明](README.zh-CN.md) · [产品首页 / Website](https://denggui-ai.github.io/threadtruth-studio/)
 
+## 为什么选择裁光
+
+**让真实服饰，成为每一次创作的依据。**
+
+- **细节有依据，成片可对照。** 先读颜色、结构与搭配，再对照源图逐张确认，让你知道该看哪些细节。[查看源图与六张成片](https://denggui-ai.github.io/threadtruth-studio/#complete-case)。
+- **一套服饰，探索多种方向。** 从电商棚拍到品牌大片，在 24 种风格中寻找适合这套服饰的表达。[看同套服饰的三种风格](https://denggui-ai.github.io/threadtruth-studio/#outfit)。
+- **先测一张，再决定是否继续。** 先看方案或只要提示词；选好方向后，授权测试一张，再决定是否继续生成。[先做一次识别](#三步开始)。
+
 ## 你可以用它做什么
 
 - **识别服饰。** 从单件、套装或多角度照片读取可见细节。

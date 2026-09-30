@@ -8,6 +8,14 @@
 
 [English guide](README.md) · [中文说明](README.zh-CN.md) · [产品首页 / Website](https://denggui-ai.github.io/threadtruth-studio/)
 
+## Why create with ThreadTruth Studio?
+
+**Keep your real garment at the heart of every creative decision.**
+
+- **Garment details you can review.** Review color, construction and styling before generation, then compare each result with your source photos. [See the complete case](https://denggui-ai.github.io/threadtruth-studio/#complete-case).
+- **Explore more looks for one outfit.** Find a direction across 24 styles, from ecommerce studio to fashion editorial. [See one outfit in three styles](https://denggui-ai.github.io/threadtruth-studio/#outfit).
+- **Try one image before a full set.** Start with a plan or prompts only. Approve one test image when ready, then decide whether to continue. [Start with recognition](https://denggui-ai.github.io/threadtruth-studio/#begin).
+
 ## What you can do
 
 - **Identify the garment.** Read visible details from a single item, an outfit or multiple views.
