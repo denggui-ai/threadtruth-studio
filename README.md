@@ -2,11 +2,19 @@
 
 [![裁光 · 真实服饰，新的光景。Real garments. New perspectives. 真实白马甲源图与两张 AI 历史案例成片。](gallery/style24-comparison-20260929/assets/brand/og-home.png)](https://denggui-ai.github.io/threadtruth-studio/)
 
-**从真实服饰照片出发，以源图细节为依据，探索 24 种风格的 AI 模特图。**<br>AI fashion portraits in 24 styles, guided by your real garment photos.
+**单件或整套服饰，生成六姿势 AI 模特图，24 种风格可选。**<br>Turn a garment or coordinated outfit into six-pose AI model portraits. Choose from 24 styles.
 
 **[开始安装 · Install](docs/INSTALL.md#english)**　·　**[查看成片 · See results](https://denggui-ai.github.io/threadtruth-studio/#complete-case)**　·　**[探索 24 风格 · Explore styles](https://denggui-ai.github.io/threadtruth-studio/#style-highlights)**
 
 [English guide](README.md) · [中文说明](README.zh-CN.md) · [产品首页 / Website](https://denggui-ai.github.io/threadtruth-studio/)
+
+## One garment or a complete outfit, six poses
+
+Upload a garment or coordinated outfit, choose **one of 24 styles**, and create **six independent AI model portraits** using the default pose set. Review the first image before continuing; later images use its identity reference for consistency within the set. This does not promise to reproduce a person in your input photo. A choice of 24 styles does not mean 24 sets in one request.
+
+[Prepare your photos](docs/INPUT-GUIDE.md) · [Six poses and generation prompts](docs/CAPABILITIES.md#six-poses) · [Garment: 24 previews](docs/demo/style-previews/white-vest-24-v1/) · [Outfit: 24 previews](docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/)
+
+Both collections are historical direction previews: one six-panel sheet per style, not independent finals. The public complete six-image case is a single white vest; a complete public outfit set remains to be added.
 
 ## Why create with ThreadTruth Studio?
 
@@ -101,7 +109,7 @@ These historical previews retain their source records, reviews, and hashes. They
 裁光 · ThreadTruth Studio is independent and community-maintained, not an OpenAI product or endorsement. Installation and enablement have been verified on the maintainer's macOS machine; a fresh non-maintainer environment remains unverified. See [compatibility and verification scope](docs/COMPATIBILITY.md).
 
 - **Source details guide the output.** Color, material appearance, silhouette, construction, pattern, and logo placement come from the source. For an outfit, this also includes layering, proportions, shoes, bags, and accessories. Check the generated result against your source; exact small text, logos, and fit are not guaranteed.
-- **Human review remains part of delivery.** This workflow supports apparel imagery, not general virtual try-on, CAD fit simulation, non-apparel products, text-only concepts, API integration, or unattended commercial delivery. It does not guarantee platform approval or sales results.
+- **Human review remains part of delivery.** This workflow supports apparel imagery, not identity-preserving try-on on a supplied person, CAD fit simulation, non-apparel products, text-only concepts, API integration, or unattended commercial delivery. It does not guarantee platform approval or sales results.
 - **Style names describe visual direction.** Gendered or culturally named styles do not infer a person's identity, ethnicity, nationality, body, or gender.
 - **Use authorized material and keep rights separate.** Images are AI-generated and need applicable labeling. Gallery publication does not mean all third-party rights are cleared; follow the per-case disclosures. Apache-2.0 covers code and documentation, not demo media.
 - **Generation depends on the chosen host.** The Plugin adds no API-key flow, third-party generation service, MCP server, or telemetry. Without the required tools, recognition and prompt preparation can continue; generation pauses or you can explicitly choose the web handoff route.

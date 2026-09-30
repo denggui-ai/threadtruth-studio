@@ -2,6 +2,13 @@
 
 All notable changes are documented here. Versions follow Semantic Versioning.
 
+## Unreleased — complete product guide
+
+- Explain garment and coordinated-outfit AI model portraits, the six default poses, six independent images and a choice of 24 styles across both READMEs and the homepage.
+- Add a bilingual input guide with minimum versus recommended photos, variant grouping, unseen-detail limits and common questions; connect installation and web tutorials to copyable generation prompts.
+- Surface both frozen 24-style preview collections and distinguish them from independent finals; retain the explicit gap in public complete outfit-set evidence.
+- Refresh sharing copy and its cover through the existing brand-asset process. No runtime behavior, frozen demo evidence or published beta.8 archive is changed.
+
 ## Unreleased — first-use and gallery clarity
 
 - Clarify the tested installation environment, download location, dry-run review, first-use checks and troubleshooting in both languages. Copied verification commands stop before extraction if changing directory or checksum verification fails.

@@ -2,11 +2,19 @@
 
 [![裁光 · 真实服饰，新的光景。Real garments. New perspectives. 真实白马甲源图与两张 AI 历史案例成片。](gallery/style24-comparison-20260929/assets/brand/og-home.png)](https://denggui-ai.github.io/threadtruth-studio/)
 
-**从真实服饰照片出发，以源图细节为依据，探索 24 种风格的 AI 模特图。**<br>AI fashion portraits in 24 styles, guided by your real garment photos.
+**单件或整套服饰，生成六姿势 AI 模特图，24 种风格可选。**<br>Turn a garment or coordinated outfit into six-pose AI model portraits. Choose from 24 styles.
 
 **[开始安装 · Install](docs/INSTALL.md#简体中文)**　·　**[查看成片 · See results](https://denggui-ai.github.io/threadtruth-studio/#complete-case)**　·　**[探索 24 风格 · Explore styles](https://denggui-ai.github.io/threadtruth-studio/#style-highlights)**
 
 [English guide](README.md) · [中文说明](README.zh-CN.md) · [产品首页 / Website](https://denggui-ai.github.io/threadtruth-studio/)
+
+## 单件和套装，都能拍一组
+
+上传一件服饰或一套完整搭配，选择 24 种风格中的一个主风格，生成默认六姿势的**六张独立图片**。首张验收后继续，其余图片沿用人物参考以保持组内一致；不保证复刻上传照片中的真人。24 风格可选不代表一次生成 24 组。
+
+[素材怎么准备](docs/INPUT-GUIDE.md) · [六姿势与生成指令](docs/CAPABILITIES.md#six-poses) · [单件 24 风格预览](docs/demo/style-previews/white-vest-24-v1/) · [套装 24 风格预览](docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/)
+
+以上两套是历史方向预览，每个风格一张六宫格，均不是六张独立成片。公开完整六图案例目前为白马甲单件；套装完整六图公开案例待补。
 
 ## 为什么选择裁光
 
@@ -101,7 +109,7 @@
 裁光 · ThreadTruth Studio 由社区独立维护，不是 OpenAI 官方产品，也不代表官方背书。安装与启用已在维护者的 macOS 本机验证，非维护者新环境仍待验证。详见[兼容性与验证范围](docs/COMPATIBILITY.md)。
 
 - **以源图细节为依据。** 颜色、材质观感、廓形、结构、图案和 Logo 位置来自源图；完整套装还包括层次、比例及鞋包配饰。生成后仍需对照源图检查，不能保证小字、Logo 或合体效果完全准确。
-- **交付需要人工验收。** 适用于服饰图像，不适用于通用虚拟试衣、CAD 合体模拟、非服饰商品、纯文字概念图、API 集成或无人值守商业交付；不保证平台审核通过或销售效果。
+- **交付需要人工验收。** 适用于 AI 模特服饰展示，不承诺指定真人身份换装或 CAD 合体模拟；不用于非服饰商品、纯文字概念图、API 集成或无人值守商业交付；不保证平台审核通过或销售效果。
 - **风格名称只描述视觉方向。** 带性别或文化名称的风格，不用于推断人物身份、族裔、国籍、身体或性别。
 - **使用有授权的素材，单独核对图片权利。** 生成结果需要适用的 AI 内容标识；图库公开不表示第三方权利已全部清理，应查看逐组披露。Apache-2.0 覆盖代码和文档，不覆盖演示媒体。
 - **生图能力由所选宿主提供。** 插件不增加 API key 流程、第三方生图服务、MCP 服务或遥测。工具不可用时仍可识别和准备提示词，生图暂停；也可明确选择网页转交入口。

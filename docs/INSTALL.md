@@ -86,6 +86,10 @@ Expected: a garment recognition card, a primary recommendation plus alternatives
 
 First use succeeds when the installed entry is enabled, the new task can invoke `$threadtruth-studio`, and the recognition card and style catalogue appear. Share a brief success or failure through the [installation feedback form](https://github.com/denggui-ai/threadtruth-studio/issues/new?template=installation-feedback.yml); report the actual installed version, or the attempted release if installation did not complete, and keep private images, credentials and full logs out of the public Issue.
 
+### 4. Prepare photos and generate
+
+One clear authorized photo can start recognition; front, back and detail views help establish garment facts. Read the [photo guide](INPUT-GUIDE.md). After confirming recognition and a style, choose [one test, six garment images or six outfit images](CAPABILITIES.md#first-generation). These generation commands use account quota; a recognition check alone does not authorize them.
+
 ### Troubleshooting
 
 | What happened | What to do next |
@@ -211,6 +215,10 @@ codex plugin list --marketplace personal --json
 预期返回服饰识别卡、主推与备选风格、完整 24 风格目录；不应生成图片，也没有授权任何生图费用。
 
 首次使用成功应同时满足：已安装项处于启用状态，新任务能调用 `$threadtruth-studio`，并返回识别卡和风格目录。成功或失败均可提交[安装反馈表](https://github.com/denggui-ai/threadtruth-studio/issues/new?template=installation-feedback.yml)，填写实际安装版本；若尚未安装成功，填写 not installed 和尝试安装的版本。不要在公开 Issue 中附私图、凭据或完整日志。
+
+### 4. 准备素材并开始生成
+
+最低一张清晰、有权使用的真实服饰图可开始识别；正面、背面与细节图更利于确认服饰事实。先看[素材指南](INPUT-GUIDE.md)，确认识别与风格后，再选择[单张测试、单件六图或套装六图指令](CAPABILITIES.md#first-generation)。生成指令会使用账号额度，首次识别本身不授权生图。
 
 ### 安装排查
 

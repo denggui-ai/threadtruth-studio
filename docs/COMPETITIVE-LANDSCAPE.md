@@ -1,5 +1,13 @@
 # Competitive boundary
 
+## User-facing position
+
+**Create six-pose AI model portraits from a real garment or coordinated outfit, choosing one of 24 styles.** Start with a single test if desired. The practical value is a guided apparel shoot: identify what must stay, choose a visual direction, then review a consistent set.
+
+“AI model try-on” describes apparel presentation here. It does not promise a supplied person's exact identity, body measurements or physical fit. [Capabilities](CAPABILITIES.md) · [Photo guide](INPUT-GUIDE.md).
+
+Public evidence includes 24-style historical previews for both a garment and an outfit, plus one complete single-garment six-image case. A complete public outfit six-image case remains to be added. The workflow controls below support this proposition; they are not proof of better output than another product.
+
 ThreadTruth Studio sits beside—not above—several useful project categories.
 
 | Category | Typical strength | ThreadTruth boundary |
