@@ -1,10 +1,10 @@
-# ThreadTruth Studio
+# 裁光 · ThreadTruth Studio
 
 [English](README.md) | [简体中文](README.zh-CN.md)
 
-**Turn real garment and outfit photos into fashion portraits, with source details guiding every image.**
+**An AI studio for apparel. Turn real garment and outfit photos into fashion portraits, with source details guiding every image.**
 
-**[Install in Codex · beta.8](docs/INSTALL.md#english)** · **[See results · 24 styles, 48 paired images](https://denggui-ai.github.io/threadtruth-studio/compare.html)**
+**[Product homepage](https://denggui-ai.github.io/threadtruth-studio/)** · **[Install in Codex · beta.8](docs/INSTALL.md#english)** · **[See results · 24 styles, 48 paired images](https://denggui-ai.github.io/threadtruth-studio/compare.html)**
 
 [![A real white-vest source photo alongside six independent AI-generated Korean Cold Editorial portraits](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/hero.jpg)](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)
 
@@ -16,7 +16,7 @@
 - **Choose from 24 visual directions.** Review style recommendations or select a direction, from ecommerce studio to fashion editorial.
 - **Create a reviewed image set.** Confirm the plan before generation, inspect the first result, and continue with independent portraits at consistent dimensions.
 
-Install the Plugin in **Codex**. Generate there by default, or explicitly choose the optional ChatGPT web handoff described below.
+Install **裁光 · ThreadTruth Studio** in **Codex**, where the Plugin is still listed as **ThreadTruth Studio**. Generate there by default, or explicitly choose the optional ChatGPT web handoff described below.
 
 ## Get started
 
@@ -41,7 +41,7 @@ If recognition does not appear, follow [installation troubleshooting](docs/INSTA
 | **Codex · default** | Generate within Codex after approval; review the first image before continuing the set. | A Codex host with native image generation and available quota. |
 | **ChatGPT web · explicitly selected** | Codex prepares numbered references and prompts. Transfer them manually, or authorize Codex to operate a supported browser. | A ChatGPT account with image access and quota. Automatic execution also requires host browser tools for uploading and downloading original files. |
 
-Install ThreadTruth in **Codex**. The ChatGPT route uses the web handoff described in the [tutorial (中文)](docs/CHATGPT-WEB-TUTORIAL.md); installing this Plugin does not install browser tools. Uploading references to ChatGPT requires permission. Failed or uncertain requests are checked before any separately authorized retry, and used attempts remain recorded. [Web workflow details (中文)](docs/CHATGPT-WEB.md).
+Install 裁光 · ThreadTruth Studio in **Codex**. The ChatGPT route uses the web handoff described in the [tutorial (中文)](docs/CHATGPT-WEB-TUTORIAL.md); installing this Plugin does not install browser tools. Uploading references to ChatGPT requires permission. Failed or uncertain requests are checked before any separately authorized retry, and used attempts remain recorded. [Web workflow details (中文)](docs/CHATGPT-WEB.md).
 
 ## Examples and what they demonstrate
 
@@ -83,7 +83,7 @@ These historical previews retain their source records, reviews, and hashes. They
 
 ## Scope and limits
 
-ThreadTruth Studio is independent and community-maintained, not an OpenAI product or endorsement. Installation and enablement have been verified on the maintainer's macOS machine; a fresh non-maintainer environment remains unverified. See [compatibility and verification scope](docs/COMPATIBILITY.md).
+裁光 · ThreadTruth Studio is independent and community-maintained, not an OpenAI product or endorsement. Installation and enablement have been verified on the maintainer's macOS machine; a fresh non-maintainer environment remains unverified. See [compatibility and verification scope](docs/COMPATIBILITY.md).
 
 - **Source details guide the output.** Color, material appearance, silhouette, construction, pattern, and logo placement come from the source. For an outfit, this also includes layering, proportions, shoes, bags, and accessories. Check the generated result against your source; exact small text, logos, and fit are not guaranteed.
 - **Human review remains part of delivery.** This workflow supports apparel imagery, not general virtual try-on, CAD fit simulation, non-apparel products, text-only concepts, API integration, or unattended commercial delivery. It does not guarantee platform approval or sales results.

@@ -25,7 +25,7 @@ for (const id of ['cases', ...ids]) {
   vm.runInNewContext(code, {location, window: {addEventListener: (k,v) => listeners[k] = v}});
   assert.equal(target, 'compare.html?source=readme#' + id);
 }
-for (const hash of ['', '#complete-case', '#outfit', '#begin', '#unknown', '#%E0%A4%A']) {
+for (const hash of ['', '#complete-case', '#style-highlights', '#outfit', '#begin', '#unknown', '#%E0%A4%A']) {
   let target;
   const location = {hash, search: '', replace: v => target = v};
   const listeners = {};

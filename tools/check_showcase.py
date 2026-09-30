@@ -13,8 +13,10 @@ from urllib.parse import unquote, urlsplit
 
 try:
     from . import showcase_assets as assets
+    from . import brand_assets as brand
 except ImportError:
     import showcase_assets as assets
+    import brand_assets as brand
 
 
 class Page(HTMLParser):
@@ -85,9 +87,14 @@ def _record_findings(path: Path, expected: dict, label: str, *, image: bool = Tr
     return findings
 
 
-def validate_showcase(gallery: Path, *, repo_root: Path | None = None, expected_cases: int = 24) -> list[str]:
+def validate_showcase(gallery: Path, *, repo_root: Path | None = None, expected_cases: int = 24, require_brand: bool = False) -> list[str]:
     gallery = gallery.resolve()
     findings = []
+    # The API preserves legacy gallery fixtures; the deployment CLI requires
+    # the brand manifest. Any gallery carrying brand files is checked as well.
+    has_brand = require_brand or (gallery / brand.MANIFEST_PATH).exists() or (gallery / "assets/brand").exists()
+    if has_brand:
+        findings.extend(brand.validate_brand(gallery, repo_root=repo_root))
     pages = {}
     private_pattern = re.compile(r"(?:/(?:Users|home)/[^\s/]+/|[A-Za-z]:\\(?:Users|Documents and Settings)\\|file://)")
     for name in ("index.html", "compare.html"):
@@ -223,9 +230,12 @@ def validate_showcase(gallery: Path, *, repo_root: Path | None = None, expected_
     for missing in sorted(set(expected_records) - seen):
         findings.append(f"missing manifest asset: {missing}")
     allowed_files = {
-        "index.html", "compare.html", "home.css", "home.js", "compare.css", "compare.js",
+        "index.html", "compare.html", "home.css", "home.js", "compare.css", "compare.js", "brand.css", "prompt-copy.js",
         "rights.json", "display-manifest.json", *originals, *expected_records,
     }
+    if has_brand:
+        # Fixed code-owned contract: a manifest cannot authorize extra files.
+        allowed_files.update({brand.MANIFEST_PATH, *brand.BRAND_FILES})
     # The already-published input remains a byte-identical alias for old links.
     legacy_input = gallery / "inputs/beige-outfit.jpg"
     if legacy_input.exists():
@@ -242,13 +252,13 @@ def main() -> int:
     parser.add_argument("--gallery", type=Path, default=Path(__file__).resolve().parents[1] / assets.GALLERY_PATH)
     parser.add_argument("--repo-root", type=Path, help="Also check provenance against repository source files")
     args = parser.parse_args()
-    findings = validate_showcase(args.gallery, repo_root=args.repo_root)
+    findings = validate_showcase(args.gallery, repo_root=args.repo_root, require_brand=True)
     if findings:
         print("FAIL: showcase validation")
         for finding in findings:
             print(f"- {finding}")
         return 1
-    print("PASS: 24 styles, 48 original links, 48 WebP derivatives, 12 authorized demo images; local references, rights and deployment scope verified")
+    print("PASS: 24 styles, 48 original links, 48 WebP derivatives, 12 authorized demo images; local references, rights, licensed brand assets and deployment scope verified")
     return 0
 
 

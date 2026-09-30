@@ -147,6 +147,20 @@ class ShowcaseTests(unittest.TestCase):
         shutil.rmtree(self.root)
         self.assertEqual(self.findings(deployed), [])
 
+    def test_deployment_mode_requires_brand_manifest_while_legacy_fixture_remains_valid(self):
+        self.build()
+        self.assertEqual(self.findings(), [])
+        findings = check_showcase.validate_showcase(self.gallery, expected_cases=2, require_brand=True)
+        self.assertTrue(any("brand manifest" in finding for finding in findings))
+
+    def test_brand_manifest_cannot_expand_deployment_allowlist(self):
+        self.build()
+        write_json(self.gallery / "brand-assets.json", {"assets": [{"output": {"path": "assets/brand/extra.js"}}]})
+        (self.gallery / "assets/brand").mkdir(parents=True)
+        (self.gallery / "assets/brand/extra.js").write_text("unapproved")
+        findings = self.findings()
+        self.assertTrue(any("unexpected deployment file: assets/brand/extra.js" in finding for finding in findings))
+
     def test_missing_or_corrupt_asset_is_reported(self):
         self.build()
         target = self.gallery / "display/first-style/A.webp"
@@ -193,6 +207,11 @@ class ShowcaseTests(unittest.TestCase):
         self.assertEqual(self.findings(), [])
         (self.gallery / "home.css").write_text('main { background-image: url("assets/absent.jpg"); }')
         self.assertTrue(any("absent.jpg" in x for x in self.findings()))
+
+    def test_fontface_cannot_load_from_cdn(self):
+        self.build()
+        (self.gallery / "brand.css").write_text('@font-face { font-family: "Noto Sans SC"; src: url("https://example.org/font.woff2"); }')
+        self.assertTrue(any("embedded asset must be local" in finding for finding in self.findings()))
 
     def test_missing_style_original_link_and_inline_original_are_rejected(self):
         self.build()

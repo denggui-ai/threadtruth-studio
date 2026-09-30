@@ -7,7 +7,12 @@ on:
       - 'gallery/style24-comparison-20260929/**'
       - 'tools/check_showcase.py'
       - 'tools/showcase_assets.py'
+      - 'tools/brand_assets.py'
+      - 'tools/brand_cards/**'
       - 'tests/test_showcase.py'
+      - 'tests/test_brand_assets.py'
+      - 'tests/test_home_copy.py'
+      - 'tests/test_showcase_navigation.py'
       - 'requirements-dev.txt'
       - 'docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/**'
       - 'docs/demo/preview-sources/beige-blazer-denim-outfit/**'
@@ -40,7 +45,7 @@ jobs:
         env:
           PYTHONDONTWRITEBYTECODE: '1'
         run: |
-          python -m unittest tests.test_showcase
+          python -m unittest tests.test_showcase tests.test_brand_assets tests.test_home_copy tests.test_showcase_navigation
           python tools/check_showcase.py --gallery gallery/style24-comparison-20260929 --repo-root .
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5

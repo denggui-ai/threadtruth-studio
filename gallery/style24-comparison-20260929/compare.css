@@ -1,48 +1,23 @@
-:root {
-  color-scheme: light;
-  --canvas: #f5f3ee;
-  --surface: #fff;
-  --ink: #263b30;
-  --muted: #485d50;
-  --brand: #235e45;
-  --line: #c5cfc5;
-  --tint: #e8eadf;
-  --focus: #a74716;
-}
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 24px; }
-body { margin: 0; background: var(--canvas); color: var(--ink); font: 16px/1.65 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-main, .site-header { width: min(1160px, calc(100% - 80px)); margin-inline: auto; }
-a { color: var(--brand); text-underline-offset: .2em; }
-a, button, summary { -webkit-tap-highlight-color: transparent; }
-a:hover { text-decoration-thickness: 2px; }
-button, input { font: inherit; }
-button, input, summary, a { touch-action: manipulation; }
-button { cursor: pointer; }
-button, input { border: 1px solid #849c8a; border-radius: 5px; background: var(--surface); color: var(--ink); }
-button { padding: 10px 14px; min-height: 44px; transition: background-color .18s ease-out, color .18s ease-out; }
-button:hover { background: var(--tint); }
-button[aria-pressed="true"] { background: var(--brand); border-color: var(--brand); color: #fff; }
-:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
-h1, h2 { line-height: 1.2; letter-spacing: -.025em; text-wrap: balance; }
-p { text-wrap: pretty; }
-img { display: block; max-width: 100%; height: auto; }
-code, pre { overflow-wrap: anywhere; }
-.site-header { min-height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 24px; border-bottom: 1px solid var(--line); }
-.wordmark { font-size: 21px; font-weight: 750; text-decoration: none; white-space: nowrap; letter-spacing: -.035em; }
-.wordmark span { font-weight: 450; }
-.site-header nav, .install-links { display: flex; align-items: center; }
-.site-header nav { gap: 28px; }
-.site-header nav a { text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; }
-.install-links { gap: 0; border-radius: 5px; background: var(--brand); }
-.install-links a { color: #fff; padding: 8px 14px; font-size: 14px; }
-.install-links a + a { border-left: 1px solid #719b82; }
-.install-links a:hover { background: #174d35; }
-.gallery-intro { padding: 18px 0 14px; display: flex; justify-content: space-between; gap: 24px; align-items: end; }
-.gallery-intro h1 { margin: 0 0 8px; font-size: clamp(28px, 3.2vw, 36px); font-weight: 650; }
+body { margin: 0; background: var(--canvas); color: var(--ink); font: 16px/1.65 "Manrope", "Noto Sans SC", sans-serif; }
+main, .site-header { width:min(1160px,calc(100% - 80px)); margin-inline:auto; }
+.site-header { min-height:92px; border-bottom:1px solid var(--line); }
+button,input{border:1px solid #849c8a;border-radius:0;background:var(--surface);color:var(--ink)}
+button{padding:10px 14px;min-height:44px;transition:background-color .18s,color .18s}
+button:hover{background:var(--tint)}
+button[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
+h1,h2{line-height:1.2;letter-spacing:-.025em;text-wrap:balance}
+p{text-wrap:pretty}
+code,pre{overflow-wrap:anywhere}
+.site-header nav span{color:var(--subtle)}
+.site-header .nav-start{padding:10px 20px;background:var(--accent);color:#fff;min-height:60px}
+.site-header .nav-start span{color:#e4ecdf}
+.gallery-intro { padding: 34px 0 23px; display: flex; justify-content: space-between; gap: 24px; align-items: end; }
+.gallery-intro h1 { margin: 0 0 8px; font-size: clamp(28px, 3.2vw, 36px); font-weight: 800; }
 .gallery-intro h1 span { display: block; margin-top: 5px; font-size: .57em; font-weight: 450; letter-spacing: -.018em; }
 .gallery-intro p { margin: 0; line-height: 1.5; font-size: 13px; }
-.gallery-intro p [lang="en"] { color: var(--muted); font-size: 12px; }
+.gallery-intro p [lang="en"] { color: var(--muted); font-size: 13px; }
 .text-link { flex-shrink: 0; text-decoration: none; font-weight: 650; padding-bottom: 3px; }
 .text-link span { display: block; font-size: 13px; font-weight: 450; color: var(--muted); }
 .disclosure-brief { padding: 9px 16px 5px; background: var(--tint); font-size: 12px; line-height: 1.6; }
@@ -75,13 +50,14 @@ article + article { margin-top: 20px; }
 .case-context span:first-child { color: var(--brand); font-weight: 650; }
 #case-list > article:first-child .case-header { margin-bottom: 8px; }
 #case-list > article:first-child .case-context { margin-bottom: 10px; }
-.pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
+.pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows:auto auto auto; gap:0 20px; }
+.pair>figure{display:grid;grid-row:span 3;grid-template-rows:subgrid;}
 figure { margin: 0; min-width: 0; }
 figcaption { display: flex; align-items: baseline; gap: 9px; padding: 0 0 8px; font-weight: 700; font-size: 15px; }
 figcaption span { font-weight: 450; font-size: 12px; color: var(--muted); }
 figure > a { display: block; background: #e4e6df; }
 figure img { width: 100%; aspect-ratio: 2 / 3; object-fit: contain; }
-figure small { display: block; font-size: 10px; line-height: 1.65; color: var(--muted); padding: 8px 0 0; }
+figure small { display: block; font-size: 11px; line-height: 1.65; color: var(--muted); padding: 8px 0 0; }
 .source-notes { margin-top: 17px; font-size: 12px; color: var(--muted); line-height: 1.8; }
 .source-notes p { margin: 4px 0; overflow-wrap: anywhere; }
 .case-disclosures { margin-top: 6px; font-size: 12px; color: var(--muted); }
@@ -94,7 +70,7 @@ figure small { display: block; font-size: 10px; line-height: 1.65; color: var(--
 .review-summary > p + p { font-size: 12px; color: var(--muted); }
 .review-details, .try-style { border-top: 1px solid var(--line); margin-top: 14px; font-size: 13px; }
 .try-style { margin-top: 0; border-bottom: 1px solid var(--line); }
-pre { margin: 6px 0 12px; padding: 18px; background: var(--surface); color: var(--ink); font: 13px/1.85 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; white-space: pre-wrap; max-width: 100%; }
+pre { margin: 6px 0 12px; padding: 18px; background: var(--surface); color: var(--ink); font: 13px/1.85 "Manrope", "Noto Sans SC", sans-serif; white-space: pre-wrap; max-width: 100%; }
 .review-details pre { max-height: 560px; overflow: auto; overscroll-behavior: contain; }
 .try-style pre { max-width: 85ch; }
 .try-style button { margin: 0 0 20px; font-size: 13px; }
@@ -124,8 +100,8 @@ pre { margin: 6px 0 12px; padding: 18px; background: var(--surface); color: var(
 }
 @media (max-width: 680px) {
   main, .site-header { width: calc(100% - 32px); }
-  .site-header { min-height: 66px; gap: 10px; flex-wrap: wrap; padding: 10px 0; }
-  .wordmark { font-size: 19px; }
+  .site-header { min-height:76px; gap:12px; padding:12px 0; }
+  .site-header .nav-start{padding:8px 12px;min-height:52px}
   .site-header nav { gap: 12px; margin-left: auto; font-size: 12px; }
   .install-links a { font-size: 12px; padding: 7px 9px; }
   .home-link { display: none !important; }
@@ -133,7 +109,7 @@ pre { margin: 6px 0 12px; padding: 18px; background: var(--surface); color: var(
   .gallery-intro h1 { font-size: 30px; }
   .gallery-intro h1 span { font-size: 17px; }
   .gallery-intro p { font-size: 12px; }
-  .gallery-intro p [lang="en"] { font-size: 12px; }
+  .gallery-intro p [lang="en"] { font-size: 13px; }
   .text-link { display: none; }
   .disclosure-brief { padding: 9px 12px 5px; font-size: 12px; }
   .methodology summary { font-size: 12px; }
@@ -149,11 +125,11 @@ pre { margin: 6px 0 12px; padding: 18px; background: var(--surface); color: var(
   .case-header h2 { font-size: 23px; gap: 10px; }
   .case-header h2 [lang="en"] { font-size: 16px; }
   .case-header p { margin: 8px 0 0; max-width: 100%; font-size: 12px; }
-  .case-context { gap: 4px; flex-direction: column; font-size: 10px; }
-  .pair { gap: 10px; }
+  .case-context { gap: 4px; flex-direction: column; font-size: 11px; }
+  .pair { column-gap:10px; }
   figcaption { display: block; padding-bottom: 7px; }
-  figcaption span { display: block; font-size: 10px; line-height: 1.5; }
-  figure small { font-size: 9px; padding-top: 7px; }
+  figcaption span { display: block; font-size: 11px; line-height: 1.5; }
+  figure small { font-size: 11px; padding-top: 7px; }
   .source-notes { margin-top: 14px; font-size: 11px; }
   .case-disclosures, .case-disclosures summary, .review-summary, .review-summary > p + p { font-size: 11px; }
   .review-details, .try-style { font-size: 12px; }
