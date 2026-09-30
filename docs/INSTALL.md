@@ -1,6 +1,6 @@
 # 裁光 · Codex 服饰 AI 插件 / Caiguang — Installation
 
-> **本页用于已公开的 beta.8 / This page covers public beta.8.** 收到 beta.9 候选包时请用 [beta.9 试用指南 / candidate guide](BETA9-TRYOUT.md)，不要混用版本、命令和校验文件。
+> **本页用于 beta.9 预发布版 / This page covers the beta.9 prerelease.** 首次使用可配合 [beta.9 试用指南 / trial guide](BETA9-TRYOUT.md)。旧版使用对应归档内指南，不要混用版本、命令和校验文件。
 
 [English](#english) | [简体中文](#简体中文)
 
@@ -12,16 +12,16 @@
 
 The path is: download two files → check your tools → verify and extract → preview and register → enable → run recognition in a new Codex task. Download the files in your browser, run the setup commands in Terminal, then switch to Codex for recognition.
 
-Download both files from the same [Download Caiguang plugin · beta.8](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.8):
+Download both files from the same [Download Caiguang plugin · beta.9](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.9):
 
-- [Plugin ZIP — threadtruth-studio-1.0.0-beta.8.zip](https://github.com/denggui-ai/threadtruth-studio/releases/download/v1.0.0-beta.8/threadtruth-studio-1.0.0-beta.8.zip)
-- [Matching checksum — threadtruth-studio-1.0.0-beta.8.zip.sha256](https://github.com/denggui-ai/threadtruth-studio/releases/download/v1.0.0-beta.8/threadtruth-studio-1.0.0-beta.8.zip.sha256)
+- [Plugin ZIP — threadtruth-studio-1.0.0-beta.9.zip](https://github.com/denggui-ai/threadtruth-studio/releases/download/v1.0.0-beta.9/threadtruth-studio-1.0.0-beta.9.zip)
+- [Matching checksum — threadtruth-studio-1.0.0-beta.9.zip.sha256](https://github.com/denggui-ai/threadtruth-studio/releases/download/v1.0.0-beta.9/threadtruth-studio-1.0.0-beta.9.zip.sha256)
 
-GitHub's automatic **Source code (zip)** and **Source code (tar.gz)** downloads are not the verified Plugin package. Optional media archives are not the Plugin either. Commands below target beta.8. A checksum checks integrity when obtained through a trusted channel and does not independently authenticate the publisher.
+GitHub's automatic **Source code (zip)** and **Source code (tar.gz)** downloads are not the verified Plugin package. Optional media archives are not the Plugin either. Commands below target beta.9. A checksum checks integrity when obtained through a trusted channel and does not independently authenticate the publisher.
 
-This online guide can receive onboarding corrections after publication. The published beta.8 ZIP, tag and checksum remain unchanged; older releases use their own bundled guides.
+This online guide can receive onboarding corrections after publication. The published beta.9 ZIP, tag and checksum remain unchanged; older releases use their own bundled guides.
 
-The release ZIP extracts to a versioned root such as `threadtruth-studio-1.0.0-beta.8/`. That whole root, containing `.codex-plugin/plugin.json` and `install-local.py`, is the install source. Do not use the inner `skills/threadtruth-studio/` folder.
+The release ZIP extracts to a versioned root such as `threadtruth-studio-1.0.0-beta.9/`. That whole root, containing `.codex-plugin/plugin.json` and `install-local.py`, is the install source. Do not use the inner `skills/threadtruth-studio/` folder.
 
 On the tested maintainer host, installation requires macOS and Codex CLI with `plugin add` support; no administrator access or additional API key is needed. Allow about 100 MB for the source, cache and one backup, and a few minutes for local setup. A Codex account with native image access is needed for later generation, which requires separate approval and host quota. Fresh-host compatibility is unverified.
 
@@ -40,12 +40,12 @@ Keep the Plugin ZIP and its matching sidecar in the same folder. In Terminal, go
 
 ```bash
 cd "$HOME/Downloads" &&
-shasum -a 256 -c threadtruth-studio-1.0.0-beta.8.zip.sha256 &&
-unzip threadtruth-studio-1.0.0-beta.8.zip &&
-cd threadtruth-studio-1.0.0-beta.8
+shasum -a 256 -c threadtruth-studio-1.0.0-beta.9.zip.sha256 &&
+unzip threadtruth-studio-1.0.0-beta.9.zip &&
+cd threadtruth-studio-1.0.0-beta.9
 ```
 
-Extract only after the checksum command prints `threadtruth-studio-1.0.0-beta.8.zip: OK`. Use the actual published filenames if they differ. Stop if verification fails or extraction does not produce exactly one expected release root.
+Extract only after the checksum command prints `threadtruth-studio-1.0.0-beta.9.zip: OK`. Use the actual published filenames if they differ. Stop if verification fails or extraction does not produce exactly one expected release root.
 
 ### 2. Preview, register, then enable
 
@@ -98,7 +98,7 @@ One clear authorized photo can start recognition; front, back and detail views h
 |---|---|
 | `No such file or directory` during verification or extraction | Terminal is not in the folder that holds both downloads; `cd` to that folder and repeat. If your browser extracted the ZIP automatically and the `.zip` file is no longer there, download the named Plugin ZIP again so its checksum can be verified. Do not install from a folder that was never verified. |
 | Checksum fails, or the expected release root is missing | Stop before installation. Download the named Plugin ZIP and its matching checksum from the same release again, then repeat verification and extraction. Do not substitute the source-code ZIP. |
-| `can't open file` for `install-local.py` | Terminal is outside the extracted release root. Run `cd threadtruth-studio-1.0.0-beta.8` inside the folder where you extracted the verified Plugin ZIP, then repeat the preview. |
+| `can't open file` for `install-local.py` | Terminal is outside the extracted release root. Run `cd threadtruth-studio-1.0.0-beta.9` inside the folder where you extracted the verified Plugin ZIP, then repeat the preview. |
 | `Installation stopped:` followed by another message | Installation did not complete; some directories or backups may already exist. Keep them intact and do not edit Codex configuration to work around it. Report the short message, with local paths removed, through the feedback form. |
 | The helper reports an existing installation (`active source exists`) | Keep it intact. Follow **Upgrade and rollback** below, previewing with `--replace` before applying; retain the reported backups. |
 | Python or `codex plugin add` is unavailable | Stop before `--apply`. Check the supported setup in [compatibility](COMPATIBILITY.md), make the required command available, then rerun the preflight. Fresh-host support is not assumed. |
@@ -142,16 +142,16 @@ See [compatibility](COMPATIBILITY.md). Submit sanitized installation results thr
 
 整体流程：下载两个文件 → 检查工具 → 校验并解压 → 预检并注册 → 启用 → 在新的 Codex 任务中做首次识别。在浏览器中下载文件，在“终端”中运行安装命令，最后切换到 Codex 做识别。
 
-从同一个 [下载裁光插件 · beta.8](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.8)下载这两个文件：
+从同一个 [下载裁光插件 · beta.9](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.9)下载这两个文件：
 
-- [插件 ZIP — threadtruth-studio-1.0.0-beta.8.zip](https://github.com/denggui-ai/threadtruth-studio/releases/download/v1.0.0-beta.8/threadtruth-studio-1.0.0-beta.8.zip)
-- [匹配的校验文件 — threadtruth-studio-1.0.0-beta.8.zip.sha256](https://github.com/denggui-ai/threadtruth-studio/releases/download/v1.0.0-beta.8/threadtruth-studio-1.0.0-beta.8.zip.sha256)
+- [插件 ZIP — threadtruth-studio-1.0.0-beta.9.zip](https://github.com/denggui-ai/threadtruth-studio/releases/download/v1.0.0-beta.9/threadtruth-studio-1.0.0-beta.9.zip)
+- [匹配的校验文件 — threadtruth-studio-1.0.0-beta.9.zip.sha256](https://github.com/denggui-ai/threadtruth-studio/releases/download/v1.0.0-beta.9/threadtruth-studio-1.0.0-beta.9.zip.sha256)
 
-GitHub 自动生成的 **Source code (zip)** 和 **Source code (tar.gz)** 不是已验证的插件安装包；媒体包也不是插件。以下命令针对 beta.8。请经可信渠道取得校验值；checksum 本身不能认证发布者身份。
+GitHub 自动生成的 **Source code (zip)** 和 **Source code (tar.gz)** 不是已验证的插件安装包；媒体包也不是插件。以下命令针对 beta.9。请经可信渠道取得校验值；checksum 本身不能认证发布者身份。
 
-在线指南可能在发布后修订上手说明，已发布 beta.8 的 ZIP、标签及校验值保持不变；旧版本使用各自包内指南。
+在线指南可能在发布后修订上手说明，已发布 beta.9 的 ZIP、标签及校验值保持不变；旧版本使用各自包内指南。
 
-发行 ZIP 会解压为带版本号的根目录，例如 `threadtruth-studio-1.0.0-beta.8/`。安装源是包含 `.codex-plugin/plugin.json` 与 `install-local.py` 的整个根目录，不是内层 `skills/threadtruth-studio/`。
+发行 ZIP 会解压为带版本号的根目录，例如 `threadtruth-studio-1.0.0-beta.9/`。安装源是包含 `.codex-plugin/plugin.json` 与 `install-local.py` 的整个根目录，不是内层 `skills/threadtruth-studio/`。
 
 维护者测试环境为macOS和支持`plugin add`的Codex CLI；无需管理员权限或额外API key。源、缓存和一份备份建议预留约100 MB，安装通常需要几分钟。后续生图需要有原生图片能力的Codex账号、另行授权及宿主额度；新宿主兼容性尚未验证。
 
@@ -170,12 +170,12 @@ codex plugin add --help
 
 ```bash
 cd "$HOME/Downloads" &&
-shasum -a 256 -c threadtruth-studio-1.0.0-beta.8.zip.sha256 &&
-unzip threadtruth-studio-1.0.0-beta.8.zip &&
-cd threadtruth-studio-1.0.0-beta.8
+shasum -a 256 -c threadtruth-studio-1.0.0-beta.9.zip.sha256 &&
+unzip threadtruth-studio-1.0.0-beta.9.zip &&
+cd threadtruth-studio-1.0.0-beta.9
 ```
 
-校验命令输出 `threadtruth-studio-1.0.0-beta.8.zip: OK` 后再解压。若正式发布文件名不同，以实际文件名为准。校验失败或未得到唯一、预期的发行根目录时立即停止。
+校验命令输出 `threadtruth-studio-1.0.0-beta.9.zip: OK` 后再解压。若正式发布文件名不同，以实际文件名为准。校验失败或未得到唯一、预期的发行根目录时立即停止。
 
 ### 2. 预检、注册、启用
 
@@ -228,7 +228,7 @@ codex plugin list --marketplace personal --json
 |---|---|
 | 校验或解压时提示 `No such file or directory` | 终端当前不在存放两个下载文件的文件夹；先 `cd` 进入该文件夹再重试。若浏览器已自动解压且 `.zip` 文件不在了，请重新下载有完整插件名称的 ZIP，以便完成校验；不要从未校验的文件夹安装。 |
 | 校验失败，或解压后没有预期根目录 | 暂停安装。从同一个发行页重新下载有完整插件名称的 ZIP 和匹配校验文件，再校验、解压；不要改用源码 ZIP。 |
-| 提示 `can't open file`（找不到 `install-local.py`） | 终端当前不在解压出的发行根目录。在解压已校验插件 ZIP 的文件夹里执行 `cd threadtruth-studio-1.0.0-beta.8`，再重新预检。 |
+| 提示 `can't open file`（找不到 `install-local.py`） | 终端当前不在解压出的发行根目录。在解压已校验插件 ZIP 的文件夹里执行 `cd threadtruth-studio-1.0.0-beta.9`，再重新预检。 |
 | `Installation stopped:` 后面是其他提示 | 安装未完成，可能已创建部分目录或备份。请保留现状，不要手改 Codex 配置绕过；去除本机路径后，把这条简短提示通过反馈表提交。 |
 | 安装器提示已有安装（`active source exists`） | 保留现有安装，按下方“升级与回滚”操作；先带 `--replace` 预检，再应用，并保留输出的备份。 |
 | 找不到 Python 或不支持 `codex plugin add` | 不执行 `--apply`。查看[兼容性说明](COMPATIBILITY.md)，使所需命令可用后重新预检；不默认所有新宿主都兼容。 |

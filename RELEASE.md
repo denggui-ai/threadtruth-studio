@@ -1,14 +1,16 @@
 # Release Readiness
 
-## Local candidate — beta.9
+## Current prerelease — beta.9
 
-Status: `candidate`, not published. Public brand and displayed plugin name become **裁光 · Caiguang**; technical IDs and invocation remain unchanged. Missing-photo discovery and response handling are revised for Issue #1; image-generation rules are unchanged. The candidate ships a version-matched [trial guide](docs/BETA9-TRYOUT.md) and offline guide, while the public beta.8 download below stays immutable.
+Channel: public GitHub prerelease, `guide-required`. Public brand and displayed plugin name are **裁光 · Caiguang**; technical IDs and invocation remain unchanged. Missing-photo discovery and first-visible replies are corrected for Issue #1; generation approval, budget and review rules are unchanged. Use the version-matched [trial guide](docs/BETA9-TRYOUT.md) or offline HTML guide.
 
-Scope: metadata, onboarding, missing-photo handling and a narrower recipient-document allowlist. Development audits, changelog, application draft and work register stay in source; authorized public demo provenance remains with its images. `guide-required`.
+Scope: metadata, onboarding, missing-photo handling, packaged links and a narrower recipient-document allowlist. Development audits, changelog, application draft and work register stay in source; authorized public demo provenance remains with its images. The publication archive updates current-version download instructions relative to the retained local candidate; runtime and frozen media are identical.
 
-Before public beta.9: verify the candidate package and isolated registration, obtain a non-maintainer installation/name/recognition trial, record the optional one-image outcome separately, fix and retest reported issues, then review final archive/checksum and release notes. The project-scoped retest is recorded in [Issue #1 verification](docs/verification/2026-09-30-issue1-missing-photo.md), followed by [installed-plugin regression](docs/verification/2026-09-30-beta9-installed-regression.md). Fresh-host adoption, desktop UI display, image-generation behavior and stable-release readiness remain separate gates.
+Maintainer decision: after reviewing the local closeout and its explicit missing evidence, the owner authorized pushing and publishing beta.9 as a prerelease. The earlier candidate plan's non-maintainer trial prerequisite is deferred to continued Beta validation. This is an authorization decision, not evidence of successful external installation. Desktop display/discovery, non-maintainer installation/recognition, actual rollback and optional new-image results remain unverified. External counts do not increase and Issue #1 is not closed.
 
-## Current prerelease — beta.8
+Retained records: [project-scoped Issue #1 retest](docs/verification/2026-09-30-issue1-missing-photo.md), [installed-plugin text regression](docs/verification/2026-09-30-beta9-installed-regression.md), and [local closeout](docs/verification/2026-09-30-beta9-closeout.md). Stable-release acceptance and style maturity remain separate.
+
+## Historical prerelease — beta.8
 
 Download: https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.8
 

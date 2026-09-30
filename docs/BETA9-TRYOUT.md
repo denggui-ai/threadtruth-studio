@@ -1,10 +1,10 @@
 # 裁光 / Caiguang beta.9 试用指南
 
-**状态：candidate，尚未公开发布。** 本页针对维护者交付的 `threadtruth-studio-1.0.0-beta.9.zip` 与同名 `.sha256` 文件。当前公开下载仍是 beta.8；不要把 beta.8 的校验文件用于 beta.9，也不要改 ZIP 名称来升级。
+**状态：beta.9 预发布试用。** 从 [beta.9 Release](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.9) 取得 `threadtruth-studio-1.0.0-beta.9.zip` 与同名 `.sha256` 文件。不要把 beta.8 的校验文件用于 beta.9，也不要改 ZIP 名称来升级。新环境安装和桌面显示尚未由非维护者验证。
 
-本候选包含显示名称、介绍、包内指南与缺图首答边界修复；生图授权、额度和逐张验收规则保持不变。安装后预期显示 **裁光 · Caiguang**；技术名称、目录与调用指令继续使用 `threadtruth-studio`。
+本版本包含显示名称、介绍、包内指南与缺图首答边界修复；生图授权、额度和逐张验收规则保持不变。安装后预期显示 **裁光 · Caiguang**；技术名称、目录与调用指令继续使用 `threadtruth-studio`。
 
-**English:** This is an unpublished beta.9 candidate supplied by the maintainer as a ZIP plus matching checksum. The expected display name is **裁光 · Caiguang**, while `$threadtruth-studio` and the installation directory stay unchanged. The public download is still beta.8. This trial does not authorize image generation or public sharing of your materials.
+**English:** This guide covers the beta.9 prerelease ZIP and matching checksum. The expected display name is **裁光 · Caiguang**, while `$threadtruth-studio` and the installation directory stay unchanged. Older beta.8 downloads remain unchanged; fresh-host discovery and desktop display remain unverified. This trial does not authorize image generation or public sharing of your materials.
 
 ## 1. 试用前准备 / Before installation
 
@@ -38,7 +38,7 @@ cd threadtruth-studio-1.0.0-beta.9
 
 只有校验输出 `threadtruth-studio-1.0.0-beta.9.zip: OK` 才继续。校验值应从可信交付渠道取得；与包一起收到的校验文件只能帮助检查一致性，不能独立认证发布者。若存在同名解压目录，先保留旧目录并换一个空文件夹，避免覆盖提示。不要使用 GitHub 自动生成的源码 ZIP。
 
-**English:** Put both candidate files together and run the commands from that folder. Stop if verification fails. Extract into a fresh directory and use the full versioned release root, not the inner skill folder. Obtain the expected checksum through a trusted channel; a checksum alone does not authenticate the publisher.
+**English:** Put both release files together and run the commands from that folder. Stop if verification fails. Extract into a fresh directory and use the full versioned release root, not the inner skill folder. Obtain the expected checksum through a trusted channel; a checksum alone does not authenticate the publisher.
 
 ## 3. 预检、安装与启用 / Preview, register and enable
 
@@ -147,7 +147,7 @@ python3 install-local.py --source "<reported-source_backup-path>" --apply --repl
 
 | 项目 / Check | 状态 / Result | 简述 / Note |
 |---|---|---|
-| 收到 beta.9 ZIP 和匹配校验文件 / Candidate received | not-tested | |
+| 收到 beta.9 ZIP 和匹配校验文件 / Prerelease received | not-tested | |
 | 校验、解压 / Verify and extract | not-tested | |
 | 首次安装或升级 / Install or upgrade | not-tested | |
 | 显示名与实际版本 / Name and version | not-tested | |
@@ -166,4 +166,4 @@ python3 install-local.py --source "<reported-source_backup-path>" --apply --repl
 
 ## 维护者发布条件
 
-至少取得一位非维护者的新环境安装、显示名核对和识别实测；自愿单张出图结果与任何跳过原因单独记录。修正发现的问题并复测后，再决定公开 beta.9。此表是试用步骤，不是已完成的证据，不自动增加外部采用或完整案例数量。
+至少取得一位非维护者的新环境安装、显示名核对和识别实测；自愿单张出图结果与任何跳过原因单独记录。beta.9 已按维护者授权以预发布形式分发；继续收集这些证据，修正发现的问题并复测，不能因发布而将试用项标为完成。此表是试用步骤，不是已完成的证据，不自动增加外部采用或完整案例数量。

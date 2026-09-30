@@ -7,14 +7,14 @@ Status: **active**.
 
 | Track / 项目 | Recorded state / 已记录状态 | Next evidence / 下一项证据 |
 |---|---|---|
-| Public package / 公开安装包 | [v1.0.0-beta.8](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.8); published assets remain unchanged / 已发布资产不变 | Public links continue to point to this version / 公共下载继续指向此版 |
-| Local candidate / 本地候选 | beta.9; maintainer installed-CLI text checks retained 8/8 passing final replies, including three original-prompt repetitions / 留存本机已安装插件文字复测，最终8/8通过 | [Version-matched trial](BETA9-TRYOUT.md); desktop display and non-maintainer fresh-host validation remain pending / 桌面显示与非维护者新环境验证待完成 |
+| Public package / 公开安装包 | [v1.0.0-beta.9](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.9); older assets remain unchanged / 旧版资产不变 | Public links point to beta.9; no stable-release claim / 公共下载指向beta.9，不代表稳定版 |
+| beta.9 evidence / beta.9验证 | beta.9; maintainer installed-CLI text checks retained 8/8 passing final replies, including three original-prompt repetitions / 留存本机已安装插件文字复测，最终8/8通过 | [Version-matched trial](BETA9-TRYOUT.md); desktop display and non-maintainer fresh-host validation remain pending / 桌面显示与非维护者新环境验证待完成 |
 | Issue #1 | Scoped maintainer correction is recorded; the public issue remains open / 本机限定范围修复已记录，公开Issue仍未关闭 | Fresh-host reproduction and fix distribution / 新环境复测与修复分发 |
 | External adoption / 外部采用 | No qualifying record in this register; target 5 / 本台账尚无合格记录，目标5人 | One consenting non-maintainer completes installation and real-photo recognition / 首位同意登记的非维护者完成安装与实图识别 |
 | Complete cases / 完整主案例 | One accepted white-vest case; target 3 / 已验收白马甲1例，目标3例 | A new ecommerce case needs a qualified same-item source set, test-image review and six accepted independent finals / 新电商案例需合格同款源图、测试图审阅及六张独立成片验收 |
 | External lifecycle and feedback patch / 外部生命周期与反馈补丁 | Neither has a qualifying completed record / 均无合格完成记录 | Real participant observations; local fixtures cannot substitute / 需真实参与者观察，本地夹具不能替代 |
 
-Read [compatibility](COMPATIBILITY.md) for the scope of each observation. The [dated work ledger (online)](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/WORK-STATUS.md) and earlier verification reports are historical records, not current instructions. Candidate validation does not mean publication, stable-release readiness, external adoption or image-quality acceptance. / 各项观察范围见兼容性说明；历史台账与旧报告保留当时事实。候选验证不等于公开发布、稳定版就绪、外部采用或画质验收。
+Read [compatibility](COMPATIBILITY.md) for the scope of each observation. The [dated work ledger (online)](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/WORK-STATUS.md) and earlier verification reports are historical records, not current instructions. Publication and candidate validation do not mean stable-release readiness, external adoption or image-quality acceptance. / 各项观察范围见兼容性说明；历史台账与旧报告保留当时事实。发布与候选验证不等于稳定版就绪、外部采用或画质验收。
 
 The Beta clock began when [`v1.0.0-beta.1`](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.1) was published at **2026-09-13T04:59:28Z** (Asia/Shanghai: **2026-09-13 12:59:28**). The 30-day minimum reaches **2026-10-13T04:59:28Z**; elapsed time alone does not satisfy the exit criteria.
 

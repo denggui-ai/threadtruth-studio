@@ -2,7 +2,7 @@
 
 All notable changes are documented here. Versions follow Semantic Versioning.
 
-## Unreleased — 1.0.0-beta.9 candidate: Caiguang onboarding
+## 1.0.0-beta.9 — Caiguang onboarding prerelease
 
 - Closeout: repair a source-only test link in the packaged capability guide and add a staged-document reference regression. Summarize current public/candidate/evidence status in the existing Beta register; label the older work ledger as historical and surface the retained installed-plugin text result in compatibility. Runtime files and frozen demo media are unchanged; public beta.8 assets remain immutable.
 

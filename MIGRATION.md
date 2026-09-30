@@ -19,6 +19,6 @@ The migration preserves the real-garment input gate, 24-style routing, explicit 
 
 ## beta.8 → beta.9 display-name update
 
-The beta.9 candidate changes the Codex display name to **裁光 · Caiguang**. The plugin/skill ID, `$threadtruth-studio` invocation, personal-marketplace selector and `plugins/threadtruth-studio` directory remain unchanged. No user-image, output or task-ledger migration is required. Do not rename an existing folder or ZIP to upgrade.
+The beta.9 prerelease changes the Codex display name to **裁光 · Caiguang**. The plugin/skill ID, `$threadtruth-studio` invocation, personal-marketplace selector and `plugins/threadtruth-studio` directory remain unchanged. No user-image, output or task-ledger migration is required. Do not rename an existing folder or ZIP to upgrade.
 
-Use the verified candidate ZIP and [beta.9 trial guide](docs/BETA9-TRYOUT.md). Preview with `--replace`, apply only after reviewing the paths, retain the printed backups, re-enable with the printed selector and start a new task. The public beta.8 archive and checksum remain immutable. Fresh-host GUI display and invocation require recipient verification; a source metadata change alone does not prove discovery.
+Use the verified beta.9 release ZIP and [beta.9 trial guide](docs/BETA9-TRYOUT.md). Preview with `--replace`, apply only after reviewing the paths, retain the printed backups, re-enable with the printed selector and start a new task. The public beta.8 archive and checksum remain immutable. Fresh-host GUI display and invocation require recipient verification; a source metadata change alone does not prove discovery.
