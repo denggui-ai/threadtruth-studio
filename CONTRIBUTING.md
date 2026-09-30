@@ -1,4 +1,4 @@
-# Contributing to ThreadTruth Studio
+# Contributing to Caiguang
 
 Thank you for improving source-faithful fashion portrait production.
 

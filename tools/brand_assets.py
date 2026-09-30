@@ -26,7 +26,7 @@ except ImportError:
 
 MANIFEST_PATH = "brand-assets.json"
 TEXT_FILES = ("index.html", "compare.html", "home.css", "compare.css", "brand.css", "home.js", "compare.js", "prompt-copy.js")
-BASE_TEXT = "裁光 ThreadTruthStudio 服饰AI影棚 你的衣服。下一组大片。Your garments. A new perspective. 开始使用 Get started 查看24风格 Explore24styles 已复制 复制失败 请手动复制"
+BASE_TEXT = "裁光 Caiguang AI Fashion Studio 服饰AI影棚 你的衣服。下一组大片。Your garments. A new perspective. 开始使用 Get started 查看24风格 Explore24styles 已复制 复制失败 请手动复制"
 FONT_SPECS = {
     "notosanssc": {"family": "Noto Sans SC", "filename": "NotoSansSC[wght].ttf", "weights": [400, 900],
                    "output": "assets/brand/fonts/noto-sans-sc.woff2", "license_output": "assets/brand/fonts/NotoSansSC-OFL.txt"},
@@ -198,7 +198,7 @@ def build_manifest(gallery: Path, sources: dict) -> dict:
         if record["kind"] == "share-cover" and repository:
             record["source_template_sha256"] = sha256(repository / record["source_template"])
         records.append(record)
-    return {"schema_version": "1.0", "brand": {"zh": "裁光", "en": "ThreadTruth Studio"}, "sources": sources, "assets": records}
+    return {"schema_version": "1.0", "brand": {"zh": "裁光", "en": "Caiguang"}, "sources": sources, "assets": records}
 
 
 def asset_provenance(path: str) -> dict:
@@ -256,7 +256,7 @@ def validate_brand(gallery: Path, *, repo_root: Path | None = None) -> list[str]
         if manifest_path.is_symlink() or not manifest_path.resolve().is_relative_to(gallery.resolve()):
             raise ValueError("unsafe brand manifest symlink")
         manifest = json.loads(manifest_path.read_text())
-        if manifest.get("schema_version") != "1.0" or manifest.get("brand") != {"zh": "裁光", "en": "ThreadTruth Studio"}:
+        if manifest.get("schema_version") != "1.0" or manifest.get("brand") != {"zh": "裁光", "en": "Caiguang"}:
             raise ValueError("brand manifest version or names mismatch")
         sources = manifest["sources"]
         if set(sources) != set(FONT_SPECS):

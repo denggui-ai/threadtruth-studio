@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "brand": {
     "zh": "裁光",
-    "en": "ThreadTruth Studio"
+    "en": "Caiguang"
   },
   "sources": {
     "notosanssc": {
@@ -1454,8 +1454,8 @@
     {
       "output": {
         "path": "assets/brand/og-compare.png",
-        "sha256": "f4758e750f1a9ec7fc0b14bdadf6ae5bf8284462a0b9e26555f255e5f3891c8a",
-        "bytes": 63648,
+        "sha256": "428dd14e8596ae0e4eba17b1955a0dea0ff4e9d473add9e6fc842eb8c10cd909",
+        "bytes": 64290,
         "dimensions": [
           1200,
           630
@@ -1469,13 +1469,13 @@
       "source_images": [],
       "rights_paths": [],
       "derivation": "browser-render",
-      "source_template_sha256": "726410f0228dc28818513a136180ba4037e36cba31ab0ec92f0073f178fcf35c"
+      "source_template_sha256": "5626d00bf3c4c12477d83a1f64f24c4eef81ba52ec31fe1e2b9776d20ee81062"
     },
     {
       "output": {
         "path": "assets/brand/og-home.png",
-        "sha256": "3b28209d758f5228a2026662f5e00d883b9a7909e81e5780d9345d422ac4c4f6",
-        "bytes": 420415,
+        "sha256": "343d61a8b201aa252f8e66fb13355c2ef727592f79380472dbf251cf6fc248b7",
+        "bytes": 422130,
         "dimensions": [
           1200,
           630
@@ -1495,7 +1495,7 @@
         "assets/beige-outfit-rights.json"
       ],
       "derivation": "browser-render",
-      "source_template_sha256": "d738b8b86163629e776d54d2d6f3e14de8ffe94d9023de6109e32209b969c043"
+      "source_template_sha256": "859a613651c100bf584b00f469868ef4acb385df2aab6c727d8e1518a07eed0a"
     },
     {
       "output": {

@@ -4,7 +4,7 @@ Status: drafts only; not posted. Maintainer: [DENGGUI](https://github.com/denggu
 
 ## English
 
-ThreadTruth Studio is an independent Codex Plugin for source-faithful fashion portraits. Start with a real garment photo, inspect visible facts, choose among24 routed styles, then explicitly approve any image generation. Its normal delivery is six independent images with commercial QA and human review—not a collage split into deliverables.
+Caiguang is an independent Codex Plugin for source-faithful fashion portraits. Start with a real garment photo, inspect visible facts, choose among24 routed styles, then explicitly approve any image generation. Its normal delivery is six independent images with commercial QA and human review—not a collage split into deliverables.
 
 Try the [accepted white-vest case](demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md), follow the [installation guide](INSTALL.md), and upload a garment you have rights to use. First run: `请用 $threadtruth-studio 识别并推荐风格，不要生图`. Recognition-only testing does not request paid image generation.
 
@@ -12,7 +12,7 @@ We welcome honest installation, discovery and recognition feedback, including fa
 
 ## 简体中文
 
-ThreadTruth Studio 是独立社区维护的 Codex 插件：从真实服饰图识别商品事实，推荐24种风格，明确授权后才生成图片。标准交付为六张独立成片、商业 QA 与人工核验，不把拼图裁切冒充正式成片。
+Caiguang 是独立社区维护的 Codex 插件：从真实服饰图识别商品事实，推荐24种风格，明确授权后才生成图片。标准交付为六张独立成片、商业 QA 与人工核验，不把拼图裁切冒充正式成片。
 
 先看[白色马甲完整案例](demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)，按[安装指南](INSTALL.md)操作，上传一张有使用权的服饰图。首次输入：`请用 $threadtruth-studio 识别并推荐风格，不要生图`。这一步只测试识别，不请求付费生图。
 

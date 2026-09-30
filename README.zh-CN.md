@@ -1,10 +1,12 @@
-# 裁光 · ThreadTruth Studio
+# 裁光 · Caiguang
 
-[![裁光 · 真实服饰，新的光景。Real garments. New perspectives. 真实白马甲源图与两张 AI 历史案例成片。](gallery/style24-comparison-20260929/assets/brand/og-home.png)](https://denggui-ai.github.io/threadtruth-studio/)
+**AI Fashion Studio · 服饰 AI 影棚**
+
+[![裁光 · Caiguang — AI Fashion Studio。米色套装参考图与 AI 生成效果。](gallery/style24-comparison-20260929/assets/brand/og-home.png)](https://denggui-ai.github.io/threadtruth-studio/)
 
 **单件或整套服饰，生成六姿势 AI 模特图，24 种风格可选。**<br>Turn a garment or coordinated outfit into six-pose AI model portraits. Choose from 24 styles.
 
-**[开始安装 · Install](docs/INSTALL.md#简体中文)**　·　**[查看成片 · See results](https://denggui-ai.github.io/threadtruth-studio/#complete-case)**　·　**[探索 24 风格 · Explore styles](https://denggui-ai.github.io/threadtruth-studio/#style-highlights)**
+**[下载裁光插件 · Download Caiguang](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.8)**　·　**[开始安装 · Install](docs/INSTALL.md#简体中文)**　·　**[查看成片 · See results](https://denggui-ai.github.io/threadtruth-studio/#complete-case)**　·　**[探索 24 风格 · Explore styles](https://denggui-ai.github.io/threadtruth-studio/#style-highlights)**
 
 [English guide](README.md) · [中文说明](README.zh-CN.md) · [产品首页 / Website](https://denggui-ai.github.io/threadtruth-studio/)
 
@@ -106,7 +108,7 @@
 
 ## 适用范围与限制
 
-裁光 · ThreadTruth Studio 由社区独立维护，不是 OpenAI 官方产品，也不代表官方背书。安装与启用已在维护者的 macOS 本机验证，非维护者新环境仍待验证。详见[兼容性与验证范围](docs/COMPATIBILITY.md)。
+裁光 · Caiguang 由社区独立维护，不是 OpenAI 官方产品，也不代表官方背书。安装与启用已在维护者的 macOS 本机验证，非维护者新环境仍待验证。详见[兼容性与验证范围](docs/COMPATIBILITY.md)。
 
 - **以源图细节为依据。** 颜色、材质观感、廓形、结构、图案和 Logo 位置来自源图；完整套装还包括层次、比例及鞋包配饰。生成后仍需对照源图检查，不能保证小字、Logo 或合体效果完全准确。
 - **交付需要人工验收。** 适用于 AI 模特服饰展示，不承诺指定真人身份换装或 CAD 合体模拟；不用于非服饰商品、纯文字概念图、API 集成或无人值守商业交付；不保证平台审核通过或销售效果。

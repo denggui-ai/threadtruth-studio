@@ -8,9 +8,9 @@
 
 Public evidence includes 24-style historical previews for both a garment and an outfit, plus one complete single-garment six-image case. A complete public outfit six-image case remains to be added. The workflow controls below support this proposition; they are not proof of better output than another product.
 
-ThreadTruth Studio sits beside—not above—several useful project categories.
+Caiguang sits beside—not above—several useful project categories.
 
-| Category | Typical strength | ThreadTruth boundary |
+| Category | Typical strength | Caiguang boundary |
 |---|---|---|
 | Product-shot Skills such as [`product-shots`](https://github.com/motiful/product-shots) | Broad product staging and marketing visuals | Apparel portraits only, with garment facts as the authoritative source |
 | Virtual try-on systems | Transfer a garment onto a supplied person or body | Does not promise fit simulation or reproduce a supplied person's identity |

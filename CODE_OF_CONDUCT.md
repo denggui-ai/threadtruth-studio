@@ -2,7 +2,7 @@
 
 ## Our pledge
 
-We pledge to make participation in ThreadTruth Studio respectful and harassment-free for everyone, regardless of background, identity, experience, or role.
+We pledge to make participation in Caiguang respectful and harassment-free for everyone, regardless of background, identity, experience, or role.
 
 ## Expected behavior
 

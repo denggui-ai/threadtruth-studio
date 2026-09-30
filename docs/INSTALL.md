@@ -1,16 +1,16 @@
-# 裁光 · ThreadTruth Studio — Installation / 安装
+# 裁光 · Codex 服饰 AI 插件 / Caiguang — Installation
 
 [English](#english) | [简体中文](#简体中文)
 
 ## English
 
-**裁光 (ThreadTruth Studio)** is an AI studio for apparel. In Codex, the Plugin is still listed as **ThreadTruth Studio** and is invoked with `$threadtruth-studio`.
+**裁光 (Caiguang)** is an AI studio for apparel. In Codex, the Plugin is still listed as **ThreadTruth Studio** and is invoked with `$threadtruth-studio`.
 
 ### Before you begin
 
 The path is: download two files → check your tools → verify and extract → preview and register → enable → run recognition in a new Codex task. Download the files in your browser, run the setup commands in Terminal, then switch to Codex for recognition.
 
-Download both files from the same [beta.8 prerelease](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.8):
+Download both files from the same [Download Caiguang plugin · beta.8](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.8):
 
 - [Plugin ZIP — threadtruth-studio-1.0.0-beta.8.zip](https://github.com/denggui-ai/threadtruth-studio/releases/download/v1.0.0-beta.8/threadtruth-studio-1.0.0-beta.8.zip)
 - [Matching checksum — threadtruth-studio-1.0.0-beta.8.zip.sha256](https://github.com/denggui-ai/threadtruth-studio/releases/download/v1.0.0-beta.8/threadtruth-studio-1.0.0-beta.8.zip.sha256)
@@ -134,13 +134,13 @@ See [compatibility](COMPATIBILITY.md). Submit sanitized installation results thr
 
 ## 简体中文
 
-**裁光 · ThreadTruth Studio** 是服饰 AI 影棚。在 Codex 中，插件名称仍为 **ThreadTruth Studio**，调用名仍为 `$threadtruth-studio`。
+**裁光 · Caiguang** 是服饰 AI 影棚。在 Codex 中，插件名称仍为 **ThreadTruth Studio**，调用名仍为 `$threadtruth-studio`。
 
 ### 开始前
 
 整体流程：下载两个文件 → 检查工具 → 校验并解压 → 预检并注册 → 启用 → 在新的 Codex 任务中做首次识别。在浏览器中下载文件，在“终端”中运行安装命令，最后切换到 Codex 做识别。
 
-从同一个 [beta.8 预发布页](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.8)下载这两个文件：
+从同一个 [下载裁光插件 · beta.8](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.8)下载这两个文件：
 
 - [插件 ZIP — threadtruth-studio-1.0.0-beta.8.zip](https://github.com/denggui-ai/threadtruth-studio/releases/download/v1.0.0-beta.8/threadtruth-studio-1.0.0-beta.8.zip)
 - [匹配的校验文件 — threadtruth-studio-1.0.0-beta.8.zip.sha256](https://github.com/denggui-ai/threadtruth-studio/releases/download/v1.0.0-beta.8/threadtruth-studio-1.0.0-beta.8.zip.sha256)
