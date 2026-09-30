@@ -88,10 +88,10 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertEqual(manifest["license"], "Apache-2.0")
         self.assertEqual(
             manifest["repository"],
-            "https://github.com/2278091160dg-rgb/threadtruth-studio",
+            "https://github.com/denggui-ai/threadtruth-studio",
         )
         self.assertEqual(manifest["skills"], "./skills/")
-        self.assertEqual(manifest["interface"]["displayName"], "ThreadTruth Studio")
+        self.assertEqual(manifest["interface"]["displayName"], "裁光 · Caiguang")
         self.assertIsInstance(manifest["interface"]["defaultPrompt"], list)
         self.assertLessEqual(len(manifest["interface"]["defaultPrompt"]), 3)
         self.assertNotIn("mcpServers", manifest)
@@ -101,11 +101,11 @@ class RepositoryContractTests(unittest.TestCase):
         text = (SKILL / "SKILL.md").read_text()
         self.assertIn("name: threadtruth-studio", text)
         expected = (
-            "Create source-faithful fashion portrait sets from real garment or coordinated-outfit photos "
-            "using 24 routed styles, explicit generation approval, six-image delivery, "
-            "and commercial QA. Use for apparel model, editorial, and ecommerce portraits. "
-            "Do not use for non-apparel products, text-only concepts, or general virtual "
-            "try-on/API integration."
+            "Apparel model images: first reply only checks inputs, never promises later generation. "
+            "Includes preparation before garment photos are uploaded. "
+            "Turn real garment or coordinated-outfit photos into 24-style fashion portraits "
+            "with explicit generation approval and commercial QA. Exclude non-apparel products, "
+            "fictional text-only garment design, and virtual try-on/API integration."
         )
         normalized = " ".join(text.split())
         self.assertIn(expected, normalized)

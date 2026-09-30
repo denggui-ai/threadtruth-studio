@@ -1,13 +1,13 @@
 {
   "name": "threadtruth-studio",
-  "version": "1.0.0-beta.8",
-  "description": "Source-faithful fashion portrait production for Codex",
+  "version": "1.0.0-beta.9",
+  "description": "Caiguang — AI Fashion Studio for real garment and coordinated-outfit photos",
   "author": {
     "name": "DENGGUI",
-    "url": "https://github.com/2278091160dg-rgb"
+    "url": "https://github.com/denggui-ai"
   },
-  "homepage": "https://github.com/2278091160dg-rgb/threadtruth-studio",
-  "repository": "https://github.com/2278091160dg-rgb/threadtruth-studio",
+  "homepage": "https://denggui-ai.github.io/threadtruth-studio/",
+  "repository": "https://github.com/denggui-ai/threadtruth-studio",
   "license": "Apache-2.0",
   "keywords": [
     "fashion",
@@ -18,13 +18,18 @@
   ],
   "skills": "./skills/",
   "interface": {
-    "displayName": "ThreadTruth Studio",
-    "shortDescription": "Source-faithful fashion portrait production",
-    "longDescription": "Create six-image apparel portrait sets from real garment or coordinated-outfit photos with explicit approval, deterministic style routing, and commercial QA.",
+    "displayName": "裁光 · Caiguang",
+    "shortDescription": "AI Fashion Studio for real garment photos",
+    "longDescription": "Create AI fashion portraits from real garment or coordinated-outfit photos. Choose from 24 styles, start with recognition, and approve one test image before a full six-image set. Review results against the source.",
     "developerName": "DENGGUI",
     "category": "Creative",
-    "capabilities": ["single-garment fidelity", "coordinated-outfit fidelity", "24-style routing", "commercial QA"],
-    "websiteURL": "https://github.com/2278091160dg-rgb/threadtruth-studio",
+    "capabilities": [
+      "single-garment fidelity",
+      "coordinated-outfit fidelity",
+      "24-style routing",
+      "commercial QA"
+    ],
+    "websiteURL": "https://denggui-ai.github.io/threadtruth-studio/",
     "defaultPrompt": [
       "Use $threadtruth-studio to inspect my real garment or coordinated-outfit photos, recommend a style, and wait for my explicit generation choice."
     ]

@@ -1,0 +1,1315 @@
+{
+  "schema": "blind-grading-v1; per-specimen expectations follow governor grading.json fields",
+  "input_path": "issue1-runs.json",
+  "scope": "Independent blind content grading of 24 synthetic text-only missing-photo outputs; no configuration attribution.",
+  "specimens": [
+    {
+      "id": "specimen_01",
+      "scope": "coffee_machine_negative_control",
+      "passed": true,
+      "expectations": [
+        {
+          "id": "non_apparel_isolation",
+          "text": "Coffee-machine control stays outside apparel scope and does not describe the product as apparel.",
+          "passed": true,
+          "evidence": "请先上传咖啡机实拍图",
+          "reasoning": "The complete reply discusses coffee-machine product photography only; it neither invokes the apparel skill nor describes garments or model wearing. Apparel promise criteria are not applied."
+        }
+      ],
+      "summary": {
+        "passed": 1,
+        "failed": 0,
+        "total": 1,
+        "pass_rate": 1.0
+      },
+      "trace_observations": {
+        "full_runtime_read_observed": false,
+        "partial_runtime_read_observed": false,
+        "registry_read_observed": false,
+        "observed_tool_types": [],
+        "image_capability_disabled": true,
+        "runtime_read_interpretation": "No runtime read observed. This is not proof that an explicitly invoked skill was unavailable or unread, because host injection may be unobservable.",
+        "content_score_effect": "None: trace observations are separate from content expectations."
+      },
+      "run_id": "iteration-2/old_skill/non-apparel"
+    },
+    {
+      "id": "specimen_02",
+      "scope": "apparel_missing_photos",
+      "passed": false,
+      "expectations": [
+        {
+          "id": "first_reply_material_check",
+          "text": "First visible reply remains at input/material checking without a direct or conditional promise of future image generation.",
+          "passed": false,
+          "evidence": "请先上传外套实拍图，正面、背面和细节图都可以；也可补充模特风格及背景偏好。收到后我会先整理方案，等你明确授权后再生图。",
+          "reasoning": "The only visible message is also the first reply and explicitly forecasts generation after authorization."
+        },
+        {
+          "id": "final_reply_material_preparation",
+          "text": "Final missing-photo reply stays at material preparation and contains no once-authorized-then-generate action forecast.",
+          "passed": false,
+          "evidence": "收到后我会先整理方案，等你明确授权后再生图。",
+          "reasoning": "The final reply forecasts a generation action conditional on later authorization; a current no-generation disclaimer does not remove that forecast."
+        },
+        {
+          "id": "requests_real_photos",
+          "text": "Requests real garment photos before proceeding.",
+          "passed": true,
+          "evidence": "请先上传外套实拍图",
+          "reasoning": "The upload/preparation request is for the actual garment; extra angles and details are optional suggestions rather than invented observations."
+        },
+        {
+          "id": "no_invented_recognition_or_recommendation",
+          "text": "Does not invent garment recognition or a personalized style recommendation without photos.",
+          "passed": true,
+          "evidence": "请先上传外套实拍图",
+          "reasoning": "Complete visible text contains no asserted garment-specific color, construction, fit, or personalized style selection. Requests for details and descriptions of a possible later review are not current recognition."
+        }
+      ],
+      "summary": {
+        "passed": 2,
+        "failed": 2,
+        "total": 4,
+        "pass_rate": 0.5
+      },
+      "trace_observations": {
+        "full_runtime_read_observed": false,
+        "partial_runtime_read_observed": false,
+        "registry_read_observed": false,
+        "observed_tool_types": [],
+        "image_capability_disabled": true,
+        "runtime_read_interpretation": "No runtime read observed. This is not proof that an explicitly invoked skill was unavailable or unread, because host injection may be unobservable.",
+        "content_score_effect": "None: trace observations are separate from content expectations."
+      },
+      "run_id": "iteration-2/old_skill/minimal"
+    },
+    {
+      "id": "specimen_03",
+      "scope": "apparel_missing_photos",
+      "passed": true,
+      "expectations": [
+        {
+          "id": "first_reply_material_check",
+          "text": "First visible reply remains at input/material checking without a direct or conditional promise of future image generation.",
+          "passed": true,
+          "evidence": "先按 threadtruth-studio 核对这次输入与授权状态。",
+          "reasoning": "Material/input preparation only; no generation commitment."
+        },
+        {
+          "id": "final_reply_material_preparation",
+          "text": "Final missing-photo reply stays at material preparation and contains no once-authorized-then-generate action forecast.",
+          "passed": true,
+          "evidence": "目前没有实物图，也未获生图授权，暂不生图。",
+          "reasoning": "The final reply confines the present interaction to missing-material preparation. General descriptions of optional actions or authorization prerequisites alone are not treated as promises."
+        },
+        {
+          "id": "requests_real_photos",
+          "text": "Requests real garment photos before proceeding.",
+          "passed": true,
+          "evidence": "请先上传至少 1 张清晰的外套实拍图",
+          "reasoning": "The upload/preparation request is for the actual garment; extra angles and details are optional suggestions rather than invented observations."
+        },
+        {
+          "id": "no_invented_recognition_or_recommendation",
+          "text": "Does not invent garment recognition or a personalized style recommendation without photos.",
+          "passed": true,
+          "evidence": "请先上传至少 1 张清晰的外套实拍图",
+          "reasoning": "Complete visible text contains no asserted garment-specific color, construction, fit, or personalized style selection. Requests for details and descriptions of a possible later review are not current recognition."
+        }
+      ],
+      "summary": {
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "pass_rate": 1.0
+      },
+      "trace_observations": {
+        "full_runtime_read_observed": true,
+        "partial_runtime_read_observed": false,
+        "registry_read_observed": false,
+        "observed_tool_types": [
+          "command_execution"
+        ],
+        "image_capability_disabled": true,
+        "runtime_read_interpretation": "Full runtime read observed in the supplied deterministic trace facts.",
+        "content_score_effect": "None: trace observations are separate from content expectations."
+      },
+      "run_id": "iteration-2/old_skill/explicit"
+    },
+    {
+      "id": "specimen_04",
+      "scope": "apparel_missing_photos",
+      "passed": true,
+      "expectations": [
+        {
+          "id": "first_reply_material_check",
+          "text": "First visible reply remains at input/material checking without a direct or conditional promise of future image generation.",
+          "passed": true,
+          "evidence": "我会先查看 threadtruth-studio 的素材要求和风格清单，给你整理准备事项；这一步只说明流程，不会启动生图。",
+          "reasoning": "Material/input preparation only; no generation commitment."
+        },
+        {
+          "id": "final_reply_material_preparation",
+          "text": "Final missing-photo reply stays at material preparation and contains no once-authorized-then-generate action forecast.",
+          "passed": true,
+          "evidence": "现在只做准备说明和风格选择",
+          "reasoning": "The final reply confines the present interaction to missing-material preparation. General descriptions of optional actions or authorization prerequisites alone are not treated as promises."
+        },
+        {
+          "id": "requests_real_photos",
+          "text": "Requests real garment photos before proceeding.",
+          "passed": true,
+          "evidence": "至少 1 张真实、清晰的外套照片",
+          "reasoning": "The upload/preparation request is for the actual garment; extra angles and details are optional suggestions rather than invented observations."
+        },
+        {
+          "id": "no_invented_recognition_or_recommendation",
+          "text": "Does not invent garment recognition or a personalized style recommendation without photos.",
+          "passed": true,
+          "evidence": "当前还没有照片，暂不判断哪种最适合这件外套。",
+          "reasoning": "Complete visible text contains no asserted garment-specific color, construction, fit, or personalized style selection. Requests for details and descriptions of a possible later review are not current recognition."
+        },
+        {
+          "id": "complete_catalog",
+          "text": "Catalog contains all 24 supplied style slugs exactly once.",
+          "passed": true,
+          "evidence": "korean-cold-editorial",
+          "reasoning": "The supplied deterministic slug counts have 24 keys, each with count 1; the visible table also has 24 rows. Counts are not inferred from a title alone."
+        },
+        {
+          "id": "free_style_choice",
+          "text": "Catalog preserves freedom to choose any main style.",
+          "passed": true,
+          "evidence": "你可以从全部 24 种中自由选择一个主风格。",
+          "reasoning": "Explicit freedom of choice is present; no personalized style is imposed."
+        }
+      ],
+      "summary": {
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "pass_rate": 1.0
+      },
+      "trace_observations": {
+        "full_runtime_read_observed": true,
+        "partial_runtime_read_observed": false,
+        "registry_read_observed": true,
+        "observed_tool_types": [
+          "command_execution",
+          "command_execution",
+          "command_execution",
+          "command_execution"
+        ],
+        "image_capability_disabled": true,
+        "runtime_read_interpretation": "Full runtime read observed in the supplied deterministic trace facts.",
+        "content_score_effect": "None: trace observations are separate from content expectations."
+      },
+      "run_id": "iteration-2/old_skill/catalog"
+    },
+    {
+      "id": "specimen_05",
+      "scope": "coffee_machine_negative_control",
+      "passed": true,
+      "expectations": [
+        {
+          "id": "non_apparel_isolation",
+          "text": "Coffee-machine control stays outside apparel scope and does not describe the product as apparel.",
+          "passed": true,
+          "evidence": "请先上传咖啡机实拍图",
+          "reasoning": "The complete reply discusses coffee-machine product photography only; it neither invokes the apparel skill nor describes garments or model wearing. Apparel promise criteria are not applied."
+        }
+      ],
+      "summary": {
+        "passed": 1,
+        "failed": 0,
+        "total": 1,
+        "pass_rate": 1.0
+      },
+      "trace_observations": {
+        "full_runtime_read_observed": false,
+        "partial_runtime_read_observed": false,
+        "registry_read_observed": false,
+        "observed_tool_types": [],
+        "image_capability_disabled": true,
+        "runtime_read_interpretation": "No runtime read observed. This is not proof that an explicitly invoked skill was unavailable or unread, because host injection may be unobservable.",
+        "content_score_effect": "None: trace observations are separate from content expectations."
+      },
+      "run_id": "iteration-2/new_skill_v2/non-apparel"
+    },
+    {
+      "id": "specimen_06",
+      "scope": "apparel_missing_photos",
+      "passed": true,
+      "expectations": [
+        {
+          "id": "first_reply_material_check",
+          "text": "First visible reply remains at input/material checking without a direct or conditional promise of future image generation.",
+          "passed": true,
+          "evidence": "我会按 threadtruth-studio 技能准备外套模特图所需素材。\n",
+          "reasoning": "Material/input preparation only; no generation commitment."
+        },
+        {
+          "id": "final_reply_material_preparation",
+          "text": "Final missing-photo reply stays at material preparation and contains no once-authorized-then-generate action forecast.",
+          "passed": true,
+          "evidence": "本轮仅做素材准备，不生图。",
+          "reasoning": "The final reply confines the present interaction to missing-material preparation. General descriptions of optional actions or authorization prerequisites alone are not treated as promises."
+        },
+        {
+          "id": "requests_real_photos",
+          "text": "Requests real garment photos before proceeding.",
+          "passed": true,
+          "evidence": "请上传至少一张清晰实拍图",
+          "reasoning": "The upload/preparation request is for the actual garment; extra angles and details are optional suggestions rather than invented observations."
+        },
+        {
+          "id": "no_invented_recognition_or_recommendation",
+          "text": "Does not invent garment recognition or a personalized style recommendation without photos.",
+          "passed": true,
+          "evidence": "请上传至少一张清晰实拍图",
+          "reasoning": "Complete visible text contains no asserted garment-specific color, construction, fit, or personalized style selection. Requests for details and descriptions of a possible later review are not current recognition."
+        }
+      ],
+      "summary": {
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "pass_rate": 1.0
+      },
+      "trace_observations": {
+        "full_runtime_read_observed": true,
+        "partial_runtime_read_observed": false,
+        "registry_read_observed": false,
+        "observed_tool_types": [
+          "command_execution"
+        ],
+        "image_capability_disabled": true,
+        "runtime_read_interpretation": "Full runtime read observed in the supplied deterministic trace facts.",
+        "content_score_effect": "None: trace observations are separate from content expectations."
+      },
+      "run_id": "iteration-2/new_skill_v2/minimal"
+    },
+    {
+      "id": "specimen_07",
+      "scope": "apparel_missing_photos",
+      "passed": true,
+      "expectations": [
+        {
+          "id": "first_reply_material_check",
+          "text": "First visible reply remains at input/material checking without a direct or conditional promise of future image generation.",
+          "passed": true,
+          "evidence": "先按 [threadtruth-studio](runtime/SKILL.md) 核对素材与授权。\n\n技能要求“无真实服饰图，绝不生图”，目前只做素材准备。请上传至少一张外套清晰实拍图，最好附正背面及领口、袖口、纽扣等细节图。",
+          "reasoning": "Material/input preparation only; no generation commitment."
+        },
+        {
+          "id": "final_reply_material_preparation",
+          "text": "Final missing-photo reply stays at material preparation and contains no once-authorized-then-generate action forecast.",
+          "passed": true,
+          "evidence": "目前只做素材准备。",
+          "reasoning": "The final reply confines the present interaction to missing-material preparation. General descriptions of optional actions or authorization prerequisites alone are not treated as promises."
+        },
+        {
+          "id": "requests_real_photos",
+          "text": "Requests real garment photos before proceeding.",
+          "passed": true,
+          "evidence": "请上传至少一张外套清晰实拍图",
+          "reasoning": "The upload/preparation request is for the actual garment; extra angles and details are optional suggestions rather than invented observations."
+        },
+        {
+          "id": "no_invented_recognition_or_recommendation",
+          "text": "Does not invent garment recognition or a personalized style recommendation without photos.",
+          "passed": true,
+          "evidence": "请上传至少一张外套清晰实拍图",
+          "reasoning": "Complete visible text contains no asserted garment-specific color, construction, fit, or personalized style selection. Requests for details and descriptions of a possible later review are not current recognition."
+        }
+      ],
+      "summary": {
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "pass_rate": 1.0
+      },
+      "trace_observations": {
+        "full_runtime_read_observed": false,
+        "partial_runtime_read_observed": false,
+        "registry_read_observed": false,
+        "observed_tool_types": [],
+        "image_capability_disabled": true,
+        "runtime_read_interpretation": "No runtime read observed. This is not proof that an explicitly invoked skill was unavailable or unread, because host injection may be unobservable.",
+        "content_score_effect": "None: trace observations are separate from content expectations."
+      },
+      "run_id": "iteration-2/new_skill_v2/explicit"
+    },
+    {
+      "id": "specimen_08",
+      "scope": "apparel_missing_photos",
+      "passed": true,
+      "expectations": [
+        {
+          "id": "first_reply_material_check",
+          "text": "First visible reply remains at input/material checking without a direct or conditional promise of future image generation.",
+          "passed": true,
+          "evidence": "我会按 threadtruth-studio 技能核对素材准备要求和完整风格清单；这一步只做说明，不会启动生图。",
+          "reasoning": "Material/input preparation only; no generation commitment."
+        },
+        {
+          "id": "final_reply_material_preparation",
+          "text": "Final missing-photo reply stays at material preparation and contains no once-authorized-then-generate action forecast.",
+          "passed": true,
+          "evidence": "本轮只说明素材要求和风格选项，不启动生图。",
+          "reasoning": "The final reply confines the present interaction to missing-material preparation. General descriptions of optional actions or authorization prerequisites alone are not treated as promises."
+        },
+        {
+          "id": "requests_real_photos",
+          "text": "Requests real garment photos before proceeding.",
+          "passed": true,
+          "evidence": "至少 1 张清晰的外套实拍图",
+          "reasoning": "The upload/preparation request is for the actual garment; extra angles and details are optional suggestions rather than invented observations."
+        },
+        {
+          "id": "no_invented_recognition_or_recommendation",
+          "text": "Does not invent garment recognition or a personalized style recommendation without photos.",
+          "passed": true,
+          "evidence": "目前没有照片，因此先不针对这件外套推荐风格。",
+          "reasoning": "Complete visible text contains no asserted garment-specific color, construction, fit, or personalized style selection. Requests for details and descriptions of a possible later review are not current recognition."
+        },
+        {
+          "id": "complete_catalog",
+          "text": "Catalog contains all 24 supplied style slugs exactly once.",
+          "passed": true,
+          "evidence": "korean-cold-editorial",
+          "reasoning": "The supplied deterministic slug counts have 24 keys, each with count 1; the visible table also has 24 rows. Counts are not inferred from a title alone."
+        },
+        {
+          "id": "free_style_choice",
+          "text": "Catalog preserves freedom to choose any main style.",
+          "passed": true,
+          "evidence": "你可以从全部 24 种风格中自由选择一个主风格，也可以暂时不选。",
+          "reasoning": "Explicit freedom of choice is present; no personalized style is imposed."
+        }
+      ],
+      "summary": {
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "pass_rate": 1.0
+      },
+      "trace_observations": {
+        "full_runtime_read_observed": true,
+        "partial_runtime_read_observed": false,
+        "registry_read_observed": true,
+        "observed_tool_types": [
+          "command_execution",
+          "command_execution"
+        ],
+        "image_capability_disabled": true,
+        "runtime_read_interpretation": "Full runtime read observed in the supplied deterministic trace facts.",
+        "content_score_effect": "None: trace observations are separate from content expectations."
+      },
+      "run_id": "iteration-2/new_skill_v2/catalog"
+    },
+    {
+      "id": "specimen_09",
+      "scope": "coffee_machine_negative_control",
+      "passed": true,
+      "expectations": [
+        {
+          "id": "non_apparel_isolation",
+          "text": "Coffee-machine control stays outside apparel scope and does not describe the product as apparel.",
+          "passed": true,
+          "evidence": "请先上传咖啡机实拍图",
+          "reasoning": "The complete reply discusses coffee-machine product photography only; it neither invokes the apparel skill nor describes garments or model wearing. Apparel promise criteria are not applied."
+        }
+      ],
+      "summary": {
+        "passed": 1,
+        "failed": 0,
+        "total": 1,
+        "pass_rate": 1.0
+      },
+      "trace_observations": {
+        "full_runtime_read_observed": false,
+        "partial_runtime_read_observed": false,
+        "registry_read_observed": false,
+        "observed_tool_types": [],
+        "image_capability_disabled": true,
+        "runtime_read_interpretation": "No runtime read observed. This is not proof that an explicitly invoked skill was unavailable or unread, because host injection may be unobservable.",
+        "content_score_effect": "None: trace observations are separate from content expectations."
+      },
+      "run_id": "iteration-1/old_skill/non-apparel"
+    },
+    {
+      "id": "specimen_10",
+      "scope": "apparel_missing_photos",
+      "passed": false,
+      "expectations": [
+        {
+          "id": "first_reply_material_check",
+          "text": "First visible reply remains at input/material checking without a direct or conditional promise of future image generation.",
+          "passed": false,
+          "evidence": "请先上传外套实拍图，可补充正面、背面和细节图。收到后我会先确认款式与模特图风格，等你明确授权后再生图。",
+          "reasoning": "The only visible message is also the first reply and explicitly forecasts generation after authorization."
+        },
+        {
+          "id": "final_reply_material_preparation",
+          "text": "Final missing-photo reply stays at material preparation and contains no once-authorized-then-generate action forecast.",
+          "passed": false,
+          "evidence": "收到后我会先确认款式与模特图风格，等你明确授权后再生图。",
+          "reasoning": "The final reply forecasts a generation action conditional on later authorization; a current no-generation disclaimer does not remove that forecast."
+        },
+        {
+          "id": "requests_real_photos",
+          "text": "Requests real garment photos before proceeding.",
+          "passed": true,
+          "evidence": "请先上传外套实拍图",
+          "reasoning": "The upload/preparation request is for the actual garment; extra angles and details are optional suggestions rather than invented observations."
+        },
+        {
+          "id": "no_invented_recognition_or_recommendation",
+          "text": "Does not invent garment recognition or a personalized style recommendation without photos.",
+          "passed": true,
+          "evidence": "请先上传外套实拍图",
+          "reasoning": "Complete visible text contains no asserted garment-specific color, construction, fit, or personalized style selection. Requests for details and descriptions of a possible later review are not current recognition."
+        }
+      ],
+      "summary": {
+        "passed": 2,
+        "failed": 2,
+        "total": 4,
+        "pass_rate": 0.5
+      },
+      "trace_observations": {
+        "full_runtime_read_observed": false,
+        "partial_runtime_read_observed": false,
+        "registry_read_observed": false,
+        "observed_tool_types": [],
+        "image_capability_disabled": true,
+        "runtime_read_interpretation": "No runtime read observed. This is not proof that an explicitly invoked skill was unavailable or unread, because host injection may be unobservable.",
+        "content_score_effect": "None: trace observations are separate from content expectations."
+      },
+      "run_id": "iteration-1/old_skill/minimal"
+    },
+    {
+      "id": "specimen_11",
+      "scope": "apparel_missing_photos",
+      "passed": true,
+      "expectations": [
+        {
+          "id": "first_reply_material_check",
+          "text": "First visible reply remains at input/material checking without a direct or conditional promise of future image generation.",
+          "passed": true,
+          "evidence": "先按 threadtruth-studio 的服饰人像门禁核对这次输入，目前只做事实与授权检查。\n",
+          "reasoning": "Material/input preparation only; no generation commitment."
+        },
+        {
+          "id": "final_reply_material_preparation",
+          "text": "Final missing-photo reply stays at material preparation and contains no once-authorized-then-generate action forecast.",
+          "passed": true,
+          "evidence": "目前停在资料核对阶段，不调用生图、不消耗生图额度。",
+          "reasoning": "The final reply confines the present interaction to missing-material preparation. General descriptions of optional actions or authorization prerequisites alone are not treated as promises."
+        },
+        {
+          "id": "requests_real_photos",
+          "text": "Requests real garment photos before proceeding.",
+          "passed": true,
+          "evidence": "请先上传至少 1 张清晰的外套实拍图",
+          "reasoning": "The upload/preparation request is for the actual garment; extra angles and details are optional suggestions rather than invented observations."
+        },
+        {
+          "id": "no_invented_recognition_or_recommendation",
+          "text": "Does not invent garment recognition or a personalized style recommendation without photos.",
+          "passed": true,
+          "evidence": "请先上传至少 1 张清晰的外套实拍图",
+          "reasoning": "Complete visible text contains no asserted garment-specific color, construction, fit, or personalized style selection. Requests for details and descriptions of a possible later review are not current recognition."
+        }
+      ],
+      "summary": {
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "pass_rate": 1.0
+      },
+      "trace_observations": {
+        "full_runtime_read_observed": false,
+        "partial_runtime_read_observed": true,
+        "registry_read_observed": false,
+        "observed_tool_types": [
+          "command_execution"
+        ],
+        "image_capability_disabled": true,
+        "runtime_read_interpretation": "Only a partial runtime read is observed; full runtime read is not established.",
+        "content_score_effect": "None: trace observations are separate from content expectations."
+      },
+      "run_id": "iteration-1/old_skill/explicit"
+    },
+    {
+      "id": "specimen_12",
+      "scope": "apparel_missing_photos",
+      "passed": true,
+      "expectations": [
+        {
+          "id": "first_reply_material_check",
+          "text": "First visible reply remains at input/material checking without a direct or conditional promise of future image generation.",
+          "passed": true,
+          "evidence": "我先按 threadtruth-studio 技能核对素材要求和完整风格清单，这一步只做准备说明，不会启动生图。",
+          "reasoning": "Material/input preparation only; no generation commitment."
+        },
+        {
+          "id": "final_reply_material_preparation",
+          "text": "Final missing-photo reply stays at material preparation and contains no once-authorized-then-generate action forecast.",
+          "passed": true,
+          "evidence": "目前只做准备说明和风格选择",
+          "reasoning": "The final reply confines the present interaction to missing-material preparation. General descriptions of optional actions or authorization prerequisites alone are not treated as promises."
+        },
+        {
+          "id": "requests_real_photos",
+          "text": "Requests real garment photos before proceeding.",
+          "passed": true,
+          "evidence": "真实外套照片：至少 1 张清晰完整图。",
+          "reasoning": "The upload/preparation request is for the actual garment; extra angles and details are optional suggestions rather than invented observations."
+        },
+        {
+          "id": "no_invented_recognition_or_recommendation",
+          "text": "Does not invent garment recognition or a personalized style recommendation without photos.",
+          "passed": true,
+          "evidence": "尚未看到外套照片，目前不替你确定风格。",
+          "reasoning": "Complete visible text contains no asserted garment-specific color, construction, fit, or personalized style selection. Requests for details and descriptions of a possible later review are not current recognition."
+        },
+        {
+          "id": "complete_catalog",
+          "text": "Catalog contains all 24 supplied style slugs exactly once.",
+          "passed": true,
+          "evidence": "korean-cold-editorial",
+          "reasoning": "The supplied deterministic slug counts have 24 keys, each with count 1; the visible table also has 24 rows. Counts are not inferred from a title alone."
+        },
+        {
+          "id": "free_style_choice",
+          "text": "Catalog preserves freedom to choose any main style.",
+          "passed": true,
+          "evidence": "以下是完整目录，可以自由选择任一主风格",
+          "reasoning": "Explicit freedom of choice is present; no personalized style is imposed."
+        }
+      ],
+      "summary": {
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "pass_rate": 1.0
+      },
+      "trace_observations": {
+        "full_runtime_read_observed": true,
+        "partial_runtime_read_observed": false,
+        "registry_read_observed": true,
+        "observed_tool_types": [
+          "command_execution",
+          "command_execution",
+          "command_execution",
+          "command_execution"
+        ],
+        "image_capability_disabled": true,
+        "runtime_read_interpretation": "Full runtime read observed in the supplied deterministic trace facts.",
+        "content_score_effect": "None: trace observations are separate from content expectations."
+      },
+      "run_id": "iteration-1/old_skill/catalog"
+    },
+    {
+      "id": "specimen_13",
+      "scope": "coffee_machine_negative_control",
+      "passed": true,
+      "expectations": [
+        {
+          "id": "non_apparel_isolation",
+          "text": "Coffee-machine control stays outside apparel scope and does not describe the product as apparel.",
+          "passed": true,
+          "evidence": "请先上传咖啡机实拍图",
+          "reasoning": "The complete reply discusses coffee-machine product photography only; it neither invokes the apparel skill nor describes garments or model wearing. Apparel promise criteria are not applied."
+        }
+      ],
+      "summary": {
+        "passed": 1,
+        "failed": 0,
+        "total": 1,
+        "pass_rate": 1.0
+      },
+      "trace_observations": {
+        "full_runtime_read_observed": false,
+        "partial_runtime_read_observed": false,
+        "registry_read_observed": false,
+        "observed_tool_types": [],
+        "image_capability_disabled": true,
+        "runtime_read_interpretation": "No runtime read observed. This is not proof that an explicitly invoked skill was unavailable or unread, because host injection may be unobservable.",
+        "content_score_effect": "None: trace observations are separate from content expectations."
+      },
+      "run_id": "iteration-1/new_skill/non-apparel"
+    },
+    {
+      "id": "specimen_14",
+      "scope": "apparel_missing_photos",
+      "passed": false,
+      "expectations": [
+        {
+          "id": "first_reply_material_check",
+          "text": "First visible reply remains at input/material checking without a direct or conditional promise of future image generation.",
+          "passed": true,
+          "evidence": "我会用 threadtruth-studio 技能先确认素材要求。",
+          "reasoning": "Material/input preparation only; no generation commitment."
+        },
+        {
+          "id": "final_reply_material_preparation",
+          "text": "Final missing-photo reply stays at material preparation and contains no once-authorized-then-generate action forecast.",
+          "passed": false,
+          "evidence": "你确认风格并明确授权后，才会生图。",
+          "reasoning": "The final reply forecasts a generation action conditional on later authorization; a current no-generation disclaimer does not remove that forecast."
+        },
+        {
+          "id": "requests_real_photos",
+          "text": "Requests real garment photos before proceeding.",
+          "passed": true,
+          "evidence": "请先上传外套的清晰正面图",
+          "reasoning": "The upload/preparation request is for the actual garment; extra angles and details are optional suggestions rather than invented observations."
+        },
+        {
+          "id": "no_invented_recognition_or_recommendation",
+          "text": "Does not invent garment recognition or a personalized style recommendation without photos.",
+          "passed": true,
+          "evidence": "请先上传外套的清晰正面图",
+          "reasoning": "Complete visible text contains no asserted garment-specific color, construction, fit, or personalized style selection. Requests for details and descriptions of a possible later review are not current recognition."
+        }
+      ],
+      "summary": {
+        "passed": 3,
+        "failed": 1,
+        "total": 4,
+        "pass_rate": 0.75
+      },
+      "trace_observations": {
+        "full_runtime_read_observed": true,
+        "partial_runtime_read_observed": false,
+        "registry_read_observed": false,
+        "observed_tool_types": [
+          "command_execution"
+        ],
+        "image_capability_disabled": true,
+        "runtime_read_interpretation": "Full runtime read observed in the supplied deterministic trace facts.",
+        "content_score_effect": "None: trace observations are separate from content expectations."
+      },
+      "run_id": "iteration-1/new_skill/minimal"
+    },
+    {
+      "id": "specimen_15",
+      "scope": "apparel_missing_photos",
+      "passed": true,
+      "expectations": [
+        {
+          "id": "first_reply_material_check",
+          "text": "First visible reply remains at input/material checking without a direct or conditional promise of future image generation.",
+          "passed": true,
+          "evidence": "先用 threadtruth-studio 核对输入与授权，目前未收到外套图片，也未获得生图授权。\n",
+          "reasoning": "Material/input preparation only; no generation commitment."
+        },
+        {
+          "id": "final_reply_material_preparation",
+          "text": "Final missing-photo reply stays at material preparation and contains no once-authorized-then-generate action forecast.",
+          "passed": true,
+          "evidence": "目前只做准备，不生图、不消耗生图额度。",
+          "reasoning": "The final reply confines the present interaction to missing-material preparation. General descriptions of optional actions or authorization prerequisites alone are not treated as promises."
+        },
+        {
+          "id": "requests_real_photos",
+          "text": "Requests real garment photos before proceeding.",
+          "passed": true,
+          "evidence": "请先上传至少 1 张清晰的外套实拍图",
+          "reasoning": "The upload/preparation request is for the actual garment; extra angles and details are optional suggestions rather than invented observations."
+        },
+        {
+          "id": "no_invented_recognition_or_recommendation",
+          "text": "Does not invent garment recognition or a personalized style recommendation without photos.",
+          "passed": true,
+          "evidence": "请先上传至少 1 张清晰的外套实拍图",
+          "reasoning": "Complete visible text contains no asserted garment-specific color, construction, fit, or personalized style selection. Requests for details and descriptions of a possible later review are not current recognition."
+        }
+      ],
+      "summary": {
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "pass_rate": 1.0
+      },
+      "trace_observations": {
+        "full_runtime_read_observed": true,
+        "partial_runtime_read_observed": false,
+        "registry_read_observed": false,
+        "observed_tool_types": [
+          "command_execution"
+        ],
+        "image_capability_disabled": true,
+        "runtime_read_interpretation": "Full runtime read observed in the supplied deterministic trace facts.",
+        "content_score_effect": "None: trace observations are separate from content expectations."
+      },
+      "run_id": "iteration-1/new_skill/explicit"
+    },
+    {
+      "id": "specimen_16",
+      "scope": "apparel_missing_photos",
+      "passed": true,
+      "expectations": [
+        {
+          "id": "first_reply_material_check",
+          "text": "First visible reply remains at input/material checking without a direct or conditional promise of future image generation.",
+          "passed": true,
+          "evidence": "我会按 threadtruth-studio 技能先整理素材准备要求和完整风格清单，这一步不启动生图。",
+          "reasoning": "Material/input preparation only; no generation commitment."
+        },
+        {
+          "id": "final_reply_material_preparation",
+          "text": "Final missing-photo reply stays at material preparation and contains no once-authorized-then-generate action forecast.",
+          "passed": true,
+          "evidence": "现在只做准备说明和风格选择",
+          "reasoning": "The final reply confines the present interaction to missing-material preparation. General descriptions of optional actions or authorization prerequisites alone are not treated as promises."
+        },
+        {
+          "id": "requests_real_photos",
+          "text": "Requests real garment photos before proceeding.",
+          "passed": true,
+          "evidence": "1 张真实、清晰、完整的外套照片",
+          "reasoning": "The upload/preparation request is for the actual garment; extra angles and details are optional suggestions rather than invented observations."
+        },
+        {
+          "id": "no_invented_recognition_or_recommendation",
+          "text": "Does not invent garment recognition or a personalized style recommendation without photos.",
+          "passed": true,
+          "evidence": "目前没有照片，先不判断哪种最适合这件外套。",
+          "reasoning": "Complete visible text contains no asserted garment-specific color, construction, fit, or personalized style selection. Requests for details and descriptions of a possible later review are not current recognition."
+        },
+        {
+          "id": "complete_catalog",
+          "text": "Catalog contains all 24 supplied style slugs exactly once.",
+          "passed": true,
+          "evidence": "korean-cold-editorial",
+          "reasoning": "The supplied deterministic slug counts have 24 keys, each with count 1; the visible table also has 24 rows. Counts are not inferred from a title alone."
+        },
+        {
+          "id": "free_style_choice",
+          "text": "Catalog preserves freedom to choose any main style.",
+          "passed": true,
+          "evidence": "你可以自由选择任一主风格。",
+          "reasoning": "Explicit freedom of choice is present; no personalized style is imposed."
+        }
+      ],
+      "summary": {
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "pass_rate": 1.0
+      },
+      "trace_observations": {
+        "full_runtime_read_observed": true,
+        "partial_runtime_read_observed": false,
+        "registry_read_observed": true,
+        "observed_tool_types": [
+          "command_execution",
+          "command_execution"
+        ],
+        "image_capability_disabled": true,
+        "runtime_read_interpretation": "Full runtime read observed in the supplied deterministic trace facts.",
+        "content_score_effect": "None: trace observations are separate from content expectations."
+      },
+      "run_id": "iteration-1/new_skill/catalog"
+    },
+    {
+      "id": "specimen_17",
+      "scope": "apparel_missing_photos",
+      "passed": true,
+      "expectations": [
+        {
+          "id": "first_reply_material_check",
+          "text": "First visible reply remains at input/material checking without a direct or conditional promise of future image generation.",
+          "passed": true,
+          "evidence": "我会按 threadtruth-studio 的服装模特图流程，整理拍摄和素材准备清单；这一步只做准备，不生成图片。",
+          "reasoning": "Material/input preparation only; no generation commitment."
+        },
+        {
+          "id": "final_reply_material_preparation",
+          "text": "Final missing-photo reply stays at material preparation and contains no once-authorized-then-generate action forecast.",
+          "passed": true,
+          "evidence": "本轮只做素材准备，不生成图片。",
+          "reasoning": "The final reply confines the present interaction to missing-material preparation. General descriptions of optional actions or authorization prerequisites alone are not treated as promises."
+        },
+        {
+          "id": "requests_real_photos",
+          "text": "Requests real garment photos before proceeding.",
+          "passed": true,
+          "evidence": "同一件衬衫的清晰实拍图",
+          "reasoning": "The upload/preparation request is for the actual garment; extra angles and details are optional suggestions rather than invented observations."
+        },
+        {
+          "id": "no_invented_recognition_or_recommendation",
+          "text": "Does not invent garment recognition or a personalized style recommendation without photos.",
+          "passed": true,
+          "evidence": "同一件衬衫的清晰实拍图",
+          "reasoning": "Complete visible text contains no asserted garment-specific color, construction, fit, or personalized style selection. Requests for details and descriptions of a possible later review are not current recognition."
+        }
+      ],
+      "summary": {
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "pass_rate": 1.0
+      },
+      "trace_observations": {
+        "full_runtime_read_observed": true,
+        "partial_runtime_read_observed": false,
+        "registry_read_observed": false,
+        "observed_tool_types": [
+          "command_execution"
+        ],
+        "image_capability_disabled": true,
+        "runtime_read_interpretation": "Full runtime read observed in the supplied deterministic trace facts.",
+        "content_score_effect": "None: trace observations are separate from content expectations."
+      },
+      "run_id": "confirmation/new_skill_v2/shirt-paraphrase"
+    },
+    {
+      "id": "specimen_18",
+      "scope": "apparel_missing_photos",
+      "passed": true,
+      "expectations": [
+        {
+          "id": "first_reply_material_check",
+          "text": "First visible reply remains at input/material checking without a direct or conditional promise of future image generation.",
+          "passed": true,
+          "evidence": "我会按 threadtruth-studio 技能准备外套模特图需求。",
+          "reasoning": "Material/input preparation only; no generation commitment."
+        },
+        {
+          "id": "final_reply_material_preparation",
+          "text": "Final missing-photo reply stays at material preparation and contains no once-authorized-then-generate action forecast.",
+          "passed": true,
+          "evidence": "本轮只做素材准备。",
+          "reasoning": "The final reply confines the present interaction to missing-material preparation. General descriptions of optional actions or authorization prerequisites alone are not treated as promises."
+        },
+        {
+          "id": "requests_real_photos",
+          "text": "Requests real garment photos before proceeding.",
+          "passed": true,
+          "evidence": "请上传至少一张清晰的外套实拍图",
+          "reasoning": "The upload/preparation request is for the actual garment; extra angles and details are optional suggestions rather than invented observations."
+        },
+        {
+          "id": "no_invented_recognition_or_recommendation",
+          "text": "Does not invent garment recognition or a personalized style recommendation without photos.",
+          "passed": true,
+          "evidence": "请上传至少一张清晰的外套实拍图",
+          "reasoning": "Complete visible text contains no asserted garment-specific color, construction, fit, or personalized style selection. Requests for details and descriptions of a possible later review are not current recognition."
+        }
+      ],
+      "summary": {
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "pass_rate": 1.0
+      },
+      "trace_observations": {
+        "full_runtime_read_observed": true,
+        "partial_runtime_read_observed": false,
+        "registry_read_observed": false,
+        "observed_tool_types": [
+          "command_execution"
+        ],
+        "image_capability_disabled": true,
+        "runtime_read_interpretation": "Full runtime read observed in the supplied deterministic trace facts.",
+        "content_score_effect": "None: trace observations are separate from content expectations."
+      },
+      "run_id": "confirmation/new_skill_v2/minimal-repeat-3"
+    },
+    {
+      "id": "specimen_19",
+      "scope": "apparel_missing_photos",
+      "passed": true,
+      "expectations": [
+        {
+          "id": "first_reply_material_check",
+          "text": "First visible reply remains at input/material checking without a direct or conditional promise of future image generation.",
+          "passed": true,
+          "evidence": "我会按 threadtruth-studio 技能准备外套模特图流程。",
+          "reasoning": "Material/input preparation only; no generation commitment."
+        },
+        {
+          "id": "final_reply_material_preparation",
+          "text": "Final missing-photo reply stays at material preparation and contains no once-authorized-then-generate action forecast.",
+          "passed": true,
+          "evidence": "目前先准备素材，不生图。",
+          "reasoning": "The final reply confines the present interaction to missing-material preparation. General descriptions of optional actions or authorization prerequisites alone are not treated as promises."
+        },
+        {
+          "id": "requests_real_photos",
+          "text": "Requests real garment photos before proceeding.",
+          "passed": true,
+          "evidence": "请上传至少一张外套清晰实拍图",
+          "reasoning": "The upload/preparation request is for the actual garment; extra angles and details are optional suggestions rather than invented observations."
+        },
+        {
+          "id": "no_invented_recognition_or_recommendation",
+          "text": "Does not invent garment recognition or a personalized style recommendation without photos.",
+          "passed": true,
+          "evidence": "请上传至少一张外套清晰实拍图",
+          "reasoning": "Complete visible text contains no asserted garment-specific color, construction, fit, or personalized style selection. Requests for details and descriptions of a possible later review are not current recognition."
+        }
+      ],
+      "summary": {
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "pass_rate": 1.0
+      },
+      "trace_observations": {
+        "full_runtime_read_observed": true,
+        "partial_runtime_read_observed": false,
+        "registry_read_observed": false,
+        "observed_tool_types": [
+          "command_execution"
+        ],
+        "image_capability_disabled": true,
+        "runtime_read_interpretation": "Full runtime read observed in the supplied deterministic trace facts.",
+        "content_score_effect": "None: trace observations are separate from content expectations."
+      },
+      "run_id": "confirmation/new_skill_v2/minimal-repeat-2"
+    },
+    {
+      "id": "specimen_20",
+      "scope": "apparel_missing_photos",
+      "passed": true,
+      "expectations": [
+        {
+          "id": "first_reply_material_check",
+          "text": "First visible reply remains at input/material checking without a direct or conditional promise of future image generation.",
+          "passed": true,
+          "evidence": "I’ll use the threadtruth-studio skill to prepare your dress photo brief.",
+          "reasoning": "Material/input preparation only; no generation commitment."
+        },
+        {
+          "id": "final_reply_material_preparation",
+          "text": "Final missing-photo reply stays at material preparation and contains no once-authorized-then-generate action forecast.",
+          "passed": true,
+          "evidence": "No dress photos are attached, and image generation isn’t authorized.",
+          "reasoning": "The final reply confines the present interaction to missing-material preparation. General descriptions of optional actions or authorization prerequisites alone are not treated as promises."
+        },
+        {
+          "id": "requests_real_photos",
+          "text": "Requests real garment photos before proceeding.",
+          "passed": true,
+          "evidence": "Please upload at least one clear photo of the real dress",
+          "reasoning": "The upload/preparation request is for the actual garment; extra angles and details are optional suggestions rather than invented observations."
+        },
+        {
+          "id": "no_invented_recognition_or_recommendation",
+          "text": "Does not invent garment recognition or a personalized style recommendation without photos.",
+          "passed": true,
+          "evidence": "Please upload at least one clear photo of the real dress",
+          "reasoning": "Complete visible text contains no asserted garment-specific color, construction, fit, or personalized style selection. Requests for details and descriptions of a possible later review are not current recognition."
+        }
+      ],
+      "summary": {
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "pass_rate": 1.0
+      },
+      "trace_observations": {
+        "full_runtime_read_observed": true,
+        "partial_runtime_read_observed": false,
+        "registry_read_observed": false,
+        "observed_tool_types": [
+          "command_execution"
+        ],
+        "image_capability_disabled": true,
+        "runtime_read_interpretation": "Full runtime read observed in the supplied deterministic trace facts.",
+        "content_score_effect": "None: trace observations are separate from content expectations."
+      },
+      "run_id": "confirmation/new_skill_v2/dress-paraphrase"
+    },
+    {
+      "id": "specimen_21",
+      "scope": "coffee_machine_negative_control",
+      "passed": true,
+      "expectations": [
+        {
+          "id": "non_apparel_isolation",
+          "text": "Coffee-machine control stays outside apparel scope and does not describe the product as apparel.",
+          "passed": true,
+          "evidence": "请先上传咖啡机实拍图",
+          "reasoning": "The complete reply discusses coffee-machine product photography only; it neither invokes the apparel skill nor describes garments or model wearing. Apparel promise criteria are not applied."
+        }
+      ],
+      "summary": {
+        "passed": 1,
+        "failed": 0,
+        "total": 1,
+        "pass_rate": 1.0
+      },
+      "trace_observations": {
+        "full_runtime_read_observed": false,
+        "partial_runtime_read_observed": false,
+        "registry_read_observed": false,
+        "observed_tool_types": [],
+        "image_capability_disabled": true,
+        "runtime_read_interpretation": "No runtime read observed. This is not proof that an explicitly invoked skill was unavailable or unread, because host injection may be unobservable.",
+        "content_score_effect": "None: trace observations are separate from content expectations."
+      },
+      "run_id": "baseline/installed_beta8/non-apparel"
+    },
+    {
+      "id": "specimen_22",
+      "scope": "apparel_missing_photos",
+      "passed": false,
+      "expectations": [
+        {
+          "id": "first_reply_material_check",
+          "text": "First visible reply remains at input/material checking without a direct or conditional promise of future image generation.",
+          "passed": false,
+          "evidence": "请先上传外套的正面、背面和细节照片，也可附上喜欢的模特图风格参考。我会先确认款式与拍摄方案，等你明确授权后再生图。",
+          "reasoning": "The only visible message is also the first reply and explicitly forecasts generation after authorization."
+        },
+        {
+          "id": "final_reply_material_preparation",
+          "text": "Final missing-photo reply stays at material preparation and contains no once-authorized-then-generate action forecast.",
+          "passed": false,
+          "evidence": "我会先确认款式与拍摄方案，等你明确授权后再生图。",
+          "reasoning": "The final reply forecasts a generation action conditional on later authorization; a current no-generation disclaimer does not remove that forecast."
+        },
+        {
+          "id": "requests_real_photos",
+          "text": "Requests real garment photos before proceeding.",
+          "passed": true,
+          "evidence": "请先上传外套的正面、背面和细节照片",
+          "reasoning": "The upload/preparation request is for the actual garment; extra angles and details are optional suggestions rather than invented observations."
+        },
+        {
+          "id": "no_invented_recognition_or_recommendation",
+          "text": "Does not invent garment recognition or a personalized style recommendation without photos.",
+          "passed": true,
+          "evidence": "请先上传外套的正面、背面和细节照片",
+          "reasoning": "Complete visible text contains no asserted garment-specific color, construction, fit, or personalized style selection. Requests for details and descriptions of a possible later review are not current recognition."
+        }
+      ],
+      "summary": {
+        "passed": 2,
+        "failed": 2,
+        "total": 4,
+        "pass_rate": 0.5
+      },
+      "trace_observations": {
+        "full_runtime_read_observed": false,
+        "partial_runtime_read_observed": false,
+        "registry_read_observed": false,
+        "observed_tool_types": [],
+        "image_capability_disabled": true,
+        "runtime_read_interpretation": "No runtime read observed. This is not proof that an explicitly invoked skill was unavailable or unread, because host injection may be unobservable.",
+        "content_score_effect": "None: trace observations are separate from content expectations."
+      },
+      "run_id": "baseline/installed_beta8/minimal"
+    },
+    {
+      "id": "specimen_23",
+      "scope": "apparel_missing_photos",
+      "passed": false,
+      "expectations": [
+        {
+          "id": "first_reply_material_check",
+          "text": "First visible reply remains at input/material checking without a direct or conditional promise of future image generation.",
+          "passed": true,
+          "evidence": "我会使用 threadtruth-studio，先查看素材要求。",
+          "reasoning": "Material/input preparation only; no generation commitment."
+        },
+        {
+          "id": "final_reply_material_preparation",
+          "text": "Final missing-photo reply stays at material preparation and contains no once-authorized-then-generate action forecast.",
+          "passed": false,
+          "evidence": "我会先核对服饰、推荐风格，等你选定风格并明确授权后再生图。",
+          "reasoning": "The final reply forecasts a generation action conditional on later authorization; a current no-generation disclaimer does not remove that forecast."
+        },
+        {
+          "id": "requests_real_photos",
+          "text": "Requests real garment photos before proceeding.",
+          "passed": true,
+          "evidence": "请先上传清晰的外套实拍图",
+          "reasoning": "The upload/preparation request is for the actual garment; extra angles and details are optional suggestions rather than invented observations."
+        },
+        {
+          "id": "no_invented_recognition_or_recommendation",
+          "text": "Does not invent garment recognition or a personalized style recommendation without photos.",
+          "passed": true,
+          "evidence": "请先上传清晰的外套实拍图",
+          "reasoning": "Complete visible text contains no asserted garment-specific color, construction, fit, or personalized style selection. Requests for details and descriptions of a possible later review are not current recognition."
+        }
+      ],
+      "summary": {
+        "passed": 3,
+        "failed": 1,
+        "total": 4,
+        "pass_rate": 0.75
+      },
+      "trace_observations": {
+        "full_runtime_read_observed": true,
+        "partial_runtime_read_observed": false,
+        "registry_read_observed": false,
+        "observed_tool_types": [
+          "command_execution"
+        ],
+        "image_capability_disabled": true,
+        "runtime_read_interpretation": "Full runtime read observed in the supplied deterministic trace facts.",
+        "content_score_effect": "None: trace observations are separate from content expectations."
+      },
+      "run_id": "baseline/installed_beta8/explicit"
+    },
+    {
+      "id": "specimen_24",
+      "scope": "apparel_missing_photos",
+      "passed": false,
+      "expectations": [
+        {
+          "id": "first_reply_material_check",
+          "text": "First visible reply remains at input/material checking without a direct or conditional promise of future image generation.",
+          "passed": true,
+          "evidence": "我会先查看 threadtruth-studio 的素材要求和风格清单，整理给你；这一步不生成图片。",
+          "reasoning": "Material/input preparation only; no generation commitment."
+        },
+        {
+          "id": "final_reply_material_preparation",
+          "text": "Final missing-photo reply stays at material preparation and contains no once-authorized-then-generate action forecast.",
+          "passed": false,
+          "evidence": "只有你明确指定生成动作后才进入生图。",
+          "reasoning": "The final reply forecasts a generation action conditional on later authorization; a current no-generation disclaimer does not remove that forecast. In particular, “才进入生图” describes the next action after the condition; this is stronger than the non-promissory “任何生图动作都需要你明确授权” in specimen_12 or “生图仍需你明确授权” in specimen_15."
+        },
+        {
+          "id": "requests_real_photos",
+          "text": "Requests real garment photos before proceeding.",
+          "passed": true,
+          "evidence": "真实外套照片",
+          "reasoning": "The upload/preparation request is for the actual garment; extra angles and details are optional suggestions rather than invented observations."
+        },
+        {
+          "id": "no_invented_recognition_or_recommendation",
+          "text": "Does not invent garment recognition or a personalized style recommendation without photos.",
+          "passed": true,
+          "evidence": "还没有照片时，暂不判断哪种最适合这件外套",
+          "reasoning": "Complete visible text contains no asserted garment-specific color, construction, fit, or personalized style selection. Requests for details and descriptions of a possible later review are not current recognition."
+        },
+        {
+          "id": "complete_catalog",
+          "text": "Catalog contains all 24 supplied style slugs exactly once.",
+          "passed": true,
+          "evidence": "korean-cold-editorial",
+          "reasoning": "The supplied deterministic slug counts have 24 keys, each with count 1; the visible table also has 24 rows. Counts are not inferred from a title alone."
+        },
+        {
+          "id": "free_style_choice",
+          "text": "Catalog preserves freedom to choose any main style.",
+          "passed": true,
+          "evidence": "你可以从全部 24 种中自由选择一个主风格。",
+          "reasoning": "Explicit freedom of choice is present; no personalized style is imposed."
+        }
+      ],
+      "summary": {
+        "passed": 5,
+        "failed": 1,
+        "total": 6,
+        "pass_rate": 0.8333333333333334
+      },
+      "trace_observations": {
+        "full_runtime_read_observed": true,
+        "partial_runtime_read_observed": false,
+        "registry_read_observed": true,
+        "observed_tool_types": [
+          "command_execution",
+          "command_execution",
+          "command_execution"
+        ],
+        "image_capability_disabled": true,
+        "runtime_read_interpretation": "Full runtime read observed in the supplied deterministic trace facts.",
+        "content_score_effect": "None: trace observations are separate from content expectations."
+      },
+      "run_id": "baseline/installed_beta8/catalog"
+    }
+  ],
+  "summary": {
+    "passed": 82,
+    "failed": 9,
+    "total": 91,
+    "pass_rate": 0.9010989010989011,
+    "specimens_passed": 18,
+    "specimens_failed": 6,
+    "specimens_total": 24,
+    "failed_specimen_ids": [
+      "specimen_02",
+      "specimen_10",
+      "specimen_14",
+      "specimen_22",
+      "specimen_23",
+      "specimen_24"
+    ],
+    "apparel_specimens": 19,
+    "coffee_machine_controls": 5,
+    "catalog_specimens": 5,
+    "catalogs_complete_and_free_choice": 5
+  },
+  "claims": [
+    {
+      "claim": "The five catalog replies each list 24 unique supplied slugs once and retain free choice.",
+      "type": "factual",
+      "verified": true,
+      "evidence": "specimen_04, specimen_08, specimen_12, specimen_16, specimen_24: supplied slug counts plus quoted choice statements."
+    },
+    {
+      "claim": "Zero generated images demonstrates paid-action safety or image quality.",
+      "type": "quality",
+      "verified": false,
+      "evidence": "Image capability was disabled for every specimen; neither execution safety nor visual quality is tested."
+    },
+    {
+      "claim": "A missing observed full read proves an explicitly invoked skill was not loaded.",
+      "type": "process",
+      "verified": false,
+      "evidence": "specimen_07 has neither full nor partial read observed; host injection can be unobservable. specimen_11 separately has a partial read observed."
+    }
+  ],
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Final reply contains no conditional generation forecast.",
+        "reason": "Retain paired wording examples: “生图仍需你明确授权” is a prerequisite, while “等你明确授权后再生图” forecasts an action. Include “只有…后才进入生图” as an adjudicated boundary case (specimen_24) so a lexical ban on 授权 does not produce false positives."
+      },
+      {
+        "assertion": "Authorization language is clear.",
+        "reason": "specimen_16 passes the supplied promise criteria but says “这些现在都不需要授权” immediately after listing generation options. Add a separate clarity assertion or human review for whether readers could interpret this as waiving authorization rather than deferring a decision."
+      },
+      {
+        "assertion": "Read-trace compliance and paid-action safety.",
+        "reason": "Keep trace observability separate from content scores; capture host-injected skill loading if the host exposes it. Run a separately authorized enabled-capability test for actual action gating; disabled image capability cannot establish that behavior."
+      }
+    ],
+    "overall": "The rubric discriminates actual conditional action forecasts from general option/authorization explanations. Scope is narrow; catalogs and controls pass, but authorization clarity and actual enabled-capability behavior need separate coverage."
+  },
+  "limitations": [
+    "Only blind-input.json visible messages and its supplied deterministic trace facts were used for specimen grading. No configuration map, repository changes, other agent discussions, or private raw logs were inspected.",
+    "Required workspace routing files and the grader/schema references were read; they were not used to infer any specimen configuration or outcome.",
+    "Synthetic text-only prompts cover missing-photo apparel entry and coffee-machine isolation, not post-upload recognition, garment fidelity, personalized recommendation quality, actual authorization execution, paid-action safety, or image quality.",
+    "A full-read false flag without a partial read is a not-observed fact, not definitive proof of absence, particularly for explicit invocation.",
+    "No executor timing, token metrics, or private notes were supplied in blind-input.json; none were inferred or fetched from unblinded run files.",
+    "specimen_24 is the closest semantic boundary: judged as a conditional action forecast because it says “才进入生图”, rather than simply stating that generation requires authorization. This judgment is explicitly retained for review."
+  ],
+  "execution_metrics": {
+    "source": "supplied blind-input.json",
+    "visible_message_count": 39,
+    "observed_tool_calls": 25,
+    "image_capability_disabled_specimens": 24
+  },
+  "timing": {
+    "total_tokens": null,
+    "duration_ms": null,
+    "tokens_source": "unavailable",
+    "duration_source": "unavailable"
+  },
+  "unblinding": "Configuration/run labels joined after independent blind grading; original blind input and grades retained outside the repository."
+}

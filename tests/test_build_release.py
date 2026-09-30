@@ -1,9 +1,11 @@
 import importlib.util
 import json
+import re
 import shutil
 import tempfile
 import unittest
 import zipfile
+from urllib.parse import unquote, urlsplit
 from pathlib import Path
 
 
@@ -33,7 +35,7 @@ class ReleaseBuildTests(unittest.TestCase):
             self.assertIn(prefix + "install-local.py", names)
             self.assertIn(prefix + "CONTRIBUTING.md", names)
             self.assertIn(prefix + "SECURITY.md", names)
-            self.assertIn(prefix + "ROADMAP.md", names)
+            self.assertIn(prefix + "docs/BETA9-TRYOUT.md", names)
             self.assertIn(prefix + "docs/COMPETITIVE-LANDSCAPE.md", names)
             self.assertIn(
                 prefix
@@ -56,12 +58,37 @@ class ReleaseBuildTests(unittest.TestCase):
                 len([name for name in names if name.startswith(preview_prefix) and name.endswith(".jpg")]),
                 72,
             )
+            for excluded in ("CHANGELOG.md", "RELEASE.md", "ROADMAP.md", "docs/WORK-STATUS.md", "docs/CODEX-FOR-OSS.md", "docs/demo/GROWTH.md"):
+                self.assertNotIn(prefix + excluded, names)
+            self.assertFalse(any("/docs/verification/" in name for name in names))
             self.assertFalse(any("/docs/superpowers/" in name for name in names))
             self.assertFalse(any("/evals/" in name for name in names))
             self.assertFalse(any("/tests/" in name for name in names))
             self.assertFalse(any("/tools/" in name for name in names))
             self.assertFalse(any("/.threadtruth/" in name for name in names))
             self.assertFalse(any(name.endswith("image-1.png") for name in names))
+
+    def test_release_document_local_links_are_shipped(self):
+        spec = importlib.util.spec_from_file_location("build_release_links", SCRIPT)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        with tempfile.TemporaryDirectory() as output_dir:
+            archive, _ = module.build_release(ROOT, Path(output_dir))
+            stage = Path(output_dir) / archive.stem
+            missing = []
+            for document in stage.rglob("*"):
+                if document.suffix not in (".md", ".html"):
+                    continue
+                content = document.read_text()
+                links = re.findall(r"\]\(([^\s)]+)", content)
+                links += re.findall(r"(?:href|src)=[\"']([^\"']+)", content)
+                for link in links:
+                    parsed = urlsplit(link)
+                    if parsed.scheme or parsed.netloc or not parsed.path:
+                        continue
+                    if not (document.parent / unquote(parsed.path)).exists():
+                        missing.append(f"{document.relative_to(stage)} -> {link}")
+            self.assertEqual(missing, [], "Offline links must resolve; source-only references need an explicit online URL")
 
     def test_release_rejects_tampered_primary_demo_media(self):
         spec = importlib.util.spec_from_file_location("build_release", SCRIPT)

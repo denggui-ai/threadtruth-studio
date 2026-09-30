@@ -72,5 +72,5 @@ body:
     attributes:
       label: Optional evidence declaration / 自愿证据声明
       options:
-        - label: I am not a ThreadTruth Studio maintainer. / 我不是本项目维护者。
+        - label: I am not a Caiguang maintainer. / 我不是本项目维护者。
         - label: I consent to this sanitized result being counted under my public GitHub handle in the Beta register. / 同意以公开 GitHub 身份将脱敏结果计入 Beta 台账。
