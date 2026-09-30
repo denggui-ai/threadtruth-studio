@@ -6,7 +6,7 @@ Status: `candidate`, not published. Public brand and displayed plugin name becom
 
 Scope: metadata, onboarding, missing-photo handling and a narrower recipient-document allowlist. Development audits, changelog, application draft and work register stay in source; authorized public demo provenance remains with its images. `guide-required`.
 
-Before public beta.9: verify the candidate package and isolated registration, obtain a non-maintainer installation/name/recognition trial, record the optional one-image outcome separately, fix and retest reported issues, then review final archive/checksum and release notes. The scoped maintainer CLI retest is recorded in [Issue #1 verification](docs/verification/2026-09-30-issue1-missing-photo.md). It does not establish candidate plugin installation, fresh-host or GUI discovery, image-generation behavior, or stable-release readiness.
+Before public beta.9: verify the candidate package and isolated registration, obtain a non-maintainer installation/name/recognition trial, record the optional one-image outcome separately, fix and retest reported issues, then review final archive/checksum and release notes. The project-scoped retest is recorded in [Issue #1 verification](docs/verification/2026-09-30-issue1-missing-photo.md), followed by [installed-plugin regression](docs/verification/2026-09-30-beta9-installed-regression.md). Fresh-host adoption, desktop UI display, image-generation behavior and stable-release readiness remain separate gates.
 
 ## Current prerelease — beta.8
 
@@ -41,7 +41,7 @@ Version `1.0.0-beta.6` contains bounded entry recommendations, with Codex as def
 - All repository tests, 24/24 pack lint, trigger eval, Plugin validation, production strict validation, runtime-stage validation, JSON/YAML/Python checks, privacy/history scans, and release staging checks pass.
 - A rights-cleared source garment and full demo chain have a completed rights manifest.
 - Maintainer-machine installation proves explicit invocation, substantive implicit discovery, negative isolation, uninstall, upgrade, and rollback.
-- Historical Beta acceptance retained [Issue #1](https://github.com/denggui-ai/threadtruth-studio/issues/1) as a documented limitation after an explicit real-image workflow; it did not close the issue. The beta.9 project-scoped fix candidate still requires installed-plugin and fresh-host retesting before closure.
+- Historical Beta acceptance retained [Issue #1](https://github.com/denggui-ai/threadtruth-studio/issues/1) as a documented limitation after an explicit real-image workflow; it did not close the issue. The beta.9 installed-plugin fix has a scoped maintainer CLI record; fresh-host retesting and distribution are still required before closure.
 - A non-maintainer clean environment repeats installation and discovery before the Beta exits.
 - The maintainer reviews the final artifact names, checksums, and release notes before publication.
 
