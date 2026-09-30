@@ -197,8 +197,8 @@
     {
       "output": {
         "path": "assets/brand/fonts/noto-sans-sc.woff2",
-        "sha256": "f89b6e9b4bcbf30f5f261963ba05730afffa13be51044a267577849f84006861",
-        "bytes": 309228
+        "sha256": "4c56c98fbe2801111a4f3f608e2638cb66b12e3b72ccec937cc061fae863d634",
+        "bytes": 310820
       },
       "kind": "font",
       "source": "notosanssc",
@@ -351,6 +351,8 @@
           20018,
           20026,
           20027,
+          20040,
+          20041,
           20043,
           20046,
           20047,
@@ -365,12 +367,14 @@
           20113,
           20114,
           20116,
+          20123,
           20132,
           20134,
           20135,
           20139,
           20142,
           20154,
+          20160,
           20165,
           20173,
           20174,
@@ -404,6 +408,7 @@
           20320,
           20351,
           20363,
+          20379,
           20381,
           20391,
           20431,
@@ -495,6 +500,7 @@
           21344,
           21355,
           21360,
+          21363,
           21367,
           21381,
           21382,
@@ -542,6 +548,7 @@
           21704,
           21709,
           21713,
+          21738,
           21767,
           21830,
           21857,
@@ -620,6 +627,7 @@
           23457,
           23459,
           23460,
+          23467,
           23478,
           23481,
           23485,
@@ -702,6 +710,7 @@
           24425,
           24433,
           24449,
+          24453,
           24456,
           24459,
           24471,
@@ -1465,8 +1474,8 @@
     {
       "output": {
         "path": "assets/brand/og-home.png",
-        "sha256": "823ef4493f2c76902ff8b45991a76741ed23640c4318295398fad4b7f07ba481",
-        "bytes": 258069,
+        "sha256": "3b28209d758f5228a2026662f5e00d883b9a7909e81e5780d9345d422ac4c4f6",
+        "bytes": 420415,
         "dimensions": [
           1200,
           630
@@ -1478,15 +1487,15 @@
       "usage_page": "index.html",
       "source_template": "tools/brand_cards/og-home.html",
       "source_images": [
-        "assets/primary/look-3.jpg",
-        "assets/primary/look-1.jpg",
-        "assets/primary/source-1-front.jpg"
+        "display/italian-luxe/A.webp",
+        "assets/beige-outfit.jpg"
       ],
       "rights_paths": [
-        "assets/primary/rights.json"
+        "rights.json",
+        "assets/beige-outfit-rights.json"
       ],
       "derivation": "browser-render",
-      "source_template_sha256": "38e59b2f46967e083f4c146f982c1c95d5d6225709dd6a083858371edea4509e"
+      "source_template_sha256": "d738b8b86163629e776d54d2d6f3e14de8ffe94d9023de6109e32209b969c043"
     },
     {
       "output": {

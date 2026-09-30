@@ -214,8 +214,8 @@ def asset_provenance(path: str) -> dict:
         return {"kind": "share-cover", "source": "project-layout-and-authorized-showcase-assets" if home else "project-typographic-layout",
                 "usage_page": "index.html" if home else "compare.html",
                 "source_template": f"tools/brand_cards/og-{'home' if home else 'compare'}.html",
-                "source_images": ["assets/primary/look-3.jpg", "assets/primary/look-1.jpg", "assets/primary/source-1-front.jpg"] if home else [],
-                "rights_paths": ["assets/primary/rights.json"] if home else [], "derivation": "browser-render"}
+                "source_images": ["display/italian-luxe/A.webp", "assets/beige-outfit.jpg"] if home else [],
+                "rights_paths": ["rights.json", "assets/beige-outfit-rights.json"] if home else [], "derivation": "browser-render"}
     raise ValueError(f"unexpected brand path: {path}")
 
 

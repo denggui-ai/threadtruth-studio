@@ -5,7 +5,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const gallery = path.join(root, 'gallery/style24-comparison-20260929');
-const mime = {'.html':'text/html', '.jpg':'image/jpeg', '.svg':'image/svg+xml', '.woff2':'font/woff2'};
+const mime = {'.html':'text/html', '.jpg':'image/jpeg', '.webp':'image/webp', '.svg':'image/svg+xml', '.woff2':'font/woff2'};
 (async () => {
   const browser = await chromium.launch({headless:true});
   try {
