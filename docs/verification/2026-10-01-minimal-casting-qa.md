@@ -1,6 +1,16 @@
 # 2026-10-01 minimal casting / QA repair verification
 
-Status: source candidate; image repair not complete. User authorized the narrow implementation, not release/install. Base `0ee5788`, branch `fix/caiguang-casting-qa`.
+Current status: source candidate; original Japanese hem-label repairs are complete. The green-shirt home case's visual direction has been accepted. Fine garment/source review remains separate; no release/install authorization. Base `0ee5788`, branch `fix/caiguang-casting-qa`.
+
+## Latest closeout
+
+- A1/A2 fixed in retained `look-1-v3` / `look-3-v3`: flat rectangular hem labels, no hanging component or pocket opening. The latest local repair record includes subsequent authorized rounds; the failed first round below is historical.
+- Source commits `cf5b712` and `fc89940` retain the six poses and 24 packs, add optional casting/first-image comparison and one sentence translating an aesthetic reference into visible casting targets. No model library, scoring system or configuration framework.
+- The retained green-shirt home case contains six independent 1024×1536 images, four garment references and a first-image identity anchor. User feedback accepts the visual direction. Wider seated framing and obscured garment details remain explicitly recorded; visual approval is not substituted for source-fact verification or public-use consent.
+- The earlier eight-button conclusion was a false positive caused by counting a pale-edged buttonhole. Corrected records and original images are retained. No new image calls are needed for this closeout.
+- Development source and local case records are synchronized; installed/public versions and frozen previews remain unchanged. No L3 self-evolution, release maturity upgrade or commercial `image-ready` claim.
+
+## First-round verification (historical)
 
 - Runtime target: `skills/threadtruth-studio/`; evidence root: repository root. Four instruction files, three source evals (87–89) and changelog updated. No new config/model library. No style-pack or fixed-pose edits.
 - Static: quick_validate PASS; strict source standard PASS (89 evals); strict runtime profile PASS on a clean temporary copy excluding pre-existing Python caches; all 24 packs PASS; trigger-route assertions PASS. The raw checkout runtime profile detects pre-existing ignored `scripts/__pycache__`, dated before this task; it was preserved rather than silently deleting history.
