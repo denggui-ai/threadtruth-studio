@@ -2,6 +2,13 @@
 
 All notable changes are documented here. Versions follow Semantic Versioning.
 
+## Unreleased — 2026-10-01 minimal casting and QA repair
+
+- Before: identity consistency did not explicitly check user-declared casting goals; the priority chain contradicted garment-first guidance, and known hem-label drift was recorded as user review in the local example.
+- After: capture optional user-stated apparent age, body presentation, hair/makeup and temperament without a questionnaire or nationality/customer inference; check them at look-1. Safety/authorization and garment truth precede fixed poses and style. Confirmed structural drift requires `qa-retry`; missing source views require supplement/hold, not a pose substitution.
+- Retain per-image actual ordered references/roles/hashes, identity reference, prompt/output hashes and QA in the existing run record; historic missing invocation facts remain unknown.
+- Source regressions: evals 87–89 cover explicit/default casting and structural-drift blocking. These are text scenarios, not new casting-image benchmarks. Local two-image repair evidence is kept separately in `outputs/caiguang-fixed-poses-20261001/repair-run.json` in the parent workspace. No release or installed-version update.
+
 ## 1.0.0-beta.9 — Caiguang onboarding prerelease
 
 - Closeout: repair a source-only test link in the packaged capability guide and add a staged-document reference regression. Summarize current public/candidate/evidence status in the existing Beta register; label the older work ledger as historical and surface the retained installed-plugin text result in compatibility. Runtime files and frozen demo media are unchanged; public beta.8 assets remain immutable.

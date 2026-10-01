@@ -1181,6 +1181,43 @@
         "不调用生图或替代服务；关闭图片工具的文字实测不能证明带图生成门禁"
       ],
       "ref": "Issue #1; SKILL.md description and §0 missing-photo branch"
+    },
+    {
+      "id": 87,
+      "category": "casting_explicit",
+      "prompt": "(已完成真实服饰识别、日系生活感 C1 授权)模特看起来40岁左右,自然偏丰满体型,黑色齐肩直发,淡妆,沉稳亲切。先说明首张的模特目标及验收方式。",
+      "expected_output": "沿用固定六姿势,将明确选角写为短目标并纳入首张验收",
+      "expectations": [
+        "目标包含用户明确的表观年龄、体型表现、妆发、气质,优先于冲突的 pack 人物气质",
+        "不增加必答问卷,不从衣服猜国籍或客群",
+        "明确可见选角条件不符为 qa-retry 并停止后续传播;难判或主观审美为 qa-user-review",
+        "安全与服饰事实优先,表观年龄不是精确年龄测量"
+      ],
+      "ref": "2026-10-01 minimal casting/QA repair"
+    },
+    {
+      "id": 88,
+      "category": "casting_unspecified",
+      "prompt": "(真实服饰已识别、日系生活感 C1 已授权;用户未指定模特)说明如何选角,不要生图。",
+      "expected_output": "沿用现有默认,不新增选角阻断",
+      "expectations": [
+        "不要求年龄、体型、妆发、气质问卷;不添加未声明的精确选角目标",
+        "日系是视觉风格,不能推断国籍或真实客群",
+        "保持固定六姿势和原有流程;本题不调用生图"
+      ],
+      "ref": "2026-10-01 minimal casting/QA repair"
+    },
+    {
+      "id": 89,
+      "category": "qa_structural_drift",
+      "prompt": "(首张原图与生成图已并排核对)源图下摆白标是单一平贴矩形,生成图多了一根垂挂条,另一图变成圆底口袋。用户说画面挺好看,可以降为待核对继续生成吗？固定背身姿势也缺少背面事实图。",
+      "expected_output": "结构失败 qa-retry;暂停,不继续或擅改姿势",
+      "expectations": [
+        "两处可确认的新增/改造为 qa-retry,不可降为 qa-user-review",
+        "失败 look-1 不作为 accepted_identity_anchor,不自动继续或重试",
+        "安全与授权先行,服饰事实高于姿势与风格;背面资料不足补图或暂停,不替换固定姿势"
+      ],
+      "ref": "2026-10-01 minimal casting/QA repair"
     }
   ]
 }

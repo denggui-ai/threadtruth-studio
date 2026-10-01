@@ -126,7 +126,7 @@ no provocative pose, no upskirt, modest seated posture.
 动作1的默认真人模特与不露脸/局部真人输出,必须按以下顺序执行;平铺、挂拍、人台/ghost mannequin 跳过本节:
 
 1. **先生成 look-1。** look-1 只接收用户上传服饰参考图,不得拿 preview-grid 当参考图,也不得把源图真人脸当身份复制目标。
-2. **先验收再扩展。** look-1 落盘后,先检查上传服饰硬事实、人体结构、成人/儿童安全主体,以及其脸型/发型/表观年龄/身体比例是否足以作为稳定的 AI 模特种子。只有结果为 `qa-pass` 或仅剩不影响身份与硬事实的 `qa-user-review` 时,才能把它标为 `accepted_identity_anchor` 并继续 look-2…look-6。
+2. **先验收再扩展。** look-1 落盘后,先检查上传服饰硬事实、人体结构、成人/儿童安全主体,以及其脸型/发型/表观年龄/身体比例是否足以作为稳定的 AI 模特种子。若用户声明了选角目标,另核表观年龄、体型表现、妆发和气质是否兑现:明确可见的条件不符=`qa-retry`,停止传播;难以判断的表观年龄/气质或主观“不够好看”列 `qa-user-review` 并说明依据,不得伪装成硬条件失败或自动视为用户认可。只有结果为 `qa-pass` 或仅剩不影响身份、服饰硬事实且无明确选角条件不符的 `qa-user-review` 时,才能把它标为 `accepted_identity_anchor` 并继续 look-2…look-6。
 3. **look-1 不合格就停止传播。** 若 look-1 出现服饰硬事实漂移、明显人体错误、身份种子不可用或安全问题,立即保持部分组为 `image-draft` + `qa-retry`,停止后续 5 张;说明失败点并等待新的明确付费授权。不得为了凑满 6 张自动消耗第 7 次调用,也不得把失败图静默提升为锚点。
 4. **look-2…look-6 双参考。** 每张都同时传入当前已锁定 outfit/SKU 的全部上传服饰图 + 已验收 look-1,并在 prompt 逐图标注角色:
    - `Image 1..N = uploaded garment source(s), authoritative source truth for color, material appearance, silhouette, length, collar, shoulder, sleeve, hem, closures, pockets, pattern/logo/text, shoes, bag and accessories.`
@@ -173,6 +173,8 @@ batch_canvas_baseline: <首张通过比例门禁后的实际 WIDTHxHEIGHT>
    inside safe margins; no extra-tall or alternate-ratio canvas]
 + [core 注入的安全主体:按 recognition 性别年龄轴 + safety-core R1/R4
    → adult model(默认)/ child model, age-appropriate, modest(童装)/ + 去性感化锁(露肤时)]
++ [仅在用户明确选角时:注入 recognition 的短模特目标,覆盖冲突的 pack 人物气质;
+   未指定时不添加此块,沿用现有默认;非人像跳过]
 + [output form: 默认真人模特→用 §1 姿势母版+§2 头部视线;
    不露脸→继承姿势但改 face-obscured/cropped framing;
    平铺/挂拍/人台→改用 §1a 非人像构图,跳过真人头部视线]
@@ -227,6 +229,8 @@ batch_canvas_baseline: <首张通过比例门禁后的实际 WIDTHxHEIGHT>
 - 内置模式产物默认在 `$CODEX_HOME/generated_images/...`;要保存时生成后 move/copy 到工作目录,**不只留默认路径**。
 - **B3 fallback:** 若沙箱无写入权限,**不要静默失败、也不要重试制造并发**。明确告知:图已生成但落不进工作目录,实际在 `$CODEX_HOME/generated_images/`,并**列出每张缓存绝对路径**让用户自取。绝不因为"看起来没生成"就重跑。
 - 不覆盖已有图,版本化命名(`look-1.png` / `look-3-v2.png` / `preview-grid.png`)。
+
+在本组现有运行记录中逐张保留实际参考图的顺序/角色及文件哈希、身份参考(首张写无;局部修图注明原图仅用于身份/姿势/画面)、实际提示词文本及哈希、输出路径/哈希/宽高和逐项 QA 结果。生成图不得作为服饰事实源。修正另记版本与被替代编号,保留失败图和原始记录;历史缺失的参考顺序、身份锚点或调用凭据标为 `unknown`,不得从提示词意图倒推成实际调用事实。
 
 ## 5. QA 审计(生成或出提示词前内部自检)
 
