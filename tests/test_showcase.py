@@ -280,6 +280,12 @@ class ShowcaseTests(unittest.TestCase):
                                "bytes": path.stat().st_size, "sha256": hashlib.sha256(path.read_bytes()).hexdigest()})
             cases.append({"id": case_id, "status": "image-draft", "ai_generated": True,
                           "visual_acceptance": "pending-human-review", "images": images})
+            if case_id == "external-black-leather":
+                path = self.gallery / check_showcase.EXTERNAL_INPUT
+                Image.new("RGB", (1275, 1710), (45, 67, 89)).save(path)
+                cases[-1].update(publication_permission={"authorized": True}, input_image={
+                    "path": check_showcase.EXTERNAL_INPUT, "format": "JPEG", "dimensions": [1275, 1710],
+                    "bytes": path.stat().st_size, "sha256": hashlib.sha256(path.read_bytes()).hexdigest()})
         manifest = {"schema_version": "1.0", "cases": cases}
         write_json(self.gallery / "reviewed-cases.json", manifest)
         (self.gallery / "reviewed-cases.html").write_text('<html><body id="cases">AI examples</body></html>')
@@ -307,6 +313,18 @@ class ShowcaseTests(unittest.TestCase):
         self.assertTrue(any("canvas contract" in item for item in findings))
         self.assertTrue(any("private path" in item for item in findings))
         self.assertTrue(any("unexpected deployment file" in item for item in findings))
+
+    def test_external_trial_requires_publication_permission_and_verified_input(self):
+        self.build()
+        manifest = self.add_reviewed_cases()
+        case = manifest["cases"][-1]
+        case["publication_permission"]["authorized"] = False
+        write_json(self.gallery / "reviewed-cases.json", manifest)
+        self.assertTrue(any("publication permission" in item for item in self.findings()))
+        case["publication_permission"]["authorized"] = True
+        write_json(self.gallery / "reviewed-cases.json", manifest)
+        (self.gallery / check_showcase.EXTERNAL_INPUT).write_bytes(b"tampered source")
+        self.assertTrue(any("sha256 mismatch" in item for item in self.findings()))
 
 
 if __name__ == "__main__":

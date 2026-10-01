@@ -1,6 +1,6 @@
 # Reviewed styling examples · 2026-10-01
 
-[Four cases / 24 AI-generated images](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html) are approved for this project's demo display. The [public image manifest](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.json) records every selected PNG's SHA-256, size, fixed pose, reference-source links and review scope. Source photographs and the user's aesthetic screenshot are not redistributed with these cases.
+[Five cases / 30 AI-generated images](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html) are approved for this project's demo display. The [public image manifest](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.json) records every selected PNG's SHA-256, size, display pose and review scope. Source photographs for the original four cases and the user's aesthetic screenshot are not redistributed. The external example includes its separately authorized outfit input.
 
 | Case | Reference-source credit | Review scope |
 |---|---|---|
@@ -8,5 +8,8 @@
 | Sage shirt / Japanese Lifestyle home outfit | [MUJI Australia shirt](https://muji.com.au/products/womens-washed-linen-regular-collar-long-sleeve-shirt-bc2pv26s), [MUJI USA pants](https://www.muji.us/collections/womens-bottoms/products/washed-cotton-easy-pants-be1w526s) | Visual acceptance including revised seated framing; hidden buttons, rear pleat and real fit not individually verified |
 | Contrast-trim T-shirt / American Street | Shopify Partners / Burst; all reference pages in the manifest | Human fine-detail and subjective acceptance pending |
 | Contrast-trim T-shirt / Japanese Lifestyle | Shopify Partners / Burst; all reference pages in the manifest | Flat hem-label repairs reviewed; image 5 action acceptance pending |
+| External black jacket outfit / Codex | Maintainer confirms permission for the supplied input and six AI outputs; demo display only | Trial user reported satisfied; skill/style version unknown; outer-panel button variation and hidden garment details remain subject to source review |
+
+The [external trial record](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/feedback/2026-10-01-external-codex-outfit.md) separates reported satisfaction and six-file checks from installation evidence and commercial readiness. Its display order follows the visible actions; original generation prompts and run numbering were not supplied.
 
 These generated examples have demo-only display permission, not an open media reuse license. Apache-2.0 does not apply to these PNGs. Third-party source photography and product rights remain separate; publication does not imply MUJI, Shopify, a photographer or any other brand endorses the plugin. Original input-photo identity and real-world fit are not guaranteed.

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "review_date": "2026-10-01",
-  "scope": "Four six-image AI styling examples; visual acceptance and garment verification are separate.",
+  "scope": "Five six-image AI styling examples, including one external trial; reported satisfaction, visual acceptance and garment verification are separate.",
   "cases": [
     {
       "id": "red-floral-french",
@@ -412,6 +412,126 @@
           ],
           "format": "PNG",
           "bytes": 2139732
+        }
+      ]
+    },
+    {
+      "id": "external-black-leather",
+      "style": "unknown",
+      "sources": [
+        {
+          "credit": "User-supplied outfit image; publication permission confirmed by maintainer",
+          "path": "assets/reviewed-cases/external-black-leather/input.jpg"
+        }
+      ],
+      "title": {
+        "zh": "外部试用 · 黑色外套搭配",
+        "en": "External trial · Black jacket outfit"
+      },
+      "status": "image-draft",
+      "ai_generated": true,
+      "visual_acceptance": "accepted",
+      "acceptance_basis": "Satisfied trial user, as reported by the maintainer; not full commercial QA",
+      "review": {
+        "zh": "外部用户使用 Codex 生成六张，反馈满意。模特外观与场景较一致；坐姿图门襟扣位、背部结构仍待对照原衣。使用版本与风格代号未记录。",
+        "en": "An external user generated six images in Codex and reported satisfaction. AI appearance and scene are reasonably consistent; the seated front-panel button and rear construction still need garment review. Skill version and style selection were not recorded."
+      },
+      "media_terms": "Demo display only; no open media reuse license granted. Third-party rights remain separate.",
+      "trial": {
+        "host": "Codex",
+        "host_version": "unknown",
+        "os": "unknown",
+        "skill_version": "unknown",
+        "generated_images": 6,
+        "feedback": "satisfied",
+        "feedback_source": "maintainer report and private forwarded chat evidence",
+        "actual_call_count": "unknown",
+        "install_discovery_recognition": "not separately observed"
+      },
+      "publication_permission": {
+        "authorized": true,
+        "confirmed_by": "maintainer",
+        "date": "2026-10-01",
+        "scope": "outfit input and six generated images for public demo display; anonymous feedback summary",
+        "open_media_reuse": false
+      },
+      "display_pose_basis": "Visible-action ordering for this gallery; original prompts and runtime numbering unknown",
+      "input_image": {
+        "path": "assets/reviewed-cases/external-black-leather/input.jpg",
+        "sha256": "388f510353c06e348f5e1810078f47858c7921efbf312b2157335b5db472b278",
+        "dimensions": [
+          1275,
+          1710
+        ],
+        "format": "JPEG",
+        "bytes": 345450
+      },
+      "images": [
+        {
+          "pose": 1,
+          "path": "assets/reviewed-cases/external-black-leather/look-1.png",
+          "sha256": "cb55c76557ec149d917f6e381cb7d7531e1e577d23101830d81a8ec829cd2793",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 1584592
+        },
+        {
+          "pose": 2,
+          "path": "assets/reviewed-cases/external-black-leather/look-2.png",
+          "sha256": "b193257b42b90034c7ea4f8a6d1dc6222e12178d17e793f57b0497defac0afa6",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 2139736
+        },
+        {
+          "pose": 3,
+          "path": "assets/reviewed-cases/external-black-leather/look-3.png",
+          "sha256": "11cf22826fbb87c6aba4238ccaa7c80d9b4df0b6f9fc3a75536b74c5ffeb0ab0",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 1944686
+        },
+        {
+          "pose": 4,
+          "path": "assets/reviewed-cases/external-black-leather/look-4.png",
+          "sha256": "1c61896f83a4a4c675edee02811ba45513fe3b49a7905913f3915b0574367825",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 1872549
+        },
+        {
+          "pose": 5,
+          "path": "assets/reviewed-cases/external-black-leather/look-5.png",
+          "sha256": "265165f195d8918e3657b0502e031d59bc788896bbc6c5afb2536c77e660e01a",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 2050423
+        },
+        {
+          "pose": 6,
+          "path": "assets/reviewed-cases/external-black-leather/look-6.png",
+          "sha256": "ac7e36ef033560a42d3f0c57d4469aae2dee751eff93acbf6eddc11da47baf0a",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 1781738
         }
       ]
     }
