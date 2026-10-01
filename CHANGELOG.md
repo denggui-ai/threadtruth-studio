@@ -2,6 +2,12 @@
 
 All notable changes are documented here. Versions follow Semantic Versioning.
 
+## Unreleased — 2026-10-01 aesthetic-reference casting
+
+- Before: a declared age/makeup target could miss the visible styling and temperament explicitly requested through an aesthetic reference.
+- After: translate those visible features into a short casting target and compare look-1 before propagating identity; retain garment truth, fixed poses and the existing no-identity-copy/no-nationality-inference boundary. One instruction sentence; no model library or scoring framework.
+- Source eval 90 covers the reference-to-casting case. No installed-version change or release.
+
 ## Unreleased — 2026-10-01 minimal casting and QA repair
 
 - Before: identity consistency did not explicitly check user-declared casting goals; the priority chain contradicted garment-first guidance, and known hem-label drift was recorded as user review in the local example.
