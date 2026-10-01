@@ -21,6 +21,12 @@ except ImportError:
 
 REVIEWED_CASE_IDS = ("red-floral-french", "green-shirt-home", "trim-tee-american", "trim-tee-japanese", "external-black-leather")
 EXTERNAL_INPUT = "assets/reviewed-cases/external-black-leather/input.jpg"
+HOME_PRESENTATION_FILES = (
+    "assets/reviewed-cases/green-shirt-home/shirt-reference.jpg",
+    "assets/reviewed-cases/green-shirt-home/pants-reference.jpg",
+    "assets/reviewed-cases/green-shirt-home/before-after.jpg",
+    "assets/reviewed-cases/green-shirt-home/six-poses.jpg",
+)
 REVIEWED_FILES = {"reviewed-cases.html", "reviewed-cases.json"} | {
     f"assets/reviewed-cases/{case}/look-{pose}.png"
     for case in REVIEWED_CASE_IDS for pose in range(1, 7)
@@ -58,6 +64,15 @@ def validate_reviewed_cases(gallery: Path) -> list[str]:
                 if not all(key in source for key in ("sha256", "bytes", "dimensions", "format")):
                     raise ValueError("external trial: missing input integrity record")
                 findings.extend(_record_findings(gallery / EXTERNAL_INPUT, source, EXTERNAL_INPUT))
+            if case["id"] == "green-shirt-home":
+                presentation = case.get("presentation", [])
+                if presentation or any((gallery / name).exists() for name in HOME_PRESENTATION_FILES):
+                    if [item["path"] for item in presentation] != list(HOME_PRESENTATION_FILES):
+                        raise ValueError("home presentation: expected fixed two references and two sharing images")
+                    for item in presentation:
+                        if not all(key in item for key in ("sha256", "bytes", "dimensions", "format")):
+                            raise ValueError("home presentation: missing integrity record")
+                        findings.extend(_record_findings(gallery / item["path"], item, item["path"]))
         if len(set(hashes)) != len(REVIEWED_CASE_IDS) * 6:
             findings.append("reviewed cases: expected 30 distinct image hashes")
     except (OSError, ValueError, TypeError, KeyError) as error:
@@ -288,6 +303,7 @@ def validate_showcase(gallery: Path, *, repo_root: Path | None = None, expected_
     if has_reviewed:
         allowed_files.update(REVIEWED_FILES)
         allowed_files.add(EXTERNAL_INPUT)
+        allowed_files.update(HOME_PRESENTATION_FILES)
     # The already-published input remains a byte-identical alias for old links.
     legacy_input = gallery / "inputs/beige-outfit.jpg"
     if legacy_input.exists():
