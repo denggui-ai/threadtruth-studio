@@ -1,11 +1,12 @@
 # Compatibility / 兼容性
 
-Updated 2026-09-30. The current public package is the [beta.9 prerelease](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.9). Verification below is scoped to the recorded environment and task; it is not a general compatibility guarantee.
+Updated 2026-10-01. The current public package remains [beta.9](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.9); beta.10 is an unpublished candidate. Verification below is scoped to the recorded environment and task; it is not a general compatibility guarantee.
 
-更新于2026-09-30。当前公开包为[beta.9预发布版](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.9)。下表仅说明已记录环境与任务的验证范围，不承诺所有环境兼容。
+更新于2026-10-01。当前公开包仍为[beta.9](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.9)；beta.10为未发布候选。下表仅说明已记录环境与任务的验证范围，不承诺所有环境兼容。
 
 | Surface or task / 环境或任务 | Evidence / 证据 | Boundary / 边界 |
 |---|---|---|
+| beta.10 candidate / 候选 | 219 local tests and runtime static checks passed; two fresh-context casting preparations honored explicit/default targets; one native first-image PNG is 1024×1536 / 219项本地测试及静态检查通过，两条独立文字选角处理成立，一次原生首图尺寸符合 | Both first replies exceeded the input-gate-only boundary; generated sleeve construction and placket occlusion require qa-retry. Publication held. No fresh-host installation or six-image workflow proof / 首回复越界、袖口补造与门襟遮挡未关闭；暂缓发布，不证明新宿主或完整六图流程 |
 | beta.9 archive checks / 归档检查 | Package extraction, isolated registration and prior-metadata upgrade/rollback fixtures passed; release does not establish fresh-host success / 解压、隔离目录注册及旧版元数据升级／回滚夹具通过；发布不代表新环境实测成功 | No fresh-host installation, GUI discovery or image-generation verification is claimed / 不声称已完成新环境安装、界面发现或生图验证 |
 | beta.9 missing-photo CLI candidate / 缺图文字候选复测 | Fresh maintainer CLI probes reproduced [Issue #1](https://github.com/denggui-ai/threadtruth-studio/issues/1); revised project-scoped skill loaded on the original prompt and garment paraphrases / 本机独立文字会话复现后，项目级候选技能在原始提示及服饰改写中可观察完整读取 | CLI 0.155.1, project-scoped candidate, image capability disabled; not installed-plugin, GUI, fresh-host or paid-action proof / 项目级候选，关闭生图；不等于插件安装、界面、新用户或付费动作验证 |
 | beta.9 installed-plugin text regression / 已安装插件文字复测 | Retained maintainer macOS 26.6.2 / CLI 0.155.1 record: final 8/8 visible replies passed independent grading; original minimal prompt 3/3, explicit invocation, catalog and garment paraphrases observed complete Skill reads; non-apparel control stayed outside apparel / 留存本机记录：最终8/8可见回复通过独立评分，原始短提示3/3、显式调用、目录及服饰改写观察到完整读取，非服饰对照未进入服饰流程 | Includes commentary before loading; prior 2/6 failures retained. Images were disabled. GUI display, actual rollback and non-maintainer fresh-host verification remain pending. This is a historical text-only observation, not a new run or a closed public Issue #1 / 包含读取前首答并保留初次安装候选2/6失败；关闭生图，界面显示、实际回滚及非维护者新环境仍待验证，本次未重跑或关闭公开Issue |

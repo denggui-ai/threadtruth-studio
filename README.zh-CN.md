@@ -148,3 +148,5 @@ python3 tools/build-release.py
 运行时位于 `skills/threadtruth-studio/`；测试、eval、发布工具和证据位于其外。另见[贡献指南](CONTRIBUTING.md)、[安全策略](SECURITY.md)、[迁移说明](MIGRATION.md)与[来源记录](PROVENANCE.md)。项目 Beta 目标不属于 OpenAI 准入规则，申请说明单独保存在 [Codex for Open Source](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/CODEX-FOR-OSS.md)。
 
 </details>
+
+开发说明：beta.10 为未发布候选。选角修正在源码中，首图服装 QA 与首回复门禁偏差尚未关闭；公开 beta.9 包保持不变。

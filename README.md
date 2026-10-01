@@ -148,3 +148,5 @@ python3 tools/build-release.py
 Runtime lives under `skills/threadtruth-studio/`; tests, evals, release tooling, and evidence stay outside it. See [Contributing](CONTRIBUTING.md), [Security](SECURITY.md), [Migration](MIGRATION.md), and [Provenance](PROVENANCE.md). Project Beta targets are not OpenAI admission rules; application details are kept in [Codex for Open Source](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/CODEX-FOR-OSS.md).
 
 </details>
+
+Development note: beta.10 is an unpublished candidate. Optional casting changes are in source; first-image garment QA and first-reply compliance remain unresolved. Public beta.9 assets are unchanged.

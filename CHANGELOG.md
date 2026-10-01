@@ -2,6 +2,12 @@
 
 All notable changes are documented here. Versions follow Semantic Versioning.
 
+## 1.0.0-beta.10 — unpublished candidate, 2026-10-01
+
+- Package the already approved optional casting and first-image QA changes with a version-matched offline guide; preserve public beta.9 downloads and installed state.
+- Two fresh-context casting preparations met their narrow text targets, but both first replies exceeded the gate-only wording boundary. One authorized native first image met casting direction and canvas targets but failed garment QA on invented cuff structure and placket occlusion. No automatic retry or accepted identity anchor.
+- Hold publication and retain failures. Scope and findings: [candidate verification](docs/verification/2026-10-01-beta10-candidate.md). No new model framework, pose changes or fresh-host compatibility claim.
+
 ## Showcase update — 2026-10-01
 
 - Publish four fixed-six-pose AI styling examples (24 unchanged 1024×1536 PNGs): red floral dress, sage-shirt home outfit, and American/Japanese contrast-trim T-shirt sets. Separate accepted visual direction from remaining human garment/action review.
