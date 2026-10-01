@@ -6,7 +6,7 @@ Read when the user selects ChatGPT web. This adapter is designed for macOS Codex
 
 Use `scripts/web-task.py` relative to this skill. Store task files under the user's chosen workspace, never inside the installed skill. All helper commands are local; they do not click Send or grant approval. The agent records only approval actually given by the user and observations actually made in the browser. JSON task state is private workflow data, not public evidence.
 
-Create a JSON spec containing `references` (absolute garment paths, in user-confirmed order), `prompts` (one single-image prompt for action 2, or six for action 1), `size` (`[width,height]` resolved from the canvas contract), and `identity` (true for real/faceless models; false for flat/hanger/mannequin). Compose prompts from the selected style and prompt-build; do not use old comparison prompts with unrelated identity references. Resolve an unspecified exact size to a proposed size matching the user's ratio before submission; preserve any explicit dimensions. Explain the chosen canvas.
+Create a JSON spec containing `references` (ordered `{path,role}` images: garment-source, identity-reference, aesthetic-reference), `prompts` (one single-image prompt for action 2, or six for action 1), `size` (`[width,height]` resolved from the canvas contract), `context` (outfit, style, mode B/C/D, output_form, size, first_pose), `route` (chatgpt_web, or codex_native for the same local native ledger), optional `model` (see model-selection.md) or `model_package` (private package path), and `identity` (true for real/faceless models; false for flat/hanger/mannequin). Compose prompts from the selected style and prompt-build; do not use old comparison prompts with unrelated identity references. Resolve an unspecified exact size to a proposed size matching the user's ratio before submission; preserve any explicit dimensions. Explain the chosen canvas.
 
 ```sh
 python3 scripts/web-task.py init --task <new-task-directory> --spec <spec.json>
@@ -34,7 +34,7 @@ The user signs into ChatGPT themselves. Login required, quota restriction, loadi
 4. When a persistent `/c/` URL appears, use `bind --look N --conversation <observed-url>` on the same reservation. Poll only the existing request, with bounded observations and user updates. After 30 minutes without a verified result, record `unknown --look N` and pause. This stops observation, not remote generation.
 5. Download the original through the supported browser download mechanism into the task's workspace. Do not scrape private image URLs, save a screenshot as the result, or invent a download path. If download is unavailable, ask the user to download and provide that exact original; retain the existing reservation.
 6. Use `returned --look N --file <downloaded-original.png>`. The helper checks dimensions and duplicate bytes and copies to an immutable numbered output. Non-PNG, wrong size or duplicate means pause; do not convert, crop or generate another image automatically. Then inspect actual content with image tools and apply existing commercial QA, garment facts and identity-anchor gates.
-7. Only suitable images receive `accept --look N --qa qa-pass|qa-user-review --note <actual-visible-review>`. `qa-user-review` is allowed only when outstanding issues do not affect hard garment facts, anatomy/safety or anchor suitability. For unsuitable images, record `reject --look N --note <visible-hard-failure>`; explain the issue and stop. Successful acceptance unlocks the next look. `complete=true` means all recorded images accepted for progression, not commercial `image-ready`; retain final user approval requirements.
+7. Only suitable images receive `accept --look N --qa qa-pass|qa-user-review --note <actual-visible-review>`. `qa-user-review` is allowed only when outstanding issues do not affect hard garment facts, anatomy/safety or anchor suitability. For unsuitable images, record `reject --look N --note <visible-hard-failure>`; explain the issue and stop. In new schema-2 adult portrait tasks, look-1 acceptance still pauses for human model confirmation; record `confirm-model --look 1 --note <actual-user-acceptance>` before the next look. Existing schema-1 tasks retain their original recovery behavior. `complete=true` means all recorded images accepted for progression, not commercial `image-ready`; retain final user approval requirements.
 
 ## Manual path
 
@@ -61,4 +61,22 @@ Each grant adds exactly one request to the initial limit; it never resets used r
 
 The previous attempt's prompt, source hashes, conversation, QA and output remain in `history`, with the original file intact. A retry uses a new `look-N-attempt-M` output and handoff directory. Follow the current README; older handoff folders are evidence, never a queue to resubmit. All recorded outputs, including rejected attempts, remain hash-checked and cannot be imported as duplicate results. Do not edit JSON to reset state or use old handoff files for the new request.
 
-Resume the same reserve → one Send → bind → returned → visual QA loop. A corrected look-1 must be accepted before any later look is unlocked. A grant records human authority; the local script cannot verify a human actually gave it, so agents must never fabricate approval receipts.
+Resume the same reserve → one Send → bind → returned → visual QA loop. A corrected look-1 must be technically accepted and, for new adult portrait tasks, human-confirmed before any later look is unlocked. A grant records human authority; the local script cannot verify a human actually gave it, so agents must never fabricate approval receipts.
+
+## Model confirmation, portable reference and continuation (schema 2)
+
+New adult-model and non-portrait tasks use schema 2; explicit legacy specifications can use schema_version=1 without new model/context fields; never silently migrate schema 1 or invent its missing model approval. For native generation use route codex_native and the same reserve/returned/accept/confirm ledger with actual ordered tool attachments; no browser URL is required, and do not run the web upload loop.
+
+```sh
+python3 scripts/web-task.py confirm-model --task <task> --look 1 --note <actual-human-model-acceptance>
+python3 scripts/web-task.py export-model --task <task> --destination <new-private-package> --name <model-name>
+python3 scripts/web-task.py continue-authorize --task <single-test-task> --spec <five-prompts-and-identical-context.json> --approval-id <unique-id> --note <actual-five-more-approval>
+```
+
+Existing identity exports the original source(s), never the latest outfit image. New AI identity exports the accepted first image. `model_package` imports verified relative paths and hashes as identity-only evidence; it never supplies garment facts, consent to generate/upload, or first-output acceptance on another SKU. Continuation adds exactly five slots after a confirmed mother-pose-1 trial, preserving its output, history and consumed budget; no reset or regeneration of look-1. A changed product/style/mode/output/canvas is a new task with its own authorization. The agent must verify trial pose1; the helper cannot infer pose from pixels or natural-language prompt.
+
+## User declines the technically accepted model
+
+Before model confirmation and downstream work, record actual user feedback with `reject-model --look 1 --note <feedback>`. This changes progression eligibility, not the recorded technical QA. Export preserves the original result. Nothing is regenerated by rejection.
+
+On explicit one-image retry authority use the existing `retry-authorize` with current attempt number and unique approval ID. If the user revised proposed model conditions, add `--model-spec <private-json-containing-model>` and a matching corrected prompt. The helper preserves old model conditions in attempt history and adds exactly one request; no budget reset. Original identity attachments, subject, source and scope stay fixed. Selecting an entirely different person requires an explicitly declared new model version/task with new original references; keep the original task and consumed calls, and never use this as automatic budget recovery. Once the model is human-confirmed, this in-task replacement path is blocked.

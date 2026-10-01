@@ -15,7 +15,8 @@ class WebTaskTests(unittest.TestCase):
         self.tmp=tempfile.TemporaryDirectory();self.root=Path(self.tmp.name)
         self.ref=self.root/'source.png';Image.new('RGB',(20,30),'red').save(self.ref)
         self.job=self.root/'job'
-        m.create(self.job,[self.ref],['pose '+str(i) for i in range(6)],(20,30),True)
+        # Retained schema-1 tasks must keep their historical progression behavior.
+        m.create(self.job,[self.ref],['pose '+str(i) for i in range(6)],(20,30),True,schema_version=1)
     def tearDown(self):self.tmp.cleanup()
     def authorize(self):m.update(self.job,'authorize',note='User approved this outfit six images to ChatGPT',limit=6)
     def reserve(self):return m.update(self.job,'reserve',look=1,ready=True,refs=m.reference_hashes(self.job,1),conversation='https://chatgpt.com/c/test')

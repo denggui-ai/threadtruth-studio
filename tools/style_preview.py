@@ -312,7 +312,49 @@ def _framing_text(framing, pilot):
     return PILOT_FRAMING.get(framing, framing) if pilot else framing
 
 
-def _prompt(preview, source, anchor, preview_negative, head_gaze_guidance, pilot=False):
+def _model_tools():
+    path = Path(__file__).resolve().parents[1] / 'skills/threadtruth-studio/scripts/model_reference.py'
+    spec = importlib.util.spec_from_file_location('preview_model_reference', path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def _model_preview(preview, model):
+    if model is None:
+        return preview
+    result = copy.deepcopy(preview)
+    persona, negatives = _model_tools().resolve_style(model, result['visual']['persona'], result['negative_delta_add'])
+    result['visual']['mood'] = _model_tools().resolve_mood(model, result['visual']['mood'])
+    result['visual']['persona'] = persona
+    result['negative_delta_add'] = negatives
+    return result
+
+
+def _apply_model(lines, source_count, model, model_references):
+    if model is None:
+        if model_references:raise ValueError('Person references require explicit model data')
+        return lines
+    helper = _model_tools()
+    helper.validate_model(model)
+    refs = model_references or []
+    if any(r.get('role') not in ('identity-reference', 'aesthetic-reference') for r in refs):
+        raise ValueError('Explicit person-reference roles required')
+    has_identity = any(r['role'] == 'identity-reference' for r in refs)
+    if has_identity != (model['source_type'] in ('ai', 'real')):
+        raise ValueError('Existing models need original identity references; new casting cannot copy identity')
+    lines = [line.replace('one adult female model', 'one ' + model['subject']) for line in lines
+             if not line.startswith('Identity-only reference:') and not re.match(r'Attached image \d+ is identity-only:', line)]
+    instructions = helper.prompt_lines(model)
+    for i, ref in enumerate(refs, source_count + 1):
+        role = ('original identity only; ignore garment, pose, crop, light and backdrop' if ref['role'] == 'identity-reference'
+                else 'aesthetic only; do not copy identity or clothing')
+        instructions.append(f"Attached image {i}: {ref['role']} — {role}. Reference: {ref['path']}")
+    return lines[:1] + instructions + lines[1:]
+
+
+def _prompt(preview, source, anchor, preview_negative, head_gaze_guidance, pilot=False, model=None, model_references=None):
+    preview = _model_preview(preview, model)
     visual = preview["visual"]
     source_count = len(source["assets"])
     lines = [
@@ -353,7 +395,7 @@ def _prompt(preview, source, anchor, preview_negative, head_gaze_guidance, pilot
         "Preview negative (grid is intentionally allowed): " + preview_negative,
         "Style negative append: " + ", ".join(preview["negative_delta_add"]),
     ])
-    return "\n".join(lines) + "\n"
+    return "\n".join(_apply_model(lines, source_count, model, model_references)) + "\n"
 
 
 def _orientation(ratio):
@@ -364,8 +406,9 @@ def _orientation(ratio):
     return "square" if width == height else ("portrait" if height > width else "landscape")
 
 
-def _single_prompt(preview, source, anchor, pose, general_negative, full_body_append, ratio, pilot, head_gaze_guidance):
+def _single_prompt(preview, source, anchor, pose, general_negative, full_body_append, ratio, pilot, head_gaze_guidance, model=None, model_references=None):
     """prompt-build §4.1 single independent image (action 2 test / one look) for one canonical pose template."""
+    preview = _model_preview(preview, model)
     visual = preview["visual"]
     source_count = len(source["assets"])
     framing = preview["layout_contract"]["framing"][pose["ordinal"] - 1]
@@ -398,10 +441,10 @@ def _single_prompt(preview, source, anchor, pose, general_negative, full_body_ap
         "Final negative: " + general_negative + (" " + full_body_append if full_body else ""),
         "Style negative append: " + ", ".join(preview["negative_delta_add"]),
     ]
-    return "\n".join(lines) + "\n"
+    return "\n".join(_apply_model(lines, source_count, model, model_references)) + "\n"
 
 
-def single_prompt(root, run_id, style, pose, source_case, ratio="1:1"):
+def single_prompt(root, run_id, style, pose, source_case, ratio="1:1", model=None, model_references=None, action=2):
     """Write one action-2 single-image prompt into <run>/prompts/ without touching evidence.json.
 
     This is a validation aid for a human-authorized single native call; it registers no batch and never generates.
@@ -417,12 +460,33 @@ def single_prompt(root, run_id, style, pose, source_case, ratio="1:1"):
     text = _single_prompt(
         preview, plan["source"], plan["identity_anchor"], preview["poses"][pose - 1],
         general_negative, full_body_append, ratio, style in PILOT_PHOTOGRAPHY_SLUGS,
-        _head_gaze_guidance(root),
+        _head_gaze_guidance(root), model=model, model_references=model_references,
     )
+    if action == 0:
+        if model is None:raise ValueError("Model preview requires explicit model data")
+        _, negative = _canonical_action_zero(root)
+        text = _prompt(preview, plan["source"], plan["identity_anchor"], negative, _head_gaze_guidance(root), pilot=style in PILOT_PHOTOGRAPHY_SLUGS, model=model, model_references=model_references)
+    elif action != 2:raise ValueError("Only model preview or single test prompt is supported")
+    attachments=[]
+    if model is not None:
+        for asset in plan['source']['assets']:
+            path=child(root,asset['path'])
+            if not path.is_file() or digest(path.read_bytes())!=asset['sha256']:raise ValueError('Missing or changed garment reference')
+            attachments.append(dict(path=str(path.resolve()),role='garment-source',sha256=asset['sha256']))
+        identity_hashes=set()
+        for ref in model_references or []:
+            path=Path(ref['path']).resolve()
+            if not path.is_file() or path.suffix.lower() not in {'.png','.jpg','.jpeg','.webp'} or digest(path.read_bytes())!=ref['sha256']:raise ValueError('Missing or changed model reference')
+            # Keep prompt image numbering and attachment order identical. Duplicate inputs must be normalized by the caller.
+            if ref['role']=='identity-reference' and ref['sha256'] in identity_hashes:raise ValueError('Deduplicate identical identity references before prompt assembly')
+            if ref['role']=='identity-reference':identity_hashes.add(ref['sha256'])
+            attachments.append(dict(path=str(path),role=ref['role'],sha256=ref['sha256']))
     (directory / "prompts").mkdir(parents=True, exist_ok=True)
-    path = child(directory, f"prompts/{style}.action2-pose{pose}.txt")
+    path = child(directory, f"prompts/{style}.action{action}-pose{pose}.txt")
     path.write_text(text, encoding="utf-8")
-    return {"path": str(path.relative_to(root.resolve())), "sha256": digest(text.encode()), "words": len(text.split()), "ratio": ratio}
+    result={"path": str(path.relative_to(root.resolve())), "sha256": digest(text.encode()), "words": len(text.split()), "ratio": ratio}
+    if model is not None:result["references"]=attachments
+    return result
 
 
 def _plan_v5(root, run_id, source_case):
@@ -1849,6 +1913,8 @@ def main(argv=None):
             command.add_argument("--source-case", required=True)
         if name == "single-prompt":
             command.add_argument("--style", required=True)
+            command.add_argument("--model-spec", type=Path, help="Private JSON with model and explicitly role-labeled references")
+            command.add_argument("--action", type=int, choices=[0,2], default=2)
             command.add_argument("--pose", type=int, required=True, help="canonical pose template 1-6")
             command.add_argument("--ratio", default="1:1", help="canvas contract W:H (modes-scenes §4; ecommerce main image defaults to 1:1)")
         if name == "register-batch":
@@ -1875,7 +1941,14 @@ def main(argv=None):
         if args.command == "register-batch":
             result = register_batch(args.root, args.run_id, read_json(args.manifest))
         elif args.command == "single-prompt":
-            result = single_prompt(args.root, args.run_id, args.style, args.pose, args.source_case, args.ratio)
+            custom = read_json(args.model_spec) if args.model_spec else {}
+            model = custom.get('model')
+            refs = custom.get('references', [])
+            for ref in refs:
+                path = Path(ref['path']).resolve()
+                if not path.is_file() or path.suffix.lower() not in {'.png','.jpg','.jpeg','.webp'} or digest(path.read_bytes()) != ref['sha256']:
+                    raise ValueError('Missing or changed model reference')
+            result = single_prompt(args.root, args.run_id, args.style, args.pose, args.source_case, args.ratio, model=model, model_references=refs, action=args.action)
         elif args.command == "ingest":
             correction = read_json(args.correction_record) if args.correction_record else None
             failed_retry = read_json(args.failed_retry_record) if args.failed_retry_record else None

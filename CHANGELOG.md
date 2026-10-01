@@ -2,6 +2,14 @@
 
 All notable changes are documented here. Versions follow Semantic Versioning.
 
+## Unreleased — model selection and portable reuse, 2026-10-02
+
+- Add two adult-model paths: existing authorized real/AI identity or editable casting recommendations, with a technical first-image gate followed by separate human model acceptance.
+- Deliver direction cards, image confirmation and a portable private reference package. Fixed, adjustable, proposed and unknown factors retain their origins and match actual prompt conditions; face-only references do not imply the person's body measurements.
+- Add explicit garment/identity/aesthetic roles and schema-2 local native/web accounting. A pose-1 single trial can continue as the same look-1 plus five authorized images without resetting requests, failure history or original files; schema-1 remains unchanged.
+- Keep original identity references across products, override conflicting person style terms while retaining safety/product constraints, and accept optional explicit model inputs in development prompts. No model database; no frozen packs, poses, media or historic prompts changed.
+- Verification: 246 local tests passed; independent review findings closed with regressions (mood person conflicts, unknown-factor contradictions and first-model refusal). Static runtime/source and package smoke checks passed. New source evals cover reference completeness, factor delivery, confirmation, continuation, tampering, native/web parity and prompt/attachment roles. Paid 14-image validation, installation, publication and cross-product visual claims remain pending separate authorization.
+
 ## 1.0.0-beta.10 — casting and first-image QA prerelease, 2026-10-01
 
 - Distribute the approved optional casting, aesthetic-reference translation, garment-first priorities and first-image QA changes that were previously available only in source. Keep fixed poses, style packs and the generation process.

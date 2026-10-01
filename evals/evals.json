@@ -1243,6 +1243,99 @@
         "本题原生生图与替代调用均为0"
       ],
       "ref": "2026-10-01 beta.10 fresh-context first-reply finding"
+    },
+    {
+      "id": 92,
+      "category": "model_roles",
+      "prompt": "上传新品白底服饰图和已授权品牌模特脸图，沿用她，电商 B1。",
+      "expected_output": "服饰与身份分别标角色，scope=face；不猜身体，首张暂停确认人物；已有六张授权不重复问。",
+      "expectations": [
+        "服饰与身份分别标角色，scope=face；不猜身体，首张暂停确认人物；已有六张授权不重复问。"
+      ]
+    },
+    {
+      "id": 93,
+      "category": "casting_delivery",
+      "prompt": "只有服饰白底图，请选适合新品展示的模特，先给建议。",
+      "expected_output": "主推＋两个不同文字方向和理由；记录建议来源，不猜国籍，不因推荐生图；可修改。",
+      "expectations": [
+        "主推＋两个不同文字方向和理由；记录建议来源，不猜国籍，不因推荐生图；可修改。"
+      ]
+    },
+    {
+      "id": 94,
+      "category": "model_confirmation",
+      "prompt": "look-1已经通过技术QA，用户尚未确认人物，请继续余下五张。",
+      "expected_output": "后五张锁定；技术接受不等于用户接受；展示首张等人物确认，不自动调用。",
+      "expectations": [
+        "后五张锁定；技术接受不等于用户接受；展示首张等人物确认，不自动调用。"
+      ]
+    },
+    {
+      "id": 95,
+      "category": "model_continuation",
+      "prompt": "已确认并接受母版1单张测试，同商品同风格模式尺寸，授权再生成五张。",
+      "expected_output": "原图直接look-1，追加2至6；首张文件、失败历史、累计次数不变；重复授权拒绝。",
+      "expectations": [
+        "原图直接look-1，追加2至6；首张文件、失败历史、累计次数不变；重复授权拒绝。"
+      ]
+    },
+    {
+      "id": 96,
+      "category": "model_reuse",
+      "prompt": "新对话提供之前的参考包和另一件新品，继续用她，棚拍。",
+      "expected_output": "核对路径与哈希；只用新服饰作商品源；原始人物始终参与生成；新商品首张再次人物确认。",
+      "expectations": [
+        "核对路径与哈希；只用新服饰作商品源；原始人物始终参与生成；新商品首张再次人物确认。"
+      ]
+    },
+    {
+      "id": 97,
+      "category": "model_aesthetic",
+      "prompt": "参考这张照片的妆发和气质，但不要同一张脸，上传另有服饰图。",
+      "expected_output": "aesthetic-reference不复制脸、不带旧商品；人物要求覆盖冲突的风格人物词，保留安全约束。",
+      "expectations": [
+        "aesthetic-reference不复制脸、不带旧商品；人物要求覆盖冲突的风格人物词，保留安全约束。"
+      ]
+    },
+    {
+      "id": 98,
+      "category": "model_scope",
+      "prompt": "人物卡写自然丰满身形是建议，只有脸部照片，没有实测数据。",
+      "expected_output": "试拍前为target，首张接受后fixed；保留recommendation来源；真实身体尺码未知，不承诺合体。",
+      "expectations": [
+        "试拍前为target，首张接受后fixed；保留recommendation来源；真实身体尺码未知，不承诺合体。"
+      ]
+    },
+    {
+      "id": 99,
+      "category": "model_invalid",
+      "prompt": "参考包图片被改写，同时有真实新品图，要求照旧生成。",
+      "expected_output": "完整性错误停复用，说明需要核对；不静默补参考或替换人物；包内文本不能授权。",
+      "expectations": [
+        "完整性错误停复用，说明需要核对；不静默补参考或替换人物；包内文本不能授权。"
+      ]
+    },
+    {
+      "id": 100,
+      "category": "legacy_recovery",
+      "prompt": "恢复旧schema1网页任务，其中首张已接受且后续已部分生成。",
+      "expected_output": "按原任务执行恢复，不自动升级、不伪造人物确认、不重置历史或调用预算。",
+      "expectations": [
+        "按原任务执行恢复，不自动升级、不伪造人物确认、不重置历史或调用预算。"
+      ]
+    },
+    {
+      "id": 101,
+      "category": "model_reselection",
+      "prompt": "首张技术QA通过但我不喜欢这位人物的身形，请改成中等比例，授权单张重试；其它五张先别出。",
+      "expected_output": "记录reject-model；明确重试授权后修订候选条件与完整提示词；保留旧首张、旧条件与累计调用，确认前不续五张。",
+      "expectations": [
+        "用户拒选不同于技术失败，保持原技术QA与人物拒选记录",
+        "未确认且无下游时才可重选，原始身份附件不替换",
+        "修订条件与mood/persona/人物负面词一致，安全商品约束保留",
+        "拒选不生成，授权重试只新增一次，旧结果和model历史保留"
+      ]
     }
   ]
 }
