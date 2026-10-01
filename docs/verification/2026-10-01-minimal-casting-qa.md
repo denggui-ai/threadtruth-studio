@@ -10,6 +10,11 @@ Current status: source candidate; original Japanese hem-label repairs are comple
 - The earlier eight-button conclusion was a false positive caused by counting a pale-edged buttonhole. Corrected records and original images are retained. No new image calls are needed for this closeout.
 - Development source and local case records are synchronized; installed/public versions and frozen previews remain unchanged. No L3 self-evolution, release maturity upgrade or commercial `image-ready` claim.
 
+## Subsequent framing-only attempt
+
+- Two authorized native edits attempted to restore the original upper-thigh half-body framing for home-case looks 3 and 5. Both outputs are 1024×1536 and preserve the fictional model and original pose types, but look 3 still reaches the knee region and look 5 still includes knees and lower legs. Both framing findings remain open (`qa-retry`); the initial look-3 pass was withdrawn on comparison.
+- Neither candidate replaces the original six. Two calls used, zero automatic retries; local prompts, ordered references, hashes and corrected QA are retained in `repair-v1/framing-fix/run.json`. No additional skill behavior change, publication or installation.
+
 ## First-round verification (historical)
 
 - Runtime target: `skills/threadtruth-studio/`; evidence root: repository root. Four instruction files, three source evals (87–89) and changelog updated. No new config/model library. No style-pack or fixed-pose edits.
