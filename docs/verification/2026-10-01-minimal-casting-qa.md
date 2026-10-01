@@ -1,6 +1,6 @@
 # 2026-10-01 minimal casting / QA repair verification
 
-Current status: source candidate; original Japanese hem-label repairs are complete. The green-shirt home case's visual direction has been accepted. Fine garment/source review remains separate; no release/install authorization. Base `0ee5788`, branch `fix/caiguang-casting-qa`.
+Current status: source candidate; original Japanese hem-label repairs are complete. The green-shirt home case's visual direction has been accepted; looks 3/5 now have selected tighter half-body versions. Fine garment/source review and subjective acceptance of these new edits remain separate; no release/install authorization. Base `0ee5788`, branch `fix/caiguang-casting-qa`.
 
 ## Latest closeout
 
@@ -10,10 +10,16 @@ Current status: source candidate; original Japanese hem-label repairs are comple
 - The earlier eight-button conclusion was a false positive caused by counting a pale-edged buttonhole. Corrected records and original images are retained. No new image calls are needed for this closeout.
 - Development source and local case records are synchronized; installed/public versions and frozen previews remain unchanged. No L3 self-evolution, release maturity upgrade or commercial `image-ready` claim.
 
-## Subsequent framing-only attempt
+## Subsequent framing-only attempt (historical)
 
 - Two authorized native edits attempted to restore the original upper-thigh half-body framing for home-case looks 3 and 5. Both outputs are 1024×1536 and preserve the fictional model and original pose types, but look 3 still reaches the knee region and look 5 still includes knees and lower legs. Both framing findings remain open (`qa-retry`); the initial look-3 pass was withdrawn on comparison.
 - Neither candidate replaces the original six. Two calls used, zero automatic retries; local prompts, ordered references, hashes and corrected QA are retained in `repair-v1/framing-fix/run.json`. No additional skill behavior change, publication or installation.
+
+## Latest composition correction
+
+- The previous look-5 prompt simultaneously froze low hanging hands and required a crop above knees. The correction explicitly permits relaxed hands on the upper lap while preserving the fixed forward-lean pose; look 3 keeps its upright seated action with a closer frame. Original half-body rules apply without adding an upper-thigh-only absolute.
+- Two native edits selected as `look-3-v3.png` and `look-5-v3.png`: close half-body framing, same fictional model and home atmosphere, retained garment design. Framing findings are fixed; look-5 lean strength and fingers near the bottom edge, naturally occluded garment details, fit and new-image subjective acceptance remain human review items (`qa-user-review`).
+- Selected six are unique 1024×1536 images. All original six hashes remain unchanged. Actual prompts, ordered references, identity targets, image hashes and QA are retained locally in `repair-v1/composition-v2/run.json`; gallery and the versioned case ZIP select the new 3/5. No pose-library, style-pack, skill behavior, installation or publication change.
 
 ## First-round verification (historical)
 
