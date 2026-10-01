@@ -2,6 +2,12 @@
 
 All notable changes are documented here. Versions follow Semantic Versioning.
 
+## Showcase update — 2026-10-01
+
+- Publish four fixed-six-pose AI styling examples (24 unchanged 1024×1536 PNGs): red floral dress, sage-shirt home outfit, and American/Japanese contrast-trim T-shirt sets. Separate accepted visual direction from remaining human garment/action review.
+- Add bilingual case pages, homepage cards and README previews with source credits and sanitized image integrity records. Preserve historical previews and the beta.9 release/installed version.
+- Extend the existing Pages allowlist check for the fixed 24-image publication set, including corrupted/missing images and private-path/extra-file rejection regressions.
+
 ## Unreleased — 2026-10-01 aesthetic-reference casting
 
 - Before: a declared age/makeup target could miss the visible styling and temperament explicitly requested through an aesthetic reference.

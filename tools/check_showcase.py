@@ -19,6 +19,44 @@ except ImportError:
     import brand_assets as brand
 
 
+REVIEWED_CASE_IDS = ("red-floral-french", "green-shirt-home", "trim-tee-american", "trim-tee-japanese")
+REVIEWED_FILES = {"reviewed-cases.html", "reviewed-cases.json"} | {
+    f"assets/reviewed-cases/{case}/look-{pose}.png"
+    for case in REVIEWED_CASE_IDS for pose in range(1, 7)
+}
+
+
+def validate_reviewed_cases(gallery: Path) -> list[str]:
+    """A fixed publication set; its manifest cannot expand deployment scope."""
+    findings = []
+    try:
+        manifest = json.loads((gallery / "reviewed-cases.json").read_text())
+        cases = manifest["cases"]
+        if manifest.get("schema_version") != "1.0" or [c["id"] for c in cases] != list(REVIEWED_CASE_IDS):
+            raise ValueError("expected four reviewed cases in publication order")
+        hashes = []
+        for case in cases:
+            if case.get("ai_generated") is not True or case.get("status") != "image-draft":
+                findings.append(f"{case['id']}: missing AI draft disclosure")
+            if case.get("visual_acceptance") not in ("accepted", "pending-human-review"):
+                findings.append(f"{case['id']}: invalid visual acceptance")
+            if [item["pose"] for item in case["images"]] != list(range(1, 7)):
+                raise ValueError(f"{case['id']}: expected fixed six poses")
+            for item in case["images"]:
+                expected_path = f"assets/reviewed-cases/{case['id']}/look-{item['pose']}.png"
+                if item.get("path") != expected_path or item.get("dimensions") != [1024, 1536] or item.get("format") != "PNG":
+                    raise ValueError(f"{case['id']}: invalid image path or canvas contract")
+                if not all(key in item for key in ("sha256", "bytes")):
+                    raise ValueError(f"{expected_path}: missing integrity record")
+                hashes.append(item["sha256"])
+                findings.extend(_record_findings(gallery / expected_path, item, expected_path))
+        if len(set(hashes)) != 24:
+            findings.append("reviewed cases: expected 24 distinct image hashes")
+    except (OSError, ValueError, TypeError, KeyError) as error:
+        findings.append(f"invalid or missing reviewed case manifest: {error}")
+    return findings
+
+
 class Page(HTMLParser):
     def __init__(self, text: str):
         super().__init__(convert_charrefs=True)
@@ -95,9 +133,12 @@ def validate_showcase(gallery: Path, *, repo_root: Path | None = None, expected_
     has_brand = require_brand or (gallery / brand.MANIFEST_PATH).exists() or (gallery / "assets/brand").exists()
     if has_brand:
         findings.extend(brand.validate_brand(gallery, repo_root=repo_root))
+    has_reviewed = (gallery / "reviewed-cases.json").exists() or (gallery / "reviewed-cases.html").exists() or (gallery / "assets/reviewed-cases").exists()
+    if has_reviewed:
+        findings.extend(validate_reviewed_cases(gallery))
     pages = {}
     private_pattern = re.compile(r"(?:/(?:Users|home)/[^\s/]+/|[A-Za-z]:\\(?:Users|Documents and Settings)\\|file://)")
-    for name in ("index.html", "compare.html"):
+    for name in ("index.html", "compare.html", *(("reviewed-cases.html",) if has_reviewed else ())):
         path = gallery / name
         if not path.is_file():
             findings.append(f"missing page: {name}")
@@ -236,6 +277,8 @@ def validate_showcase(gallery: Path, *, repo_root: Path | None = None, expected_
     if has_brand:
         # Fixed code-owned contract: a manifest cannot authorize extra files.
         allowed_files.update({brand.MANIFEST_PATH, *brand.BRAND_FILES})
+    if has_reviewed:
+        allowed_files.update(REVIEWED_FILES)
     # The already-published input remains a byte-identical alias for old links.
     legacy_input = gallery / "inputs/beige-outfit.jpg"
     if legacy_input.exists():
@@ -258,7 +301,8 @@ def main() -> int:
         for finding in findings:
             print(f"- {finding}")
         return 1
-    print("PASS: 24 styles, 48 original links, 48 WebP derivatives, 12 authorized demo images; local references, rights, licensed brand assets and deployment scope verified")
+    reviewed = "; 24 reviewed-case PNGs" if (args.gallery / "reviewed-cases.json").exists() else ""
+    print(f"PASS: 24 styles, 48 original links, 48 WebP derivatives, 12 authorized demo images{reviewed}; local references, rights records, licensed brand assets and deployment scope verified")
     return 0
 
 
