@@ -277,3 +277,25 @@ html.image-open { overflow:hidden; }
 @media(prefers-reduced-motion:reduce) { .highlight-image img { transition:none; } }
 
 .install-path .download-plugin{display:inline-block;margin-top:20px}
+
+/* Reviewed cases use the existing editorial canvas and fixed six poses. */
+.reviewed-home { padding-block:64px; border-top:1px solid var(--line); }
+.reviewed-heading { max-width:880px; padding-block:32px; }
+.reviewed-heading h1,.reviewed-heading h2 { font-size:clamp(28px,4vw,50px); margin-block:20px!important; }
+.reviewed-heading p,.case-intro,.case-sources { line-height:1.8; overflow-wrap:anywhere; }
+.reviewed-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:20px; }
+.reviewed-card img { width:100%; height:auto; display:block; }
+.reviewed-card a { text-decoration:none; }
+.reviewed-card h3 { font-size:18px; margin-block:16px 8px!important; }
+.reviewed-card p { font-size:13px; color:var(--subtle); }
+.reviewed-set { padding-block:40px; border-top:1px solid var(--line); scroll-margin-top:24px; }
+.reviewed-set h2 { font-size:clamp(24px,3vw,36px); }
+.case-intro { max-width:900px; margin-block:20px!important; }
+.reviewed-images { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:28px 20px; }
+.reviewed-images img { width:100%; height:auto; display:block; }
+.reviewed-images figcaption { display:flex; justify-content:space-between; gap:8px; font-size:13px; margin-top:12px; }
+.reviewed-images small { color:var(--subtle); }
+.case-sources { font-size:13px; color:var(--subtle); margin-block:24px!important; }
+.cases-page nav { display:flex; align-items:center; gap:16px!important; }
+@media(max-width:900px) { .reviewed-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .reviewed-images { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:480px) { .reviewed-grid,.reviewed-images { grid-template-columns:minmax(0,1fr); } .reviewed-home { padding-block:32px; } }

@@ -1,0 +1,419 @@
+{
+  "schema_version": "1.0",
+  "review_date": "2026-10-01",
+  "scope": "Four six-image AI styling examples; visual acceptance and garment verification are separate.",
+  "cases": [
+    {
+      "id": "red-floral-french",
+      "style": "french-effortless",
+      "sources": [
+        {
+          "url": "https://www.shopify.com/stock-photos/photos/white-flowers-on-summer-dress",
+          "credit": "Shopify Partners / Burst",
+          "license_url": "https://www.shopify.com/stock-photos/licenses/shopify-some-rights-reserved"
+        },
+        {
+          "url": "https://www.shopify.com/stock-photos/photos/bright-floral-dress",
+          "credit": "Shopify Partners / Burst",
+          "license_url": "https://www.shopify.com/stock-photos/licenses/shopify-some-rights-reserved"
+        }
+      ],
+      "title": {
+        "zh": "红花吊带裙 · 法式松弛",
+        "en": "Red floral dress · French Effortless"
+      },
+      "status": "image-draft",
+      "ai_generated": true,
+      "visual_acceptance": "accepted",
+      "review": {
+        "zh": "整组六图视觉验收通过。肩带小五金、花纹位置与实际合体效果仍需对照实物。",
+        "en": "The six-image visual direction was accepted. Strap hardware, motif placement and real-world fit still need source or physical review."
+      },
+      "media_terms": "Demo display only; no open media reuse license granted. Third-party rights remain separate.",
+      "images": [
+        {
+          "pose": 1,
+          "path": "assets/reviewed-cases/red-floral-french/look-1.png",
+          "sha256": "2361de23c79e6252738337a42206c3168ebc9f3bb5a5b82839fcc3b3d87db781",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 2267792
+        },
+        {
+          "pose": 2,
+          "path": "assets/reviewed-cases/red-floral-french/look-2.png",
+          "sha256": "49397fdad75c8e0369e8dbc1945aed60606c70c49724d145b1ea21f668cf0cda",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 2869091
+        },
+        {
+          "pose": 3,
+          "path": "assets/reviewed-cases/red-floral-french/look-3.png",
+          "sha256": "7bd0706411137bbc9aa7c99ab67d77f88b04e016544c4205f7b71abc52b15d8a",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 2121294
+        },
+        {
+          "pose": 4,
+          "path": "assets/reviewed-cases/red-floral-french/look-4.png",
+          "sha256": "a8b06013a0267d4ab35971543cf3aa40d007904ee0c88ecfafbac7ad1c1fcfa9",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 2508244
+        },
+        {
+          "pose": 5,
+          "path": "assets/reviewed-cases/red-floral-french/look-5.png",
+          "sha256": "dc93514a6582c4a9b0eaac81047ae9e552241338f782039167fef8d13ccb502c",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 2478994
+        },
+        {
+          "pose": 6,
+          "path": "assets/reviewed-cases/red-floral-french/look-6.png",
+          "sha256": "bccde93cd12f487161a6ddb349168cf3f4c7cf14626867c539897841d807fc57",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 2443171
+        }
+      ]
+    },
+    {
+      "id": "green-shirt-home",
+      "style": "japanese-lifestyle",
+      "sources": [
+        {
+          "url": "https://muji.com.au/products/womens-washed-linen-regular-collar-long-sleeve-shirt-bc2pv26s",
+          "credit": "MUJI Australia — shirt reference"
+        },
+        {
+          "url": "https://www.muji.us/collections/womens-bottoms/products/washed-cotton-easy-pants-be1w526s",
+          "credit": "MUJI USA — ivory pants; beige rear view used for construction only"
+        }
+      ],
+      "title": {
+        "zh": "浅绿衬衫搭配 · 日系家居",
+        "en": "Sage shirt outfit · Japanese Lifestyle"
+      },
+      "status": "image-draft",
+      "ai_generated": true,
+      "visual_acceptance": "accepted",
+      "review": {
+        "zh": "整组视觉方向与修正后的第 3、5 张构图已验收。首张确认 7 粒纽扣、无胸袋；遮挡处纽扣与背褶不作逐项已验证声明。",
+        "en": "The visual direction and revised framing of images 3 and 5 were accepted. Image 1 was checked for seven buttons and no chest pocket; occluded buttons and the rear pleat are not claimed individually verified."
+      },
+      "media_terms": "Demo display only; no open media reuse license granted. Third-party rights remain separate.",
+      "images": [
+        {
+          "pose": 1,
+          "path": "assets/reviewed-cases/green-shirt-home/look-1.png",
+          "sha256": "b15e981ebe00d41814eac89855eb2c2872f7a40a7898c984a77333602bd68674",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 2250230
+        },
+        {
+          "pose": 2,
+          "path": "assets/reviewed-cases/green-shirt-home/look-2.png",
+          "sha256": "5aeb583d104ca992bc61abe5005559b317c5f3919f004672e700913ec2dad93f",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 2111589
+        },
+        {
+          "pose": 3,
+          "path": "assets/reviewed-cases/green-shirt-home/look-3.png",
+          "sha256": "d1252e1fe4a686f328635589eef4810b6c0779c8fae268b59c2b66d65b7d6171",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 2359858
+        },
+        {
+          "pose": 4,
+          "path": "assets/reviewed-cases/green-shirt-home/look-4.png",
+          "sha256": "e760b3d419090adc68d30ebe73abb0e6a25e5acb6bcaebd4a610b30f71038573",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 2299197
+        },
+        {
+          "pose": 5,
+          "path": "assets/reviewed-cases/green-shirt-home/look-5.png",
+          "sha256": "2fdfb3cbf0f50c64cba788a4cfc49ce2ded66bc2a42b01c18093db9a1145c88d",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 2201223
+        },
+        {
+          "pose": 6,
+          "path": "assets/reviewed-cases/green-shirt-home/look-6.png",
+          "sha256": "fb9fa2928687761fdece15e7fdeabe60c49bfad702780867973831247847714b",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 2204906
+        }
+      ]
+    },
+    {
+      "id": "trim-tee-american",
+      "style": "american-street",
+      "sources": [
+        {
+          "url": "https://www.shopify.com/stock-photos/photos/white-t-shirt-detail",
+          "credit": "Shopify Partners / Burst",
+          "license_url": "https://www.shopify.com/stock-photos/licenses/shopify-some-rights-reserved"
+        },
+        {
+          "url": "https://www.shopify.com/stock-photos/photos/white-t-shirt-with-colored-edges",
+          "credit": "Shopify Partners / Burst",
+          "license_url": "https://www.shopify.com/stock-photos/licenses/shopify-some-rights-reserved"
+        },
+        {
+          "url": "https://www.shopify.com/stock-photos/photos/ladies-white-t-shirt",
+          "credit": "Shopify Partners / Burst",
+          "license_url": "https://www.shopify.com/stock-photos/licenses/shopify-some-rights-reserved"
+        },
+        {
+          "url": "https://www.shopify.com/stock-photos/photos/white-t-shirt-with-blue-and-gold",
+          "credit": "Shopify Partners / Burst",
+          "license_url": "https://www.shopify.com/stock-photos/licenses/shopify-some-rights-reserved"
+        },
+        {
+          "url": "https://www.shopify.com/stock-photos/photos/simple-t-shirt-back",
+          "credit": "Shopify Partners / Burst",
+          "license_url": "https://www.shopify.com/stock-photos/licenses/shopify-some-rights-reserved"
+        }
+      ],
+      "title": {
+        "zh": "拼色 T 恤 · 美式街头",
+        "en": "Contrast-trim T-shirt · American Street"
+      },
+      "status": "image-draft",
+      "ai_generated": true,
+      "visual_acceptance": "pending-human-review",
+      "review": {
+        "zh": "完成六图检查，保留人工细节复核与主观审美验收；不标为已全部验收。",
+        "en": "Six images were reviewed. Fine garment details and subjective acceptance remain open; this set is not labeled fully accepted."
+      },
+      "media_terms": "Demo display only; no open media reuse license granted. Third-party rights remain separate.",
+      "images": [
+        {
+          "pose": 1,
+          "path": "assets/reviewed-cases/trim-tee-american/look-1.png",
+          "sha256": "8fb74687aa038403e584071c98b152ca4cc02ad33f5474f9f8e5dfda5ce1756e",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 2218159
+        },
+        {
+          "pose": 2,
+          "path": "assets/reviewed-cases/trim-tee-american/look-2.png",
+          "sha256": "ffd5b3382595f4881a4bb2a319d832eb286d561b1bb45fe8c2a6dc0c3ed5dec4",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 2579689
+        },
+        {
+          "pose": 3,
+          "path": "assets/reviewed-cases/trim-tee-american/look-3.png",
+          "sha256": "b9a1b16bc2694e9fe30e9b56edd875fc3075c54bf200e191ba958aef175065e0",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 2412269
+        },
+        {
+          "pose": 4,
+          "path": "assets/reviewed-cases/trim-tee-american/look-4.png",
+          "sha256": "e3c2db4b042c436c6a25fd4b37dfa9985a7fb9f901ade7d2380777534f56c67f",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 2226824
+        },
+        {
+          "pose": 5,
+          "path": "assets/reviewed-cases/trim-tee-american/look-5.png",
+          "sha256": "12640fea7b5b85e4cfa3b8d7c9949b84ef1a57a157a6ff4f71b1d12e6f19b1c1",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 2396258
+        },
+        {
+          "pose": 6,
+          "path": "assets/reviewed-cases/trim-tee-american/look-6.png",
+          "sha256": "ddc36237c204d067f8f5bedc994c6a072dbb8743d11bc379f3d73376713ade75",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 2192135
+        }
+      ]
+    },
+    {
+      "id": "trim-tee-japanese",
+      "style": "japanese-lifestyle",
+      "sources": [
+        {
+          "url": "https://www.shopify.com/stock-photos/photos/white-t-shirt-detail",
+          "credit": "Shopify Partners / Burst",
+          "license_url": "https://www.shopify.com/stock-photos/licenses/shopify-some-rights-reserved"
+        },
+        {
+          "url": "https://www.shopify.com/stock-photos/photos/white-t-shirt-with-colored-edges",
+          "credit": "Shopify Partners / Burst",
+          "license_url": "https://www.shopify.com/stock-photos/licenses/shopify-some-rights-reserved"
+        },
+        {
+          "url": "https://www.shopify.com/stock-photos/photos/ladies-white-t-shirt",
+          "credit": "Shopify Partners / Burst",
+          "license_url": "https://www.shopify.com/stock-photos/licenses/shopify-some-rights-reserved"
+        },
+        {
+          "url": "https://www.shopify.com/stock-photos/photos/white-t-shirt-with-blue-and-gold",
+          "credit": "Shopify Partners / Burst",
+          "license_url": "https://www.shopify.com/stock-photos/licenses/shopify-some-rights-reserved"
+        },
+        {
+          "url": "https://www.shopify.com/stock-photos/photos/simple-t-shirt-back",
+          "credit": "Shopify Partners / Burst",
+          "license_url": "https://www.shopify.com/stock-photos/licenses/shopify-some-rights-reserved"
+        }
+      ],
+      "title": {
+        "zh": "拼色 T 恤 · 日系生活感",
+        "en": "Contrast-trim T-shirt · Japanese Lifestyle"
+      },
+      "status": "image-draft",
+      "ai_generated": true,
+      "visual_acceptance": "pending-human-review",
+      "review": {
+        "zh": "第 1、3 张下摆白标已修成单一平贴矩形。第 5 张前倾动作已增强，动作力度仍保留人工验收。",
+        "en": "Images 1 and 3 have corrected flat rectangular hem labels. Image 5 has a stronger forward lean; subjective action acceptance remains open."
+      },
+      "media_terms": "Demo display only; no open media reuse license granted. Third-party rights remain separate.",
+      "images": [
+        {
+          "pose": 1,
+          "path": "assets/reviewed-cases/trim-tee-japanese/look-1.png",
+          "sha256": "0628f877218ad5bf05e18bed63b7f9406dca29d4b7ee01054801993664e912d3",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 1998552
+        },
+        {
+          "pose": 2,
+          "path": "assets/reviewed-cases/trim-tee-japanese/look-2.png",
+          "sha256": "77bb83cbd1ea6573824eb70f3fe9edb9cc7595f2d0485cf9852cfcfc5aa09162",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 2175478
+        },
+        {
+          "pose": 3,
+          "path": "assets/reviewed-cases/trim-tee-japanese/look-3.png",
+          "sha256": "691a1e890e44e9c271e452d5fa46fcae6f262bdf65de7274b3b0d8b9881e7bae",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 2177434
+        },
+        {
+          "pose": 4,
+          "path": "assets/reviewed-cases/trim-tee-japanese/look-4.png",
+          "sha256": "28b415ae16159bf60748b8a547c24a55c49ec26cc263538f16e711219efe29d2",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 1969229
+        },
+        {
+          "pose": 5,
+          "path": "assets/reviewed-cases/trim-tee-japanese/look-5.png",
+          "sha256": "9dcfbfb1da5780ec86a1771eea163a55bde0b9d1696cc7203313e422db512b55",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 2238078
+        },
+        {
+          "pose": 6,
+          "path": "assets/reviewed-cases/trim-tee-japanese/look-6.png",
+          "sha256": "9fae26b20e699e86cac52ea9577599afbf38ef639ccab61b30383a564f1f5119",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 2139732
+        }
+      ]
+    }
+  ]
+}

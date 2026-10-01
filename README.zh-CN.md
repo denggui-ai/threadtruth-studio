@@ -8,7 +8,7 @@
 
 **单件或整套服饰，生成六姿势 AI 模特图，24 种风格可选。**<br>Turn a garment or coordinated outfit into six-pose AI model portraits. Choose from 24 styles.
 
-**[下载裁光插件 · Download Caiguang](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.9)**　·　**[开始安装 · Install](docs/INSTALL.md#简体中文)**　·　**[查看成片 · See results](https://denggui-ai.github.io/threadtruth-studio/#complete-case)**　·　**[探索 24 风格 · Explore styles](https://denggui-ai.github.io/threadtruth-studio/#style-highlights)**
+**[下载裁光插件 · Download Caiguang](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.9)**　·　**[开始安装 · Install](docs/INSTALL.md#简体中文)**　·　**[查看成片 · See results](https://denggui-ai.github.io/threadtruth-studio/#reviewed-cases)**　·　**[探索 24 风格 · Explore styles](https://denggui-ai.github.io/threadtruth-studio/#style-highlights)**
 
 [English guide](README.md) · [中文说明](README.zh-CN.md) · [产品首页 / Website](https://denggui-ai.github.io/threadtruth-studio/)
 
@@ -18,13 +18,13 @@
 
 [素材怎么准备](docs/INPUT-GUIDE.md) · [六姿势与生成指令](docs/CAPABILITIES.md#six-poses) · [单件 24 风格预览](docs/demo/style-previews/white-vest-24-v1/) · [套装 24 风格预览](docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/)
 
-以上两套是历史方向预览，每个风格一张六宫格，均不是六张独立成片。公开完整六图案例目前为白马甲单件；套装完整六图公开案例待补。
+以上两套是历史方向预览，每个风格一张六宫格，均不是六张独立成片。现新增 [四组六姿势穿搭案例](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html)：红花裙、浅绿衬衫家居搭配，以及拼色 T 恤的两种风格，共 24 张独立 AI 图。各组验收范围分别披露。
 
 ## 为什么选择裁光
 
 **让真实服饰，成为每一次创作的依据。**
 
-- **细节有依据，成片可对照。** 先读颜色、结构与搭配，再对照源图逐张确认，让你知道该看哪些细节。[查看源图与六张成片](https://denggui-ai.github.io/threadtruth-studio/#complete-case)。
+- **细节有依据，成片可对照。** 先读颜色、结构与搭配，再对照源图逐张确认，让你知道该看哪些细节。[查看六姿势成片](https://denggui-ai.github.io/threadtruth-studio/#reviewed-cases)。
 - **一套服饰，探索多种方向。** 从电商棚拍到品牌大片，在 24 种风格中寻找适合这套服饰的表达。[看同套服饰的三种风格](https://denggui-ai.github.io/threadtruth-studio/#outfit)。
 - **先测一张，再决定是否继续。** 先看方案或只要提示词；选好方向后，授权测试一张，再决定是否继续生成。[先做一次识别](#三步开始)。
 
@@ -68,6 +68,14 @@
 
 ## 案例与验证范围
 
+**新增：四组六张独立图。** [查看全部成片与来源说明](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html)。红花裙、家居搭配的视觉方向已验收；两组 T 恤保留人工细节与动作复核。可用于穿搭效果预览，人物是 AI 模特，不承诺本人身份、实际尺码或合体效果。
+
+| | | | |
+|---|---|---|---|
+| <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#red-floral-french"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/red-floral-french/look-1.png" alt="红花裙 — AI-generated" width="210"></a><br>红花裙 | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#green-shirt-home"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/green-shirt-home/look-5.png" alt="家居搭配 — AI-generated" width="210"></a><br>家居搭配 | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#trim-tee-american"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/trim-tee-american/look-1.png" alt="美式街头 T 恤 — AI-generated" width="210"></a><br>美式街头 T 恤 | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#trim-tee-japanese"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/trim-tee-japanese/look-1.png" alt="日系生活 T 恤 — AI-generated" width="210"></a><br>日系生活 T 恤 |
+
+[案例记录与媒体说明](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/SHOWCASE-CASES.md)。
+
 [![真实白色马甲源图，以及六张独立生成的韩系冷感 AI 人像](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/hero.jpg)](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)
 
 **4 张源图 → 6 张独立 AI 人像。** 这组历史案例已完成人工验收，与配对图库分开记录，也不是 beta.8 新生成的结果。[查看完整案例与媒体条款](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)。
@@ -76,8 +84,9 @@
 
 | 集合 | 已公开内容 | 能说明什么 |
 |---|---|---|
+| [新增穿搭案例](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html) | **4 组 × 6 张独立图 = 24 张** | 分别记录视觉验收与待复核项；不计入旧版冻结的风格索引。 |
 | [配对比较图库](https://denggui-ai.github.io/threadtruth-studio/compare.html) | **24 风格 × 2 个入口 = 48 张图片** | 同一输入的结果对照，含评审与权利披露；不等于 24 套完整六图交付，也不代表 beta.8 全风格验证。 |
-| [白马甲完整案例](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md) | **1 种风格 × 6 张独立成片** | 一组完成人工验收的完整案例；公开主案例风格索引仍为 **1/24**。 |
+| [白马甲完整案例](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md) | **1 种风格 × 6 张独立成片** | 一组完成人工验收的完整案例；旧版冻结主案例风格索引为 **1/24**。 |
 | 历史方向预览 | **2 个集合 × 24 种风格** | 每种风格一张六姿势看板，经过版式检查与维护者验收；保留白马甲 beta.3、套装 beta.4 的原始证据。 |
 
 <details>

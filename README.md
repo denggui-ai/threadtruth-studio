@@ -8,7 +8,7 @@
 
 **单件或整套服饰，生成六姿势 AI 模特图，24 种风格可选。**<br>Turn a garment or coordinated outfit into six-pose AI model portraits. Choose from 24 styles.
 
-**[下载裁光插件 · Download Caiguang](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.9)**　·　**[开始安装 · Install](docs/INSTALL.md#english)**　·　**[查看成片 · See results](https://denggui-ai.github.io/threadtruth-studio/#complete-case)**　·　**[探索 24 风格 · Explore styles](https://denggui-ai.github.io/threadtruth-studio/#style-highlights)**
+**[下载裁光插件 · Download Caiguang](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.9)**　·　**[开始安装 · Install](docs/INSTALL.md#english)**　·　**[查看成片 · See results](https://denggui-ai.github.io/threadtruth-studio/#reviewed-cases)**　·　**[探索 24 风格 · Explore styles](https://denggui-ai.github.io/threadtruth-studio/#style-highlights)**
 
 [English guide](README.md) · [中文说明](README.zh-CN.md) · [产品首页 / Website](https://denggui-ai.github.io/threadtruth-studio/)
 
@@ -18,13 +18,13 @@ Upload a garment or coordinated outfit, choose **one of 24 styles**, and create 
 
 [Prepare your photos](docs/INPUT-GUIDE.md) · [Six poses and generation prompts](docs/CAPABILITIES.md#six-poses) · [Garment: 24 previews](docs/demo/style-previews/white-vest-24-v1/) · [Outfit: 24 previews](docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/)
 
-Both collections are historical direction previews: one six-panel sheet per style, not independent finals. The public complete six-image case is a single white vest; a complete public outfit set remains to be added.
+Both collections are historical direction previews: one six-panel sheet per style, not independent finals. [Four new six-pose styling cases](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html) add 24 separate AI images: a floral dress, a sage-shirt home outfit, and two styles of a contrast-trim T-shirt. Each set discloses its review scope.
 
 ## Why create with Caiguang?
 
 **Keep your real garment at the heart of every creative decision.**
 
-- **Garment details you can review.** Review color, construction and styling before generation, then compare each result with your source photos. [See the complete case](https://denggui-ai.github.io/threadtruth-studio/#complete-case).
+- **Garment details you can review.** Review color, construction and styling before generation, then compare each result with your source photos. [See the six-pose cases](https://denggui-ai.github.io/threadtruth-studio/#reviewed-cases).
 - **Explore more looks for one outfit.** Find a direction across 24 styles, from ecommerce studio to fashion editorial. [See one outfit in three styles](https://denggui-ai.github.io/threadtruth-studio/#outfit).
 - **Try one image before a full set.** Start with a plan or prompts only. Approve one test image when ready, then decide whether to continue. [Start with recognition](https://denggui-ai.github.io/threadtruth-studio/#begin).
 
@@ -68,6 +68,14 @@ Install 裁光 · Caiguang in **Codex**. The ChatGPT route uses the web handoff 
 
 ## Examples and what they demonstrate
 
+**New: four sets of six separate images.** [See all images and source notes](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html). Dress and home-outfit visuals were accepted; the T-shirt sets retain fine-detail and action review. These AI-model images support styling previews, not personal identity, size or fit guarantees.
+
+| | | | |
+|---|---|---|---|
+| <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#red-floral-french"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/red-floral-french/look-1.png" alt="Floral dress — AI-generated" width="210"></a><br>Floral dress | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#green-shirt-home"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/green-shirt-home/look-5.png" alt="Home outfit — AI-generated" width="210"></a><br>Home outfit | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#trim-tee-american"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/trim-tee-american/look-1.png" alt="American Street — AI-generated" width="210"></a><br>American Street | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#trim-tee-japanese"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/trim-tee-japanese/look-1.png" alt="Japanese Lifestyle — AI-generated" width="210"></a><br>Japanese Lifestyle |
+
+[Case notes and media terms](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/SHOWCASE-CASES.md).
+
 [![A real white-vest source photo alongside six independent AI-generated Korean Cold Editorial portraits](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/hero.jpg)](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)
 
 **Four source photos → six independent AI portraits.** This reviewed historical case is separate from the paired gallery and was not generated under beta.8. [Explore the complete case and its media terms](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md).
@@ -76,8 +84,9 @@ The **24-style paired gallery** compares Codex and ChatGPT web results, with sou
 
 | Collection | Published scope | What it establishes |
 |---|---|---|
+| [New styling cases](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html) | **4 sets × 6 separate images = 24 images** | Visual acceptance and remaining review items are recorded separately; excluded from the frozen historical style index. |
 | [Paired comparison gallery](https://denggui-ai.github.io/threadtruth-studio/compare.html) | **24 styles × 2 routes = 48 images** | Same-input comparisons with reviews and rights disclosures. These are not 24 complete six-image sets or verification of every style under beta.8. |
-| [White-vest complete case](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md) | **1 style × 6 independent images** | One reviewed complete case; the public primary-case style index remains **1/24**. |
+| [White-vest complete case](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md) | **1 style × 6 independent images** | One reviewed complete case; the frozen historical primary-case style index is **1/24**. |
 | Historical direction previews | **2 collections × 24 styles** | One six-pose preview sheet per style, with layout checks and maintainer acceptance. The white-vest beta.3 and outfit beta.4 collections retain their original evidence. |
 
 <details>

@@ -267,6 +267,47 @@ class ShowcaseTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("index.html", result.stdout + result.stderr)
 
+    def add_reviewed_cases(self):
+        cases = []
+        for index, case_id in enumerate(check_showcase.REVIEWED_CASE_IDS):
+            images = []
+            for pose in range(1, 7):
+                relative = f"assets/reviewed-cases/{case_id}/look-{pose}.png"
+                path = self.gallery / relative
+                path.parent.mkdir(parents=True, exist_ok=True)
+                Image.new("RGB", (1024, 1536), (index * 50, pose * 30, 117)).save(path)
+                images.append({"pose": pose, "path": relative, "format": "PNG", "dimensions": [1024, 1536],
+                               "bytes": path.stat().st_size, "sha256": hashlib.sha256(path.read_bytes()).hexdigest()})
+            cases.append({"id": case_id, "status": "image-draft", "ai_generated": True,
+                          "visual_acceptance": "pending-human-review", "images": images})
+        manifest = {"schema_version": "1.0", "cases": cases}
+        write_json(self.gallery / "reviewed-cases.json", manifest)
+        (self.gallery / "reviewed-cases.html").write_text('<html><body id="cases">AI examples</body></html>')
+        return manifest
+
+    def test_reviewed_cases_check_integrity_and_fixed_pose_count(self):
+        self.build()
+        manifest = self.add_reviewed_cases()
+        self.assertEqual(self.findings(), [])
+        first = manifest["cases"][0]["images"][0]
+        (self.gallery / first["path"]).write_bytes(b"corrupted")
+        self.assertTrue(any("sha256 mismatch" in item for item in self.findings()))
+        manifest["cases"][1]["images"].pop()
+        write_json(self.gallery / "reviewed-cases.json", manifest)
+        self.assertTrue(any("fixed six poses" in item for item in self.findings()))
+
+    def test_reviewed_manifest_cannot_authorize_extra_file_or_hide_private_paths(self):
+        self.build()
+        manifest = self.add_reviewed_cases()
+        manifest["cases"][0]["images"][0]["path"] = "assets/reviewed-cases/private.png"
+        manifest["local_run"] = "/" + "Users/private/customer/run.json"
+        write_json(self.gallery / "reviewed-cases.json", manifest)
+        (self.gallery / "assets/reviewed-cases/private.png").write_bytes(b"private")
+        findings = self.findings()
+        self.assertTrue(any("canvas contract" in item for item in findings))
+        self.assertTrue(any("private path" in item for item in findings))
+        self.assertTrue(any("unexpected deployment file" in item for item in findings))
+
 
 if __name__ == "__main__":
     unittest.main()
