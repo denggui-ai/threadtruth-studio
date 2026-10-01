@@ -2,11 +2,13 @@
 
 All notable changes are documented here. Versions follow Semantic Versioning.
 
-## 1.0.0-beta.10 — unpublished candidate, 2026-10-01
+## 1.0.0-beta.10 — casting and first-image QA prerelease, 2026-10-01
 
-- Package the already approved optional casting and first-image QA changes with a version-matched offline guide; preserve public beta.9 downloads and installed state.
-- Two fresh-context casting preparations met their narrow text targets, but both first replies exceeded the gate-only wording boundary. One authorized native first image met casting direction and canvas targets but failed garment QA on invented cuff structure and placket occlusion. No automatic retry or accepted identity anchor.
-- Hold publication and retain failures. Scope and findings: [candidate verification](docs/verification/2026-10-01-beta10-candidate.md). No new model framework, pose changes or fresh-host compatibility claim.
+- Distribute the approved optional casting, aesthetic-reference translation, garment-first priorities and first-image QA changes that were previously available only in source. Keep fixed poses, style packs and the generation process.
+- Clarify the discovery description and existing gate sentence so prompt-only requests also begin with input checks; add source eval 91 and update the description contract.
+- Ship version-matched offline and installation/tryout guides, update current download links, and preserve older release assets and installed state.
+- Verification: 219 local tests, source/runtime checks, isolated registration and two scoped metadata-supplied fresh-context rechecks passed. Retain initial first-reply failures. One native first image failed cuff/occlusion QA; one separately authorized edit closed those visible failures and preserved the AI appearance/pose at 1024×1536. No automatic retry or new six-image case.
+- Image remains a draft pending user source review; no fresh-host, automatic installed-plugin discovery or style-maturity upgrade is claimed. [Verification scope and retained findings](docs/verification/2026-10-01-beta10-candidate.md).
 
 ## Showcase update — 2026-10-01
 
@@ -14,13 +16,13 @@ All notable changes are documented here. Versions follow Semantic Versioning.
 - Add bilingual case pages, homepage cards and README previews with source credits and sanitized image integrity records. Preserve historical previews and the beta.9 release/installed version.
 - Extend the existing Pages allowlist check for the fixed 24-image publication set, including corrupted/missing images and private-path/extra-file rejection regressions.
 
-## Unreleased — 2026-10-01 aesthetic-reference casting
+## Source change — 2026-10-01 aesthetic-reference casting (included in beta.10)
 
 - Before: a declared age/makeup target could miss the visible styling and temperament explicitly requested through an aesthetic reference.
 - After: translate those visible features into a short casting target and compare look-1 before propagating identity; retain garment truth, fixed poses and the existing no-identity-copy/no-nationality-inference boundary. One instruction sentence; no model library or scoring framework.
 - Source eval 90 covers the reference-to-casting case. No installed-version change or release.
 
-## Unreleased — 2026-10-01 minimal casting and QA repair
+## Source change — 2026-10-01 minimal casting and QA repair (included in beta.10)
 
 - Before: identity consistency did not explicitly check user-declared casting goals; the priority chain contradicted garment-first guidance, and known hem-label drift was recorded as user review in the local example.
 - After: capture optional user-stated apparent age, body presentation, hair/makeup and temperament without a questionnaire or nationality/customer inference; check them at look-1. Safety/authorization and garment truth precede fixed poses and style. Confirmed structural drift requires `qa-retry`; missing source views require supplement/hold, not a pose substitution.

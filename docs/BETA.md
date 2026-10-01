@@ -7,8 +7,8 @@ Status: **active**.
 
 | Track / 项目 | Recorded state / 已记录状态 | Next evidence / 下一项证据 |
 |---|---|---|
-| Public package / 公开安装包 | [v1.0.0-beta.9](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.9) remains current / 仍为当前公开版 | beta.10 candidate publication held after the first-image smoke failed garment QA / beta.10首图服饰验收失败，候选暂缓发布 |
-| beta.10 candidate / 候选 | Casting preparation passed its narrow targets; first-reply boundary and native garment QA did not pass / 选角文字目标成立；首回复门禁及原生服饰QA未通过 | Fix sleeve invention and key-detail occlusion within a newly authorized image test; retain original evidence / 保留原始证据，修正袖口补造与关键结构遮挡后再做经授权的单张测试 |
+| Public package / 公开安装包 | [v1.0.0-beta.10](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.10); older assets remain unchanged / 旧版资产不变 | Version-matched trial; stable release and fresh-host validation remain separate / 版本匹配试用；稳定版与新宿主验证仍待完成 |
+| beta.10 verification / 验证 | Scoped explicit/default casting and first-reply text rechecks passed; one authorized native correction closed visible cuff/placket failures, originals retained / 限定选角及首回复复测通过，经授权修图关闭可见袖口与门襟失败，保留原始证据 | [Trial guide](BETA10-TRYOUT.md); no installed-plugin discovery, commercial-ready image or new six-image workflow claim / 不声称已安装插件发现、图可商用或新增六图流程 |
 | beta.9 evidence / beta.9验证 | beta.9; maintainer installed-CLI text checks retained 8/8 passing final replies, including three original-prompt repetitions / 留存本机已安装插件文字复测，最终8/8通过 | [Version-matched trial](BETA9-TRYOUT.md); desktop display and non-maintainer fresh-host validation remain pending / 桌面显示与非维护者新环境验证待完成 |
 | Issue #1 | Scoped maintainer correction is recorded; the public issue remains open / 本机限定范围修复已记录，公开Issue仍未关闭 | Fresh-host reproduction and fix distribution / 新环境复测与修复分发 |
 | External adoption / 外部采用 | No qualifying record in this register; target 5 / 本台账尚无合格记录，目标5人 | One consenting non-maintainer completes installation and real-photo recognition / 首位同意登记的非维护者完成安装与实图识别 |

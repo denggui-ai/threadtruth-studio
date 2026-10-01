@@ -1,6 +1,5 @@
 # 裁光 · Codex 服饰 AI 插件 / Caiguang — Installation
 
-> beta.10 candidate only; not published. Public beta.9 remains current. Do not interpret these candidate commands as a published beta.10 download. / beta.10仅为候选，尚未发布；公开版仍为beta.9。以下为候选流程。
 
 > **本页用于 beta.10 预发布版 / This page covers the beta.10 prerelease.** 首次使用可配合 [beta.10 试用指南 / trial guide](BETA10-TRYOUT.md)。旧版使用对应归档内指南，不要混用版本、命令和校验文件。
 

@@ -1,8 +1,18 @@
-# beta.10 candidate verification — 2026-10-01
+# beta.10 release verification — 2026-10-01
 
-Status: **candidate / publication held**. Public beta.9 and installed-plugin state are unchanged.
+Status: **scoped release checks passed after correction**. Older release assets and installed-plugin state are unchanged. Initial preflight failures below are retained history.
 
-## Scope and result
+## Closeout
+
+- The user separately authorized exactly one additional native edit: total calls **2**, automatic retries **0**. The failed generated image was only an edit target for preserving appearance/composition, not garment facts or an accepted identity anchor.
+- Independent source/image QA found the unsupported sleeve construction and placket occlusion **fixed**. Simple sleeve ends and all seven buttons (collar 1 + placket 6) are visible. Same AI face, hair, body, first fixed side-turn pose, clothing, shoes and home atmosphere were preserved.
+- Corrected PNG: **1024×1536, 2:3**, SHA-256 `ba244d8c1d1eb80ec02b5e5d48ebfd6de38e7acbc4a816d8baa056881b3826ea`. Visible QA passes; concealed back details, waistband/rear pockets, fine weave and exact age/temperament remain human review. Output stays **image-draft**, not image-ready or a new complete six-image case.
+- Discovery description and the existing gate paragraph now explicitly exclude prompt-preparation promises before input checks, including prompt-only requests. Add source eval 91 and update the description contract; no new framework.
+- Two new contexts with explicitly supplied candidate catalog metadata and a clean-unpacked runtime passed the actual first-reply boundary plus explicit/default casting handling. Independent review agrees: **PASS / fixed within these two cases**. This is a scoped metadata simulation, not real installed-plugin automatic discovery or all-trigger proof.
+- Final release archive SHA-256: `1cc9a5d90130caa032ead365ca0cf488ffb0a57121ff14ae9de89350d4331550`. All 40 runtime files match the text-probe unpack and source byte-for-byte. 219 tests passed after the runtime edit; final documentation additionally passed 14 repository-contract and 7 release-build tests. Source validation now covers 91 evals.
+- Runtime safety/profile, ZIP metadata, offline-guide sections/links/anchors and isolated registration passed. Raw failures, actual source roles/order/hashes, final prompt/output hashes, authorization and review remain local; no private media or full logs are added to the public package.
+
+## Initial preflight — retained scope and result
 
 The candidate packages already approved optional casting, aesthetic-reference translation, first-image casting QA and garment-first priorities. The six fixed poses, style packs and generation process are unchanged. No model library or new configuration framework was added.
 
@@ -28,6 +38,6 @@ Fresh-host installation, GUI automatic discovery, current installed-plugin behav
 
 ## Release decision
 
-Final local bundle SHA-256: `8792c071fcda0fd62346520d8bdea82fe46ba9e45a0366b33022eb6148fd4cb8`. Its 40 runtime files match the source byte-for-byte after excluding non-distributable bytecode caches. ZIP metadata, offline-guide sections/links/anchors, runtime safety and isolated source registration passed. Desktop guide content was previewed; a new-host installation was not performed.
+Original pre-correction candidate bundle SHA-256: `8792c071fcda0fd62346520d8bdea82fe46ba9e45a0366b33022eb6148fd4cb8`. This is historical, not the release checksum. Desktop guide content was previewed; a new-host installation was not performed.
 
-**Do not merge a download switch or publish beta.10 based on this failed garment smoke.** Keep the candidate locally reviewable and public links on beta.9. The next image test requires a new bounded authorization; retain this failed attempt. Prepare a narrow correction for source-only simple cuff construction and hands clear of the placket; do not modify poses or add automatic retries.
+Publish as a limited **beta.10 prerelease** after final branch CI passes, based on the closeout evidence above. Preserve original failures and beta.9 assets. No installed beta.10, fresh-host, all-style, full six-image casting consistency, stable-release or commercial-image readiness claim is made.

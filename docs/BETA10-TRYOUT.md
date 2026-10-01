@@ -1,12 +1,11 @@
 # 裁光 / Caiguang beta.10 试用指南
 
-> Unpublished candidate; first-image garment QA has not passed. Do not install through nonexistent release links. / 未发布候选，首图服饰QA尚未通过；不要通过尚不存在的发布链接安装。
 
 **状态：beta.10 预发布试用。** 从 [beta.10 Release](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.10) 取得 `threadtruth-studio-1.0.0-beta.10.zip` 与同名 `.sha256` 文件。不要把 beta.9 的校验文件用于 beta.10，也不要改 ZIP 名称来升级。新环境安装和桌面显示尚未由非维护者验证。
 
 本版本纳入可选选角目标、审美参考转译、首张选角验收和服饰优先 QA 修正；生图授权、固定六姿势及额度规则保持不变。安装后预期显示 **裁光 · Caiguang**；技术名称、目录与调用指令继续使用 `threadtruth-studio`。
 
-**English:** This guide covers the beta.10 prerelease ZIP and matching checksum. The expected display name is **裁光 · Caiguang**, while `$threadtruth-studio` and the installation directory stay unchanged. Older beta.8 downloads remain unchanged; fresh-host discovery and desktop display remain unverified. This trial does not authorize image generation or public sharing of your materials.
+**English:** This guide covers the beta.10 prerelease ZIP and matching checksum. The expected display name is **裁光 · Caiguang**, while `$threadtruth-studio` and the installation directory stay unchanged. Older beta.9 and earlier downloads remain unchanged; fresh-host discovery and desktop display remain unverified. This trial does not authorize image generation or public sharing of your materials.
 
 ## 1. 试用前准备 / Before installation
 

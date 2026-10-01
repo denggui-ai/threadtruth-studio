@@ -1,6 +1,6 @@
 ---
 name: threadtruth-studio
-description: "Apparel model images: first reply only checks inputs, never promises later generation. Includes preparation before garment photos are uploaded. Turn real garment or coordinated-outfit photos into 24-style fashion portraits with explicit generation approval and commercial QA. Exclude non-apparel products, fictional text-only garment design, and virtual try-on/API integration."
+description: "Apparel model images: first reply only checks inputs; never promises prompt preparation or later generation. Includes preparation before garment photos are uploaded. Turn real garment or coordinated-outfit photos into 24-style fashion portraits with explicit generation approval and commercial QA. Exclude non-apparel products, fictional text-only garment design, and virtual try-on/API integration."
 ---
 
 # 裁光 · Caiguang｜服饰 AI 影棚
@@ -17,7 +17,7 @@ description: "Apparel model images: first reply only checks inputs, never promis
 
 > `先按服饰人像门禁判定这次输入,暂不承诺出图或成片。`
 
-首个回复在**资产分类 → 输入门禁 → 服饰识别 → 风格路由 → 动作授权**全部完成前,整句话只能停在"先判门禁/先核对输入"这一层。**禁止任何尾子句**把门禁动作接到未来图像动作上,尤其禁止"我会按 X 处理,先读规则,再/然后/接着/之后 + 生成/出图/成片/出成品/交付"。前半句写对但尾句预告图像动作,仍算首句违规。首个可见回复即便包含多句话,任何一句都不得预告或承诺后续图像动作;全回复只能停在门禁/核对/识别阶段。
+首个回复在**资产分类 → 输入门禁 → 服饰识别 → 风格路由 → 动作授权**全部完成前,整句话只能停在"先判门禁/先核对输入"这一层。**禁止任何尾子句**把门禁动作接到未来图像动作上,尤其禁止"我会按 X 处理,先读规则,再/然后/接着/之后 + 生成/出图/成片/出成品/交付"。前半句写对但尾句预告图像动作,仍算首句违规。首个可见回复即便包含多句话,任何一句都不得预告或承诺后续图像动作;全回复只能停在门禁/核对/识别阶段。即便用户只要提示词,首回复也不写“准备首张测试提示词”,先完成输入核对。
 
 按输入形状优先套用这些中性首句,不要自行追加动作尾句:
 
