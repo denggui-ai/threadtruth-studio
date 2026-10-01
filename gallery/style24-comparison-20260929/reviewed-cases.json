@@ -191,7 +191,54 @@
           "format": "PNG",
           "bytes": 2204906
         }
-      ]
+      ],
+      "presentation": [
+        {
+          "role": "actual-shirt-front-reference",
+          "path": "assets/reviewed-cases/green-shirt-home/shirt-reference.jpg",
+          "sha256": "323fa99214dfb5001d70fb59b73fef849d571135c861e79b2af26de04a052a1f",
+          "dimensions": [
+            1260,
+            1260
+          ],
+          "format": "JPEG",
+          "bytes": 125346
+        },
+        {
+          "role": "actual-ivory-pants-front-reference",
+          "path": "assets/reviewed-cases/green-shirt-home/pants-reference.jpg",
+          "sha256": "d5eb9ec65758eaf126dc76e7caabc2134fafe7d260ffd48373bb786ec250d95e",
+          "dimensions": [
+            700,
+            700
+          ],
+          "format": "JPEG",
+          "bytes": 28819
+        },
+        {
+          "role": "sharing-comparison",
+          "path": "assets/reviewed-cases/green-shirt-home/before-after.jpg",
+          "sha256": "c7043c49955363bab5d5d0b682fbc7916ac28fb5d9dc88b2d324decd935d148f",
+          "dimensions": [
+            1080,
+            1440
+          ],
+          "format": "JPEG",
+          "bytes": 291644
+        },
+        {
+          "role": "sharing-six-pose-sheet",
+          "path": "assets/reviewed-cases/green-shirt-home/six-poses.jpg",
+          "sha256": "a54ef7ba0e87fd96a9751181de5a9e599e87145944fc71aa750a742ecd6e0bd4",
+          "dimensions": [
+            1080,
+            1440
+          ],
+          "format": "JPEG",
+          "bytes": 340393
+        }
+      ],
+      "presentation_note": "Two actual primary garment references; pants shown through a crop window with full original link. Additional construction and identity references were used. Sharing sheets retain selected results, not a new generation."
     },
     {
       "id": "trim-tee-american",

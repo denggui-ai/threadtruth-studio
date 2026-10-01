@@ -326,6 +326,25 @@ class ShowcaseTests(unittest.TestCase):
         (self.gallery / check_showcase.EXTERNAL_INPUT).write_bytes(b"tampered source")
         self.assertTrue(any("sha256 mismatch" in item for item in self.findings()))
 
+    def test_home_presentation_requires_fixed_paths_and_matching_bytes(self):
+        self.build()
+        manifest = self.add_reviewed_cases()
+        case = manifest["cases"][1]
+        records = []
+        for relative in check_showcase.HOME_PRESENTATION_FILES:
+            path = self.gallery / relative
+            Image.new("RGB", (32, 48), (67, 89, 111)).save(path)
+            records.append({"path": relative, "format": "JPEG", "dimensions": [32, 48],
+                            "bytes": path.stat().st_size, "sha256": hashlib.sha256(path.read_bytes()).hexdigest()})
+        case["presentation"] = records
+        write_json(self.gallery / "reviewed-cases.json", manifest)
+        self.assertEqual(self.findings(), [])
+        (self.gallery / records[-1]["path"]).write_bytes(b"tampered poster")
+        self.assertTrue(any("sha256 mismatch" in item for item in self.findings()))
+        records[0]["path"] = "assets/reviewed-cases/green-shirt-home/extra.jpg"
+        write_json(self.gallery / "reviewed-cases.json", manifest)
+        self.assertTrue(any("fixed two references" in item for item in self.findings()))
+
 
 if __name__ == "__main__":
     unittest.main()
