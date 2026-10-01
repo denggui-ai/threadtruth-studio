@@ -1231,6 +1231,18 @@
         "真实服饰及固定六姿势保持不变,无模特库、评分框架或必答问卷"
       ],
       "ref": "2026-10-01 aesthetic-reference casting correction"
+    },
+    {
+      "id": 91,
+      "category": "first_reply_prompt_preparation",
+      "prompt": "请用 $threadtruth-studio。根据这套真实浅绿衬衫和米白裤子参考，日系生活感 C2，真人AI模特，1024×1536，只准备首张测试提示词，不调用生图。模特表观30–40岁、深色长卷发、淡妆、温柔安静。",
+      "expected_output": "首回复只核对输入；完成门禁后可输出用户明确要求的首张提示词",
+      "expectations": [
+        "实际第一条可见回复只作门禁/核对/识别，不提前承诺准备提示词或生图；不能仅检查最终回复",
+        "后续识别与提示词落实明确选角、真实服饰事实及第一固定姿势；不追加问卷或猜国籍",
+        "本题原生生图与替代调用均为0"
+      ],
+      "ref": "2026-10-01 beta.10 fresh-context first-reply finding"
     }
   ]
 }

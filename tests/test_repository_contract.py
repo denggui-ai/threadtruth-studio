@@ -101,7 +101,7 @@ class RepositoryContractTests(unittest.TestCase):
         text = (SKILL / "SKILL.md").read_text()
         self.assertIn("name: threadtruth-studio", text)
         expected = (
-            "Apparel model images: first reply only checks inputs, never promises later generation. "
+            "Apparel model images: first reply only checks inputs; never promises prompt preparation or later generation. "
             "Includes preparation before garment photos are uploaded. "
             "Turn real garment or coordinated-outfit photos into 24-style fashion portraits "
             "with explicit generation approval and commercial QA. Exclude non-apparel products, "
