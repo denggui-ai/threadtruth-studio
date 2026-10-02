@@ -1,6 +1,6 @@
-# Reviewed styling examples · 2026-10-01
+# Reviewed styling examples · 2026-10-02
 
-[Five cases / 30 AI-generated images](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html) are approved for this project's demo display. The [public image manifest](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.json) records every selected PNG's SHA-256, size, display pose and review scope. The home-outfit example now shows two primary product references with credit and full-original links, plus downloadable comparison and six-pose sharing sheets. Other original cases' source photographs and the user's aesthetic screenshot are not redistributed. The external example includes its separately authorized outfit input.
+[Six sets / 36 AI-generated images](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html) are approved for this project's demo display. The [public image manifest](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.json) records every selected PNG's SHA-256, size, display pose and review scope. The home-outfit example now shows two primary product references with credit and full-original links, plus downloadable comparison and six-pose sharing sheets. Other original cases' source photographs and the user's aesthetic screenshot are not redistributed. The external example includes its separately authorized outfit input.
 
 | Case | Reference-source credit | Review scope |
 |---|---|---|
@@ -10,8 +10,12 @@
 | Contrast-trim T-shirt / Japanese Lifestyle | Shopify Partners / Burst; all reference pages in the manifest | Flat hem-label repairs reviewed; image 5 action acceptance pending |
 | External black jacket outfit / Codex | Maintainer confirms permission for the supplied input and six AI outputs; demo display only | Trial user reported satisfied; skill/style version unknown; outer-panel button variation and hidden garment details remain subject to source review |
 
+| Black jacket / Office Commute daylight | Same byte-identical authorized input as the external trial; six selected AI images authorized for project display on 2026-10-02 | Canvas, identity and visible pose review; fine garment details and aesthetic acceptance remain open. Slot 6 is stationary frontal standing because no real rear source was supplied; no rear-construction verification. |
+
 The [external trial record](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/feedback/2026-10-01-external-codex-outfit.md) separates reported satisfaction and six-file checks from installation evidence and commercial readiness. Its display order follows the visible actions; original generation prompts and run numbering were not supplied.
 
 These generated examples have demo-only display permission, not an open media reuse license. Apache-2.0 does not apply to these PNGs. Third-party source photography and product rights remain separate; publication does not imply MUJI, Shopify, a photographer or any other brand endorses the plugin. Original input-photo identity and real-world fit are not guaranteed.
 
 The home comparison was added on 2026-10-02 under the maintainer's explicit approval. The pants crop is a display window over the unchanged original, not a recolored or substituted input. Additional construction and identity references were used in generation. The six selected PNGs and their existing review scope remain unchanged; all four presentation files have integrity records in the public manifest.
+
+The [black-jacket comparison](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#black-jacket-office) shows the shared real input and one representative image from each direction, followed by six independent Office Commute PNGs. The original external six and their records are preserved. This is a presentation comparison, not a controlled skill-version benchmark: the external version/style are unknown, and the new set was generated before beta.11 publication. Only selected public images and sanitized review facts are published; private run files, local paths and prompts remain outside the repository.

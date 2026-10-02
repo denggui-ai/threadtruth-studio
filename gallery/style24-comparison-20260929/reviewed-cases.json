@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "review_date": "2026-10-01",
-  "scope": "Five six-image AI styling examples, including one external trial; reported satisfaction, visual acceptance and garment verification are separate.",
+  "review_date": "2026-10-02",
+  "scope": "Six six-image AI styling examples, including an external trial and the same-input Office Commute case; display permission, visual review and garment verification remain separate.",
   "cases": [
     {
       "id": "red-floral-french",
@@ -579,6 +579,148 @@
           ],
           "format": "PNG",
           "bytes": 1781738
+        }
+      ]
+    },
+    {
+      "id": "black-jacket-office",
+      "style": "office-commute-women",
+      "mode": "C",
+      "sources": [
+        {
+          "credit": "Same authorized user-supplied outfit input as the external trial",
+          "path": "assets/reviewed-cases/black-jacket-office/input.jpg"
+        }
+      ],
+      "title": {
+        "zh": "皮衣搭配 · 职场通勤",
+        "en": "Black jacket outfit · Office Commute"
+      },
+      "status": "image-draft",
+      "ai_generated": true,
+      "visual_acceptance": "pending-human-review",
+      "pose_review": "passed",
+      "review": {
+        "zh": "六张独立图片的尺寸、人物一致性与动作区分已复核。缺少背面实拍，第六张采用正面自然站姿。细小扣位、袖口带环、隐藏裤腰及鞋包结构仍需实物核对；不声明背部结构已验证。",
+        "en": "Six independent images were checked for canvas, identity consistency and distinct actions. With no real rear photo, slot 6 uses stationary frontal standing. Small fasteners, cuff keepers, hidden waistband and accessory details still need source review; rear construction is not verified."
+      },
+      "media_terms": "Demo display only; no open media reuse license granted. Third-party rights remain separate.",
+      "input_image": {
+        "path": "assets/reviewed-cases/black-jacket-office/input.jpg",
+        "sha256": "388f510353c06e348f5e1810078f47858c7921efbf312b2157335b5db472b278",
+        "dimensions": [
+          1275,
+          1710
+        ],
+        "format": "JPEG",
+        "bytes": 345450
+      },
+      "publication_permission": {
+        "authorized": true,
+        "basis": "Maintainer explicitly approved publishing the selected six images and same-input comparison in Codex on 2026-10-02; input demo-display permission was previously confirmed.",
+        "scope": "Input and selected six AI images for this project demo display; no open reuse license."
+      },
+      "source_coverage": {
+        "front_front_side": "supported",
+        "real_rear": "missing"
+      },
+      "pose_exception": {
+        "slot": 6,
+        "original_pose": "BACK_TURN_GLANCE",
+        "actual_pose": "FRONT_RELAXED_STANDING",
+        "reason": "No authoritative real rear photo; source-supported replacement disclosed.",
+        "rear_construction_verified": false
+      },
+      "generation": {
+        "host": "Codex",
+        "skill_version": "not recorded; generated before beta.11 publication",
+        "native_calls_for_selected_group_history": 8,
+        "call_count_scope": "Includes first-image refinement and targeted corrections; separate 24-style exploration excluded.",
+        "current_beta11_generation": "not tested"
+      },
+      "comparison": {
+        "external_case": "external-black-leather",
+        "same_real_input": true,
+        "purpose": "Two presentation directions from the same input; not a before/after version benchmark."
+      },
+      "images": [
+        {
+          "pose": 1,
+          "path": "assets/reviewed-cases/black-jacket-office/look-1.png",
+          "sha256": "32d7776eb52463b5470b288c47dd17b40c4c4e3738c42d6d939dbe59bbd5138c",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 1827780,
+          "original_pose": "SIDE_TURN_STANDING",
+          "actual_pose": "SIDE_TURN_STANDING"
+        },
+        {
+          "pose": 2,
+          "path": "assets/reviewed-cases/black-jacket-office/look-2.png",
+          "sha256": "402ace63b4eff7fdcaa6d7a06ca553d1bdea91e6a702c9c41486fee9f9a09a41",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 2401898,
+          "original_pose": "SIDE_LEANING_WALL",
+          "actual_pose": "SIDE_LEANING_WALL"
+        },
+        {
+          "pose": 3,
+          "path": "assets/reviewed-cases/black-jacket-office/look-3.png",
+          "sha256": "6d17282ba8929f387aa77ce2c0a19da805d98482fae11cc07e73727d7bb9b7c0",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 1991638,
+          "original_pose": "UPRIGHT_SEATED",
+          "actual_pose": "UPRIGHT_SEATED"
+        },
+        {
+          "pose": 4,
+          "path": "assets/reviewed-cases/black-jacket-office/look-4.png",
+          "sha256": "36079d410fe31270f00c8d36acac8da3425f3df503a041ca9c9956337a483795",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 1876595,
+          "original_pose": "FRONT_LIGHT_STEP",
+          "actual_pose": "FRONT_LIGHT_STEP"
+        },
+        {
+          "pose": 5,
+          "path": "assets/reviewed-cases/black-jacket-office/look-5.png",
+          "sha256": "3decaeb509e3641006f89a3f538a985e907bdc1c24c86c4383b98bbfa8863dba",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 1937945,
+          "original_pose": "SLIGHT_FORWARD_LEAN",
+          "actual_pose": "SLIGHT_FORWARD_LEAN"
+        },
+        {
+          "pose": 6,
+          "path": "assets/reviewed-cases/black-jacket-office/look-6.png",
+          "sha256": "bef6ef03e630cd986b86d51eaa08f593d4578806f405f4dfc6db7ed6f6303536",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "format": "PNG",
+          "bytes": 1861363,
+          "original_pose": "BACK_TURN_GLANCE",
+          "actual_pose": "FRONT_RELAXED_STANDING"
         }
       ]
     }

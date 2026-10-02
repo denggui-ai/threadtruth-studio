@@ -178,6 +178,40 @@ async function check(name, fn) {
         }
       } finally { await p.close(); }
     });
+    await check('jacket comparison preserves input, external originals and disclosed sixth pose', async () => {
+      const p=await browser.newPage(); const errors=[]; p.on('pageerror',e=>errors.push(e.message));
+      try {
+        await p.goto(origin+'/reviewed-cases.html#black-jacket-office');
+        const records=await (await p.request.get(origin+'/reviewed-cases.json')).json();
+        const office=records.cases.find(c=>c.id==='black-jacket-office');
+        const external=records.cases.find(c=>c.id==='external-black-leather');
+        assert.equal(office.input_image.sha256,external.input_image.sha256);
+        assert.equal(office.images[5].actual_pose,'FRONT_RELAXED_STANDING');
+        assert.equal(await p.locator('#black-jacket-office .outfit-comparison img').count(),3);
+        assert.equal(await p.locator('#black-jacket-office .reviewed-images img').count(),6);
+        assert.equal(await p.locator('#external-black-leather .reviewed-images img').count(),6);
+        const originals=await p.locator('#black-jacket-office .reviewed-images a').evaluateAll(as=>as.map(a=>a.getAttribute('href')));
+        assert.deepEqual(originals,office.images.map(i=>i.path));
+        await p.locator('#black-jacket-office img').evaluateAll(imgs=>imgs.forEach(i=>i.loading='eager'));
+        await p.waitForFunction(()=>[...document.querySelectorAll('#black-jacket-office img')].every(i=>i.complete&&i.naturalWidth>0));
+        for(const lang of ['zh','en']) {
+          if(lang==='en') await p.locator('#case-language-toggle').click();
+          assert.match(await p.locator('#black-jacket-office').innerText(),lang==='zh'?/第六张采用正面自然站姿/:/slot 6 uses stationary frontal standing/);
+          for(const width of [1440,390,320]) {
+            await p.setViewportSize({width,height:1000});
+            assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+            const columns=await p.locator('.outfit-comparison').evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(' ').length);
+            assert.equal(columns,width>600?3:1);
+            assert.equal(await p.locator('.outfit-comparison img').first().evaluate(el=>getComputedStyle(el).objectFit),'contain');
+            if(shots&&width!==320) {
+              await p.locator('.outfit-comparison').screenshot({path:path.join(shots,`jacket-comparison-${lang}-${width}.png`)});
+              if(width===1440) await p.locator('#black-jacket-office .reviewed-images').screenshot({path:path.join(shots,`jacket-six-${lang}-${width}.png`)});
+            }
+          }
+        }
+        assert.deepEqual(errors,[]);
+      } finally {await p.close();}
+    });
     await check('responsive Chinese and English layouts, complete images and no page errors', async () => {
       const context=await browser.newContext();
       try {

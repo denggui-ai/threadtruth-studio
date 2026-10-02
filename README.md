@@ -20,7 +20,7 @@ Upload a garment or coordinated outfit, choose **one of 24 styles**, and create 
 
 [Prepare your photos](docs/INPUT-GUIDE.md) · [Six poses and generation prompts](docs/CAPABILITIES.md#six-poses) · [Garment: 24 previews](docs/demo/style-previews/white-vest-24-v1/) · [Outfit: 24 previews](docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/)
 
-Both collections are historical direction previews: one six-panel sheet per style, not independent finals. [Five six-pose styling cases](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html) show 30 separate AI images: a floral dress, a sage-shirt home outfit, two styles of a contrast-trim T-shirt, and an external Codex user’s black-jacket outfit. Each set discloses its review scope.
+Both collections are historical direction previews: one six-panel sheet per style, not independent finals. [Six six-image styling cases](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html) show 36 separate AI images: a floral dress, a sage-shirt home outfit, two styles of a contrast-trim T-shirt, an external Codex user’s black-jacket outfit, and our same-input Office Commute set. Each set discloses its review scope.
 
 ## Why create with Caiguang?
 
@@ -70,7 +70,7 @@ Install 裁光 · Caiguang in **Codex**. The ChatGPT route uses the web handoff 
 
 ## Examples and what they demonstrate
 
-**Five cases, 30 separate images.** [See all images and source notes](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html). Dress and home-outfit visuals were accepted; the T-shirt sets retain fine-detail and action review. These AI-model images support styling previews, not personal identity, size or fit guarantees.
+**Six sets, 36 separate images.** [See all images and source notes](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html). Dress and home-outfit visuals were accepted; the T-shirt sets retain fine-detail and action review. These AI-model images support styling previews, not personal identity, size or fit guarantees.
 
 **Product references → AI scene styling.** The comparison shows the actual primary shirt and pants references alongside a home-scene result. The pants are displayed as a crop; additional construction and identity references were used. An external Codex user also completed six images and reported satisfaction; the version used was not recorded.
 
@@ -78,9 +78,17 @@ Install 裁光 · Caiguang in **Codex**. The ChatGPT route uses the web handoff 
 
 [See the home Before / After, all six originals and source notes](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#green-shirt-home)
 
+**One outfit input → six Office Commute images.** The same authorized input also appears in the external trial. Compare two presentation directions, rather than versions; the external version is unknown. Slot 6 uses stationary front standing because no real rear photo was supplied. Fine garment details remain subject to review.
+
+| Actual input | AI · Office Commute |
+|---|---|
+| <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#black-jacket-office"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/black-jacket-office/input.jpg" alt="Actual authorized outfit input" width="240"></a> | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#black-jacket-office"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/black-jacket-office/look-1.png" alt="AI-generated Office Commute jacket outfit" width="240"></a> |
+
+[See both directions, all six new images and review scope](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#black-jacket-office)
+
 | | | | | |
 |---|---|---|---|---|
-| <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#external-black-leather"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/external-black-leather/look-1.png" alt="External trial · satisfied user — AI-generated" width="150"></a><br>External trial · satisfied user | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#red-floral-french"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/red-floral-french/look-1.png" alt="Floral dress — AI-generated" width="150"></a><br>Floral dress | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#green-shirt-home"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/green-shirt-home/look-1.png" alt="Home outfit — AI-generated" width="150"></a><br>Home outfit | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#trim-tee-american"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/trim-tee-american/look-1.png" alt="American Street — AI-generated" width="150"></a><br>American Street | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#trim-tee-japanese"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/trim-tee-japanese/look-1.png" alt="Japanese Lifestyle — AI-generated" width="150"></a><br>Japanese Lifestyle |
+| <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#black-jacket-office"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/black-jacket-office/look-1.png" alt="Office Commute — AI-generated" width="150"></a><br>Office Commute · same-input comparison | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#red-floral-french"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/red-floral-french/look-1.png" alt="Floral dress — AI-generated" width="150"></a><br>Floral dress | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#green-shirt-home"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/green-shirt-home/look-1.png" alt="Home outfit — AI-generated" width="150"></a><br>Home outfit | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#trim-tee-american"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/trim-tee-american/look-1.png" alt="American Street — AI-generated" width="150"></a><br>American Street | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#trim-tee-japanese"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/trim-tee-japanese/look-1.png" alt="Japanese Lifestyle — AI-generated" width="150"></a><br>Japanese Lifestyle |
 
 [Case notes and media terms](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/SHOWCASE-CASES.md).
 
@@ -92,7 +100,7 @@ The **24-style paired gallery** compares Codex and ChatGPT web results, with sou
 
 | Collection | Published scope | What it establishes |
 |---|---|---|
-| [New styling cases](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html) | **5 sets × 6 separate images = 30 images** | Visual acceptance and remaining review items are recorded separately; excluded from the frozen historical style index. |
+| [New styling cases](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html) | **6 sets × 6 separate images = 36 images** | Visual acceptance and remaining review items are recorded separately; excluded from the frozen historical style index. |
 | [Paired comparison gallery](https://denggui-ai.github.io/threadtruth-studio/compare.html) | **24 styles × 2 routes = 48 images** | Same-input comparisons with reviews and rights disclosures. These are not 24 complete six-image sets or verification of every style under beta.8. |
 | [White-vest complete case](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md) | **1 style × 6 independent images** | One reviewed complete case; the frozen historical primary-case style index is **1/24**. |
 | Historical direction previews | **2 collections × 24 styles** | One six-pose preview sheet per style, with layout checks and maintainer acceptance. The white-vest beta.3 and outfit beta.4 collections retain their original evidence. |
