@@ -4,6 +4,8 @@ All notable changes are documented here. Versions follow Semantic Versioning.
 
 ## Unreleased — model selection and portable reuse, 2026-10-02
 
+- Record subsequent scoped human acceptance of the current runtime person candidate as basically usable; the original-face fidelity gap remains explicitly open. Confirmation binds the returned output without granting further generation, commercial readiness or replacement of original references.
+
 - Execute the separately authorized current-runtime single-image packet: one native return, 27 cumulative, no retry. Actual ordered original/supplement/product references and frozen prompt were checked. Two independent visual reviews support major candidate continuity and visible product retention; fine original-face fidelity and small/obscured product details remain `qa-user-review`. Human model confirmation remains absent; no anchor export, install or release. [Scope and remaining checks](docs/verification/2026-10-02-model-runtime-single-image.md).
 
 - Retain three fresh explicit-path workflow dry runs and independent grading for model directions/factor delivery, portable AI prompt delivery and post-image status/QA: 12 scoped assertions pass. Preserve the prompt run's recorded first-reply violation as open, rather than counting overall gates as passed. Actual provider transport, implicit invocation and strict real-face fidelity remain unverified.
