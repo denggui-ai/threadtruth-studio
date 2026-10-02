@@ -11,10 +11,13 @@ import os
 from pathlib import Path
 import shutil
 import struct
+import sys
 import uuid
 import zlib
 from urllib.parse import urlparse
 
+# Even --help must leave an installed/read-only runtime tree unchanged.
+sys.dont_write_bytecode = True
 _model_spec = importlib.util.spec_from_file_location('task_model_reference', Path(__file__).with_name('model_reference.py'))
 models = importlib.util.module_from_spec(_model_spec)
 _model_spec.loader.exec_module(models)

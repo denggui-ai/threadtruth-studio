@@ -1,6 +1,11 @@
 import importlib.util
+import hashlib
 import json
+import os
 from pathlib import Path
+import shutil
+import subprocess
+import sys
 import tempfile
 import unittest
 from PIL import Image
@@ -27,6 +32,20 @@ class ModelReferenceTests(unittest.TestCase):
                       adjustable=['gentle makeup'], consent_note='')
         result.update(changes)
         return result
+
+    def test_cli_help_does_not_write_into_runtime_without_environment_setup(self):
+        scripts=ROOT/'skills/threadtruth-studio/scripts'
+        for command in ('model-reference.py','web-task.py'):
+            with self.subTest(command=command):
+                runtime=self.root/command.removesuffix('.py');runtime.mkdir()
+                for filename in (command,'model_reference.py'):
+                    shutil.copyfile(scripts/filename,runtime/filename)
+                before={str(p.relative_to(runtime)):hashlib.sha256(p.read_bytes()).hexdigest() for p in runtime.rglob('*') if p.is_file()}
+                env=dict(os.environ);env.pop('PYTHONDONTWRITEBYTECODE',None);env.pop('PYTHONPYCACHEPREFIX',None)
+                result=subprocess.run([sys.executable,str(runtime/command),'--help'],env=env,capture_output=True,text=True)
+                self.assertEqual(result.returncode,0,result.stderr)
+                after={str(p.relative_to(runtime)):hashlib.sha256(p.read_bytes()).hexdigest() for p in runtime.rglob('*') if p.is_file()}
+                self.assertEqual(after,before,'A local help/read must not mutate the installed runtime')
 
     def supplement(self, **changes):
         path = self.root / 'accepted.png'
