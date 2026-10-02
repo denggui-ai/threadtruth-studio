@@ -194,6 +194,16 @@ async function check(name, fn) {
             const columns=await p.locator('.highlights-grid').evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(' ').length);
             assert.equal(columns,width>=1100?4:width>=700?3:2);
             assert.equal(await p.locator('.pose-gallery img').count(),6);
+            const caseCards=await p.locator('.reviewed-card').evaluateAll(cards=>cards.map(card=>{const r=card.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width};}));
+            assert.equal(caseCards.length,5,'five cases must remain accessible');
+            assert.equal(await p.locator('#home-before-after img').count(),3,'source/result feature missing');
+            assert.ok((await p.locator('.reviewed-card img').nth(2).getAttribute('src')).endsWith('green-shirt-home/look-1.png'),'home cover must show the full outfit');
+            if(width>900) assert.ok(caseCards.every(card=>Math.abs(card.y-caseCards[0].y)<1),'desktop cases must share one row');
+            if(width>480&&width<=900) assert.ok(Math.abs(caseCards[4].x+caseCards[4].width/2-width/2)<1,'tablet last case must be centered');
+            const caseImageSizes=await p.locator('.reviewed-card img').evaluateAll(imgs=>imgs.map(i=>({width:i.getBoundingClientRect().width,height:i.getBoundingClientRect().height})));
+            assert.ok(caseImageSizes.every(i=>Math.abs(i.width/i.height-2/3)<.01),'case covers must keep their full portrait proportions');
+            if(shots&&[1440,768,390].includes(width)) await p.locator('#reviewed-cases').screenshot({path:path.join(shots,`cases-${lang}-${width}.png`)});
+
             if(shots) {
               await p.evaluate(()=>scrollTo({top:0,behavior:"instant"})); await p.screenshot({path:path.join(shots,`home-${lang}-${width}.png`)});
               if(lang==='zh'&&[1440,390].includes(width)) {
