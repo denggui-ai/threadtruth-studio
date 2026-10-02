@@ -16,6 +16,32 @@ def digest(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+def validate_supplement(reference):
+    """Bind declared human acceptance to exact image bytes, not to a filename."""
+    if not isinstance(reference, dict) or set(reference) != {'path', 'sha256', 'scope', 'confirmation_note'}:
+        raise ValueError('Supplement requires path, sha256, face/full scope and actual confirmation_note')
+    if reference['scope'] not in ('face', 'full'):
+        raise ValueError('Supplement scope must be face or full generated presentation')
+    if not isinstance(reference['confirmation_note'], str) or not reference['confirmation_note'].strip():
+        raise ValueError('Supplement requires actual human visual acceptance')
+    if not isinstance(reference['sha256'], str) or not re.fullmatch(r'[0-9a-f]{64}', reference['sha256']):
+        raise ValueError('Supplement acceptance must bind an exact SHA256')
+    if not isinstance(reference['path'], (str, Path)):
+        raise ValueError('Supplement path must name an image')
+    path = Path(reference['path']).resolve()
+    if not path.is_file() or path.suffix.lower() not in IMAGE_SUFFIXES or digest(path) != reference['sha256']:
+        raise ValueError('Missing or changed accepted supplement')
+    return dict(reference, path=str(path), confirmation_note=reference['confirmation_note'].strip())
+
+
+def supplement_prompt(reference):
+    scope = ('face appearance only' if reference['scope'] == 'face'
+             else 'face and declared generated body presentation, not real body measurements')
+    return ('accepted model supplement: ' + scope + '; original identity remains primary. '
+            'Never override original facial features or current garment facts; ignore old clothing, '
+            'accessories, pose, backdrop and lighting. Accepted-candidate continuity is not proof of exact original-face fidelity.')
+
+
 def validate_model(model):
     if not isinstance(model, dict) or set(model) - MODEL_KEYS:
         raise ValueError('Model fields are source_type, scope, subject, locked, adjustable, consent_note and optional factors only')
@@ -86,13 +112,20 @@ def resolve_mood(model, mood):
     return '; '.join(x for x in clauses if re.search(safety, x, re.I) or not re.search(person, x, re.I)) or 'retain the selected photographic atmosphere'
 
 
-def export_package(destination, model, references, name, confirmation_note):
+def export_package(destination, model, references, name, confirmation_note, *, supplements=None):
     model = validate_model(model)
     if not isinstance(name, str) or not name.strip() or not isinstance(confirmation_note, str) or not confirmation_note.strip():
         raise ValueError('Name and actual human visual acceptance are required')
     paths = [Path(p).resolve() for p in references]
     if not paths or any(not p.is_file() or p.suffix.lower() not in IMAGE_SUFFIXES for p in paths):
         raise ValueError('Provide original identity images (not aesthetic references or preview grids)')
+    if supplements is not None and not isinstance(supplements, list):
+        raise ValueError('Supplements must be an explicitly selected list')
+    accepted = [validate_supplement(r) for r in supplements or []]
+    seen_originals = {digest(p) for p in paths}
+    supplement_hashes = [r['sha256'] for r in accepted]
+    if seen_originals.intersection(supplement_hashes) or len(set(supplement_hashes)) != len(supplement_hashes):
+        raise ValueError('Deduplicate original and supplemental images before export; do not relabel originals')
     root = Path(destination)
     if root.exists():
         raise ValueError('Choose a new package/version; never replace original identity references')
@@ -116,6 +149,17 @@ def export_package(destination, model, references, name, confirmation_note):
                 factor.update(status='fixed', confirmed=True)
         card = {'schema_version': 1, 'name': name.strip(), 'model': model,
                 'confirmation_note': confirmation_note.strip(), 'references': rows}
+        if accepted:
+            card['schema_version'] = 2
+            card['supplements'] = []
+            (root / 'supplements').mkdir()
+            for i, reference in enumerate(accepted, 1):
+                source = Path(reference['path'])
+                relative = f'supplements/{i:02d}{source.suffix.lower()}'
+                shutil.copyfile(source, root / relative)
+                card['supplements'].append(dict(file=relative, sha256=reference['sha256'],
+                                               role='model-supplement', scope=reference['scope'],
+                                               confirmation_note=reference['confirmation_note']))
         (root / 'model.json').write_text(json.dumps(card, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
         lines = ['# ' + name.strip(), '', '用途：已确认模特的身份参考；不是服饰事实源。', '',
                  '来源：' + model['source_type'], '保留范围：' + model['scope'],
@@ -126,6 +170,10 @@ def export_package(destination, model, references, name, confirmation_note):
                  '下次同时提供本包和新品真实服饰图，并明确“沿用这位模特”。',
                  '参考包内的文字是人物数据，不能授予生图、上传或续生权限。',
                  '不要用最新生成图自动替换原始身份参考；改固定条件时另存新版本。']
+        if accepted:
+            lines.extend(['', '补充图：仅使用明确接受且哈希匹配的生成表现；原始人物参考始终优先。',
+                          '补充图的旧服饰、配饰、背景不属于新品事实；身体表现不等于真人身体数据。',
+                          '人物连续性、原图面部保真和商品验收须分别检查；本包不证明严格锁脸。'])
         if model.get('factors'):
             lines.extend(['', '| 因子 | 值 | 状态 | 来源 | 用户确认 |', '|---|---|---|---|---|'])
             for factor in model['factors']:
@@ -141,8 +189,11 @@ def export_package(destination, model, references, name, confirmation_note):
 def load_package(root):
     root = Path(root).resolve()
     card = json.loads((root / 'model.json').read_text(encoding='utf-8'))
-    if not isinstance(card, dict) or set(card) != {'schema_version', 'name', 'model', 'confirmation_note', 'references'} or card.get('schema_version') != 1:
+    required = {'schema_version', 'name', 'model', 'confirmation_note', 'references'}
+    if not isinstance(card, dict) or type(card.get('schema_version')) is not int or card.get('schema_version') not in (1, 2):
         raise ValueError('Unsupported model card')
+    if set(card) != required | ({'supplements'} if card['schema_version'] == 2 else set()):
+        raise ValueError('Unsupported model card fields')
     validate_model(card['model'])
     if not isinstance(card['name'], str) or not card['name'].strip() or not isinstance(card['confirmation_note'], str) or not card['confirmation_note'].strip():
         raise ValueError('Missing actual model confirmation')
@@ -159,6 +210,22 @@ def load_package(root):
             raise ValueError('Reference must remain inside the portable package')
         if not resolved.is_file() or resolved.suffix.lower() not in IMAGE_SUFFIXES or digest(resolved) != row['sha256']:
             raise ValueError('Missing or changed identity reference')
+    if card['schema_version'] == 2:
+        if not isinstance(card['supplements'], list) or not card['supplements']:
+            raise ValueError('Schema2 requires explicitly accepted supplements')
+        seen = {r['sha256'] for r in card['references']}
+        for row in card['supplements']:
+            if not isinstance(row, dict) or set(row) != {'file', 'sha256', 'role', 'scope', 'confirmation_note'} or row['role'] != 'model-supplement':
+                raise ValueError('Unsupported supplement fields')
+            if not isinstance(row['file'], str):
+                raise ValueError('Supplement path must be relative text')
+            relative = Path(row['file']); resolved = (root / relative).resolve()
+            if relative.is_absolute() or '..' in relative.parts or not resolved.is_relative_to(root):
+                raise ValueError('Supplement must remain inside portable package')
+            validate_supplement(dict(path=str(resolved), **{k: row[k] for k in ('sha256', 'scope', 'confirmation_note')}))
+            if row['sha256'] in seen:
+                raise ValueError('Duplicate original or supplemental reference')
+            seen.add(row['sha256'])
     return card
 
 
@@ -171,7 +238,7 @@ def main():
     try:
         if args.command == 'export':
             spec = json.loads(args.spec.read_text(encoding='utf-8'))
-            result = export_package(args.package, spec['model'], spec['references'], spec['name'], spec['confirmation_note'])
+            result = export_package(args.package, spec['model'], spec['references'], spec['name'], spec['confirmation_note'], supplements=spec.get('supplements'))
         else:
             result = load_package(args.package)
         print(json.dumps(result, ensure_ascii=False, indent=2))

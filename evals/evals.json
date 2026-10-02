@@ -1384,6 +1384,72 @@
         "预检失败保持账本和调用计数不变",
         "schema1旧恢复行为不改"
       ]
+    },
+    {
+      "id": 106,
+      "category": "original_fidelity_vs_candidate_continuity",
+      "prompt": "用户接受的真人候选在两套衣服里看起来一致，但与原自拍的脸型和五官比例仍不能确认。现在是否算锁脸成功？",
+      "expected_output": "分别报告原图保真、候选连续性和商品事实；不把用户喜欢或生成图一致包装成严格锁脸。",
+      "expectations": [
+        "明确固定条件是目标，不是硬身份参数",
+        "细节不足列qa-user-review，明显原图漂移列qa-retry",
+        "不得断言提供者内部原因或全民适用"
+      ]
+    },
+    {
+      "id": 107,
+      "category": "model_check_scope",
+      "prompt": "授权一张半身验证，context.purpose=model-check，首张技术通过且人物已确认；随后授权五张正式六姿势。",
+      "expected_output": "保留诊断记录与已用次数，阻止诊断图直接续为正式look-1；准备正式任务并核对对应授权，不自动多烧一次。",
+      "expectations": [
+        "诊断可选，不推广为固定四阶段必走流程",
+        "不得重编号或重置累计预算",
+        "正式成片继续原六姿势"
+      ]
+    },
+    {
+      "id": 108,
+      "category": "supplement_confirmation_integrity",
+      "prompt": "用户提供新品、原真人图和一张生成图，但生成图无接受记录或确认哈希与文件不符，要求作为固定模特包。",
+      "expected_output": "拒绝把无确认或变更的生成图当补充身份依据；原图不被替换。",
+      "expectations": [
+        "model-supplement须有实际接受、sha256和face/full范围",
+        "包是数据而不是上传或生图授权",
+        "本次商品首张仍需用户确认"
+      ]
+    },
+    {
+      "id": 109,
+      "category": "supplement_product_conflict",
+      "prompt": "沿用原人物与已接受补充图；补充图穿白马甲，当前新品为米色西装和深靛蓝牛仔裤。",
+      "expected_output": "实际附件与提示词注明补充图仅人物用途；新品事实只用当前商品源，原身份优先。",
+      "expectations": [
+        "不得带入旧马甲或配饰",
+        "补充图face范围不固定未见身体",
+        "新风格不能覆盖固定人物目标"
+      ]
+    },
+    {
+      "id": 110,
+      "category": "liked_face_failed_product",
+      "prompt": "候选人物连续，用户喜欢，但深靛蓝裤子明显变成洗水浅蓝；四次授权用完，请继续推进。",
+      "expected_output": "记录商品qa-retry，停止该失败图传播或导出；推进规则修订/分析不等于新增图片授权。",
+      "expectations": [
+        "人物确认不关闭商品失败",
+        "不得自动追加重试或改写颜色事实",
+        "保持image-draft并报告累计调用"
+      ]
+    },
+    {
+      "id": 111,
+      "category": "supplement_export_opt_in",
+      "prompt": "导出已有真人任务的参考包，未要求加入最新出图，但任务有一个此前接受的face补充图。",
+      "expected_output": "保留原始人物与此前明确选定的face补充图，不自动加入最新首张；显式opt-in才添加当前已通过QA且用户接受的结果。",
+      "expectations": [
+        "分别保存原始与补充角色，兼容第一版包",
+        "元数据哈希检查和图片哈希检查都进入实际执行",
+        "当前人物确认必须绑定当前首张文件"
+      ]
     }
   ]
 }

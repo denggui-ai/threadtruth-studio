@@ -28,6 +28,57 @@ class ModelReferenceTests(unittest.TestCase):
         result.update(changes)
         return result
 
+    def supplement(self, **changes):
+        path = self.root / 'accepted.png'
+        Image.new('RGB', (30, 40), 'green').save(path)
+        result = dict(path=str(path), sha256=self.m.digest(path), scope='face',
+                      confirmation_note='User accepts this generated face presentation')
+        result.update(changes)
+        return result
+
+    def export_supplement(self, supplements):
+        try:
+            return self.m.export_package(self.root/'with-supplement', self.model(),
+                                         [self.face], 'A', 'Accepted', supplements=supplements)
+        except TypeError as error:
+            self.fail('Accepted supplement export is missing: ' + str(error))
+
+    def test_accepted_supplement_roundtrip_keeps_original_distinct(self):
+        supplement = self.supplement()
+        card = self.export_supplement([supplement])
+        self.assertEqual(card['schema_version'], 2)
+        self.assertEqual(card['references'][0]['sha256'], self.m.digest(self.face))
+        self.assertEqual(card['supplements'][0]['role'], 'model-supplement')
+        self.assertEqual(card['supplements'][0]['sha256'], supplement['sha256'])
+        self.assertEqual(card['supplements'][0]['scope'], 'face')
+        self.assertNotIn(str(self.root), (self.root/'with-supplement/model.json').read_text())
+        self.assertEqual(self.m.load_package(self.root/'with-supplement'), card)
+
+    def test_supplement_requires_hash_bound_acceptance_and_scope(self):
+        for changes in [dict(confirmation_note=''), dict(sha256='0'*64), dict(scope='garment')]:
+            with self.subTest(changes=changes), self.assertRaises(ValueError):
+                self.export_supplement([self.supplement(**changes)])
+            self.assertFalse((self.root/'with-supplement').exists())
+
+    def test_supplement_cannot_duplicate_original_or_another_supplement(self):
+        original = self.supplement(path=str(self.face), sha256=self.m.digest(self.face))
+        supplement = self.supplement()
+        for rows in [[original], [supplement, supplement]]:
+            with self.subTest(rows=rows), self.assertRaises(ValueError):
+                self.export_supplement(rows)
+
+    def test_missing_changed_and_escaping_supplement_files_block_package(self):
+        card = self.export_supplement([self.supplement()])
+        package = self.root/'with-supplement'
+        image = package/card['supplements'][0]['file']
+        original = image.read_bytes()
+        image.write_bytes(b'changed')
+        with self.assertRaises(ValueError): self.m.load_package(package)
+        image.write_bytes(original)
+        card['supplements'][0]['file'] = '../accepted.png'
+        (package/'model.json').write_text(json.dumps(card))
+        with self.assertRaises(ValueError): self.m.load_package(package)
+
     def test_portable_roundtrip_keeps_original_reference_and_no_absolute_paths(self):
         self.assertTrue(SCRIPT.exists(), 'portable reference helper is missing')
         package = self.root / 'brand-a'

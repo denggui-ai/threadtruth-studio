@@ -33,13 +33,15 @@ def native_reference_check(rows, route, extra_anchor=0):
 
 def context_check(context, size):
     required = {'outfit', 'style', 'mode', 'output_form', 'size', 'first_pose'}
-    if not isinstance(context, dict) or set(context) != required:
+    if not isinstance(context, dict) or set(context) - {'purpose'} != required:
         raise ValueError('Declare outfit, style, mode, output_form, size and first_pose for the frozen task context')
     if any(not isinstance(context[k], str) or not context[k].strip() for k in required - {'size','first_pose'}):
         raise ValueError('Task context labels must be nonempty')
     if type(context['first_pose']) is not int or context['first_pose'] not in range(1,7):raise ValueError('Declare the actual first pose number')
     if context['mode'] not in ('B', 'C', 'D') or context['size'] != list(size):
         raise ValueError('Task mode/canvas does not match context')
+    if context.get('purpose', 'delivery') not in ('delivery', 'model-check'):
+        raise ValueError('Task purpose must be delivery or model-check')
     return copy.deepcopy(context)
 
 
@@ -132,6 +134,8 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
         if schema_version!=2 or not identity or model is not None:raise ValueError('Package use requires a new portrait task and no conflicting inline model')
         card=models.load_package(model_package);model=card['model']
         refs=list(refs)+[dict(path=str(Path(model_package)/r['file']),role='identity-reference') for r in card['references']]
+        refs += [dict(path=str(Path(model_package)/r['file']), **{k:r[k] for k in ('role','sha256','scope','confirmation_note')})
+                 for r in card.get('supplements', [])]
     if schema_version not in (1,2):raise ValueError('Unsupported task schema')
     if len(prompts) not in (1,6) or not all(isinstance(p,str) and p.strip() for p in prompts):
         raise ValueError('Provide exactly one or six nonempty frozen prompts')
@@ -143,38 +147,56 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
         items=[dict(path=p,role='garment-source') for p in refs]
     else:
         context=context_check(context,size)
+        if context.get('purpose')=='model-check' and (not identity or len(prompts)!=1):
+            raise ValueError('model-check is a single portrait diagnostic, not a six-pose delivery')
         if identity:
             model=models.validate_model(model or dict(source_type='new',scope='full',subject='adult model',locked=[],adjustable=[],consent_note=''))
         elif model is not None:raise ValueError('Non-portrait tasks cannot carry a model')
         items=[dict(path=p,role='garment-source') if isinstance(p,(str,Path)) else dict(p) for p in refs]
-        if any(set(x)!={'path','role'} or x['role'] not in ('garment-source','identity-reference','aesthetic-reference') for x in items):
-            raise ValueError('Declare an explicit reference role')
+        for i,item in enumerate(items):
+            if item.get('role')=='model-supplement':
+                items[i]=dict(models.validate_supplement({k:v for k,v in item.items() if k!='role'}),role='model-supplement')
+            elif set(item)!={'path','role'} or item['role'] not in ('garment-source','identity-reference','aesthetic-reference'):
+                raise ValueError('Declare an explicit reference role')
         if not any(x['role']=='garment-source' for x in items):raise ValueError('A model/photo/card is not a garment source')
         has_identity=any(x['role']=='identity-reference' for x in items)
+        if any(x['role']=='model-supplement' for x in items) and not has_identity:
+            raise ValueError('An accepted supplement requires the original identity reference')
         if not identity and any(x['role']!='garment-source' for x in items):raise ValueError('Non-portrait task cannot carry person references')
         if identity and (has_identity != (model['source_type'] in ('ai','real'))):raise ValueError('Existing models need original identity references; new models do not copy identity')
     sources=[Path(x['path']).resolve() for x in items]
     if any(not p.is_file() or p.suffix.lower() not in ('.png','.jpg','.jpeg','.webp') for p in sources):
         raise ValueError('References must be existing image files')
     if schema_version==2:
-        identities=[digest(p) for p,item in zip(sources,items) if item['role']=='identity-reference']
+        identities=[digest(p) for p,item in zip(sources,items) if item['role'] in ('identity-reference','model-supplement')]
         if len(identities)!=len(set(identities)):
             raise ValueError('Deduplicate identical identity references before task initialization and prompt numbering')
     native_reference_check(items,route,extra_anchor=int(identity and len(prompts)==6))
-    root.mkdir(parents=True,exist_ok=False);(root/'references').mkdir();frozen=[]
-    for i,(p,item) in enumerate(zip(sources,items),1):
-        out=root/'references'/f'{i:02d}{p.suffix.lower()}';shutil.copyfile(p,out)
-        frozen.append({'file':str(out.relative_to(root)),'sha256':digest(out),'role':item['role']})
-    data={'schema_version':schema_version,'created_at':stamp(),'route':route,'mode':'manual','model_verified':False,
-          'size':list(size),'identity':bool(identity),'references':frozen,'authorization':None,'attempts':0,
-          'complete':False,'delivery_status':'image-draft','events':[],
-          'looks':[{'number':i,'prompt':p,'prompt_sha256':hashlib.sha256(p.encode()).hexdigest(),'state':'pending'} for i,p in enumerate(prompts,1)]}
-    if schema_version==2:
-        data.update(context=context,context_sha256=object_hash(context),model=model,model_sha256=object_hash(model),model_confirmation=None)
-    save(root,data);return data
+    root.mkdir(parents=True,exist_ok=False)
+    try:
+        (root/'references').mkdir();frozen=[]
+        for i,(p,item) in enumerate(zip(sources,items),1):
+            out=root/'references'/f'{i:02d}{p.suffix.lower()}';shutil.copyfile(p,out)
+            frozen.append({'file':str(out.relative_to(root)),'sha256':digest(out),'role':item['role']})
+            if item['role']=='model-supplement':
+                if frozen[-1]['sha256']!=item['sha256']:raise ValueError('Accepted supplement changed during snapshot')
+                frozen[-1].update(scope=item['scope'],confirmation_note=item['confirmation_note'])
+        data={'schema_version':schema_version,'created_at':stamp(),'route':route,'mode':'manual','model_verified':False,
+              'size':list(size),'identity':bool(identity),'references':frozen,'authorization':None,'attempts':0,
+              'complete':False,'delivery_status':'image-draft','events':[],
+              'looks':[{'number':i,'prompt':p,'prompt_sha256':hashlib.sha256(p.encode()).hexdigest(),'state':'pending'} for i,p in enumerate(prompts,1)]}
+        if schema_version==2:
+            data.update(context=context,context_sha256=object_hash(context),model=model,model_sha256=object_hash(model),model_confirmation=None,
+                        references_sha256=object_hash(frozen))
+        save(root,data);return data
+    except Exception:
+        shutil.rmtree(root)
+        raise
 
 
 def references(root,data,look):
+    check_model_confirmation(data)
+    check_reference_metadata(root,data)
     if not 1<=look<=len(data['looks']):raise ValueError('Unknown look number')
     row=data['looks'][look-1]
     if hashlib.sha256(row['prompt'].encode()).hexdigest()!=row['prompt_sha256']:raise ValueError('Frozen prompt changed')
@@ -188,7 +210,7 @@ def references(root,data,look):
         if data['schema_version']==2:
             seen=set();unique=[]
             for ref in rows:
-                key=(ref['sha256'], 'identity' if ref['role'] in ('identity-reference','identity-only') else ref['role'])
+                key=(ref['sha256'], 'identity' if ref['role'] in ('identity-reference','model-supplement','identity-only') else ref['role'])
                 if key not in seen:unique.append(ref);seen.add(key)
             rows=unique
     for row in rows:
@@ -207,7 +229,35 @@ def evidence_rows(data):
         yield row
 
 
+def check_model_confirmation(data):
+    if data['schema_version']==2 and data.get('model_confirmation'):
+        confirmation=data['model_confirmation']
+        if (not isinstance(confirmation,dict) or not isinstance(confirmation.get('note'),str)
+                or not confirmation['note'].strip()
+                or confirmation.get('output_sha256')!=data['looks'][0].get('output',{}).get('sha256')):
+            raise ValueError('Model confirmation does not bind the current first-image output')
+
+
+def check_reference_metadata(root,data):
+    if data['schema_version']!=2:return
+    supplements=[r for r in data['references'] if r['role']=='model-supplement']
+    if supplements and 'references_sha256' not in data:
+        raise ValueError('Supplemental reference acceptance requires its frozen metadata hash')
+    if 'references_sha256' in data and object_hash(data['references'])!=data['references_sha256']:
+        raise ValueError('Frozen reference roles/acceptance changed')
+    if supplements and (not data['identity'] or data['model']['source_type'] not in ('ai','real')
+                        or not any(r['role']=='identity-reference' for r in data['references'])):
+        raise ValueError('Supplement requires an existing original identity')
+    for row in supplements:
+        if set(row)!={'file','sha256','role','scope','confirmation_note'}:
+            raise ValueError('Unsupported frozen supplement fields')
+        models.validate_supplement(dict(path=str(safe_file(Path(root),row['file'])),
+                                        **{k:row[k] for k in ('sha256','scope','confirmation_note')}))
+
+
 def check_evidence(root,data):
+    check_model_confirmation(data)
+    check_reference_metadata(root,data)
     if data['schema_version']==2:
         if object_hash(data['context'])!=data['context_sha256'] or object_hash(data['model'])!=data['model_sha256']:
             raise ValueError('Frozen context/model changed')
@@ -253,6 +303,8 @@ def update(root,event,**kw):
             note=kw.get('note','').strip();approval=kw.get('approval_id','').strip();prompts=kw.get('prompts')
             if d['schema_version']!=2 or len(d['looks'])!=1 or d['looks'][0]['state']!='accepted' or not d['authorization']:
                 raise ValueError('Continue only the same accepted one-image task')
+            if d['context'].get('purpose')=='model-check':
+                raise ValueError('model-check cannot become look-1 of a production six-pose set')
             if d['identity'] and not d['model_confirmation']:raise ValueError('User must confirm the model first')
             if d['context']['first_pose']!=1:raise ValueError('Only an actual pose-1 trial can become look-1 of the six-pose set')
             if kw.get('context')!=d['context']:raise ValueError('Continuation must keep outfit, style, mode, output form and canvas')
@@ -262,7 +314,7 @@ def update(root,event,**kw):
                 raise ValueError('Provide exactly five continuation prompts')
             future=list(d['references'])
             anchor=d['looks'][0]['output']
-            if d['identity'] and not any(r['role']=='identity-reference' and r['sha256']==anchor['sha256'] for r in future):
+            if d['identity'] and not any(r['role'] in ('identity-reference','model-supplement') and r['sha256']==anchor['sha256'] for r in future):
                 future.append(dict(anchor,role='identity-only'))
             native_reference_check(future,d['route'])
             d['continuation_authorization']={'approval_id':approval,'additional_requests':5,'note':note,'at':stamp()}
@@ -365,14 +417,15 @@ def export(root):
             for i,r in enumerate(refs,1):
                 src=root/r['file'];dst=out/f'{i:02d}-{r["role"]}{src.suffix}'
                 if dst.exists() and digest(dst)!=r['sha256']:raise ValueError('Existing handoff attachment changed')
-                shutil.copyfile(src,dst);instruction.append(f'Image {i}: '+ROLE_TEXT[r['role']])
+                shutil.copyfile(src,dst)
+                instruction.append(f'Image {i}: '+(models.supplement_prompt(r) if r['role']=='model-supplement' else ROLE_TEXT[r['role']]))
             if d['schema_version']==2 and d['model']:instruction.extend(models.prompt_lines(d['model']))
             prompt='Only use built-in image generation, no other plugins. One standalone image.\n'+'\n'.join(instruction)+f'\nExact canvas: {d["size"][0]}x{d["size"][1]}.\n'+row['prompt']
             (out/'prompt.txt').write_text(prompt,encoding='utf-8')
         (folder/'README.md').write_text('\n'.join(lines)+'\n',encoding='utf-8');return str(folder)
 
 
-def export_model(root, destination, name):
+def export_model(root, destination, name, *, include_accepted=False, accepted_scope='face'):
     root=Path(root)
     with locked(root):
         d=read(root);check_evidence(root,d)
@@ -380,19 +433,31 @@ def export_model(root, destination, name):
             raise ValueError('Export only a technically accepted and human-confirmed first-image model')
         refs=[root/r['file'] for r in d['references'] if r['role']=='identity-reference']
         if d['model']['source_type']=='new':refs=[root/d['looks'][0]['output']['file']]
-        return models.export_package(destination,d['model'],refs,name,d['model_confirmation']['note'])
+        if type(include_accepted) is not bool or accepted_scope not in ('face','full'):
+            raise ValueError('Explicit accepted-reference opt-in and face/full scope required')
+        supplements=[dict(path=str(safe_file(root,r['file'])), **{k:r[k] for k in ('sha256','scope','confirmation_note')})
+                     for r in d['references'] if r['role']=='model-supplement']
+        if include_accepted and d['model']['source_type']!='new':
+            first=d['looks'][0]['output']
+            supplements.append(dict(path=str(safe_file(root,first['file'])),sha256=first['sha256'],
+                                    scope=accepted_scope,confirmation_note=d['model_confirmation']['note']))
+        return models.export_package(destination,d['model'],refs,name,d['model_confirmation']['note'],supplements=supplements)
 
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('command',choices=['init','status','export','authorize','mode','reserve','bind','unknown','failed','returned','accept','reject','audit-reject','retry-authorize','confirm-model','reject-model','continue-authorize','export-model']);p.add_argument('--task',type=Path,required=True);p.add_argument('--spec',type=Path);p.add_argument('--destination',type=Path);p.add_argument('--name');p.add_argument('--look',type=int);p.add_argument('--note');p.add_argument('--limit',type=int);p.add_argument('--mode',choices=['manual','automatic']);p.add_argument('--ready',action='store_true');p.add_argument('--refs',nargs='*');p.add_argument('--conversation');p.add_argument('--tab');p.add_argument('--file',type=Path);p.add_argument('--qa',choices=['qa-pass','qa-user-review']);p.add_argument('--expected-attempt',type=int);p.add_argument('--approval-id');p.add_argument('--prompt-file',type=Path);p.add_argument('--model-spec',type=Path);a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('command',choices=['init','status','export','authorize','mode','reserve','bind','unknown','failed','returned','accept','reject','audit-reject','retry-authorize','confirm-model','reject-model','continue-authorize','export-model']);p.add_argument('--task',type=Path,required=True);p.add_argument('--spec',type=Path);p.add_argument('--destination',type=Path);p.add_argument('--name');p.add_argument('--look',type=int);p.add_argument('--note');p.add_argument('--limit',type=int);p.add_argument('--mode',choices=['manual','automatic']);p.add_argument('--ready',action='store_true');p.add_argument('--refs',nargs='*');p.add_argument('--conversation');p.add_argument('--tab');p.add_argument('--file',type=Path);p.add_argument('--qa',choices=['qa-pass','qa-user-review']);p.add_argument('--expected-attempt',type=int);p.add_argument('--approval-id');p.add_argument('--prompt-file',type=Path);p.add_argument('--model-spec',type=Path);p.add_argument('--include-accepted-reference',action='store_true');p.add_argument('--accepted-scope',choices=['face','full']);a=p.parse_args()
     try:
+        if a.command!='export-model' and (a.include_accepted_reference or a.accepted_scope is not None):
+            raise ValueError('Accepted-reference options are only for export-model')
+        if a.accepted_scope is not None and not a.include_accepted_reference:
+            raise ValueError('Declare --include-accepted-reference before choosing its scope')
         if a.command=='init':
             spec=json.loads(a.spec.read_text());result=create(a.task,spec['references'],spec['prompts'],spec['size'],spec.get('identity',True),schema_version=spec.get('schema_version',2),model=spec.get('model'),context=spec.get('context'),route=spec.get('route','chatgpt_web'),model_package=spec.get('model_package'))
         elif a.command=='status':result=read(a.task)
         elif a.command=='export':result=export(a.task)
-        elif a.command=='export-model':result=export_model(a.task,a.destination,a.name)
+        elif a.command=='export-model':result=export_model(a.task,a.destination,a.name,include_accepted=a.include_accepted_reference,accepted_scope=a.accepted_scope or 'face')
         else:
-            args={k:v for k,v in vars(a).items() if k not in ('command','task','spec','prompt_file','destination','name','model_spec') and v is not None}
+            args={k:v for k,v in vars(a).items() if k not in ('command','task','spec','prompt_file','destination','name','model_spec','include_accepted_reference','accepted_scope') and v is not None}
             if a.model_spec:
                 if a.command!='retry-authorize':raise ValueError('Model revision is only accepted with explicit first-image retry authority')
                 args['model']=json.loads(a.model_spec.read_text(encoding='utf-8'))['model']

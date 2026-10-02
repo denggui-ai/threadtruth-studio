@@ -81,5 +81,30 @@ class ModelPromptTests(unittest.TestCase):
     def test_model_references_without_model_are_not_silently_ignored(self):
         with self.assertRaises(ValueError):m._apply_model(['prompt'],1,None,[dict(path='face.png',role='identity-reference')])
 
+    def test_actual_prompt_and_attachments_keep_confirmed_supplement_role(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp)
+            paths=[]
+            for name,color in [('garment','red'),('original','blue'),('accepted','green')]:
+                p=root/(name+'.png');Image.new('RGB',(20,30),color).save(p);paths.append(p)
+            plan=copy.deepcopy(self.plan)
+            plan['source']['assets']=[dict(path='garment.png',sha256=m.digest(paths[0].read_bytes()),role='outfit-source')]
+            refs=[dict(path=str(paths[1]),role='identity-reference',sha256=m.digest(paths[1].read_bytes())),
+                  dict(path=str(paths[2]),role='model-supplement',sha256=m.digest(paths[2].read_bytes()),
+                       scope='face',confirmation_note='User accepted this generated face')]
+            with patch.object(m,'_plan_v5',return_value=plan),patch.object(m,'_final_negatives',return_value=('no collage','no crop')),patch.object(m,'_head_gaze_guidance',return_value='natural head'):
+                try: result=m.single_prompt(root,'supplement','korean-cold-editorial',1,'beige-blazer-denim-outfit',model=dict(self.model,source_type='ai'),model_references=refs)
+                except ValueError as error:self.fail('Confirmed supplement prompt entry is missing: '+str(error))
+                self.assertEqual([r['role'] for r in result['references']],['garment-source','identity-reference','model-supplement'])
+                self.assertEqual(result['references'][-1]['scope'],'face')
+                self.assertEqual(result['references'][-1]['confirmation_note'],refs[-1]['confirmation_note'])
+                text=(root/result['path']).read_text()
+                self.assertIn('supplement',text)
+                self.assertIn('original identity',text)
+                self.assertIn('friendly smile',text)
+                self.assertNotIn(self.plan['identity_anchor']['path'],text)
+                refs[-1]['confirmation_note']=''
+                with self.assertRaises(ValueError):m.single_prompt(root,'bad','korean-cold-editorial',1,'beige-blazer-denim-outfit',model=dict(self.model,source_type='ai'),model_references=refs)
+
 
 if __name__=='__main__':unittest.main()

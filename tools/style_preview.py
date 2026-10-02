@@ -338,16 +338,21 @@ def _apply_model(lines, source_count, model, model_references):
     helper = _model_tools()
     helper.validate_model(model)
     refs = model_references or []
-    if any(r.get('role') not in ('identity-reference', 'aesthetic-reference') for r in refs):
+    if any(r.get('role') not in ('identity-reference', 'aesthetic-reference', 'model-supplement') for r in refs):
         raise ValueError('Explicit person-reference roles required')
     has_identity = any(r['role'] == 'identity-reference' for r in refs)
     if has_identity != (model['source_type'] in ('ai', 'real')):
         raise ValueError('Existing models need original identity references; new casting cannot copy identity')
+    for ref in refs:
+        if ref['role']=='model-supplement':
+            if not has_identity:raise ValueError('Supplement requires the original identity reference')
+            helper.validate_supplement({k:v for k,v in ref.items() if k!='role'})
     lines = [line.replace('one adult female model', 'one ' + model['subject']) for line in lines
              if not line.startswith('Identity-only reference:') and not re.match(r'Attached image \d+ is identity-only:', line)]
     instructions = helper.prompt_lines(model)
     for i, ref in enumerate(refs, source_count + 1):
-        role = ('original identity only; ignore garment, pose, crop, light and backdrop' if ref['role'] == 'identity-reference'
+        role = (helper.supplement_prompt(ref) if ref['role']=='model-supplement' else
+                'original identity only; ignore garment, pose, crop, light and backdrop' if ref['role'] == 'identity-reference'
                 else 'aesthetic only; do not copy identity or clothing')
         instructions.append(f"Attached image {i}: {ref['role']} — {role}. Reference: {ref['path']}")
     return lines[:1] + instructions + lines[1:]
@@ -478,9 +483,11 @@ def single_prompt(root, run_id, style, pose, source_case, ratio="1:1", model=Non
             path=Path(ref['path']).resolve()
             if not path.is_file() or path.suffix.lower() not in {'.png','.jpg','.jpeg','.webp'} or digest(path.read_bytes())!=ref['sha256']:raise ValueError('Missing or changed model reference')
             # Keep prompt image numbering and attachment order identical. Duplicate inputs must be normalized by the caller.
-            if ref['role']=='identity-reference' and ref['sha256'] in identity_hashes:raise ValueError('Deduplicate identical identity references before prompt assembly')
-            if ref['role']=='identity-reference':identity_hashes.add(ref['sha256'])
+            if ref['role'] in ('identity-reference','model-supplement') and ref['sha256'] in identity_hashes:raise ValueError('Deduplicate identical identity references before prompt assembly')
+            if ref['role'] in ('identity-reference','model-supplement'):identity_hashes.add(ref['sha256'])
             attachments.append(dict(path=str(path),role=ref['role'],sha256=ref['sha256']))
+            if ref['role']=='model-supplement':
+                attachments[-1].update(scope=ref['scope'],confirmation_note=ref['confirmation_note'])
         if len(attachments)>5:
             raise ValueError('Native imagegen allows at most five references; explicitly select sufficient source views before assembling the prompt, without silently dropping identity or garment references')
     (directory / "prompts").mkdir(parents=True, exist_ok=True)
