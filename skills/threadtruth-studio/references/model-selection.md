@@ -43,6 +43,8 @@
 
 ## 参考包与后续新品
 
+原生工具每次最多5张附件。冻结整组任务前先核对后五张的实际参考数量,为原始身份和本组首张预留位置（通常最多3张商品视图）；同字节身份图可去重。按可见事实选择足够的正面/背面/关键细节并说明省略的冗余图，不静默丢身份、商品关键事实或本组首张。关键视图无法收敛时停止并补充合适参考，不用未经授权的新图或截图拼贴绕过上限。单张能接收5图不代表可直接续六张；续生预检失败时不追加授权或重置预算。已冻结超限任务保留为证据，恢复需明确的新参考版本及原调用记录，不能改写旧提示词、首张或失败历史。
+
 用户确认人物后，在其私人输出目录交付 `model-reference/`：原始身份图片、`model.json` 和短 `README.md`。新建AI用首张已确认图作为原始人物依据；已有真人/AI保留原始参考。审美图不转成身份图片。包不保存旧商品条件；没有模型训练、数据库、账号或自动历史搜索。
 
 `scripts/model-reference.py export --package <new-private-directory> --spec <private-spec.json>` 只做本地复制；spec包含 `name`、`model`、原始身份图片路径 `references`、实际 `confirmation_note`。model字段：`source_type=new|ai|real`、`scope=face|full`、`subject=adult model|adult female model|adult male model`、短句列表 `locked`/`adjustable`、真人已有授权依据 `consent_note`。可选 `factors` 列表逐项包含 name/value/status/source/confirmed；status=target|fixed|adjustable|unknown, source=user|reference|recommendation。target/fixed值须出现在locked,adjustable值须出现在adjustable。试拍前系统建议为target,不是已固定事实；导出后target在实际首张用户确认下变为fixed并保留建议来源。未知不进入prompt。工具不测量或推断。导出new后记为ai。

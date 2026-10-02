@@ -481,6 +481,8 @@ def single_prompt(root, run_id, style, pose, source_case, ratio="1:1", model=Non
             if ref['role']=='identity-reference' and ref['sha256'] in identity_hashes:raise ValueError('Deduplicate identical identity references before prompt assembly')
             if ref['role']=='identity-reference':identity_hashes.add(ref['sha256'])
             attachments.append(dict(path=str(path),role=ref['role'],sha256=ref['sha256']))
+        if len(attachments)>5:
+            raise ValueError('Native imagegen allows at most five references; explicitly select sufficient source views before assembling the prompt, without silently dropping identity or garment references')
     (directory / "prompts").mkdir(parents=True, exist_ok=True)
     path = child(directory, f"prompts/{style}.action{action}-pose{pose}.txt")
     path.write_text(text, encoding="utf-8")

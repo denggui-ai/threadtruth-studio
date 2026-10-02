@@ -207,6 +207,135 @@ class ModelTaskTests(unittest.TestCase):
         d=m.update(self.job,'authorize',limit=6,note='Approved')
         self.assertEqual(d['authorization']['destination'],'codex_native')
 
+    def test_native_batch_rejects_references_that_leave_no_room_for_first_anchor(self):
+        refs=[dict(path=str(self.image('view'+str(i),color)),role='garment-source')
+              for i,color in enumerate(['red','orange','yellow','purple'])]
+        refs.append(dict(path=str(self.face),role='identity-reference'))
+        with self.assertRaisesRegex(ValueError,'reference'):
+            m.create(self.job,refs,['pose']*6,(20,30),model=self.model,context=self.context,route='codex_native')
+        self.assertFalse(self.job.exists())
+
+    def test_native_three_garment_views_keep_original_and_current_identity(self):
+        refs=[dict(path=str(self.image('view'+str(i),color)),role='garment-source')
+              for i,color in enumerate(['red','orange','yellow'])]
+        refs.append(dict(path=str(self.face),role='identity-reference'))
+        m.create(self.job,refs,['pose']*6,(20,30),model=self.model,context=self.context,route='codex_native')
+        m.update(self.job,'authorize',limit=6,note='Approved')
+        m.update(self.job,'reserve',look=1,ready=True,refs=m.reference_hashes(self.job,1))
+        m.update(self.job,'returned',look=1,file=self.image('first','green'))
+        m.update(self.job,'accept',look=1,qa='qa-pass',note='QA');self.confirm()
+        later=m.references(self.job,m.read(self.job),2)
+        self.assertEqual([r['role'] for r in later],['garment-source']*3+['identity-reference','identity-only'])
+        self.assertEqual(len(later),5)
+
+    def test_overfull_native_trial_cannot_spend_continuation_budget(self):
+        refs=[dict(path=str(self.image('view'+str(i),color)),role='garment-source')
+              for i,color in enumerate(['red','orange','yellow','purple'])]
+        refs.append(dict(path=str(self.face),role='identity-reference'))
+        m.create(self.job,refs,['pose'],(20,30),model=self.model,context=self.context,route='codex_native')
+        m.update(self.job,'authorize',limit=1,note='Approved')
+        m.update(self.job,'reserve',look=1,ready=True,refs=m.reference_hashes(self.job,1))
+        m.update(self.job,'returned',look=1,file=self.image('first','green'))
+        m.update(self.job,'accept',look=1,qa='qa-pass',note='QA');self.confirm()
+        before=(self.job/'task.json').read_bytes()
+        with self.assertRaisesRegex(ValueError,'reference'):
+            m.update(self.job,'continue-authorize',context=self.context,prompts=['pose']*5,approval_id='five',note='Approved')
+        self.assertEqual((self.job/'task.json').read_bytes(),before)
+
+    def test_old_overfull_native_task_blocks_before_reserving_or_exporting(self):
+        self.first();self.confirm()
+        d=m.read(self.job)
+        for i,color in enumerate(['orange','yellow','purple']):
+            path=self.image('extra'+str(i),color);dst=self.job/'references'/path.name
+            dst.write_bytes(path.read_bytes())
+            d['references'].append(dict(file=str(dst.relative_to(self.job)),sha256=m.digest(dst),role='garment-source'))
+        d['route']='codex_native';m.save(self.job,d)
+        before=(self.job/'task.json').read_bytes()
+        with self.assertRaisesRegex(ValueError,'reference'):m.export(self.job)
+        with self.assertRaisesRegex(ValueError,'reference'):
+            m.update(self.job,'reserve',look=2,ready=True,refs=[r['sha256'] for r in d['references']])
+        self.assertEqual((self.job/'task.json').read_bytes(),before)
+
+    def test_duplicate_identity_requires_normalization_before_freezing(self):
+        refs=[dict(path=str(self.garment),role='garment-source')]+[dict(path=str(self.face),role='identity-reference')]*2
+        with self.assertRaisesRegex(ValueError,'Deduplicate'):
+            m.create(self.job,refs,['pose']*6,(20,30),model=self.model,context=self.context,route='codex_native')
+        self.assertFalse(self.job.exists())
+
+    def test_late_qa_rejection_preserves_evidence_and_stops_anchor_reuse(self):
+        self.first(route='codex_native');self.confirm()
+        before=m.read(self.job)
+        d=m.update(self.job,'audit-reject',look=1,note='Independent source comparison finds original necklace omitted')
+        self.assertEqual(d['looks'][0]['state'],'rejected')
+        self.assertEqual(d['looks'][0]['qa'],'qa-retry')
+        self.assertEqual(d['looks'][0]['qa_history'][0]['qa'],'qa-pass')
+        self.assertEqual(d['looks'][0]['output'],before['looks'][0]['output'])
+        self.assertEqual(d['attempts'],1)
+        self.assertEqual(d['model_confirmation'],before['model_confirmation'])
+        self.assertFalse(d['complete'])
+        with self.assertRaises(ValueError):m.reference_hashes(self.job,2)
+        with self.assertRaises(ValueError):m.export_model(self.job,self.root/'bad-package','A')
+        with self.assertRaises(ValueError):m.update(self.job,'audit-reject',look=1,note='repeat')
+
+    def test_audited_first_retry_needs_new_image_confirmation(self):
+        self.first(count=1,route='codex_native');self.confirm()
+        original=m.read(self.job)['model_confirmation']
+        m.update(self.job,'audit-reject',look=1,note='Original accessory omitted')
+        d=m.update(self.job,'retry-authorize',look=1,expected_attempt=1,approval_id='audit-retry',note='Explicit single retry approval',prompt='Keep all original accessories')
+        self.assertIsNone(d['model_confirmation'])
+        self.assertEqual(d['looks'][0]['history'][0]['model_confirmation'],original)
+        m.update(self.job,'reserve',look=1,ready=True,refs=m.reference_hashes(self.job,1))
+        m.update(self.job,'returned',look=1,file=self.image('audited-retry','orange'))
+        m.update(self.job,'accept',look=1,qa='qa-pass',note='New actual QA')
+        with self.assertRaises(ValueError):m.export_model(self.job,self.root/'unconfirmed','A')
+        with self.assertRaises(ValueError):m.update(self.job,'continue-authorize',context=self.context,prompts=['pose']*5,approval_id='five',note='Approved five')
+
+    def test_late_nonfirst_repair_keeps_later_files_and_original_model_confirmation(self):
+        self.first(route='codex_native');self.confirm()
+        for n,color in enumerate(['yellow','purple','orange','black','white'],2):
+            m.update(self.job,'reserve',look=n,ready=True,refs=m.reference_hashes(self.job,n))
+            m.update(self.job,'returned',look=n,file=self.image(str(n),color))
+            m.update(self.job,'accept',look=n,qa='qa-pass',note='QA')
+        before=m.read(self.job)
+        m.update(self.job,'audit-reject',look=2,note='Independent review finds missing pocket')
+        d=m.update(self.job,'retry-authorize',look=2,expected_attempt=1,approval_id='repair-two',note='Explicit one-call correction approval',prompt='Keep original pocket')
+        self.assertEqual(d['looks'][1]['history'][0]['output'],before['looks'][1]['output'])
+        self.assertEqual(d['looks'][2:],before['looks'][2:])
+        self.assertEqual(d['model_confirmation'],before['model_confirmation'])
+        m.update(self.job,'reserve',look=2,ready=True,refs=m.reference_hashes(self.job,2))
+        m.update(self.job,'returned',look=2,file=self.image('repaired-two','brown'))
+        d=m.update(self.job,'accept',look=2,qa='qa-pass',note='New actual QA')
+        self.assertEqual(d['attempts'],7)
+        self.assertTrue(d['complete'])
+        self.assertEqual(d['delivery_status'],'image-draft')
+        m.update(self.job,'audit-reject',look=1,note='Late first failure')
+        with self.assertRaises(ValueError):m.update(self.job,'retry-authorize',look=1,expected_attempt=1,approval_id='replace-anchor',note='Approved',prompt='new first')
+
+    def check_nonfirst_retry_waits_for_unresolved_later(self, state):
+        self.first(route='codex_native');self.confirm()
+        m.update(self.job,'reserve',look=2,ready=True,refs=m.reference_hashes(self.job,2))
+        m.update(self.job,'returned',look=2,file=self.image('second','yellow'))
+        m.update(self.job,'accept',look=2,qa='qa-pass',note='QA')
+        m.update(self.job,'reserve',look=3,ready=True,refs=m.reference_hashes(self.job,3))
+        if state=='unknown':m.update(self.job,'unknown',look=3)
+        m.update(self.job,'audit-reject',look=2,note='Independent review finds missing pocket')
+        m.update(self.job,'retry-authorize',look=2,expected_attempt=1,approval_id='repair-two',note='Explicit one-call correction',prompt='Preserve pocket')
+        before=(self.job/'task.json').read_bytes()
+        with self.assertRaisesRegex(ValueError,'unresolved'):
+            m.update(self.job,'reserve',look=2,ready=True,refs=m.reference_hashes(self.job,2))
+        self.assertEqual((self.job/'task.json').read_bytes(),before)
+        m.update(self.job,'returned',look=3,file=self.image('third','purple'))
+        m.update(self.job,'accept',look=3,qa='qa-pass',note='Recovered actual output')
+        d=m.update(self.job,'reserve',look=2,ready=True,refs=m.reference_hashes(self.job,2))
+        self.assertEqual(d['attempts'],4)
+        self.assertEqual(d['looks'][2]['state'],'accepted')
+
+    def test_nonfirst_retry_waits_for_reserved_later_request(self):
+        self.check_nonfirst_retry_waits_for_unresolved_later('reserved')
+
+    def test_nonfirst_retry_waits_for_unknown_later_request(self):
+        self.check_nonfirst_retry_waits_for_unresolved_later('unknown')
+
     def test_aesthetic_reference_remains_non_identity(self):
         self.model['source_type']='new'
         refs=[dict(path=str(self.garment),role='garment-source'),dict(path=str(self.face),role='aesthetic-reference')]

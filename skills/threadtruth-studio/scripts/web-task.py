@@ -26,6 +26,11 @@ ROLE_TEXT = {
 }
 
 
+def native_reference_check(rows, route, extra_anchor=0):
+    if route=='codex_native' and len(rows)+extra_anchor>5:
+        raise ValueError('Native imagegen allows at most five references; select sufficient garment views before freezing, leaving room for original identity and the current first-image anchor; never silently drop inputs')
+
+
 def context_check(context, size):
     required = {'outfit', 'style', 'mode', 'output_form', 'size', 'first_pose'}
     if not isinstance(context, dict) or set(context) != required:
@@ -151,6 +156,11 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
     sources=[Path(x['path']).resolve() for x in items]
     if any(not p.is_file() or p.suffix.lower() not in ('.png','.jpg','.jpeg','.webp') for p in sources):
         raise ValueError('References must be existing image files')
+    if schema_version==2:
+        identities=[digest(p) for p,item in zip(sources,items) if item['role']=='identity-reference']
+        if len(identities)!=len(set(identities)):
+            raise ValueError('Deduplicate identical identity references before task initialization and prompt numbering')
+    native_reference_check(items,route,extra_anchor=int(identity and len(prompts)==6))
     root.mkdir(parents=True,exist_ok=False);(root/'references').mkdir();frozen=[]
     for i,(p,item) in enumerate(zip(sources,items),1):
         out=root/'references'/f'{i:02d}{p.suffix.lower()}';shutil.copyfile(p,out)
@@ -183,6 +193,7 @@ def references(root,data,look):
             rows=unique
     for row in rows:
         if digest(safe_file(Path(root),row['file']))!=row['sha256']:raise ValueError('Frozen reference/anchor changed')
+    native_reference_check(rows,data['route'])
     return rows
 
 
@@ -249,6 +260,11 @@ def update(root,event,**kw):
                 raise ValueError('Explicit five-image approval and a fresh ID required')
             if not isinstance(prompts,list) or len(prompts)!=5 or any(not isinstance(p,str) or not p.strip() for p in prompts):
                 raise ValueError('Provide exactly five continuation prompts')
+            future=list(d['references'])
+            anchor=d['looks'][0]['output']
+            if d['identity'] and not any(r['role']=='identity-reference' and r['sha256']==anchor['sha256'] for r in future):
+                future.append(dict(anchor,role='identity-only'))
+            native_reference_check(future,d['route'])
             d['continuation_authorization']={'approval_id':approval,'additional_requests':5,'note':note,'at':stamp()}
             d['looks'].extend({'number':i,'prompt':p,'prompt_sha256':hashlib.sha256(p.encode()).hexdigest(),'state':'pending'} for i,p in enumerate(prompts,2))
         elif event=='reject-model':
@@ -260,6 +276,12 @@ def update(root,event,**kw):
             note=kw.get('note','').strip()
             if row is None or row['state']!='returned' or not note:raise ValueError('Reject only a downloaded result with actual visual QA reasons')
             row.update(state='rejected',qa='qa-retry',qa_note=note)
+        elif event=='audit-reject':
+            note=kw.get('note','').strip()
+            if d['schema_version']!=2 or row is None or row['state']!='accepted' or not note:
+                raise ValueError('Record a late source/identity QA rejection only for an accepted schema-2 output')
+            row.setdefault('qa_history',[]).append(dict(qa=row['qa'],qa_note=row['qa_note'],state=row['state'],at=stamp()))
+            row.update(state='rejected',qa='qa-retry',qa_note=note)
         elif event=='retry-authorize':
             # One explicit grant replaces one rejected attempt, never resets the task.
             note=kw.get('note','').strip();approval=kw.get('approval_id','').strip();prompt=kw.get('prompt','')
@@ -269,7 +291,7 @@ def update(root,event,**kw):
             if type(kw.get('expected_attempt'))!=int or kw['expected_attempt']!=attempt:raise ValueError('Approval must target the current rejected attempt')
             if not note or not approval or not isinstance(prompt,str) or not prompt.strip():raise ValueError('Explicit retry approval, unique approval ID and corrected prompt required')
             if any(g['approval_id']==approval for g in grants) or d.get('continuation_authorization',{}).get('approval_id')==approval:raise ValueError('Retry approval already used')
-            if any(x['state']!='pending' for x in d['looks'][n:]):raise ValueError('Cannot replace an anchor with existing downstream work')
+            if (d['schema_version']==1 or n==1) and any(x['state']!='pending' for x in d['looks'][n:]):raise ValueError('Cannot replace an anchor with existing downstream work')
             history=copy.deepcopy(row.get('history',[]));old=copy.deepcopy(row);old.pop('history',None)
             if d['schema_version']==2 and d['model']:
                 old.update(model=copy.deepcopy(d['model']),model_sha256=d['model_sha256'])
@@ -278,6 +300,9 @@ def update(root,event,**kw):
                 changed=models.validate_model(kw['model'])
                 if any(changed[k]!=d['model'][k] for k in ('source_type','scope','subject')):raise ValueError('A different identity/source/scope requires a new declared model version, not replacement of original references')
                 d.update(model=changed,model_sha256=object_hash(changed))
+            if d['schema_version']==2 and n==1 and d['model_confirmation']:
+                old['model_confirmation']=copy.deepcopy(d['model_confirmation'])
+                d['model_confirmation']=None
             history.append(old)
             grant={'approval_id':approval,'look':n,'rejected_attempt':attempt,'additional_requests':1,'note':note,'at':stamp(),'prompt_sha256':hashlib.sha256(prompt.encode()).hexdigest()}
             row.clear();row.update(number=n,state='pending',attempt_number=attempt+1,prompt=prompt,prompt_sha256=grant['prompt_sha256'],history=history)
@@ -289,6 +314,8 @@ def update(root,event,**kw):
             auth=d['authorization']
             if not auth or d['attempts']>=auth['limit']+len(d.get('retry_authorizations',[]))+d.get('continuation_authorization',{}).get('additional_requests',0):raise ValueError('No authorized request budget remains')
             if row is None or row['state']!='pending':raise ValueError('Submission already reserved or no pending look')
+            if d['schema_version']==2 and any(x['state'] in ('reserved','unknown') for x in d['looks']):
+                raise ValueError('Recover the existing unresolved request before reserving another native/web submission')
             if any(x['state']!='accepted' for x in d['looks'][:n-1]):raise ValueError('Earlier look is unresolved or not accepted')
             expected=[x['sha256'] for x in references(root,d,n)]
             if kw.get('refs')!=expected or kw.get('ready') is not True:raise ValueError('Check login, persistent chat, prompt and completed attachment order before reserving')
@@ -357,7 +384,7 @@ def export_model(root, destination, name):
 
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('command',choices=['init','status','export','authorize','mode','reserve','bind','unknown','failed','returned','accept','reject','retry-authorize','confirm-model','reject-model','continue-authorize','export-model']);p.add_argument('--task',type=Path,required=True);p.add_argument('--spec',type=Path);p.add_argument('--destination',type=Path);p.add_argument('--name');p.add_argument('--look',type=int);p.add_argument('--note');p.add_argument('--limit',type=int);p.add_argument('--mode',choices=['manual','automatic']);p.add_argument('--ready',action='store_true');p.add_argument('--refs',nargs='*');p.add_argument('--conversation');p.add_argument('--tab');p.add_argument('--file',type=Path);p.add_argument('--qa',choices=['qa-pass','qa-user-review']);p.add_argument('--expected-attempt',type=int);p.add_argument('--approval-id');p.add_argument('--prompt-file',type=Path);p.add_argument('--model-spec',type=Path);a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('command',choices=['init','status','export','authorize','mode','reserve','bind','unknown','failed','returned','accept','reject','audit-reject','retry-authorize','confirm-model','reject-model','continue-authorize','export-model']);p.add_argument('--task',type=Path,required=True);p.add_argument('--spec',type=Path);p.add_argument('--destination',type=Path);p.add_argument('--name');p.add_argument('--look',type=int);p.add_argument('--note');p.add_argument('--limit',type=int);p.add_argument('--mode',choices=['manual','automatic']);p.add_argument('--ready',action='store_true');p.add_argument('--refs',nargs='*');p.add_argument('--conversation');p.add_argument('--tab');p.add_argument('--file',type=Path);p.add_argument('--qa',choices=['qa-pass','qa-user-review']);p.add_argument('--expected-attempt',type=int);p.add_argument('--approval-id');p.add_argument('--prompt-file',type=Path);p.add_argument('--model-spec',type=Path);a=p.parse_args()
     try:
         if a.command=='init':
             spec=json.loads(a.spec.read_text());result=create(a.task,spec['references'],spec['prompts'],spec['size'],spec.get('identity',True),schema_version=spec.get('schema_version',2),model=spec.get('model'),context=spec.get('context'),route=spec.get('route','chatgpt_web'),model_package=spec.get('model_package'))

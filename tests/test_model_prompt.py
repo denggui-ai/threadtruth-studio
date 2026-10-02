@@ -18,6 +18,17 @@ class ModelPromptTests(unittest.TestCase):
         self.model=dict(source_type='new',scope='full',subject='adult male model',
                         locked=['apparent age around 40','natural fuller proportions'],adjustable=['friendly smile'],consent_note='')
 
+    def test_native_prompt_rejects_overfull_actual_attachment_list_before_writing(self):
+        with tempfile.TemporaryDirectory(dir=ROOT) as tmp:
+            refs=[]
+            for i,color in enumerate(['blue','green','yellow','purple','orange']):
+                path=Path(tmp)/f'{i}.png';Image.new('RGB',(20,30),color).save(path)
+                refs.append(dict(path=str(path),role='aesthetic-reference',sha256=m.digest(path.read_bytes())))
+            with patch.object(m,'run_dir',return_value=Path(tmp)/'run'):
+                with self.assertRaisesRegex(ValueError,'reference'):
+                    m.single_prompt(ROOT,'native-limit-test','ecommerce-studio',1,'beige-blazer-denim-outfit',model=self.model,model_references=refs)
+            self.assertFalse((Path(tmp)/'run').exists())
+
     def test_custom_casting_reaches_preview_and_single_without_demo_anchor(self):
         general, full=m._final_negatives(ROOT)
         _,negative=m._canonical_action_zero(ROOT)
