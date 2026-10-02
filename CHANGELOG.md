@@ -4,6 +4,8 @@ All notable changes are documented here. Versions follow Semantic Versioning.
 
 ## Unreleased — model selection and portable reuse, 2026-10-02
 
+- Retain scoped human selection of K3 from the controlled diagnostic and K3/M8 pair preferences. K3 acceptance binds its output without promoting originals or granting new calls/commercial use; the frozen independent result remains inconclusive and strict original-face fidelity remains open.
+
 - Execute the separately authorized four-request original/supplement A/B diagnostic: four unique 1024×1536 returns, 31 cumulative, no retries. Fresh anonymous original-feature review yields two ties under the frozen rule; supplement harm/no-effect and strict face-lock remain unproven. Separate continuity/product review retains fine accessory uncertainty and corrects an overstrong pendant-drift premise. Original references/runtime/history are unchanged; new-image human confirmation remains absent. [Scoped results and limitations](docs/verification/2026-10-02-face-supplement-image-results.md).
 
 - Investigate retained original-face transport records and prepare a four-request A/B supplement diagnostic with unchanged common prompt/model/source inputs, frozen anonymous paired review and explicit inconclusive outcomes. Four revision-2 task/handoff preflights pass; no image calls or authority consumed. Supplement causality and strict original-face fidelity remain unproven. [Investigation and prepared scope](docs/verification/2026-10-02-face-supplement-preflight.md).
