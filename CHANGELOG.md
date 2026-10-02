@@ -4,6 +4,8 @@ All notable changes are documented here. Versions follow Semantic Versioning.
 
 ## Unreleased — model selection and portable reuse, 2026-10-02
 
+- Execute the separately authorized current-runtime single-image packet: one native return, 27 cumulative, no retry. Actual ordered original/supplement/product references and frozen prompt were checked. Two independent visual reviews support major candidate continuity and visible product retention; fine original-face fidelity and small/obscured product details remain `qa-user-review`. Human model confirmation remains absent; no anchor export, install or release. [Scope and remaining checks](docs/verification/2026-10-02-model-runtime-single-image.md).
+
 - Retain three fresh explicit-path workflow dry runs and independent grading for model directions/factor delivery, portable AI prompt delivery and post-image status/QA: 12 scoped assertions pass. Preserve the prompt run's recorded first-reply violation as open, rather than counting overall gates as passed. Actual provider transport, implicit invocation and strict real-face fidelity remain unverified.
 - Fix a reproduced runtime-side bytecode write from local model/task CLI imports. Both entrypoints disable bytecode before loading local helpers, so help/read commands do not require caller environment setup to leave runtime bytes unchanged. The isolated regression failed for both commands before the fix. Source evals 112–115 cover the follow-up scope; 276 full tests and independent 73-test review pass, alongside static/runtime checks. [Fresh-flow verification and findings](docs/verification/2026-10-02-model-fresh-flow.md).
 
