@@ -4,6 +4,8 @@ All notable changes are documented here. Versions follow Semantic Versioning.
 
 ## Unreleased — model selection and portable reuse, 2026-10-02
 
+- Investigate retained original-face transport records and prepare a four-request A/B supplement diagnostic with unchanged common prompt/model/source inputs, frozen anonymous paired review and explicit inconclusive outcomes. Four revision-2 task/handoff preflights pass; no image calls or authority consumed. Supplement causality and strict original-face fidelity remain unproven. [Investigation and prepared scope](docs/verification/2026-10-02-face-supplement-preflight.md).
+
 - Record subsequent scoped human acceptance of the current runtime person candidate as basically usable; the original-face fidelity gap remains explicitly open. Confirmation binds the returned output without granting further generation, commercial readiness or replacement of original references.
 
 - Execute the separately authorized current-runtime single-image packet: one native return, 27 cumulative, no retry. Actual ordered original/supplement/product references and frozen prompt were checked. Two independent visual reviews support major candidate continuity and visible product retention; fine original-face fidelity and small/obscured product details remain `qa-user-review`. Human model confirmation remains absent; no anchor export, install or release. [Scope and remaining checks](docs/verification/2026-10-02-model-runtime-single-image.md).

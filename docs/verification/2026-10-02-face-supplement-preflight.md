@@ -1,0 +1,31 @@
+# Original-face fidelity: controlled supplement preflight
+
+Conclusion: preparation only; root cause remains unconfirmed. Mode: authorized local investigation and evaluation preparation. Runtime target: `skills/threadtruth-studio/`; evidence root: this checkout. Source checkpoint: `005b602`. No generation, runtime edit, installation, merge or publication in this round. Prior returned images remain 27.
+
+## What the retained evidence establishes
+
+The four historical stage receipts' recorded actual prompts match their prompt files. Their ordered attachment files match declared roles and SHA256 digests, and returned originals match their recorded hashes. The current runtime single-image packet separately retains its verified handoff prompt, actual ordered references and output. Original identity was present; no wrong/missing-original attachment or missing original-priority instruction was found in these retained records. Local digests do not reveal how the provider internally interpreted the images.
+
+AI/real half-body trials used the same prompt and garment references with different original person images. Later stages changed framing, product, reference count/order, pose and prompt together; they cannot isolate a cause. Current human acceptance is limited to a basically usable candidate while retaining an original-face fidelity gap. Candidate continuity is not evidence that the original person's fine features are preserved.
+
+The callable native schema exposes prompt/reference inputs, but no explicit identity weighting, seed, identity-lock or provider-model selection. These unavailable controls are not simulated with prompt wording. The hypothesis that a generated supplement reinforces its own fine differences is plausible but unverified; it is not a diagnosis or reason to delete the existing supplement mechanism.
+
+## Frozen next evaluation
+
+Four independent diagnostic tasks, two A and two B, are prepared privately. A uses current garment plus original portrait. B adds only the same accepted half-body face supplement and its required role declaration. Product/original bytes and order, common prompt, model conditions, context, canvas and light are identical. The exact emitted prompt delta is one supplemental-role line. Execute A1, B1, B2, A2; no output becomes a later input.
+
+Both arms use a common head-to-upper-thigh studio composition at 1024×1536 so face features can be reviewed. This common change from prior full-body work restricts the result to this diagnostic framing; an apparent improvement over the old full-body sample cannot establish supplement causality or production full-body reliability. These tasks have `purpose=model-check` and are not production look-1. Cropped-out product details are outside the diagnostic's QA scope; visible product facts remain authoritative.
+
+Opaque output IDs, shuffled presentation and opposite-left/right paired comparisons are precommitted in an executor-only mapping. Graders first receive only original portrait and anonymous outputs, with no run order, arms, supplement, old conclusions or task metadata. Five visible structural dimensions are compared, with explicit uncertainty. A pair yields a directional screening signal only with at least two structural dimensions favoring one output, none clearly favoring the other and fewer than two noncomparable dimensions. Both pairs must agree; mixed/tied/unreadable results or human/reviewer disagreement remain inconclusive. This is a conservative small-sample convention, not a biometric score or statistical efficacy threshold. Supplement continuity and product QA are reviewed separately after the original-feature pass.
+
+Each proposed request needs its own ledger reservation within a separately approved four-call total. Current tasks have authorization=null, attempts=0 and events=[]; aggregate authority remains absent. Proposed returns would bring cumulative returns from27 to at most31. Failed/unknown calls, invalid canvas, unreadable face or gross anatomy/identity failures pause the experiment without replacement. Rejected results do not propagate or become accepted anchors. An incomplete run cannot fill missing observations or support the complete two-pair aggregation.
+
+## Preflight scope
+
+Actual revision-2 task/handoff/reference files pass local role, prompt, copy and hash checks. Common model/context/body hashes and repeated-arm prompts match; original accepted-task, historical experiment and runtime bytes remain unchanged. An initial unprepared-continuation probe rejected without mutation; it exercised the unaccepted/unauthorized prerequisite, not the later diagnostic-purpose gate. That later gate is statically present and has prior regression evidence, not a new runtime test in this round.
+
+Initial independent review found two P2 Stabilization omissions: anonymous no-label display could leak the known execution order, and aggregation was underspecified when dimensions traded off. Revision2 adds the hidden map and frozen relative/pairwise/inconclusive rule. Superseded unexecuted preparations are retained, explicitly excluded from execution. New tasks also clarify the existing in-session portrait-use purpose without inferring new generation or publication rights; emitted image prompts did not change. Independent closure is recorded separately below.
+
+Independent narrow revision-2 rereview passed the preparation protocol and marked both findings fixed. It recomputed actual task/reference/prompt/model/context digests, empty authorization/attempt/event state, runtime hashes and pinned current/historical evidence. The reviewer has seen the mapping and cannot be the future first-pass blind grader; a fresh unexposed grader is required. Raw review remains private; SHA256: `75122e7aa7c67c23c40db3a658f180a1850dc8f73ac59ad1588bc162da8f9a80`.
+
+No root-cause fix, provider adherence, output improvement, universal original-face lock or production-ready claim follows from this preflight. No source eval/runtime behavior changed; existing 276-test checkpoint remains historical, and the full suite is not rerun for this documentation-only preparation. Private images, full prompts, raw receipts and complete reviews remain outside source/runtime.
