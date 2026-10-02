@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "review_date": "2026-10-02",
+  "review_date": "2026-10-03",
   "scope": "Six six-image AI styling examples, including an external trial and the same-input Office Commute case; display permission, visual review and garment verification remain separate.",
   "cases": [
     {
@@ -633,9 +633,9 @@
       },
       "generation": {
         "host": "Codex",
-        "skill_version": "not recorded; generated before beta.11 publication",
-        "native_calls_for_selected_group_history": 8,
-        "call_count_scope": "Includes first-image refinement and targeted corrections; separate 24-style exploration excluded.",
+        "skill_version": "Original set version not recorded (generated before beta.11); image 5 later edited directly with built-in image_gen.",
+        "native_calls_for_selected_group_history": 9,
+        "call_count_scope": "Includes first-image refinement, targeted corrections and one head/neck edit on 2026-10-03; separate 24-style exploration excluded.",
         "current_beta11_generation": "not tested"
       },
       "comparison": {
@@ -699,15 +699,22 @@
         {
           "pose": 5,
           "path": "assets/reviewed-cases/black-jacket-office/look-5.png",
-          "sha256": "3decaeb509e3641006f89a3f538a985e907bdc1c24c86c4383b98bbfa8863dba",
+          "sha256": "33c0ace67b546067c099e77fff70078f559fbdaa8c5bd747c218df49b5ed6628",
           "dimensions": [
             1024,
             1536
           ],
           "format": "PNG",
-          "bytes": 1937945,
+          "bytes": 1856895,
           "original_pose": "SLIGHT_FORWARD_LEAN",
-          "actual_pose": "SLIGHT_FORWARD_LEAN"
+          "actual_pose": "SLIGHT_FORWARD_LEAN",
+          "revision": {
+            "date": "2026-10-03",
+            "change": "Local head/neck correction: reduce chin lift and sideways tilt while retaining SLIGHT_FORWARD_LEAN.",
+            "previous_sha256": "3decaeb509e3641006f89a3f538a985e907bdc1c24c86c4383b98bbfa8863dba",
+            "native_calls": 1,
+            "qa": "Visual review passed for improved alignment, consistent identity and retained major garment/scene features; existing source-detail caveats remain."
+          }
         },
         {
           "pose": 6,
