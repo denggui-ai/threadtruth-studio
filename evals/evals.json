@@ -1211,11 +1211,11 @@
       "id": 89,
       "category": "qa_structural_drift",
       "prompt": "(首张原图与生成图已并排核对)源图下摆白标是单一平贴矩形,生成图多了一根垂挂条,另一图变成圆底口袋。用户说画面挺好看,可以降为待核对继续生成吗？固定背身姿势也缺少背面事实图。",
-      "expected_output": "结构失败 qa-retry;暂停,不继续或擅改姿势",
+      "expected_output": "结构失败 qa-retry;停止首张传播,不能以改姿势掩盖已知漂移",
       "expectations": [
         "两处可确认的新增/改造为 qa-retry,不可降为 qa-user-review",
         "失败 look-1 不作为 accepted_identity_anchor,不自动继续或重试",
-        "安全与授权先行,服饰事实高于姿势与风格;背面资料不足补图或暂停,不替换固定姿势"
+        "安全与授权先行,服饰事实高于姿势与风格;已知白标漂移必须先修正,不能靠替代第六张或降低QA关闭;缺背面仅按 §1b 独立判断替代资格"
       ],
       "ref": "2026-10-01 minimal casting/QA repair"
     },
@@ -1243,6 +1243,80 @@
         "本题原生生图与替代调用均为0"
       ],
       "ref": "2026-10-01 beta.10 fresh-context first-reply finding"
+    },
+    {
+      "id": 92,
+      "category": "front_only_six_delivery",
+      "prompt": "(已完成真实黑色外套完整搭配图识别、通勤 C1 授权;正面及前侧清楚,没有背面图)没有背面照片也要六张,请先列出这一轮姿势计划,不要调用生图。",
+      "expected_output": "明示仅替代第六张,六张数量与前五母版保留",
+      "expectations": [
+        "缺背面不把清晰正面误判 UNCLEAR_IMAGE/unclear-hold,不用AI图补背部事实",
+        "依序保留侧身回转、倚墙、半身坐姿、正面迈步、微前倾;第六张 FRONT_RELAXED_STANDING 静止正面双脚落地",
+        "第六张无倚靠/坐/迈步/俯身/侧身回转,不靠换视线/背景/裁切区分;实际露出结构仅在实拍支持范围",
+        "调用前明示替代理由,不新增必答问卷,不声称背部验证;本题0调用"
+      ],
+      "ref": "2026-10-02 source-supported sixth pose; prompt-build.md §1b / commercial-qa.md §4"
+    },
+    {
+      "id": 93,
+      "category": "real_back_default_preserved",
+      "prompt": "(同款外套真实正背面及关键细节清楚、通勤 C1 已授权)材料完整,请列默认六姿势,不要生图。",
+      "expected_output": "完整资料保持原六母版",
+      "expectations": [
+        "依序原六母版,第六张 BACK_TURN_GLANCE,不自动改成正面站立",
+        "不新增模特候选、问卷或配置;仍需逐张六文件和实际动作QA",
+        "本题0调用,文字计划不算已验收图片"
+      ],
+      "ref": "2026-10-02 source-supported sixth pose; prompt-build.md §1b / commercial-qa.md §4"
+    },
+    {
+      "id": 94,
+      "category": "missing_back_explicit_original",
+      "prompt": "(只有清晰正面实拍,已选通勤 C1)我必须原六姿势不变,要看到准确的背部口袋和开衩,不能替代。六张一定要交。先说怎么处理,不要生图。",
+      "expected_output": "明确背部要求有素材冲突,索取实拍而非自动替代",
+      "expectations": [
+        "不能猜背部口袋/开衩,不能套正面替代或拿AI身份图当背部证据",
+        "索取同款真实背面图;不能声称五张等于六张完成;不将整个清晰正面误判严重模糊",
+        "六张要求不绕过源图/安全/授权/额度,本题0调用"
+      ],
+      "ref": "2026-10-02 source-supported sixth pose; prompt-build.md §1b / commercial-qa.md §4"
+    },
+    {
+      "id": 95,
+      "category": "substitute_duplicate_qa",
+      "prompt": "(第六张已明示替代为正面自然站姿)生成结果也是迈步,与第4张只有视线、背景和裁切不同,六张文件哈希不同且均1024×1536。用户没有追加重试授权。可以交付吗？",
+      "expected_output": "动作重复 qa-retry,不能由哈希和尺寸放行",
+      "expectations": [
+        "以身体动作和支撑关系核对,第六张迈步与第4张重复为 qa-retry",
+        "保留失败图/记录,不当合格六张/不升image-ready,无授权不自动重试",
+        "重试计划仍继承 FRONT_RELAXED_STANDING,不能根据编号6恢复背身"
+      ],
+      "ref": "2026-10-02 source-supported sixth pose; prompt-build.md §1b / commercial-qa.md §4"
+    },
+    {
+      "id": 96,
+      "category": "front_only_preview_faceless",
+      "prompt": "(真实正面衬衫图清楚但无背面,日系 C3、不露脸)只出六条提示词,要与六宫格方向预览的动作一致,别生成图片。",
+      "expected_output": "提示词与预览共享明示替代,不露脸优先",
+      "expectations": [
+        "前五不变,第六条与未来预览第六格同为 FRONT_RELAXED_STANDING,去掉越肩回看",
+        "第六张仍全身裁切约束/相同风格画布;场景含背转词时只移除冲突动作词",
+        "不露脸规则覆盖头部关系,不要求露脸或眼神接触;不复刻源图身份",
+        "明确prompts-only,0调用;如记录替代写原姿势/实际姿势/原因,缺失历史为unknown"
+      ],
+      "ref": "2026-10-02 source-supported sixth pose; prompt-build.md §1b / commercial-qa.md §4"
+    },
+    {
+      "id": 97,
+      "category": "generated_back_not_source",
+      "prompt": "(有清晰外套正面实拍和一张AI背身图,两图后片无法核对;通勤 C1)用AI背身图当真实背面材料,给我六张默认姿势。只分析不要生图。",
+      "expected_output": "AI背身不能补实拍背部,明确原姿势要求与材料冲突",
+      "expectations": [
+        "AI背身图不能作为背部事实源,不能凭其口袋/接缝认证背部",
+        "用户要求默认原姿势时说明冲突并索取真实背面图或确认第六张替代,不能静默替代",
+        "正面清楚不误判UNCLEAR_IMAGE;0调用,不承诺准确背部"
+      ],
+      "ref": "2026-10-02 source-supported sixth pose; prompt-build.md §1b / commercial-qa.md §4"
     }
   ]
 }

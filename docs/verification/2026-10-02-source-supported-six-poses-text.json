@@ -1,0 +1,75 @@
+{
+  "scope": "Core Gap; text-only source change",
+  "skill": "threadtruth-studio",
+  "candidate_files": {
+    "skills/threadtruth-studio/SKILL.md": "d3d4e52ab417e99b006248e63574dc8e979553a2548ca0ef13f069aa6ccfc240",
+    "skills/threadtruth-studio/references/recognition.md": "dde4ea0622933bb75762baef54372a069dc36fc4d38a3f7c582f64e0b3fd20b9",
+    "skills/threadtruth-studio/references/flow-gates.md": "91c2fae197db6b693d2d74f8961311feb88b00a5415aab2f808f5a4325c5996c",
+    "skills/threadtruth-studio/references/prompt-build.md": "43f564212f21c3c9158905ffe59e52de0c719dc6b231c76d1e04724c7fcafd26",
+    "skills/threadtruth-studio/references/commercial-qa.md": "c05616965ce8a7a3fb9156aacabde17712fbd7ce26c1a580742630c6b7cd818e"
+  },
+  "eval_ids": [
+    92,
+    93,
+    94,
+    95,
+    96,
+    97
+  ],
+  "probe": {
+    "agent": "source_coverage_probe",
+    "context": "One fresh agent without conversation history; six supplied-fact scenarios in one response, not six isolated real-image sessions",
+    "input": "Scenario prompts equivalent to source evals 92–97; no expected answers supplied",
+    "loading": "Agent reports reading complete SKILL and four relevant references; per-tool trace unavailable",
+    "telemetry": "model, tokens and tool invocation trace unavailable",
+    "retention": "Selected response excerpts and human-readable grading retained; full tool trace not retained; no L3 or native-image claim"
+  },
+  "results": [
+    {
+      "id": 92,
+      "response_excerpt": "正面及前侧实拍清楚，仍属于 GARMENT_IMAGE，不因缺背面进入 unclear-hold。背面资料未提供，第六张改为正面自然站姿；前五姿势保留，共六张。只展示素材支持的范围，不验证背部结构。",
+      "grading": "pass",
+      "grading_reason": "All six planned actions listed; substitute stationary, both feet planted, distinct from slots 1–5. No call."
+    },
+    {
+      "id": 93,
+      "response_excerpt": "同款真实正背面及关键细节已覆盖，保留默认六姿势。本轮只列通勤 C1 计划，不生图。",
+      "grading": "pass",
+      "grading_reason": "All canonical poses listed; BACK_TURN_GLANCE preserved. Plan does not claim image QA."
+    },
+    {
+      "id": 94,
+      "response_excerpt": "你已拒绝替代，因此第六张背身回眸目前无法执行；不会偷偷改成正面站姿，也不会把五张或失败背身图报成六张完成。",
+      "grading": "pass",
+      "grading_reason": "Requests real same-garment rear and detail photos; clear front not confused with blurred input."
+    },
+    {
+      "id": 95,
+      "response_excerpt": "look-6 = qa-retry：实际画面为迈步，违背已明示的 FRONT_RELAXED_STANDING，并重复 look-4 的身体动作。只改变视线、背景、裁切和文件哈希不能证明是新姿势。",
+      "grading": "pass",
+      "grading_reason": "Preserves failed image, image-draft and original actual pose for retry; no unapproved call. Dimensions/hashes do not close action QA."
+    },
+    {
+      "id": 96,
+      "response_excerpt": "第六条改为正面自然站姿；前五姿势保留，共六条。方向预览第六格与第六条提示词应使用同一替代计划。",
+      "grading": "pass",
+      "grading_reason": "Six concrete text prompts provided; sixth stationary frontal with no stepping/support/lean/turn, no identifiable face or gaze requirement. No claim historical preview checked."
+    },
+    {
+      "id": 97,
+      "response_excerpt": "另一张已知是 AI 背身图，不能当作同款真实背面，也不能证明背部口袋、开衩、后片或扣位。要求保留原六姿势与缺少真实背面存在冲突，不能自动替代第六张。",
+      "grading": "pass",
+      "grading_reason": "Real front retains its fact-source role; asks real rear or user acceptance of substitute. No invented back truth."
+    }
+  ],
+  "review_followup": {
+    "fixed": "Clarify that explicitly requested detail shots retain the existing modes-scenes §4 override, while default styling only gets the defined slot-6 source exception. Documentation clarification after probe, not a rerun of native behavior.",
+    "limits": [
+      "No fixed numeric side-turn angle; source visibility judged against real garment structure. Unsupported required structure still needs source supplement.",
+      "Explicit refusal of substitute keeps the slot unresolved; do not invent a new lifecycle label or mark clear front unclear-hold.",
+      "Nonportrait rear composition still requires real rear material; this fix targets human/faceless six-pose styling."
+    ]
+  },
+  "native_generation_this_change": false,
+  "installed_or_published": false
+}

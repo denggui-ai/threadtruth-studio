@@ -1,11 +1,12 @@
 # Compatibility / 兼容性
 
-Updated 2026-10-01. The current public package is the [beta.10 prerelease](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.10). Verification below is scoped to the recorded environment and task; it is not a general compatibility guarantee.
+Updated 2026-10-02. The current public package is the [beta.11 prerelease](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.11). Verification below is scoped to the recorded environment and task; it is not a general compatibility guarantee.
 
-更新于2026-10-01。当前公开包为[beta.10预发布版](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.10)。下表仅说明已记录环境与任务的验证范围，不承诺所有环境兼容。
+更新于2026-10-02。当前公开包为[beta.11预发布版](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.11)。下表仅说明已记录环境与任务的验证范围，不承诺所有环境兼容。
 
 | Surface or task / 环境或任务 | Evidence / 证据 | Boundary / 边界 |
 |---|---|---|
+| beta.11 front-only plan / 缺背面方案 | Six supplied-fact text scenarios passed; default 24-style prompt/pose mappings remain unchanged / 六个既定识别事实的文字场景通过，默认24风格提示词与姿势不变 | Source-directed text check, not upgraded native generation, GUI discovery or fresh-host proof / 源码文字检查，不等于升级版原生生图、界面发现或新环境实测 |
 | beta.10 archive / 归档 | 219 local tests, clean-unpack runtime parity, offline guide and isolated source registration passed / 219项本地测试、干净解包一致性、离线指南及隔离注册通过 | Local fixtures, not a fresh-host installation or GUI discovery / 本地夹具不等于新宿主安装或界面发现 |
 | beta.10 scoped casting and first reply / 选角与首回复 | Two new contexts with explicitly supplied candidate catalog metadata preserved explicit/default casting and gate-only first replies after the narrow wording correction; original failures retained / 明示候选目录元数据的两个新上下文，指定与默认选角及首回复通过；保留初次失败 | Scoped metadata simulation, not installed-plugin automatic discovery or all-trigger proof / 仅限定目录模拟，不证明已安装插件自动发现或全部触发 |
 | beta.10 native first-image smoke / 原生首图 | Initial cuff invention/hand occlusion failed; one separately authorized edit closed both and exposed collar 1 + placket 6 buttons, same AI appearance/pose, actual 1024×1536 / 初图失败；经另行授权的一次修图关闭两处、7粒纽扣可见，人物姿势保持且尺寸合规 | Two total calls, no automatic retry. Visible QA passes; image-draft with concealed details/user review pending. Not a new complete six-image case / 总共2次调用，无自动重试；可见QA通过，仍为草稿及人工核对，不是新增完整六图案例 |

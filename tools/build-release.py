@@ -31,6 +31,7 @@ PUBLIC_FILES = (
     "docs/INSTALL.md",
     "docs/BETA9-TRYOUT.md",
     "docs/BETA10-TRYOUT.md",
+    "docs/BETA11-TRYOUT.md",
     "docs/INPUT-GUIDE.md",
     "docs/CAPABILITIES.md",
     "docs/COMPATIBILITY.md",
