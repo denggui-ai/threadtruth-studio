@@ -1,8 +1,8 @@
 # 裁光能力与用法 / Capabilities & usage
 
-从真实服饰照片开始，先识别、选方向，再决定是否生成。本文说明公开 **beta.8** 的工作流与条件；不是新增功能发布，也不是所有功能组合都已实测的承诺。
+从真实服饰照片开始，先识别、选方向，再决定是否生成。本文说明公开 **beta.11** 的工作流与条件，包含缺背面时的第六张替代规则；不承诺所有功能组合都已实测。
 
-Start with real garment photos, identify the source and choose a direction before generating. This guide describes the public **beta.8** workflow and its conditions. It adds no runtime features and does not claim every combination has been tested.
+Start with real garment photos, identify the source and choose a direction before generating. This guide describes the public **beta.11** workflow and its conditions. It includes the front-only slot-6 substitution rule; it does not claim every combination has been tested.
 
 [开始安装 / Install](INSTALL.md) · [产品首页 / Website](https://denggui-ai.github.io/threadtruth-studio/) · [24 风格样例 / Style examples](https://denggui-ai.github.io/threadtruth-studio/#style-highlights) · [兼容性 / Compatibility](COMPATIBILITY.md)
 
@@ -27,9 +27,13 @@ Both a single garment and a coordinated outfit can become AI model portraits in 
 
 These are default portrait poses, subject to source coverage, garment and mode constraints. Flat-lay, hanger and mannequin outputs use their own compositions. The accepted first portrait anchors later identity references; each image still needs review.
 
+beta.11 缺背面分支：正面/前侧清楚时，仅明示替代第六张为正面自然站姿，前五保留；六张必须动作可区分，不能只换背景或裁切。明确要求原六姿势或背部结构时仍须补实拍。非人像背面构图不套用此真人例外。
+
+beta.11: with sufficient front/front-side coverage but no rear source, disclose only slot 6 as stationary frontal standing. Keep slots 1–5 and six distinct actions. Explicit original-pose/rear-detail demands and nonportrait rear compositions still require rear material.
+
 [准备素材 / Photo guide](INPUT-GUIDE.md) · [单件 24 风格预览 / Garment previews](demo/style-previews/white-vest-24-v1/) · [套装 24 风格预览 / Outfit previews](demo/style-previews/beige-blazer-denim-outfit-24-v1/)
 
-两套历史预览均为每风格一张六宫格，不是独立成片。公开完整六图案例目前只有白马甲单件；完整套装六图公开证据待补。 / Both historical collections contain one six-panel sheet per style, not independent finals. The complete public six-image case is a single white vest; complete public outfit-set evidence remains to be added.
+两套历史预览均为每风格一张六宫格，不是独立成片。分发包内保留白马甲六图历史案例；线上另有[五组已复核案例](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html)，含外部试用套装，各组保留来源与验收范围。 / Both historical collections contain one six-panel sheet per style, not independent finals. The bundle retains the historical white-vest case; five reviewed groups, including an external outfit trial, are available online with their own source and review scope.
 
 ## 第一次用，先做这一步 / Start here
 
@@ -58,9 +62,9 @@ Expect a garment recognition card, a primary style recommendation with alternati
 | 能力 / Capability | 输入与结果 / Input → output | 当前实现与条件 / Implementation & conditions | 已有证据与边界 / Evidence & limits |
 |---|---|---|---|
 | **识别服饰 / Identify garments** | 单件、完整套装或同件多角度照片 → 颜色、结构、廓形及配饰的识别卡。 / Garment, outfit or multi-view photos → a card of visible colors, construction, silhouette and accessories. | 指令已定义；需要清晰真实照片。不同套装逐套处理，不自动混搭。 / Workflow defined; clear real photos required. Separate outfits are handled separately. | 有公开单件与套装样例；不是所有服饰类别的识别准确率评测。 / Public garment and outfit examples exist; no accuracy benchmark across all categories. |
-| **选择风格 / Choose a style** | 识别卡与偏好 → 主推、备选和 24 风格自由选择。 / Source card and preferences → recommendations and a choice of all 24 styles. | 指令已定义；风格推荐不授权生图。已明确选定风格时不重复要求选菜单。 / Workflow defined; a recommendation is not generation approval. | 公开配对图库有 24 风格、48 张结果；不是当前版本 24 套六图流程的验证。 / 24 styles and 48 paired results, not 24 verified six-image beta.8 workflows. |
+| **选择风格 / Choose a style** | 识别卡与偏好 → 主推、备选和 24 风格自由选择。 / Source card and preferences → recommendations and a choice of all 24 styles. | 指令已定义；风格推荐不授权生图。已明确选定风格时不重复要求选菜单。 / Workflow defined; a recommendation is not generation approval. | 公开配对图库有 24 风格、48 张结果；不是当前版本 24 套六图流程的验证。 / 24 styles and 48 paired results, not 24 verified six-image beta.11 workflows. |
 | **设置拍摄 / Set the shoot** | 风格、场景、输出形式、用途或比例 → 一组拍摄方案。 / Style, setting, presentation and ratio → a shoot plan. | 棚拍、场景、混合及五种输出形式均有指令；实际生图依赖宿主能力。 / Studio, location, hybrid and five presentation forms are defined; generation depends on the host. | 公开案例以服饰人像为主；不露脸、平铺、挂拍、人台没有本页可引用的逐形式完整公开验证。 / Public evidence focuses on portraits; this guide has no complete public validation per alternate form. |
-| **选择产物 / Choose an output** | 已确认方案 → 单张测试、方向预览、六张独立成片或六条提示词。 / Confirmed plan → one test, a direction preview, six independent images or six prompts. | 四种动作已定义；生图另需明确授权及账号额度。 / Four actions defined; images require explicit approval and account quota. | 有历史预览和一组公开六图案例；提示词输出不证明实际生成效果。 / Historical previews and one public six-image case; prompts alone do not prove image quality. |
+| **选择产物 / Choose an output** | 已确认方案 → 单张测试、方向预览、六张独立成片或六条提示词。 / Confirmed plan → one test, a direction preview, six independent images or six prompts. | 四种动作已定义；生图另需明确授权及账号额度。 / Four actions defined; images require explicit approval and account quota. | 有历史预览、包内白马甲六图和线上五组案例；提示词输出不证明实际生成效果。 / Historical previews, the bundled white-vest set and five online reviewed groups exist; prompts alone do not prove image quality. |
 | **选择入口 / Choose a route** | 同一方案 → Codex 原生生图，或 ChatGPT 网页转交包。 / The same plan → Codex generation or a ChatGPT web handoff. | 默认 Codex；网页为显式选择。网页自动执行需宿主浏览器工具；可转手动流程。 / Codex by default; web is opt-in. Automation needs host browser tools; a manual path is documented. | 维护者 macOS 已完成网页六张流程；非维护者新机器与真人手动易用性未验证。 / A six-image web run is recorded on the maintainer's Mac; fresh-host and human manual usability remain unverified. |
 | **检查与修正 / Review & retry** | 源图、生成原文件与反馈 → 逐张问题记录、尺寸核对和授权后的单张重试。 / Sources, original outputs and feedback → per-image review, dimension checks and an authorized retry. | 有 QA 指令；网页助手校验尺寸、重复文件、顺序与请求记录。失败不会自动获得重试权限。 / QA instructions and web-helper size, duplicate, sequencing and request checks. Failures do not grant retry permission. | 本地助手有回归测试；视觉判断仍需对照源图及人工确认，不能保证小字、Logo 或合体效果。 / Helper regression tests exist; visual quality still requires source comparison and human review. |
 
@@ -171,7 +175,7 @@ See the web tutorial for upload approval, manual steps, browser requirements and
 
 ## 如何理解“已验证” / Read the evidence correctly
 
-- **公开案例 / Public cases：** 24 风格配对样例、历史方向预览和单个六图完整案例各有范围。它们不等于 beta.8 全风格、全形式、全环境验证。 / Paired samples, historical previews and the six-image case have separate scopes; they do not validate every beta.8 combination.
+- **公开案例 / Public cases：** 24 风格配对样例、历史方向预览和已复核六图案例各有范围。它们不等于 beta.11 全风格、全形式、全环境验证。 / Paired samples, historical previews and reviewed six-image cases have separate scopes; they do not validate every beta.11 combination.
 - **工具测试 / Helper tests：** 可证明测试覆盖的顺序、次数、文件和尺寸检查行为；不能代替生成图片的视觉验收。 / Tests establish covered helper behavior, not the visual quality of generated images.
 - **环境实测 / Environment runs：** 当前公开记录以维护者 macOS 为主。其他系统、新用户安装和人工手动易用性仍需各自验证。 / Published records focus on the maintainer's Mac. Other systems, fresh-user installation and manual usability need their own evidence.
 
