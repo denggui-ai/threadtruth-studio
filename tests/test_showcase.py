@@ -286,6 +286,15 @@ class ShowcaseTests(unittest.TestCase):
                 cases[-1].update(publication_permission={"authorized": True}, input_image={
                     "path": check_showcase.EXTERNAL_INPUT, "format": "JPEG", "dimensions": [1275, 1710],
                     "bytes": path.stat().st_size, "sha256": hashlib.sha256(path.read_bytes()).hexdigest()})
+            if case_id == "black-jacket-office":
+                path = self.gallery / check_showcase.OFFICE_INPUT
+                path.write_bytes((self.gallery / check_showcase.EXTERNAL_INPUT).read_bytes())
+                cases[-1].update(publication_permission={"authorized": True}, input_image={
+                    "path": check_showcase.OFFICE_INPUT, "format": "JPEG", "dimensions": [1275, 1710],
+                    "bytes": path.stat().st_size, "sha256": hashlib.sha256(path.read_bytes()).hexdigest()},
+                    source_coverage={"real_rear": "missing"},
+                    pose_exception={"slot": 6, "rear_construction_verified": False})
+                cases[-1]["images"][-1].update(original_pose="BACK_TURN_GLANCE", actual_pose="FRONT_RELAXED_STANDING")
         manifest = {"schema_version": "1.0", "cases": cases}
         write_json(self.gallery / "reviewed-cases.json", manifest)
         (self.gallery / "reviewed-cases.html").write_text('<html><body id="cases">AI examples</body></html>')
@@ -317,7 +326,7 @@ class ShowcaseTests(unittest.TestCase):
     def test_external_trial_requires_publication_permission_and_verified_input(self):
         self.build()
         manifest = self.add_reviewed_cases()
-        case = manifest["cases"][-1]
+        case = next(c for c in manifest["cases"] if c["id"] == "external-black-leather")
         case["publication_permission"]["authorized"] = False
         write_json(self.gallery / "reviewed-cases.json", manifest)
         self.assertTrue(any("publication permission" in item for item in self.findings()))
@@ -325,6 +334,22 @@ class ShowcaseTests(unittest.TestCase):
         write_json(self.gallery / "reviewed-cases.json", manifest)
         (self.gallery / check_showcase.EXTERNAL_INPUT).write_bytes(b"tampered source")
         self.assertTrue(any("sha256 mismatch" in item for item in self.findings()))
+
+    def test_office_comparison_requires_same_input_permission_and_pose_disclosure(self):
+        self.build()
+        manifest = self.add_reviewed_cases()
+        case = next(c for c in manifest["cases"] if c["id"] == "black-jacket-office")
+        case["images"][-1]["actual_pose"] = "BACK_TURN_GLANCE"
+        write_json(self.gallery / "reviewed-cases.json", manifest)
+        self.assertTrue(any("replacement disclosure" in item for item in self.findings()))
+        case["images"][-1]["actual_pose"] = "FRONT_RELAXED_STANDING"
+        case["publication_permission"]["authorized"] = False
+        write_json(self.gallery / "reviewed-cases.json", manifest)
+        self.assertTrue(any("publication permission" in item for item in self.findings()))
+        case["publication_permission"]["authorized"] = True
+        case["input_image"]["sha256"] = "0" * 64
+        write_json(self.gallery / "reviewed-cases.json", manifest)
+        self.assertTrue(any("same real input" in item for item in self.findings()))
 
     def test_home_presentation_requires_fixed_paths_and_matching_bytes(self):
         self.build()

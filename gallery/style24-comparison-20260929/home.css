@@ -295,6 +295,11 @@ html.image-open { overflow:hidden; }
 .reviewed-images img { width:100%; height:auto; display:block; }
 .reviewed-images figcaption { display:flex; justify-content:space-between; gap:8px; font-size:13px; margin-top:12px; }
 .reviewed-images small { color:var(--subtle); }
+.outfit-comparison { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; margin-block:28px; }
+.outfit-comparison figure { margin:0; min-width:0; }
+.outfit-comparison img { display:block; width:100%; aspect-ratio:2/3; object-fit:contain; background:var(--surface); }
+.outfit-comparison figcaption { font-size:14px; line-height:1.7; margin-top:12px; }
+@media(max-width:600px) { .outfit-comparison { grid-template-columns:minmax(0,1fr); gap:28px; } }
 .case-sources { font-size:13px; color:var(--subtle); margin-block:24px!important; }
 .case-transform { margin-block:28px; }
 .case-transform h3 { font-size:clamp(22px,3vw,32px); margin-bottom:20px; }

@@ -19,8 +19,9 @@ except ImportError:
     import brand_assets as brand
 
 
-REVIEWED_CASE_IDS = ("red-floral-french", "green-shirt-home", "trim-tee-american", "trim-tee-japanese", "external-black-leather")
+REVIEWED_CASE_IDS = ("red-floral-french", "green-shirt-home", "trim-tee-american", "trim-tee-japanese", "external-black-leather", "black-jacket-office")
 EXTERNAL_INPUT = "assets/reviewed-cases/external-black-leather/input.jpg"
+OFFICE_INPUT = "assets/reviewed-cases/black-jacket-office/input.jpg"
 HOME_PRESENTATION_FILES = (
     "assets/reviewed-cases/green-shirt-home/shirt-reference.jpg",
     "assets/reviewed-cases/green-shirt-home/pants-reference.jpg",
@@ -40,7 +41,7 @@ def validate_reviewed_cases(gallery: Path) -> list[str]:
         manifest = json.loads((gallery / "reviewed-cases.json").read_text())
         cases = manifest["cases"]
         if manifest.get("schema_version") != "1.0" or [c["id"] for c in cases] != list(REVIEWED_CASE_IDS):
-            raise ValueError("expected five reviewed cases in publication order")
+            raise ValueError("expected six reviewed cases in publication order")
         hashes = []
         for case in cases:
             if case.get("ai_generated") is not True or case.get("status") != "image-draft":
@@ -73,8 +74,22 @@ def validate_reviewed_cases(gallery: Path) -> list[str]:
                         if not all(key in item for key in ("sha256", "bytes", "dimensions", "format")):
                             raise ValueError("home presentation: missing integrity record")
                         findings.extend(_record_findings(gallery / item["path"], item, item["path"]))
+            if case["id"] == "black-jacket-office":
+                source = case["input_image"]
+                external = next(c for c in cases if c["id"] == "external-black-leather")
+                if source.get("path") != OFFICE_INPUT or case.get("publication_permission", {}).get("authorized") is not True:
+                    raise ValueError("office case: source path or publication permission invalid")
+                findings.extend(_record_findings(gallery / OFFICE_INPUT, source, OFFICE_INPUT))
+                if source.get("sha256") != external["input_image"]["sha256"]:
+                    raise ValueError("office comparison: same real input required")
+                if (case.get("source_coverage", {}).get("real_rear") != "missing"
+                        or case.get("pose_exception", {}).get("slot") != 6
+                        or case["images"][-1].get("original_pose") != "BACK_TURN_GLANCE"
+                        or case["images"][-1].get("actual_pose") != "FRONT_RELAXED_STANDING"
+                        or case.get("pose_exception", {}).get("rear_construction_verified") is not False):
+                    raise ValueError("office case: missing rear-source replacement disclosure")
         if len(set(hashes)) != len(REVIEWED_CASE_IDS) * 6:
-            findings.append("reviewed cases: expected 30 distinct image hashes")
+            findings.append("reviewed cases: expected 36 distinct image hashes")
     except (OSError, ValueError, TypeError, KeyError) as error:
         findings.append(f"invalid or missing reviewed case manifest: {error}")
     return findings
@@ -303,6 +318,7 @@ def validate_showcase(gallery: Path, *, repo_root: Path | None = None, expected_
     if has_reviewed:
         allowed_files.update(REVIEWED_FILES)
         allowed_files.add(EXTERNAL_INPUT)
+        allowed_files.add(OFFICE_INPUT)
         allowed_files.update(HOME_PRESENTATION_FILES)
     # The already-published input remains a byte-identical alias for old links.
     legacy_input = gallery / "inputs/beige-outfit.jpg"
@@ -326,7 +342,7 @@ def main() -> int:
         for finding in findings:
             print(f"- {finding}")
         return 1
-    reviewed = "; 30 reviewed-case PNGs and one authorized external input" if (args.gallery / "reviewed-cases.json").exists() else ""
+    reviewed = "; 36 reviewed-case PNGs and authorized same-input records" if (args.gallery / "reviewed-cases.json").exists() else ""
     print(f"PASS: 24 styles, 48 original links, 48 WebP derivatives, 12 authorized demo images{reviewed}; local references, rights records, licensed brand assets and deployment scope verified")
     return 0
 
