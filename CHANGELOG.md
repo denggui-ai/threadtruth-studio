@@ -2,6 +2,14 @@
 
 All notable changes are documented here. Versions follow Semantic Versioning.
 
+## Unreleased — source-supported sixth pose, 2026-10-02
+
+- Trigger: a clear front-only outfit could produce only five supported default poses; the previous rule required supplement/hold and prohibited every substitution.
+- After: retain all six default poses with adequate real rear references. For human/faceless styling images with supported front/front-side coverage, disclose only slot 6 as `FRONT_RELAXED_STANDING`; preserve slots 1–5, six independent files, garment truth, identity, canvas and paid-call gates. Explicit original-pose/rear-detail requirements still need real rear material or user-approved substitution.
+- QA compares body action, support and visible direction, not gaze/background/crop or unique hashes. Duplicate walking/leaning/turning is `qa-retry`; substitution cannot hide known structural drift or certify unseen rear construction. Preview, prompt-only, generation and retry use the same declared actual pose.
+- Files: runtime entrypoint and existing recognition/flow/prompt/QA references; source eval 89 clarified and regressions 92–97 added. No pose library, new runtime script, style-pack edits, installed-version change, case regeneration or publication.
+- Verification: see [scoped source verification](docs/verification/2026-10-02-source-supported-six-poses.md). Text scenarios and static/default-preview checks do not prove native image generation or commercial readiness.
+
 ## 1.0.0-beta.10 — casting and first-image QA prerelease, 2026-10-01
 
 - Distribute the approved optional casting, aesthetic-reference translation, garment-first priorities and first-image QA changes that were previously available only in source. Keep fixed poses, style packs and the generation process.
