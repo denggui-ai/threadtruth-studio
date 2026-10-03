@@ -84,7 +84,7 @@ Install 裁光 · Caiguang in **Codex**. The ChatGPT route uses the web handoff 
 |---|---|
 | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#black-jacket-office"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/black-jacket-office/input.jpg" alt="Actual authorized outfit input" width="240"></a> | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#black-jacket-office"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/black-jacket-office/look-1.png" alt="AI-generated Office Commute jacket outfit" width="240"></a> |
 
-[See both directions, all six new images and review scope](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#black-jacket-office)
+[See both directions, all six new images and review scope](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#black-jacket-office) · [Download case sharing materials](https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/black-jacket-office/share/caiguang-black-jacket-share.zip)
 
 | | | | | |
 |---|---|---|---|---|

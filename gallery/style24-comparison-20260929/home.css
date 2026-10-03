@@ -329,3 +329,10 @@ html.image-open { overflow:hidden; }
 .cases-page nav { display:flex; align-items:center; gap:16px!important; }
 @media(max-width:900px) { .reviewed-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .reviewed-card:last-child { grid-column:1 / -1; width:calc(50% - 10px); justify-self:center; } .reviewed-images { grid-template-columns:repeat(2,minmax(0,1fr)); } }
 @media(max-width:480px) { .reviewed-grid,.reviewed-images { grid-template-columns:minmax(0,1fr); } .reviewed-card:last-child { grid-column:auto; width:auto; justify-self:stretch; } .reviewed-home { padding-block:32px; } }
+
+/* Sharing actions follow the complete case without adding another image feature. */
+.case-sharing { margin-top:32px; padding:24px; background:var(--soft); scroll-margin-top:24px; }
+.case-sharing h3 { font-size:clamp(20px,2.5vw,28px); line-height:1.4; }
+.case-sharing-actions { align-items:center; }
+.case-sharing .case-share-links:last-child { margin-bottom:0; }
+@media(max-width:480px) { .case-sharing { padding:20px 16px; } .case-sharing-actions { flex-direction:column; align-items:stretch; } .case-sharing-actions .button { text-align:center; justify-content:center; } }

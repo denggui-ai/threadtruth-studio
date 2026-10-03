@@ -729,6 +729,43 @@
           "original_pose": "BACK_TURN_GLANCE",
           "actual_pose": "FRONT_RELAXED_STANDING"
         }
+      ],
+      "sharing": [
+        {
+          "path": "assets/reviewed-cases/black-jacket-office/share/before-after.jpg",
+          "bytes": 324378,
+          "sha256": "50b4d3da1bde39d50dc96b4baf0c576c3a2c65ba1f8fd4132226fa7013383292",
+          "dimensions": [
+            1080,
+            1440
+          ],
+          "format": "JPEG"
+        },
+        {
+          "path": "assets/reviewed-cases/black-jacket-office/share/six-poses.jpg",
+          "bytes": 330285,
+          "sha256": "951ba5377e0a1886ce3516410a73b90168bd34648f67200f5a931ede872d5f8c",
+          "dimensions": [
+            1080,
+            1440
+          ],
+          "format": "JPEG"
+        },
+        {
+          "path": "assets/reviewed-cases/black-jacket-office/share/share-copy.md",
+          "bytes": 2191,
+          "sha256": "80cfb27b7d7c2108652c5da32883bb4edf45ebc072602f0ae84859495e22ab18"
+        },
+        {
+          "path": "assets/reviewed-cases/black-jacket-office/share/README.md",
+          "bytes": 2163,
+          "sha256": "345b678755a27ab8fd9df3db27f08bda5b08159ff3eeb66d58a33b40fca57fa1"
+        },
+        {
+          "path": "assets/reviewed-cases/black-jacket-office/share/caiguang-black-jacket-share.zip",
+          "bytes": 639383,
+          "sha256": "4bc8db2440c8221dea3dc9605169b2361cd29275327158f6dc3a5f63420865b8"
+        }
       ]
     }
   ]

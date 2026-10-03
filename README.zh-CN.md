@@ -84,7 +84,7 @@
 |---|---|
 | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#black-jacket-office"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/black-jacket-office/input.jpg" alt="实际授权搭配输入" width="240"></a> | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#black-jacket-office"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/black-jacket-office/look-1.png" alt="AI 生成的皮衣通勤搭配" width="240"></a> |
 
-[查看两种方向、新六张与验收范围](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#black-jacket-office)
+[查看两种方向、新六张与验收范围](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#black-jacket-office) · [下载案例分享素材](https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/black-jacket-office/share/caiguang-black-jacket-share.zip)
 
 | | | | | |
 |---|---|---|---|---|

@@ -7,6 +7,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from zipfile import ZipFile
 from pathlib import Path
 
 from PIL import Image
@@ -369,6 +370,43 @@ class ShowcaseTests(unittest.TestCase):
         records[0]["path"] = "assets/reviewed-cases/green-shirt-home/extra.jpg"
         write_json(self.gallery / "reviewed-cases.json", manifest)
         self.assertTrue(any("fixed two references" in item for item in self.findings()))
+
+    def test_public_sharing_archive_rejects_internal_ledger_and_stale_members(self):
+        self.build()
+        manifest = self.add_reviewed_cases()
+        case = next(c for c in manifest["cases"] if c["id"] == "black-jacket-office")
+        for relative in check_showcase.OFFICE_SHARE_FILES[:-1]:
+            path = self.gallery / relative
+            path.parent.mkdir(parents=True, exist_ok=True)
+            if path.suffix == ".jpg":
+                Image.new("RGB", (1080, 1440), (67, 89, 111)).save(path)
+            else:
+                path.write_text("Public sharing notes\n")
+        archive_path = self.gallery / check_showcase.OFFICE_SHARE_FILES[-1]
+
+        def rebuild(extra=False, stale=False):
+            with ZipFile(archive_path, "w") as archive:
+                for relative in check_showcase.OFFICE_SHARE_FILES[:-1]:
+                    path = self.gallery / relative
+                    archive.writestr(path.name, b"old poster" if stale and path.suffix == ".jpg" else path.read_bytes())
+                if extra:
+                    archive.writestr("trial-ledger.csv", "internal feedback")
+            case["sharing"] = []
+            for relative in check_showcase.OFFICE_SHARE_FILES:
+                path = self.gallery / relative
+                record = {"path": relative, "bytes": path.stat().st_size,
+                          "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
+                if path.suffix == ".jpg":
+                    record.update(format="JPEG", dimensions=[1080, 1440])
+                case["sharing"].append(record)
+            write_json(self.gallery / "reviewed-cases.json", manifest)
+
+        rebuild()
+        self.assertEqual(self.findings(), [])
+        rebuild(extra=True)
+        self.assertTrue(any("unexpected archive members" in item for item in self.findings()))
+        rebuild(stale=True)
+        self.assertTrue(any("archive member differs" in item for item in self.findings()))
 
 
 if __name__ == "__main__":
