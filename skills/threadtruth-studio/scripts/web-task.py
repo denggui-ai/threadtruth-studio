@@ -128,7 +128,28 @@ def locked(root):
 def read(root):
     root=Path(root);data=json.loads((root/'task.json').read_text())
     if data.get('schema_version') not in (1,2):raise ValueError('Unsupported task schema')
+    if 'failure_recovery_version' in data and (data['schema_version']!=2 or type(data['failure_recovery_version']) is not int or data['failure_recovery_version']!=1):
+        raise ValueError('Unsupported failure recovery version')
     return data
+
+
+def failure_recovery(data):
+    return data['schema_version']==2 and data.get('failure_recovery_version')==1
+
+
+def retain_failure(root,row,source,kind,reason):
+    """Keep the exact local receipt/result, including invalid image bytes."""
+    source=Path(source)
+    if not source.is_file() or (kind=='provider' and not source.stat().st_size):
+        raise ValueError('A nonempty local terminal failure receipt is required')
+    out=root/'failures'/f"look-{row['number']}-attempt-{row.get('attempt_number',1)}-{kind}{source.suffix or '.bin'}"
+    out.parent.mkdir(exist_ok=True)
+    if out.exists():
+        if digest(out)!=digest(source):raise ValueError('Existing failure evidence differs; reconcile the original file without overwriting it')
+    else:
+        with source.open('rb') as src,out.open('xb') as dst:
+            shutil.copyfileobj(src,dst);dst.flush();os.fsync(dst.fileno())
+    return dict(kind=kind,reason=reason,evidence=dict(file=str(out.relative_to(root)),sha256=digest(out)),at=stamp())
 
 
 def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,context=None,route='chatgpt_web',model_package=None):
@@ -170,6 +191,7 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
     sources=[Path(x['path']).resolve() for x in items]
     if any(not p.is_file() or p.suffix.lower() not in ('.png','.jpg','.jpeg','.webp') for p in sources):
         raise ValueError('References must be existing image files')
+    for source in sources:models.validate_image(source)
     if schema_version==2:
         identities=[digest(p) for p,item in zip(sources,items) if item['role'] in ('identity-reference','model-supplement')]
         if len(identities)!=len(set(identities)):
@@ -180,6 +202,7 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
         (root/'references').mkdir();frozen=[]
         for i,(p,item) in enumerate(zip(sources,items),1):
             out=root/'references'/f'{i:02d}{p.suffix.lower()}';shutil.copyfile(p,out)
+            models.validate_image(out)
             frozen.append({'file':str(out.relative_to(root)),'sha256':digest(out),'role':item['role']})
             if item['role']=='model-supplement':
                 if frozen[-1]['sha256']!=item['sha256']:raise ValueError('Accepted supplement changed during snapshot')
@@ -190,7 +213,7 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
               'looks':[{'number':i,'prompt':p,'prompt_sha256':hashlib.sha256(p.encode()).hexdigest(),'state':'pending'} for i,p in enumerate(prompts,1)]}
         if schema_version==2:
             data.update(context=context,context_sha256=object_hash(context),model=model,model_sha256=object_hash(model),model_confirmation=None,
-                        references_sha256=object_hash(frozen))
+                        references_sha256=object_hash(frozen),failure_recovery_version=1)
         save(root,data);return data
     except Exception:
         shutil.rmtree(root)
@@ -218,6 +241,7 @@ def references(root,data,look):
             rows=unique
     for row in rows:
         if digest(safe_file(Path(root),row['file']))!=row['sha256']:raise ValueError('Frozen reference/anchor changed')
+        models.validate_image(safe_file(Path(root),row['file']))
     native_reference_check(rows,data['route'])
     return rows
 
@@ -272,8 +296,21 @@ def check_evidence(root,data):
         if 'model' in row and object_hash(row['model'])!=row['model_sha256']:raise ValueError('Historical model conditions changed')
         if 'output' in row and digest(safe_file(root,row['output']['file']))!=row['output']['sha256']:
             raise ValueError('Previously imported output changed')
+        if 'failure' in row:
+            failure=row['failure'];evidence=failure['evidence']
+            if not failure_recovery(data) or failure['kind'] not in ('provider','invalid-result') or not failure['reason'].strip():
+                raise ValueError('Invalid retained failure record')
+            if digest(safe_file(root,evidence['file']))!=evidence['sha256']:
+                raise ValueError('Retained failure evidence changed')
+        if 'failure_reconciliation' in row:
+            checked=row['failure_reconciliation']
+            if (not checked['note'].strip() or checked.get('request_check_completed') is not True
+                    or checked['attempt_number']!=row.get('attempt_number',1)
+                    or checked['failure_sha256']!=object_hash(row.get('failure'))):
+                raise ValueError('Failure reconciliation no longer binds this failed attempt')
     for ref in data['references']:
         if digest(safe_file(root,ref['file']))!=ref['sha256']:raise ValueError('Frozen reference changed')
+        models.validate_image(safe_file(root,ref['file']))
 
 
 def safe_file(root,relative):
@@ -286,7 +323,7 @@ def safe_file(root,relative):
 def update(root,event,**kw):
     root=Path(root)
     with locked(root):
-        d=read(root);n=kw.get('look');row=None
+        d=read(root);n=kw.get('look');row=None;stop_error=None
         check_evidence(root,d)
         if n is not None:
             if type(n)!=int or not 1<=n<=len(d['looks']):raise ValueError('Unknown look number')
@@ -296,6 +333,21 @@ def update(root,event,**kw):
             limit=kw.get('limit');note=kw.get('note','').strip()
             if type(limit)!=int or not 1<=limit<=len(d['looks']) or not note:raise ValueError('Explicit ChatGPT upload and generation approval with limit required')
             d['authorization']={'destination':('ChatGPT' if d['schema_version']==1 else d['route']),'limit':limit,'note':note,'at':stamp()}
+        elif event=='enable-failure-recovery':
+            note=kw.get('note','').strip()
+            if d['schema_version']!=2 or 'failure_recovery_version' in d or not note or n is not None:
+                raise ValueError('Explicit task-level adoption note required for a legacy schema-2 task only')
+            d.update(failure_recovery_version=1,failure_recovery_adoption=dict(note=note,at=stamp()))
+        elif event=='reconcile-failure':
+            note=kw.get('note','').strip()
+            if not failure_recovery(d) or row is None or row['state']!='failed' or 'failure' not in row:
+                raise ValueError('Reconcile only a retained, explicit failure under recovery v1; recover unknown requests first')
+            if (type(kw.get('expected_attempt')) is not int or kw['expected_attempt']!=row.get('attempt_number',1)
+                    or kw.get('request_check_completed') is not True or not note):
+                raise ValueError('Match the failed attempt and record the completed original-request check')
+            if row.get('failure_reconciliation'):raise ValueError('Failure already reconciled; additional calls still need explicit retry approval')
+            row['failure_reconciliation']=dict(attempt_number=row.get('attempt_number',1),failure_sha256=object_hash(row['failure']),
+                                                request_check_completed=True,note=note,at=stamp())
         elif event=='confirm-model':
             note=kw.get('note','').strip()
             if d['schema_version']!=2 or not d['identity'] or n!=1 or row['state']!='accepted' or not note:
@@ -338,12 +390,14 @@ def update(root,event,**kw):
             row.setdefault('qa_history',[]).append(dict(qa=row['qa'],qa_note=row['qa_note'],state=row['state'],at=stamp()))
             row.update(state='rejected',qa='qa-retry',qa_note=note)
         elif event=='retry-authorize':
-            # One explicit grant replaces one rejected attempt, never resets the task.
+            # One explicit grant replaces one rejected/reconciled failed attempt, never resets the task.
             note=kw.get('note','').strip();approval=kw.get('approval_id','').strip();prompt=kw.get('prompt','')
             grants=d.get('retry_authorizations',[])
-            if row is None or row['state']!='rejected' or not d['authorization']:raise ValueError('Only a visually rejected downloaded attempt can be retried')
+            failed_ready=(row is not None and row['state']=='failed' and failure_recovery(d) and row.get('failure_reconciliation'))
+            if row is None or (row['state']!='rejected' and not failed_ready) or not d['authorization']:
+                raise ValueError('Retry only a visually rejected result or a reconciled failure with retained evidence; recover unknown requests first')
             attempt=row.get('attempt_number',1)
-            if type(kw.get('expected_attempt'))!=int or kw['expected_attempt']!=attempt:raise ValueError('Approval must target the current rejected attempt')
+            if type(kw.get('expected_attempt'))!=int or kw['expected_attempt']!=attempt:raise ValueError('Approval must target the current rejected/failed attempt')
             if not note or not approval or not isinstance(prompt,str) or not prompt.strip():raise ValueError('Explicit retry approval, unique approval ID and corrected prompt required')
             if any(g['approval_id']==approval for g in grants) or d.get('continuation_authorization',{}).get('approval_id')==approval:raise ValueError('Retry approval already used')
             if (d['schema_version']==1 or n==1) and any(x['state']!='pending' for x in d['looks'][n:]):raise ValueError('Cannot replace an anchor with existing downstream work')
@@ -360,6 +414,9 @@ def update(root,event,**kw):
                 d['model_confirmation']=None
             history.append(old)
             grant={'approval_id':approval,'look':n,'rejected_attempt':attempt,'additional_requests':1,'note':note,'at':stamp(),'prompt_sha256':hashlib.sha256(prompt.encode()).hexdigest()}
+            if failed_ready:
+                grant.pop('rejected_attempt')
+                grant.update(source_state='failed',failed_attempt=attempt)
             row.clear();row.update(number=n,state='pending',attempt_number=attempt+1,prompt=prompt,prompt_sha256=grant['prompt_sha256'],history=history)
             d.setdefault('retry_authorizations',[]).append(grant)
         elif event=='mode':
@@ -371,6 +428,8 @@ def update(root,event,**kw):
             if row is None or row['state']!='pending':raise ValueError('Submission already reserved or no pending look')
             if d['schema_version']==2 and any(x['state'] in ('reserved','unknown') for x in d['looks']):
                 raise ValueError('Recover the existing unresolved request before reserving another native/web submission')
+            if failure_recovery(d) and any(x['state']=='failed' for x in d['looks']):
+                raise ValueError('Reconcile retained failures and obtain explicit retry authority before another submission')
             if any(x['state']!='accepted' for x in d['looks'][:n-1]):raise ValueError('Earlier look is unresolved or not accepted')
             expected=[x['sha256'] for x in references(root,d,n)]
             if kw.get('refs')!=expected or kw.get('ready') is not True:raise ValueError('Check login, persistent chat, prompt and completed attachment order before reserving')
@@ -382,17 +441,30 @@ def update(root,event,**kw):
             u=urlparse(kw.get('conversation',''))
             if row is None or row['state'] not in ('reserved','unknown') or u.scheme!='https' or u.hostname!='chatgpt.com' or not u.path.startswith('/c/') or not u.path[3:]:raise ValueError('Bind only an observed persistent URL to the existing reserved request')
             row['conversation']=kw['conversation']
+        elif event=='failed' and failure_recovery(d):
+            if row is None or (row['state'] not in ('reserved','unknown') and not (row['state']=='failed' and 'failure' not in row)):
+                raise ValueError('No submitted request needing a terminal failure receipt')
+            reason=kw.get('reason','').strip();receipt=kw.get('failure_receipt')
+            if not reason or receipt is None:raise ValueError('Explicit terminal failure reason and a local failure receipt required')
+            row.update(state='failed',failure=retain_failure(root,row,receipt,'provider',reason))
         elif event in ('unknown','failed'):
             if row is None or row['state'] not in ('reserved','unknown'):raise ValueError('No pending submitted request')
             row['state']=event
         elif event=='returned':
             if row is None or row['state'] not in ('reserved','unknown'):raise ValueError('No reserved result to recover')
-            source=Path(kw['file']);dimensions=png_size(source);sha=digest(source)
-            if dimensions!=d['size']:raise ValueError('Wrong canvas: stop without another generation call')
-            if sha in [x.get('output',{}).get('sha256') for x in evidence_rows(d)]:raise ValueError('Duplicate output image')
-            suffix=f"-attempt-{row['attempt_number']}" if row.get('attempt_number',1)>1 else '';out=root/'outputs'/f'look-{n}{suffix}.png';out.parent.mkdir(exist_ok=True)
-            with out.open('xb') as f:f.write(source.read_bytes())
-            row.update(state='returned',output={'file':str(out.relative_to(root)),'sha256':sha,'dimensions':dimensions})
+            source=Path(kw['file'])
+            try:
+                dimensions=png_size(source);sha=digest(source)
+                if dimensions!=d['size']:raise ValueError('Wrong canvas: stop without another generation call')
+                if sha in [x.get('output',{}).get('sha256') for x in evidence_rows(d)]:raise ValueError('Duplicate output image')
+            except ValueError as error:
+                if not failure_recovery(d):raise
+                row.update(state='failed',failure=retain_failure(root,row,source,'invalid-result',str(error)))
+                stop_error=ValueError(str(error)+'; exact original retained as failed; reconcile before any explicit retry')
+            if stop_error is None:
+                suffix=f"-attempt-{row['attempt_number']}" if row.get('attempt_number',1)>1 else '';out=root/'outputs'/f'look-{n}{suffix}.png';out.parent.mkdir(exist_ok=True)
+                with out.open('xb') as f:f.write(source.read_bytes())
+                row.update(state='returned',output={'file':str(out.relative_to(root)),'sha256':sha,'dimensions':dimensions})
         elif event=='accept':
             if row is None or row['state']!='returned':raise ValueError('No downloaded result for visual QA')
             if kw.get('qa') not in ('qa-pass','qa-user-review') or not kw.get('note','').strip():raise ValueError('Record actual visual QA and anchor suitability')
@@ -402,7 +474,9 @@ def update(root,event,**kw):
         d['complete']=all(x['state']=='accepted' for x in d['looks']) and (d['schema_version']==1 or not d['identity'] or bool(d['model_confirmation']))
         # Completeness never confers image-ready or user commercial acceptance.
         d['events'].append({'at':stamp(),'event':event,'look':n,'attempts':d['attempts']})
-        save(root,d);return d
+        save(root,d)
+        if stop_error is not None:raise stop_error
+        return d
 
 
 def export(root):
@@ -448,7 +522,7 @@ def export_model(root, destination, name, *, include_accepted=False, accepted_sc
 
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('command',choices=['init','status','export','authorize','mode','reserve','bind','unknown','failed','returned','accept','reject','audit-reject','retry-authorize','confirm-model','reject-model','continue-authorize','export-model']);p.add_argument('--task',type=Path,required=True);p.add_argument('--spec',type=Path);p.add_argument('--destination',type=Path);p.add_argument('--name');p.add_argument('--look',type=int);p.add_argument('--note');p.add_argument('--limit',type=int);p.add_argument('--mode',choices=['manual','automatic']);p.add_argument('--ready',action='store_true');p.add_argument('--refs',nargs='*');p.add_argument('--conversation');p.add_argument('--tab');p.add_argument('--file',type=Path);p.add_argument('--qa',choices=['qa-pass','qa-user-review']);p.add_argument('--expected-attempt',type=int);p.add_argument('--approval-id');p.add_argument('--prompt-file',type=Path);p.add_argument('--model-spec',type=Path);p.add_argument('--include-accepted-reference',action='store_true');p.add_argument('--accepted-scope',choices=['face','full']);a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('command',choices=['init','status','export','authorize','mode','reserve','bind','unknown','failed','returned','accept','reject','audit-reject','retry-authorize','confirm-model','reject-model','continue-authorize','export-model','enable-failure-recovery','reconcile-failure']);p.add_argument('--task',type=Path,required=True);p.add_argument('--spec',type=Path);p.add_argument('--destination',type=Path);p.add_argument('--name');p.add_argument('--look',type=int);p.add_argument('--note');p.add_argument('--limit',type=int);p.add_argument('--mode',choices=['manual','automatic']);p.add_argument('--ready',action='store_true');p.add_argument('--refs',nargs='*');p.add_argument('--conversation');p.add_argument('--tab');p.add_argument('--file',type=Path);p.add_argument('--failure-receipt',type=Path);p.add_argument('--reason');p.add_argument('--request-check-completed',action='store_true');p.add_argument('--qa',choices=['qa-pass','qa-user-review']);p.add_argument('--expected-attempt',type=int);p.add_argument('--approval-id');p.add_argument('--prompt-file',type=Path);p.add_argument('--model-spec',type=Path);p.add_argument('--include-accepted-reference',action='store_true');p.add_argument('--accepted-scope',choices=['face','full']);a=p.parse_args()
     try:
         if a.command!='export-model' and (a.include_accepted_reference or a.accepted_scope is not None):
             raise ValueError('Accepted-reference options are only for export-model')

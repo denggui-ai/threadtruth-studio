@@ -8,6 +8,8 @@
 
 现在提供可选的固定姿势编辑分支：明确选一张已接受母图，再上传本次替换部件的商品图。代理调用前核对衣物轮廓和头脸保护范围，生成后局部合成并检查残留、袖口、腰侧和包带；首张暂停确认新上身效果，后续沿用已有授权。仅有人物照片时仍先选人和确认母图；换头部角度或创造新姿势属于另有授权的生成。
 
+长期人物卡中的“可调整”是未来任务允许变化的条件；本轮保留母图头脸像素时，保护区内的妆发、表情和头部角度同时固定。代理会用一张简短条件卡列清人物依据、当前固定项、替换/沿用服饰与验收方式。帽子、换妆、高领或围巾若需要改变保护区，须在调用前指出冲突；不得省略要求或缩小保护区。另一路径的建议仅是规划，能力和授权核清前不执行。
+
 第三版参考包另存 pose-mothers/，记录实际姿势、accepted/qualified 接受程度及原照保真/候选连续性/商品三个 QA 项。原始人物图继续保留，姿势图不会自动带入普通新品任务，也不会把旧服饰写进人物条件。按实际姿态选图：
 
 ```sh
@@ -15,7 +17,7 @@ python3 scripts/model-reference.py select-pose --package <private-package> --pos
 node scripts/wardrobe-edit.cjs --help
 ```
 
-本地工具需要 host 已有 Node.js 和 sharp；缺依赖时明确暂停此分支，不自动安装或静默退回整幅改图。它只准备、合成和核验，不调用生图或推断额度；衣物边界仍由代理逐张检查。参考包校验可用标准 Python，不依赖 sharp。操作与 spec 字段见[固定姿势换装](../skills/threadtruth-studio/references/fixed-pose-wardrobe.md)。
+本地工具需要 host 已有 Node.js 和 sharp；缺依赖时明确暂停此分支，不自动安装或静默退回整幅改图。它只准备、调用前核对、合成和核验，不调用生图或推断额度；衣物边界仍由代理逐张检查。参考包校验使用 Python 与 host 已有 Pillow 解码器，不依赖 sharp；缺少 Pillow 时明确阻断，不自动安装。调用前核对会比对冻结提示词及有序附件，并记录本次拟提交的完整入参；该记录和像素通过都不能证明工具实际调用、原真人保真或授权真实性。旧换装契约保留本地核验能力，但不能静默升级为已绑定的调用记录。操作与 spec 字段见[固定姿势换装](../skills/threadtruth-studio/references/fixed-pose-wardrobe.md)。
 
 ## 先前单张试验范围
 
@@ -71,7 +73,7 @@ python3 scripts/web-task.py export-model --task <private-task> --destination <ne
 python3 scripts/model-reference.py validate --package <private-package>
 ```
 
-新任务 spec 使用 `model_package` 指向该包，`references` 仍必须包含新品 `garment-source`。包只提供人物条件和身份图，不提供生成授权或新商品首张确认。文件缺失、哈希变化或路径越界会停止复用。第二版参考包把原始图和已接受补充图分别保存；第一版仍可读。补充图保存用户接受摘要和 face/full 用途，不能携带旧商品条件，也不能证明原人物严格保真。
+新任务 spec 使用 `model_package` 指向该包，`references` 仍必须包含新品 `garment-source`。包只提供人物条件和身份图，不提供生成授权或新商品首张确认。文件缺失、哈希变化、路径越界、实际编码不符或图片无法完整解码会停止复用。第二版参考包把原始图和已接受补充图分别保存；第一版仍可读。补充图保存用户接受摘要和 face/full 用途，不能携带旧商品条件，也不能证明原人物严格保真。
 
 第二版任务 spec 示例（由代理准备，不要求用户填写）：
 

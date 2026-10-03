@@ -502,5 +502,202 @@ class ModelTaskTests(unittest.TestCase):
         prompt=(self.job/'handoff/look-1/prompt.txt').read_text()
         self.assertIn('aesthetic only; do not copy identity',prompt)
 
+    def reserve_trial(self):
+        self.create(count=1, route='codex_native')
+        m.update(self.job, 'authorize', limit=1, note='Synthetic one-call authority')
+        return m.update(self.job, 'reserve', look=1, ready=True, refs=m.reference_hashes(self.job,1))
+
+    def fail_trial(self):
+        receipt=self.root/'terminal-receipt.txt'
+        receipt.write_text('Synthetic provider receipt: request ended with a terminal error.')
+        return m.update(self.job,'failed',look=1,reason='Synthetic service failure',failure_receipt=receipt)
+
+    def reconcile_trial(self, attempt=1):
+        return m.update(self.job,'reconcile-failure',look=1,expected_attempt=attempt,
+                        request_check_completed=True,note='Synthetic check: original request ended, no other pending request or usable result')
+
+    def retry_trial(self, attempt=1, approval='retry-one'):
+        return m.update(self.job,'retry-authorize',look=1,expected_attempt=attempt,
+                        approval_id=approval,note='Synthetic explicit one-call retry authority',prompt='Retry pose one')
+
+    def test_known_failure_requires_reason_and_retained_receipt(self):
+        self.reserve_trial()
+        for fields in ({},{'reason':'Observed failure'},{'failure_receipt':self.garment}):
+            before=(self.job/'task.json').read_bytes()
+            with self.subTest(fields=fields),self.assertRaises(ValueError):
+                m.update(self.job,'failed',look=1,**fields)
+            self.assertEqual((self.job/'task.json').read_bytes(),before)
+        d=self.fail_trial();row=d['looks'][0]
+        self.assertEqual((row['state'],d['attempts'],d['authorization']['limit']),('failed',1,1))
+        receipt=row['failure']['evidence']
+        self.assertEqual((self.job/receipt['file']).read_bytes(),(self.root/'terminal-receipt.txt').read_bytes())
+        self.assertEqual(receipt['sha256'],m.digest(self.job/receipt['file']))
+        self.assertEqual(row['failure']['reason'],'Synthetic service failure')
+
+    def test_failed_retry_requires_completed_request_check_and_matching_attempt(self):
+        self.reserve_trial();self.fail_trial()
+        with self.assertRaises(ValueError):self.retry_trial()
+        for args in (dict(expected_attempt=1,note='checked'),
+                     dict(expected_attempt=2,note='checked',request_check_completed=True),
+                     dict(expected_attempt=1,note='',request_check_completed=True)):
+            with self.subTest(args=args),self.assertRaises(ValueError):
+                m.update(self.job,'reconcile-failure',look=1,**args)
+        before=self.reconcile_trial();d=self.retry_trial()
+        self.assertEqual(d['attempts'],1)
+        self.assertEqual(d['authorization']['limit'],1)
+        self.assertEqual(d['retry_authorizations'][0]['additional_requests'],1)
+        self.assertEqual(d['retry_authorizations'][0]['source_state'],'failed')
+        self.assertEqual(d['looks'][0]['history'][0]['failure'],before['looks'][0]['failure'])
+        self.assertEqual(d['looks'][0]['history'][0]['failure_reconciliation'],before['looks'][0]['failure_reconciliation'])
+        self.assertEqual((d['looks'][0]['state'],d['looks'][0]['attempt_number']),('pending',2))
+        with self.assertRaises(ValueError):self.retry_trial()
+
+    def test_invalid_return_is_retained_as_failed_and_stops_without_budget_change(self):
+        for name,kind in [('wrong-canvas','canvas'),('fake-image','text'),('truncated','truncated')]:
+            with self.subTest(kind=kind):
+                self.job=self.root/name;self.reserve_trial()
+                original=self.root/(name+'.png')
+                if kind=='canvas':Image.new('RGB',(10,10),'gray').save(original)
+                elif kind=='text':original.write_text('not a real image')
+                else:original.write_bytes(self.garment.read_bytes()[:24])
+                with self.assertRaises(ValueError):m.update(self.job,'returned',look=1,file=original)
+                d=m.read(self.job);row=d['looks'][0]
+                self.assertEqual(row['state'],'failed')
+                self.assertEqual(d['attempts'],1)
+                self.assertNotIn('output',row)
+                self.assertEqual((self.job/row['failure']['evidence']['file']).read_bytes(),original.read_bytes())
+                self.assertTrue(row['failure']['reason'])
+                with self.assertRaises(ValueError):self.retry_trial()
+                with self.assertRaises(ValueError):m.update(self.job,'reserve',look=1,ready=True,refs=m.reference_hashes(self.job,1))
+                self.reconcile_trial();self.retry_trial()
+                self.assertEqual(m.read(self.job)['attempts'],1)
+
+    def test_unknown_cannot_reconcile_or_retry_before_actual_request_recovery(self):
+        self.reserve_trial();m.update(self.job,'unknown',look=1)
+        before=(self.job/'task.json').read_bytes()
+        for action in (self.reconcile_trial,self.retry_trial):
+            with self.assertRaises(ValueError):action()
+        self.assertEqual((self.job/'task.json').read_bytes(),before)
+        self.fail_trial();self.reconcile_trial();self.retry_trial()
+        self.assertEqual(m.read(self.job)['attempts'],1)
+
+    def test_failure_evidence_and_reconciliation_remain_checked_in_history(self):
+        self.reserve_trial();self.fail_trial();before=self.reconcile_trial();self.retry_trial()
+        receipt=self.job/before['looks'][0]['failure']['evidence']['file']
+        receipt.write_text('changed receipt')
+        frozen=(self.job/'task.json').read_bytes()
+        with self.assertRaises(ValueError):m.export(self.job)
+        with self.assertRaises(ValueError):m.update(self.job,'reserve',look=1,ready=True,refs=m.reference_hashes(self.job,1))
+        self.assertEqual((self.job/'task.json').read_bytes(),frozen)
+
+    def test_failure_reconciliation_cannot_bind_another_failure(self):
+        self.reserve_trial();self.fail_trial();d=self.reconcile_trial()
+        d['looks'][0]['failure']['reason']='A different alleged terminal error'
+        m.save(self.job,d)
+        with self.assertRaises(ValueError):self.retry_trial()
+
+    def test_legacy_schema2_does_not_silently_enable_failure_recovery(self):
+        d=self.reserve_trial();d.pop('failure_recovery_version');m.save(self.job,d)
+        m.update(self.job,'failed',look=1)
+        self.assertNotIn('failure_recovery_version',m.read(self.job))
+        with self.assertRaises(ValueError):self.retry_trial()
+        with self.assertRaises(ValueError):m.update(self.job,'enable-failure-recovery',note='')
+        d=m.update(self.job,'enable-failure-recovery',note='Explicitly adopt recovery v1 for this legacy task')
+        self.assertEqual(d['failure_recovery_version'],1)
+        self.assertEqual(d['attempts'],1)
+        self.assertEqual(d['looks'][0]['state'],'failed')
+        self.assertTrue(d['failure_recovery_adoption']['note'])
+        with self.assertRaises(ValueError):self.reconcile_trial()
+        self.fail_trial();self.reconcile_trial();self.retry_trial()
+        with self.assertRaises(ValueError):m.update(self.job,'enable-failure-recovery',note='repeat')
+
+    def test_legacy_schema2_invalid_canvas_remains_reserved_until_explicit_adoption(self):
+        d=self.reserve_trial();d.pop('failure_recovery_version');m.save(self.job,d)
+        bad=self.root/'bad.png';Image.new('RGB',(10,10),'gray').save(bad)
+        with self.assertRaises(ValueError):m.update(self.job,'returned',look=1,file=bad)
+        self.assertEqual(m.read(self.job)['looks'][0]['state'],'reserved')
+        self.assertFalse((self.job/'failures').exists())
+        m.update(self.job,'enable-failure-recovery',note='Explicitly preserve failure evidence under recovery v1')
+        with self.assertRaises(ValueError):m.update(self.job,'returned',look=1,file=bad)
+        self.assertEqual(m.read(self.job)['looks'][0]['state'],'failed')
+
+    def test_legacy_schema1_recovery_interface_is_unchanged(self):
+        m.create(self.job,[self.garment],['pose'],(20,30),schema_version=1)
+        m.update(self.job,'authorize',limit=1,note='Synthetic initial grant')
+        m.update(self.job,'reserve',look=1,ready=True,refs=m.reference_hashes(self.job,1),conversation='https://chatgpt.com/c/synthetic')
+        d=m.update(self.job,'failed',look=1)
+        self.assertNotIn('failure_recovery_version',d)
+        for action in (lambda:m.update(self.job,'enable-failure-recovery',note='adopt'),self.reconcile_trial,self.retry_trial):
+            with self.assertRaises(ValueError):action()
+
+    def test_task_references_decode_before_freeze_export_and_reserve(self):
+        self.garment.write_bytes(b'fake png')
+        with self.assertRaises(ValueError):self.create(count=1)
+        self.assertFalse(self.job.exists())
+        self.garment=self.image('garment','red');d=self.create(count=1,route='codex_native')
+        m.update(self.job,'authorize',limit=1,note='Synthetic grant')
+        with patch.object(m.models,'validate_image',side_effect=ValueError('tool-blocked: decoder unavailable')):
+            with self.assertRaisesRegex(ValueError,'tool-blocked'):m.export(self.job)
+            with self.assertRaisesRegex(ValueError,'tool-blocked'):
+                m.update(self.job,'reserve',look=1,ready=True,refs=[r['sha256'] for r in d['references']])
+        self.assertEqual(m.read(self.job)['attempts'],0)
+
+    def test_each_failed_retry_needs_a_new_check_and_fresh_approval(self):
+        self.reserve_trial();self.fail_trial();self.reconcile_trial();self.retry_trial()
+        m.update(self.job,'reserve',look=1,ready=True,refs=m.reference_hashes(self.job,1))
+        self.fail_trial()
+        for action in (lambda:self.retry_trial(2,'retry-two'),self.reconcile_trial):
+            with self.assertRaises(ValueError):action()
+        self.reconcile_trial(2)
+        with self.assertRaises(ValueError):self.retry_trial(2,'retry-one')
+        d=self.retry_trial(2,'retry-two')
+        self.assertEqual(d['attempts'],2)
+        self.assertEqual(len(d['looks'][0]['history']),2)
+        self.assertEqual(len(d['retry_authorizations']),2)
+        self.assertEqual(len(list((self.job/'failures').iterdir())),2)
+
+    def test_cli_failure_recovery_preserves_count_then_confirms_and_continues(self):
+        script=ROOT/'skills/threadtruth-studio/scripts/web-task.py'
+        def cli(command,*args,success=True):
+            run=subprocess.run([sys.executable,str(script),command,'--task',str(self.job),*map(str,args)],capture_output=True,text=True)
+            self.assertEqual(run.returncode,0 if success else 1,run.stderr)
+            return json.loads(run.stdout) if success else run.stderr
+        self.reserve_trial()
+        receipt=self.root/'receipt.txt';receipt.write_text('SYNTHETIC terminal provider failure')
+        cli('failed','--look',1,'--reason','SYNTHETIC terminal service error','--failure-receipt',receipt)
+        cli('reconcile-failure','--look',1,'--expected-attempt',1,'--request-check-completed','--note','SYNTHETIC completed original-request check')
+        prompt=self.root/'retry.txt';prompt.write_text('SYNTHETIC corrected pose one')
+        before=m.read(self.job)
+        cli('retry-authorize','--look',1,'--expected-attempt',1,'--approval-id','virtual-retry','--note','SYNTHETIC one extra call','--prompt-file',prompt)
+        cli('export')
+        self.assertEqual(cli('status')['attempts'],1)
+        cli('reserve','--look',1,'--ready','--refs',*m.reference_hashes(self.job,1))
+        cli('returned','--look',1,'--file',self.image('synthetic-return','green'))
+        cli('accept','--look',1,'--qa','qa-pass','--note','SYNTHETIC QA only')
+        cli('confirm-model','--look',1,'--note','SYNTHETIC confirmation only')
+        continuation=self.root/'continue.json'
+        continuation.write_text(json.dumps(dict(context=self.context,prompts=['SYNTHETIC pose '+str(i) for i in range(2,7)])))
+        cli('continue-authorize','--spec',continuation,'--approval-id','virtual-five','--note','SYNTHETIC five additional calls')
+        for n,color in enumerate(['yellow','purple','orange','black','white'],2):
+            cli('reserve','--look',n,'--ready','--refs',*m.reference_hashes(self.job,n))
+            cli('returned','--look',n,'--file',self.image('synthetic-'+str(n),color))
+            cli('accept','--look',n,'--qa','qa-pass','--note','SYNTHETIC QA only')
+        final=cli('status')
+        self.assertEqual(final['attempts'],7)
+        self.assertEqual(final['authorization'],before['authorization'])
+        self.assertEqual(final['looks'][0]['history'][0]['failure'],before['looks'][0]['failure'])
+        self.assertTrue(final['complete'])
+        self.assertEqual(final['delivery_status'],'image-draft')
+
+    def test_cli_invalid_return_exits_nonzero_after_retaining_failure(self):
+        self.reserve_trial()
+        bad=self.root/'bad.png';Image.new('RGB',(10,10),'gray').save(bad)
+        script=ROOT/'skills/threadtruth-studio/scripts/web-task.py'
+        result=subprocess.run([sys.executable,str(script),'returned','--task',str(self.job),'--look','1','--file',str(bad)],capture_output=True,text=True)
+        self.assertEqual(result.returncode,1)
+        self.assertIn('retained as failed',result.stderr)
+        data=m.read(self.job)
+        self.assertEqual((data['looks'][0]['state'],data['attempts']),('failed',1))
+
 
 if __name__ == '__main__':unittest.main()

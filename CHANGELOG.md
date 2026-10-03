@@ -2,6 +2,17 @@
 
 All notable changes are documented here. Versions follow Semantic Versioning.
 
+## Unreleased — reverse-audit recovery and reference fixes, 2026-10-03
+
+- Trigger/target: four reproducible local counterexamples on the model-reference development branch: terminal failures and wrong canvases could not recover, person filtering deleted photographic mood, byte hashes accepted fake images, and changed tool parameters escaped wardrobe verification.
+- F1: retain terminal failure receipts or rejected raw returns, reasons and cumulative request history. Add an explicit completed-request reconciliation before a newly authorized single retry. Unknown requests still require recovery first. New schema-2 tasks declare the recovery protocol; old schema-2 tasks opt in explicitly, while the schema-1 recovery interface remains unchanged. No task reset or automatic request/budget increase.
+- F2: replace broad semicolon/person-word deletion with local explicit-condition filtering; preserve real style-pack photography, lighting, backgrounds and texture. No frozen style pack or six-pose definition changed.
+- F3: require real supported encoding and full decoding of original/supplement/pose-mother and current-product references at export/read/pre-call boundaries. Existing host Pillow/sharp only; unavailable decoders block without installation. Hashes remain byte-integrity checks, not content/consent authentication.
+- F4: new wardrobe contracts bind the prompt digest and ordered attachment roles/paths/hashes to frozen copies. Local preflight compares and records the actual proposed tool parameters. Legacy contracts stay explicitly unverified for call binding; pixel verification is separate from provider execution, original identity fidelity and authorization authenticity.
+- Clarify long-term adjustable factors versus the current protected pixels: hair, makeup, expression and head angle inside the guard remain fixed; hats, makeup changes and neckline/scarf conflicts must be resolved before a call without dropping requirements or shrinking protection.
+- Files/coverage: model/task helpers, native prompt preflight, fixed-pose and recovery references, user model guide, source regression tests and evals 121–126. Avoided a new model library, automatic masks or workflow engine; live installs and historical media/evidence remain unchanged.
+- Verification: 162 distinct relevant regressions covered across the integrated run and final task rerun; complete synthetic recovery/confirmation/continuation rehearsal passed (7 virtual reservations, 6 accepted synthetic outputs, 0 real calls). Independent review closed F1–F4 with no open findings; two fresh matched forward tasks passed 8/8 outcome assertions per configuration. Creator/governor source/runtime checks passed. Preserve the 16 historical font-dependency blocks and image-fidelity/product-review limitations. [Scope and evidence](docs/verification/2026-10-03-reverse-audit-repairs.md). No provider image, external API, install, publication or production-readiness claim.
+
 ## Unreleased — guided fixed-pose wardrobe reuse, 2026-10-03
 
 - Trigger: localized wardrobe tests preserved each existing pose mother while full-frame generation still changed face pixels. The six-output upper-garment case received qualified usability acceptance; precise original-real-person fidelity and exact shoulder construction remain unresolved.

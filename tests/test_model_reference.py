@@ -8,6 +8,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -173,7 +174,7 @@ class ModelReferenceTests(unittest.TestCase):
         self.assertIn('no vintage background', negatives)
         self.assertIn('no sexualized body', negatives)
         self.assertNotIn('no sweet smile', negatives)
-        mood=self.m.resolve_mood(self.model(), 'quiet photographic mood; no sexualized body; sweet smile')
+        mood=self.m.resolve_mood(self.model(adjustable=['neutral expression']), 'quiet photographic mood; no sexualized body; sweet smile')
         self.assertIn('no sexualized body',mood)
         self.assertNotIn('sweet smile',mood)
 
@@ -182,6 +183,106 @@ class ModelReferenceTests(unittest.TestCase):
         for model, refs in [(self.model(garment='old shirt'), [self.face]), (self.model(), [])]:
             with self.subTest(model=model), self.assertRaises(ValueError):
                 self.m.export_package(self.root / 'bad', model, refs, 'A', 'Accepted')
+
+    def test_export_rejects_fake_empty_mislabeled_and_truncated_images(self):
+        jpeg = self.root/'real.jpg'
+        Image.new('RGB', (30, 40), 'red').save(jpeg)
+        cases = {'fake.png': b'not an image', 'empty.png': b'',
+                 'mislabeled.png': jpeg.read_bytes(), 'truncated.jpg': jpeg.read_bytes()[:-20]}
+        for name, content in cases.items():
+            image = self.root/name; image.write_bytes(content)
+            with self.subTest(name=name), self.assertRaisesRegex(ValueError, 'image|Image'):
+                self.m.export_package(self.root/'bad', self.model(), [image], 'A', 'Accepted')
+            self.assertFalse((self.root/'bad').exists())
+
+    def test_read_rejects_undecodable_reference_even_with_matching_hash(self):
+        for role in ('references', 'supplements', 'pose_mothers'):
+            with self.subTest(role=role):
+                package = self.root/role
+                kwargs = {'supplements': [self.supplement()]} if role == 'supplements' else {}
+                if role == 'pose_mothers': kwargs = {'pose_mothers': [self.mother()]}
+                card = self.m.export_package(package, self.model(), [self.face], 'A', 'Accepted', **kwargs)
+                row = card[role][0]; image = package/row['file']
+                image.write_bytes(b'broken but hash-matched')
+                row['sha256'] = self.m.digest(image)
+                (package/'model.json').write_text(json.dumps(card))
+                with self.assertRaisesRegex(ValueError, 'image|Image'): self.m.load_package(package)
+
+    def test_supplement_and_pose_mother_require_decodable_image_before_export(self):
+        broken = self.root/'broken.png'; broken.write_bytes(b'not an image')
+        for key, row in [('supplements', self.supplement()), ('pose_mothers', self.mother())]:
+            row.update(path=str(broken), sha256=self.m.digest(broken))
+            with self.subTest(role=key), self.assertRaisesRegex(ValueError, 'image|Image'):
+                self.m.export_package(self.root/'bad', self.model(), [self.face], 'A', 'Accepted', **{key:[row]})
+            self.assertFalse((self.root/'bad').exists())
+
+    def test_decoder_unavailable_blocks_without_partial_package(self):
+        with patch.dict(sys.modules, {'PIL': None}), self.assertRaisesRegex(ValueError, 'tool-blocked.*decoder'):
+            self.m.export_package(self.root/'bad', self.model(), [self.face], 'A', 'Accepted')
+        self.assertFalse((self.root/'bad').exists())
+
+    def test_missing_codec_and_permissive_decoder_block(self):
+        with patch('PIL.features.check', return_value=False), self.assertRaisesRegex(ValueError, 'tool-blocked.*PNG'):
+            self.m.validate_image(self.face)
+        with patch('PIL.ImageFile.LOAD_TRUNCATED_IMAGES', True), self.assertRaisesRegex(ValueError, 'tool-blocked.*truncated'):
+            self.m.validate_image(self.face)
+
+    def test_export_validates_copies_after_external_reference_changes(self):
+        original_validate = self.m.validate_image
+        def mutate_after_source_check(path):
+            result = original_validate(path)
+            if Path(path).resolve() == self.face.resolve():
+                self.face.write_bytes(b'changed between preflight and snapshot')
+            return result
+        with patch.object(self.m, 'validate_image', side_effect=mutate_after_source_check):
+            with self.assertRaisesRegex(ValueError, 'image|Image'):
+                self.m.export_package(self.root/'bad', self.model(), [self.face], 'A', 'Accepted')
+        self.assertFalse((self.root/'bad').exists())
+
+    def test_valid_supported_encodings_decode_and_export(self):
+        for suffix, format_name in [('png', 'PNG'), ('jpg', 'JPEG'), ('webp', 'WEBP')]:
+            with self.subTest(format=format_name):
+                source = self.root/('source.' + suffix)
+                Image.new('RGB', (30, 40), 'green').save(source)
+                self.assertEqual(self.m.validate_image(source), {'format': format_name, 'size': [30, 40], 'frames': 1})
+                package = self.root/('package-' + suffix)
+                self.m.export_package(package, self.model(), [source], 'A', 'Accepted')
+                self.assertEqual(self.m.load_package(package)['references'][0]['sha256'], self.m.digest(source))
+
+    def test_all_frozen_pack_atmospheres_survive_explicit_casting(self):
+        paths = sorted((ROOT/'skills/threadtruth-studio/references/styles').glob('*.pack.yaml'))
+        self.assertEqual(len(paths), 24)
+        model = self.model(subject='adult male model', adjustable=['friendly smile', 'gentle makeup', 'tidy tied hair'])
+        for path in paths:
+            mood = ' '.join(path.read_text().split('visual_language: >\n', 1)[1].split('\nmodel_persona:', 1)[0].split())
+            actual = self.m.resolve_mood(model, mood)
+            with self.subTest(pack=path.name):
+                if path.stem != 'korean-cold-editorial.pack':
+                    self.assertEqual(actual, mood)
+                else:
+                    for phrase in ['restrained editorial mood', 'soft even lighting', 'cold gray',
+                                   'medium format film photography texture', 'realistic native skin texture',
+                                   'subtle pores', 'no excessive retouching', 'referenced accessory']:
+                        self.assertIn(phrase, actual)
+                    for phrase in ['detached expression', 'melancholy', 'commercial smile', 'influencer style',
+                                   'translucent makeup', 'eye makeup', 'dusty rose lips', 'flyaway hair']:
+                        self.assertNotIn(phrase, actual)
+
+    def test_mood_filters_only_explicit_conflicting_person_conditions(self):
+        model = self.model(source_type='new', locked=[], adjustable=['friendly smile'])
+        mood = 'warm light and calm detached expression, film texture, dewy makeup, natural flyaway hair'
+        actual = self.m.resolve_mood(model, mood)
+        for phrase in ['warm light', 'film texture', 'dewy makeup', 'natural flyaway hair']:
+            self.assertIn(phrase, actual)
+        self.assertNotIn('detached expression', actual)
+        self.assertEqual(self.m.resolve_mood(model, 'friendly smile, warm light'), 'friendly smile, warm light')
+        self.assertEqual(self.m.resolve_mood(self.model(source_type='new', locked=[], adjustable=[]), mood), mood)
+        self.assertEqual(self.m.resolve_mood(self.model(locked=[], adjustable=['friendly smile']), mood), actual)
+
+    def test_unseparable_mixed_conflict_requires_review_without_discarding_photography(self):
+        model = self.model(adjustable=['friendly smile'])
+        with self.assertRaisesRegex(ValueError, 'Review mixed person/photography'):
+            self.m.resolve_mood(model, 'smiling face light photography')
 
     def mother(self, pose='seated', **changes):
         row = self.supplement()

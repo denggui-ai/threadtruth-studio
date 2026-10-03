@@ -474,14 +474,17 @@ def single_prompt(root, run_id, style, pose, source_case, ratio="1:1", model=Non
     elif action != 2:raise ValueError("Only model preview or single test prompt is supported")
     attachments=[]
     if model is not None:
+        helper = _model_tools()
         for asset in plan['source']['assets']:
             path=child(root,asset['path'])
             if not path.is_file() or digest(path.read_bytes())!=asset['sha256']:raise ValueError('Missing or changed garment reference')
+            helper.validate_image(path)
             attachments.append(dict(path=str(path.resolve()),role='garment-source',sha256=asset['sha256']))
         identity_hashes=set()
         for ref in model_references or []:
             path=Path(ref['path']).resolve()
             if not path.is_file() or path.suffix.lower() not in {'.png','.jpg','.jpeg','.webp'} or digest(path.read_bytes())!=ref['sha256']:raise ValueError('Missing or changed model reference')
+            helper.validate_image(path)
             # Keep prompt image numbering and attachment order identical. Duplicate inputs must be normalized by the caller.
             if ref['role'] in ('identity-reference','model-supplement') and ref['sha256'] in identity_hashes:raise ValueError('Deduplicate identical identity references before prompt assembly')
             if ref['role'] in ('identity-reference','model-supplement'):identity_hashes.add(ref['sha256'])

@@ -41,12 +41,14 @@ class ModelPromptTests(unittest.TestCase):
             self.assertNotIn(self.plan['identity_anchor']['path'],text)
             self.assertNotIn('Attitude: calm, detached',text)
 
-    def test_custom_model_removes_person_conditions_from_mood_but_retains_lighting(self):
+    def test_custom_model_filters_declared_expression_and_retains_other_mood_details(self):
         general,full=m._final_negatives(ROOT);_,negative=m._canonical_action_zero(ROOT)
         for text in [m._prompt(self.preview,self.plan['source'],self.plan['identity_anchor'],negative,m._head_gaze_guidance(ROOT),model=self.model),
                      m._single_prompt(self.preview,self.plan['source'],self.plan['identity_anchor'],self.preview['poses'][0],general,full,'2:3',False,m._head_gaze_guidance(ROOT),model=self.model)]:
-            for old in ['detached expression','no fake commercial smile','dewy translucent makeup','natural flyaway hair']:
+            for old in ['detached expression','no fake commercial smile']:
                 self.assertNotIn(old,text)
+            for retained in ['dewy translucent makeup','natural flyaway hair','medium format film photography texture','realistic native skin texture']:
+                self.assertIn(retained,text)
             self.assertIn('friendly smile',text)
             self.assertIn(self.preview['visual']['lighting'],text)
             self.assertIn('no excessive retouching',text)
@@ -80,6 +82,24 @@ class ModelPromptTests(unittest.TestCase):
 
     def test_model_references_without_model_are_not_silently_ignored(self):
         with self.assertRaises(ValueError):m._apply_model(['prompt'],1,None,[dict(path='face.png',role='identity-reference')])
+
+    def test_native_prompt_blocks_hash_matched_fake_attachments_before_writing(self):
+        for broken_role in ('garment-source', 'identity-reference', 'aesthetic-reference'):
+            with self.subTest(role=broken_role), tempfile.TemporaryDirectory() as temp:
+                root = Path(temp)
+                garment = root/'garment.png'; reference = root/'person.png'
+                Image.new('RGB', (20, 30), 'red').save(garment)
+                Image.new('RGB', (20, 30), 'blue').save(reference)
+                (garment if broken_role == 'garment-source' else reference).write_bytes(b'not an image')
+                plan = copy.deepcopy(self.plan)
+                plan['source']['assets'] = [dict(path='garment.png', sha256=m.digest(garment.read_bytes()), role='outfit-source')]
+                role = 'aesthetic-reference' if broken_role == 'aesthetic-reference' else 'identity-reference'
+                model = dict(self.model, source_type='new' if role == 'aesthetic-reference' else 'ai')
+                refs = [dict(path=str(reference), sha256=m.digest(reference.read_bytes()), role=role)]
+                with patch.object(m, '_plan_v5', return_value=plan), patch.object(m, '_final_negatives', return_value=('no collage', 'no crop')), patch.object(m, '_head_gaze_guidance', return_value='natural head'):
+                    with self.assertRaisesRegex(ValueError, 'image|Image'):
+                        m.single_prompt(root, 'bad-attachment', 'korean-cold-editorial', 1, 'beige-blazer-denim-outfit', model=model, model_references=refs)
+                self.assertFalse(m.run_dir(root, 'bad-attachment').exists())
 
     def test_actual_prompt_and_attachments_keep_confirmed_supplement_role(self):
         with tempfile.TemporaryDirectory() as temp:

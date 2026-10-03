@@ -74,6 +74,77 @@ class WardrobeEditTests(unittest.TestCase):
         self.assertTrue(mother.is_relative_to(self.run));self.assertTrue(garment.is_relative_to(self.run))
         self.assertEqual(mother.read_bytes(),original_base);self.assertEqual(garment.read_bytes(),original_garment)
         self.call('apply',self.run,self.donor,'1');self.call('verify',self.run,'1')
+    def test_invalid_or_disguised_garment_blocks_before_freezing(self):
+        original=self.garment.read_bytes()
+        for bad in [b'', b'not an image', original[:40]]:
+            self.garment.write_bytes(bad)
+            self.call('prepare',self.spec_file,self.run,ok=False)
+            self.assertFalse(self.run.exists())
+        Image.new('RGB',(32,48),'pink').save(self.garment,format='JPEG')
+        self.call('prepare',self.spec_file,self.run,ok=False)
+        self.assertFalse(self.run.exists())
+    def test_supported_encodings_and_frozen_decode_recheck(self):
+        for ext,fmt in [('jpg','JPEG'),('webp','WEBP')]:
+            garment=self.root/('garment.'+ext);Image.new('RGB',(32,48),'pink').save(garment,format=fmt)
+            self.spec_file.write_text(json.dumps(dict(self.spec,garment_paths=[str(garment)])))
+            run=self.root/('run-'+ext);self.call('prepare',self.spec_file,run)
+        self.spec_file.write_text(json.dumps(self.spec));self.prepared()
+        file=self.run/'contract.json';c=json.loads(file.read_text());garment=Path(c['garments'][0]['path'])
+        garment.write_bytes(b'not an image');digest=hashlib.sha256(garment.read_bytes()).hexdigest()
+        c['garments'][0]['sha256']=digest;c['attachment_plan'][1]['sha256']=digest;file.write_text(json.dumps(c))
+        actual=self.root/'actual.json';actual.write_text(json.dumps(c['tool_parameters']))
+        result=self.call('preflight',self.run,actual,self.root/'record.json',ok=False)
+        self.assertIn('Invalid image reference',result.stderr);self.assertFalse((self.root/'record.json').exists())
+    def test_missing_decoder_blocks_without_creating_run(self):
+        hook=self.root/'no-sharp.cjs';hook.write_text("const M=require('module'),old=M._load;M._load=function(name,...args){if(name==='sharp')throw Error('synthetic absent dependency');return old.call(this,name,...args)}")
+        result=subprocess.run([os.environ.get('CAIGUANG_TEST_NODE','node'),'-r',str(hook),str(SCRIPT),'prepare',str(self.spec_file),str(self.run)],capture_output=True,text=True)
+        self.assertNotEqual(result.returncode,0);self.assertIn('tool-blocked',result.stderr)
+        self.assertFalse(self.run.exists())
+    def test_tool_plan_tampering_blocks_verify_and_preflight(self):
+        self.prepared();self.call('apply',self.run,self.donor,'1')
+        file=self.run/'contract.json';original=file.read_text();contract=json.loads(original)
+        actual=self.root/'actual.json';actual.write_text(json.dumps(contract['tool_parameters']))
+        mutations=[dict(prompt='Entirely different edit'),
+                   dict(referenced_image_paths=['/missing/a.png','/missing/b.png']),
+                   dict(referenced_image_paths=list(reversed(contract['tool_parameters']['referenced_image_paths']))),
+                   dict(transparent_background=True)]
+        for values in mutations:
+            changed=json.loads(original);changed['tool_parameters'].update(values);file.write_text(json.dumps(changed))
+            self.call('verify',self.run,'1',ok=False)
+            self.call('preflight',self.run,actual,self.root/'record.json',ok=False)
+            self.assertFalse((self.root/'record.json').exists())
+        file.write_text(original)
+        changed=json.loads(original);changed['attachment_plan'][1]['role']='identity';file.write_text(json.dumps(changed))
+        self.call('verify',self.run,'1',ok=False)
+    def test_preflight_checks_actual_parameters_and_records_without_call_claim(self):
+        self.prepared();c=json.loads((self.run/'contract.json').read_text())
+        file=self.root/'actual.json';record=self.root/'record.json'
+        for changes in [dict(prompt='Changed'),dict(referenced_image_paths=list(reversed(c['tool_parameters']['referenced_image_paths']))),dict(num_last_images_to_include=2)]:
+            actual=dict(c['tool_parameters'],**changes);file.write_text(json.dumps(actual))
+            self.call('preflight',self.run,file,record,ok=False);self.assertFalse(record.exists())
+        file.write_text(json.dumps(c['tool_parameters']))
+        self.call('preflight',self.run,file,record)
+        receipt=json.loads(record.read_text())
+        self.assertEqual(receipt['actual_parameters'],c['tool_parameters'])
+        self.assertEqual(receipt['attachment_plan'],c['attachment_plan'])
+        self.assertEqual(receipt['generation_calls'],0)
+        self.assertEqual(receipt['provider_execution'],'unverified')
+        self.call('preflight',self.run,file,record,ok=False)
+        self.call('apply',self.run,self.donor,'1')
+        report=json.loads(self.call('verify',self.run,'1').stdout)
+        self.assertTrue(report['pixel_protection_pass'])
+        self.assertEqual(report['provider_execution'],'unverified')
+    def test_legacy_contract_does_not_silently_gain_preflight_binding(self):
+        self.prepared();file=self.run/'contract.json';c=json.loads(file.read_text())
+        c['schema_version']=1
+        for key in ['prompt_sha256','attachment_plan','tool_parameters_sha256']:c.pop(key,None)
+        file.write_text(json.dumps(c));before=file.read_bytes()
+        actual=self.root/'actual.json';actual.write_text(json.dumps(c['tool_parameters']))
+        result=self.call('preflight',self.run,actual,self.root/'record.json',ok=False)
+        self.assertIn('legacy',result.stderr.lower());self.assertEqual(file.read_bytes(),before)
+        self.call('apply',self.run,self.donor,'1')
+        report=json.loads(self.call('verify',self.run,'1').stdout)
+        self.assertEqual(report['call_binding'],'legacy-unverified')
     def test_help_has_no_dependency_or_runtime_write_requirement(self):
         env=dict(os.environ);env.pop('NODE_PATH',None)
         out=subprocess.run(['node',str(SCRIPT),'--help'],env=env,capture_output=True,text=True)

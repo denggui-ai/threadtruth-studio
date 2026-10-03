@@ -23,6 +23,35 @@ function polygonCheck(p, w, h) {
 function rectangleCheck(r, w, h) {
   if (!Array.isArray(r) || r.length !== 4 || r.some(v => !Number.isInteger(v)) || r[0] < 0 || r[1] < 0 || r[2] > w || r[3] > h || r[0] >= r[2] || r[1] >= r[3]) throw Error('Invalid protected rectangle');
 }
+async function validateImage(file, bytes=fs.readFileSync(file)) {
+  const format={'.png':'png','.jpg':'jpeg','.jpeg':'jpeg','.webp':'webp'}[path.extname(file).toLowerCase()];
+  if(!format) throw Error('Use supported raster image references');
+  try {
+    const decoder=sharp(bytes,{failOn:'warning',animated:true}),meta=await decoder.metadata();
+    if(meta.format!==format) throw Error('image encoding does not match filename extension');
+    await decoder.raw().toBuffer(); // metadata and byte hashes alone do not establish decodability
+  } catch(error) {throw Error('Invalid image reference: '+error.message);}
+}
+function editPrompt(spec) {
+  return 'Edit Image 1 directly as ONE opaque '+spec.size.join('x')+' image. Keep the same pixel alignment, crop, camera, fixed body pose, face, expression, head tilt and scene. Change only the declared garment components, using Images 2 onward as the current garment truth. '+spec.garment_conditions+' Do not transfer other items or screenshot borders from garment sources. Do not move or beautify the person, add jewelry or text, create another pose, or relight the whole frame. Keep existing hair, hands and straps naturally in front of the edited garment. This is an existing-pose wardrobe edit, not creation of a new identity.';
+}
+// Canonical serialization is an integrity check, not an authenticity/authorization signature.
+const canonical = v => Array.isArray(v)?'['+v.map(canonical).join(',')+']':v&&typeof v==='object'?'{'+Object.keys(v).sort().map(k=>JSON.stringify(k)+':'+canonical(v[k])).join(',')+'}':JSON.stringify(v);
+function binding(c,run) {
+  if(![1,2].includes(c.schema_version)) throw Error('Unsupported wardrobe contract schema');
+  if(c.schema_version===1) return 'legacy-unverified';
+  const baseName='base'+path.extname(c.spec.base_path).toLowerCase();
+  if(c.base_file!==baseName||c.garments.length!==c.spec.garment_paths.length) throw Error('Frozen attachment mapping changed');
+  const expected=[{role:'pose-mother',path:path.join(path.resolve(run),baseName),sha256:c.base_sha256}];
+  c.garments.forEach((r,i)=>{
+    const file=path.join(path.resolve(run),'garments',String(i+1).padStart(2,'0')+path.extname(c.spec.garment_paths[i]).toLowerCase());
+    if(r.path!==file) throw Error('Frozen garment path/order changed');
+    expected.push({role:'garment',path:file,sha256:r.sha256});
+  });
+  const prompt=editPrompt(c.spec),parameters={prompt,referenced_image_paths:expected.map(r=>r.path),transparent_background:false};
+  if(c.prompt_sha256!==hash(prompt)||canonical(c.tool_parameters)!==canonical(parameters)||c.tool_parameters_sha256!==hash(canonical(parameters))||canonical(c.attachment_plan)!==canonical(expected)) throw Error('Frozen tool prompt/attachment plan changed');
+  return 'prepared-parameters-verified';
+}
 async function rgb(file, size) {
   const meta = await sharp(file).metadata();
   if (meta.orientation && meta.orientation !== 1) throw Error('qa-retry: use an upright mother/donor; no silent EXIF rotation');
@@ -66,6 +95,8 @@ async function prepare(specFile, output) {
   const inputs=spec.garment_paths.map(p=>({path:path.resolve(p),bytes:fs.readFileSync(p)}));
   const allowed = new Set(['.png','.jpg','.jpeg','.webp']);
   if (!allowed.has(path.extname(basePath).toLowerCase()) || inputs.some(r=>!allowed.has(path.extname(r.path).toLowerCase()))) throw Error('Use supported raster image references');
+  await validateImage(basePath,baseFile);
+  for(const r of inputs) await validateImage(r.path,r.bytes);
   const baseName='base'+path.extname(basePath).toLowerCase();
   const base=await rgb(basePath,spec.size),g=guardFor(spec),a=await alphaFor(spec.garment_polygon,g,spec.size);
   if(fs.existsSync(output)) throw Error('Use a new private run directory; never overwrite a frozen run');
@@ -80,20 +111,34 @@ async function prepare(specFile, output) {
       fs.writeFileSync(file,r.bytes,{flag:'wx'});
       return {source:r.path,path:file,sha256:hash(r.bytes)};
     });
-    const prompt='Edit Image 1 directly as ONE opaque '+spec.size.join('x')+' image. Keep the same pixel alignment, crop, camera, fixed body pose, face, expression, head tilt and scene. Change only the declared garment components, using Images 2 onward as the current garment truth. '+spec.garment_conditions+' Do not transfer other items or screenshot borders from garment sources. Do not move or beautify the person, add jewelry or text, create another pose, or relight the whole frame. Keep existing hair, hands and straps naturally in front of the edited garment. This is an existing-pose wardrobe edit, not creation of a new identity.';
-    const contract={schema_version:1,created_at:new Date().toISOString(),spec,base_file:baseName,base_sha256:hash(baseFile),base_rgb_sha256:hash(base),guard_sha256:hash(g),alpha_sha256:hash(a),garments,provider_mask:false,tool_parameters:{prompt,referenced_image_paths:[path.join(path.resolve(output),baseName),...garments.map(r=>r.path)],transparent_background:false},scope:'own-mother head/face protection; original-real-person fidelity and product QA remain separate; no generation authority'};
+    const prompt=editPrompt(spec),attachment_plan=[{role:'pose-mother',path:path.join(path.resolve(output),baseName),sha256:hash(baseFile)},...garments.map(r=>({role:'garment',path:r.path,sha256:r.sha256}))];
+    const tool_parameters={prompt,referenced_image_paths:attachment_plan.map(r=>r.path),transparent_background:false};
+    const contract={schema_version:2,created_at:new Date().toISOString(),spec,base_file:baseName,base_sha256:hash(baseFile),base_rgb_sha256:hash(base),guard_sha256:hash(g),alpha_sha256:hash(a),garments,provider_mask:false,tool_parameters,prompt_sha256:hash(prompt),attachment_plan,tool_parameters_sha256:hash(canonical(tool_parameters)),scope:'own-mother head/face protection; original-real-person fidelity and product QA remain separate; no generation authority'};
     save(path.join(output,'contract.json'),contract);
     console.log(JSON.stringify({prepared:path.resolve(output),generation_calls:0,provider_mask:false}));
   } catch(error) {fs.rmSync(output,{recursive:true,force:true});throw error;}
 }
 async function load(run) {
   const c=json(path.join(run,'contract.json'));
+  const call_binding=binding(c,run);
   const baseFile=fs.readFileSync(path.join(run,c.base_file)),g=fs.readFileSync(path.join(run,'head-guard.bin')),a=fs.readFileSync(path.join(run,'edit-alpha.bin'));
   if(hash(baseFile)!==c.base_sha256||hash(g)!==c.guard_sha256||hash(a)!==c.alpha_sha256) throw Error('Frozen base/protection changed');
+  await validateImage(path.join(run,c.base_file));
   const base=await rgb(path.join(run,c.base_file),c.spec.size);
   if(hash(base)!==c.base_rgb_sha256||!g.equals(guardFor(c.spec))) throw Error('Frozen contract/protection inconsistent');
-  for(const r of c.garments) if(hash(fs.readFileSync(r.path))!==r.sha256) throw Error('Current garment reference changed');
-  return {c,base,g,a};
+  for(const r of c.garments) {
+    if(hash(fs.readFileSync(r.path))!==r.sha256) throw Error('Current garment reference changed');
+    await validateImage(r.path);
+  }
+  return {c,base,g,a,call_binding};
+}
+async function preflight(run,parametersFile,recordFile) {
+  const {c,call_binding}=await load(run);
+  if(c.schema_version!==2) throw Error('Legacy contract has no frozen call binding; retain old run and explicitly prepare a new run for any future authorized call');
+  const actual_parameters=json(parametersFile);
+  if(canonical(actual_parameters)!==canonical(c.tool_parameters)) throw Error('Actual tool parameters differ from frozen prompt/ordered attachments');
+  save(recordFile,{schema_version:1,checked_at:new Date().toISOString(),contract_sha256:hash(fs.readFileSync(path.join(run,'contract.json'))),prompt_sha256:c.prompt_sha256,attachment_plan:c.attachment_plan,actual_parameters,actual_parameters_sha256:hash(canonical(actual_parameters)),call_binding,generation_calls:0,provider_execution:'unverified',authorization:'not_authenticated'});
+  console.log(JSON.stringify({preflight_pass:true,record:path.resolve(recordFile),generation_calls:0,provider_execution:'unverified'}));
 }
 function versionCheck(v) {if(!/^[1-9][0-9]*$/.test(v)) throw Error('Version must be a positive integer');}
 async function apply(run, donorFile, version, regionFile) {
@@ -114,7 +159,7 @@ async function apply(run, donorFile, version, regionFile) {
   return verify(run,version);
 }
 async function verify(run,version) {
-  versionCheck(version);const {c,base,g}=await load(run),[w,h]=c.spec.size;
+  versionCheck(version);const {c,base,g,call_binding}=await load(run),[w,h]=c.spec.size;
   const r=json(path.join(run,'result-v'+version+'.json')),file=path.join(run,'candidate-v'+version+'.png'),donorFile=path.join(run,'donor-v'+version+'.png'),a=fs.readFileSync(path.join(run,'alpha-v'+version+'.bin'));
   if(hash(fs.readFileSync(file))!==r.output_sha256||hash(fs.readFileSync(donorFile))!==r.donor_sha256||hash(a)!==r.alpha_sha256||r.guard_sha256!==c.guard_sha256||a.length!==w*h) throw Error('Result artifacts changed');
   const out=await rgb(file,c.spec.size),donor=await rgb(donorFile,c.spec.size);let changed=0,head=0,face=0,outside=0,equation=0;
@@ -125,13 +170,15 @@ async function verify(run,version) {
     if(diff) {changed++;if(g[i])head++;if(!a[i])outside++;const x=i%w,y=Math.floor(i/w);if(x>=f[0]&&x<f[2]&&y>=f[1]&&y<f[3])face++;}
   }
   const report={pass:head===0&&face===0&&outside===0&&equation===0&&changed>0,changed_pixels:changed,head_changed_pixels:head,face_changed_pixels:face,outside_alpha_changed_pixels:outside,blend_mismatch_channels:equation,visual_qa:'pending',original_fidelity:'not_measured',generation_calls:0};
+  report.pixel_protection_pass=report.pass;report.call_binding=call_binding;report.provider_execution='unverified';
   console.log(JSON.stringify(report));if(!report.pass)throw Error('qa-retry: deterministic protection failed');return report;
 }
 (async()=>{
   const [command,...args]=process.argv.slice(2);
-  if(command==='--help'||command==='help') {console.log('Local only; host sharp required. prepare <spec.json> <new-private-run> | apply <run> <donor> <version> [region-refinement.json] | verify <run> <version>. No generation/installation/visual QA.');return;}
+  if(command==='--help'||command==='help') {console.log('Local only; host sharp required. prepare <spec.json> <new-private-run> | preflight <run> <actual-parameters.json> <new-record.json> | apply <run> <donor> <version> [region-refinement.json] | verify <run> <version>. No generation/installation/visual QA.');return;}
   dependency();
   if(command==='prepare'&&args.length===2)await prepare(...args);
+  else if(command==='preflight'&&args.length===3)await preflight(...args);
   else if(command==='apply'&&(args.length===3||args.length===4))await apply(...args);
   else if(command==='verify'&&args.length===2)await verify(...args);
   else throw Error('Invalid command; use --help');

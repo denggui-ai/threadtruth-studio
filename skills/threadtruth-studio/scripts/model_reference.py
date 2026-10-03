@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import re
 import shutil
+import warnings
 
 MODEL_KEYS = {'source_type', 'scope', 'subject', 'locked', 'adjustable', 'consent_note', 'factors'}
 IMAGE_SUFFIXES = {'.png', '.jpg', '.jpeg', '.webp'}
@@ -39,6 +40,42 @@ def digest(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+def validate_image(path):
+    """Read-only decode gate; a matching filename/hash is not image validation."""
+    path = Path(path)
+    formats = {'.png': 'PNG', '.jpg': 'JPEG', '.jpeg': 'JPEG', '.webp': 'WEBP'}
+    if not path.is_file() or path.suffix.lower() not in formats:
+        raise ValueError('Provide a supported PNG/JPEG/WebP image file')
+    try:
+        from PIL import Image, ImageFile, features
+    except ImportError as error:
+        raise ValueError('tool-blocked: host-provided Pillow image decoder unavailable; '
+                         'do not install or bypass image preflight') from error
+    if ImageFile.LOAD_TRUNCATED_IMAGES:
+        raise ValueError('tool-blocked: image decoder permits truncated data; require strict decoding')
+    codec = {'.png': 'zlib', '.jpg': 'jpg', '.jpeg': 'jpg', '.webp': 'webp'}[path.suffix.lower()]
+    if not features.check(codec):
+        raise ValueError('tool-blocked: host image decoder lacks ' + formats[path.suffix.lower()] +
+                         ' support; do not install or bypass image preflight')
+    try:
+        with warnings.catch_warnings():
+            warnings.simplefilter('error', Image.DecompressionBombWarning)
+            with Image.open(path) as image:
+                if image.format != formats[path.suffix.lower()]:
+                    raise ValueError('Image encoding does not match its file extension')
+                image.verify()
+            # verify() alone may only inspect container headers (notably JPEG).
+            with Image.open(path) as image:
+                for frame in range(getattr(image, 'n_frames', 1)):
+                    image.seek(frame)
+                    image.load()
+                return {'format': image.format, 'size': list(image.size),
+                        'frames': getattr(image, 'n_frames', 1)}
+    except (OSError, ValueError, SyntaxError, EOFError, Image.DecompressionBombError,
+            Image.DecompressionBombWarning) as error:
+        raise ValueError('Invalid or undecodable image: ' + str(error)) from error
+
+
 def validate_supplement(reference):
     """Bind declared human acceptance to exact image bytes, not to a filename."""
     if not isinstance(reference, dict) or set(reference) != {'path', 'sha256', 'scope', 'confirmation_note'}:
@@ -54,6 +91,7 @@ def validate_supplement(reference):
     path = Path(reference['path']).resolve()
     if not path.is_file() or path.suffix.lower() not in IMAGE_SUFFIXES or digest(path) != reference['sha256']:
         raise ValueError('Missing or changed accepted supplement')
+    validate_image(path)
     return dict(reference, path=str(path), confirmation_note=reference['confirmation_note'].strip())
 
 
@@ -127,12 +165,57 @@ def resolve_style(model, persona, negatives):
 
 
 def resolve_mood(model, mood):
-    """Keep photographic atmosphere, remove embedded person styling for explicit casting."""
-    validate_model(model)
-    person = r'\b(face|facial|hair|makeup|lips|expression|smile|body|young|youthful|age|influencer|idol|aegyo|melancholy|girlish|boyish|feminine|masculine|female|male)\b'
-    clauses = [x.strip() for x in mood.split(';') if x.strip()]
+    """Explicit person conditions replace same-axis alternatives, never whole moods.
+
+    Frozen pack language is comma/semicolon phrased. Preserve all unaffected text,
+    including skin texture, age-neutral settings and feminine garment details.
+    This is a scoped phrase filter, not a free-text semantic conflict detector.
+    """
+    model = validate_model(model)
+    axes = {
+        'expression': r'\b(expression|smil\w*|melancholy|influencer|idol|aegyo)\b|表情|微笑|笑容',
+        'hair': r'\b(hair|hairstyle)\b|发型|髮型|头发',
+        'makeup': r'\b(makeup|make-up|lips|lipstick)\b|妆|唇',
+        'face': r'\b(face|facial)\b|五官|脸|面部',
+        'age': r'\b(young|youthful|age|aged)\b|年龄|年齡',
+        'body': r'\b(body|physique|slim|slender|curvy|fuller|muscular)\b|身形|身材|体型',
+        'gender': r'\b(female|male|feminine|masculine|girlish|boyish)\b|性别',
+        'skin': r'\bskin (tone|color|colour)\b|肤色',
+    }
+    conditions = model['locked'] + model['adjustable']
+    declared = ' '.join(conditions + [model['subject']] +
+                        [f['name'] + ' ' + f['value'] for f in model.get('factors', []) if f['status'] != 'unknown'])
+    active = {name for name, pattern in axes.items() if re.search(pattern, declared, re.I)}
     safety = r'sexual|nudity|anatom|deform|extra|missing|child|minor|unsafe'
-    return '; '.join(x for x in clauses if re.search(safety, x, re.I) or not re.search(person, x, re.I)) or 'retain the selected photographic atmosphere'
+    photo = r'\b(light\w*|palette|texture|photograph\w*|grain|backdrop|background|setting|composition|framing)\b'
+
+    def filter_phrase(phrase):
+        if re.search(safety, phrase, re.I) or phrase.strip().casefold() in {c.casefold() for c in conditions}:
+            return phrase
+        # These words describe rendering, setting or framing, not casting.
+        # Unqualified "proportions" is also often garment styling, so the body
+        # axis requires a body-specific term rather than that word alone.
+        inspected = re.sub(r'\bage-neutral\b|\b(?:realistic native )?skin texture\b|\bfull-body\b', '', phrase, flags=re.I)
+        conflicts = [name for name in active if re.search(axes[name], inspected, re.I)]
+        if 'gender' in conflicts and re.search(r'\b(details|garment|bows|tailoring)\b', inspected, re.I):
+            conflicts.remove('gender')
+        if not conflicts:
+            return phrase
+        if re.search(photo, inspected, re.I):
+            # Mixed short clauses need a smaller boundary: keep the light/scene.
+            parts = re.split(r'\s+(?:and|with|under|against|on)\s+', phrase, flags=re.I)
+            if len(parts) > 1:
+                return ' '.join(x for part in parts if (x := filter_phrase(part)))
+            raise ValueError('Review mixed person/photography phrase before prompt assembly: ' + phrase.strip())
+        return ''
+
+    pieces = re.split(r'([;,]\s*)', mood)
+    kept = []
+    for index in range(0, len(pieces), 2):
+        phrase = filter_phrase(pieces[index])
+        if phrase.strip():
+            kept.append((pieces[index - 1] if index else ', ', phrase))
+    return ''.join(('' if i == 0 else separator) + phrase for i, (separator, phrase) in enumerate(kept)).strip() or 'retain the selected photographic atmosphere'
 
 
 def export_package(destination, model, references, name, confirmation_note, *, supplements=None, pose_mothers=None):
@@ -142,6 +225,8 @@ def export_package(destination, model, references, name, confirmation_note, *, s
     paths = [Path(p).resolve() for p in references]
     if not paths or any(not p.is_file() or p.suffix.lower() not in IMAGE_SUFFIXES for p in paths):
         raise ValueError('Provide original identity images (not aesthetic references or preview grids)')
+    for path in paths:
+        validate_image(path)
     if supplements is not None and not isinstance(supplements, list):
         raise ValueError('Supplements must be an explicitly selected list')
     accepted = [validate_supplement(r) for r in supplements or []]
@@ -269,6 +354,7 @@ def load_package(root):
             raise ValueError('Reference must remain inside the portable package')
         if not resolved.is_file() or resolved.suffix.lower() not in IMAGE_SUFFIXES or digest(resolved) != row['sha256']:
             raise ValueError('Missing or changed identity reference')
+        validate_image(resolved)
     if card['schema_version'] in (2, 3):
         if not isinstance(card['supplements'], list) or (card['schema_version'] == 2 and not card['supplements']):
             raise ValueError('Schema2 requires explicitly accepted supplements')
