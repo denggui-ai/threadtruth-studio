@@ -336,3 +336,11 @@ html.image-open { overflow:hidden; }
 .case-sharing-actions { align-items:center; }
 .case-sharing .case-share-links:last-child { margin-bottom:0; }
 @media(max-width:480px) { .case-sharing { padding:20px 16px; } .case-sharing-actions { flex-direction:column; align-items:stretch; } .case-sharing-actions .button { text-align:center; justify-content:center; } }
+
+/* Two single-image style tests, separate from the six-image case grids. */
+.jacket-style-tests { scroll-margin-top:24px; padding-top:16px; }
+.jacket-style-comparison { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; max-width:1000px; margin:28px auto; }
+.jacket-style-comparison figure { margin:0; min-width:0; }
+.jacket-style-comparison img { display:block; width:100%; aspect-ratio:2/3; object-fit:contain; }
+.jacket-style-comparison figcaption { font-size:14px; line-height:1.7; margin-top:12px; }
+@media(max-width:600px) { .jacket-style-comparison { grid-template-columns:minmax(0,1fr); gap:28px; } }

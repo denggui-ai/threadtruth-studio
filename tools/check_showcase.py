@@ -23,6 +23,10 @@ except ImportError:
 REVIEWED_CASE_IDS = ("red-floral-french", "green-shirt-home", "trim-tee-american", "trim-tee-japanese", "external-black-leather", "black-jacket-office")
 EXTERNAL_INPUT = "assets/reviewed-cases/external-black-leather/input.jpg"
 OFFICE_INPUT = "assets/reviewed-cases/black-jacket-office/input.jpg"
+JACKET_STYLE_FILES = (
+    "assets/reviewed-cases/black-jacket-style-comparison/french-v3.png",
+    "assets/reviewed-cases/black-jacket-style-comparison/american-v1.png",
+)
 HOME_PRESENTATION_FILES = (
     "assets/reviewed-cases/green-shirt-home/shirt-reference.jpg",
     "assets/reviewed-cases/green-shirt-home/pants-reference.jpg",
@@ -87,6 +91,24 @@ def validate_reviewed_cases(gallery: Path) -> list[str]:
                 findings.extend(_record_findings(gallery / OFFICE_INPUT, source, OFFICE_INPUT))
                 if source.get("sha256") != external["input_image"]["sha256"]:
                     raise ValueError("office comparison: same real input required")
+                style_tests = case.get("style_tests")
+                if style_tests or any((gallery / name).exists() for name in JACKET_STYLE_FILES):
+                    if not isinstance(style_tests, dict):
+                        raise ValueError("jacket style tests: missing publication record")
+                    if (style_tests.get("publication_permission", {}).get("authorized") is not True
+                            or style_tests.get("source_sha256") != source["sha256"]):
+                        raise ValueError("jacket style tests: permission or same-input record invalid")
+                    test_images = style_tests.get("images", [])
+                    if [item.get("path") for item in test_images] != list(JACKET_STYLE_FILES):
+                        raise ValueError("jacket style tests: expected two fixed single-image tests")
+                    for item in test_images:
+                        if (item.get("pose") != 1 or item.get("dimensions") != [1024, 1536]
+                                or item.get("format") != "PNG" or item.get("status") != "image-draft"
+                                or item.get("ai_generated") is not True
+                                or item.get("visual_acceptance") not in ("accepted", "pending-human-review")
+                                or not all(key in item for key in ("sha256", "bytes"))):
+                            raise ValueError("jacket style tests: invalid canvas, integrity or review disclosure")
+                        findings.extend(_record_findings(gallery / item["path"], item, item["path"]))
                 sharing = case.get("sharing", [])
                 if sharing or any((gallery / name).exists() for name in OFFICE_SHARE_FILES):
                     if [item["path"] for item in sharing] != list(OFFICE_SHARE_FILES):
@@ -340,6 +362,7 @@ def validate_showcase(gallery: Path, *, repo_root: Path | None = None, expected_
         allowed_files.update({brand.MANIFEST_PATH, *brand.BRAND_FILES})
     if has_reviewed:
         allowed_files.update(REVIEWED_FILES)
+        allowed_files.update(JACKET_STYLE_FILES)
         allowed_files.add(EXTERNAL_INPUT)
         allowed_files.add(OFFICE_INPUT)
         allowed_files.update(HOME_PRESENTATION_FILES)

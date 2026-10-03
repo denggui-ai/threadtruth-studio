@@ -352,6 +352,33 @@ class ShowcaseTests(unittest.TestCase):
         write_json(self.gallery / "reviewed-cases.json", manifest)
         self.assertTrue(any("same real input" in item for item in self.findings()))
 
+    def test_single_style_tests_require_permission_and_matching_public_files(self):
+        self.build()
+        manifest = self.add_reviewed_cases()
+        case = next(c for c in manifest["cases"] if c["id"] == "black-jacket-office")
+        records = []
+        for relative in check_showcase.JACKET_STYLE_FILES:
+            info = image_record(self.gallery / relative, size=(1024, 1536))
+            records.append(dict(info, path=relative, format="PNG", pose=1,
+                                status="image-draft", ai_generated=True,
+                                visual_acceptance="pending-human-review"))
+        case["style_tests"] = {"publication_permission": {"authorized": True},
+                               "source_sha256": case["input_image"]["sha256"], "images": records}
+        path = self.gallery / "reviewed-cases.json"
+        write_json(path, manifest)
+        self.assertEqual(self.findings(), [])
+        case["style_tests"]["publication_permission"]["authorized"] = False
+        write_json(path, manifest)
+        self.assertTrue(any("permission or same-input" in x for x in self.findings()))
+        case["style_tests"]["publication_permission"]["authorized"] = True
+        records[0]["path"] = "assets/reviewed-cases/black-jacket-style-comparison/unapproved.png"
+        write_json(path, manifest)
+        self.assertTrue(any("two fixed single-image tests" in x for x in self.findings()))
+        records[0]["path"] = check_showcase.JACKET_STYLE_FILES[0]
+        write_json(path, manifest)
+        (self.gallery / records[0]["path"]).write_bytes(b"tampered style image")
+        self.assertTrue(any("sha256 mismatch" in x for x in self.findings()))
+
     def test_home_presentation_requires_fixed_paths_and_matching_bytes(self):
         self.build()
         manifest = self.add_reviewed_cases()
