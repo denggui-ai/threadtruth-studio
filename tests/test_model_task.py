@@ -58,6 +58,21 @@ class ModelTaskTests(unittest.TestCase):
                 dict(path=str(accepted), role='model-supplement', scope='face',
                      sha256=m.digest(accepted), confirmation_note='Human accepted this face')]
 
+    def test_pose_package_does_not_automatically_attach_old_outfit_or_confirm_new_product(self):
+        mother = self.image('seated-mother', 'green')
+        row = dict(path=str(mother), sha256=m.digest(mother), pose='seated',
+                   acceptance=dict(level='qualified', note='Usable with reservations'),
+                   qa=dict(original_fidelity='uncertain', candidate_continuity='pass', garment='uncertain'))
+        package = self.root/'poses'
+        m.models.export_package(package, self.model, [self.face], 'A', 'Qualified use', pose_mothers=[row])
+        data = m.create(self.job, [str(self.garment)], ['pose'], (20,30), context=self.context,
+                        route='codex_native', model_package=package)
+        self.assertEqual([r['role'] for r in data['references']], ['garment-source', 'identity-reference'])
+        self.assertNotIn(m.digest(mother), [r['sha256'] for r in data['references']])
+        self.assertIsNone(data['model_confirmation'])
+        self.assertEqual(data['attempts'], 0)
+        self.assertIsNone(data['authorization'])
+
     def create_supplement(self, count=1, refs=None):
         try:
             return m.create(self.job, refs or self.supplement_refs(), ['pose']*count,

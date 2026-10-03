@@ -183,6 +183,53 @@ class ModelReferenceTests(unittest.TestCase):
             with self.subTest(model=model), self.assertRaises(ValueError):
                 self.m.export_package(self.root / 'bad', model, refs, 'A', 'Accepted')
 
+    def mother(self, pose='seated', **changes):
+        row = self.supplement()
+        row.pop('scope'); row.pop('confirmation_note')
+        row.update(pose=pose, acceptance=dict(level='qualified', note='Usable with reservations'),
+                   qa=dict(original_fidelity='uncertain', candidate_continuity='pass', garment='uncertain'))
+        return dict(row, **changes)
+
+    def test_pose_mother_roundtrip_retains_qualified_acceptance_and_original(self):
+        mother = self.mother()
+        card = self.m.export_package(self.root/'poses', self.model(), [self.face], 'A', 'Qualified use', pose_mothers=[mother])
+        self.assertEqual(card['schema_version'], 3)
+        self.assertEqual(card['references'][0]['sha256'], self.m.digest(self.face))
+        self.assertEqual(card['supplements'], [])
+        selected = self.m.select_pose_mother(self.root/'poses', 'SEATED')
+        self.assertEqual(selected['acceptance']['level'], 'qualified')
+        self.assertEqual(selected['qa']['original_fidelity'], 'uncertain')
+        self.assertEqual(self.m.digest(selected['path']), mother['sha256'])
+        self.assertNotIn(str(self.root), (self.root/'poses/model.json').read_text())
+        with self.assertRaises(ValueError): self.m.select_pose_mother(self.root/'poses', 'back view')
+
+    def test_pose_mother_rejects_missing_feedback_failed_qa_or_changed_image(self):
+        for row in [self.mother(acceptance=dict(level='qualified', note='')),
+                    self.mother(qa=dict(original_fidelity='fail', candidate_continuity='pass', garment='pass')),
+                    self.mother(qa=dict(original_fidelity='uncertain', candidate_continuity='fail', garment='pass')),
+                    self.mother(qa=dict(original_fidelity='uncertain', candidate_continuity='pass', garment='fail')),
+                    self.mother(sha256='0'*64)]:
+            with self.subTest(row=row), self.assertRaises(ValueError):
+                self.m.export_package(self.root/'bad', self.model(), [self.face], 'A', 'Accepted', pose_mothers=[row])
+            self.assertFalse((self.root/'bad').exists())
+
+    def test_pose_mother_duplicates_traversal_and_legacy_packages(self):
+        row = self.mother()
+        with self.assertRaises(ValueError):
+            self.m.export_package(self.root/'bad', self.model(), [self.face], 'A', 'Accepted', pose_mothers=[row, row])
+        with self.assertRaises(ValueError):
+            self.m.export_package(self.root/'bad', self.model(), [self.face], 'A', 'Accepted', pose_mothers=[dict(row, path=str(self.face), sha256=self.m.digest(self.face))])
+        package = self.root/'a'
+        card = self.m.export_package(package, self.model(), [self.face], 'A', 'Accepted', pose_mothers=[row])
+        (package/card['pose_mothers'][0]['file']).write_bytes(b'tampered')
+        with self.assertRaises(ValueError): self.m.load_package(package)
+        card['pose_mothers'][0]['file'] = '../accepted.png'
+        (package/'model.json').write_text(json.dumps(card))
+        with self.assertRaises(ValueError): self.m.load_package(package)
+        legacy = self.m.export_package(self.root/'legacy', self.model(), [self.face], 'A', 'Accepted')
+        self.assertEqual(legacy['schema_version'], 1)
+        with self.assertRaises(ValueError): self.m.select_pose_mother(self.root/'legacy', 'seated')
+
 
 if __name__ == '__main__':
     unittest.main()

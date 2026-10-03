@@ -2,6 +2,15 @@
 
 All notable changes are documented here. Versions follow Semantic Versioning.
 
+## Unreleased — guided fixed-pose wardrobe reuse, 2026-10-03
+
+- Trigger: localized wardrobe tests preserved each existing pose mother while full-frame generation still changed face pixels. The six-output upper-garment case received qualified usability acceptance; precise original-real-person fidelity and exact shoulder construction remain unresolved.
+- Before: portable packages carried original identity and optional generated supplements, but did not distinguish pose editing targets or retain qualified pose acceptance/QA. Per-image protection used private one-off scripts.
+- After: optional schema3 pose-mothers store explicit actual poses, image hashes, accepted/qualified feedback and separate original/continuity/garment QA. Originals remain separate; schema1/2 still read. Ordinary new-product tasks do not automatically attach mothers or inherit model confirmation.
+- Add a guided local Node/sharp prepare/apply/verify helper with pre-call spatial head protection, feathered whole-garment region, fixed canvas and immutable result versions. Local boundary refinement keeps the same head guard; no generation, network or dependency installation. Manual boundary review and subjective/product QA remain required.
+- Files: model reference helper, fixed-pose runtime reference and compositor, narrow SKILL/model-selection/QA routes, user model guide, source tests and evals 116–120. No frozen style packs, production pose definitions, historical evidence/images or installed files changed; no model database, automatic segmentation or hard identity claim added.
+- Verification: 61 model + 8 wardrobe regressions passed; six retained-donor replays are pixel-equivalent to the previous final outputs. Independent review closed an actual attachment/frozen-base mismatch; a fresh explicit-path planning run preserved scope/QA/permission boundaries. Source/runtime static checks passed. Sixteen historical font tests remain environment-blocked (fontTools/Brotli), not counted as passes. [Verification and limits](docs/verification/2026-10-03-fixed-pose-wardrobe-reuse.md). Development candidate; no install or new-image verification.
+
 ## Unreleased — model selection and portable reuse, 2026-10-02
 
 - Retain scoped human selection of K3 from the controlled diagnostic and K3/M8 pair preferences. K3 acceptance binds its output without promoting originals or granting new calls/commercial use; the frozen independent result remains inconclusive and strict original-face fidelity remains open.

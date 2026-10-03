@@ -12,6 +12,29 @@ IMAGE_SUFFIXES = {'.png', '.jpg', '.jpeg', '.webp'}
 SUBJECTS = {'adult model', 'adult female model', 'adult male model'}
 
 
+def validate_pose_mother(reference):
+    """Pose editing targets carry scoped acceptance, never become original identity."""
+    fields = {'path', 'sha256', 'pose', 'acceptance', 'qa'}
+    if not isinstance(reference, dict) or set(reference) != fields:
+        raise ValueError('Pose mother requires path, sha256, pose, acceptance and qa')
+    pose = reference['pose']
+    if not isinstance(pose, str) or not pose.strip() or len(pose) > 80:
+        raise ValueError('Declare the actual body pose, not a new production pose number')
+    acceptance = reference['acceptance']
+    if (not isinstance(acceptance, dict) or set(acceptance) != {'level', 'note'}
+            or acceptance['level'] not in ('accepted', 'qualified')
+            or not isinstance(acceptance['note'], str) or not acceptance['note'].strip()):
+        raise ValueError('Record actual accepted/qualified human pose-mother feedback')
+    qa = reference['qa']
+    if (not isinstance(qa, dict) or set(qa) != {'original_fidelity', 'candidate_continuity', 'garment'}
+            or any(value not in ('pass', 'uncertain') for value in qa.values())):
+        raise ValueError('Failed or unreviewed pose mothers cannot be propagated')
+    image = validate_supplement(dict(path=reference['path'], sha256=reference['sha256'],
+                                     scope='full', confirmation_note=acceptance['note']))
+    return dict(reference, path=image['path'], pose=pose.strip(),
+                acceptance=copy.deepcopy(acceptance), qa=copy.deepcopy(qa))
+
+
 def digest(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
@@ -112,7 +135,7 @@ def resolve_mood(model, mood):
     return '; '.join(x for x in clauses if re.search(safety, x, re.I) or not re.search(person, x, re.I)) or 'retain the selected photographic atmosphere'
 
 
-def export_package(destination, model, references, name, confirmation_note, *, supplements=None):
+def export_package(destination, model, references, name, confirmation_note, *, supplements=None, pose_mothers=None):
     model = validate_model(model)
     if not isinstance(name, str) or not name.strip() or not isinstance(confirmation_note, str) or not confirmation_note.strip():
         raise ValueError('Name and actual human visual acceptance are required')
@@ -122,10 +145,19 @@ def export_package(destination, model, references, name, confirmation_note, *, s
     if supplements is not None and not isinstance(supplements, list):
         raise ValueError('Supplements must be an explicitly selected list')
     accepted = [validate_supplement(r) for r in supplements or []]
+    if pose_mothers is not None and not isinstance(pose_mothers, list):
+        raise ValueError('Pose mothers must be an explicitly selected list')
+    mothers = [validate_pose_mother(r) for r in pose_mothers or []]
+    if len(mothers) > 6 or len({r['pose'].casefold() for r in mothers}) != len(mothers):
+        raise ValueError('Select at most six mothers, one per actual pose')
     seen_originals = {digest(p) for p in paths}
     supplement_hashes = [r['sha256'] for r in accepted]
     if seen_originals.intersection(supplement_hashes) or len(set(supplement_hashes)) != len(supplement_hashes):
         raise ValueError('Deduplicate original and supplemental images before export; do not relabel originals')
+    mother_hashes = [r['sha256'] for r in mothers]
+    if (seen_originals.intersection(mother_hashes) or set(supplement_hashes).intersection(mother_hashes)
+            or len(set(mother_hashes)) != len(mother_hashes)):
+        raise ValueError('Pose mothers must be distinct from originals, supplements and each other')
     root = Path(destination)
     if root.exists():
         raise ValueError('Choose a new package/version; never replace original identity references')
@@ -160,6 +192,18 @@ def export_package(destination, model, references, name, confirmation_note, *, s
                 card['supplements'].append(dict(file=relative, sha256=reference['sha256'],
                                                role='model-supplement', scope=reference['scope'],
                                                confirmation_note=reference['confirmation_note']))
+        if mothers:
+            card['schema_version'] = 3
+            card.setdefault('supplements', [])
+            card['pose_mothers'] = []
+            (root / 'pose-mothers').mkdir()
+            for i, reference in enumerate(mothers, 1):
+                source = Path(reference['path'])
+                relative = f'pose-mothers/{i:02d}{source.suffix.lower()}'
+                shutil.copyfile(source, root / relative)
+                card['pose_mothers'].append(dict(file=relative, sha256=reference['sha256'],
+                                                role='pose-mother', pose=reference['pose'],
+                                                acceptance=reference['acceptance'], qa=reference['qa']))
         (root / 'model.json').write_text(json.dumps(card, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
         lines = ['# ' + name.strip(), '', '用途：已确认模特的身份参考；不是服饰事实源。', '',
                  '来源：' + model['source_type'], '保留范围：' + model['scope'],
@@ -174,6 +218,18 @@ def export_package(destination, model, references, name, confirmation_note, *, s
             lines.extend(['', '补充图：仅使用明确接受且哈希匹配的生成表现；原始人物参考始终优先。',
                           '补充图的旧服饰、配饰、背景不属于新品事实；身体表现不等于真人身体数据。',
                           '人物连续性、原图面部保真和商品验收须分别检查；本包不证明严格锁脸。'])
+        if mothers:
+            lines.extend(['', '姿势母图：仅供逐张、固定姿势局部换装；不会自动加入普通新品任务的附件。',
+                          '选一张母图作编辑目标，另传本次真实服饰图；原始人物图保留用于独立对照。',
+                          '仅更换声明的部件；沿用搭配需用户明确且通过本次商品核对。',
+                          '脸部保护证明相对于该母图未新增像素变化，不证明真人原照精确还原。',
+                          '“勉强可用”等有限接受不关闭人物或商品待核项，不授权调用或商业发布。',
+                          '', '| 实际姿势 | 接受程度 | 用户反馈 | 原照/连续性/商品 QA |',
+                          '|---|---|---|---|'])
+            for reference in mothers:
+                cells = [reference['pose'], reference['acceptance']['level'], reference['acceptance']['note'],
+                         '/'.join(reference['qa'][k] for k in ('original_fidelity', 'candidate_continuity', 'garment'))]
+                lines.append('| ' + ' | '.join(x.replace('|', '/').replace('\n', ' ') for x in cells) + ' |')
         if model.get('factors'):
             lines.extend(['', '| 因子 | 值 | 状态 | 来源 | 用户确认 |', '|---|---|---|---|---|'])
             for factor in model['factors']:
@@ -190,9 +246,12 @@ def load_package(root):
     root = Path(root).resolve()
     card = json.loads((root / 'model.json').read_text(encoding='utf-8'))
     required = {'schema_version', 'name', 'model', 'confirmation_note', 'references'}
-    if not isinstance(card, dict) or type(card.get('schema_version')) is not int or card.get('schema_version') not in (1, 2):
+    if not isinstance(card, dict) or type(card.get('schema_version')) is not int or card.get('schema_version') not in (1, 2, 3):
         raise ValueError('Unsupported model card')
-    if set(card) != required | ({'supplements'} if card['schema_version'] == 2 else set()):
+    extras = set() if card['schema_version'] == 1 else {'supplements'}
+    if card['schema_version'] == 3:
+        extras.add('pose_mothers')
+    if set(card) != required | extras:
         raise ValueError('Unsupported model card fields')
     validate_model(card['model'])
     if not isinstance(card['name'], str) or not card['name'].strip() or not isinstance(card['confirmation_note'], str) or not card['confirmation_note'].strip():
@@ -210,8 +269,8 @@ def load_package(root):
             raise ValueError('Reference must remain inside the portable package')
         if not resolved.is_file() or resolved.suffix.lower() not in IMAGE_SUFFIXES or digest(resolved) != row['sha256']:
             raise ValueError('Missing or changed identity reference')
-    if card['schema_version'] == 2:
-        if not isinstance(card['supplements'], list) or not card['supplements']:
+    if card['schema_version'] in (2, 3):
+        if not isinstance(card['supplements'], list) or (card['schema_version'] == 2 and not card['supplements']):
             raise ValueError('Schema2 requires explicitly accepted supplements')
         seen = {r['sha256'] for r in card['references']}
         for row in card['supplements']:
@@ -226,19 +285,53 @@ def load_package(root):
             if row['sha256'] in seen:
                 raise ValueError('Duplicate original or supplemental reference')
             seen.add(row['sha256'])
+    if card['schema_version'] == 3:
+        if not isinstance(card['pose_mothers'], list) or not 1 <= len(card['pose_mothers']) <= 6:
+            raise ValueError('Schema3 requires one to six explicit pose mothers')
+        seen = {r['sha256'] for r in card['references'] + card['supplements']}
+        poses = set()
+        for row in card['pose_mothers']:
+            if not isinstance(row, dict) or set(row) != {'file', 'sha256', 'role', 'pose', 'acceptance', 'qa'} or row['role'] != 'pose-mother':
+                raise ValueError('Unsupported pose-mother fields')
+            if not isinstance(row['file'], str):
+                raise ValueError('Mother path must be relative text')
+            relative = Path(row['file']); resolved = (root / relative).resolve()
+            if relative.is_absolute() or '..' in relative.parts or not resolved.is_relative_to(root):
+                raise ValueError('Pose mother must remain inside portable package')
+            validated = validate_pose_mother(dict(path=str(resolved), **{k: row[k] for k in ('sha256', 'pose', 'acceptance', 'qa')}))
+            pose = validated['pose'].casefold()
+            if row['sha256'] in seen or pose in poses:
+                raise ValueError('Duplicate pose or image')
+            seen.add(row['sha256']); poses.add(pose)
     return card
+
+
+def select_pose_mother(root, pose):
+    card = load_package(root)
+    rows = [r for r in card.get('pose_mothers', []) if r['pose'].casefold() == pose.strip().casefold()]
+    if len(rows) != 1:
+        raise ValueError('Requested confirmed pose mother is unavailable; do not invent or substitute a pose')
+    row = rows[0]
+    return dict(row, path=str(Path(root).resolve() / row['file']),
+                original_review_paths=[str(Path(root).resolve() / r['file']) for r in card['references']],
+                scope='fixed-pose local wardrobe edit; no generation authorization or strict original-face guarantee')
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command', choices=['export', 'validate', 'read'])
+    parser.add_argument('command', choices=['export', 'validate', 'read', 'select-pose'])
     parser.add_argument('--package', type=Path, required=True)
     parser.add_argument('--spec', type=Path)
+    parser.add_argument('--pose')
     args = parser.parse_args()
     try:
         if args.command == 'export':
             spec = json.loads(args.spec.read_text(encoding='utf-8'))
-            result = export_package(args.package, spec['model'], spec['references'], spec['name'], spec['confirmation_note'], supplements=spec.get('supplements'))
+            result = export_package(args.package, spec['model'], spec['references'], spec['name'], spec['confirmation_note'], supplements=spec.get('supplements'), pose_mothers=spec.get('pose_mothers'))
+        elif args.command == 'select-pose':
+            if not args.pose:
+                raise ValueError('select-pose requires --pose')
+            result = select_pose_mother(args.package, args.pose)
         else:
             result = load_package(args.package)
         print(json.dumps(result, ensure_ascii=False, indent=2))
