@@ -4,6 +4,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const http = require('node:http');
 const path = require('node:path');
+const {createHash} = require('node:crypto');
 const root = path.resolve(__dirname, '../gallery/style24-comparison-20260929');
 const mime = {'.html':'text/html', '.css':'text/css', '.js':'text/javascript', '.svg':'image/svg+xml', '.jpg':'image/jpeg', '.webp':'image/webp', '.png':'image/png', '.woff2':'font/woff2', '.json':'application/json'};
 const server = http.createServer((req, res) => {
@@ -192,20 +193,37 @@ async function check(name, fn) {
         assert.equal(await p.locator('#external-black-leather .reviewed-images img').count(),6);
         const originals=await p.locator('#black-jacket-office .reviewed-images a').evaluateAll(as=>as.map(a=>a.getAttribute('href')));
         assert.deepEqual(originals,office.images.map(i=>i.path));
+        const sharing=p.locator('#black-jacket-sharing');
+        assert.equal(await sharing.locator('.primary').getAttribute('href'),'https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/BETA11-TRYOUT.md');
+        const downloads=await sharing.locator('a[download]').evaluateAll(as=>as.map(a=>a.getAttribute('href')));
+        assert.deepEqual(downloads,[office.sharing[4].path,office.sharing[0].path,office.sharing[1].path]);
+        for(const relative of downloads) {
+          const response=await p.request.get(origin+'/'+relative);
+          assert.equal(response.status(),200);
+          assert.equal(createHash('sha256').update(await response.body()).digest('hex'),office.sharing.find(i=>i.path===relative).sha256);
+        }
+        const downloadEvent=p.waitForEvent('download');
+        await sharing.locator('a[download]').first().click();
+        const download=await downloadEvent;
+        assert.equal(download.suggestedFilename(),'caiguang-black-jacket-share.zip');
+        assert.equal(await download.failure(),null);
         await p.locator('#black-jacket-office img').evaluateAll(imgs=>imgs.forEach(i=>i.loading='eager'));
         await p.waitForFunction(()=>[...document.querySelectorAll('#black-jacket-office img')].every(i=>i.complete&&i.naturalWidth>0));
         for(const lang of ['zh','en']) {
           if(lang==='en') await p.locator('#case-language-toggle').click();
           assert.match(await p.locator('#black-jacket-office').innerText(),lang==='zh'?/第六张采用正面自然站姿/:/slot 6 uses stationary frontal standing/);
+          assert.match(await sharing.innerText(),lang==='zh'?/下载分享素材/:/Download sharing kit/);
           for(const width of [1440,390,320]) {
             await p.setViewportSize({width,height:1000});
             assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
             const columns=await p.locator('.outfit-comparison').evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(' ').length);
             assert.equal(columns,width>600?3:1);
             assert.equal(await p.locator('.outfit-comparison img').first().evaluate(el=>getComputedStyle(el).objectFit),'contain');
+            if(width<480) assert.equal(await sharing.locator('.case-sharing-actions').evaluate(el=>getComputedStyle(el).flexDirection),'column');
             if(shots&&width!==320) {
               await p.locator('.outfit-comparison').screenshot({path:path.join(shots,`jacket-comparison-${lang}-${width}.png`)});
               if(width===1440) await p.locator('#black-jacket-office .reviewed-images').screenshot({path:path.join(shots,`jacket-six-${lang}-${width}.png`)});
+              await sharing.screenshot({path:path.join(shots,`jacket-sharing-${lang}-${width}.png`)});
             }
           }
         }

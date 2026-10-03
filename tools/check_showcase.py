@@ -10,6 +10,7 @@ from collections import Counter
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
+from zipfile import BadZipFile, ZipFile
 
 try:
     from . import showcase_assets as assets
@@ -27,6 +28,10 @@ HOME_PRESENTATION_FILES = (
     "assets/reviewed-cases/green-shirt-home/pants-reference.jpg",
     "assets/reviewed-cases/green-shirt-home/before-after.jpg",
     "assets/reviewed-cases/green-shirt-home/six-poses.jpg",
+)
+OFFICE_SHARE_FILES = tuple(
+    f"assets/reviewed-cases/black-jacket-office/share/{name}"
+    for name in ("before-after.jpg", "six-poses.jpg", "share-copy.md", "README.md", "caiguang-black-jacket-share.zip")
 )
 REVIEWED_FILES = {"reviewed-cases.html", "reviewed-cases.json"} | {
     f"assets/reviewed-cases/{case}/look-{pose}.png"
@@ -82,6 +87,24 @@ def validate_reviewed_cases(gallery: Path) -> list[str]:
                 findings.extend(_record_findings(gallery / OFFICE_INPUT, source, OFFICE_INPUT))
                 if source.get("sha256") != external["input_image"]["sha256"]:
                     raise ValueError("office comparison: same real input required")
+                sharing = case.get("sharing", [])
+                if sharing or any((gallery / name).exists() for name in OFFICE_SHARE_FILES):
+                    if [item["path"] for item in sharing] != list(OFFICE_SHARE_FILES):
+                        raise ValueError("office sharing: expected fixed public files")
+                    for item in sharing:
+                        is_image = item["path"].endswith(".jpg")
+                        required = ("sha256", "bytes", "dimensions", "format") if is_image else ("sha256", "bytes")
+                        if not all(key in item for key in required):
+                            raise ValueError("office sharing: missing integrity record")
+                        findings.extend(_record_findings(gallery / item["path"], item, item["path"], image=is_image))
+                    # A ZIP must not silently publish the local trial ledger or stale posters.
+                    with ZipFile(gallery / OFFICE_SHARE_FILES[-1]) as archive:
+                        members = [Path(name).name for name in OFFICE_SHARE_FILES[:-1]]
+                        if archive.namelist() != members:
+                            raise ValueError("office sharing: unexpected archive members")
+                        for relative, member in zip(OFFICE_SHARE_FILES, members):
+                            if archive.read(member) != (gallery / relative).read_bytes():
+                                raise ValueError("office sharing: archive member differs from public file")
                 if (case.get("source_coverage", {}).get("real_rear") != "missing"
                         or case.get("pose_exception", {}).get("slot") != 6
                         or case["images"][-1].get("original_pose") != "BACK_TURN_GLANCE"
@@ -90,7 +113,7 @@ def validate_reviewed_cases(gallery: Path) -> list[str]:
                     raise ValueError("office case: missing rear-source replacement disclosure")
         if len(set(hashes)) != len(REVIEWED_CASE_IDS) * 6:
             findings.append("reviewed cases: expected 36 distinct image hashes")
-    except (OSError, ValueError, TypeError, KeyError) as error:
+    except (OSError, ValueError, TypeError, KeyError, BadZipFile) as error:
         findings.append(f"invalid or missing reviewed case manifest: {error}")
     return findings
 
@@ -320,6 +343,7 @@ def validate_showcase(gallery: Path, *, repo_root: Path | None = None, expected_
         allowed_files.add(EXTERNAL_INPUT)
         allowed_files.add(OFFICE_INPUT)
         allowed_files.update(HOME_PRESENTATION_FILES)
+        allowed_files.update(OFFICE_SHARE_FILES)
     # The already-published input remains a byte-identical alias for old links.
     legacy_input = gallery / "inputs/beige-outfit.jpg"
     if legacy_input.exists():
