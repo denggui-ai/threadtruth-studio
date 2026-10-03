@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "review_date": "2026-10-03",
-  "scope": "Six six-image AI styling examples, including an external trial and the same-input Office Commute case; display permission, visual review and garment verification remain separate.",
+  "scope": "Six six-image AI styling examples plus two same-outfit single-image style tests; display permission, visual review and garment verification remain separate.",
   "cases": [
     {
       "id": "red-floral-french",
@@ -766,7 +766,87 @@
           "bytes": 639383,
           "sha256": "4bc8db2440c8221dea3dc9605169b2361cd29275327158f6dc3a5f63420865b8"
         }
-      ]
+      ],
+      "style_tests": {
+        "id": "black-jacket-style-comparison",
+        "scope": "Two separate single-image C2 tests, not two additional six-image sets or a controlled version benchmark.",
+        "source_sha256": "388f510353c06e348f5e1810078f47858c7921efbf312b2157335b5db472b278",
+        "skill_version": "1.0.0-beta.11+codex.20261002T140749-26958bbe",
+        "execution_scope": "Explicit use of installed beta.11 C2 single-image branch in the current Codex session; not fresh-install, automatic discovery, six-image or all-style verification.",
+        "publication_permission": {
+          "authorized": true,
+          "basis": "Maintainer approved the current same-outfit comparison publication update in Codex on 2026-10-03; original input display permission remains in force.",
+          "scope": "Selected French v3 and American v1 AI images for project demo display, no open media reuse license."
+        },
+        "review": {
+          "zh": "法式 v3 视觉方向已认可，具体温和表情要求生效，披片新增扣点已修正。美式保留较克制的都市效果，视觉方向待人工验收。领口扣位、遮挡裤腰及鞋带等细节仍需对照原衣；无背面实拍，不验证背部结构。",
+          "en": "French v3 visual direction was accepted; a specific gentle-expression target was rendered and an added storm-flap fastener corrected. American v1 remains a restrained urban test with visual acceptance pending. Collar fasteners, covered waistband and shoe lacing still need garment review; rear construction is not verified."
+        },
+        "images": [
+          {
+            "style": "french-effortless",
+            "mode": "C",
+            "action": 2,
+            "pose": 1,
+            "path": "assets/reviewed-cases/black-jacket-style-comparison/french-v3.png",
+            "sha256": "3b1f99ee65d4b70f41c0bf979c3ec84568fd9dcf1bbb03b3a9936a92e19ee416",
+            "bytes": 2174527,
+            "dimensions": [
+              1024,
+              1536
+            ],
+            "format": "PNG",
+            "status": "image-draft",
+            "ai_generated": true,
+            "visual_acceptance": "accepted",
+            "qa": "qa-user-review",
+            "prompt_sha256": "1270ca6814d7b841685fe89efcd721dff93673f9477272c86ac97c772b8eb673",
+            "reference_order": [
+              {
+                "role": "authoritative real outfit",
+                "sha256": "388f510353c06e348f5e1810078f47858c7921efbf312b2157335b5db472b278"
+              },
+              {
+                "role": "authorized AI face identity only",
+                "sha256": "704a88d65ec0dcd70fa9b918c4c83c3058cf906d7db1345fddf12501b9249bf6"
+              }
+            ],
+            "identity_reference_scope": "face crop of external AI identity",
+            "native_calls_in_style_test_history": 3
+          },
+          {
+            "style": "american-street",
+            "mode": "C",
+            "action": 2,
+            "pose": 1,
+            "path": "assets/reviewed-cases/black-jacket-style-comparison/american-v1.png",
+            "sha256": "c149582bb6ee6f921243a7bf03b150e07d1a56e315cf9ade8cd3e26f5717bde6",
+            "bytes": 2276392,
+            "dimensions": [
+              1024,
+              1536
+            ],
+            "format": "PNG",
+            "status": "image-draft",
+            "ai_generated": true,
+            "visual_acceptance": "pending-human-review",
+            "qa": "qa-user-review",
+            "prompt_sha256": "db9d754594af42b05cbf86b7f7a2a2d85c1c6711f69d2310d2957fb20a5c66f5",
+            "reference_order": [
+              {
+                "role": "authoritative real outfit",
+                "sha256": "388f510353c06e348f5e1810078f47858c7921efbf312b2157335b5db472b278"
+              },
+              {
+                "role": "authorized AI identity only",
+                "sha256": "cb55c76557ec149d917f6e381cb7d7531e1e577d23101830d81a8ec829cd2793"
+              }
+            ],
+            "identity_reference_scope": "external AI full-body identity reference",
+            "native_calls_in_style_test_history": 1
+          }
+        ]
+      }
     }
   ]
 }
