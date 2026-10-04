@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — scoped first-response correction, 2026-10-04
+
+- Trigger: current prompt-only model-reuse evaluation again promised local preparation before reading the skill. Providing the complete existing discovery description still produced a later-preparation clause in the first visible reply. Host-normalized visible messages retain both observations.
+- Replace abstract discovery wording with a concrete standalone input-check sentence and a stop point. Consolidate the repetitive first-reply body block into one example and the existing downstream gate sequence; preserve actual input classification, generation authorization, model/garment facts and all 24 style packs.
+- Update source evals 91/113 to cover generic local-preparation promises and require ordered visible-message evidence; update the existing metadata contract. No new scripts, schema, model library or image calls.
+- Verification: two old-rule runs scored 4/5 (first-reply failure); the revised explicit-path, metadata-visible run scored 5/5 under independent review. Each configuration has one run; the old metadata control read extra workspace context. All 14 repository contracts and source/runtime static checks passed; 45-file snapshots show only SKILL.md changed. No actionable finding remained in the narrow source review. See `docs/verification/2026-10-04-first-response-flow.md`. No installed-runtime change or universal trigger/reliability claim.
+
 ## Unreleased — local beta.11 model-reuse integration, 2026-10-04
 
 - Trigger: takeover found the reviewed model-reuse branch still based on beta.10, while the active plugin had beta.11 source-supported six-pose rules. Direct replacement would regress those published rules.
