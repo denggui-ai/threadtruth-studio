@@ -1729,6 +1729,47 @@
         "无原人物的新选角保留未覆盖的风格妆发建议",
         "没有生成、人物接受或相似度保证；规则通过不能证明历史漂移根因"
       ]
+    },
+    {
+      "id": 136,
+      "category": "installed_acceptance_reuse_new_product",
+      "prompt": "沿用这个已接受的人物参考包，为这款白色连帽马甲准备第一张测试图的提示词和可恢复的本地任务；之后计划同组续成六张。韩系冷感、B棚拍、1024×1536。妆发沿用人物参考，不重新选人。本轮只准备，不生图。",
+      "expected_output": "核对真实新品而不继承西装或人物旧衣服; 原始身份与已接受脸部补充各自说明范围; 生成可校验的安装版本地任务和实际附件清单，次数为0; 考虑原始人物+补充+首张导致的续图附件上限; 妆发默认保留且无确定身体测量或严格锁脸保证",
+      "expectations": [
+        "核对真实新品而不继承西装或人物旧衣服",
+        "原始身份与已接受脸部补充各自说明范围",
+        "生成可校验的安装版本地任务和实际附件清单，次数为0",
+        "考虑原始人物+补充+首张导致的续图附件上限",
+        "妆发默认保留且无确定身体测量或严格锁脸保证"
+      ],
+      "ref": "2026-10-04 installed acceptance; isolated run supplies named garment sources and/or private model package; no private fixture committed. Tool-process claims require actual trace, not executor self-report."
+    },
+    {
+      "id": 137,
+      "category": "installed_acceptance_missing_new_product",
+      "prompt": "请继续用这个人物包里的她展示下一件新品。先检查素材是否够。",
+      "expected_output": "识别仅有人物包没有新品服饰源; 不把补充图西装或原人物衣服当成新品; 简洁指出缺新品实拍并停在补图; 不自行查询历史或生成/授权任务",
+      "expectations": [
+        "识别仅有人物包没有新品服饰源",
+        "不把补充图西装或原人物衣服当成新品",
+        "简洁指出缺新品实拍并停在补图",
+        "不自行查询历史或生成/授权任务"
+      ],
+      "ref": "2026-10-04 installed acceptance; isolated run supplies named garment sources and/or private model package; no private fixture committed. Tool-process claims require actual trace, not executor self-report."
+    },
+    {
+      "id": 138,
+      "category": "installed_acceptance_new_model_selection",
+      "prompt": "这款白色连帽马甲用于女性通勤电商展示，我没有固定模特。已选韩系冷感、B棚拍，请推荐适合这件衣服的模特方向，让我能选择和调整。先不要生图。",
+      "expected_output": "基于可见服饰给主推及两个不同人物方向; 人物因素建议/固定/可调/未知区分清楚，不冒充已确认; 显式已选风格不重铺24目录或增加重复选择阻断; 不给精确身体数据或误用现有私人真人包; 说明选择/试拍/确认边界且不调用图片工具",
+      "expectations": [
+        "基于可见服饰给主推及两个不同人物方向",
+        "人物因素建议/固定/可调/未知区分清楚，不冒充已确认",
+        "显式已选风格不重铺24目录或增加重复选择阻断",
+        "不给精确身体数据或误用现有私人真人包",
+        "说明选择/试拍/确认边界且不调用图片工具"
+      ],
+      "ref": "2026-10-04 installed acceptance; isolated run supplies named garment sources and/or private model package; no private fixture committed. Tool-process claims require actual trace, not executor self-report."
     }
   ]
 }
