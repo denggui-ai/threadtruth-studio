@@ -1,5 +1,10 @@
 # Changelog
 
+## Local flow2 installed — 2026-10-04
+
+- User-authorized backup, replacement and official plugin activation completed; source/cache byte parity and rollback source retained. Official activation removed the old cache, not the complete source backup.
+- Six installed-state checks passed. One fresh installed CLI casting scenario scored 12/13: correct installed-cache reads and no image calls, with a non-blocking first-reply delivery preview retained as a deferred finding. No rerun, source behavior change or new image in this installation batch. See `docs/verification/2026-10-04-flow2-live-install.md`.
+
 ## Local flow2 candidate — 2026-10-04
 
 - Close routing-path and process-reporting observations: resolve complete registered style slugs before opening packs, remove misleading historical/short path examples, and separate role-based material summaries from claims about tool execution order.
