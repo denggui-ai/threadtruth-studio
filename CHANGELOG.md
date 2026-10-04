@@ -1,5 +1,11 @@
 # Changelog
 
+## Local appearance1 handoff — 2026-10-04
+
+- Package the reviewed `3354de4` appearance-default correction as `1.0.0-beta.11+model-reuse.20261004.appearance1`; update the existing installation guides without changing schema or installer behavior.
+- The user accepted visible face presentation in both authorized diagnostic images. Retain original identity plus the accepted candidate as a private face-only supplement; comparative visual improvement remains inconclusive and garment acceptance remains separate.
+- Release checks and actual installation outcome are recorded in `docs/verification/2026-10-04-appearance-release.md`; no extra image requests or public publication.
+
 ## Unreleased — preserve default appearance for existing identities, 2026-10-04
 
 - Trigger: an existing AI/real identity card that only requests a friendly smile still receives the Korean pack’s eye makeup, lip colour and flyaway-hair targets because the mood filter activates only literal condition keywords. This contradicts the existing default to retain reference hair/makeup. It is a reproducible prompt conflict, not proof of the cause of earlier visual drift.

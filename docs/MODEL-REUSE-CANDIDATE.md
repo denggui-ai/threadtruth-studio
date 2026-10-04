@@ -1,10 +1,10 @@
 # 模特复用本地候选：安装与验收
 
-版本：`1.0.0-beta.11+model-reuse.20261004.flow1`。状态为 **candidate**，用于本机受控验收；不是公开 beta.11 下载包，也未自动替换已安装插件。
+版本：`1.0.0-beta.11+model-reuse.20261004.appearance1`。状态为 **candidate**，用于本机受控验收；不是公开 beta.11 下载包，也未自动替换已安装插件。
 
-本次增量仅修订首回复：先用一句话核对输入，读完规则并完成适用检查后再交付。已在一项显式路径文字准备任务中复核通过，不代表已安装插件的隐式触发或所有场景均已验证。其余运行文件与上一模特复用候选一致。
+本次增量修正已有人物的默认妆发：未填写妆发条件时保留参考外观，明确的新造型要求优先；不把新选角当成已有身份。89项模特回归与独立代码审查通过；两张授权对照的人物表现获用户接受，但未证明明确的保脸增益。此前首回复修订保留。
 
-本候选整合 beta.11 的缺背面第六张替代规则，以及开发分支中的人物选择、原始身份参考、首张人物确认、私人参考包、固定姿势局部换装与 F1–F4 修复。原始人物保真、商品商用验收、新宿主发现及真实 provider 调用保持未验证。本地检查通过不能升级这些结论。
+本候选整合 beta.11 的缺背面第六张替代规则，以及开发分支中的人物选择、原始身份参考、首张人物确认、私人参考包、固定姿势局部换装与 F1–F4 修复。严格原始人物保真、商品商用验收和新宿主发现仍未全面验证；两次原生图片调用只提供限定样本。本地检查通过不能升级这些结论。
 
 ## 两种姿势路径
 
@@ -20,9 +20,9 @@
 在一个空目录放入本轮提供的 ZIP 和匹配的 `.sha256`；保留旧版源和缓存。校验值应通过可信渠道核对，它不单独证明发布者身份。
 
 ```sh
-shasum -a 256 -c threadtruth-studio-1.0.0-beta.11+model-reuse.20261004.flow1.zip.sha256
-unzip threadtruth-studio-1.0.0-beta.11+model-reuse.20261004.flow1.zip
-cd threadtruth-studio-1.0.0-beta.11+model-reuse.20261004.flow1
+shasum -a 256 -c threadtruth-studio-1.0.0-beta.11+model-reuse.20261004.appearance1.zip.sha256
+unzip threadtruth-studio-1.0.0-beta.11+model-reuse.20261004.appearance1.zip
+cd threadtruth-studio-1.0.0-beta.11+model-reuse.20261004.appearance1
 python3 install-local.py --replace
 ```
 
