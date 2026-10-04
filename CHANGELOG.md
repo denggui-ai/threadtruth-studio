@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased — preserve default appearance for existing identities, 2026-10-04
+
+- Trigger: an existing AI/real identity card that only requests a friendly smile still receives the Korean pack’s eye makeup, lip colour and flyaway-hair targets because the mood filter activates only literal condition keywords. This contradicts the existing default to retain reference hair/makeup. It is a reproducible prompt conflict, not proof of the cause of earlier visual drift.
+- Treat hair/makeup as retained axes for existing identities even when the card omits them; state the same default in shared native/web prompt guidance. Explicit declared changes still reach the prompt. New casting keeps unoverridden pack styling, and photographic/garment/safety instructions remain intact. No new schema, style pack or generation route.
+- Add preview/single-image regressions across AI/real and face/full scopes, explicit-restyling coverage, and source eval 135. Update the old test that incorrectly treated a reused identity like unspecified new casting.
+- Empty adjustable conditions now honor explicit fixed styling targets; new casting no longer defaults to retaining a nonexistent identity reference. Two additional regressions cover both cases.
+- Verification: 89 model tests and 14 repository contracts passed; deterministic failing baseline and interim failures retained privately. Source/runtime static checks and independent scoped review recorded in `docs/verification/2026-10-04-model-appearance-defaults.md`. No new image, live installation or visual-fidelity claim.
+
 ## Unreleased — local FLOW-1 candidate handoff, 2026-10-04
 
 - Package the previously reviewed `41aaa2b` first-response correction as `1.0.0-beta.11+model-reuse.20261004.flow1`; update manifest and both candidate guides to avoid collision with the earlier package. No additional runtime behavior or data schema change.

@@ -56,6 +56,22 @@ class ModelReferenceTests(unittest.TestCase):
         result.update(changes)
         return result
 
+    def test_empty_adjustable_respects_explicit_fixed_styling_targets(self):
+        for source_type in ('ai', 'real'):
+            model = self.model(source_type=source_type,
+                               locked=['short black bob hairstyle', 'matte red lipstick'],
+                               adjustable=[], consent_note='Declared likeness permission')
+            with self.subTest(source_type=source_type):
+                text = '\n'.join(self.m.prompt_lines(model))
+                self.assertIn('short black bob hairstyle; matte red lipstick', text)
+                self.assertNotIn('Permitted styling: retain reference hair and makeup', text)
+                self.assertIn('unless the declared model conditions explicitly change them', text)
+
+    def test_new_casting_empty_adjustable_does_not_require_identity_reference_styling(self):
+        text = '\n'.join(self.m.prompt_lines(self.model(source_type='new', adjustable=[])))
+        self.assertNotIn('retain reference hair and makeup', text)
+        self.assertIn('selected style', text)
+
     def export_supplement(self, supplements):
         try:
             return self.m.export_package(self.root/'with-supplement', self.model(),
@@ -277,7 +293,8 @@ class ModelReferenceTests(unittest.TestCase):
         self.assertNotIn('detached expression', actual)
         self.assertEqual(self.m.resolve_mood(model, 'friendly smile, warm light'), 'friendly smile, warm light')
         self.assertEqual(self.m.resolve_mood(self.model(source_type='new', locked=[], adjustable=[]), mood), mood)
-        self.assertEqual(self.m.resolve_mood(self.model(locked=[], adjustable=['friendly smile']), mood), actual)
+        reused = self.m.resolve_mood(self.model(locked=[], adjustable=['friendly smile']), mood)
+        self.assertEqual(reused, 'warm light, film texture')
 
     def test_unseparable_mixed_conflict_requires_review_without_discarding_photography(self):
         model = self.model(adjustable=['friendly smile'])

@@ -54,6 +54,47 @@ class ModelPromptTests(unittest.TestCase):
             self.assertIn('no excessive retouching',text)
             self.assertIn('restrained editorial mood',text)
 
+    def test_existing_identity_defaults_do_not_recast_hair_or_makeup(self):
+        general, full = m._final_negatives(ROOT)
+        _, negative = m._canonical_action_zero(ROOT)
+        refs = [dict(path='original-person.png', role='identity-reference', sha256='a'*64)]
+        for source_type in ('ai', 'real'):
+            for scope in ('face', 'full'):
+                model = dict(source_type=source_type, scope=scope, subject='adult female model',
+                             locked=['retain original identity'], adjustable=['friendly smile'],
+                             consent_note='Declared likeness permission' if source_type == 'real' else '')
+                outputs = [
+                    m._prompt(self.preview, self.plan['source'], self.plan['identity_anchor'], negative,
+                              m._head_gaze_guidance(ROOT), model=model, model_references=refs),
+                    m._single_prompt(self.preview, self.plan['source'], self.plan['identity_anchor'],
+                                     self.preview['poses'][0], general, full, '2:3', False,
+                                     m._head_gaze_guidance(ROOT), model=model, model_references=refs),
+                ]
+                for action, text in enumerate(outputs):
+                    with self.subTest(source_type=source_type, scope=scope, action=action):
+                        for restyling in ('dewy translucent makeup', 'gray-brown and nude pink eye makeup',
+                                          'dusty rose lips', 'natural flyaway hair'):
+                            self.assertNotIn(restyling, text)
+                        for retained in ('friendly smile', 'soft even lighting', 'realistic native skin texture',
+                                         'no excessive retouching', 'original-person.png',
+                                         'Preserve every core item exactly', 'no garment redesign'):
+                            self.assertIn(retained, text)
+
+    def test_existing_identity_explicit_restyling_still_reaches_prompt(self):
+        model = dict(source_type='ai', scope='face', subject='adult female model',
+                     locked=['retain original identity'],
+                     adjustable=['short black bob hairstyle', 'matte red lipstick', 'friendly smile'], consent_note='')
+        refs = [dict(path='original-person.png', role='identity-reference', sha256='a'*64)]
+        general, full = m._final_negatives(ROOT)
+        text = m._single_prompt(self.preview, self.plan['source'], self.plan['identity_anchor'],
+                                self.preview['poses'][0], general, full, '2:3', False,
+                                m._head_gaze_guidance(ROOT), model=model, model_references=refs)
+        for target in model['adjustable']:
+            self.assertIn(target, text)
+        self.assertNotIn('dusty rose lips', text)
+        self.assertNotIn('natural flyaway hair', text)
+        self.assertIn('soft even lighting', text)
+
     def test_existing_reference_has_identity_role_and_not_product_authority(self):
         self.model['source_type']='ai'
         refs=[dict(path='brand-face.png',role='identity-reference',sha256='a'*64)]

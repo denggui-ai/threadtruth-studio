@@ -145,13 +145,18 @@ def validate_model(model):
 
 def prompt_lines(model):
     model = validate_model(model)
+    existing = model['source_type'] in ('ai', 'real')
+    styling_default = ('follow the fixed model conditions'
+                       if existing else 'follow the declared model conditions and selected style')
     scope = ('face-only reference; do not infer its unseen body; use declared body presentation'
              if model['scope'] == 'face' else 'preserve visible face, apparent age, skin tone and body proportions')
     return [f"Model subject: {model['subject']}. Identity scope: {scope}.",
             'Fixed model conditions: ' + ('; '.join(model['locked']) or 'follow declared identity references'),
-            'Permitted styling: ' + ('; '.join(model['adjustable']) or 'retain reference hair and makeup'),
+            'Permitted styling: ' + ('; '.join(model['adjustable']) or styling_default),
             'Model references never supply clothing, accessories, pose, backdrop or lighting. '
-            'User model conditions override conflicting style personas; never infer nationality or measured fit.']
+            'User model conditions override conflicting style personas; never infer nationality or measured fit.',
+            *(['Retain reference hair and makeup unless the declared model conditions explicitly change them.']
+              if existing else [])]
 
 
 def resolve_style(model, persona, negatives):
@@ -165,7 +170,7 @@ def resolve_style(model, persona, negatives):
 
 
 def resolve_mood(model, mood):
-    """Explicit person conditions replace same-axis alternatives, never whole moods.
+    """Identity defaults and explicit conditions replace same-axis alternatives.
 
     Frozen pack language is comma/semicolon phrased. Preserve all unaffected text,
     including skin texture, age-neutral settings and feminine garment details.
@@ -186,6 +191,11 @@ def resolve_mood(model, mood):
     declared = ' '.join(conditions + [model['subject']] +
                         [f['name'] + ' ' + f['value'] for f in model.get('factors', []) if f['status'] != 'unknown'])
     active = {name for name, pattern in axes.items() if re.search(pattern, declared, re.I)}
+    # Reusing an identity already defaults to its hair and makeup; omission of
+    # those fields is not permission for the style pack to recast them. New
+    # casting keeps the pack defaults until the user supplies an override.
+    if model['source_type'] in ('ai', 'real'):
+        active.update(('hair', 'makeup'))
     safety = r'sexual|nudity|anatom|deform|extra|missing|child|minor|unsafe'
     photo = r'\b(light\w*|palette|texture|photograph\w*|grain|backdrop|background|setting|composition|framing)\b'
 
