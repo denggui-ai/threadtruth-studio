@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — automation evidence and preparation status, 2026-10-04
+
+- Trigger: prepared local tasks reported `image-draft` before any returned image, and routing instructions required exposing debug weights to users. Source changes distinguish `prepared` from returned/retained image evidence and keep routing diagnostics internal unless requested.
+- Normalize schema-1/2 legacy delivery labels on read without rewriting files; persisted mutations derive the label from current and retained retry outputs. Budget, failure evidence, user model confirmation and commercial QA remain separate.
+- Add local regressions and eval 139; extend eval 138 to cover user-facing diagnostics. Repeat the two earlier process-evidence gaps with retained real CLI JSONL events. Candidate evidence does not update the installed plugin or establish image quality.
+
 ## Local appearance1 handoff — 2026-10-04
 
 - Package the reviewed `3354de4` appearance-default correction as `1.0.0-beta.11+model-reuse.20261004.appearance1`; update the existing installation guides without changing schema or installer behavior.

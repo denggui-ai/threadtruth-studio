@@ -520,6 +520,26 @@ class ModelTaskTests(unittest.TestCase):
         return m.update(self.job,'retry-authorize',look=1,expected_attempt=attempt,
                         approval_id=approval,note='Synthetic explicit one-call retry authority',prompt='Retry pose one')
 
+    def test_schema2_prepared_failure_and_legacy_read(self):
+        d=self.reserve_trial()
+        self.assertEqual(d['delivery_status'],'prepared')
+        d=self.fail_trial()
+        self.assertEqual(d['delivery_status'],'prepared')
+        path=self.job/'task.json';d['delivery_status']='image-draft'
+        path.write_text(json.dumps(d));before=path.read_bytes()
+        normalized=m.read(self.job)
+        self.assertEqual(normalized['delivery_status'],'prepared')
+        self.assertEqual(normalized['looks'][0]['failure'],d['looks'][0]['failure'])
+        self.assertEqual(normalized['attempts'],1)
+        self.assertEqual(path.read_bytes(),before)
+        self.reconcile_trial();d=self.retry_trial()
+        self.assertEqual(d['delivery_status'],'prepared')
+        m.update(self.job,'reserve',look=1,ready=True,refs=m.reference_hashes(self.job,1))
+        d=m.update(self.job,'returned',look=1,file=self.image('retry-ok','green'))
+        self.assertEqual(d['delivery_status'],'image-draft')
+        self.assertIsNone(d['model_confirmation'])
+        self.assertEqual(d['attempts'],2)
+
     def test_known_failure_requires_reason_and_retained_receipt(self):
         self.reserve_trial()
         for fields in ({},{'reason':'Observed failure'},{'failure_receipt':self.garment}):
@@ -563,6 +583,7 @@ class ModelTaskTests(unittest.TestCase):
                 with self.assertRaises(ValueError):m.update(self.job,'returned',look=1,file=original)
                 d=m.read(self.job);row=d['looks'][0]
                 self.assertEqual(row['state'],'failed')
+                self.assertEqual(d['delivery_status'],'prepared')
                 self.assertEqual(d['attempts'],1)
                 self.assertNotIn('output',row)
                 self.assertEqual((self.job/row['failure']['evidence']['file']).read_bytes(),original.read_bytes())

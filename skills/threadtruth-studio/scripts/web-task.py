@@ -105,7 +105,13 @@ def stamp():
     return datetime.now(timezone.utc).isoformat()
 
 
+def refresh_delivery_status(data):
+    # Retried images remain evidence even after the current row returns to pending.
+    data['delivery_status']='image-draft' if any(row.get('output') for row in evidence_rows(data)) else 'prepared'
+
+
 def save(root,data):
+    refresh_delivery_status(data)
     temp=root/('.task-'+uuid.uuid4().hex+'.tmp')
     with temp.open('x',encoding='utf-8') as f:
         json.dump(data,f,ensure_ascii=False,indent=2);f.flush();os.fsync(f.fileno())
@@ -130,6 +136,8 @@ def read(root):
     if data.get('schema_version') not in (1,2):raise ValueError('Unsupported task schema')
     if 'failure_recovery_version' in data and (data['schema_version']!=2 or type(data['failure_recovery_version']) is not int or data['failure_recovery_version']!=1):
         raise ValueError('Unsupported failure recovery version')
+    # Normalize legacy records in memory; reading must not rewrite evidence.
+    refresh_delivery_status(data)
     return data
 
 
@@ -209,7 +217,7 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
                 frozen[-1].update(scope=item['scope'],confirmation_note=item['confirmation_note'])
         data={'schema_version':schema_version,'created_at':stamp(),'route':route,'mode':'manual','model_verified':False,
               'size':list(size),'identity':bool(identity),'references':frozen,'authorization':None,'attempts':0,
-              'complete':False,'delivery_status':'image-draft','events':[],
+              'complete':False,'delivery_status':'prepared','events':[],
               'looks':[{'number':i,'prompt':p,'prompt_sha256':hashlib.sha256(p.encode()).hexdigest(),'state':'pending'} for i,p in enumerate(prompts,1)]}
         if schema_version==2:
             data.update(context=context,context_sha256=object_hash(context),model=model,model_sha256=object_hash(model),model_confirmation=None,

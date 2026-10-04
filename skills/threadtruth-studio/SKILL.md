@@ -54,7 +54,7 @@ description: "Apparel model images and prompts. First reply: one standalone inpu
 
 ```
 上传内容 → ①资产分类(8类)→ ②门禁判定 → ③服饰识别卡片(含性别年龄轴/品类轴/用途线索/输出形态/交付规格线索)
-        → ③.5 风格选择面板(主推+2备选+理由+trace + 完整24包目录,免费,不生图)→ 等用户自由确认风格代号
+        → ③.5 风格选择面板(主推+2备选+理由 + 完整24包目录;trace仅内部审计,免费,不生图)→ 等用户自由确认风格代号
         → ④ 风格路由(显式/冲突检测/推荐)+ 模式路由(A自动/B棚拍/C场景/D混合)
         → ④.6 成人模特选定(沿用已有/匹配新,方向卡与人物条件)→ ⑤生成动作门禁 →┬ 动作0:1 张六宫格预览(标注非成片)→ 用户确认方向 ┐
                           │ 动作1:先验收 look-1 → 用户确认人物 → 身份锚定 → 逐张出余下5张(闭集/串行/计数)←┘
@@ -91,10 +91,11 @@ description: "Apparel model images and prompts. First reply: one standalone inpu
 - `style-conflict-hold`:确定性最长匹配后仍命中 **≥2 个不同风格包**(无论互斥或可融合),或显式风格与性别/品类事实有边界张力(见 style-router §2/§3),**停确认**。列候选并请用户确认单一主风格/明确融合主次,或解释事实张力+请二选一;确认前不选定/不生图。
 - `prompts-only`:已输出 6 条提示词,未生图(动作 3)。
 - `preview-grid`:已出 1 张六宫格方向预览(动作 0),**非成片**,等用户确认方向。与 `image-ready` 严格互斥,永不能直接当成片;进成片须用户明确确认。
+- `prepared`:本地任务已准备,尚未导入通过文件校验的图片回执;不是生成完成或生成授权。请求是否进行中/未知/失败由逐张状态记录。
 - `image-draft`:已生成**独立成片图**,但尚未关闭商业 QA 或未经用户核对服饰保真,不可直接商用。
 - `image-ready`:整组无未关闭 `qa-retry`,六张元数据已证明符合唯一 `canvas_contract` 与批次像素基线,用户已对照实物/高清源图确认服饰硬事实并关闭 `qa-user-review`,且已知 AI 标识要求,方可发布。
 - `tool-blocked`:当前 host/session **没有任何可调用的原生图片生成能力**(Codex Desktop / ChatGPT 内置生图也算,工具名不一定逐字叫 `image_gen`),不能生图。此状态只做识别卡/提示词/迁移指引,**不得**改用 OpenAI API、CLI fallback、`OPENAI_API_KEY`、联网脚本或第三方服务。
-- 默认产出 `image-draft`,升 `image-ready` 由用户确认。
+- 收到并导入图片后才为 `image-draft`;保留的重试历史图片同样属于草稿证据。旧任务读取时按图片记录推导 `prepared`/`image-draft`,不改写原文件、不重置预算,不自动升 `image-ready`。
 
 **QA 处置词(不是主生命周期状态):** `qa-pass`=未发现可见阻断漂移;`qa-retry`=硬服饰事实、模特身份、人体/安全或交付结构失败,必须重试/移出交付;`qa-user-review`=logo/小字/细微面料/隐蔽结构无法可靠确认,必须由用户或运营比对;已启用试点风格(当前仅 `ecommerce-studio`,见 `references/styles/ecommerce-studio.pack.yaml`)的可定位光影/表情目标偏离也归此处置,附理由交人工,不自动通过或判废。详见 `references/commercial-qa.md`。
 

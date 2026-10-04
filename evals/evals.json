@@ -1761,15 +1761,28 @@
       "id": 138,
       "category": "installed_acceptance_new_model_selection",
       "prompt": "这款白色连帽马甲用于女性通勤电商展示，我没有固定模特。已选韩系冷感、B棚拍，请推荐适合这件衣服的模特方向，让我能选择和调整。先不要生图。",
-      "expected_output": "基于可见服饰给主推及两个不同人物方向; 人物因素建议/固定/可调/未知区分清楚，不冒充已确认; 显式已选风格不重铺24目录或增加重复选择阻断; 不给精确身体数据或误用现有私人真人包; 说明选择/试拍/确认边界且不调用图片工具",
+      "expected_output": "基于可见服饰给主推及两个不同人物方向; 人物因素建议/固定/可调/未知区分清楚，不冒充已确认; 显式已选风格不重铺24目录或增加重复选择阻断; 不给精确身体数据或误用现有私人真人包; 说明选择/试拍/确认边界且不调用图片工具；内部路由诊断不默认出现在用户答复。",
       "expectations": [
         "基于可见服饰给主推及两个不同人物方向",
         "人物因素建议/固定/可调/未知区分清楚，不冒充已确认",
         "显式已选风格不重铺24目录或增加重复选择阻断",
         "不给精确身体数据或误用现有私人真人包",
-        "说明选择/试拍/确认边界且不调用图片工具"
+        "说明选择/试拍/确认边界且不调用图片工具",
+        "用户默认答复只含事实理由与可选方向，不展开内部route-trace/rule_id/分数/权重；明确请求诊断时可另展开"
       ],
       "ref": "2026-10-04 installed acceptance; isolated run supplies named garment sources and/or private model package; no private fixture committed. Tool-process claims require actual trace, not executor self-report."
+    },
+    {
+      "id": 139,
+      "category": "prepared_vs_image_draft",
+      "prompt": "创建尚未生图的本地任务，读取保留的旧版任务，模拟一次有凭据的失败后恢复以及已出图拒选后的重试；只做本地状态测试，不进行真实生图。",
+      "expected_output": "没有有效图片回执时prepared；有当前或重试历史图片时image-draft。旧任务只在内存规范化；读取不改原文件、不重置授权与累计次数、不自动完成或商业验收。",
+      "expectations": [
+        "schema1/2创建、预留和未知/失败无有效图片时prepared",
+        "导入有效图片后image-draft，拒选重试保留历史图仍为草稿",
+        "旧任务读取不改文件，保留累计预算、授权、失败凭据和人物确认门禁"
+      ],
+      "ref": "2026-10-04 scoped automation fixes; local synthetic regression only"
     }
   ]
 }
