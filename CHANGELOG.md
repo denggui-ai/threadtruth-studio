@@ -1,5 +1,13 @@
 # Changelog
 
+## Local flow2 candidate — 2026-10-04
+
+- Close routing-path and process-reporting observations: resolve complete registered style slugs before opening packs, remove misleading historical/short path examples, and separate role-based material summaries from claims about tool execution order.
+- First replay exposed truncated registry output before pack access; require the actual matching row to be visible before opening the pack, and retain that failed run.
+- Second replay passed registered-pack ordering but omitted the trial-authorization sentence; make all three handoff conditions mandatory and retain that regression before the final bounded replay.
+- Split eval 138 authorization/confirmation/tool assertions into independently graded conditions and add French-style eval 142. Existing traces remain unchanged; new candidate and matched baseline evidence are retained separately.
+- Package cumulative preparation-status, internal-diagnostic, casting-handoff and first-reply revisions after scoped tests and review. No new images or live installation in this batch; see `docs/verification/2026-10-04-routing-closeout.md`.
+
 ## Unreleased — casting handoff and early discovery text, 2026-10-04
 
 - Trigger: CLI new-casting replay omitted trial authorization and actual first-image model confirmation; its pre-load reply promised later deliverables while skill descriptions were shortened by the host.

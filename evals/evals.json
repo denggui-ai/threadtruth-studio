@@ -1767,9 +1767,14 @@
         "人物因素建议/固定/可调/未知区分清楚，不冒充已确认",
         "显式已选风格不重铺24目录或增加重复选择阻断",
         "不给精确身体数据或误用现有私人真人包",
-        "说明选方向不等于生成授权，试拍需适用的明确生成授权（已给则不重复索取），首张人物需用户对实际结果另行确认；本轮不调用生成或编辑工具，只读view_image允许",
+        "说明选择文字方向不等于生成授权",
+        "说明试拍需适用的明确生成授权，已有有效授权不重复索取",
+        "说明首张实际人物仍须用户根据结果另行确认",
+        "本轮不调用图片生成或编辑工具；只读view_image允许",
         "用户默认答复只含事实理由与可选方向，不展开内部route-trace/rule_id/分数/权重；明确请求诊断时可另展开",
-        "在宿主已发现目标描述的条件下，首次可见回复仅核对输入，不预告后续交付；随后读取目标技能再展开选角"
+        "在宿主已发现目标描述的条件下，首次可见回复仅核对输入，不预告后续交付；随后读取目标技能再展开选角",
+        "实际读取用户已选风格的 korean-cold-editorial pack；读取前已查注册表，只使用完整注册slug，不猜测不存在的风格包路径",
+        "用户可见的素材查看顺序或过程断言有工具轨迹支持；按角色汇总不等于按附件顺序执行"
       ],
       "ref": "2026-10-04 installed acceptance; isolated run supplies named garment sources and/or private model package; no private fixture committed. Tool-process claims require actual trace, not executor self-report.; 2026-10-04 follow-up uses actual workspace skill discovery metadata and complete invocation-input projection; record shortened description and first-message order."
     },
@@ -1809,6 +1814,27 @@
         "No image generation/editing or authorization/task creation calls; read-only image inspection is permitted"
       ],
       "ref": "2026-10-04 multilingual short-description regression; actual workspace metadata and visible ordering required"
+    },
+    {
+      "id": 142,
+      "category": "routing_regression",
+      "prompt": "这款白色连帽马甲用于女性通勤电商展示，我没有固定模特。已选法式、B棚拍，请推荐适合这件衣服的模特方向，让我能选择和调整。先不要生图。",
+      "expected_output": "沿用已选法式/B棚拍；读取注册 french-effortless，给可选人物方向，不生图，不虚构核对过程",
+      "expectations": [
+        "基于可见服饰给主推及两个不同人物方向",
+        "人物因素建议/固定/可调/未知区分清楚，不冒充已确认",
+        "显式已选风格不重铺24目录或增加重复选择阻断",
+        "不给精确身体数据或误用现有私人真人包",
+        "说明选择文字方向不等于生成授权",
+        "说明试拍需适用的明确生成授权，已有有效授权不重复索取",
+        "说明首张实际人物仍须用户根据结果另行确认",
+        "本轮不调用图片生成或编辑工具；只读view_image允许",
+        "用户默认答复只含事实理由与可选方向，不展开内部route-trace/rule_id/分数/权重；明确请求诊断时可另展开",
+        "在宿主已发现目标描述的条件下，首次可见回复仅核对输入，不预告后续交付；随后读取目标技能再展开选角",
+        "实际读取用户已选风格的 french-effortless pack；读取前已查注册表，只使用完整注册slug，不猜测不存在的风格包路径",
+        "用户可见的素材查看顺序或过程断言有工具轨迹支持；按角色汇总不等于按附件顺序执行"
+      ],
+      "ref": "2026-10-04 installed acceptance; isolated run supplies named garment sources and/or private model package; no private fixture committed. Tool-process claims require actual trace, not executor self-report.; 2026-10-04 follow-up uses actual workspace skill discovery metadata and complete invocation-input projection; record shortened description and first-message order."
     }
   ]
 }

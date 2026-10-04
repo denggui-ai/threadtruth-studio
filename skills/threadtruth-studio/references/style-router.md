@@ -3,6 +3,8 @@
 > **职责(L2 内部 router):** core 已加载后,据"识别事实 + 用户措辞"选风格包,输出**可审计 trace**;**只推荐不生图、不自动选定**。选定风格代号后仍须 §SKILL §6 动作授权才进生图。
 > **铁律:** 路由结果**不得绕过** `safety-core.md`(R1–R7)与输入门禁;`score` 只能查权重表累加,模型不得自由填分。
 
+**读取 pack：** 先在 §6 实际读到所选风格的映射行并核对完整注册 slug，再读取同名 `.pack.yaml`。若工具结果截断或片段缺该行，先精确搜索并读取该行，不把读取请求成功当作内容已核对。用户触发词、视觉族和历史名称不是文件名；未注册的族只用于解释视觉冲突，不尝试打开对应文件。
+
 ## 1. 路由输入
 - **识别卡事实:** 品类 / 主色 / 材质 / 版型 / 露肤 / **性别年龄信号** / 用途·平台线索 / 是否高风险品类。
 - **用户措辞:** 显式风格名(如"法式")、平台("发小红书")、用途("品牌大片/电商主图")。
@@ -15,7 +17,7 @@
 0. **显式风格确定性匹配与冲突检测(最先执行):** 从用户措辞抽取 pack `trigger_words` 命中,按以下固定顺序收口。不得依赖 pack 加载顺序或模型自由判断。
    1. **规范化 + 词边界:** 对 query 与 trigger 做 Unicode NFKC、大小写折叠;trigger **自身内部**已声明的空白、连字符与下划线可视为等价或缺省,但 ASCII trigger 首尾必须保留 ASCII 词边界。因此 `resort` 不得从 `presort`/`re-sort` 中取子串,`W Korea` 不得从 `show Korea`/`new Korea` 跨词拼出;trace 仍保留原始 query/trigger,不得伪造用户措辞。
    2. **同包别名折叠:** 同一 slug 下规范化后相等的拼写别名(如 `old money`/`old-money`)只记 1 次 `STYLE_EXPLICIT` hit。
-   3. **同一命中位置的最长完整触发词优先:** 只有短 trigger 在 query 中的命中区间被另一条更长 trigger 的命中区间**完整覆盖**时,才淘汰该短命中。例:`美式学院` 只归 `preppy`,不再同时命中 `american-street` 的裸`美式`;`性冷淡极简`只归 `nordic-minimal`,不再同时命中 korean 的`性冷淡`。如果用户在另一个位置又独立写出短词(如`美式和美式学院融合`),该独立命中必须保留,最终按多 slug 规则 hold。
+   3. **同一命中位置的最长完整触发词优先:** 只有短 trigger 在 query 中的命中区间被另一条更长 trigger 的命中区间**完整覆盖**时,才淘汰该短命中。例:`美式学院` 只归 `preppy`,不再同时命中 `american-street` 的裸`美式`;`性冷淡极简`只归 `nordic-minimal`,不再同时命中 korean-cold-editorial 的`性冷淡`。如果用户在另一个位置又独立写出短词(如`美式和美式学院融合`),该独立命中必须保留,最终按多 slug 规则 hold。
    4. **按最终 slug 数决策:** 0 个 slug→进入第 3/4 步;1 个 slug→进入第 1 步;≥2 个不同 slug→无论 §3 判为互斥还是视觉上可兼容,均**不静默混合、不臆选主风格**,停 `style-conflict-hold`(`fallback_used=conflict`),列出候选并请用户确认主风格或是否明确融合。
    5. 用户确认融合后仍需选定一个**主 pack**;其它风格只作为经 core 边界过滤的辅助视觉语言,不得把两个 pack 假装“归并为同一 pack”。
 1. **用户单一显式风格代号/风格名**(已过第 0 步无冲突)→ 先检查该 pack 与识别卡性别/品类事实是否存在边界张力,再决定是否直路由(仍需动作授权才生图)。
@@ -62,7 +64,7 @@ candidates(top3):
         {rule_id: SILH_RELAXED, term: 松弛廓形, w: 8}, ... ]}   # Σw = 78,可复算
   - {pack: korean-cold-editorial, score: 71, hits: [{rule_id: COLOR_COOLWHITE_KR, term: 米白, w: 16}, ...]}
   - {pack: clean-fit, score: 64, hits: [{rule_id: SILH_MINIMAL_CLEAN, term: 极简版型, w: 14}, ...]}
-chosen: 推荐主推=french-effortless(待用户确认);备选=korean-cold / clean-fit
+chosen: 推荐主推=french-effortless(待用户确认);备选=korean-cold-editorial / clean-fit
 fallback_used: 否
 gate: recognition-ready(未生图,等待『风格代号+动作代号』)
 ```
@@ -77,13 +79,13 @@ gate: recognition-ready(未生图,等待『风格代号+动作代号』)
 | rule_id | 维度 | 命中条件(term ∈ vocabulary) | weight |
 |---|---|---|---|
 | `STYLE_EXPLICIT` | 显式风格 | 用户直接说出该 pack 风格名/代号 | 100(直路由级) |
-| `MAT_ACETATE_FR` | 材质 | 醋酸缎/雪纺/真丝 → french | 18 |
-| `COLOR_COOLWHITE_KR` | 主色 | 冷白/冷灰 → korean-cold/nordic | 16 |
-| `SILH_MINIMAL_CLEAN` | 版型 | 极简/基础版型 → clean-fit/nordic | 14 |
-| `PLATFORM_XHS_RELAX` | 平台 | 小红书 → 生活/法式/clean | 12 |
+| `MAT_ACETATE_FR` | 材质 | 醋酸缎/雪纺/真丝 → french-effortless | 18 |
+| `COLOR_COOLWHITE_KR` | 主色 | 冷白/冷灰 → korean-cold-editorial/nordic-minimal | 16 |
+| `SILH_MINIMAL_CLEAN` | 版型 | 极简/基础版型 → clean-fit/nordic-minimal | 14 |
+| `PLATFORM_XHS_RELAX` | 平台 | 小红书 → japanese-lifestyle/french-effortless/clean-fit | 12 |
 | `USE_ECOM_STUDIO` | 用途 | 商品上架/店铺首图/白底商品照/详情页展示 → ecommerce-studio;仅在未命中该 pack 显式 trigger 时计分 | 20 |
 | `USE_EDITORIAL` | 用途 | 品牌大片/杂志感 → editorial 族 | 16 |
-| `SILH_RELAXED` | 版型 | 松弛/oversize 廓形 → french/street | 8 |
+| `SILH_RELAXED` | 版型 | 松弛/oversize 廓形 → french-effortless/american-street | 8 |
 | `RISK_PENALTY_EXPOSE` | 风险(负) | 高露肤/高风险品类 → 压低重场景/露肤风格 | −P(见 safety-core) |
 
 **(b) hit vocabulary(term 词典,节选;term 必须真实出现才可命中):**
@@ -106,16 +108,16 @@ gate: recognition-ready(未生图,等待『风格代号+动作代号』)
 | quiet luxury/quiet-luxury/静奢风/静奢穿搭/当代静奢 | quiet-luxury | 已落地（触发与 old-money「低调奢华」/韩系「安静奢华」隔离,裸「静奢」因是「安静奢华」子串故排除） |
 | preppy/美式学院/常春藤风/ivy style/校园学院风/varsity prep | preppy | 已落地（v1 静态;美式学院 lane;与 british-heritage 视觉可融合,但同时显式命中仍先 hold） |
 | 英伦传承/传统英伦/british heritage/heritage tailoring/tweed country/英式复古 | british-heritage | 已落地（v1 静态;英伦传承 lane;与 preppy 同时显式命中仍先 hold） |
-| 极简基础/极简版型/基础款/clean fit/简约基础/minimal basic | clean-fit | 已落地（Wave 2;冷调极简基础 lane;裸『极简』**不直路由**、只作 §5 SILH_MINIMAL_CLEAN 评分词(→clean-fit/nordic 共候选);暖调无印→japanese,『北欧/性冷淡极简』归 nordic;同时显式命中仍先 hold） |
+| 极简基础/极简版型/基础款/clean fit/简约基础/minimal basic | clean-fit | 已落地（Wave 2;冷调极简基础 lane;裸『极简』**不直路由**、只作 §5 SILH_MINIMAL_CLEAN 评分词(→clean-fit/nordic-minimal 共候选);暖调无印→japanese-lifestyle,『北欧/性冷淡极简』归 nordic-minimal;同时显式命中仍先 hold） |
 | 北欧极简/性冷淡极简/nordic minimal/scandi minimal/斯堪的纳维亚/冷淡北欧 | nordic-minimal | 已落地（v1 静态;与 clean-fit 视觉可融合但同时显式命中仍先 hold,裸『极简』仍只作 §5 评分词） |
 | gorpcore/山系/户外机能/机能户外/山系机能/outdoor technical | gorpcore | 已落地（v1 静态;机能户外 lane） |
-| 运动风/瑜伽/athleisure/运动休闲/健身穿搭/sporty chic | athleisure | 已落地（Wave 2;『机能/户外/山系』仍归 gorpcore,裸『运动』『松弛感』排除——松弛属 french/street SILH_RELAXED） |
+| 运动风/瑜伽/athleisure/运动休闲/健身穿搭/sporty chic | athleisure | 已落地（Wave 2;『机能/户外/山系』仍归 gorpcore,裸『运动』『松弛感』排除——松弛属 french-effortless/american-street SILH_RELAXED） |
 | balletcore/芭蕾风/芭蕾柔美/纱裙轻盈/ballet mood/soft ballet | balletcore | 已落地（v1 静态;与 gorpcore/cyber/workwear/street 等互斥见 §3） |
 | Y2K/千禧风/千禧辣妹/复古千禧/y2k millennium/millennium style | y2k-millennium | 已落地（v1 静态;与 old-money/quiet-luxury 互斥见 §3） |
 | 新中式/立领盘扣/neo chinese/modern chinese/东方极简/中式现代 | neo-chinese | 已落地（v1 静态;禁古装 cosplay,见 recognition §3.7） |
 | 国潮街头/街头国风/guochao street/国风街头/潮流国风/新国潮 | guochao-street | 已落地（v1 静态;国风街头 lane） |
-| 品牌大片/杂志感/editorial | korean-cold / italian-luxe(按事实) | editorial 族(§5 USE_EDITORIAL 共享评分词,**不直路由**、按识别事实细分;italian-luxe 已落地见下行) |
-| 意式奢华/意式优雅/米兰风/意大利风格/italian luxe/italian luxury | italian-luxe | 已落地（Wave 2;暖调意式奢华 editorial lane;『品牌大片/杂志感/editorial』不进本行、只作 §5 USE_EDITORIAL 评分词→korean-cold/italian-luxe 共候选;与 athleisure/gorpcore 互斥见 §3） |
+| 品牌大片/杂志感/editorial | korean-cold-editorial / italian-luxe(按事实) | editorial 族(§5 USE_EDITORIAL 共享评分词,**不直路由**、按识别事实细分;italian-luxe 已落地见下行) |
+| 意式奢华/意式优雅/米兰风/意大利风格/italian luxe/italian luxury | italian-luxe | 已落地（Wave 2;暖调意式奢华 editorial lane;『品牌大片/杂志感/editorial』不进本行、只作 §5 USE_EDITORIAL 评分词→korean-cold-editorial/italian-luxe 共候选;与 athleisure/gorpcore 互斥见 §3） |
 | 男装 + 各风格 | korean-menswear / cityboy / workwear-vintage / gorpcore | 性别横切共享识别事实,**不直路由**;须继续命中下方具体 pack 或按识别事实评分 |
 | cityboy/都市男孩/宽松男装/男装通勤/casual menswear/city casual/日系简约男 | cityboy | 已落地（v1 静态;都市宽松男装 lane;`日系简约男装`按最长完整触发词归本包,淘汰 japanese 的裸`日系`） |
 | korean menswear/韩国男装/韩式男装/冷感男装/首尔男装/seoul menswear | korean-menswear | 已落地（v1 静态;韩式冷感男装 lane） |
