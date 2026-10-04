@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased — compact conversation flow, 2026-10-04
+
+- Trigger: repeated menus, confirmations and QA reports obscured the single-image task and its stopping point. Replace default full recognition/style/model menus with one proposal covering identity, a concrete style, purpose and count; optional choices remain available on request.
+- A confirmation of a concrete generation proposal binds its choices and stated calls once. Existing authority is reused; process approval and image satisfaction do not grant new image calls. Keep independent technical QA and human evidence while allowing one overall acceptance to close an eligible single-image task or continue an already-authorized six-image set.
+- Update the entrypoint, recognition/flow/router/model/QA/prompt references and existing default prompt. Remove mandatory verbose reporting and fixed casting authorization copy; keep source fidelity, failure recovery and budget gates. No command, schema or style-pack change.
+- Update source evals and add decision-based scenarios 143–151 for proposal confirmation, direct execution, process-only approval, single completion, person-only acceptance, existing six-image authority, hard failures, unknown calls and unsupported retries. Fixtures describe expected behavior, not live model evidence.
+- Validation: all 326 distinct existing local tests have passing results. Initial full run: 300 passed; 16 `test_brand_assets` errors (fontTools unavailable in the selected Python) and 10 `test_wardrobe_edit` failures (host sharp path missing). Using existing dependencies, the affected modules passed 16/16 and 14/14; no dependency was installed. Final repository contracts passed 14/14; skill quick validation, 24-pack lint, routing checks, eval JSON and diff checks passed. New conversation fixtures were reviewed against the rules, not run as fresh model sessions. No generation, live installation or release in this change.
+
 ## Local flow2 installed — 2026-10-04
 
 - User-authorized backup, replacement and official plugin activation completed; source/cache byte parity and rollback source retained. Official activation removed the old cache, not the complete source backup.

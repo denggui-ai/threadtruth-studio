@@ -158,7 +158,7 @@ no provocative pose, no upskirt, modest seated posture.
 动作1的默认真人模特与不露脸/局部真人输出,必须按以下顺序执行;平铺、挂拍、人台/ghost mannequin 跳过本节:
 
 1. **首张参考角色。** 成人 look-1 可接收当前商品全部服饰源、已有原始人物身份参考、可选审美参考;逐图编号声明用途。仅服饰源决定商品事实。没有身份沿用要求时不复制服饰源中的真人;审美样图不复制脸。preview-grid 永不作首张身份参考。
-2. **技术 QA 和用户选人分开。** 首张落盘核服饰硬事实、画幅、人体/安全、原始身份与明确人物条件。硬失败=`qa-retry`,停止传播。合格或仅剩不阻断的 `qa-user-review` 可记录技术接受,但成人组必须展示首张并等用户明确接受人物,再记录 `model_confirmation`、使用 `accepted_identity_anchor`。没有用户确认不得继续后五张;选人通过不代表 `image-ready`。
+2. **技术 QA 和用户选人分开。** 首张落盘核服饰硬事实、画幅、人体/安全、原始身份与明确人物条件。硬失败=`qa-retry`,停止传播。合格或仅剩不阻断的 `qa-user-review` 可记录技术接受,但成人组必须展示首张并等用户明确接受人物,再记录 `model_confirmation`、使用 `accepted_identity_anchor`。用户对当前图的整体接受可作为人物确认，不再拆开追问；单张结束与整组续生按 `flow-gates.md`，不能把满意当新增调用授权。没有用户确认不得继续后五张;选人通过不代表 `image-ready`。
 3. **失败不自动加调用。** 保持 `image-draft` + `qa-retry`,保留结果和已用次数,说明失败点。明确重试授权后才执行;未决调用先恢复,不得复制任务重置预算。
 4. **后五张携带全部依据。** 顺序为 `Image 1…N = current SKU garment sources`、`Image N+1…M = original identity-reference (ignore garment/pose/background/lighting)`、可选 `aesthetic-reference (do not copy identity or garment)`、最后 `accepted current look-1 = identity-only`。按文件哈希对重复身份文件去重,保留不同角色。每个新商品首张重新对照原始人物,后五张也始终携带原始依据,不只对照最近一张生成图。
 5. **人物固定条件覆盖冲突的人物气质与人物负面词。** 预览、测试、成片及仅提示词都采用同一份人物条件;不删除安全/人体/商品负面词。妆发调整以用户明确允许项为准。原始人物参考和本组锚点永不覆盖新商品事实,也不自动继承旧搭配、配饰、拍摄风格或背景。人物卡只写人物,不保存旧商品。
@@ -278,7 +278,7 @@ batch_canvas_baseline: <首张通过比例门禁后的实际 WIDTHxHEIGHT>
 
 **B8 指标性质:** 下列百分比是 **LLM 自评启发式目标,不是可测量客观指标**,**不得对用户声称"已达成 X% 保真"**:(启发式目标)单图输出正确率 100%;服饰保真 ≥95%;姿势母版保真 ≥92%;头部方向合理 ≥90%;场景适配 ≥90%;风格底座感 ≥90%。
 
-动作1每张落盘后还必须执行 `commercial-qa.md` 的结构化逐张 QA;用户出现“商用/上线/客户交付/电商主图/商品详情/投放/品牌大片”等意图时,必须输出该报告的用户可见版本。任何硬服饰事实或真人身份一致性失败都保持 `image-draft` + `qa-retry`,不得直接升 `image-ready`。
+动作1每张落盘后还必须执行 `commercial-qa.md` 的结构化逐张 QA;用户有商用意图时默认只展示图片、简短结论与影响使用的问题；详细检查报告按 `commercial-qa.md` 按需展开。任何硬服饰事实或真人身份一致性失败都保持 `image-draft` + `qa-retry`,不得直接升 `image-ready`。
 
 ## 6. 高风险 fallback
 
