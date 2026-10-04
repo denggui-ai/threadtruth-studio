@@ -37,6 +37,8 @@ class ReleaseBuildTests(unittest.TestCase):
             self.assertIn(prefix + "SECURITY.md", names)
             self.assertIn(prefix + "docs/BETA9-TRYOUT.md", names)
             self.assertIn(prefix + "docs/BETA10-TRYOUT.md", names)
+            self.assertIn(prefix + "docs/BETA11-TRYOUT.md", names)
+            self.assertIn(prefix + "docs/MODEL-REUSE-CANDIDATE.md", names)
             self.assertIn(prefix + "docs/COMPETITIVE-LANDSCAPE.md", names)
             self.assertIn(
                 prefix

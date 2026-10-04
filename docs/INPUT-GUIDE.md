@@ -17,9 +17,9 @@
 
 There is no fixed minimum pixel count. Use ordinary images supported by your host, such as JPEG or PNG, preferably originals; host upload limits apply. Replace blurry, heavily filtered, color-shifted, cropped or obstructed photos. A screenshot of an interface without readable garment detail is insufficient.
 
-**一张图可开始识别，不等于任意一张图足以可靠生成六个角度。** 没有背面图时，无法确认背部结构、印花或文字；需要背面姿势时先补图或明确接受未可见细节的不确定性，不能把推测当作商品事实。
+**一张图可开始识别，不等于任意一张图足以可靠生成六个角度。** 缺少背面资料时，真人/不露脸搭配图会先明示把第六张改为正面自然站姿，前五姿势保留，仍交六张；仅展示实拍支持的范围。替代站姿双脚落地、不迈步、不倚靠、不俯身，按实际动作核对是否重复。若明确要求原六姿势或准确背部结构，须补同款实拍或确认替代；接受不确定性也不能把推测当作商品事实。
 
-**One photo can start recognition; it does not establish every angle.** Without a back view, back construction, prints and text are unknown. Supply the view or explicitly acknowledge the uncertainty before a back-facing shot; inferred details are not verified product facts.
+**One photo can start recognition; it does not establish every angle.** Without a back view, back construction, prints and text are unknown. For human/faceless styling, disclose stationary frontal standing in slot 6 and retain slots 1–5 and six independent files, showing only source-supported construction. Compare actual body actions to reject duplicate poses. Explicit original-pose or accurate-rear requirements need real rear material or acceptance of substitution; uncertainty is never evidence of rear construction.
 
 ## 怎样整理 / Organize the photos
 

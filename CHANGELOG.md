@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased — local beta.11 model-reuse integration, 2026-10-04
+
+- Trigger: takeover found the reviewed model-reuse branch still based on beta.10, while the active plugin had beta.11 source-supported six-pose rules. Direct replacement would regress those published rules.
+- Port the runtime changes from published `5c568c8` and the applicable release-envelope changes from `656cdb6`; retain model confirmation, original references, failure reconciliation and frozen-call checks. No public showcase media or frozen style packs changed.
+- Resolve the QA and retry overlaps by preserving both source-supported slot-6 substitution and model-reuse source/identity safeguards. Clarify that new-set substitution does not replace a user-selected fixed-pose mother or authorize an unsupported garment view.
+- Preserve existing eval IDs; import beta.11 cases as 127–132, update structural-drift case 89, and add integration cases 133–134. Local build metadata identifies the candidate separately from the public beta.11 archive; the installer already accepts SemVer build metadata.
+- Add candidate installation/rollback guidance and a matching local offline guide. No new workflow engine, pose generator, or automatic fallback was introduced.
+- Verification: 318 current unit tests passed using pre-existing dependencies; sanitized 278-file ZIP, exact 45-file runtime parity, isolated registration/backup/restore and installed-copy synthetic recovery passed. Independent review closed 3 guide findings (open=0); desktop/mobile offline-guide checks passed. See `docs/verification/2026-10-04-model-reuse-install-candidate.md`. No live plugin replacement, public release, push or generation.
+
 All notable changes are documented here. Versions follow Semantic Versioning.
 
 ## Unreleased — reverse-audit recovery and reference fixes, 2026-10-03
