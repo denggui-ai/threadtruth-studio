@@ -1,6 +1,6 @@
-# Reviewed styling examples · 2026-10-01
+# Reviewed styling examples · 2026-10-02
 
-[Four cases / 24 AI-generated images](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html) are approved for this project's demo display. The [public image manifest](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.json) records every selected PNG's SHA-256, size, fixed pose, reference-source links and review scope. Source photographs and the user's aesthetic screenshot are not redistributed with these cases.
+[Six sets / 36 AI-generated images](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html) are approved for this project's demo display. The [public image manifest](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.json) records every selected PNG's SHA-256, size, display pose and review scope. The home-outfit example now shows two primary product references with credit and full-original links, plus downloadable comparison and six-pose sharing sheets. Other original cases' source photographs and the user's aesthetic screenshot are not redistributed. The external example includes its separately authorized outfit input.
 
 | Case | Reference-source credit | Review scope |
 |---|---|---|
@@ -8,5 +8,26 @@
 | Sage shirt / Japanese Lifestyle home outfit | [MUJI Australia shirt](https://muji.com.au/products/womens-washed-linen-regular-collar-long-sleeve-shirt-bc2pv26s), [MUJI USA pants](https://www.muji.us/collections/womens-bottoms/products/washed-cotton-easy-pants-be1w526s) | Visual acceptance including revised seated framing; hidden buttons, rear pleat and real fit not individually verified |
 | Contrast-trim T-shirt / American Street | Shopify Partners / Burst; all reference pages in the manifest | Human fine-detail and subjective acceptance pending |
 | Contrast-trim T-shirt / Japanese Lifestyle | Shopify Partners / Burst; all reference pages in the manifest | Flat hem-label repairs reviewed; image 5 action acceptance pending |
+| External black jacket outfit / Codex | Maintainer confirms permission for the supplied input and six AI outputs; demo display only | Trial user reported satisfied; skill/style version unknown; outer-panel button variation and hidden garment details remain subject to source review |
+
+| Black jacket / Office Commute daylight | Same byte-identical authorized input as the external trial; six selected AI images authorized for project display on 2026-10-02 | Canvas, identity and visible pose review; fine garment details and aesthetic acceptance remain open. Slot 6 is stationary frontal standing because no real rear source was supplied; no rear-construction verification. |
+
+The [external trial record](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/feedback/2026-10-01-external-codex-outfit.md) separates reported satisfaction and six-file checks from installation evidence and commercial readiness. Its display order follows the visible actions; original generation prompts and run numbering were not supplied.
 
 These generated examples have demo-only display permission, not an open media reuse license. Apache-2.0 does not apply to these PNGs. Third-party source photography and product rights remain separate; publication does not imply MUJI, Shopify, a photographer or any other brand endorses the plugin. Original input-photo identity and real-world fit are not guaranteed.
+
+The home comparison was added on 2026-10-02 under the maintainer's explicit approval. The pants crop is a display window over the unchanged original, not a recolored or substituted input. Additional construction and identity references were used in generation. The six selected PNGs and their existing review scope remain unchanged; all four presentation files have integrity records in the public manifest.
+
+The [black-jacket comparison](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#black-jacket-office) shows the shared real input and one representative image from each direction, followed by six independent Office Commute PNGs. The original external six and their records are preserved. This is a presentation comparison, not a controlled skill-version benchmark: the external version/style are unknown, and the new set was generated before beta.11 publication. Only selected public images and sanitized review facts are published; private run files, local paths and prompts remain outside the repository.
+
+<a id="same-outfit-style-tests"></a>
+
+## Same-outfit style tests
+
+The [French v3 / American v1 comparison](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#black-jacket-style-comparison) adds two single-image C2 tests, separate from the six existing six-image cases. Both use the byte-identical authorized black-jacket outfit input and the external example's AI identity. French uses a face crop of that identity reference; American uses the full-body reference. The real outfit remains the garment authority.
+
+Both were generated by explicitly following the installed `1.0.0-beta.11+codex.20261002T140749-26958bbe` C2 branch. French v3 has a specific gentle-expression prompt and removes an unsupported storm-flap fastener; the maintainer accepted its visual direction. American v1 keeps a restrained city setting and remains pending visual acceptance. The French history used three native calls (including two authorized follow-ups); American used one. Only these two selected outputs are published.
+
+This establishes two current-session single-image samples, not new-install discovery, two complete six-image sets, a controlled version benchmark, a unique cause for expression changes, or verification of all 24 styles. Exact collar fasteners, concealed garment details and real fit remain subject to review. No real rear source was provided. Both remain `image-draft + qa-user-review`.
+
+The maintainer authorized this comparison update on 2026-10-03. Demo-display permission remains separate from garment acceptance and does not grant an open media reuse license. Image hashes, exact canvas, prompt hashes and ordered reference hashes are recorded under `black-jacket-office.style_tests` in the public manifest. Local paths, private trial records, full prompts, failure outputs and unrelated material are not published.

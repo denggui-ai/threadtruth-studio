@@ -7,6 +7,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from zipfile import ZipFile
 from pathlib import Path
 
 from PIL import Image
@@ -280,6 +281,21 @@ class ShowcaseTests(unittest.TestCase):
                                "bytes": path.stat().st_size, "sha256": hashlib.sha256(path.read_bytes()).hexdigest()})
             cases.append({"id": case_id, "status": "image-draft", "ai_generated": True,
                           "visual_acceptance": "pending-human-review", "images": images})
+            if case_id == "external-black-leather":
+                path = self.gallery / check_showcase.EXTERNAL_INPUT
+                Image.new("RGB", (1275, 1710), (45, 67, 89)).save(path)
+                cases[-1].update(publication_permission={"authorized": True}, input_image={
+                    "path": check_showcase.EXTERNAL_INPUT, "format": "JPEG", "dimensions": [1275, 1710],
+                    "bytes": path.stat().st_size, "sha256": hashlib.sha256(path.read_bytes()).hexdigest()})
+            if case_id == "black-jacket-office":
+                path = self.gallery / check_showcase.OFFICE_INPUT
+                path.write_bytes((self.gallery / check_showcase.EXTERNAL_INPUT).read_bytes())
+                cases[-1].update(publication_permission={"authorized": True}, input_image={
+                    "path": check_showcase.OFFICE_INPUT, "format": "JPEG", "dimensions": [1275, 1710],
+                    "bytes": path.stat().st_size, "sha256": hashlib.sha256(path.read_bytes()).hexdigest()},
+                    source_coverage={"real_rear": "missing"},
+                    pose_exception={"slot": 6, "rear_construction_verified": False})
+                cases[-1]["images"][-1].update(original_pose="BACK_TURN_GLANCE", actual_pose="FRONT_RELAXED_STANDING")
         manifest = {"schema_version": "1.0", "cases": cases}
         write_json(self.gallery / "reviewed-cases.json", manifest)
         (self.gallery / "reviewed-cases.html").write_text('<html><body id="cases">AI examples</body></html>')
@@ -307,6 +323,117 @@ class ShowcaseTests(unittest.TestCase):
         self.assertTrue(any("canvas contract" in item for item in findings))
         self.assertTrue(any("private path" in item for item in findings))
         self.assertTrue(any("unexpected deployment file" in item for item in findings))
+
+    def test_external_trial_requires_publication_permission_and_verified_input(self):
+        self.build()
+        manifest = self.add_reviewed_cases()
+        case = next(c for c in manifest["cases"] if c["id"] == "external-black-leather")
+        case["publication_permission"]["authorized"] = False
+        write_json(self.gallery / "reviewed-cases.json", manifest)
+        self.assertTrue(any("publication permission" in item for item in self.findings()))
+        case["publication_permission"]["authorized"] = True
+        write_json(self.gallery / "reviewed-cases.json", manifest)
+        (self.gallery / check_showcase.EXTERNAL_INPUT).write_bytes(b"tampered source")
+        self.assertTrue(any("sha256 mismatch" in item for item in self.findings()))
+
+    def test_office_comparison_requires_same_input_permission_and_pose_disclosure(self):
+        self.build()
+        manifest = self.add_reviewed_cases()
+        case = next(c for c in manifest["cases"] if c["id"] == "black-jacket-office")
+        case["images"][-1]["actual_pose"] = "BACK_TURN_GLANCE"
+        write_json(self.gallery / "reviewed-cases.json", manifest)
+        self.assertTrue(any("replacement disclosure" in item for item in self.findings()))
+        case["images"][-1]["actual_pose"] = "FRONT_RELAXED_STANDING"
+        case["publication_permission"]["authorized"] = False
+        write_json(self.gallery / "reviewed-cases.json", manifest)
+        self.assertTrue(any("publication permission" in item for item in self.findings()))
+        case["publication_permission"]["authorized"] = True
+        case["input_image"]["sha256"] = "0" * 64
+        write_json(self.gallery / "reviewed-cases.json", manifest)
+        self.assertTrue(any("same real input" in item for item in self.findings()))
+
+    def test_single_style_tests_require_permission_and_matching_public_files(self):
+        self.build()
+        manifest = self.add_reviewed_cases()
+        case = next(c for c in manifest["cases"] if c["id"] == "black-jacket-office")
+        records = []
+        for relative in check_showcase.JACKET_STYLE_FILES:
+            info = image_record(self.gallery / relative, size=(1024, 1536))
+            records.append(dict(info, path=relative, format="PNG", pose=1,
+                                status="image-draft", ai_generated=True,
+                                visual_acceptance="pending-human-review"))
+        case["style_tests"] = {"publication_permission": {"authorized": True},
+                               "source_sha256": case["input_image"]["sha256"], "images": records}
+        path = self.gallery / "reviewed-cases.json"
+        write_json(path, manifest)
+        self.assertEqual(self.findings(), [])
+        case["style_tests"]["publication_permission"]["authorized"] = False
+        write_json(path, manifest)
+        self.assertTrue(any("permission or same-input" in x for x in self.findings()))
+        case["style_tests"]["publication_permission"]["authorized"] = True
+        records[0]["path"] = "assets/reviewed-cases/black-jacket-style-comparison/unapproved.png"
+        write_json(path, manifest)
+        self.assertTrue(any("two fixed single-image tests" in x for x in self.findings()))
+        records[0]["path"] = check_showcase.JACKET_STYLE_FILES[0]
+        write_json(path, manifest)
+        (self.gallery / records[0]["path"]).write_bytes(b"tampered style image")
+        self.assertTrue(any("sha256 mismatch" in x for x in self.findings()))
+
+    def test_home_presentation_requires_fixed_paths_and_matching_bytes(self):
+        self.build()
+        manifest = self.add_reviewed_cases()
+        case = manifest["cases"][1]
+        records = []
+        for relative in check_showcase.HOME_PRESENTATION_FILES:
+            path = self.gallery / relative
+            Image.new("RGB", (32, 48), (67, 89, 111)).save(path)
+            records.append({"path": relative, "format": "JPEG", "dimensions": [32, 48],
+                            "bytes": path.stat().st_size, "sha256": hashlib.sha256(path.read_bytes()).hexdigest()})
+        case["presentation"] = records
+        write_json(self.gallery / "reviewed-cases.json", manifest)
+        self.assertEqual(self.findings(), [])
+        (self.gallery / records[-1]["path"]).write_bytes(b"tampered poster")
+        self.assertTrue(any("sha256 mismatch" in item for item in self.findings()))
+        records[0]["path"] = "assets/reviewed-cases/green-shirt-home/extra.jpg"
+        write_json(self.gallery / "reviewed-cases.json", manifest)
+        self.assertTrue(any("fixed two references" in item for item in self.findings()))
+
+    def test_public_sharing_archive_rejects_internal_ledger_and_stale_members(self):
+        self.build()
+        manifest = self.add_reviewed_cases()
+        case = next(c for c in manifest["cases"] if c["id"] == "black-jacket-office")
+        for relative in check_showcase.OFFICE_SHARE_FILES[:-1]:
+            path = self.gallery / relative
+            path.parent.mkdir(parents=True, exist_ok=True)
+            if path.suffix == ".jpg":
+                Image.new("RGB", (1080, 1440), (67, 89, 111)).save(path)
+            else:
+                path.write_text("Public sharing notes\n")
+        archive_path = self.gallery / check_showcase.OFFICE_SHARE_FILES[-1]
+
+        def rebuild(extra=False, stale=False):
+            with ZipFile(archive_path, "w") as archive:
+                for relative in check_showcase.OFFICE_SHARE_FILES[:-1]:
+                    path = self.gallery / relative
+                    archive.writestr(path.name, b"old poster" if stale and path.suffix == ".jpg" else path.read_bytes())
+                if extra:
+                    archive.writestr("trial-ledger.csv", "internal feedback")
+            case["sharing"] = []
+            for relative in check_showcase.OFFICE_SHARE_FILES:
+                path = self.gallery / relative
+                record = {"path": relative, "bytes": path.stat().st_size,
+                          "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
+                if path.suffix == ".jpg":
+                    record.update(format="JPEG", dimensions=[1080, 1440])
+                case["sharing"].append(record)
+            write_json(self.gallery / "reviewed-cases.json", manifest)
+
+        rebuild()
+        self.assertEqual(self.findings(), [])
+        rebuild(extra=True)
+        self.assertTrue(any("unexpected archive members" in item for item in self.findings()))
+        rebuild(stale=True)
+        self.assertTrue(any("archive member differs" in item for item in self.findings()))
 
 
 if __name__ == "__main__":

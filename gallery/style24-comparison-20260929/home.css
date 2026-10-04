@@ -283,7 +283,7 @@ html.image-open { overflow:hidden; }
 .reviewed-heading { max-width:880px; padding-block:32px; }
 .reviewed-heading h1,.reviewed-heading h2 { font-size:clamp(28px,4vw,50px); margin-block:20px!important; }
 .reviewed-heading p,.case-intro,.case-sources { line-height:1.8; overflow-wrap:anywhere; }
-.reviewed-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:20px; }
+.reviewed-grid { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:20px; }
 .reviewed-card img { width:100%; height:auto; display:block; }
 .reviewed-card a { text-decoration:none; }
 .reviewed-card h3 { font-size:18px; margin-block:16px 8px!important; }
@@ -295,7 +295,52 @@ html.image-open { overflow:hidden; }
 .reviewed-images img { width:100%; height:auto; display:block; }
 .reviewed-images figcaption { display:flex; justify-content:space-between; gap:8px; font-size:13px; margin-top:12px; }
 .reviewed-images small { color:var(--subtle); }
+.outfit-comparison { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; margin-block:28px; }
+.outfit-comparison figure { margin:0; min-width:0; }
+.outfit-comparison img { display:block; width:100%; aspect-ratio:2/3; object-fit:contain; background:var(--surface); }
+.outfit-comparison figcaption { font-size:14px; line-height:1.7; margin-top:12px; }
+@media(max-width:600px) { .outfit-comparison { grid-template-columns:minmax(0,1fr); gap:28px; } }
 .case-sources { font-size:13px; color:var(--subtle); margin-block:24px!important; }
+.case-transform { margin-block:28px; }
+.case-transform h3 { font-size:clamp(22px,3vw,32px); margin-bottom:20px; }
+.case-transform-grid { display:grid; grid-template-columns:minmax(0,.36fr) minmax(0,.64fr); gap:28px; }
+.case-transform-grid figure { margin:0; min-width:0; }
+.case-transform-label { font-size:16px; margin-bottom:14px; }
+.case-transform-label b { color:var(--subtle); font-size:12px; letter-spacing:1px; margin-right:10px; }
+.case-reference-stack { display:grid; gap:24px; }
+.case-reference-photo { display:block; background:#fff; aspect-ratio:1.15; overflow:hidden; position:relative; }
+.case-reference-photo img { display:block; width:100%; height:100%; object-fit:contain; }
+.case-reference-photo.pants-focus { aspect-ratio:270 / 342; background:#efeeeb; }
+.case-reference-photo.pants-focus img { position:absolute; width:259.2593%; height:auto; max-width:none; left:-74.0741%; top:-93.5673%; }
+.case-reference-stack figcaption,.case-transform-result figcaption { font-size:13px; line-height:1.6; margin-top:10px; overflow-wrap:anywhere; }
+.case-transform-result img { display:block; width:100%; height:auto; }
+.case-transform-note { font-size:13px; line-height:1.7; color:var(--subtle); margin-block:18px!important; }
+.case-share-links { display:flex; flex-wrap:wrap; gap:12px 24px; font-size:14px; margin-block:20px; }
+@media(max-width:600px) { .case-transform-grid { grid-template-columns:minmax(0,1fr); gap:24px; } .case-reference-stack { grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; } }
+/* A compact source/result feature leads into five equal-size case cards. */
+.home-case-feature { padding:28px; margin-block:8px 40px; background:#eeede7; }
+.home-case-feature .case-transform-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:32px; }
+.home-case-feature .case-reference-stack { grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; max-width:520px; margin-inline:auto; }
+.home-case-feature .case-reference-photo { aspect-ratio:270 / 342; }
+.home-case-feature .case-transform-result img { width:100%; height:480px; object-fit:contain; }
+.home-case-feature .case-share-links { margin-bottom:0; }
+@media(max-width:900px) { .home-case-feature { padding:20px; } .home-case-feature .case-transform-grid { grid-template-columns:minmax(0,1fr); gap:24px; } .home-case-feature .case-transform-result img { height:auto; max-height:440px; } }
+@media(max-width:480px) { .home-case-feature { padding:16px; } .home-case-feature .case-reference-stack { gap:12px; } }
 .cases-page nav { display:flex; align-items:center; gap:16px!important; }
-@media(max-width:900px) { .reviewed-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .reviewed-images { grid-template-columns:repeat(2,minmax(0,1fr)); } }
-@media(max-width:480px) { .reviewed-grid,.reviewed-images { grid-template-columns:minmax(0,1fr); } .reviewed-home { padding-block:32px; } }
+@media(max-width:900px) { .reviewed-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .reviewed-card:last-child { grid-column:1 / -1; width:calc(50% - 10px); justify-self:center; } .reviewed-images { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:480px) { .reviewed-grid,.reviewed-images { grid-template-columns:minmax(0,1fr); } .reviewed-card:last-child { grid-column:auto; width:auto; justify-self:stretch; } .reviewed-home { padding-block:32px; } }
+
+/* Sharing actions follow the complete case without adding another image feature. */
+.case-sharing { margin-top:32px; padding:24px; background:var(--soft); scroll-margin-top:24px; }
+.case-sharing h3 { font-size:clamp(20px,2.5vw,28px); line-height:1.4; }
+.case-sharing-actions { align-items:center; }
+.case-sharing .case-share-links:last-child { margin-bottom:0; }
+@media(max-width:480px) { .case-sharing { padding:20px 16px; } .case-sharing-actions { flex-direction:column; align-items:stretch; } .case-sharing-actions .button { text-align:center; justify-content:center; } }
+
+/* Two single-image style tests, separate from the six-image case grids. */
+.jacket-style-tests { scroll-margin-top:24px; padding-top:16px; }
+.jacket-style-comparison { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; max-width:1000px; margin:28px auto; }
+.jacket-style-comparison figure { margin:0; min-width:0; }
+.jacket-style-comparison img { display:block; width:100%; aspect-ratio:2/3; object-fit:contain; }
+.jacket-style-comparison figcaption { font-size:14px; line-height:1.7; margin-top:12px; }
+@media(max-width:600px) { .jacket-style-comparison { grid-template-columns:minmax(0,1fr); gap:28px; } }

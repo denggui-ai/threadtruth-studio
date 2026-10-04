@@ -12,8 +12,8 @@ Status: **active**.
 | beta.10 verification / 验证 | Scoped explicit/default casting and first-reply text rechecks passed; one authorized native correction closed visible cuff/placket failures, originals retained / 限定选角及首回复复测通过，经授权修图关闭可见袖口与门襟失败，保留原始证据 | [Trial guide](BETA10-TRYOUT.md); no installed-plugin discovery, commercial-ready image or new six-image workflow claim / 不声称已安装插件发现、图可商用或新增六图流程 |
 | beta.9 evidence / beta.9验证 | beta.9; maintainer installed-CLI text checks retained 8/8 passing final replies, including three original-prompt repetitions / 留存本机已安装插件文字复测，最终8/8通过 | [Version-matched trial](BETA9-TRYOUT.md); desktop display and non-maintainer fresh-host validation remain pending / 桌面显示与非维护者新环境验证待完成 |
 | Issue #1 | Scoped maintainer correction is recorded; the public issue remains open / 本机限定范围修复已记录，公开Issue仍未关闭 | Fresh-host reproduction and fix distribution / 新环境复测与修复分发 |
-| External adoption / 外部采用 | No qualifying record in this register; target 5 / 本台账尚无合格记录，目标5人 | One consenting non-maintainer completes installation and real-photo recognition / 首位同意登记的非维护者完成安装与实图识别 |
-| Complete cases / 完整主案例 | One historical primary case; four new styling sets published separately / 历史主案例1组，另公开新增穿搭4组 | New-case visual acceptance is separate from rights, hidden garment details and commercial readiness / 新案例视觉验收与权利、隐藏细节及商用状态分开记录 |
+| External adoption / 外部采用 | One anonymous external Codex trial reported six images and satisfaction; qualifying installation count remains unverified / 已记录一则匿名外部Codex六图满意反馈，合格安装人数仍未核实 | [Trial record](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/feedback/2026-10-01-external-codex-outfit.md); version, OS and installation/discovery observations are unknown / 版本、系统与安装发现过程未知 |
+| Complete cases / 完整主案例 | One historical primary case; four styling sets and one external six-image example published separately / 历史主案例1组，另公开穿搭4组及外部六图示例1组 | External satisfaction is recorded; visible button variation and hidden garment details remain separate from complete commercial QA / 已记录外部满意反馈，扣位差异与隐藏细节仍需独立核对 |
 | External lifecycle and feedback patch / 外部生命周期与反馈补丁 | Neither has a qualifying completed record / 均无合格完成记录 | Real participant observations; local fixtures cannot substitute / 需真实参与者观察，本地夹具不能替代 |
 
 Read [compatibility](COMPATIBILITY.md) for the scope of each observation. The [dated work ledger (online)](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/WORK-STATUS.md) and earlier verification reports are historical records, not current instructions. Publication and candidate validation do not mean stable-release readiness, external adoption or image-quality acceptance. / 各项观察范围见兼容性说明；历史台账与旧报告保留当时事实。发布与候选验证不等于稳定版就绪、外部采用或画质验收。
@@ -50,7 +50,15 @@ Do not add runtime telemetry. For each opt-in tester, record a public handle or 
 | ID | Non-maintainer | Host / version / OS | Plugin version | Install / discovery / recognition | Complete case | Feedback link | Publish consent | Date |
 |---|---:|---|---|---|---|---|---|---|
 
-No qualifying external tester record has been added yet.
+No qualifying installation record has been added yet. One publication-authorized anonymous external trial is recorded below; its unknown installation and version fields prevent counting it as a verified fresh-host installation or beta.10-specific regression.
+
+## Reported external trial — 2026-10-01
+
+[Anonymous Codex outfit trial](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/feedback/2026-10-01-external-codex-outfit.md): the maintainer reports a non-maintainer used the skill in Codex, generated six images and was satisfied. All six forwarded PNGs are distinct and 1024×1536. Permission to publish the outfit input, six results and sanitized feedback was confirmed on 2026-10-01. [View the external example](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#external-black-leather).
+
+Plugin version, OS, installation/discovery observations, exact prompts and actual generation-call count are unknown. The record demonstrates reported external use and satisfaction, not verified installation lifecycle, attribution to beta.10, or full commercial QA. The private chat screenshots are not published.
+
+已记录外部试用与满意反馈；与合格安装人数、版本专项验证及商用逐项验收分开统计。
 
 ## Opt-in feedback and local metrics
 

@@ -1,6 +1,6 @@
 # 裁光 · Caiguang
 
-> **Local candidate `1.0.0-beta.11+model-reuse.20261004`.** Includes the published beta.11 six-pose rule and model-reuse fixes. It is not the public beta.11 archive. See [candidate installation and limits](docs/MODEL-REUSE-CANDIDATE.md).
+> **Local candidate `1.0.0-beta.11+compact.20261005`.** Includes the published beta.11 six-pose rule, model reuse and a compact conversation flow: one proposal, one confirmation, image-first review and single-image closeout. It is not the public beta.11 archive. See [candidate installation and limits](docs/MODEL-REUSE-CANDIDATE.md).
 
 **AI Fashion Studio · 服饰 AI 影棚**
 
@@ -22,7 +22,7 @@ Upload a garment or coordinated outfit, choose **one of 24 styles**, and create 
 
 [Prepare your photos](docs/INPUT-GUIDE.md) · [Six poses and generation prompts](docs/CAPABILITIES.md#six-poses) · [Garment: 24 previews](docs/demo/style-previews/white-vest-24-v1/) · [Outfit: 24 previews](docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/)
 
-Both collections are historical direction previews: one six-panel sheet per style, not independent finals. [Four new six-pose styling cases](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html) add 24 separate AI images: a floral dress, a sage-shirt home outfit, and two styles of a contrast-trim T-shirt. Each set discloses its review scope.
+Both collections are historical direction previews: one six-panel sheet per style, not independent finals. [Six six-image styling cases](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html) show 36 separate AI images: a floral dress, a sage-shirt home outfit, two styles of a contrast-trim T-shirt, an external Codex user’s black-jacket outfit, and our same-input Office Commute set. Each set discloses its review scope.
 
 ## Why create with Caiguang?
 
@@ -72,11 +72,27 @@ Install 裁光 · Caiguang in **Codex**. The ChatGPT route uses the web handoff 
 
 ## Examples and what they demonstrate
 
-**New: four sets of six separate images.** [See all images and source notes](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html). Dress and home-outfit visuals were accepted; the T-shirt sets retain fine-detail and action review. These AI-model images support styling previews, not personal identity, size or fit guarantees.
+**Six sets, 36 separate images.** [See all images and source notes](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html). Dress and home-outfit visuals were accepted; the T-shirt sets retain fine-detail and action review. These AI-model images support styling previews, not personal identity, size or fit guarantees.
 
-| | | | |
-|---|---|---|---|
-| <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#red-floral-french"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/red-floral-french/look-1.png" alt="Floral dress — AI-generated" width="210"></a><br>Floral dress | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#green-shirt-home"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/green-shirt-home/look-5.png" alt="Home outfit — AI-generated" width="210"></a><br>Home outfit | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#trim-tee-american"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/trim-tee-american/look-1.png" alt="American Street — AI-generated" width="210"></a><br>American Street | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#trim-tee-japanese"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/trim-tee-japanese/look-1.png" alt="Japanese Lifestyle — AI-generated" width="210"></a><br>Japanese Lifestyle |
+**Product references → AI scene styling.** The comparison shows the actual primary shirt and pants references alongside a home-scene result. The pants are displayed as a crop; additional construction and identity references were used. An external Codex user also completed six images and reported satisfaction; the version used was not recorded.
+
+<a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#green-shirt-home"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/green-shirt-home/before-after.jpg" alt="Product references and AI home-scene result / 商品参考与 AI 家居成片" width="480"></a>
+
+[See the home Before / After, all six originals and source notes](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#green-shirt-home)
+
+**One outfit input → six Office Commute images.** The same authorized input also appears in the external trial. Compare two presentation directions, rather than versions; the external version is unknown. Slot 6 uses stationary front standing because no real rear photo was supplied. Fine garment details remain subject to review.
+
+| Actual input | AI · Office Commute |
+|---|---|
+| <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#black-jacket-office"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/black-jacket-office/input.jpg" alt="Actual authorized outfit input" width="240"></a> | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#black-jacket-office"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/black-jacket-office/look-1.png" alt="AI-generated Office Commute jacket outfit" width="240"></a> |
+
+[See both directions, all six new images and review scope](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#black-jacket-office) · [Download case sharing materials](https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/black-jacket-office/share/caiguang-black-jacket-share.zip)
+
+**Same jacket, different mood.** [Compare the French and American single-image tests](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#black-jacket-style-comparison): the same outfit, AI identity and first pose. French v3's gentler expression was visually accepted; American retains a restrained urban mood with acceptance pending. One test image per style, with fine garment review still open.
+
+| | | | | |
+|---|---|---|---|---|
+| <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#black-jacket-office"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/black-jacket-office/look-1.png" alt="Office Commute — AI-generated" width="150"></a><br>Office Commute · same-input comparison | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#red-floral-french"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/red-floral-french/look-1.png" alt="Floral dress — AI-generated" width="150"></a><br>Floral dress | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#green-shirt-home"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/green-shirt-home/look-1.png" alt="Home outfit — AI-generated" width="150"></a><br>Home outfit | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#trim-tee-american"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/trim-tee-american/look-1.png" alt="American Street — AI-generated" width="150"></a><br>American Street | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#trim-tee-japanese"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/trim-tee-japanese/look-1.png" alt="Japanese Lifestyle — AI-generated" width="150"></a><br>Japanese Lifestyle |
 
 [Case notes and media terms](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/SHOWCASE-CASES.md).
 
@@ -88,7 +104,7 @@ The **24-style paired gallery** compares Codex and ChatGPT web results, with sou
 
 | Collection | Published scope | What it establishes |
 |---|---|---|
-| [New styling cases](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html) | **4 sets × 6 separate images = 24 images** | Visual acceptance and remaining review items are recorded separately; excluded from the frozen historical style index. |
+| [New styling cases](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html) | **6 sets × 6 separate images = 36 images** | Visual acceptance and remaining review items are recorded separately; excluded from the frozen historical style index. |
 | [Paired comparison gallery](https://denggui-ai.github.io/threadtruth-studio/compare.html) | **24 styles × 2 routes = 48 images** | Same-input comparisons with reviews and rights disclosures. These are not 24 complete six-image sets or verification of every style under beta.8. |
 | [White-vest complete case](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md) | **1 style × 6 independent images** | One reviewed complete case; the frozen historical primary-case style index is **1/24**. |
 | Historical direction previews | **2 collections × 24 styles** | One six-pose preview sheet per style, with layout checks and maintainer acceptance. The white-vest beta.3 and outfit beta.4 collections retain their original evidence. |

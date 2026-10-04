@@ -10,6 +10,7 @@ from collections import Counter
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
+from zipfile import BadZipFile, ZipFile
 
 try:
     from . import showcase_assets as assets
@@ -19,7 +20,23 @@ except ImportError:
     import brand_assets as brand
 
 
-REVIEWED_CASE_IDS = ("red-floral-french", "green-shirt-home", "trim-tee-american", "trim-tee-japanese")
+REVIEWED_CASE_IDS = ("red-floral-french", "green-shirt-home", "trim-tee-american", "trim-tee-japanese", "external-black-leather", "black-jacket-office")
+EXTERNAL_INPUT = "assets/reviewed-cases/external-black-leather/input.jpg"
+OFFICE_INPUT = "assets/reviewed-cases/black-jacket-office/input.jpg"
+JACKET_STYLE_FILES = (
+    "assets/reviewed-cases/black-jacket-style-comparison/french-v3.png",
+    "assets/reviewed-cases/black-jacket-style-comparison/american-v1.png",
+)
+HOME_PRESENTATION_FILES = (
+    "assets/reviewed-cases/green-shirt-home/shirt-reference.jpg",
+    "assets/reviewed-cases/green-shirt-home/pants-reference.jpg",
+    "assets/reviewed-cases/green-shirt-home/before-after.jpg",
+    "assets/reviewed-cases/green-shirt-home/six-poses.jpg",
+)
+OFFICE_SHARE_FILES = tuple(
+    f"assets/reviewed-cases/black-jacket-office/share/{name}"
+    for name in ("before-after.jpg", "six-poses.jpg", "share-copy.md", "README.md", "caiguang-black-jacket-share.zip")
+)
 REVIEWED_FILES = {"reviewed-cases.html", "reviewed-cases.json"} | {
     f"assets/reviewed-cases/{case}/look-{pose}.png"
     for case in REVIEWED_CASE_IDS for pose in range(1, 7)
@@ -33,7 +50,7 @@ def validate_reviewed_cases(gallery: Path) -> list[str]:
         manifest = json.loads((gallery / "reviewed-cases.json").read_text())
         cases = manifest["cases"]
         if manifest.get("schema_version") != "1.0" or [c["id"] for c in cases] != list(REVIEWED_CASE_IDS):
-            raise ValueError("expected four reviewed cases in publication order")
+            raise ValueError("expected six reviewed cases in publication order")
         hashes = []
         for case in cases:
             if case.get("ai_generated") is not True or case.get("status") != "image-draft":
@@ -50,9 +67,75 @@ def validate_reviewed_cases(gallery: Path) -> list[str]:
                     raise ValueError(f"{expected_path}: missing integrity record")
                 hashes.append(item["sha256"])
                 findings.extend(_record_findings(gallery / expected_path, item, expected_path))
-        if len(set(hashes)) != 24:
-            findings.append("reviewed cases: expected 24 distinct image hashes")
-    except (OSError, ValueError, TypeError, KeyError) as error:
+            if case["id"] == "external-black-leather":
+                source = case["input_image"]
+                if source.get("path") != EXTERNAL_INPUT or case.get("publication_permission", {}).get("authorized") is not True:
+                    raise ValueError("external trial: source path or publication permission invalid")
+                if not all(key in source for key in ("sha256", "bytes", "dimensions", "format")):
+                    raise ValueError("external trial: missing input integrity record")
+                findings.extend(_record_findings(gallery / EXTERNAL_INPUT, source, EXTERNAL_INPUT))
+            if case["id"] == "green-shirt-home":
+                presentation = case.get("presentation", [])
+                if presentation or any((gallery / name).exists() for name in HOME_PRESENTATION_FILES):
+                    if [item["path"] for item in presentation] != list(HOME_PRESENTATION_FILES):
+                        raise ValueError("home presentation: expected fixed two references and two sharing images")
+                    for item in presentation:
+                        if not all(key in item for key in ("sha256", "bytes", "dimensions", "format")):
+                            raise ValueError("home presentation: missing integrity record")
+                        findings.extend(_record_findings(gallery / item["path"], item, item["path"]))
+            if case["id"] == "black-jacket-office":
+                source = case["input_image"]
+                external = next(c for c in cases if c["id"] == "external-black-leather")
+                if source.get("path") != OFFICE_INPUT or case.get("publication_permission", {}).get("authorized") is not True:
+                    raise ValueError("office case: source path or publication permission invalid")
+                findings.extend(_record_findings(gallery / OFFICE_INPUT, source, OFFICE_INPUT))
+                if source.get("sha256") != external["input_image"]["sha256"]:
+                    raise ValueError("office comparison: same real input required")
+                style_tests = case.get("style_tests")
+                if style_tests or any((gallery / name).exists() for name in JACKET_STYLE_FILES):
+                    if not isinstance(style_tests, dict):
+                        raise ValueError("jacket style tests: missing publication record")
+                    if (style_tests.get("publication_permission", {}).get("authorized") is not True
+                            or style_tests.get("source_sha256") != source["sha256"]):
+                        raise ValueError("jacket style tests: permission or same-input record invalid")
+                    test_images = style_tests.get("images", [])
+                    if [item.get("path") for item in test_images] != list(JACKET_STYLE_FILES):
+                        raise ValueError("jacket style tests: expected two fixed single-image tests")
+                    for item in test_images:
+                        if (item.get("pose") != 1 or item.get("dimensions") != [1024, 1536]
+                                or item.get("format") != "PNG" or item.get("status") != "image-draft"
+                                or item.get("ai_generated") is not True
+                                or item.get("visual_acceptance") not in ("accepted", "pending-human-review")
+                                or not all(key in item for key in ("sha256", "bytes"))):
+                            raise ValueError("jacket style tests: invalid canvas, integrity or review disclosure")
+                        findings.extend(_record_findings(gallery / item["path"], item, item["path"]))
+                sharing = case.get("sharing", [])
+                if sharing or any((gallery / name).exists() for name in OFFICE_SHARE_FILES):
+                    if [item["path"] for item in sharing] != list(OFFICE_SHARE_FILES):
+                        raise ValueError("office sharing: expected fixed public files")
+                    for item in sharing:
+                        is_image = item["path"].endswith(".jpg")
+                        required = ("sha256", "bytes", "dimensions", "format") if is_image else ("sha256", "bytes")
+                        if not all(key in item for key in required):
+                            raise ValueError("office sharing: missing integrity record")
+                        findings.extend(_record_findings(gallery / item["path"], item, item["path"], image=is_image))
+                    # A ZIP must not silently publish the local trial ledger or stale posters.
+                    with ZipFile(gallery / OFFICE_SHARE_FILES[-1]) as archive:
+                        members = [Path(name).name for name in OFFICE_SHARE_FILES[:-1]]
+                        if archive.namelist() != members:
+                            raise ValueError("office sharing: unexpected archive members")
+                        for relative, member in zip(OFFICE_SHARE_FILES, members):
+                            if archive.read(member) != (gallery / relative).read_bytes():
+                                raise ValueError("office sharing: archive member differs from public file")
+                if (case.get("source_coverage", {}).get("real_rear") != "missing"
+                        or case.get("pose_exception", {}).get("slot") != 6
+                        or case["images"][-1].get("original_pose") != "BACK_TURN_GLANCE"
+                        or case["images"][-1].get("actual_pose") != "FRONT_RELAXED_STANDING"
+                        or case.get("pose_exception", {}).get("rear_construction_verified") is not False):
+                    raise ValueError("office case: missing rear-source replacement disclosure")
+        if len(set(hashes)) != len(REVIEWED_CASE_IDS) * 6:
+            findings.append("reviewed cases: expected 36 distinct image hashes")
+    except (OSError, ValueError, TypeError, KeyError, BadZipFile) as error:
         findings.append(f"invalid or missing reviewed case manifest: {error}")
     return findings
 
@@ -279,6 +362,11 @@ def validate_showcase(gallery: Path, *, repo_root: Path | None = None, expected_
         allowed_files.update({brand.MANIFEST_PATH, *brand.BRAND_FILES})
     if has_reviewed:
         allowed_files.update(REVIEWED_FILES)
+        allowed_files.update(JACKET_STYLE_FILES)
+        allowed_files.add(EXTERNAL_INPUT)
+        allowed_files.add(OFFICE_INPUT)
+        allowed_files.update(HOME_PRESENTATION_FILES)
+        allowed_files.update(OFFICE_SHARE_FILES)
     # The already-published input remains a byte-identical alias for old links.
     legacy_input = gallery / "inputs/beige-outfit.jpg"
     if legacy_input.exists():
@@ -301,7 +389,7 @@ def main() -> int:
         for finding in findings:
             print(f"- {finding}")
         return 1
-    reviewed = "; 24 reviewed-case PNGs" if (args.gallery / "reviewed-cases.json").exists() else ""
+    reviewed = "; 36 reviewed-case PNGs and authorized same-input records" if (args.gallery / "reviewed-cases.json").exists() else ""
     print(f"PASS: 24 styles, 48 original links, 48 WebP derivatives, 12 authorized demo images{reviewed}; local references, rights records, licensed brand assets and deployment scope verified")
     return 0
 

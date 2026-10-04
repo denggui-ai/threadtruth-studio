@@ -1,5 +1,12 @@
 # Changelog
 
+## Source integration — compact candidate, 2026-10-05
+
+- Integrate published beta.11 and current showcase updates without changing their media; preserve all six upstream pose regression scenarios under existing mapped IDs 127–132. Retain the reviewed compact/model-reuse runtime and remove a duplicate paragraph introduced by merging.
+- Align candidate manifest, guide wording and casting eval 93 with the compact interaction flow. Existing public beta.11 download links stay versioned; this source PR does not publish a new archive or repeat image generation. Local installation evidence remains separately scoped in `docs/verification/2026-10-05-compact-live-install.md`.
+
+- Integration verification: 331 tests pass in one run using existing Python image/font dependencies and host sharp; 24-pack lint, trigger checks, source/runtime validation, allowlist build, tree/history privacy scan and diff checks pass. Runtime bytes match the locally installed compact source; gallery bytes match current main. No fresh model run or image generation.
+
 ## Unreleased — compact conversation flow, 2026-10-04
 
 - Trigger: repeated menus, confirmations and QA reports obscured the single-image task and its stopping point. Replace default full recognition/style/model menus with one proposal covering identity, a concrete style, purpose and count; optional choices remain available on request.
@@ -125,6 +132,13 @@ All notable changes are documented here. Versions follow Semantic Versioning.
 - Add explicit garment/identity/aesthetic roles and schema-2 local native/web accounting. A pose-1 single trial can continue as the same look-1 plus five authorized images without resetting requests, failure history or original files; schema-1 remains unchanged.
 - Keep original identity references across products, override conflicting person style terms while retaining safety/product constraints, and accept optional explicit model inputs in development prompts. No model database; no frozen packs, poses, media or historic prompts changed.
 - Initial verification: 246 local tests passed; independent review findings closed with regressions (mood person conflicts, unknown-factor contradictions and first-model refusal). Static runtime/source and package smoke checks passed. New source evals cover reference completeness, factor delivery, confirmation, continuation, tampering, native/web parity and prompt/attachment roles. Follow-up native test and reference-limit verification are recorded separately below; this is not a released or production-ready claim.
+## 1.0.0-beta.11 — source-supported sixth pose, 2026-10-02
+
+- Trigger: a clear front-only outfit could produce only five supported default poses; the previous rule required supplement/hold and prohibited every substitution.
+- After: retain all six default poses with adequate real rear references. For human/faceless styling images with supported front/front-side coverage, disclose only slot 6 as `FRONT_RELAXED_STANDING`; preserve slots 1–5, six independent files, garment truth, identity, canvas and paid-call gates. Explicit original-pose/rear-detail requirements still need real rear material or user-approved substitution.
+- QA compares body action, support and visible direction, not gaze/background/crop or unique hashes. Duplicate walking/leaning/turning is `qa-retry`; substitution cannot hide known structural drift or certify unseen rear construction. Preview, prompt-only, generation and retry use the same declared actual pose.
+- Files: runtime entrypoint and existing recognition/flow/prompt/QA references; source eval 89 clarified and regressions 92–97 added. No pose library, new runtime script, style-pack edits or case regeneration. Version-matched user guides and release links updated for the authorized beta.11 publication and local upgrade.
+- Verification: see [scoped source verification](docs/verification/2026-10-02-source-supported-six-poses.md). Text scenarios and static/default-preview checks do not prove native image generation or commercial readiness.
 
 ## 1.0.0-beta.10 — casting and first-image QA prerelease, 2026-10-01
 

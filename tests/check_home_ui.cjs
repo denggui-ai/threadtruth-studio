@@ -4,6 +4,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const http = require('node:http');
 const path = require('node:path');
+const {createHash} = require('node:crypto');
 const root = path.resolve(__dirname, '../gallery/style24-comparison-20260929');
 const mime = {'.html':'text/html', '.css':'text/css', '.js':'text/javascript', '.svg':'image/svg+xml', '.jpg':'image/jpeg', '.webp':'image/webp', '.png':'image/png', '.woff2':'font/woff2', '.json':'application/json'};
 const server = http.createServer((req, res) => {
@@ -178,6 +179,57 @@ async function check(name, fn) {
         }
       } finally { await p.close(); }
     });
+    await check('jacket comparison preserves input, external originals and disclosed sixth pose', async () => {
+      const p=await browser.newPage(); const errors=[]; p.on('pageerror',e=>errors.push(e.message));
+      try {
+        await p.goto(origin+'/reviewed-cases.html#black-jacket-office');
+        const records=await (await p.request.get(origin+'/reviewed-cases.json')).json();
+        const office=records.cases.find(c=>c.id==='black-jacket-office');
+        const external=records.cases.find(c=>c.id==='external-black-leather');
+        assert.equal(office.input_image.sha256,external.input_image.sha256);
+        assert.equal(office.images[5].actual_pose,'FRONT_RELAXED_STANDING');
+        assert.equal(await p.locator('#black-jacket-office .outfit-comparison img').count(),3);
+        assert.equal(await p.locator('#black-jacket-office .reviewed-images img').count(),6);
+        assert.equal(await p.locator('#external-black-leather .reviewed-images img').count(),6);
+        const originals=await p.locator('#black-jacket-office .reviewed-images a').evaluateAll(as=>as.map(a=>a.getAttribute('href')));
+        assert.deepEqual(originals,office.images.map(i=>i.path));
+        const sharing=p.locator('#black-jacket-sharing');
+        assert.equal(await sharing.locator('.primary').getAttribute('href'),'https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/BETA11-TRYOUT.md');
+        const downloads=await sharing.locator('a[download]').evaluateAll(as=>as.map(a=>a.getAttribute('href')));
+        assert.deepEqual(downloads,[office.sharing[4].path,office.sharing[0].path,office.sharing[1].path]);
+        for(const relative of downloads) {
+          const response=await p.request.get(origin+'/'+relative);
+          assert.equal(response.status(),200);
+          assert.equal(createHash('sha256').update(await response.body()).digest('hex'),office.sharing.find(i=>i.path===relative).sha256);
+        }
+        const downloadEvent=p.waitForEvent('download');
+        await sharing.locator('a[download]').first().click();
+        const download=await downloadEvent;
+        assert.equal(download.suggestedFilename(),'caiguang-black-jacket-share.zip');
+        assert.equal(await download.failure(),null);
+        await p.locator('#black-jacket-office img').evaluateAll(imgs=>imgs.forEach(i=>i.loading='eager'));
+        await p.waitForFunction(()=>[...document.querySelectorAll('#black-jacket-office img')].every(i=>i.complete&&i.naturalWidth>0));
+        for(const lang of ['zh','en']) {
+          if(lang==='en') await p.locator('#case-language-toggle').click();
+          assert.match(await p.locator('#black-jacket-office').innerText(),lang==='zh'?/第六张采用正面自然站姿/:/slot 6 uses stationary frontal standing/);
+          assert.match(await sharing.innerText(),lang==='zh'?/下载分享素材/:/Download sharing kit/);
+          for(const width of [1440,390,320]) {
+            await p.setViewportSize({width,height:1000});
+            assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+            const columns=await p.locator('.outfit-comparison').evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(' ').length);
+            assert.equal(columns,width>600?3:1);
+            assert.equal(await p.locator('.outfit-comparison img').first().evaluate(el=>getComputedStyle(el).objectFit),'contain');
+            if(width<480) assert.equal(await sharing.locator('.case-sharing-actions').evaluate(el=>getComputedStyle(el).flexDirection),'column');
+            if(shots&&width!==320) {
+              await p.locator('.outfit-comparison').screenshot({path:path.join(shots,`jacket-comparison-${lang}-${width}.png`)});
+              if(width===1440) await p.locator('#black-jacket-office .reviewed-images').screenshot({path:path.join(shots,`jacket-six-${lang}-${width}.png`)});
+              await sharing.screenshot({path:path.join(shots,`jacket-sharing-${lang}-${width}.png`)});
+            }
+          }
+        }
+        assert.deepEqual(errors,[]);
+      } finally {await p.close();}
+    });
     await check('responsive Chinese and English layouts, complete images and no page errors', async () => {
       const context=await browser.newContext();
       try {
@@ -194,6 +246,16 @@ async function check(name, fn) {
             const columns=await p.locator('.highlights-grid').evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(' ').length);
             assert.equal(columns,width>=1100?4:width>=700?3:2);
             assert.equal(await p.locator('.pose-gallery img').count(),6);
+            const caseCards=await p.locator('.reviewed-card').evaluateAll(cards=>cards.map(card=>{const r=card.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width};}));
+            assert.equal(caseCards.length,5,'five cases must remain accessible');
+            assert.equal(await p.locator('#home-before-after img').count(),3,'source/result feature missing');
+            assert.ok((await p.locator('.reviewed-card img').nth(2).getAttribute('src')).endsWith('green-shirt-home/look-1.png'),'home cover must show the full outfit');
+            if(width>900) assert.ok(caseCards.every(card=>Math.abs(card.y-caseCards[0].y)<1),'desktop cases must share one row');
+            if(width>480&&width<=900) assert.ok(Math.abs(caseCards[4].x+caseCards[4].width/2-width/2)<1,'tablet last case must be centered');
+            const caseImageSizes=await p.locator('.reviewed-card img').evaluateAll(imgs=>imgs.map(i=>({width:i.getBoundingClientRect().width,height:i.getBoundingClientRect().height})));
+            assert.ok(caseImageSizes.every(i=>Math.abs(i.width/i.height-2/3)<.01),'case covers must keep their full portrait proportions');
+            if(shots&&[1440,768,390].includes(width)) await p.locator('#reviewed-cases').screenshot({path:path.join(shots,`cases-${lang}-${width}.png`)});
+
             if(shots) {
               await p.evaluate(()=>scrollTo({top:0,behavior:"instant"})); await p.screenshot({path:path.join(shots,`home-${lang}-${width}.png`)});
               if(lang==='zh'&&[1440,390].includes(width)) {
