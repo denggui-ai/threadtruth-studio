@@ -1767,10 +1767,11 @@
         "人物因素建议/固定/可调/未知区分清楚，不冒充已确认",
         "显式已选风格不重铺24目录或增加重复选择阻断",
         "不给精确身体数据或误用现有私人真人包",
-        "说明选择/试拍/确认边界且不调用图片工具",
-        "用户默认答复只含事实理由与可选方向，不展开内部route-trace/rule_id/分数/权重；明确请求诊断时可另展开"
+        "说明选方向不等于生成授权，试拍需适用的明确生成授权（已给则不重复索取），首张人物需用户对实际结果另行确认；本轮不调用生成或编辑工具，只读view_image允许",
+        "用户默认答复只含事实理由与可选方向，不展开内部route-trace/rule_id/分数/权重；明确请求诊断时可另展开",
+        "在宿主已发现目标描述的条件下，首次可见回复仅核对输入，不预告后续交付；随后读取目标技能再展开选角"
       ],
-      "ref": "2026-10-04 installed acceptance; isolated run supplies named garment sources and/or private model package; no private fixture committed. Tool-process claims require actual trace, not executor self-report."
+      "ref": "2026-10-04 installed acceptance; isolated run supplies named garment sources and/or private model package; no private fixture committed. Tool-process claims require actual trace, not executor self-report.; 2026-10-04 follow-up uses actual workspace skill discovery metadata and complete invocation-input projection; record shortened description and first-message order."
     },
     {
       "id": 139,
@@ -1783,6 +1784,31 @@
         "旧任务读取不改文件，保留累计预算、授权、失败凭据和人物确认门禁"
       ],
       "ref": "2026-10-04 scoped automation fixes; local synthetic regression only"
+    },
+    {
+      "id": 140,
+      "category": "non_apparel_metadata_near_miss",
+      "prompt": "我想给一台咖啡机做电商商品图，目前还没有照片。请只简短告诉我需要准备哪些素材，不要生图。",
+      "expected_output": "不调用服饰人像技能；按非服饰商品索取实拍、细节及用途资料，不谈模特、24服饰风格或人物确认。",
+      "expectations": [
+        "未读取threadtruth-studio技能或其参考/脚本",
+        "简短说明咖啡机商品图片所需素材，不强套服饰选角流程",
+        "没有生成或编辑图片工具调用"
+      ],
+      "ref": "2026-10-04 compact discovery description; near-miss CLI workspace discovery probe"
+    },
+    {
+      "id": 141,
+      "category": "english_first_reply_missing_garment",
+      "prompt": "I want ecommerce model photos for a real dress, but I have not uploaded any photos and have not approved image generation. Please respond briefly.",
+      "expected_output": "Use English throughout. First visible reply only checks inputs; load the local skill, ask for actual garment photos and stop. No generation or later-deliverable promise.",
+      "expectations": [
+        "The first visible reply uses English and only states an input check, before loading the skill; no promise to prepare prompts or images",
+        "The local threadtruth-studio skill is read and the final reply requests clear real garment photos",
+        "The final reply remains brief and in English, stops at missing materials without a conditional generation preview",
+        "No image generation/editing or authorization/task creation calls; read-only image inspection is permitted"
+      ],
+      "ref": "2026-10-04 multilingual short-description regression; actual workspace metadata and visible ordering required"
     }
   ]
 }

@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased — casting handoff and early discovery text, 2026-10-04
+
+- Trigger: CLI new-casting replay omitted trial authorization and actual first-image model confirmation; its pre-load reply promised later deliverables while skill descriptions were shortened by the host.
+- Front-load a short apparel-specific input-check sentence in discovery metadata; preserve the body gates and non-apparel/API exclusions. This targets pre-load visibility rather than adding more late body rules.
+- Add one direction-card closing sentence distinguishing choice, applicable generation authorization, and actual model confirmation. Existing valid generation authority is reused; text-only tasks do not acquire a new approval question.
+- Independent review caught a fixed-Chinese ambiguity in the short example; preserve the user’s language explicitly. Extend eval 138 and trigger boundaries; add near-miss eval 140 and English first-reply/missing-photo eval 141. Retain real catalog/first-message/tool evidence for the declared CLI test only; no installation, image generation or universal discovery claim.
+- Verification: final candidate scenarios passed 14/14 assertions and repository contracts 14/14; matched casting baseline scored 6/7. Both first replies passed this round, so no general reliability improvement is claimed. Independent review closed the language issue; three non-blocking observations are explicitly backlogged in `docs/verification/2026-10-04-casting-flow-followup.md`.
+
 ## Unreleased — automation evidence and preparation status, 2026-10-04
 
 - Trigger: prepared local tasks reported `image-draft` before any returned image, and routing instructions required exposing debug weights to users. Source changes distinguish `prepared` from returned/retained image evidence and keep routing diagnostics internal unless requested.

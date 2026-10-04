@@ -1,6 +1,6 @@
 ---
 name: threadtruth-studio
-description: "Apparel model images and prompts. First reply: one standalone input-check sentence, e.g. '先用裁光核对服饰图片与人物参考。' End the reply there; load the skill before describing deliverables. Includes preparation before garment photos are uploaded. Turn real garment or coordinated-outfit photos into 24-style fashion portraits with explicit generation approval and commercial QA. Exclude non-apparel products, fictional text-only garment design, and virtual try-on/API integration."
+description: "服饰人像；首句随用户语言只核对素材，不预告交付（如“先核对服饰与人物参考。”）；随后读技能。真实服饰图的选角、24风格、提示词与图片制作；缺图时只做素材准备。生成需明确授权和商业QA。排除非服饰商品、纯文字虚构服装设计、虚拟试衣/API集成。"
 ---
 
 # 裁光 · Caiguang｜服饰 AI 影棚
