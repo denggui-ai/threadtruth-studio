@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — local FLOW-1 candidate handoff, 2026-10-04
+
+- Package the previously reviewed `41aaa2b` first-response correction as `1.0.0-beta.11+model-reuse.20261004.flow1`; update manifest and both candidate guides to avoid collision with the earlier package. No additional runtime behavior or data schema change.
+- Verify all 318 distinct current tests: 308 passed the full run; ten environment failures were closed by a 14/14 affected-module rerun using the existing host sharp path. Preserve both logs; no dependency installation or skipped tests.
+- Clean 278-file archive, 45-file runtime parity, separate runtime checksums, isolated replacement/backup/rollback, helper smoke, synthetic local recovery and desktop/mobile guide checks passed. Independent review found no actionable new regression. See `docs/verification/2026-10-04-flow1-release-candidate.md`.
+- Candidate handoff only: real installation, new installed-chat discovery, image generation and public release are not performed or implied.
+
 ## Unreleased — scoped first-response correction, 2026-10-04
 
 - Trigger: current prompt-only model-reuse evaluation again promised local preparation before reading the skill. Providing the complete existing discovery description still produced a later-preparation clause in the first visible reply. Host-normalized visible messages retain both observations.
