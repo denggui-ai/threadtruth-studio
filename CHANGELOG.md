@@ -1,5 +1,10 @@
 # Changelog
 
+## CI dependency correction — 2026-10-05
+
+- GitHub repository tests lacked the host sharp dependency required by guided wardrobe-edit tests. Reproduced with a clean Node lookup: 10 of 14 tests fail; with sharp 0.35.4 all 14 pass.
+- Install pinned sharp only in the ephemeral CI test directory and pass its module path to the repository test step. Runtime, user dependency gates and image generation behavior remain unchanged. The subsequent GitHub run must establish hosted success before merge.
+
 ## Source integration — compact candidate, 2026-10-05
 
 - Integrate published beta.11 and current showcase updates without changing their media; preserve all six upstream pose regression scenarios under existing mapped IDs 127–132. Retain the reviewed compact/model-reuse runtime and remove a duplicate paragraph introduced by merging.
