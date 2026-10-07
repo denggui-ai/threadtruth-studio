@@ -1,6 +1,12 @@
 # Release Readiness
 
-## Current prerelease — beta.9
+## Current release target — beta.12
+
+Channel: GitHub prerelease; `guide-required`. Includes portable adult model references, guarded first-image confirmation, recoverable cumulative task accounting, guided fixed-pose wardrobe editing and compact proposal/confirmation/image-review flow. Runtime files are unchanged from the locally installed compact source. PR #31 and hosted CI passed; this release updates version and distribution documentation without new image calls.
+
+The existing offline HTML guide and version-matched [beta.12 trial](docs/BETA12-TRYOUT.md) cover installation, privacy, optional dependencies, backup and rollback. Fresh-host discovery, strict real-person reproduction and general garment fidelity remain unverified; broad production-readiness and stable-release gates are not promoted.
+
+## Historical prerelease — beta.9
 
 Channel: public GitHub prerelease, `guide-required`. Public brand and displayed plugin name are **裁光 · Caiguang**; technical IDs and invocation remain unchanged. Missing-photo discovery and first-visible replies are corrected for Issue #1; generation approval, budget and review rules are unchanged. Use the version-matched [trial guide](docs/BETA9-TRYOUT.md) or offline HTML guide.
 

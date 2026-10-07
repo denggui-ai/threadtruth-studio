@@ -1,16 +1,14 @@
 # 裁光 · Caiguang
 
-> **本地候选 `1.0.0-beta.11+compact.20261005`。** 已整合公开 beta.11 六图规则、模特复用与简化对话：一份方案、一次确认、图片优先、单张满意即结束；不是公开 beta.11 下载包。见[候选安装与边界](docs/MODEL-REUSE-CANDIDATE.md)。
-
 **AI Fashion Studio · 服饰 AI 影棚**
 
-**当前预发布版：beta.11。** 在 Codex 中显示为“裁光 · Caiguang”，调用名仍为 `$threadtruth-studio`。请使用[对应版本的试用指南](docs/BETA11-TRYOUT.md)；新环境实测和稳定版验收仍待完成，旧版资产保持不变。
+**当前预发布版：beta.12。** 包含模特参考包复用与简化交互：一份方案、一次确认、图片优先、单张满意即结束。 在 Codex 中显示为“裁光 · Caiguang”，调用名仍为 `$threadtruth-studio`。请使用[对应版本的试用指南](docs/BETA12-TRYOUT.md)；新环境实测和稳定版验收仍待完成，旧版资产保持不变。
 
 [![裁光 · Caiguang — AI Fashion Studio。米色套装参考图与 AI 生成效果。](https://denggui-ai.github.io/threadtruth-studio/assets/brand/og-home.png)](https://denggui-ai.github.io/threadtruth-studio/)
 
 **单件或整套服饰，生成六姿势 AI 模特图，24 种风格可选。**<br>Turn a garment or coordinated outfit into six-pose AI model portraits. Choose from 24 styles.
 
-**[下载裁光插件 · Download Caiguang](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.11)**　·　**[开始安装 · Install](docs/INSTALL.md#简体中文)**　·　**[查看成片 · See results](https://denggui-ai.github.io/threadtruth-studio/#reviewed-cases)**　·　**[探索 24 风格 · Explore styles](https://denggui-ai.github.io/threadtruth-studio/#style-highlights)**
+**[下载裁光插件 · Download Caiguang](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.12)**　·　**[开始安装 · Install](docs/INSTALL.md#简体中文)**　·　**[查看成片 · See results](https://denggui-ai.github.io/threadtruth-studio/#reviewed-cases)**　·　**[探索 24 风格 · Explore styles](https://denggui-ai.github.io/threadtruth-studio/#style-highlights)**
 
 [English guide](README.md) · [中文说明](README.zh-CN.md) · [产品首页 / Website](https://denggui-ai.github.io/threadtruth-studio/)
 
@@ -43,13 +41,13 @@
 
 [完整能力、可复制指令与验证范围 →](docs/CAPABILITIES.md)
 
-裁光插件安装在 **Codex** 中，beta.11 预发布版显示为 **裁光 · Caiguang**，旧版 beta.8 安装仍显示为 **ThreadTruth Studio**。默认在 Codex 生图；也可明确选择下方说明的 ChatGPT 网页转交路线。
+裁光插件安装在 **Codex** 中，beta.12 预发布版显示为 **裁光 · Caiguang**，旧版 beta.8 安装仍显示为 **ThreadTruth Studio**。默认在 Codex 生图；也可明确选择下方说明的 ChatGPT 网页转交路线。
 
 ## 三步开始
 
 **需要准备：** macOS、Python 3、终端，以及支持 `codex plugin add` 的 Codex CLI。目前只有这一环境经过测试；Windows、Linux 和全新机器尚未验证。首次识别不生成图片；之后生图需要具备原生生图能力的 Codex 账号，选择网页路线时则需要有生图权限的 ChatGPT 账号。
 
-1. 按[中文安装指南](docs/INSTALL.md#简体中文)下载 beta.11 插件 ZIP 与匹配的 `.sha256`，检查环境、校验归档并启用插件。请选择有完整插件名称的下载项，不要使用 GitHub 自动生成的源码 ZIP。
+1. 按[中文安装指南](docs/INSTALL.md#简体中文)下载 beta.12 插件 ZIP 与匹配的 `.sha256`，检查环境、校验归档并启用插件。请选择有完整插件名称的下载项，不要使用 GitHub 自动生成的源码 ZIP。
 2. 新建一个 **Codex 任务**，上传你有权使用的真实单件服饰或完整套装照片。
 3. 先请求识别与风格推荐：
 
@@ -57,7 +55,7 @@
 请用 $threadtruth-studio 识别并推荐风格，不要生图
 ```
 
-预期返回服饰识别卡、主推与备选方向，以及完整的 24 风格目录。这一步**不授权生图**。随后确认风格、构图、尺寸和张数，再明确授权生成；生图会使用所选账号的图片额度。
+预期返回可见服饰事实与一份人物、具体风格、用途和张数方案；备选及24风格目录按需展开。这一步**不授权生图**。随后确认风格、构图、尺寸和张数，再明确授权生成；生图会使用所选账号的图片额度。
 
 没有返回识别结果时，先看[安装排查](docs/INSTALL.md#安装排查)。安装成功或失败都可通过[安装反馈表](https://github.com/denggui-ai/threadtruth-studio/issues/new?template=installation-feedback.yml)简短反馈。
 
@@ -151,7 +149,7 @@
 
 [安装、升级与回滚](docs/INSTALL.md) · [兼容性](docs/COMPATIBILITY.md) · [离线指南](USER-GUIDE.html)（随插件 ZIP 提供，请在本地用浏览器打开；GitHub 上只显示 HTML 源码） · [更新记录](https://github.com/denggui-ai/threadtruth-studio/blob/main/CHANGELOG.md) · [Beta 进度](docs/BETA.md)
 
-**当前预发布版：beta.11。** 纳入可选选角、审美参考转译、首张选角验收与服饰优先规则；只要提示词时首回复也先核对输入；保留 ChatGPT 网页转交与受控重试。旧版本和对应图库作为历史记录保留；安装旧版时使用其归档内的指南。Beta 退出目标与待验证事项见 [Beta 登记](docs/BETA.md)。
+**当前预发布版：beta.12。** 纳入可选选角、审美参考转译、首张选角验收与服饰优先规则；只要提示词时首回复也先核对输入；保留 ChatGPT 网页转交与受控重试。旧版本和对应图库作为历史记录保留；安装旧版时使用其归档内的指南。Beta 退出目标与待验证事项见 [Beta 登记](docs/BETA.md)。
 
 安装结果可通过[反馈表](https://github.com/denggui-ai/threadtruth-studio/issues/new?template=installation-feedback.yml)提交；Bug 使用 [Issues](https://github.com/denggui-ai/threadtruth-studio/issues)，一般问题使用 [Discussions](https://github.com/denggui-ai/threadtruth-studio/discussions)。公开反馈前请去除私有服饰图、客户数据、凭据和完整日志。维护者：DENGGUI · 微信：`Lvmusic0930`。
 

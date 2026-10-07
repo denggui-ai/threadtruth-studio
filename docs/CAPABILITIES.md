@@ -1,12 +1,12 @@
 # 裁光能力与用法 / Capabilities & usage
 
-> 本地模特复用候选在下述公开 beta.11 基础上增加已有人物、首张确认、私人参考包及固定姿势局部换装；具体范围见[模特复用](MODEL-REUSE.md)与[候选验收说明](MODEL-REUSE-CANDIDATE.md)。
+从真实服饰照片开始，先识别、选方向，再决定是否生成。本文说明**beta.12** 的工作流与条件，包含缺背面时的第六张替代规则；不承诺所有功能组合都已实测。
 
-从真实服饰照片开始，先识别、选方向，再决定是否生成。本文说明公开 **beta.11** 的工作流与条件，包含缺背面时的第六张替代规则；不承诺所有功能组合都已实测。
-
-Start with real garment photos, identify the source and choose a direction before generating. This guide describes the public **beta.11** workflow and its conditions. It includes the front-only slot-6 substitution rule; it does not claim every combination has been tested.
+Start with real garment photos, identify the source and choose a direction before generating. This guide describes the **beta.12** workflow and its conditions. It includes the front-only slot-6 substitution rule; it does not claim every combination has been tested.
 
 [开始安装 / Install](INSTALL.md) · [产品首页 / Website](https://denggui-ai.github.io/threadtruth-studio/) · [24 风格样例 / Style examples](https://denggui-ai.github.io/threadtruth-studio/#style-highlights) · [兼容性 / Compatibility](COMPATIBILITY.md)
+
+默认一份人物、风格、用途和张数方案，一次明确确认后执行；已有授权沿用，图片优先展示，单张满意即结束。人物因子、备选和完整目录按需展开。模特参考包与受限局部换装见[模特复用](MODEL-REUSE.md)。
 
 ## 单件、套装与六姿势 / Garments, outfits and six poses
 

@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.0-beta.12 — model reuse and compact flow, 2026-10-07
+
+- Publish the integrated model-reference and compact-conversation runtime from PR #31 as a prerelease. Update versioned installation/trial links and the offline guide; add beta.12 trial documentation to the existing release allowlist. Runtime instructions, tools, styles and media do not change in this cut.
+- Reuse the passing 331-test integration run and hosted CI; run scoped packaging, installer, privacy and runtime-parity checks for the distribution change. No new image generation, live reinstall, fresh-host validation or identity/product-fidelity promotion.
+
 ## CI dependency correction — 2026-10-05
 
 - GitHub repository tests lacked the host sharp dependency required by guided wardrobe-edit tests. Reproduced with a clean Node lookup: 10 of 14 tests fail; with sharp 0.35.4 all 14 pass.
