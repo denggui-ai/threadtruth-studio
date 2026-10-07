@@ -258,6 +258,35 @@ def reference_hashes(root,look):
     return [r['sha256'] for r in references(root,read(root),look)]
 
 
+def progression_error(data, look):
+    """Shared export/reserve gate: resolved non-anchor visual rejects are local.
+
+    Original requests, invalid canvases/provider failures and the first anchor
+    remain blocking. A visual rejection is never promoted to acceptance here.
+    Schema 1 retains its existing strict order.
+    """
+    if data['schema_version']==1:
+        return 'Earlier look is unresolved or not accepted' if any(
+            x['state']!='accepted' for x in data['looks'][:look-1]) else None
+    if any(x['state'] in ('reserved','unknown') for x in data['looks']):
+        return 'Recover the existing unresolved request before another submission'
+    if any(x['state']=='failed' for x in data['looks']):
+        return 'Resolve the retained provider/canvas failure before another submission'
+    if data['identity'] and look>1:
+        if data['looks'][0]['state']!='accepted':
+            return 'look-1 has not passed visual anchor QA'
+        if not data['model_confirmation']:
+            return 'First-image model has not been confirmed by the user'
+    for prior in data['looks'][:look-1]:
+        if prior['state']=='accepted':
+            continue
+        if (prior['number']>1 and prior['state']=='rejected' and prior.get('output')
+                and prior.get('qa')=='qa-retry' and not prior.get('model_rejected')):
+            continue
+        return 'Earlier look is pending, unreviewed or an invalid first image'
+    return None
+
+
 def evidence_rows(data):
     for row in data['looks']:
         yield from row.get('history', [])
@@ -301,9 +330,31 @@ def check_evidence(root,data):
     for row in evidence_rows(data):
         if hashlib.sha256(row['prompt'].encode()).hexdigest()!=row['prompt_sha256']:
             raise ValueError('Frozen prompt changed')
+        history=row.get('prompt_history',[])
+        revision=row.get('plan_revision',0)
+        if type(revision) is not int or revision<0 or not isinstance(history,list) or len(history)!=revision:
+            raise ValueError('Invalid pending-prompt revision history')
+        for i,prior in enumerate(history):
+            if (prior.get('revision')!=i or not prior.get('note','').strip()
+                    or hashlib.sha256(prior['prompt'].encode()).hexdigest()!=prior['prompt_sha256']):
+                raise ValueError('Historical prompt revision changed')
         if 'model' in row and object_hash(row['model'])!=row['model_sha256']:raise ValueError('Historical model conditions changed')
         if 'output' in row and digest(safe_file(root,row['output']['file']))!=row['output']['sha256']:
             raise ValueError('Previously imported output changed')
+        if data['schema_version']==2 and 'output' in row:
+            actual=png_size(safe_file(root,row['output']['file']))
+            if actual!=data['size'] or actual!=row['output']['dimensions']:
+                raise ValueError('Previously imported output has wrong canvas')
+        reviews=row.get('qa_history',[])
+        if not isinstance(reviews,list):raise ValueError('Invalid QA review history')
+        for review in reviews:
+            if (not isinstance(review,dict) or review.get('qa') not in ('qa-pass','qa-user-review','qa-retry')
+                    or review.get('state') not in ('accepted','rejected')
+                    or any(not isinstance(review.get(k),str) or not review[k].strip() for k in ('qa_note','at'))):
+                raise ValueError('Invalid QA review history record')
+            # Older audit-reject records predate output hash binding.
+            if 'output_sha256' in review and review['output_sha256']!=row.get('output',{}).get('sha256'):
+                raise ValueError('Historical QA review does not bind this output')
         if 'failure' in row:
             failure=row['failure'];evidence=failure['evidence']
             if not failure_recovery(data) or failure['kind'] not in ('provider','invalid-result') or not failure['reason'].strip():
@@ -397,6 +448,32 @@ def update(root,event,**kw):
                 raise ValueError('Record a late source/identity QA rejection only for an accepted schema-2 output')
             row.setdefault('qa_history',[]).append(dict(qa=row['qa'],qa_note=row['qa_note'],state=row['state'],at=stamp()))
             row.update(state='rejected',qa='qa-retry',qa_note=note)
+        elif event=='review-output':
+            note=kw.get('note','').strip();qa=kw.get('qa')
+            if (d['schema_version']!=2 or row is None or n==1
+                    or row['state'] not in ('accepted','rejected') or not row.get('output')
+                    or row.get('model_rejected') or not note or qa not in ('qa-pass','qa-user-review','qa-retry')):
+                raise ValueError('Re-review only a returned, already reviewed non-anchor schema-2 image with actual QA reasons')
+            if kw.get('expected_output_sha256')!=row['output']['sha256']:
+                raise ValueError('Re-review must target the exact existing output hash')
+            row.setdefault('qa_history',[]).append(dict(qa=row['qa'],qa_note=row['qa_note'],
+                state=row['state'],output_sha256=row['output']['sha256'],at=stamp()))
+            row.update(state='rejected' if qa=='qa-retry' else 'accepted',qa=qa,qa_note=note)
+        elif event=='revise-pending':
+            note=kw.get('note','').strip();prompt=kw.get('prompt','')
+            if (d['schema_version']!=2 or row is None or row['state']!='pending'
+                    or row.get('history') or row.get('output') or row.get('submitted_at')
+                    or row.get('attempt_number',1)!=1 or not note
+                    or not isinstance(prompt,str) or not prompt.strip() or prompt==row['prompt']):
+                raise ValueError('Revise only a never-submitted schema-2 look with a changed prompt and actual user plan approval')
+            if any(x['state'] in ('reserved','unknown') for x in d['looks']):
+                raise ValueError('Resolve the existing request before changing pending plans')
+            if kw.get('expected_prompt_sha256')!=row['prompt_sha256']:
+                raise ValueError('Pending revision must target the current frozen prompt hash')
+            revision=row.get('plan_revision',0)
+            row.setdefault('prompt_history',[]).append(dict(prompt=row['prompt'],
+                prompt_sha256=row['prompt_sha256'],revision=revision,note=note,at=stamp()))
+            row.update(prompt=prompt,prompt_sha256=hashlib.sha256(prompt.encode()).hexdigest(),plan_revision=revision+1)
         elif event=='retry-authorize':
             # One explicit grant replaces one rejected/reconciled failed attempt, never resets the task.
             note=kw.get('note','').strip();approval=kw.get('approval_id','').strip();prompt=kw.get('prompt','')
@@ -434,16 +511,17 @@ def update(root,event,**kw):
             auth=d['authorization']
             if not auth or d['attempts']>=auth['limit']+len(d.get('retry_authorizations',[]))+d.get('continuation_authorization',{}).get('additional_requests',0):raise ValueError('No authorized request budget remains')
             if row is None or row['state']!='pending':raise ValueError('Submission already reserved or no pending look')
-            if d['schema_version']==2 and any(x['state'] in ('reserved','unknown') for x in d['looks']):
-                raise ValueError('Recover the existing unresolved request before reserving another native/web submission')
-            if failure_recovery(d) and any(x['state']=='failed' for x in d['looks']):
-                raise ValueError('Reconcile retained failures and obtain explicit retry authority before another submission')
-            if any(x['state']!='accepted' for x in d['looks'][:n-1]):raise ValueError('Earlier look is unresolved or not accepted')
+            blocked=progression_error(d,n)
+            if blocked:raise ValueError(blocked)
+            if ((row.get('plan_revision',0)>0 or kw.get('expected_prompt_sha256') is not None)
+                    and kw.get('expected_prompt_sha256')!=row['prompt_sha256']):
+                raise ValueError('Reserve the current revised prompt; stale handoffs must not be submitted')
             expected=[x['sha256'] for x in references(root,d,n)]
             if kw.get('refs')!=expected or kw.get('ready') is not True:raise ValueError('Check login, persistent chat, prompt and completed attachment order before reserving')
             url=kw.get('conversation','');u=urlparse(url)
             if d['route']=='chatgpt_web' and (u.scheme!='https' or u.hostname!='chatgpt.com' or not ((u.path.startswith('/c/') and u.path[3:]) or (u.path in ('','/') and kw.get('tab','').strip()))):raise ValueError('Provide the observed persistent conversation, or a new-chat URL plus stable browser tab handle')
             row.update(state='reserved',conversation=url,tab=kw.get('tab'),submitted_at=stamp(),reference_hashes=expected)
+            if d['schema_version']==2:row['submitted_prompt_sha256']=row['prompt_sha256']
             d['attempts']+=1
         elif event=='bind':
             u=urlparse(kw.get('conversation',''))
@@ -495,9 +573,10 @@ def export(root):
             lines=['# Codex 原生生成执行包','参考图按编号作为实际工具附件传入；只用原生生图。','调用前记录 reserve；本包不是新的生图授权。','原图返回后落盘、读取元数据并记录 QA。','未决调用先检查原结果，不自动追加调用。','']
         for row in d['looks']:
             n=row['number'];lines.append(f"- look-{n}: {row['state']}")
-            if row['state']!='pending' or any(x['state']!='accepted' for x in d['looks'][:n-1]):continue
-            if d['schema_version']==2 and d['identity'] and n>1 and not d['model_confirmation']:continue
-            refs=references(root,d,n);suffix=f"-attempt-{row['attempt_number']}" if row.get('attempt_number',1)>1 else '';out=folder/f'look-{n}{suffix}';out.mkdir(exist_ok=True);lines.append(f'  Current handoff: {out.name}; earlier attempt folders are evidence only, never resubmit them.')
+            if row['state']!='pending' or progression_error(d,n):continue
+            refs=references(root,d,n);suffix=f"-attempt-{row['attempt_number']}" if row.get('attempt_number',1)>1 else ''
+            if row.get('plan_revision',0):suffix+=f"-plan-{row['plan_revision']}"
+            out=folder/f'look-{n}{suffix}';out.mkdir(exist_ok=True);lines.append(f'  Current handoff: {out.name}; earlier attempt/plan folders are evidence only, never resubmit them.')
             instruction=[]
             for i,r in enumerate(refs,1):
                 src=root/r['file'];dst=out/f'{i:02d}-{r["role"]}{src.suffix}'
@@ -507,6 +586,11 @@ def export(root):
             if d['schema_version']==2 and d['model']:instruction.extend(models.prompt_lines(d['model']))
             prompt='Only use built-in image generation, no other plugins. One standalone image.\n'+'\n'.join(instruction)+f'\nExact canvas: {d["size"][0]}x{d["size"][1]}.\n'+row['prompt']
             (out/'prompt.txt').write_text(prompt,encoding='utf-8')
+            if d['schema_version']==2:
+                manifest=dict(look=n,attempt_number=row.get('attempt_number',1),plan_revision=row.get('plan_revision',0),
+                    frozen_prompt_sha256=row['prompt_sha256'],tool_prompt_sha256=hashlib.sha256(prompt.encode()).hexdigest(),
+                    reference_hashes=[r['sha256'] for r in refs])
+                (out/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf-8')
         (folder/'README.md').write_text('\n'.join(lines)+'\n',encoding='utf-8');return str(folder)
 
 
@@ -530,7 +614,7 @@ def export_model(root, destination, name, *, include_accepted=False, accepted_sc
 
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('command',choices=['init','status','export','authorize','mode','reserve','bind','unknown','failed','returned','accept','reject','audit-reject','retry-authorize','confirm-model','reject-model','continue-authorize','export-model','enable-failure-recovery','reconcile-failure']);p.add_argument('--task',type=Path,required=True);p.add_argument('--spec',type=Path);p.add_argument('--destination',type=Path);p.add_argument('--name');p.add_argument('--look',type=int);p.add_argument('--note');p.add_argument('--limit',type=int);p.add_argument('--mode',choices=['manual','automatic']);p.add_argument('--ready',action='store_true');p.add_argument('--refs',nargs='*');p.add_argument('--conversation');p.add_argument('--tab');p.add_argument('--file',type=Path);p.add_argument('--failure-receipt',type=Path);p.add_argument('--reason');p.add_argument('--request-check-completed',action='store_true');p.add_argument('--qa',choices=['qa-pass','qa-user-review']);p.add_argument('--expected-attempt',type=int);p.add_argument('--approval-id');p.add_argument('--prompt-file',type=Path);p.add_argument('--model-spec',type=Path);p.add_argument('--include-accepted-reference',action='store_true');p.add_argument('--accepted-scope',choices=['face','full']);a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('command',choices=['init','status','export','authorize','mode','reserve','bind','unknown','failed','returned','accept','reject','audit-reject','review-output','revise-pending','retry-authorize','confirm-model','reject-model','continue-authorize','export-model','enable-failure-recovery','reconcile-failure']);p.add_argument('--task',type=Path,required=True);p.add_argument('--spec',type=Path);p.add_argument('--destination',type=Path);p.add_argument('--name');p.add_argument('--look',type=int);p.add_argument('--note');p.add_argument('--limit',type=int);p.add_argument('--mode',choices=['manual','automatic']);p.add_argument('--ready',action='store_true');p.add_argument('--refs',nargs='*');p.add_argument('--conversation');p.add_argument('--tab');p.add_argument('--file',type=Path);p.add_argument('--failure-receipt',type=Path);p.add_argument('--reason');p.add_argument('--request-check-completed',action='store_true');p.add_argument('--qa',choices=['qa-pass','qa-user-review','qa-retry']);p.add_argument('--expected-output-sha256');p.add_argument('--expected-prompt-sha256');p.add_argument('--expected-attempt',type=int);p.add_argument('--approval-id');p.add_argument('--prompt-file',type=Path);p.add_argument('--model-spec',type=Path);p.add_argument('--include-accepted-reference',action='store_true');p.add_argument('--accepted-scope',choices=['face','full']);a=p.parse_args()
     try:
         if a.command!='export-model' and (a.include_accepted_reference or a.accepted_scope is not None):
             raise ValueError('Accepted-reference options are only for export-model')
