@@ -40,6 +40,7 @@ PUBLIC_FILES = (
     "docs/COMPATIBILITY.md",
     "docs/CHATGPT-WEB.md",
     "docs/CHATGPT-WEB-TUTORIAL.md",
+    "docs/JAPANESE-HOME-TUTORIAL.md",
     "docs/CHATGPT-WEB-TUTORIAL.html",
     "docs/BETA.md",
     "docs/BETA-ACCEPTANCE.md",

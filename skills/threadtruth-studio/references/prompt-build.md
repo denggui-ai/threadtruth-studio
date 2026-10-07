@@ -19,6 +19,10 @@
 
 默认搭配流程除 §1b 的明确例外,不得替换为普通商品站桩 / 普通街拍 / 普通 lookbook / 写真姿势。用户明确要求详情页细节 shot 时,沿用 `modes-scenes.md §4` 已有编号覆盖规则,仍须真实素材支持;这不是自行改默认姿势的权限。pack 可经 `pose_masters` 声明风格化增量,但**不得删减这 6 母版**。
 
+**动作与家具分开。** 提示词先按本轮实际计划区分回转、倚墙、端坐、迈步与微前倾，不以同一站姿加换视线/裁切凑差异；动作细化仍限于实拍支持的服饰范围。已选日系家居沙发场景时，母版3可在沙发上端坐，母版5可在沙发前沿微前倾，保留两者动作区别；家具按场景或用户要求选择，不默认固定木椅，也不强制沙发。新构图先写入计划，已调用记录保持原样；已选固定姿势母图仍按 `fixed-pose-wardrobe.md`，不为去重重建姿势或转头。
+
+常规姿势计划中的坐姿需展示门襟/下摆时，双手可分开放在身体两侧或大腿外侧，避免双前臂横压下半门襟、手或家具遮住画面内应展示的下摆；不为半身图强求全身下摆入镜。只写实拍可确认的结构，不补造被挡住的纽扣、接缝或长度。
+
 ## 1a. 输出形态覆盖层(仅 opt-in 或安全降级触发)
 
 默认输出形态 = **真人模特服饰人像**,沿用 §1 六姿势母版与 §2 头部视线。用户未指定输出形态时,不得主动打断追问;在识别卡给一句可改提示即可。
@@ -74,7 +78,7 @@ Show only source-supported front/front-side construction; do not invent or expos
 
 ## 2. 头部方向 / 视线(24 风格共用,服从身体姿势)
 
-头部只保留与身体姿势必要的关系。左右、抬低头和是否看镜头不固定;表情沿用所选 pack 的 `model_persona`,视线配合已有动作和场景,不额外发明道具。直视镜头不等于亲和,低头也不等于冷感。服饰展示和自然头肩关系优先。
+头部只保留与身体姿势必要的关系。左右、抬低头和是否看镜头不固定;表情先服从本次人物保留/允许调整条件，无指定再沿用所选 pack 的 `model_persona`。保留表情和发型不等于冻结同一倾头、视线或身体姿势；视线配合已有动作和场景,不额外发明道具。直视镜头不等于亲和,低头也不等于冷感。服饰展示和自然头肩关系优先；固定姿势母图的头脸保护条件不由本节放宽。
 
 | 图 | 头部 / 视线关系 |
 |---|---|
@@ -90,7 +94,7 @@ Show only source-supported front/front-side construction; do not invent or expos
 真人模特的预览、独立图及 prompts-only 在姿势块之前使用下面的共用说明一次;整组以“结合动作和场景形成自然变化,避免机械重复”为目标,不设左右数量、直视比例或角度配额。
 
 ```
-Head/gaze guidance: choose head orientation and gaze naturally for the body action and existing scene, with no fixed left/right direction, head tilt or eye-contact quota; expression follows the selected style's Attitude; preserve garment visibility and natural head/neck alignment without adding props; vary naturally with action and scene to avoid mechanical repetition.
+Head/gaze guidance: choose head orientation and gaze naturally for the body action and existing scene, with no fixed left/right direction, head tilt or eye-contact quota; expression honors the current model's preserved/permitted conditions, otherwise the selected style's Attitude; preserve garment visibility and natural head/neck alignment without adding props; vary naturally with action and scene to avoid mechanical repetition.
 ```
 
 §1a 的输出形态覆盖优先于本节:不露脸时用原有遮脸/切头说明替换头部表及共用说明;平铺、挂拍、人台跳过本节。不因回眸要求露脸,不把非人像拉回真人。
@@ -110,7 +114,7 @@ deformed hands, extra fingers.
 ```
 **+ append 经 §4.1 商品事实守卫过滤后的 `pack.negative_delta_add`**(风格美学负面词,如韩系 = no influencer style / no aegyo / no sweet idol smile / no e-commerce catalog look)。
 
-**全身姿势(母版 1/2/4/6)成片时追加**(B4:全身构图必须鞋包下摆完整):
+**全身姿势(母版 1/2/4/6)成片时追加**(B4:防止画框错误裁切；自然遮挡按 commercial-qa.md 的商品用途判断，不机械要求两鞋始终无遮挡):
 ```
 cropped shoes, cropped bag, cropped hem.
 ```
@@ -160,7 +164,7 @@ no provocative pose, no upskirt, modest seated posture.
 1. **首张参考角色。** 成人 look-1 可接收当前商品全部服饰源、已有原始人物身份参考、可选审美参考;逐图编号声明用途。仅服饰源决定商品事实。没有身份沿用要求时不复制服饰源中的真人;审美样图不复制脸。preview-grid 永不作首张身份参考。
 2. **技术 QA 和用户选人分开。** 首张落盘核服饰硬事实、画幅、人体/安全、原始身份与明确人物条件。硬失败=`qa-retry`,停止传播。合格或仅剩不阻断的 `qa-user-review` 可记录技术接受,但成人组必须展示首张并等用户明确接受人物,再记录 `model_confirmation`、使用 `accepted_identity_anchor`。用户对当前图的整体接受可作为人物确认，不再拆开追问；单张结束与整组续生按 `flow-gates.md`，不能把满意当新增调用授权。没有用户确认不得继续后五张;选人通过不代表 `image-ready`。
 3. **失败不自动加调用。** 保持 `image-draft` + `qa-retry`,保留结果和已用次数,说明失败点。明确重试授权后才执行;未决调用先恢复,不得复制任务重置预算。
-4. **后五张携带全部依据。** 顺序为 `Image 1…N = current SKU garment sources`、`Image N+1…M = original identity-reference (ignore garment/pose/background/lighting)`、可选 `aesthetic-reference (do not copy identity or garment)`、最后 `accepted current look-1 = identity-only`。按文件哈希对重复身份文件去重,保留不同角色。每个新商品首张重新对照原始人物,后五张也始终携带原始依据,不只对照最近一张生成图。
+4. **后五张携带全部依据。** 顺序为 `Image 1…N = current SKU garment sources`、`Image N+1…M = original identity-reference (ignore garment/pose/background/lighting)`、可选 `aesthetic-reference (do not copy identity or garment)`、最后 `accepted current look-1 = identity-only`。按文件哈希对重复身份文件去重,保留不同角色。每个新商品首张重新对照原始人物,后五张也始终携带原始依据,不只对照最近一张生成图。本组 look-1 不作 `pose-mother`，不自动复制其固定倾头、视线或身体姿势。
 5. **人物固定条件覆盖冲突的人物气质与人物负面词。** 预览、测试、成片及仅提示词都采用同一份人物条件;不删除安全/人体/商品负面词。妆发调整以用户明确允许项为准。原始人物参考和本组锚点永不覆盖新商品事实,也不自动继承旧搭配、配饰、拍摄风格或背景。人物卡只写人物,不保存旧商品。
 6. **不露脸仍不补可识别脸。** 成人不露脸组固定其可见轮廓,继续遮脸/切头规则。童装仍按原安全流程:首张技术 QA 后才用 AI 身份锚点,本次成人参考包功能不扩展到儿童。
 7. **单张测试续生成组。** 首张必须是本组母版1独立图,技术接受且成人人物已获用户确认;上下文商品/风格/模式/形态/画幅一致,并有新增五张授权时原图直接为 look-1,只追加 look-2…6。保留累计预算、失败历史和原始首张。其他母版测试不直接转成组六张;另行说明剩余编号和授权,不得悄悄重生第一张。
@@ -192,6 +196,8 @@ batch_canvas_baseline: <首张通过比例门禁后的实际 WIDTHxHEIGHT>
 ### 4.1 单张成片 prompt 拼装公式(抽象点:底座/场景→pack 变量)
 
 **`STYLE_VISUAL` 商品事实守卫(中心规则,预览/成片/prompts-only 与所有输出形态共用):** 先用识别卡中的真实服饰事实过滤 `pack.visual_language`、`pack.lighting_palette` 与会影响服饰外观的 `pack.model_persona` 语义,再注入 prompt。pack 提到的面料/材质、口袋/绑带/五金、层叠、腰线/衣长、图案/logo、配饰、廓形/剪裁/结构或搭配方式,只有在参考图已明确存在时才可作为服饰描述保留,且只能强调、不得改写。参考图未出现或无法确认时,不得给服装新增这些事实;只把相应风格意图转译为灯光、色调、低干扰背景/道具或构图氛围,且道具不得覆盖服饰。`pack.negative_delta_add` 同样不得删除参考图已有的 logo、图案、材质、结构、配饰或层次;冲突项改写为 `no added/invented ...` 或跳过。该守卫对真人模特、不露脸、平铺、挂拍、人台一视同仁。
+
+拼装前实际看当前服饰源与可用的本组已确认图，只写可见结构和已选搭配。鞋包若为本组明确选定的搭配，后五张沿用通过首张中的可见鞋型、鞋头、鞋底、开口/系带等特征，不只锁“白鞋”等颜色；看不清写 `unknown`，不统一新增某种鞋设计。该图仍不认证商品事实，已选搭配不写入人物卡或默认跨新品继承。
 
 **`lighting_palette` 场景自适应光影签名(不新增 schema):** 将这个单一字段按“光源 → 方向 → 阴影特征 → 对比/曝光”顺序解释并转译到当前场景;pack 已写明的分量必须保留,未写明或无法从字段判断的分量保持克制,不得自行补成戏剧光。方向可以随 `pack.scenes` 与输出形态做等价转译,但不得改变光影气质。光线只用于照明、塑形和呈现服饰事实,不得导致服饰改色、换材质、改廓形,不得遮挡 logo/图案/结构或凭空新增层叠与配饰。柔光、低阴影、低对比 pack 必须继续保持柔和,不得为了“光影感”统一升级成硬光或高反差。
 
@@ -272,7 +278,7 @@ batch_canvas_baseline: <首张通过比例门禁后的实际 WIDTHxHEIGHT>
 逐张检查:通过输入门禁 / 有真实服饰事实源 / 有明确生成意图 / 单图输出 / 服饰是主角 / 输出形态符合用户或安全默认(真人模特/不露脸/平铺/挂拍/人台) / 真人模特时符合本轮实际姿势计划并核动作不重复(§1b 例外不可说原六母版齐全) / 非人像时符合 §1a 构图编号且无真人头部视线 / 身体结构清楚(非人像不适用) / 头部方向合理(非人像不适用) / 场景低干扰 / **已读取元数据且符合本组 `canvas_contract` 与 `batch_canvas_baseline`** / 用途构图与留白目标到位 / 颜色材质版型保真 / pack 未新增或删除参考图不存在/已有的材质、结构、图案、层叠、配饰 / 鞋包配饰保留 / 模特身份一致(非人像不适用) / **风格底座到位(对齐所选 pack;非人像时人物/portrait 语义已转译)** / **光源、方向、阴影、对比/曝光与所选 pack 一致,柔光/低阴影 pack 未被戏剧化,光线未改变服饰颜色、材质或结构可见性** / 露肤已非性感化。
 
 **裁切检查按姿势分类(B4):**
-- **全身姿势(母版 1/2/4/6):** 鞋、包、下摆必须完整在画面,被裁掉=不合格,重试。
+- **全身姿势(母版 1/2/4/6):** 检查画框是否错误裁掉应保留的鞋、包、下摆。自然迈步遮住后鞋不自动等同裁切或人体缺失；按 `commercial-qa.md` 的用途分级判断。明确商品结构错误、用户明确指定的关键展示内容缺失仍须拒绝。
 - **半身姿势(母版 3/5):** 构图本就到膝上/腰上,鞋不在画面属正常取景,**不算裁切丢失**;只检查"画面内应有的服饰项是否被遮挡丢失"。
 - **非人像构图编号:** #1/#2/#5/#6 检查服饰全轮廓、下摆、结构线、已有鞋包/配饰关系是否完整;#3/#4 是刻意细节裁切,不得按真人全身裁切规则误判,只检查目标细节是否清楚且未被不合理遮挡。
 

@@ -18,6 +18,8 @@ When clear front/front-side photos are available but the back is missing, slot 6
 [![Caiguang architecture and key workflows](https://raw.githubusercontent.com/denggui-ai/threadtruth-studio/main/docs/assets/architecture-overview.png)](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md)
 
 
+[Japanese-home workflow tutorial (中文)](docs/JAPANESE-HOME-TUTORIAL.md): materials, first-image approval, six standalone images and an honest case review. The tutorial identifies released and development behavior separately.
+
 ## One garment or a complete outfit, six poses
 
 Upload a garment or coordinated outfit, choose **one of 24 styles**, and create **six independent AI model portraits** using the default pose set. Review the first image before continuing; later images use its identity reference for consistency within the set. This does not promise to reproduce a person in your input photo. A choice of 24 styles does not mean 24 sets in one request.

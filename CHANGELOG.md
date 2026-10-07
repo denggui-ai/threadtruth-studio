@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased — batch continuation and home-scene quality, 2026-10-08
+
+- Trigger: a fresh Japanese-home six-image case stopped after look-4 because the ledger required every previous image accepted, despite the flow rules allowing a resolved non-anchor visual rejection to remain local. An overly strict rear-shoe occlusion review and repetitive standing compositions exposed additional guidance gaps.
+- Integrate the isolated, tested six-file runtime fix into source: shared export/reserve progression gates, hash-bound output re-review with retained QA history, and versioned revision of never-submitted prompts/handoffs. Preserve original calls, images, authorization budget, reference roles, first-image confirmation and schema-1 order. First-anchor failure, unknown requests and provider/canvas failures still stop.
+- Keep batch bookkeeping in the background; retain proposal/budget confirmation, actual first-person confirmation and final group feedback. Do not automatically spend retry calls or promote technical acceptance to commercial readiness.
+- Distinguish natural non-product occlusion from cropping and missing required product detail; plan meaningful body/support differences without turning the first-image identity anchor into a pose master. Carry the selected visible styling into each prompt, and position seated hands to keep the requested garment features readable.
+- Add 18 ledger regressions (17 imported plus a malformed-QA-history guard) and source scenarios 152–162 plus dedicated home-quality cases. The private case used six original calls and completed its last two with the isolated fix; this source change adds no generation, installation, plugin publication or visual improvement claim. Avoid universal sofa, footwear, gaze quotas and duplicate pose schemas.
+- Validation: 88 scoped ledger tests pass; the 349-test repository run had one tutorial offline-link failure, corrected and closed by the 7-test packaging rerun. Creator, source/runtime governance, 24-pack/route, privacy and diff checks pass. Independent review closes the malformed-history finding; paired no-image preparation passes 8/8 criteria on both baseline and candidate without proof of visual improvement. Published beta.12 and existing install remain unchanged. See docs/verification/2026-10-08-japanese-home-optimization.md.
+
 ## 1.0.0-beta.12 — model reuse and compact flow, 2026-10-07
 
 - Publish the integrated model-reference and compact-conversation runtime from PR #31 as a prerelease. Update versioned installation/trial links and the offline guide; add beta.12 trial documentation to the existing release allowlist. Runtime instructions, tools, styles and media do not change in this cut.

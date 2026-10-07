@@ -16,6 +16,8 @@
 [![裁光架构与关键流程](https://raw.githubusercontent.com/denggui-ai/threadtruth-studio/main/docs/assets/architecture-overview.png)](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md)
 
 
+[日系家居完整流程教程](docs/JAPANESE-HOME-TUTORIAL.md)：素材、首张确认、六张独立图与真实问题复盘；注明公开安装版与开发修复的区别。
+
 ## 单件和套装，都能拍一组
 
 上传一件服饰或一套完整搭配，选择 24 种风格中的一个主风格，生成默认六姿势的**六张独立图片**。首张验收后继续，其余图片沿用人物参考以保持组内一致；不保证复刻上传照片中的真人。24 风格可选不代表一次生成 24 组。
