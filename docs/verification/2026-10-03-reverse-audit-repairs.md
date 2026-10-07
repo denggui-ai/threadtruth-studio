@@ -1,0 +1,34 @@
+# Reverse-audit development repairs — 2026-10-03
+
+Conclusion: conditional development candidate. Authoring used the bundled system skill-creator; the separate Codex production-governor gate uses eval and forward-test mode. Runtime target: `skills/threadtruth-studio`; source evidence root: this repository. Raw synthetic runs, review traces and snapshots are retained in a separate private output directory, outside Git and the runtime.
+
+Permission boundary: source repairs, local tests, independent agent review and a development commit. No image generation, browser experiment, external API/upload, dependency installation, plugin update, publication or push. The installed beta.11 instance is unchanged.
+
+## Repair scope
+
+- F1 / Core Gap: new schema-2 tasks declare failure recovery v1. Terminal provider errors retain a local receipt and reason; invalid originals retain their exact bytes and failure reason before the command stops. Reconciliation binds a completed original-request check to the failed attempt, then separate explicit single-image authority permits one retry. Unknown requests must first recover the original result or verified terminal failure. Initial authority, all prior attempts and cumulative counts survive. Older schema-2 tasks require explicit adoption; schema-1 recovery remains unchanged.
+- F2 / Core Gap: replace whole-semicolon deletion with local filtering based on explicit person conditions. Real pack photographic language survives; unspecified person fields remain. Inseparable mixed person/photography wording stops for review rather than silently deleting photography. This is a scoped phrase filter, not arbitrary natural-language conflict understanding.
+- F3 / Stabilization: actual PNG/JPEG/WebP encoding, matching extension and full decode are checked on reference export/read and task/prompt/wardrobe preflight, including copied references. Pillow and sharp must already exist on the host; missing decoders block without installation. Hashes do not establish valid imagery, identity or consent.
+- F4 / Stabilization: wardrobe schema2 binds prompt digest and ordered attachment role/path/hash records to frozen copies. Preflight compares and retains the actual proposed tool parameters without executing them. Schema1 still supports local apply/verify with `legacy-unverified`; future-call preflight requires a newly prepared directory, never silent migration. `pixel_protection_pass` and `provider_execution=unverified` distinguish local pixel checks from actual provider evidence.
+- Factor clarification: long-term adjustable makeup/expression does not make protected mother pixels editable. The current guard fixes makeup, hair, expression and head angle inside it. Hats, changed makeup and high collars/scarves must be checked before calls; do not omit requirements or shrink protection. Alternative routes remain plans until capability and authority are established.
+
+Source tests and evals 121–126 cover the changed failure patterns. No 24-pack file, original six-pose definition or historical image/prompt/evidence was changed. A model database, automatic segmentation, cloud sync and a new workflow engine remain outside scope.
+
+## Validation
+
+- The targeted counterexamples were reproduced before implementation: failed/wrong-canvas dead ends, lost Korean photographic mood, hash-matched fake images and altered wardrobe parameters passing pixel verification.
+- Integrated relevant regression: 159 tests passed. The task owner then added three further CLI/continuation cases; all 50 final model-task tests passed. The union covers 162 distinct relevant tests: 27 model reference, 8 model prompt, 50 model task, 14 wardrobe, 16 legacy web task, 36 style preview, 4 preview equivalence and 7 lighting-pilot tests. This is not an all-repository test claim.
+- Complete local CLI rehearsal passed: initial virtual allowance 1 + explicit virtual retry 1 + continuation 5 = 7 cumulative reservations, producing 6 accepted synthetic outputs. The failed receipt, earlier authorization, history, first-image confirmation and subsequent progression were retained. Real generation/provider calls were zero; status remained `image-draft`.
+- System creator validation, governor quick/source strict/runtime strict, public-tree scan, syntax and diff checks passed. Creator validation reused already available cached PyYAML read-only; nothing was installed. A 45-file runtime stage matched source bytes and passed help commands without bytecode caches. All 24 packs and original pose reference bytes remain unchanged; pack/router and deterministic trigger-routing checks passed.
+- Independent read-only review closed F1–F4 with no actionable issues (open=0 in this declared scope). In addition to rerunning target suites, the reviewer retained 19 wardrobe, 395 model/real-pack and 31 failure-recovery adversarial assertions, all passing. Two isolated matched forward tasks (invalid package and current protected-factor conditions) were graded independently: each configuration passed 8/8 outcome assertions. The old helper falsely accepted the fake image, but its agent caught the problem through an additional image/file check; the candidate helper directly rejected it. These cases do not establish a higher overall agent success rate. Exact prompts, immutable snapshot hashes, raw outputs, grades and the official offline review viewer are retained. Missing model/token/timing/invocation telemetry is unavailable, not zero; raw aggregator defaults were normalized to null in the review artifact.
+
+## Boundaries and closure
+
+`fixed(F1)` / `fixed(F2)` / `fixed(F3)` / `fixed(F4)`: reproduced counterexamples, source regressions and independent review are closed. No open repair finding remains. Existing project limitations below are retained, not promoted to passes.
+
+- `deferred(environment-font-dependencies)`: 16 historical font tests previously blocked on fontTools/Brotli. They were not rerun or relabeled as passes in this scope.
+- `deferred(original-real-person-fidelity)`: own-mother pixel protection does not establish exact original-person likeness or equality among six different mother faces.
+- `deferred(product-commercial-acceptance)`: source garment structure and commercial readiness still require scoped visual/user review.
+- Unverified: actual provider execution, authorization authenticity, new generated images, installed-plugin discovery/upgrade, fresh-host behavior and implicit triggering. Local hashes and user-declared records cannot authenticate these.
+
+Code rollback is a Git revert of this development change, preserving all private records and images. Extended failure records must remain with a compatible helper; do not erase or downgrade them to resume an older interface. This task does not upgrade public Beta maturity or claim production readiness or a general self-evolution level.

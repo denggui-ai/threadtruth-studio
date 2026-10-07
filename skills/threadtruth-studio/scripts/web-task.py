@@ -5,14 +5,51 @@ import copy
 from contextlib import contextmanager
 from datetime import datetime, timezone
 import hashlib
+import importlib.util
 import json
 import os
 from pathlib import Path
 import shutil
 import struct
+import sys
 import uuid
 import zlib
 from urllib.parse import urlparse
+
+# Even --help must leave an installed/read-only runtime tree unchanged.
+sys.dont_write_bytecode = True
+_model_spec = importlib.util.spec_from_file_location('task_model_reference', Path(__file__).with_name('model_reference.py'))
+models = importlib.util.module_from_spec(_model_spec)
+_model_spec.loader.exec_module(models)
+ROLE_TEXT = {
+    'garment-source': 'garment source; authoritative product facts',
+    'identity-reference': 'original model identity; ignore clothing, accessories, pose, backdrop and lighting',
+    'aesthetic-reference': 'aesthetic only; do not copy identity or clothing',
+    'identity-only': 'current outfit accepted first-image identity; never override original identity or garment sources',
+}
+
+
+def native_reference_check(rows, route, extra_anchor=0):
+    if route=='codex_native' and len(rows)+extra_anchor>5:
+        raise ValueError('Native imagegen allows at most five references; select sufficient garment views before freezing, leaving room for original identity and the current first-image anchor; never silently drop inputs')
+
+
+def context_check(context, size):
+    required = {'outfit', 'style', 'mode', 'output_form', 'size', 'first_pose'}
+    if not isinstance(context, dict) or set(context) - {'purpose'} != required:
+        raise ValueError('Declare outfit, style, mode, output_form, size and first_pose for the frozen task context')
+    if any(not isinstance(context[k], str) or not context[k].strip() for k in required - {'size','first_pose'}):
+        raise ValueError('Task context labels must be nonempty')
+    if type(context['first_pose']) is not int or context['first_pose'] not in range(1,7):raise ValueError('Declare the actual first pose number')
+    if context['mode'] not in ('B', 'C', 'D') or context['size'] != list(size):
+        raise ValueError('Task mode/canvas does not match context')
+    if context.get('purpose', 'delivery') not in ('delivery', 'model-check'):
+        raise ValueError('Task purpose must be delivery or model-check')
+    return copy.deepcopy(context)
+
+
+def object_hash(value):
+    return hashlib.sha256(json.dumps(value, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
 
 
 def digest(path):
@@ -68,7 +105,13 @@ def stamp():
     return datetime.now(timezone.utc).isoformat()
 
 
+def refresh_delivery_status(data):
+    # Retried images remain evidence even after the current row returns to pending.
+    data['delivery_status']='image-draft' if any(row.get('output') for row in evidence_rows(data)) else 'prepared'
+
+
 def save(root,data):
+    refresh_delivery_status(data)
     temp=root/('.task-'+uuid.uuid4().hex+'.tmp')
     with temp.open('x',encoding='utf-8') as f:
         json.dump(data,f,ensure_ascii=False,indent=2);f.flush();os.fsync(f.fileno())
@@ -90,41 +133,124 @@ def locked(root):
 
 def read(root):
     root=Path(root);data=json.loads((root/'task.json').read_text())
-    if data.get('schema_version')!=1:raise ValueError('Unsupported task schema')
+    if data.get('schema_version') not in (1,2):raise ValueError('Unsupported task schema')
+    if 'failure_recovery_version' in data and (data['schema_version']!=2 or type(data['failure_recovery_version']) is not int or data['failure_recovery_version']!=1):
+        raise ValueError('Unsupported failure recovery version')
+    # Normalize legacy records in memory; reading must not rewrite evidence.
+    refresh_delivery_status(data)
     return data
 
 
-def create(root,refs,prompts,size,identity=True):
+def failure_recovery(data):
+    return data['schema_version']==2 and data.get('failure_recovery_version')==1
+
+
+def retain_failure(root,row,source,kind,reason):
+    """Keep the exact local receipt/result, including invalid image bytes."""
+    source=Path(source)
+    if not source.is_file() or (kind=='provider' and not source.stat().st_size):
+        raise ValueError('A nonempty local terminal failure receipt is required')
+    out=root/'failures'/f"look-{row['number']}-attempt-{row.get('attempt_number',1)}-{kind}{source.suffix or '.bin'}"
+    out.parent.mkdir(exist_ok=True)
+    if out.exists():
+        if digest(out)!=digest(source):raise ValueError('Existing failure evidence differs; reconcile the original file without overwriting it')
+    else:
+        with source.open('rb') as src,out.open('xb') as dst:
+            shutil.copyfileobj(src,dst);dst.flush();os.fsync(dst.fileno())
+    return dict(kind=kind,reason=reason,evidence=dict(file=str(out.relative_to(root)),sha256=digest(out)),at=stamp())
+
+
+def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,context=None,route='chatgpt_web',model_package=None):
     root=Path(root)
+    if model_package is not None:
+        if schema_version!=2 or not identity or model is not None:raise ValueError('Package use requires a new portrait task and no conflicting inline model')
+        card=models.load_package(model_package);model=card['model']
+        refs=list(refs)+[dict(path=str(Path(model_package)/r['file']),role='identity-reference') for r in card['references']]
+        refs += [dict(path=str(Path(model_package)/r['file']), **{k:r[k] for k in ('role','sha256','scope','confirmation_note')})
+                 for r in card.get('supplements', [])]
+    if schema_version not in (1,2):raise ValueError('Unsupported task schema')
     if len(prompts) not in (1,6) or not all(isinstance(p,str) and p.strip() for p in prompts):
         raise ValueError('Provide exactly one or six nonempty frozen prompts')
     if not refs or len(size)!=2 or any(type(v)!=int or v<=0 for v in size):
         raise ValueError('Real garment references and positive exact dimensions required')
-    sources=[Path(p).resolve() for p in refs]
+    if route not in ('chatgpt_web','codex_native'):raise ValueError('Unsupported native route')
+    if schema_version==1:
+        if model is not None or context is not None or route!='chatgpt_web':raise ValueError('Legacy task interface is unchanged')
+        items=[dict(path=p,role='garment-source') for p in refs]
+    else:
+        context=context_check(context,size)
+        if context.get('purpose')=='model-check' and (not identity or len(prompts)!=1):
+            raise ValueError('model-check is a single portrait diagnostic, not a six-pose delivery')
+        if identity:
+            model=models.validate_model(model or dict(source_type='new',scope='full',subject='adult model',locked=[],adjustable=[],consent_note=''))
+        elif model is not None:raise ValueError('Non-portrait tasks cannot carry a model')
+        items=[dict(path=p,role='garment-source') if isinstance(p,(str,Path)) else dict(p) for p in refs]
+        for i,item in enumerate(items):
+            if item.get('role')=='model-supplement':
+                items[i]=dict(models.validate_supplement({k:v for k,v in item.items() if k!='role'}),role='model-supplement')
+            elif set(item)!={'path','role'} or item['role'] not in ('garment-source','identity-reference','aesthetic-reference'):
+                raise ValueError('Declare an explicit reference role')
+        if not any(x['role']=='garment-source' for x in items):raise ValueError('A model/photo/card is not a garment source')
+        has_identity=any(x['role']=='identity-reference' for x in items)
+        if any(x['role']=='model-supplement' for x in items) and not has_identity:
+            raise ValueError('An accepted supplement requires the original identity reference')
+        if not identity and any(x['role']!='garment-source' for x in items):raise ValueError('Non-portrait task cannot carry person references')
+        if identity and (has_identity != (model['source_type'] in ('ai','real'))):raise ValueError('Existing models need original identity references; new models do not copy identity')
+    sources=[Path(x['path']).resolve() for x in items]
     if any(not p.is_file() or p.suffix.lower() not in ('.png','.jpg','.jpeg','.webp') for p in sources):
         raise ValueError('References must be existing image files')
-    root.mkdir(parents=True,exist_ok=False);(root/'references').mkdir();frozen=[]
-    for i,p in enumerate(sources,1):
-        out=root/'references'/f'{i:02d}{p.suffix.lower()}';shutil.copyfile(p,out)
-        frozen.append({'file':str(out.relative_to(root)),'sha256':digest(out),'role':'garment-source'})
-    data={'schema_version':1,'created_at':stamp(),'route':'chatgpt_web','mode':'manual','model_verified':False,
-          'size':list(size),'identity':bool(identity),'references':frozen,'authorization':None,'attempts':0,
-          'complete':False,'delivery_status':'image-draft','events':[],
-          'looks':[{'number':i,'prompt':p,'prompt_sha256':hashlib.sha256(p.encode()).hexdigest(),'state':'pending'} for i,p in enumerate(prompts,1)]}
-    save(root,data);return data
+    for source in sources:models.validate_image(source)
+    if schema_version==2:
+        identities=[digest(p) for p,item in zip(sources,items) if item['role'] in ('identity-reference','model-supplement')]
+        if len(identities)!=len(set(identities)):
+            raise ValueError('Deduplicate identical identity references before task initialization and prompt numbering')
+    native_reference_check(items,route,extra_anchor=int(identity and len(prompts)==6))
+    root.mkdir(parents=True,exist_ok=False)
+    try:
+        (root/'references').mkdir();frozen=[]
+        for i,(p,item) in enumerate(zip(sources,items),1):
+            out=root/'references'/f'{i:02d}{p.suffix.lower()}';shutil.copyfile(p,out)
+            models.validate_image(out)
+            frozen.append({'file':str(out.relative_to(root)),'sha256':digest(out),'role':item['role']})
+            if item['role']=='model-supplement':
+                if frozen[-1]['sha256']!=item['sha256']:raise ValueError('Accepted supplement changed during snapshot')
+                frozen[-1].update(scope=item['scope'],confirmation_note=item['confirmation_note'])
+        data={'schema_version':schema_version,'created_at':stamp(),'route':route,'mode':'manual','model_verified':False,
+              'size':list(size),'identity':bool(identity),'references':frozen,'authorization':None,'attempts':0,
+              'complete':False,'delivery_status':'prepared','events':[],
+              'looks':[{'number':i,'prompt':p,'prompt_sha256':hashlib.sha256(p.encode()).hexdigest(),'state':'pending'} for i,p in enumerate(prompts,1)]}
+        if schema_version==2:
+            data.update(context=context,context_sha256=object_hash(context),model=model,model_sha256=object_hash(model),model_confirmation=None,
+                        references_sha256=object_hash(frozen),failure_recovery_version=1)
+        save(root,data);return data
+    except Exception:
+        shutil.rmtree(root)
+        raise
 
 
 def references(root,data,look):
+    check_model_confirmation(data)
+    check_reference_metadata(root,data)
     if not 1<=look<=len(data['looks']):raise ValueError('Unknown look number')
     row=data['looks'][look-1]
     if hashlib.sha256(row['prompt'].encode()).hexdigest()!=row['prompt_sha256']:raise ValueError('Frozen prompt changed')
     rows=list(data['references'])
+    if data['schema_version']==2 and data['identity'] and look>1 and not data['model_confirmation']:
+        raise ValueError('First-image model has not been confirmed by the user')
     if data['identity'] and look>1:
         anchor=data['looks'][0]
         if anchor['state']!='accepted':raise ValueError('look-1 has not passed visual anchor QA')
         rows=rows+[dict(anchor['output'],role='identity-only')]
+        if data['schema_version']==2:
+            seen=set();unique=[]
+            for ref in rows:
+                key=(ref['sha256'], 'identity' if ref['role'] in ('identity-reference','model-supplement','identity-only') else ref['role'])
+                if key not in seen:unique.append(ref);seen.add(key)
+            rows=unique
     for row in rows:
-        if digest(Path(root)/row['file'])!=row['sha256']:raise ValueError('Frozen reference/anchor changed')
+        if digest(safe_file(Path(root),row['file']))!=row['sha256']:raise ValueError('Frozen reference/anchor changed')
+        models.validate_image(safe_file(Path(root),row['file']))
+    native_reference_check(rows,data['route'])
     return rows
 
 
@@ -138,20 +264,74 @@ def evidence_rows(data):
         yield row
 
 
+def check_model_confirmation(data):
+    if data['schema_version']==2 and data.get('model_confirmation'):
+        confirmation=data['model_confirmation']
+        if (not isinstance(confirmation,dict) or not isinstance(confirmation.get('note'),str)
+                or not confirmation['note'].strip()
+                or confirmation.get('output_sha256')!=data['looks'][0].get('output',{}).get('sha256')):
+            raise ValueError('Model confirmation does not bind the current first-image output')
+
+
+def check_reference_metadata(root,data):
+    if data['schema_version']!=2:return
+    supplements=[r for r in data['references'] if r['role']=='model-supplement']
+    if supplements and 'references_sha256' not in data:
+        raise ValueError('Supplemental reference acceptance requires its frozen metadata hash')
+    if 'references_sha256' in data and object_hash(data['references'])!=data['references_sha256']:
+        raise ValueError('Frozen reference roles/acceptance changed')
+    if supplements and (not data['identity'] or data['model']['source_type'] not in ('ai','real')
+                        or not any(r['role']=='identity-reference' for r in data['references'])):
+        raise ValueError('Supplement requires an existing original identity')
+    for row in supplements:
+        if set(row)!={'file','sha256','role','scope','confirmation_note'}:
+            raise ValueError('Unsupported frozen supplement fields')
+        models.validate_supplement(dict(path=str(safe_file(Path(root),row['file'])),
+                                        **{k:row[k] for k in ('sha256','scope','confirmation_note')}))
+
+
 def check_evidence(root,data):
+    check_model_confirmation(data)
+    check_reference_metadata(root,data)
+    if data['schema_version']==2:
+        if object_hash(data['context'])!=data['context_sha256'] or object_hash(data['model'])!=data['model_sha256']:
+            raise ValueError('Frozen context/model changed')
+        context_check(data['context'],data['size'])
+        if data['identity']:models.validate_model(data['model'])
     for row in evidence_rows(data):
         if hashlib.sha256(row['prompt'].encode()).hexdigest()!=row['prompt_sha256']:
             raise ValueError('Frozen prompt changed')
-        if 'output' in row and digest(root/row['output']['file'])!=row['output']['sha256']:
+        if 'model' in row and object_hash(row['model'])!=row['model_sha256']:raise ValueError('Historical model conditions changed')
+        if 'output' in row and digest(safe_file(root,row['output']['file']))!=row['output']['sha256']:
             raise ValueError('Previously imported output changed')
+        if 'failure' in row:
+            failure=row['failure'];evidence=failure['evidence']
+            if not failure_recovery(data) or failure['kind'] not in ('provider','invalid-result') or not failure['reason'].strip():
+                raise ValueError('Invalid retained failure record')
+            if digest(safe_file(root,evidence['file']))!=evidence['sha256']:
+                raise ValueError('Retained failure evidence changed')
+        if 'failure_reconciliation' in row:
+            checked=row['failure_reconciliation']
+            if (not checked['note'].strip() or checked.get('request_check_completed') is not True
+                    or checked['attempt_number']!=row.get('attempt_number',1)
+                    or checked['failure_sha256']!=object_hash(row.get('failure'))):
+                raise ValueError('Failure reconciliation no longer binds this failed attempt')
     for ref in data['references']:
-        if digest(root/ref['file'])!=ref['sha256']:raise ValueError('Frozen reference changed')
+        if digest(safe_file(root,ref['file']))!=ref['sha256']:raise ValueError('Frozen reference changed')
+        models.validate_image(safe_file(root,ref['file']))
+
+
+def safe_file(root,relative):
+    path=Path(relative);resolved=(root/path).resolve()
+    if path.is_absolute() or '..' in path.parts or not resolved.is_relative_to(root.resolve()):
+        raise ValueError('Task file escapes private directory')
+    return resolved
 
 
 def update(root,event,**kw):
     root=Path(root)
     with locked(root):
-        d=read(root);n=kw.get('look');row=None
+        d=read(root);n=kw.get('look');row=None;stop_error=None
         check_evidence(root,d)
         if n is not None:
             if type(n)!=int or not 1<=n<=len(d['looks']):raise ValueError('Unknown look number')
@@ -160,23 +340,91 @@ def update(root,event,**kw):
             if d['authorization'] or d['attempts']:raise ValueError('Existing authorization/budget cannot be reset')
             limit=kw.get('limit');note=kw.get('note','').strip()
             if type(limit)!=int or not 1<=limit<=len(d['looks']) or not note:raise ValueError('Explicit ChatGPT upload and generation approval with limit required')
-            d['authorization']={'destination':'ChatGPT','limit':limit,'note':note,'at':stamp()}
+            d['authorization']={'destination':('ChatGPT' if d['schema_version']==1 else d['route']),'limit':limit,'note':note,'at':stamp()}
+        elif event=='enable-failure-recovery':
+            note=kw.get('note','').strip()
+            if d['schema_version']!=2 or 'failure_recovery_version' in d or not note or n is not None:
+                raise ValueError('Explicit task-level adoption note required for a legacy schema-2 task only')
+            d.update(failure_recovery_version=1,failure_recovery_adoption=dict(note=note,at=stamp()))
+        elif event=='reconcile-failure':
+            note=kw.get('note','').strip()
+            if not failure_recovery(d) or row is None or row['state']!='failed' or 'failure' not in row:
+                raise ValueError('Reconcile only a retained, explicit failure under recovery v1; recover unknown requests first')
+            if (type(kw.get('expected_attempt')) is not int or kw['expected_attempt']!=row.get('attempt_number',1)
+                    or kw.get('request_check_completed') is not True or not note):
+                raise ValueError('Match the failed attempt and record the completed original-request check')
+            if row.get('failure_reconciliation'):raise ValueError('Failure already reconciled; additional calls still need explicit retry approval')
+            row['failure_reconciliation']=dict(attempt_number=row.get('attempt_number',1),failure_sha256=object_hash(row['failure']),
+                                                request_check_completed=True,note=note,at=stamp())
+        elif event=='confirm-model':
+            note=kw.get('note','').strip()
+            if d['schema_version']!=2 or not d['identity'] or n!=1 or row['state']!='accepted' or not note:
+                raise ValueError('Confirm only a QA-accepted first image with actual human visual approval')
+            if d['model_confirmation']:raise ValueError('Model confirmation already recorded')
+            d['model_confirmation']={'note':note,'output_sha256':row['output']['sha256'],'at':stamp()}
+        elif event=='continue-authorize':
+            note=kw.get('note','').strip();approval=kw.get('approval_id','').strip();prompts=kw.get('prompts')
+            if d['schema_version']!=2 or len(d['looks'])!=1 or d['looks'][0]['state']!='accepted' or not d['authorization']:
+                raise ValueError('Continue only the same accepted one-image task')
+            if d['context'].get('purpose')=='model-check':
+                raise ValueError('model-check cannot become look-1 of a production six-pose set')
+            if d['identity'] and not d['model_confirmation']:raise ValueError('User must confirm the model first')
+            if d['context']['first_pose']!=1:raise ValueError('Only an actual pose-1 trial can become look-1 of the six-pose set')
+            if kw.get('context')!=d['context']:raise ValueError('Continuation must keep outfit, style, mode, output form and canvas')
+            if not note or not approval or any(x['approval_id']==approval for x in d.get('retry_authorizations',[])):
+                raise ValueError('Explicit five-image approval and a fresh ID required')
+            if not isinstance(prompts,list) or len(prompts)!=5 or any(not isinstance(p,str) or not p.strip() for p in prompts):
+                raise ValueError('Provide exactly five continuation prompts')
+            future=list(d['references'])
+            anchor=d['looks'][0]['output']
+            if d['identity'] and not any(r['role'] in ('identity-reference','model-supplement') and r['sha256']==anchor['sha256'] for r in future):
+                future.append(dict(anchor,role='identity-only'))
+            native_reference_check(future,d['route'])
+            d['continuation_authorization']={'approval_id':approval,'additional_requests':5,'note':note,'at':stamp()}
+            d['looks'].extend({'number':i,'prompt':p,'prompt_sha256':hashlib.sha256(p.encode()).hexdigest(),'state':'pending'} for i,p in enumerate(prompts,2))
+        elif event=='reject-model':
+            note=kw.get('note','').strip()
+            if d['schema_version']!=2 or not d['identity'] or n!=1 or row['state']!='accepted' or d['model_confirmation'] or not note or any(x['state']!='pending' for x in d['looks'][1:]):
+                raise ValueError('Reject a model only before first-image human confirmation and downstream work')
+            row.update(state='rejected',model_rejected=True,model_rejection_note=note)
         elif event=='reject':
             note=kw.get('note','').strip()
             if row is None or row['state']!='returned' or not note:raise ValueError('Reject only a downloaded result with actual visual QA reasons')
             row.update(state='rejected',qa='qa-retry',qa_note=note)
+        elif event=='audit-reject':
+            note=kw.get('note','').strip()
+            if d['schema_version']!=2 or row is None or row['state']!='accepted' or not note:
+                raise ValueError('Record a late source/identity QA rejection only for an accepted schema-2 output')
+            row.setdefault('qa_history',[]).append(dict(qa=row['qa'],qa_note=row['qa_note'],state=row['state'],at=stamp()))
+            row.update(state='rejected',qa='qa-retry',qa_note=note)
         elif event=='retry-authorize':
-            # One explicit grant replaces one rejected attempt, never resets the task.
+            # One explicit grant replaces one rejected/reconciled failed attempt, never resets the task.
             note=kw.get('note','').strip();approval=kw.get('approval_id','').strip();prompt=kw.get('prompt','')
             grants=d.get('retry_authorizations',[])
-            if row is None or row['state']!='rejected' or not d['authorization']:raise ValueError('Only a visually rejected downloaded attempt can be retried')
+            failed_ready=(row is not None and row['state']=='failed' and failure_recovery(d) and row.get('failure_reconciliation'))
+            if row is None or (row['state']!='rejected' and not failed_ready) or not d['authorization']:
+                raise ValueError('Retry only a visually rejected result or a reconciled failure with retained evidence; recover unknown requests first')
             attempt=row.get('attempt_number',1)
-            if type(kw.get('expected_attempt'))!=int or kw['expected_attempt']!=attempt:raise ValueError('Approval must target the current rejected attempt')
+            if type(kw.get('expected_attempt'))!=int or kw['expected_attempt']!=attempt:raise ValueError('Approval must target the current rejected/failed attempt')
             if not note or not approval or not isinstance(prompt,str) or not prompt.strip():raise ValueError('Explicit retry approval, unique approval ID and corrected prompt required')
-            if any(g['approval_id']==approval for g in grants):raise ValueError('Retry approval already used')
-            if any(x['state']!='pending' for x in d['looks'][n:]):raise ValueError('Cannot replace an anchor with existing downstream work')
-            history=copy.deepcopy(row.get('history',[]));old=copy.deepcopy(row);old.pop('history',None);history.append(old)
+            if any(g['approval_id']==approval for g in grants) or d.get('continuation_authorization',{}).get('approval_id')==approval:raise ValueError('Retry approval already used')
+            if (d['schema_version']==1 or n==1) and any(x['state']!='pending' for x in d['looks'][n:]):raise ValueError('Cannot replace an anchor with existing downstream work')
+            history=copy.deepcopy(row.get('history',[]));old=copy.deepcopy(row);old.pop('history',None)
+            if d['schema_version']==2 and d['model']:
+                old.update(model=copy.deepcopy(d['model']),model_sha256=d['model_sha256'])
+            if kw.get('model') is not None:
+                if d['schema_version']!=2 or n!=1 or not row.get('model_rejected') or d['model_confirmation']:raise ValueError('Model revision requires explicit unconfirmed-first-model rejection')
+                changed=models.validate_model(kw['model'])
+                if any(changed[k]!=d['model'][k] for k in ('source_type','scope','subject')):raise ValueError('A different identity/source/scope requires a new declared model version, not replacement of original references')
+                d.update(model=changed,model_sha256=object_hash(changed))
+            if d['schema_version']==2 and n==1 and d['model_confirmation']:
+                old['model_confirmation']=copy.deepcopy(d['model_confirmation'])
+                d['model_confirmation']=None
+            history.append(old)
             grant={'approval_id':approval,'look':n,'rejected_attempt':attempt,'additional_requests':1,'note':note,'at':stamp(),'prompt_sha256':hashlib.sha256(prompt.encode()).hexdigest()}
+            if failed_ready:
+                grant.pop('rejected_attempt')
+                grant.update(source_state='failed',failed_attempt=attempt)
             row.clear();row.update(number=n,state='pending',attempt_number=attempt+1,prompt=prompt,prompt_sha256=grant['prompt_sha256'],history=history)
             d.setdefault('retry_authorizations',[]).append(grant)
         elif event=='mode':
@@ -184,70 +432,123 @@ def update(root,event,**kw):
             d['mode']=kw['mode']
         elif event=='reserve':
             auth=d['authorization']
-            if not auth or d['attempts']>=auth['limit']+len(d.get('retry_authorizations',[])):raise ValueError('No authorized request budget remains')
+            if not auth or d['attempts']>=auth['limit']+len(d.get('retry_authorizations',[]))+d.get('continuation_authorization',{}).get('additional_requests',0):raise ValueError('No authorized request budget remains')
             if row is None or row['state']!='pending':raise ValueError('Submission already reserved or no pending look')
+            if d['schema_version']==2 and any(x['state'] in ('reserved','unknown') for x in d['looks']):
+                raise ValueError('Recover the existing unresolved request before reserving another native/web submission')
+            if failure_recovery(d) and any(x['state']=='failed' for x in d['looks']):
+                raise ValueError('Reconcile retained failures and obtain explicit retry authority before another submission')
             if any(x['state']!='accepted' for x in d['looks'][:n-1]):raise ValueError('Earlier look is unresolved or not accepted')
             expected=[x['sha256'] for x in references(root,d,n)]
             if kw.get('refs')!=expected or kw.get('ready') is not True:raise ValueError('Check login, persistent chat, prompt and completed attachment order before reserving')
             url=kw.get('conversation','');u=urlparse(url)
-            if u.scheme!='https' or u.hostname!='chatgpt.com' or not ((u.path.startswith('/c/') and u.path[3:]) or (u.path in ('','/') and kw.get('tab','').strip())):raise ValueError('Provide the observed persistent conversation, or a new-chat URL plus stable browser tab handle')
+            if d['route']=='chatgpt_web' and (u.scheme!='https' or u.hostname!='chatgpt.com' or not ((u.path.startswith('/c/') and u.path[3:]) or (u.path in ('','/') and kw.get('tab','').strip()))):raise ValueError('Provide the observed persistent conversation, or a new-chat URL plus stable browser tab handle')
             row.update(state='reserved',conversation=url,tab=kw.get('tab'),submitted_at=stamp(),reference_hashes=expected)
             d['attempts']+=1
         elif event=='bind':
             u=urlparse(kw.get('conversation',''))
             if row is None or row['state'] not in ('reserved','unknown') or u.scheme!='https' or u.hostname!='chatgpt.com' or not u.path.startswith('/c/') or not u.path[3:]:raise ValueError('Bind only an observed persistent URL to the existing reserved request')
             row['conversation']=kw['conversation']
+        elif event=='failed' and failure_recovery(d):
+            if row is None or (row['state'] not in ('reserved','unknown') and not (row['state']=='failed' and 'failure' not in row)):
+                raise ValueError('No submitted request needing a terminal failure receipt')
+            reason=kw.get('reason','').strip();receipt=kw.get('failure_receipt')
+            if not reason or receipt is None:raise ValueError('Explicit terminal failure reason and a local failure receipt required')
+            row.update(state='failed',failure=retain_failure(root,row,receipt,'provider',reason))
         elif event in ('unknown','failed'):
             if row is None or row['state'] not in ('reserved','unknown'):raise ValueError('No pending submitted request')
             row['state']=event
         elif event=='returned':
             if row is None or row['state'] not in ('reserved','unknown'):raise ValueError('No reserved result to recover')
-            source=Path(kw['file']);dimensions=png_size(source);sha=digest(source)
-            if dimensions!=d['size']:raise ValueError('Wrong canvas: stop without another generation call')
-            if sha in [x.get('output',{}).get('sha256') for x in evidence_rows(d)]:raise ValueError('Duplicate output image')
-            suffix=f"-attempt-{row['attempt_number']}" if row.get('attempt_number',1)>1 else '';out=root/'outputs'/f'look-{n}{suffix}.png';out.parent.mkdir(exist_ok=True)
-            with out.open('xb') as f:f.write(source.read_bytes())
-            row.update(state='returned',output={'file':str(out.relative_to(root)),'sha256':sha,'dimensions':dimensions})
+            source=Path(kw['file'])
+            try:
+                dimensions=png_size(source);sha=digest(source)
+                if dimensions!=d['size']:raise ValueError('Wrong canvas: stop without another generation call')
+                if sha in [x.get('output',{}).get('sha256') for x in evidence_rows(d)]:raise ValueError('Duplicate output image')
+            except ValueError as error:
+                if not failure_recovery(d):raise
+                row.update(state='failed',failure=retain_failure(root,row,source,'invalid-result',str(error)))
+                stop_error=ValueError(str(error)+'; exact original retained as failed; reconcile before any explicit retry')
+            if stop_error is None:
+                suffix=f"-attempt-{row['attempt_number']}" if row.get('attempt_number',1)>1 else '';out=root/'outputs'/f'look-{n}{suffix}.png';out.parent.mkdir(exist_ok=True)
+                with out.open('xb') as f:f.write(source.read_bytes())
+                row.update(state='returned',output={'file':str(out.relative_to(root)),'sha256':sha,'dimensions':dimensions})
         elif event=='accept':
             if row is None or row['state']!='returned':raise ValueError('No downloaded result for visual QA')
             if kw.get('qa') not in ('qa-pass','qa-user-review') or not kw.get('note','').strip():raise ValueError('Record actual visual QA and anchor suitability')
             if digest(root/row['output']['file'])!=row['output']['sha256']:raise ValueError('Output changed since import')
             row.update(state='accepted',qa=kw['qa'],qa_note=kw['note'])
         else:raise ValueError('Unknown event')
-        d['complete']=all(x['state']=='accepted' for x in d['looks'])
+        d['complete']=all(x['state']=='accepted' for x in d['looks']) and (d['schema_version']==1 or not d['identity'] or bool(d['model_confirmation']))
         # Completeness never confers image-ready or user commercial acceptance.
         d['events'].append({'at':stamp(),'event':event,'look':n,'attempts':d['attempts']})
-        save(root,d);return d
+        save(root,d)
+        if stop_error is not None:raise stop_error
+        return d
 
 
 def export(root):
     root=Path(root)
     with locked(root):
         d=read(root);check_evidence(root,d);folder=root/'handoff';folder.mkdir(exist_ok=True);lines=['# ChatGPT 网页转交包','只用内置生图；不要选择其他插件。','参考图按编号上传，确认全部完成；使用新建持久对话。','提交前必须由 Codex 记录 reserve；本包不是新的生图授权。','点击网页原图下载，不使用截图；将原文件回传给 Codex。','尚未确认的请求先查原对话，不要再次发送。','']
+        if d['route']=='codex_native':
+            lines=['# Codex 原生生成执行包','参考图按编号作为实际工具附件传入；只用原生生图。','调用前记录 reserve；本包不是新的生图授权。','原图返回后落盘、读取元数据并记录 QA。','未决调用先检查原结果，不自动追加调用。','']
         for row in d['looks']:
             n=row['number'];lines.append(f"- look-{n}: {row['state']}")
             if row['state']!='pending' or any(x['state']!='accepted' for x in d['looks'][:n-1]):continue
+            if d['schema_version']==2 and d['identity'] and n>1 and not d['model_confirmation']:continue
             refs=references(root,d,n);suffix=f"-attempt-{row['attempt_number']}" if row.get('attempt_number',1)>1 else '';out=folder/f'look-{n}{suffix}';out.mkdir(exist_ok=True);lines.append(f'  Current handoff: {out.name}; earlier attempt folders are evidence only, never resubmit them.')
             instruction=[]
             for i,r in enumerate(refs,1):
                 src=root/r['file'];dst=out/f'{i:02d}-{r["role"]}{src.suffix}'
                 if dst.exists() and digest(dst)!=r['sha256']:raise ValueError('Existing handoff attachment changed')
-                shutil.copyfile(src,dst);instruction.append(f'Image {i}: '+('identity-only anchor; ignore its garment, lighting, pose and background' if r['role']=='identity-only' else 'garment source; authoritative product facts'))
+                shutil.copyfile(src,dst)
+                instruction.append(f'Image {i}: '+(models.supplement_prompt(r) if r['role']=='model-supplement' else ROLE_TEXT[r['role']]))
+            if d['schema_version']==2 and d['model']:instruction.extend(models.prompt_lines(d['model']))
             prompt='Only use built-in image generation, no other plugins. One standalone image.\n'+'\n'.join(instruction)+f'\nExact canvas: {d["size"][0]}x{d["size"][1]}.\n'+row['prompt']
             (out/'prompt.txt').write_text(prompt,encoding='utf-8')
         (folder/'README.md').write_text('\n'.join(lines)+'\n',encoding='utf-8');return str(folder)
 
 
+def export_model(root, destination, name, *, include_accepted=False, accepted_scope='face'):
+    root=Path(root)
+    with locked(root):
+        d=read(root);check_evidence(root,d)
+        if d['schema_version']!=2 or not d['identity'] or not d['model_confirmation'] or d['looks'][0]['state']!='accepted':
+            raise ValueError('Export only a technically accepted and human-confirmed first-image model')
+        refs=[root/r['file'] for r in d['references'] if r['role']=='identity-reference']
+        if d['model']['source_type']=='new':refs=[root/d['looks'][0]['output']['file']]
+        if type(include_accepted) is not bool or accepted_scope not in ('face','full'):
+            raise ValueError('Explicit accepted-reference opt-in and face/full scope required')
+        supplements=[dict(path=str(safe_file(root,r['file'])), **{k:r[k] for k in ('sha256','scope','confirmation_note')})
+                     for r in d['references'] if r['role']=='model-supplement']
+        if include_accepted and d['model']['source_type']!='new':
+            first=d['looks'][0]['output']
+            supplements.append(dict(path=str(safe_file(root,first['file'])),sha256=first['sha256'],
+                                    scope=accepted_scope,confirmation_note=d['model_confirmation']['note']))
+        return models.export_package(destination,d['model'],refs,name,d['model_confirmation']['note'],supplements=supplements)
+
+
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('command',choices=['init','status','export','authorize','mode','reserve','bind','unknown','failed','returned','accept','reject','retry-authorize']);p.add_argument('--task',type=Path,required=True);p.add_argument('--spec',type=Path);p.add_argument('--look',type=int);p.add_argument('--note');p.add_argument('--limit',type=int);p.add_argument('--mode',choices=['manual','automatic']);p.add_argument('--ready',action='store_true');p.add_argument('--refs',nargs='*');p.add_argument('--conversation');p.add_argument('--tab');p.add_argument('--file',type=Path);p.add_argument('--qa',choices=['qa-pass','qa-user-review']);p.add_argument('--expected-attempt',type=int);p.add_argument('--approval-id');p.add_argument('--prompt-file',type=Path);a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('command',choices=['init','status','export','authorize','mode','reserve','bind','unknown','failed','returned','accept','reject','audit-reject','retry-authorize','confirm-model','reject-model','continue-authorize','export-model','enable-failure-recovery','reconcile-failure']);p.add_argument('--task',type=Path,required=True);p.add_argument('--spec',type=Path);p.add_argument('--destination',type=Path);p.add_argument('--name');p.add_argument('--look',type=int);p.add_argument('--note');p.add_argument('--limit',type=int);p.add_argument('--mode',choices=['manual','automatic']);p.add_argument('--ready',action='store_true');p.add_argument('--refs',nargs='*');p.add_argument('--conversation');p.add_argument('--tab');p.add_argument('--file',type=Path);p.add_argument('--failure-receipt',type=Path);p.add_argument('--reason');p.add_argument('--request-check-completed',action='store_true');p.add_argument('--qa',choices=['qa-pass','qa-user-review']);p.add_argument('--expected-attempt',type=int);p.add_argument('--approval-id');p.add_argument('--prompt-file',type=Path);p.add_argument('--model-spec',type=Path);p.add_argument('--include-accepted-reference',action='store_true');p.add_argument('--accepted-scope',choices=['face','full']);a=p.parse_args()
     try:
+        if a.command!='export-model' and (a.include_accepted_reference or a.accepted_scope is not None):
+            raise ValueError('Accepted-reference options are only for export-model')
+        if a.accepted_scope is not None and not a.include_accepted_reference:
+            raise ValueError('Declare --include-accepted-reference before choosing its scope')
         if a.command=='init':
-            spec=json.loads(a.spec.read_text());result=create(a.task,spec['references'],spec['prompts'],spec['size'],spec.get('identity',True))
+            spec=json.loads(a.spec.read_text());result=create(a.task,spec['references'],spec['prompts'],spec['size'],spec.get('identity',True),schema_version=spec.get('schema_version',2),model=spec.get('model'),context=spec.get('context'),route=spec.get('route','chatgpt_web'),model_package=spec.get('model_package'))
         elif a.command=='status':result=read(a.task)
         elif a.command=='export':result=export(a.task)
+        elif a.command=='export-model':result=export_model(a.task,a.destination,a.name,include_accepted=a.include_accepted_reference,accepted_scope=a.accepted_scope or 'face')
         else:
-            args={k:v for k,v in vars(a).items() if k not in ('command','task','spec','prompt_file') and v is not None}
+            args={k:v for k,v in vars(a).items() if k not in ('command','task','spec','prompt_file','destination','name','model_spec','include_accepted_reference','accepted_scope') and v is not None}
+            if a.model_spec:
+                if a.command!='retry-authorize':raise ValueError('Model revision is only accepted with explicit first-image retry authority')
+                args['model']=json.loads(a.model_spec.read_text(encoding='utf-8'))['model']
             if a.prompt_file:args['prompt']=a.prompt_file.read_text(encoding='utf-8')
+            if a.command=='continue-authorize':
+                spec=json.loads(a.spec.read_text(encoding='utf-8'));args.update(context=spec['context'],prompts=spec['prompts'])
             result=update(a.task,a.command,**args)
         print(json.dumps(result,ensure_ascii=False,indent=2))
     except (ValueError,OSError,KeyError,TypeError,AttributeError) as error:p.exit(1,str(error)+'\n')

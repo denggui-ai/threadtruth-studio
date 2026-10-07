@@ -1,5 +1,7 @@
 # 裁光能力与用法 / Capabilities & usage
 
+> 本地模特复用候选在下述公开 beta.11 基础上增加已有人物、首张确认、私人参考包及固定姿势局部换装；具体范围见[模特复用](MODEL-REUSE.md)与[候选验收说明](MODEL-REUSE-CANDIDATE.md)。
+
 从真实服饰照片开始，先识别、选方向，再决定是否生成。本文说明公开 **beta.11** 的工作流与条件，包含缺背面时的第六张替代规则；不承诺所有功能组合都已实测。
 
 Start with real garment photos, identify the source and choose a direction before generating. This guide describes the public **beta.11** workflow and its conditions. It includes the front-only slot-6 substitution rule; it does not claim every combination has been tested.

@@ -157,14 +157,15 @@ no provocative pose, no upskirt, modest seated posture.
 
 动作1的默认真人模特与不露脸/局部真人输出,必须按以下顺序执行;平铺、挂拍、人台/ghost mannequin 跳过本节:
 
-1. **先生成 look-1。** look-1 只接收用户上传服饰参考图,不得拿 preview-grid 当参考图,也不得把源图真人脸当身份复制目标。
-2. **先验收再扩展。** look-1 落盘后,先检查上传服饰硬事实、人体结构、成人/儿童安全主体,以及其脸型/发型/表观年龄/身体比例是否足以作为稳定的 AI 模特种子。若用户声明了选角目标,另核表观年龄、体型表现、妆发和气质是否兑现:明确可见的条件不符=`qa-retry`,停止传播;难以判断的表观年龄/气质或主观“不够好看”列 `qa-user-review` 并说明依据,不得伪装成硬条件失败或自动视为用户认可。只有结果为 `qa-pass` 或仅剩不影响身份、服饰硬事实且无明确选角条件不符的 `qa-user-review` 时,才能把它标为 `accepted_identity_anchor` 并继续 look-2…look-6。
-3. **look-1 不合格就停止传播。** 若 look-1 出现服饰硬事实漂移、明显人体错误、身份种子不可用或安全问题,立即保持部分组为 `image-draft` + `qa-retry`,停止后续 5 张;说明失败点并等待新的明确付费授权。不得为了凑满 6 张自动消耗第 7 次调用,也不得把失败图静默提升为锚点。
-4. **look-2…look-6 双参考。** 每张都同时传入当前已锁定 outfit/SKU 的全部上传服饰图 + 已验收 look-1,并在 prompt 逐图标注角色:
-   - `Image 1..N = uploaded garment source(s), authoritative source truth for color, material appearance, silhouette, length, collar, shoulder, sleeve, hem, closures, pockets, pattern/logo/text, shoes, bag and accessories.`
-   - `Image N+1 = accepted generated look-1, identity anchor only. Preserve the same AI model's face, hair, apparent age and body proportions. Ignore its garment, pose, crop, lighting, background and accessory details whenever they differ from the uploaded garment sources.`
-5. **身份锚点不是服饰锚点。** look-1 只锁 AI 生成模特身份;上传服饰图仍是每张图的第一事实源。不得用 look-1 的袖口卷法、纽扣数量、口袋、层叠、首饰、包型、光色或裁切覆盖源图。
-6. **不露脸仍不复制源图真人。** 可用 look-1 锁定 AI 模特的发型轮廓、表观年龄和身体比例,但继续执行 face-obscured/cropped 规则,不得因此补出可识别脸。
+1. **首张参考角色。** 成人 look-1 可接收当前商品全部服饰源、已有原始人物身份参考、可选审美参考;逐图编号声明用途。仅服饰源决定商品事实。没有身份沿用要求时不复制服饰源中的真人;审美样图不复制脸。preview-grid 永不作首张身份参考。
+2. **技术 QA 和用户选人分开。** 首张落盘核服饰硬事实、画幅、人体/安全、原始身份与明确人物条件。硬失败=`qa-retry`,停止传播。合格或仅剩不阻断的 `qa-user-review` 可记录技术接受,但成人组必须展示首张并等用户明确接受人物,再记录 `model_confirmation`、使用 `accepted_identity_anchor`。用户对当前图的整体接受可作为人物确认，不再拆开追问；单张结束与整组续生按 `flow-gates.md`，不能把满意当新增调用授权。没有用户确认不得继续后五张;选人通过不代表 `image-ready`。
+3. **失败不自动加调用。** 保持 `image-draft` + `qa-retry`,保留结果和已用次数,说明失败点。明确重试授权后才执行;未决调用先恢复,不得复制任务重置预算。
+4. **后五张携带全部依据。** 顺序为 `Image 1…N = current SKU garment sources`、`Image N+1…M = original identity-reference (ignore garment/pose/background/lighting)`、可选 `aesthetic-reference (do not copy identity or garment)`、最后 `accepted current look-1 = identity-only`。按文件哈希对重复身份文件去重,保留不同角色。每个新商品首张重新对照原始人物,后五张也始终携带原始依据,不只对照最近一张生成图。
+5. **人物固定条件覆盖冲突的人物气质与人物负面词。** 预览、测试、成片及仅提示词都采用同一份人物条件;不删除安全/人体/商品负面词。妆发调整以用户明确允许项为准。原始人物参考和本组锚点永不覆盖新商品事实,也不自动继承旧搭配、配饰、拍摄风格或背景。人物卡只写人物,不保存旧商品。
+6. **不露脸仍不补可识别脸。** 成人不露脸组固定其可见轮廓,继续遮脸/切头规则。童装仍按原安全流程:首张技术 QA 后才用 AI 身份锚点,本次成人参考包功能不扩展到儿童。
+7. **单张测试续生成组。** 首张必须是本组母版1独立图,技术接受且成人人物已获用户确认;上下文商品/风格/模式/形态/画幅一致,并有新增五张授权时原图直接为 look-1,只追加 look-2…6。保留累计预算、失败历史和原始首张。其他母版测试不直接转成组六张;另行说明剩余编号和授权,不得悄悄重生第一张。
+
+具体选人、因子交付、原始参考包及第二版任务记录见 `model-selection.md`。旧版任务执行/恢复语义保持不变,不自动升级。
 
 ### 4.0b 批次画布契约(P1 商业比例门禁)
 
@@ -197,15 +198,15 @@ batch_canvas_baseline: <首张通过比例门禁后的实际 WIDTHxHEIGHT>
 `pack.qa_extra` 只能在出图后作为 QA 加项读取,永不注入 prompt;每条 QA 先经同一商品事实守卫。若 QA 项暗示删除、新增或改写参考图中的 logo/图案/材质/结构/配饰/层次,该项必须改写为“无新增/无改写”检查或直接忽略;core source truth 永远优先。
 
 ```
-[Reference roles: look-1 = uploaded garment source(s) only;
+[Reference roles: look-1 = current garment source(s) plus declared original identity/aesthetic references;
  look-2..6 = uploaded garment source(s) as authoritative garment truth
- + accepted look-1 as identity-only anchor, per §4.0a]
+ + original identity references + human-confirmed current look-1 as identity-only anchor, per §4.0a]
 + [Canvas contract per §4.0b: exact <W:H> <orientation> canvas for every
    independent image; keep the complete required subject/garment/shoes/bag/hem
    inside safe margins; no extra-tall or alternate-ratio canvas]
 + [core 注入的安全主体:按 recognition 性别年龄轴 + safety-core R1/R4
    → adult model(默认)/ child model, age-appropriate, modest(童装)/ + 去性感化锁(露肤时)]
-+ [仅在用户明确选角时:注入 recognition 的短模特目标,覆盖冲突的 pack 人物气质;
++ [成人组:注入已选择/推荐后确认的人物条件,童装仅在用户明确选角时注入短目标,覆盖冲突的 pack 人物气质;
    未指定时不添加此块,沿用现有默认;非人像跳过]
 + [output form: 默认真人模特→用 §1 姿势母版+§2 头部视线;
    不露脸→继承姿势但改 face-obscured/cropped framing;
@@ -262,7 +263,7 @@ batch_canvas_baseline: <首张通过比例门禁后的实际 WIDTHxHEIGHT>
 - **B3 fallback:** 若沙箱无写入权限,**不要静默失败、也不要重试制造并发**。明确告知:图已生成但落不进工作目录,实际在 `$CODEX_HOME/generated_images/`,并**列出每张缓存绝对路径**让用户自取。绝不因为"看起来没生成"就重跑。
 - 不覆盖已有图,版本化命名(`look-1.png` / `look-3-v2.png` / `preview-grid.png`)。
 
-在本组现有运行记录中逐张保留实际参考图的顺序/角色及文件哈希、身份参考(首张写无;局部修图注明原图仅用于身份/姿势/画面)、实际提示词文本及哈希、输出路径/哈希/宽高和逐项 QA 结果。生成图不得作为服饰事实源。修正另记版本与被替代编号,保留失败图和原始记录;历史缺失的参考顺序、身份锚点或调用凭据标为 `unknown`,不得从提示词意图倒推成实际调用事实。
+在本组现有运行记录中逐张保留实际参考图的顺序/角色及文件哈希、原始身份参考(无则注明无)、本组首张与用户人物确认(局部修图注明原图用途)、实际提示词文本及哈希、输出路径/哈希/宽高和逐项 QA 结果。生成图不得作为服饰事实源。修正另记版本与被替代编号,保留失败图和原始记录;历史缺失的参考顺序、身份锚点或调用凭据标为 `unknown`,不得从提示词意图倒推成实际调用事实。
 
 第六张替代时在同一记录保留 `ordinal: 6`、`original_pose: BACK_TURN_GLANCE`、`actual_pose: FRONT_RELAXED_STANDING`、替代理由、实际素材可见范围与明示/用户确认依据。实际姿势与去重 QA 以画面复核为准,提示词仅表示计划;缺失信息写 `unknown`,不倒填历史案例。
 
@@ -277,7 +278,7 @@ batch_canvas_baseline: <首张通过比例门禁后的实际 WIDTHxHEIGHT>
 
 **B8 指标性质:** 下列百分比是 **LLM 自评启发式目标,不是可测量客观指标**,**不得对用户声称"已达成 X% 保真"**:(启发式目标)单图输出正确率 100%;服饰保真 ≥95%;姿势母版保真 ≥92%;头部方向合理 ≥90%;场景适配 ≥90%;风格底座感 ≥90%。
 
-动作1每张落盘后还必须执行 `commercial-qa.md` 的结构化逐张 QA;用户出现“商用/上线/客户交付/电商主图/商品详情/投放/品牌大片”等意图时,必须输出该报告的用户可见版本。任何硬服饰事实或真人身份一致性失败都保持 `image-draft` + `qa-retry`,不得直接升 `image-ready`。
+动作1每张落盘后还必须执行 `commercial-qa.md` 的结构化逐张 QA;用户有商用意图时默认只展示图片、简短结论与影响使用的问题；详细检查报告按 `commercial-qa.md` 按需展开。任何硬服饰事实或真人身份一致性失败都保持 `image-draft` + `qa-retry`,不得直接升 `image-ready`。
 
 ## 6. 高风险 fallback
 
@@ -290,9 +291,9 @@ batch_canvas_baseline: <首张通过比例门禁后的实际 WIDTHxHEIGHT>
 
 **必须继承:** 当前已锁定 outfit/SKU 的全部用户上传服饰参考图(始终第一事实源) / 原服饰事实档案 / 原模式 / 原场景逻辑 / 原输出形态(真人模特/不露脸/平铺/挂拍/人台) / 已验收 look-1 身份锚点(真人/不露脸适用) / 原姿势编号或非人像构图编号 / 原鞋包配饰关系 / 原用途规格线索 / **原 `canvas_contract` + `batch_canvas_baseline`** / **原风格底座(所选 pack)** / 原负面规则(真人全身 1/2/4/6 拼 cropped 三条,真人半身 3/5 不拼;非人像 #1/#2/#5/#6 查全轮廓/搭配关系,#3/#4 细节图不拼真人 cropped 规则)。
 
-- 重试 look-2…look-6:同时传上传服饰源 + 已验收 look-1;look-1 仍只作身份锚点。
+- 重试 look-2…look-6:同时传上传新品服饰源 + 原始人物参考 + 已确认本组 look-1;生成图只作身份锚点。
+- 重试 look-1:旧 look-1 若脸/发型身份种子可用,可在用户授权后作为 identity-only seed 与上传服饰源共同传入;若身份/人体本身不可用,必须前台说明需要重建锚点,不得静默换人。仅当后续尚未生成、旧首张未获技术接受时才可在原任务显式重试;已接受首张不可静默替换。新首张通过 QA 且成人用户确认后才继续余图;长期原始人物参考不更新。
 - 若 look-6 已按 §1b 替代,继承 `actual_pose` 及其头部关系,不能因编号6自动恢复背身回眸;补足实拍背面且用户明确要求恢复时先更新计划,仍须对应生图授权。
-- 重试 look-1:旧 look-1 若脸/发型身份种子可用,可在用户授权后作为 identity-only seed 与上传服饰源共同传入;若身份/人体本身不可用,必须前台说明需要重建锚点,不得静默换人。新 look-1 通过 §4.0a 验收后才替换锚点并继续余图。
 
 只修复指定问题(姿势跑偏 / 头部方向错 / 场景抢戏 / 颜色变了 / logo文字漂移 / 下摆被遮 / 鞋包丢失 / 过甜美 / 过网红 / 变电商目录照)。
 

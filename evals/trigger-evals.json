@@ -39,5 +39,7 @@
   {"id": "issue1-missing_photo_full_catalog", "layer": "L1", "query": "我想把真实外套照片做成电商模特图，目前还没上传图片，也没有授权生图。请先告诉我需要准备什么，并列出完整 24 种可选风格。", "should_trigger": true, "expect": "真实新会话校验；应读入完整技能，缺图停在补图请求，无条件式生图预告"},
   {"id": "issue1-missing_photo_non_apparel", "layer": "L1", "query": "帮我把一台咖啡机做成电商商品图。目前还没有上传图片，也没有授权生图。请简短回应。", "should_trigger": false, "expect": "真实新会话校验；非服饰，不读服饰技能"},
   {"id": "issue1-missing_photo_shirt_paraphrase", "layer": "L1", "query": "想给一件衬衫做模特上身主图，还没拍实物照片，先说我该准备什么，暂时不要生成图片。", "should_trigger": true, "expect": "真实新会话校验；应读入完整技能，缺图停在补图请求，无条件式生图预告"},
-  {"id": "issue1-missing_photo_english_paraphrase", "layer": "L1", "query": "I want ecommerce model photos for a real dress, but I have not uploaded any photos and have not approved image generation. Please respond briefly.", "should_trigger": true, "expect": "真实新会话校验；应读入完整技能，缺图停在补图请求，无条件式生图预告"}
+  {"id": "issue1-missing_photo_english_paraphrase", "layer": "L1", "query": "I want ecommerce model photos for a real dress, but I have not uploaded any photos and have not approved image generation. Please respond briefly.", "should_trigger": true, "expect": "真实新会话校验；应读入完整技能，缺图停在补图请求，无条件式生图预告；首句随用户语言使用英文且只核对输入，不提前预告提示词/图片等交付。"},
+  {"id": "cli-first-casting-metadata", "layer": "L1", "query": "这款白色连帽马甲用于女性通勤电商展示，我没有固定模特。已选韩系冷感、B棚拍，请推荐模特方向，先不要生图。", "should_trigger": true, "expect": "真实workspace技能发现；保留宿主所见描述、首次可见消息与读取次序，首句仅核对输入，不提前交付预告；方向卡区分生成授权与首张人物确认。"},
+  {"id": "cli-first-nonapparel-metadata", "layer": "L1", "query": "我想给一台咖啡机做电商商品图，目前还没有照片。请只简短告诉我需要准备哪些素材，不要生图。", "should_trigger": false, "expect": "紧凑描述不得吸走非服饰商品任务；不读取threadtruth-studio，不生成或编辑图片。"}
 ]

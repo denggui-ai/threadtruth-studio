@@ -15,12 +15,36 @@ class WebTaskTests(unittest.TestCase):
         self.tmp=tempfile.TemporaryDirectory();self.root=Path(self.tmp.name)
         self.ref=self.root/'source.png';Image.new('RGB',(20,30),'red').save(self.ref)
         self.job=self.root/'job'
-        m.create(self.job,[self.ref],['pose '+str(i) for i in range(6)],(20,30),True)
+        # Retained schema-1 tasks must keep their historical progression behavior.
+        m.create(self.job,[self.ref],['pose '+str(i) for i in range(6)],(20,30),True,schema_version=1)
     def tearDown(self):self.tmp.cleanup()
     def authorize(self):m.update(self.job,'authorize',note='User approved this outfit six images to ChatGPT',limit=6)
     def reserve(self):return m.update(self.job,'reserve',look=1,ready=True,refs=m.reference_hashes(self.job,1),conversation='https://chatgpt.com/c/test')
     def result(self,color='blue'):
         p=self.root/(color+'.png');Image.new('RGB',(20,30),color).save(p);return p
+    def test_prepared_until_valid_output_then_draft(self):
+        self.assertEqual(m.read(self.job)['delivery_status'],'prepared')
+        self.authorize();self.assertEqual(self.reserve()['delivery_status'],'prepared')
+        self.assertEqual(m.update(self.job,'unknown',look=1)['delivery_status'],'prepared')
+        d=m.update(self.job,'returned',look=1,file=self.result())
+        self.assertEqual(d['delivery_status'],'image-draft')
+        self.assertFalse(d['complete'])
+    def test_legacy_state_normalized_without_rewriting_or_budget_reset(self):
+        self.authorize();self.reserve()
+        path=self.job/'task.json';d=json.loads(path.read_text());d['delivery_status']='image-draft'
+        path.write_text(json.dumps(d));before=path.read_bytes()
+        loaded=m.read(self.job)
+        self.assertEqual(loaded['delivery_status'],'prepared')
+        self.assertEqual(loaded['attempts'],1)
+        self.assertEqual(loaded['authorization'],d['authorization'])
+        self.assertEqual(path.read_bytes(),before)
+    def test_retry_retained_output_keeps_draft(self):
+        self.rejected_first();d=self.retry()
+        self.assertNotIn('output',d['looks'][0])
+        self.assertEqual(d['looks'][0]['state'],'pending')
+        self.assertEqual(d['delivery_status'],'image-draft')
+        self.assertEqual(m.read(self.job)['delivery_status'],'image-draft')
+
     def test_requires_authorization_and_upload_readiness(self):
         with self.assertRaises(ValueError):self.reserve()
         self.authorize()

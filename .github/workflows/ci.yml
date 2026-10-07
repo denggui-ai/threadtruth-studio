@@ -25,7 +25,13 @@ jobs:
           sudo apt-get update
           sudo apt-get install --no-install-recommends -y fonts-noto-cjk
           test -f /usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc
+      - name: Install development-only image compositor dependency
+        run: |
+          npm install --prefix "$RUNNER_TEMP/threadtruth-image" --no-package-lock --ignore-scripts sharp@0.35.4
+          NODE_PATH="$RUNNER_TEMP/threadtruth-image/node_modules" node -e "require('sharp'); console.log('sharp available')"
       - name: Repository contracts
+        env:
+          NODE_PATH: ${{ runner.temp }}/threadtruth-image/node_modules
         run: python3 -m unittest discover -s tests -v
       - name: Homepage browser regression
         run: |

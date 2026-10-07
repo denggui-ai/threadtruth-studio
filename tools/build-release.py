@@ -33,6 +33,8 @@ PUBLIC_FILES = (
     "docs/BETA10-TRYOUT.md",
     "docs/BETA11-TRYOUT.md",
     "docs/INPUT-GUIDE.md",
+    "docs/MODEL-REUSE.md",
+    "docs/MODEL-REUSE-CANDIDATE.md",
     "docs/CAPABILITIES.md",
     "docs/COMPATIBILITY.md",
     "docs/CHATGPT-WEB.md",

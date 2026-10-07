@@ -1,5 +1,7 @@
 # 裁光 · Caiguang
 
+> **Local candidate `1.0.0-beta.11+compact.20261005`.** Includes the published beta.11 six-pose rule, model reuse and a compact conversation flow: one proposal, one confirmation, image-first review and single-image closeout. It is not the public beta.11 archive. See [candidate installation and limits](docs/MODEL-REUSE-CANDIDATE.md).
+
 **AI Fashion Studio · 服饰 AI 影棚**
 
 **Current prerelease: beta.11.** It displays “裁光 · Caiguang” in Codex and keeps `$threadtruth-studio`. Use the [version-matched trial guide](docs/BETA11-TRYOUT.md). Fresh-host testing and stable-release acceptance remain pending; older release assets stay unchanged.

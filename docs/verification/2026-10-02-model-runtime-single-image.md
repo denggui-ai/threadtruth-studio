@@ -1,0 +1,19 @@
+# Current runtime single-image check — 2026-10-02
+
+Conclusion: conditional. Mode: separately authorized native image evaluation. Runtime target: `skills/threadtruth-studio/`; evidence root: this checkout. Execution source: `f92896d`. Status remains candidate; output remains `image-draft + qa-user-review`.
+
+The maintainer explicitly approved the previously prepared one-call packet. One built-in imagegen request returned one distinct original 1024×1536 PNG; prior returns were 26, cumulative returns are 27. The grant is exhausted, with no retry or six-image continuation. No runtime edits, installation, merge, push or publication occurred in this evaluation.
+
+The exact runtime handoff prompt and its three ordered attachments were used: current garment source, original consented portrait, accepted half-body face supplement. The original remains primary; the supplement supplies face appearance only. The previous product-failed output was excluded. Executed prompt SHA256: `c15c2c5c2671306348f018a67ea91e938f21bacfb7f5ed22940eb20ac63b3159`; returned output SHA256: `a443e6f074b8130645c0159f8b27a673a55dc9b5b08befbe86ee2356e9471b9b`. Actual files, prompt, factors, reference digests, authorization/reservation/import/QA records and full independent reviews remain privately outside source/runtime. Provider model, internal parameters and raw end-event telemetry are unavailable.
+
+Two fresh independent reviewers inspected actual pixels without prior diagnoses. The face review supports major appearance continuity with the accepted supplement and broad original-feature preservation. Fine original eye/nose/lip details and slight lower-face smoothing remain deferred to user review because of scale, angle and lighting. This does not close strict original-face fidelity.
+
+The product review found no confirmed hard change requiring retry: deep-indigo denim, two visible blazer buttons, current top, tote, loafers, pendant and watch remain. Opposite buttonholes, obscured pocket, tote-tag proportions and tiny pendant geometry remain deferred to source review. Mild side-turn pose, visible anatomy and full-body framing passed. This new result does not erase the earlier denim-failed image or prove that any single prompt/reference change caused improvement; no matched baseline or isolated-variable experiment was run.
+
+The ledger records technical acceptance with `qa-user-review`, actual attempts=1 and limit=1; human model confirmation remains null and task complete remains false. No result was exported or promoted to a lasting supplement. Byte checks confirmed the copied original, prompt, three attachments and unchanged historical four-call experiment. Independent review hashes: face `643c74cdf67422a0d7d3da7ea634113803231653e8899d20fe3f96ee79914a60`, product `9ade1f5574e67218bf57de61320473e8607cd9a9e065673338e223e52d0c03e9`.
+
+Next safe action: actual human comparison and acceptance of the current person/product candidate. Strict original-face fidelity, real six-pose behavior, wider people/style/angle coverage and the earlier first-reply finding remain open. Existing 276-test verification is a prior code checkpoint, not a newly rerun suite or image-quality proof. This evidence-only follow-up uses whitespace/public-data checks and actual task integrity validation.
+
+## Subsequent human acceptance
+
+The maintainer accepted the current person candidate as basically usable, while explicitly retaining a gap to true original-face locking. The exact output hash now has scoped human model confirmation; the single-task ledger is complete within technical-QA/person-confirmation scope. Product source-review items remain `qa-user-review`, and no commercial-ready status, strict-fidelity closure, additional call authority or master-reference replacement follows. Original references, images, consumed attempts and historical experiment remain unchanged. Earlier unconfirmed statements above describe the pre-feedback checkpoint.

@@ -1,5 +1,7 @@
 # 裁光 · Caiguang
 
+> **本地候选 `1.0.0-beta.11+compact.20261005`。** 已整合公开 beta.11 六图规则、模特复用与简化对话：一份方案、一次确认、图片优先、单张满意即结束；不是公开 beta.11 下载包。见[候选安装与边界](docs/MODEL-REUSE-CANDIDATE.md)。
+
 **AI Fashion Studio · 服饰 AI 影棚**
 
 **当前预发布版：beta.11。** 在 Codex 中显示为“裁光 · Caiguang”，调用名仍为 `$threadtruth-studio`。请使用[对应版本的试用指南](docs/BETA11-TRYOUT.md)；新环境实测和稳定版验收仍待完成，旧版资产保持不变。

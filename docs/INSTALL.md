@@ -1,5 +1,7 @@
 # 裁光 · Codex 服饰 AI 插件 / Caiguang — Installation
 
+> 本地模特复用候选请先按[候选验收说明](MODEL-REUSE-CANDIDATE.md)核对版本与校验值；本页公开 beta.11 下载链接不包含候选修复。
+
 
 > **本页用于 beta.11 预发布版 / This page covers the beta.11 prerelease.** 首次使用可配合 [beta.11 试用指南 / trial guide](BETA11-TRYOUT.md)。旧版使用对应归档内指南，不要混用版本、命令和校验文件。
 

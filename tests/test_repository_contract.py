@@ -84,7 +84,7 @@ class RepositoryContractTests(unittest.TestCase):
     def test_plugin_manifest_has_public_identity(self):
         manifest = json.loads((ROOT / ".codex-plugin" / "plugin.json").read_text())
         self.assertEqual(manifest["name"], "threadtruth-studio")
-        self.assertRegex(manifest["version"], r"^1\.0\.0-beta\.[1-9][0-9]*$")
+        self.assertRegex(manifest["version"], r"^1\.0\.0-beta\.[1-9][0-9]*(?:\+[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*)?$")
         self.assertEqual(manifest["license"], "Apache-2.0")
         self.assertEqual(
             manifest["repository"],
@@ -100,13 +100,7 @@ class RepositoryContractTests(unittest.TestCase):
     def test_skill_identity_and_description_are_exact(self):
         text = (SKILL / "SKILL.md").read_text()
         self.assertIn("name: threadtruth-studio", text)
-        expected = (
-            "Apparel model images: first reply only checks inputs; never promises prompt preparation or later generation. "
-            "Includes preparation before garment photos are uploaded. "
-            "Turn real garment or coordinated-outfit photos into 24-style fashion portraits "
-            "with explicit generation approval and commercial QA. Exclude non-apparel products, "
-            "fictional text-only garment design, and virtual try-on/API integration."
-        )
+        expected = '服饰人像；首句随用户语言只核对素材，不预告交付（如“先核对服饰与人物参考。”）；随后读技能。真实服饰图的选角、24风格、提示词与图片制作；缺图时只做素材准备。生成需明确授权和商业QA。排除非服饰商品、纯文字虚构服装设计、虚拟试衣/API集成。'
         normalized = " ".join(text.split())
         self.assertIn(expected, normalized)
 
