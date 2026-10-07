@@ -1,8 +1,8 @@
 # 裁光模特开发交接
 
-更新：2026-10-07。Owner：当前用户会话中的 Codex。当前阶段：M1与交互简化完成，本机版已启用；PR #31 已合并到main，正在按用户继续推进指令发布beta.12。
+更新：2026-10-07。Owner：当前用户会话中的 Codex。当前阶段：M1与交互简化完成，本机版已启用；PR #31 已合并到main，beta.12已完成公开预发布和重新下载校验。
 
-- 正确开发位置：本 worktree `threadtruth-studio/.worktrees/model-reference-reuse`，当前发布分支 `release/caiguang-beta12`。
+- 正确开发位置：本 worktree `threadtruth-studio/.worktrees/model-reference-reuse`，当前文档分支 `docs/caiguang-capability-topology`。
 - 当前已安装源码：`7dd00bf`（简化对话流程）；原flow2安装验收记录`2038643`作为历史保留。运行时目标：`skills/threadtruth-studio/`；开发证据根：本仓库。
 - 当前唯一开发路线：[model-selection-roadmap.md](../docs/development/model-selection-roadmap.md)。它更新后续排期，不改写历史实验。
 - 核心目标：已有模特可沿用；没有模特时可推荐和选择；因子可理解和调整；首张确认后可携带参考包继续展示新品。
@@ -12,7 +12,9 @@
 
 ## 当前工作与唯一下一步
 
-**当前发行包：beta.12。** PR #31 于2026-10-07合并（`b9b9f54`），GitHub CI已通过；此前缺sharp的10项失败已按真实记录修复。beta.12只改版本与发行指南，45运行文件仍与已安装简化版一致；27项打包/安装器/仓库契约、干净解包、隔离升级回滚、离线指南及隐私检查通过。用户已指示继续发布；本批不重新安装或生图。见[发行核验](../docs/verification/2026-10-07-beta12-release.md)。
+**用户指定文档工作：** 梳理beta.12能力清单并将现状拓扑放到GitHub。新增`docs/ARCHITECTURE.md`，以GitHub直接渲染的Mermaid代码块为唯一图源，列明执行者、工具/数据职责、关键状态与验证边界；README及能力说明提供在线入口。不改运行规则、已发布包或私人素材。
+
+**当前发行包：beta.12。** PR #31 于2026-10-07合并（`b9b9f54`），GitHub CI已通过；此前缺sharp的10项失败已按真实记录修复。beta.12只改版本与发行指南，45运行文件仍与已安装简化版一致；27项打包/安装器/仓库契约、干净解包、隔离升级回滚、离线指南及隐私检查通过。PR #32自动检查通过并合并为`ba60b32`；beta.12已公开，重新下载的ZIP与sidecar均逐字节匹配本地校验包。本批发布结束，不重新安装、生图或自动续开新任务。见[发行核验](../docs/verification/2026-10-07-beta12-release.md)。
 
 **目标约束：** 以[路线图当前目标与执行约束](../docs/development/model-selection-roadmap.md#当前目标与执行约束)为唯一产品目标。M1单张已完成；用户当前明确指定完整对话流程优化，按下述范围实施，不重启图片验证。
 
