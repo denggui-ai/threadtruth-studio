@@ -1,5 +1,7 @@
 # 裁光能力与用法 / Capabilities & usage
 
+[能力清单、现状拓扑与关键状态边界（GitHub在线）](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md)
+
 从真实服饰照片开始，先识别、选方向，再决定是否生成。本文说明**beta.12** 的工作流与条件，包含缺背面时的第六张替代规则；不承诺所有功能组合都已实测。
 
 Start with real garment photos, identify the source and choose a direction before generating. This guide describes the **beta.12** workflow and its conditions. It includes the front-only slot-6 substitution rule; it does not claim every combination has been tested.
