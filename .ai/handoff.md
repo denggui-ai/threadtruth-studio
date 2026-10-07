@@ -1,8 +1,8 @@
 # 裁光模特开发交接
 
-更新：2026-10-05。Owner：当前用户会话中的 Codex。当前阶段：M1单张已结束；完整对话流程简化源码 `7dd00bf` 已按用户授权安装启用。见[本次安装核验](../docs/verification/2026-10-05-compact-live-install.md)。本次无生图、无新模型会话测试、无公开推送。
+更新：2026-10-07。Owner：当前用户会话中的 Codex。当前阶段：M1与交互简化完成，本机版已启用；PR #31 已合并到main，正在按用户继续推进指令发布beta.12。
 
-- 正确开发位置：本 worktree `threadtruth-studio/.worktrees/model-reference-reuse`，分支 `feat/model-reference-reuse`。
+- 正确开发位置：本 worktree `threadtruth-studio/.worktrees/model-reference-reuse`，当前发布分支 `release/caiguang-beta12`。
 - 当前已安装源码：`7dd00bf`（简化对话流程）；原flow2安装验收记录`2038643`作为历史保留。运行时目标：`skills/threadtruth-studio/`；开发证据根：本仓库。
 - 当前唯一开发路线：[model-selection-roadmap.md](../docs/development/model-selection-roadmap.md)。它更新后续排期，不改写历史实验。
 - 核心目标：已有模特可沿用；没有模特时可推荐和选择；因子可理解和调整；首张确认后可携带参考包继续展示新品。
@@ -12,7 +12,7 @@
 
 ## 当前工作与唯一下一步
 
-**2026-10-05 源码同步：** 用户已授权上传；已整合 `origin/main` 的 `269f880`，保留线上展示页/图片与beta.11六姿势规则，运行文件与本机简化版一致。331项整合测试、24包、路由、打包与公开历史隐私扫描通过。通过功能分支与汇总PR上传；不自动合并main或发布下载包。
+**当前发行包：beta.12。** PR #31 于2026-10-07合并（`b9b9f54`），GitHub CI已通过；此前缺sharp的10项失败已按真实记录修复。beta.12只改版本与发行指南，45运行文件仍与已安装简化版一致；27项打包/安装器/仓库契约、干净解包、隔离升级回滚、离线指南及隐私检查通过。用户已指示继续发布；本批不重新安装或生图。见[发行核验](../docs/verification/2026-10-07-beta12-release.md)。
 
 **目标约束：** 以[路线图当前目标与执行约束](../docs/development/model-selection-roadmap.md#当前目标与执行约束)为唯一产品目标。M1单张已完成；用户当前明确指定完整对话流程优化，按下述范围实施，不重启图片验证。
 
