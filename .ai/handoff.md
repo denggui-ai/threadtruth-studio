@@ -2,7 +2,7 @@
 
 更新：2026-10-07。Owner：当前用户会话中的 Codex。当前阶段：M1与交互简化完成，本机版已启用；PR #31 已合并到main，beta.12已完成公开预发布和重新下载校验。
 
-- 正确开发位置：本 worktree `threadtruth-studio/.worktrees/model-reference-reuse`，当前文档分支 `docs/user-architecture-overview`。
+- 正确开发位置：本 worktree `threadtruth-studio/.worktrees/model-reference-reuse`，当前文档分支 `docs/current-logic-alignment`。
 - 当前已安装源码：`7dd00bf`（简化对话流程）；原flow2安装验收记录`2038643`作为历史保留。运行时目标：`skills/threadtruth-studio/`；开发证据根：本仓库。
 - 当前唯一开发路线：[model-selection-roadmap.md](../docs/development/model-selection-roadmap.md)。它更新后续排期，不改写历史实验。
 - 核心目标：已有模特可沿用；没有模特时可推荐和选择；因子可理解和调整；首张确认后可携带参考包继续展示新品。
@@ -11,6 +11,8 @@
 - 本机安装版：`1.0.0-beta.11+codex.20261004T160256-95386bfc`，installed-and-enabled；source/cache278文件一致、45运行文件匹配源码，完整旧源及登记备份通过核验。新聊天可加载；本次未重跑对话验收，历史flow2的12/13不转作新版结论。
 
 ## 当前工作与唯一下一步
+
+**当前源码对照：** PR #34总图与23项能力盘点已合并为`a8264aa`。用户要求继续核对多轮迭代后的现状：纠正图中泛化的失败停止表达，补充原始人物、已选补充图、本组首张、固定母图的职责，以及整组冻结前5附件预检；依据当前规则，不修改运行时。
 
 **用户纠正后的文档工作：** 面向用户制作与参考图相近的七层架构总图（SVG/PNG及可维护绘图源），另外逐项盘点实现、实际验证和未解决项，完成后上传GitHub。此前PR #33的Mermaid职责图已合并，用户明确其未满足展示要求，本批替换主图表达；不开发新运行能力。
 
