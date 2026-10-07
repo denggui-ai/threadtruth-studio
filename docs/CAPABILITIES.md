@@ -1,6 +1,6 @@
 # 裁光能力与用法 / Capabilities & usage
 
-[能力清单、现状拓扑与关键状态边界（GitHub在线）](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md)
+[用户架构总图（GitHub在线）](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md) · [当前能力盘点：实现、验证与缺口](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/CAPABILITY-STATUS.md)
 
 从真实服饰照片开始，先识别、选方向，再决定是否生成。本文说明**beta.12** 的工作流与条件，包含缺背面时的第六张替代规则；不承诺所有功能组合都已实测。
 
@@ -53,9 +53,9 @@ After enabling the Plugin, upload a clear, authorized garment or coordinated-out
 Use $threadtruth-studio to identify this garment and recommend styles. Do not generate images.
 ```
 
-预期得到：服饰识别卡、主推与备选风格、完整 24 风格目录。看不清的细节应标为不确定或请求补图；不会因为上传照片就自动消耗生图额度。
+预期得到：素材核对及一个具体推荐方案；人物因子、备选与完整24风格目录按需展开。看不清的细节应标为不确定或请求补图；不会因为上传照片就自动消耗生图额度。
 
-Expect a garment recognition card, a primary style recommendation with alternatives, and the complete 24-style catalogue. Unclear details require uncertainty notes or better photos. Uploading a photo alone does not authorize image generation.
+Expect source checks and one concrete proposal; factors, alternatives and the full 24-style catalogue expand on request. Unclear details require uncertainty notes or better photos. Uploading a photo alone does not authorize image generation.
 
 ## 六组能力 / Six capability groups
 

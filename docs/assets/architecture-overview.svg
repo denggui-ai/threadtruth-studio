@@ -1,0 +1,317 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="1900" viewBox="0 0 2400 1900" role="img" aria-labelledby="title desc">
+<title id="title">ThreadTruth Studio 裁光：底层逻辑与关键流程</title>
+<desc id="desc">七个分区展示用户入口、由 Codex Agent 执行的 Skill 核心、两个可选生图入口、交付、私人数据、本地及人工质量控制和八条用户旅程。以 beta.12 为基线；实现不等于全面验证。</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#244c73"/></marker></defs>
+<style>text{font-family:"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",Arial,sans-serif;fill:#17334e} .title{font-weight:700} .muted{fill:#496177}</style>
+<rect width="2400" height="1900" fill="#f7fafc"/>
+<text x="40" y="65" font-size="53" data-maxwidth="2320" class="title">ThreadTruth Studio | 裁光</text>
+<text x="40" y="110" font-size="30" data-maxwidth="2320" class="title">底层逻辑与关键流程  ·  beta.12 现状图</text>
+<text x="40" y="147" font-size="23" data-maxwidth="2320" class="">真实服饰事实 → 受约束的拍摄方案 → 逐张生成与验收 → 对应规格交付</text>
+<rect x="1350" y="28" width="1010" height="125" rx="12" fill="#eaf3fb" stroke="#d9e4ec"/>
+<text x="1375" y="72" font-size="26" data-maxwidth="985" class="title">商品真实</text>
+<text x="1375" y="115" font-size="20" data-maxwidth="985" class="">不编造不可见细节</text>
+<text x="1621" y="72" font-size="26" data-maxwidth="739" class="title">摄影质感</text>
+<text x="1621" y="115" font-size="20" data-maxwidth="739" class="">风格服务于商品</text>
+<text x="1867" y="72" font-size="26" data-maxwidth="493" class="title">人物可延续</text>
+<text x="1867" y="115" font-size="20" data-maxwidth="493" class="">确认后携带参考包</text>
+<text x="2113" y="72" font-size="26" data-maxwidth="247" class="title">交付可核对</text>
+<text x="2113" y="115" font-size="20" data-maxwidth="247" class="">原文件与分项验收</text>
+<rect x="40" y="180" width="400" height="640" rx="12" fill="#eaf7f1" stroke="#087d64"/>
+<text x="62" y="223" font-size="29" data-maxwidth="356" class="title" style="fill:#087d64">1. 用户层 · 入口与意图</text>
+<rect x="60" y="245" width="360" height="132" rx="12" fill="#fff" stroke="#d9e4ec"/>
+<text x="78" y="279" font-size="25" data-maxwidth="324" class="title" style="fill:#087d64">自然语言 + 真实素材</text>
+<text x="78" y="317" font-size="22" data-maxwidth="324" class="">“帮我生成一组穿搭图”</text>
+<text x="78" y="351" font-size="22" data-maxwidth="324" class="">商品实拍 / 可选人物参考</text>
+<rect x="60" y="391" width="360" height="157" rx="12" fill="#fff" stroke="#d9e4ec"/>
+<text x="78" y="425" font-size="25" data-maxwidth="324" class="title" style="fill:#087d64">选择或委托推荐</text>
+<text x="78" y="463" font-size="22" data-maxwidth="324" class="">人物、风格、用途与画布</text>
+<text x="78" y="497" font-size="22" data-maxwidth="324" class="">单张 / 整组 / 预览 / 提示词</text>
+<text x="78" y="531" font-size="22" data-maxwidth="324" class="">已有明确授权沿用</text>
+<rect x="60" y="562" width="360" height="234" rx="12" fill="#fff" stroke="#d9e4ec"/>
+<text x="78" y="596" font-size="25" data-maxwidth="324" class="title" style="fill:#087d64">不同意图，不同出口</text>
+<text x="78" y="634" font-size="21" data-maxwidth="324" class="">咨询、识别、推荐：不生图</text>
+<text x="78" y="666" font-size="21" data-maxwidth="324" class="">只要提示词：不生图</text>
+<text x="78" y="698" font-size="21" data-maxwidth="324" class="">先测一张 / 六张独立图</text>
+<text x="78" y="730" font-size="21" data-maxwidth="324" class="">改已有图 / 新品沿用人物</text>
+<text x="78" y="762" font-size="21" data-maxwidth="324" class="">隐式发现尚未全面验证</text>
+<rect x="510" y="180" width="890" height="640" rx="12" fill="#eaf3fb" stroke="#176bb0"/>
+<text x="532" y="223" font-size="29" data-maxwidth="846" class="title" style="fill:#176bb0">2. Skill 核心 · Codex Agent 读取规则并执行</text>
+<rect x="532" y="245" width="846" height="102" rx="12" fill="#fff" stroke="#d9e4ec"/>
+<text x="550" y="279" font-size="25" data-maxwidth="810" class="title" style="fill:#176bb0">SKILL.md · 总控规则</text>
+<text x="550" y="317" font-size="22" data-maxwidth="810" class="">规则决定读什么、何时调用、何时暂停；不是独立调度服务。</text>
+<rect x="532" y="362" width="270" height="176" rx="12" fill="#fff" stroke="#d9e4ec"/>
+<text x="550" y="396" font-size="25" data-maxwidth="234" class="title" style="fill:#176bb0">识别与流程</text>
+<text x="550" y="434" font-size="20" data-maxwidth="234" class="">recognition.md</text>
+<text x="550" y="466" font-size="20" data-maxwidth="234" class="">flow-gates.md</text>
+<text x="550" y="498" font-size="20" data-maxwidth="234" class="">商品事实 / 意图 / 授权</text>
+<rect x="820" y="362" width="270" height="176" rx="12" fill="#fff" stroke="#d9e4ec"/>
+<text x="838" y="396" font-size="25" data-maxwidth="234" class="title" style="fill:#176bb0">事实与人物约束</text>
+<text x="838" y="434" font-size="20" data-maxwidth="234" class="">safety-core.md</text>
+<text x="838" y="466" font-size="20" data-maxwidth="234" class="">model-selection.md</text>
+<text x="838" y="498" font-size="20" data-maxwidth="234" class="">已有身份 ≠ 严格锁脸</text>
+<rect x="1108" y="362" width="270" height="176" rx="12" fill="#fff" stroke="#d9e4ec"/>
+<text x="1126" y="396" font-size="25" data-maxwidth="234" class="title" style="fill:#176bb0">提示词编排</text>
+<text x="1126" y="434" font-size="20" data-maxwidth="234" class="">prompt-build.md</text>
+<text x="1126" y="466" font-size="20" data-maxwidth="234" class="">只取受约束视觉字段</text>
+<text x="1126" y="498" font-size="20" data-maxwidth="234" class="">当前商品始终是事实源</text>
+<rect x="532" y="553" width="540" height="162" rx="12" fill="#fff" stroke="#d9e4ec"/>
+<text x="550" y="587" font-size="25" data-maxwidth="504" class="title" style="fill:#176bb0">拍摄规划与风格选择</text>
+<text x="550" y="625" font-size="21" data-maxwidth="504" class="">style-router.md · 24 风格包</text>
+<text x="550" y="656" font-size="21" data-maxwidth="504" class="">modes-scenes.md · 棚拍 / 场景 / 混合</text>
+<text x="550" y="687" font-size="21" data-maxwidth="504" class="">真人 / 不露脸 / 平铺 / 挂拍 / 人台</text>
+<rect x="1090" y="553" width="288" height="162" rx="12" fill="#fff" stroke="#d9e4ec"/>
+<text x="1108" y="587" font-size="25" data-maxwidth="252" class="title" style="fill:#a75315">验收字段独立</text>
+<text x="1108" y="625" font-size="20" data-maxwidth="252" class="">qa_extra 先按事实过滤</text>
+<text x="1108" y="656" font-size="20" data-maxwidth="252" class="">仅进入质量验收</text>
+<text x="1108" y="687" font-size="20" data-maxwidth="252" class="">不进入生成提示词</text>
+<rect x="532" y="732" width="846" height="63" rx="12" fill="#dcecf9" stroke="#d9e4ec"/>
+<text x="550" y="773" font-size="22" data-maxwidth="1810" class="title">先形成一份具体方案；确认对象明确后执行，不反复让用户填表。</text>
+<rect x="1450" y="180" width="380" height="640" rx="12" fill="#f2edfb" stroke="#6540a2"/>
+<text x="1472" y="223" font-size="29" data-maxwidth="336" class="title" style="fill:#6540a2">3. 生图执行 · 可选入口</text>
+<rect x="1470" y="245" width="340" height="221" rx="12" fill="#fff" stroke="#d9e4ec"/>
+<text x="1488" y="279" font-size="25" data-maxwidth="304" class="title" style="fill:#6540a2">Codex 原生 · 默认</text>
+<text x="1488" y="317" font-size="22" data-maxwidth="304" class="">宿主内置 image_gen</text>
+<text x="1488" y="353" font-size="22" data-maxwidth="304" class="">单张 / 六图 / 方向预览</text>
+<text x="1488" y="389" font-size="22" data-maxwidth="304" class="">图片额度与授权分别核对</text>
+<text x="1488" y="425" font-size="22" data-maxwidth="304" class="">不外接第三方 API</text>
+<rect x="1470" y="483" width="340" height="237" rx="12" fill="#fff" stroke="#d9e4ec"/>
+<text x="1488" y="517" font-size="25" data-maxwidth="304" class="title" style="fill:#6540a2">ChatGPT 网页 · 显式选择</text>
+<text x="1488" y="555" font-size="21" data-maxwidth="304" class="">宿主浏览器或人工转交</text>
+<text x="1488" y="587" font-size="21" data-maxwidth="304" class="">上传与提交需适用授权</text>
+<text x="1488" y="619" font-size="21" data-maxwidth="304" class="">现有适配：单张 / 六张</text>
+<text x="1488" y="651" font-size="21" data-maxwidth="304" class="">网页预览未列为已适配</text>
+<text x="1488" y="683" font-size="21" data-maxwidth="304" class="">不会自动切换入口兜底</text>
+<text x="1470" y="773" font-size="22" data-maxwidth="890" class="title">返回原文件，再进入逐张 QA</text>
+<rect x="1880" y="180" width="480" height="1045" rx="12" fill="#eaf7f1" stroke="#087d64"/>
+<text x="1902" y="223" font-size="29" data-maxwidth="436" class="title" style="fill:#087d64">4. 输出与交付</text>
+<rect x="1902" y="245" width="436" height="211" rx="12" fill="#fff" stroke="#d9e4ec"/>
+<text x="1920" y="279" font-size="25" data-maxwidth="400" class="title" style="fill:#087d64">按所选规格交付</text>
+<text x="1920" y="317" font-size="22" data-maxwidth="400" class="">仅提示词：文字，0 次生图</text>
+<text x="1920" y="353" font-size="22" data-maxwidth="400" class="">方向预览：1 张六宫格，非成片</text>
+<text x="1920" y="389" font-size="22" data-maxwidth="400" class="">单张测试：1 张，满意后收尾</text>
+<text x="1920" y="425" font-size="22" data-maxwidth="400" class="">整组：6 张独立图，串行生成</text>
+<rect x="1902" y="475" width="436" height="195" rx="12" fill="#fff" stroke="#d9e4ec"/>
+<text x="1920" y="509" font-size="25" data-maxwidth="400" class="title" style="fill:#087d64">三个判断，分别成立</text>
+<text x="1920" y="547" font-size="21" data-maxwidth="400" class="">技术 QA：能否继续生成</text>
+<text x="1920" y="581" font-size="21" data-maxwidth="400" class="">人物确认：用户接受实际首张</text>
+<text x="1920" y="615" font-size="21" data-maxwidth="400" class="">商业放行：交付条件全部满足</text>
+<text x="1920" y="649" font-size="21" data-maxwidth="400" class="">本地 complete 不等于 image-ready</text>
+<rect x="1902" y="689" width="436" height="303" rx="12" fill="#fff" stroke="#d9e4ec"/>
+<text x="1920" y="723" font-size="25" data-maxwidth="400" class="title" style="fill:#087d64">image-ready · 整组放行条件</text>
+<text x="1920" y="761" font-size="22" data-maxwidth="400" class="">当前商品硬事实人工核对</text>
+<text x="1920" y="797" font-size="22" data-maxwidth="400" class="">逐张比例、像素与批次基线合规</text>
+<text x="1920" y="833" font-size="22" data-maxwidth="400" class="">商品 / 人物 / 动作视觉 QA 通过</text>
+<text x="1920" y="869" font-size="22" data-maxwidth="400" class="">应有图片完整，硬失败已关闭</text>
+<text x="1920" y="905" font-size="22" data-maxwidth="400" class="">用户源图核对与 AI 标识义务完成</text>
+<text x="1920" y="941" font-size="22" data-maxwidth="400" class="">预览和单张不冒充六张整组</text>
+<rect x="1902" y="1010" width="436" height="190" rx="12" fill="#fff" stroke="#d9e4ec"/>
+<text x="1920" y="1044" font-size="25" data-maxwidth="400" class="title" style="fill:#087d64">用于图片素材交付</text>
+<text x="1920" y="1082" font-size="21" data-maxwidth="400" class="">电商主图 / 社媒封面 / 详情素材</text>
+<text x="1920" y="1116" font-size="21" data-maxwidth="400" class="">品牌展示；不自动生成整页排版</text>
+<text x="1920" y="1150" font-size="21" data-maxwidth="400" class="">不保证平台审核、转化或销售效果</text>
+<rect x="40" y="875" width="870" height="350" rx="12" fill="#eaf3fb" stroke="#176bb0"/>
+<text x="62" y="918" font-size="29" data-maxwidth="826" class="title" style="fill:#176bb0">5. 数据与资源 · 本地记录，私人素材不进公开仓库</text>
+<rect x="60" y="942" width="267" height="257" rx="12" fill="#fff" stroke="#d9e4ec"/>
+<text x="78" y="976" font-size="25" data-maxwidth="231" class="title" style="fill:#176bb0">规则与配置</text>
+<text x="78" y="1014" font-size="17" data-maxwidth="231" class="">references/ · 方法规则</text>
+<text x="78" y="1045" font-size="17" data-maxwidth="231" class="">references/styles/ · 风格包</text>
+<text x="78" y="1076" font-size="17" data-maxwidth="231" class="">scripts/ · 本地助手</text>
+<text x="78" y="1107" font-size="17" data-maxwidth="231" class="">.codex-plugin/plugin.json</text>
+<text x="78" y="1138" font-size="17" data-maxwidth="231" class="">agents/openai.yaml</text>
+<text x="78" y="1169" font-size="17" data-maxwidth="231" class="">仅发现，不授予调用权限</text>
+<rect x="343" y="942" width="267" height="257" rx="12" fill="#fff" stroke="#d9e4ec"/>
+<text x="361" y="976" font-size="25" data-maxwidth="231" class="title" style="fill:#a63363">私人任务与参考包</text>
+<text x="361" y="1014" font-size="19" data-maxwidth="231" class="">版本化任务 / 图片 / 历史</text>
+<text x="361" y="1045" font-size="19" data-maxwidth="231" class="">保留原请求与累计次数</text>
+<text x="361" y="1076" font-size="19" data-maxwidth="231" class="">人物包由用户指定读取</text>
+<text x="361" y="1107" font-size="19" data-maxwidth="231" class="">新品使用新品实拍</text>
+<text x="361" y="1138" font-size="19" data-maxwidth="231" class="">不自动继承旧商品 / 授权</text>
+<text x="361" y="1169" font-size="19" data-maxwidth="231" class="">不承诺跨聊天自动记忆</text>
+<rect x="626" y="942" width="264" height="257" rx="12" fill="#fff" stroke="#d9e4ec"/>
+<text x="644" y="976" font-size="25" data-maxwidth="228" class="title" style="fill:#176bb0">本地工具职责</text>
+<text x="644" y="1014" font-size="17" data-maxwidth="228" class="">web-task.py：两入口账本</text>
+<text x="644" y="1045" font-size="17" data-maxwidth="228" class="">model-reference.py：人物包</text>
+<text x="644" y="1076" font-size="17" data-maxwidth="228" class="">image-spec-check.py：尺寸</text>
+<text x="644" y="1107" font-size="17" data-maxwidth="228" class="">wardrobe-edit.cjs：局部编辑</text>
+<text x="644" y="1138" font-size="17" data-maxwidth="228" class="">不点击网页，不调用生图</text>
+<text x="644" y="1169" font-size="17" data-maxwidth="228" class="">固定姿势需手工边界</text>
+<rect x="960" y="875" width="870" height="350" rx="12" fill="#fff3e8" stroke="#a75315"/>
+<text x="982" y="918" font-size="29" data-maxwidth="826" class="title" style="fill:#a75315">6. 质量控制 · 机器文件检查 + Agent 视觉核对 + 用户确认</text>
+<rect x="980" y="942" width="267" height="257" rx="12" fill="#fff" stroke="#d9e4ec"/>
+<text x="998" y="976" font-size="25" data-maxwidth="231" class="title" style="fill:#a75315">文件与元数据</text>
+<text x="998" y="1014" font-size="20" data-maxwidth="231" class="">原文件可读取且完整</text>
+<text x="998" y="1045" font-size="20" data-maxwidth="231" class="">每张尺寸符合目标</text>
+<text x="998" y="1076" font-size="20" data-maxwidth="231" class="">首张建立像素基线</text>
+<text x="998" y="1107" font-size="20" data-maxwidth="231" class="">后续保持同组尺寸</text>
+<text x="998" y="1138" font-size="20" data-maxwidth="231" class="">重复文件 / 张数 / 顺序</text>
+<text x="998" y="1169" font-size="20" data-maxwidth="231" class="">脚本或宿主等价检查</text>
+<rect x="1263" y="942" width="267" height="257" rx="12" fill="#fff" stroke="#d9e4ec"/>
+<text x="1281" y="976" font-size="25" data-maxwidth="231" class="title" style="fill:#a75315">Agent 视觉 QA</text>
+<text x="1281" y="1014" font-size="20" data-maxwidth="231" class="">对照当前商品实拍</text>
+<text x="1281" y="1045" font-size="20" data-maxwidth="231" class="">结构、细节、配饰、构图</text>
+<text x="1281" y="1076" font-size="20" data-maxwidth="231" class="">人物、动作与风格表现</text>
+<text x="1281" y="1107" font-size="20" data-maxwidth="231" class="">qa_extra 只作核对项</text>
+<text x="1281" y="1138" font-size="20" data-maxwidth="231" class="">不能用元数据替代目测</text>
+<text x="1281" y="1169" font-size="20" data-maxwidth="231" class="">失败先停后续编号</text>
+<rect x="1546" y="942" width="264" height="257" rx="12" fill="#fff" stroke="#d9e4ec"/>
+<text x="1564" y="976" font-size="25" data-maxwidth="228" class="title" style="fill:#a75315">用户实际确认</text>
+<text x="1564" y="1014" font-size="19" data-maxwidth="228" class="">人像首张需接受当前人</text>
+<text x="1564" y="1045" font-size="19" data-maxwidth="228" class="">非人像跳过身份项</text>
+<text x="1564" y="1076" font-size="19" data-maxwidth="228" class="">商品硬事实由用户核对</text>
+<text x="1564" y="1107" font-size="19" data-maxwidth="228" class="">满意不覆盖硬错误</text>
+<text x="1564" y="1138" font-size="19" data-maxwidth="228" class="">已授权整组消费剩余额度</text>
+<text x="1564" y="1169" font-size="19" data-maxwidth="228" class="">新增重试需明确授权</text>
+<polyline points="440,335 510,335" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<polyline points="440,615 510,615" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<polyline points="1400,485 1450,485" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<polyline points="1640,820 1640,875" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<polyline points="1830,1090 1880,1090" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<polyline points="900,820 900,848 620,848 620,875" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<polyline points="910,1060 960,1060" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="40" y="1280" width="2320" height="508" rx="12" fill="#fbeef4" stroke="#a63363"/>
+<text x="62" y="1323" font-size="29" data-maxwidth="2276" class="title" style="fill:#a63363">7. 关键流程 · 根据用户意图进入；不是每次都跑完整流程</text>
+<rect x="60" y="1346" width="270" height="420" rx="12" fill="#fff" stroke="#e7cbd8"/>
+<text x="74" y="1380" font-size="24" data-maxwidth="2286" class="title" style="fill:#a63363">A. 咨询 / 推荐</text>
+<text x="74" y="1412" font-size="18" data-maxwidth="2286" class="">不生图</text>
+<rect x="74" y="1435" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="83" y="1461" font-size="17" data-maxwidth="224" class="">描述需求 / 可选参考</text>
+<polyline points="195,1473 195,1486" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="74" y="1488" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="83" y="1514" font-size="17" data-maxwidth="224" class="">分析与推荐方向</text>
+<polyline points="195,1526 195,1539" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="74" y="1541" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="83" y="1567" font-size="17" data-maxwidth="224" class="">给出一个具体建议</text>
+<polyline points="195,1579 195,1592" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="74" y="1594" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="83" y="1620" font-size="17" data-maxwidth="224" class="">需要时展开备选</text>
+<polyline points="195,1632 195,1645" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="74" y="1647" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="83" y="1673" font-size="17" data-maxwidth="224" class="">文字交付并结束</text>
+<text x="74" y="1738" font-size="17" data-maxwidth="242" class="title" style="fill:#a63363">不消耗图片额度</text>
+<rect x="348" y="1346" width="270" height="420" rx="12" fill="#fff" stroke="#e7cbd8"/>
+<text x="362" y="1380" font-size="24" data-maxwidth="1998" class="title" style="fill:#a63363">B. 识别 / 分析</text>
+<text x="362" y="1412" font-size="18" data-maxwidth="1998" class="">不生图</text>
+<rect x="362" y="1435" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="371" y="1461" font-size="17" data-maxwidth="224" class="">读取当前商品实拍</text>
+<polyline points="483,1473 483,1486" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="362" y="1488" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="371" y="1514" font-size="17" data-maxwidth="224" class="">识别可见服饰事实</text>
+<polyline points="483,1526 483,1539" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="362" y="1541" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="371" y="1567" font-size="17" data-maxwidth="224" class="">未知细节标不确定</text>
+<polyline points="483,1579 483,1592" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="362" y="1594" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="371" y="1620" font-size="17" data-maxwidth="224" class="">给出分析与建议</text>
+<polyline points="483,1632 483,1645" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="362" y="1647" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="371" y="1673" font-size="17" data-maxwidth="224" class="">素材不足请求补图</text>
+<text x="362" y="1738" font-size="17" data-maxwidth="242" class="title" style="fill:#a63363">不编造背面或细节</text>
+<rect x="636" y="1346" width="270" height="420" rx="12" fill="#fff" stroke="#e7cbd8"/>
+<text x="650" y="1380" font-size="24" data-maxwidth="1710" class="title" style="fill:#a63363">C. 仅提示词</text>
+<text x="650" y="1412" font-size="18" data-maxwidth="1710" class="">不生图</text>
+<rect x="650" y="1435" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="659" y="1461" font-size="17" data-maxwidth="224" class="">确认用途与方案</text>
+<polyline points="771,1473 771,1486" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="650" y="1488" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="659" y="1514" font-size="17" data-maxwidth="224" class="">商品 / 人物约束过滤</text>
+<polyline points="771,1526 771,1539" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="650" y="1541" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="659" y="1567" font-size="17" data-maxwidth="224" class="">编排编号提示词</text>
+<polyline points="771,1579 771,1592" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="650" y="1594" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="659" y="1620" font-size="17" data-maxwidth="224" class="">交付提示词与负面词</text>
+<polyline points="771,1632 771,1645" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="650" y="1647" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="659" y="1673" font-size="17" data-maxwidth="224" class="">不自动提交生成</text>
+<text x="650" y="1738" font-size="17" data-maxwidth="242" class="title" style="fill:#a63363">qa_extra 不进入提示词</text>
+<rect x="924" y="1346" width="270" height="420" rx="12" fill="#fff" stroke="#e7cbd8"/>
+<text x="938" y="1380" font-size="24" data-maxwidth="1422" class="title" style="fill:#a63363">D. 单张测试</text>
+<text x="938" y="1412" font-size="18" data-maxwidth="1422" class="">动作 2 · 一次</text>
+<rect x="938" y="1435" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="947" y="1461" font-size="17" data-maxwidth="224" class="">明确方案与生成授权</text>
+<polyline points="1059,1473 1059,1486" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="938" y="1488" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="947" y="1514" font-size="17" data-maxwidth="224" class="">生成并取得原文件</text>
+<polyline points="1059,1526 1059,1539" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="938" y="1541" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="947" y="1567" font-size="17" data-maxwidth="224" class="">尺寸 + 商品 / 人物 QA</text>
+<polyline points="1059,1579 1059,1592" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="938" y="1594" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="947" y="1620" font-size="17" data-maxwidth="224" class="">展示图并接受反馈</text>
+<polyline points="1059,1632 1059,1645" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="938" y="1647" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="947" y="1673" font-size="17" data-maxwidth="224" class="">满意即完成单张</text>
+<text x="938" y="1738" font-size="17" data-maxwidth="242" class="title" style="fill:#a63363">失败暂停；重试需授权</text>
+<rect x="1212" y="1346" width="270" height="420" rx="12" fill="#fff" stroke="#e7cbd8"/>
+<text x="1226" y="1380" font-size="24" data-maxwidth="1134" class="title" style="fill:#a63363">E. 六张独立图</text>
+<text x="1226" y="1412" font-size="18" data-maxwidth="1134" class="">动作 1 · 串行</text>
+<rect x="1226" y="1435" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="1235" y="1461" font-size="17" data-maxwidth="224" class="">确认方案与最多六次授权</text>
+<polyline points="1347,1473 1347,1486" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="1226" y="1488" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="1235" y="1514" font-size="17" data-maxwidth="224" class="">首张：尺寸 + 视觉 QA</text>
+<polyline points="1347,1526 1347,1539" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="1226" y="1541" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="1235" y="1567" font-size="17" data-maxwidth="224" class="">人像：用户接受实际人物</text>
+<polyline points="1347,1579 1347,1592" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="1226" y="1594" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="1235" y="1620" font-size="17" data-maxwidth="224" class="">按剩余额度逐张检查续生</text>
+<polyline points="1347,1632 1347,1645" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="1226" y="1647" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="1235" y="1673" font-size="17" data-maxwidth="224" class="">六张齐后核整组放行</text>
+<text x="1226" y="1738" font-size="17" data-maxwidth="242" class="title" style="fill:#a63363">首张失败，不继续后五张</text>
+<rect x="1500" y="1346" width="270" height="420" rx="12" fill="#fff" stroke="#e7cbd8"/>
+<text x="1514" y="1380" font-size="24" data-maxwidth="846" class="title" style="fill:#a63363">F. 修改已有图</text>
+<text x="1514" y="1412" font-size="18" data-maxwidth="846" class="">明确修改范围</text>
+<rect x="1514" y="1435" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="1523" y="1461" font-size="17" data-maxwidth="224" class="">指定要改的任务与图片</text>
+<polyline points="1635,1473 1635,1486" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="1514" y="1488" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="1523" y="1514" font-size="17" data-maxwidth="224" class="">确认改什么、保留什么</text>
+<polyline points="1635,1526 1635,1539" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="1514" y="1541" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="1523" y="1567" font-size="17" data-maxwidth="224" class="">依适用授权执行编辑</text>
+<polyline points="1635,1579 1635,1592" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="1514" y="1594" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="1523" y="1620" font-size="17" data-maxwidth="224" class="">重新检查受影响项目</text>
+<polyline points="1635,1632 1635,1645" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="1514" y="1647" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="1523" y="1673" font-size="17" data-maxwidth="224" class="">保留旧图与新版记录</text>
+<text x="1514" y="1738" font-size="17" data-maxwidth="242" class="title" style="fill:#a63363">不自动覆盖原确认锚点</text>
+<rect x="1788" y="1346" width="270" height="420" rx="12" fill="#fff" stroke="#e7cbd8"/>
+<text x="1802" y="1380" font-size="24" data-maxwidth="558" class="title" style="fill:#a63363">G. 新品 / 换场景</text>
+<text x="1802" y="1412" font-size="18" data-maxwidth="558" class="">沿用已确认人物</text>
+<rect x="1802" y="1435" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="1811" y="1461" font-size="17" data-maxwidth="224" class="">指定原始人物参考包</text>
+<polyline points="1923,1473 1923,1486" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="1802" y="1488" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="1811" y="1514" font-size="17" data-maxwidth="224" class="">读取新品事实与保留条件</text>
+<polyline points="1923,1526 1923,1539" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="1802" y="1541" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="1811" y="1567" font-size="17" data-maxwidth="224" class="">明确新任务和生成授权</text>
+<polyline points="1923,1579 1923,1592" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="1802" y="1594" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="1811" y="1620" font-size="17" data-maxwidth="224" class="">新首张再次分项核对</text>
+<polyline points="1923,1632 1923,1645" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="1802" y="1647" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="1811" y="1673" font-size="17" data-maxwidth="224" class="">更新记录并按规格交付</text>
+<text x="1802" y="1738" font-size="17" data-maxwidth="242" class="title" style="fill:#a63363">不继承旧商品或旧授权</text>
+<rect x="2076" y="1346" width="270" height="420" rx="12" fill="#fff" stroke="#e7cbd8"/>
+<text x="2090" y="1380" font-size="24" data-maxwidth="270" class="title" style="fill:#a63363">H. 异常恢复</text>
+<text x="2090" y="1412" font-size="18" data-maxwidth="270" class="">不盲目重发</text>
+<rect x="2090" y="1435" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="2099" y="1461" font-size="17" data-maxwidth="224" class="">未知结果：先恢复原请求</text>
+<rect x="2090" y="1488" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="2099" y="1514" font-size="17" data-maxwidth="224" class="">下载失败：恢复同一原图</text>
+<rect x="2090" y="1541" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="2099" y="1567" font-size="17" data-maxwidth="224" class="">终态失败：保留凭据 / 字节</text>
+<polyline points="2211,1579 2211,1592" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="2090" y="1594" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="2099" y="1620" font-size="17" data-maxwidth="224" class="">核实终态 + 显式恢复协议</text>
+<polyline points="2211,1632 2211,1645" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="2090" y="1647" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
+<text x="2099" y="1673" font-size="17" data-maxwidth="224" class="">获新授权后才新增重试</text>
+<text x="2090" y="1738" font-size="17" data-maxwidth="242" class="title" style="fill:#a63363">保留历史与已用次数</text>
+<text x="40" y="1834" font-size="24" data-maxwidth="2320" class="title">现状边界：24 风格已实现且有历史样例；人物复用仅有受限实图证据。严格真人还原、自由姿势一致性与部分商品细节仍未解决。</text>
+<text x="40" y="1873" font-size="22" data-maxwidth="2320" class="">基线 beta.12 · 2026-10-07   |   实现 / 实际验证 / 未解决项分开盘点：docs/CAPABILITY-STATUS.md   |   github.com/denggui-ai/threadtruth-studio</text>
+</svg>
