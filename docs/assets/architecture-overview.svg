@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="2400" height="1900" viewBox="0 0 2400 1900" role="img" aria-labelledby="title desc">
 <title id="title">ThreadTruth Studio 裁光：底层逻辑与关键流程</title>
-<desc id="desc">七个分区展示用户入口、由 Codex Agent 执行的 Skill 核心、两个可选生图入口、交付、私人数据、本地及人工质量控制和八条用户旅程。以 beta.12 为基线；实现不等于全面验证。</desc>
+<desc id="desc">七个分区展示用户入口、由 Codex Agent 执行的 Skill 核心、两个可选生图入口、交付、私人数据、本地及人工质量控制和八条用户旅程。按2026-10-08当前源码；真人来源按真实覆盖规划脸向，AI保持原流程，逐张选择最多五参考；实现不等于全面验证，公开beta.12下载包仍为旧发行内容。</desc>
 <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#244c73"/></marker></defs>
 <style>text{font-family:"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",Arial,sans-serif;fill:#17334e} .title{font-weight:700} .muted{fill:#496177}</style>
 <rect width="2400" height="1900" fill="#f7fafc"/>
 <text x="40" y="65" font-size="53" data-maxwidth="2320" class="title">ThreadTruth Studio | 裁光</text>
-<text x="40" y="110" font-size="30" data-maxwidth="2320" class="title">底层逻辑与关键流程  ·  beta.12 现状图</text>
+<text x="40" y="110" font-size="30" data-maxwidth="2320" class="title">底层逻辑与关键流程  ·  当前源码 2026-10-08</text>
 <text x="40" y="147" font-size="23" data-maxwidth="2320" class="">真实服饰事实 → 受约束的拍摄方案 → 逐张生成与验收 → 对应规格交付</text>
 <rect x="1350" y="28" width="1010" height="125" rx="12" fill="#eaf3fb" stroke="#d9e4ec"/>
 <text x="1375" y="72" font-size="26" data-maxwidth="985" class="title">商品真实</text>
@@ -45,27 +45,30 @@
 <text x="550" y="466" font-size="20" data-maxwidth="234" class="">flow-gates.md</text>
 <text x="550" y="498" font-size="20" data-maxwidth="234" class="">商品事实 / 意图 / 授权</text>
 <rect x="820" y="362" width="270" height="176" rx="12" fill="#fff" stroke="#d9e4ec"/>
-<text x="838" y="396" font-size="25" data-maxwidth="234" class="title" style="fill:#176bb0">事实与人物约束</text>
-<text x="838" y="434" font-size="20" data-maxwidth="234" class="">safety-core.md</text>
-<text x="838" y="466" font-size="20" data-maxwidth="234" class="">model-selection.md</text>
-<text x="838" y="498" font-size="20" data-maxwidth="234" class="">已有身份 ≠ 严格锁脸</text>
+<text x="838" y="396" font-size="25" data-maxwidth="234" class="title" style="fill:#176bb0">人物来源分流</text>
+<text x="838" y="434" font-size="19" data-maxwidth="234" class="">model-selection.md</text>
+<text x="838" y="462" font-size="19" data-maxwidth="234" class="">real：按真实覆盖规划脸向</text>
+<text x="838" y="490" font-size="19" data-maxwidth="234" class="">ai / new：保留原流程</text>
+<text x="838" y="518" font-size="19" data-maxwidth="234" class="">来源不明且影响分流才核对</text>
 <rect x="1108" y="362" width="270" height="176" rx="12" fill="#fff" stroke="#d9e4ec"/>
 <text x="1126" y="396" font-size="25" data-maxwidth="234" class="title" style="fill:#176bb0">提示词编排</text>
 <text x="1126" y="434" font-size="20" data-maxwidth="234" class="">prompt-build.md</text>
 <text x="1126" y="466" font-size="20" data-maxwidth="234" class="">只取受约束视觉字段</text>
 <text x="1126" y="498" font-size="20" data-maxwidth="234" class="">当前商品始终是事实源</text>
-<rect x="532" y="553" width="540" height="162" rx="12" fill="#fff" stroke="#d9e4ec"/>
+<rect x="532" y="553" width="540" height="134" rx="12" fill="#fff" stroke="#d9e4ec"/>
 <text x="550" y="587" font-size="25" data-maxwidth="504" class="title" style="fill:#176bb0">拍摄规划与风格选择</text>
 <text x="550" y="625" font-size="21" data-maxwidth="504" class="">style-router.md · 24 风格包</text>
-<text x="550" y="656" font-size="21" data-maxwidth="504" class="">modes-scenes.md · 棚拍 / 场景 / 混合</text>
-<text x="550" y="687" font-size="21" data-maxwidth="504" class="">真人 / 不露脸 / 平铺 / 挂拍 / 人台</text>
-<rect x="1090" y="553" width="288" height="162" rx="12" fill="#fff" stroke="#d9e4ec"/>
+<text x="550" y="652" font-size="21" data-maxwidth="504" class="">modes-scenes.md · 棚拍 / 场景 / 混合</text>
+<text x="550" y="679" font-size="21" data-maxwidth="504" class="">真人 / 不露脸 / 平铺 / 挂拍 / 人台</text>
+<rect x="1090" y="553" width="288" height="134" rx="12" fill="#fff" stroke="#d9e4ec"/>
 <text x="1108" y="587" font-size="25" data-maxwidth="252" class="title" style="fill:#a75315">验收字段独立</text>
 <text x="1108" y="625" font-size="20" data-maxwidth="252" class="">qa_extra 先按事实过滤</text>
-<text x="1108" y="656" font-size="20" data-maxwidth="252" class="">仅进入质量验收</text>
-<text x="1108" y="687" font-size="20" data-maxwidth="252" class="">不进入生成提示词</text>
-<rect x="532" y="732" width="846" height="63" rx="12" fill="#dcecf9" stroke="#d9e4ec"/>
-<text x="550" y="773" font-size="22" data-maxwidth="1810" class="title">一份具体方案；已有授权沿用；冻结整组前预检后续参考图数量。</text>
+<text x="1108" y="652" font-size="20" data-maxwidth="252" class="">仅进入质量验收</text>
+<text x="1108" y="679" font-size="20" data-maxwidth="252" class="">不进入生成提示词</text>
+<rect x="532" y="704" width="846" height="91" rx="12" fill="#dcecf9" stroke="#d9e4ec"/>
+<text x="550" y="731" font-size="18" data-maxwidth="810" class="title">真人：正脸 → 正面/近正面；多角度 → 实际清晰覆盖。AI / new 保持原流程。</text>
+<text x="550" y="758" font-size="18" data-maxwidth="810" class="title">有衣背无真人回眸 → 背部不露脸；无衣背 → 第六张正面站姿替代。</text>
+<text x="550" y="785" font-size="18" data-maxwidth="810" class="title">身体 / 头向 / 视线分开；每张参考 ≤5；库存留全；AI补充不扩真人角度。</text>
 <rect x="1450" y="180" width="380" height="640" rx="12" fill="#f2edfb" stroke="#6540a2"/>
 <text x="1472" y="223" font-size="29" data-maxwidth="336" class="title" style="fill:#6540a2">3. 生图执行 · 可选入口</text>
 <rect x="1470" y="245" width="340" height="221" rx="12" fill="#fff" stroke="#d9e4ec"/>
@@ -122,7 +125,7 @@
 <rect x="343" y="942" width="267" height="257" rx="12" fill="#fff" stroke="#d9e4ec"/>
 <text x="361" y="976" font-size="25" data-maxwidth="231" class="title" style="fill:#a63363">私人任务与参考包</text>
 <text x="361" y="1014" font-size="19" data-maxwidth="231" class="">原人物：长期身份依据</text>
-<text x="361" y="1045" font-size="19" data-maxwidth="231" class="">补充图：显式接受的表现</text>
+<text x="361" y="1045" font-size="19" data-maxwidth="231" class="">AI补充：不补真人未知角度</text>
 <text x="361" y="1076" font-size="19" data-maxwidth="231" class="">本组首张：组内身份锚点</text>
 <text x="361" y="1107" font-size="19" data-maxwidth="231" class="">姿势母图：选用局部换装</text>
 <text x="361" y="1138" font-size="19" data-maxwidth="231" class="">新品不继承旧商品 / 授权</text>
@@ -130,11 +133,11 @@
 <rect x="626" y="942" width="264" height="257" rx="12" fill="#fff" stroke="#d9e4ec"/>
 <text x="644" y="976" font-size="25" data-maxwidth="228" class="title" style="fill:#176bb0">本地工具职责</text>
 <text x="644" y="1014" font-size="17" data-maxwidth="228" class="">web-task.py：两入口账本</text>
-<text x="644" y="1045" font-size="17" data-maxwidth="228" class="">model-reference.py：人物包</text>
-<text x="644" y="1076" font-size="17" data-maxwidth="228" class="">image-spec-check.py：尺寸</text>
-<text x="644" y="1107" font-size="17" data-maxwidth="228" class="">wardrobe-edit.cjs：局部编辑</text>
-<text x="644" y="1138" font-size="17" data-maxwidth="228" class="">不点击网页，不调用生图</text>
-<text x="644" y="1169" font-size="17" data-maxwidth="228" class="">固定姿势需手工边界</text>
+<text x="644" y="1045" font-size="17" data-maxwidth="228" class="">real_face_plan.py：真人计划</text>
+<text x="644" y="1076" font-size="17" data-maxwidth="228" class="">model-reference.py：人物包</text>
+<text x="644" y="1107" font-size="17" data-maxwidth="228" class="">image-spec-check.py：尺寸</text>
+<text x="644" y="1138" font-size="17" data-maxwidth="228" class="">wardrobe-edit.cjs：局部编辑</text>
+<text x="644" y="1169" font-size="17" data-maxwidth="228" class="">不点击网页，不调用生图</text>
 <rect x="960" y="875" width="870" height="350" rx="12" fill="#fff3e8" stroke="#a75315"/>
 <text x="982" y="918" font-size="29" data-maxwidth="826" class="title" style="fill:#a75315">6. 质量控制 · 机器文件检查 + Agent 视觉核对 + 用户确认</text>
 <rect x="980" y="942" width="267" height="257" rx="12" fill="#fff" stroke="#d9e4ec"/>
@@ -149,7 +152,7 @@
 <text x="1281" y="976" font-size="25" data-maxwidth="231" class="title" style="fill:#a75315">Agent 视觉 QA</text>
 <text x="1281" y="1014" font-size="20" data-maxwidth="231" class="">对照当前商品实拍</text>
 <text x="1281" y="1045" font-size="20" data-maxwidth="231" class="">结构、细节、配饰、构图</text>
-<text x="1281" y="1076" font-size="20" data-maxwidth="231" class="">人物、动作与风格表现</text>
+<text x="1281" y="1076" font-size="20" data-maxwidth="231" class="">原真人 / 候选连续性分开</text>
 <text x="1281" y="1107" font-size="20" data-maxwidth="231" class="">qa_extra 只作核对项</text>
 <text x="1281" y="1138" font-size="20" data-maxwidth="231" class="">不能用元数据替代目测</text>
 <text x="1281" y="1169" font-size="20" data-maxwidth="231" class="">首张或画布失败即停</text>
@@ -228,10 +231,10 @@
 <text x="938" y="1380" font-size="24" data-maxwidth="1422" class="title" style="fill:#a63363">D. 单张测试</text>
 <text x="938" y="1412" font-size="18" data-maxwidth="1422" class="">动作 2 · 一次</text>
 <rect x="938" y="1435" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
-<text x="947" y="1461" font-size="17" data-maxwidth="224" class="">明确方案与生成授权</text>
+<text x="947" y="1461" font-size="17" data-maxwidth="224" class="">确认自定义呈现与授权</text>
 <polyline points="1059,1473 1059,1486" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
 <rect x="938" y="1488" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
-<text x="947" y="1514" font-size="17" data-maxwidth="224" class="">生成并取得原文件</text>
+<text x="947" y="1514" font-size="17" data-maxwidth="224" class="">逐张选参考并取得原图</text>
 <polyline points="1059,1526 1059,1539" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
 <rect x="938" y="1541" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
 <text x="947" y="1567" font-size="17" data-maxwidth="224" class="">尺寸 + 商品 / 人物 QA</text>
@@ -285,7 +288,7 @@
 <text x="1811" y="1461" font-size="17" data-maxwidth="224" class="">指定原始人物参考包</text>
 <polyline points="1923,1473 1923,1486" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
 <rect x="1802" y="1488" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
-<text x="1811" y="1514" font-size="17" data-maxwidth="224" class="">读取新品事实与保留条件</text>
+<text x="1811" y="1514" font-size="17" data-maxwidth="224" class="">新品事实；真人核脸向</text>
 <polyline points="1923,1526 1923,1539" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
 <rect x="1802" y="1541" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
 <text x="1811" y="1567" font-size="17" data-maxwidth="224" class="">明确新任务和生成授权</text>
@@ -312,6 +315,6 @@
 <rect x="2090" y="1647" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
 <text x="2099" y="1673" font-size="17" data-maxwidth="224" class="">获新授权后才新增重试</text>
 <text x="2090" y="1738" font-size="17" data-maxwidth="242" class="title" style="fill:#a63363">保留历史与已用次数</text>
-<text x="40" y="1834" font-size="24" data-maxwidth="2320" class="title">现状边界：24 风格已实现且有历史样例；人物复用仅有受限实图证据。严格真人还原、自由姿势一致性与部分商品细节仍未解决。</text>
-<text x="40" y="1873" font-size="22" data-maxwidth="2320" class="">基线 beta.12 · 2026-10-07   |   实现 / 实际验证 / 未解决项分开盘点：docs/CAPABILITY-STATUS.md   |   github.com/denggui-ai/threadtruth-studio</text>
+<text x="40" y="1834" font-size="24" data-maxwidth="2320" class="title">验证边界：近正面两种坐姿已获接受；不代表严格锁脸、完整六张、多角度、跨商品或全风格稳定。商品细节仍须逐图核对。</text>
+<text x="40" y="1873" font-size="22" data-maxwidth="2320" class="">当前源码 · 2026-10-08；公开 beta.12 ZIP 保留原发行内容   |   能力盘点：docs/CAPABILITY-STATUS.md   |   github.com/denggui-ai/threadtruth-studio</text>
 </svg>

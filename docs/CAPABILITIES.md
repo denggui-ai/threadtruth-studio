@@ -2,9 +2,9 @@
 
 [用户架构总图（GitHub在线）](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md) · [当前能力盘点：实现、验证与缺口](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/CAPABILITY-STATUS.md)
 
-从真实服饰照片开始，先识别、选方向，再决定是否生成。本文说明**beta.12** 的工作流与条件，包含缺背面时的第六张替代规则；不承诺所有功能组合都已实测。
+从真实服饰照片开始，先识别、选方向，再决定是否生成。本文说明**当前源码**的工作流与条件，含显式单张呈现、真人参考朝向规划及逐张选图。公开 **beta.12 ZIP** 仍是此前发行内容；源码更新不自动更新下载包。本机版本须按安装记录核对；不承诺所有功能组合都已实测。
 
-Start with real garment photos, identify the source and choose a direction before generating. This guide describes the **beta.12** workflow and its conditions. It includes the front-only slot-6 substitution rule; it does not claim every combination has been tested.
+Start with real garment photos, identify the source and choose a direction before generating. This guide describes the **current source** workflow, including explicit single-image composition, real-person view coverage and per-image reference selection. The published **beta.12 ZIP** retains its earlier release content; source updates do not replace that archive. Check installation records for the active local version. Not every combination has been tested.
 
 [开始安装 / Install](INSTALL.md) · [产品首页 / Website](https://denggui-ai.github.io/threadtruth-studio/) · [24 风格样例 / Style examples](https://denggui-ai.github.io/threadtruth-studio/#style-highlights) · [兼容性 / Compatibility](COMPATIBILITY.md)
 
@@ -12,9 +12,9 @@ Start with real garment photos, identify the source and choose a direction befor
 
 ## 单件、套装与六姿势 / Garments, outfits and six poses
 
-单件服饰和完整套装都可以生成 AI 模特上身展示。两者均可从 24 风格中选择一个主风格，按默认六姿势生成六张独立图片；不是指定真人换装或尺码合体仿真。套装同时关注单品、层次、比例及鞋包配饰。单件上装所需的补全搭配应在方案中确认，不当作源图事实。
+单件服饰和完整套装都可以生成 AI 模特上身展示。两者均可从 24 风格中选择一个主风格，按默认身体动作规划六张独立图片；沿用真人面部时还须按实际参考覆盖安排脸向，不承诺严格身份复制或尺码合体仿真。套装同时关注单品、层次、比例及鞋包配饰。单件上装所需的补全搭配应在方案中确认，不当作源图事实。
 
-Both a single garment and a coordinated outfit can become AI model portraits in one of 24 styles. A full set contains six independent images; it is not a supplied-person identity or fit simulation. Outfits preserve the identified items, layers, proportions and accessories. Complementary styling for a single top is confirmed in the plan, not treated as source evidence.
+Both a single garment and a coordinated outfit can become AI model portraits in one of 24 styles. A full set contains six independent images; real-person face reuse additionally follows the supplied view coverage, without a promise of exact identity copying or fit simulation. Outfits preserve the identified items, layers, proportions and accessories. Complementary styling for a single top is confirmed in the plan, not treated as source evidence.
 
 <a id="six-poses"></a>
 
@@ -31,9 +31,34 @@ Both a single garment and a coordinated outfit can become AI model portraits in 
 
 These are default portrait poses, subject to source coverage, garment and mode constraints. Flat-lay, hanger and mannequin outputs use their own compositions. The accepted first portrait anchors later identity references; each image still needs review.
 
-beta.11 缺背面分支：正面/前侧清楚时，仅明示替代第六张为正面自然站姿，前五保留；六张必须动作可区分，不能只换背景或裁切。明确要求原六姿势或背部结构时仍须补实拍。非人像背面构图不套用此真人例外。
+缺背面分支：正面/前侧清楚时，仅明示替代第六张为正面自然站姿，前五保留；六张必须动作可区分，不能只换背景或裁切。明确要求原六姿势或背部结构时仍须补实拍。非人像背面构图不套用此真人例外。
 
-beta.11: with sufficient front/front-side coverage but no rear source, disclose only slot 6 as stationary frontal standing. Keep slots 1–5 and six distinct actions. Explicit original-pose/rear-detail demands and nonportrait rear compositions still require rear material.
+With sufficient front/front-side coverage but no rear source, disclose only slot 6 as stationary frontal standing. Keep slots 1–5 and six distinct actions. Explicit original-pose/rear-detail demands and nonportrait rear compositions still require rear material.
+
+### 人物来源决定脸部方向 / Identity source determines face direction
+
+按用户已说明的来源分流，**不是按是否上传图片分流，也不凭外观猜真人或AI**。已明确来源直接沿用；来源不明且影响身份路径时才核对。身体动作、头部朝向和眼球视线分别规划，避免强扭颈或把整组变成同一站姿。
+
+Use the declared identity source, not the presence or appearance of an uploaded image. Clarify only when an unknown source affects the identity path. Plan body action, head direction and eye gaze separately.
+
+| 人物情形 / Identity input | 当前源码处理 / Current source behavior |
+|---|---|
+| 沿用真人，只提供正面 / Real person, front only | 露脸默认正面或近正面，身体动作保持差异。 / Keep visible faces front or near-front while varying body actions. |
+| 沿用真人，有清晰多角度 / Real person, clear multiple views | 只用实际覆盖方向，不推导另一侧或未知侧脸。 / Use only supported directions; do not infer an unseen side. |
+| 上传已有AI模特，或推荐新AI模特 / Existing or new AI model | 保留原六姿势、头向变化、首张确认和复用流程，继续一致性QA。 / Keep the existing pose, head-direction, first-image acceptance and reuse flow, including identity QA. |
+| 图片仅借鉴风格或姿势 / Aesthetic or pose reference only | 不触发真人身份朝向限制。 / Does not activate real-person identity direction limits. |
+
+真人原图加上已接受的生成补充图仍属于真人路径；补充图只补充已接受表现，不能认证真实未知角度。商品背面也需单独核对：有真实衣服背面却缺真人回眸依据时，第六张保留背部展示、明示取消露脸回眸；缺衣服背面则仍采用上方正面站姿替代。用户指定未知方向、原六姿势或六张都露脸时，先说明对应编号冲突，选择补真实图或修改该编号。
+
+A real-person package stays real after accepted generated supplements are added; supplements do not certify unseen real views. Garment rear coverage is separate. If a real garment rear is supplied but the person's glance view is missing, retain the rear display with the face hidden and disclose the change. Without garment rear evidence, use the frontal slot-6 substitute above. Resolve explicit unsupported direction or all-face demands before generating.
+
+每次原生请求最多5张参考，后续首张锚点也计入。真人多角度的完整库存可超过5张，逐张选择合适商品源、真人原图及已接受补充，保留顺序与选择记录；不能静默裁掉原始身份或关键商品视图。仅提供脸照不证明该人的身体。降低角度风险不等于严格锁脸。
+
+Each native request allows at most five references, including the accepted first-image anchor when required. A real-person inventory may contain more than five files; select and record an appropriate subset per image without silently dropping original identity or essential garment evidence. A face photo does not establish the person's body. Limiting unsupported directions does not guarantee exact identity preservation.
+
+明确要求的单张动作、景别或鞋履按确认方案执行，不为凑默认六姿势改成站姿或强加鞋子。编辑已有图时，待改图是编辑目标，真人原图仍是身份依据；不能用失败成图替换原人物。
+
+An explicitly requested single-image pose, framing or footwear follows the confirmed plan. For edits, the target image is an edit target while the original identity reference remains the identity source; a rejected result must not replace it.
 
 [准备素材 / Photo guide](INPUT-GUIDE.md) · [单件 24 风格预览 / Garment previews](demo/style-previews/white-vest-24-v1/) · [套装 24 风格预览 / Outfit previews](demo/style-previews/beige-blazer-denim-outfit-24-v1/)
 
@@ -179,13 +204,13 @@ See the web tutorial for upload approval, manual steps, browser requirements and
 
 ## 如何理解“已验证” / Read the evidence correctly
 
-- **公开案例 / Public cases：** 24 风格配对样例、历史方向预览和已复核六图案例各有范围。它们不等于 beta.11 全风格、全形式、全环境验证。 / Paired samples, historical previews and reviewed six-image cases have separate scopes; they do not validate every beta.11 combination.
-- **工具测试 / Helper tests：** 可证明测试覆盖的顺序、次数、文件和尺寸检查行为；不能代替生成图片的视觉验收。 / Tests establish covered helper behavior, not the visual quality of generated images.
+- **公开案例 / Public cases：** 24 风格配对样例、历史方向预览和已复核六图案例各有范围。它们不等于当前源码全风格、全形式、全环境验证；本轮真人近正面两种坐姿已获整体接受，仍不证明严格锁脸、完整六张、多角度或跨商品稳定。 / Paired samples, historical previews and reviewed six-image cases have separate scopes; they do not validate every current-source combination. Two accepted near-front sitting images support only that case, not exact identity, a complete six-image set, multiple real views or cross-product stability.
+- **工具测试 / Helper tests：** 可证明测试覆盖的顺序、次数、文件和尺寸检查行为；不能代替生成图片的视觉验收。当前源码391项通过；27项真人规划新增回归及源侧场景均按各自范围记录。 / Tests establish covered helper behavior, not the visual quality of generated images.
 - **环境实测 / Environment runs：** 当前公开记录以维护者 macOS 为主。其他系统、新用户安装和人工手动易用性仍需各自验证。 / Published records focus on the maintainer's Mac. Other systems, fresh-user installation and manual usability need their own evidence.
 
-这里的“试穿”指 AI 模特上身展示；不承诺指定真人身份换装、尺码/合体仿真、非服饰商品生成或无人值守商业交付工具。真实人物照片用于读取服饰，不承诺复刻该人物身份。样例有各自媒体条款，公开可见不等于可任意商用。详见 [README 限制](../README.zh-CN.md#适用范围与限制) 与[媒体条款](demo/RIGHTS.md)。
+这里的“试穿”指 AI 模特上身展示；不承诺指定真人身份换装、尺码/合体仿真、非服饰商品生成或无人值守商业交付工具。商品照片用于读取服饰；明确身份参考可沿用可见人物条件，但不承诺严格复刻真人身份。样例有各自媒体条款，公开可见不等于可任意商用。详见 [README 限制](../README.zh-CN.md#适用范围与限制) 与[媒体条款](demo/RIGHTS.md)。
 
-Here, “try-on” means apparel presented on an AI model. This does not promise identity-preserving try-on on a supplied person, size/fit simulation, non-apparel generation or unattended commercial delivery. A person's photo supplies garment facts, not a promise to reproduce that person's identity. Public examples retain their own media terms; public visibility is not unrestricted commercial permission.
+Here, “try-on” means apparel presented on an AI model. This does not promise identity-preserving try-on on a supplied person, size/fit simulation, non-apparel generation or unattended commercial delivery. Product photos supply garment facts; explicit identity references can preserve visible identity targets without a promise of exact real-person reproduction. Public examples retain their own media terms; public visibility is not unrestricted commercial permission.
 
 维护说明：本页是完整能力说明的维护入口，README 与首页仅提炼摘要。更新能力时同时核对当前发布版本、规则来源和实际证据；有新指令或测试并不自动升级“已实测”表述。
 

@@ -7,7 +7,7 @@ ROOT = Path(__file__).resolve().parents[2]
 W, H = 2400, 1900
 parts = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-labelledby="title desc">',
 '<title id="title">ThreadTruth Studio 裁光：底层逻辑与关键流程</title>',
-'<desc id="desc">七个分区展示用户入口、由 Codex Agent 执行的 Skill 核心、两个可选生图入口、交付、私人数据、本地及人工质量控制和八条用户旅程。以 beta.12 为基线；实现不等于全面验证。</desc>',
+'<desc id="desc">七个分区展示用户入口、由 Codex Agent 执行的 Skill 核心、两个可选生图入口、交付、私人数据、本地及人工质量控制和八条用户旅程。按2026-10-08当前源码；真人来源按真实覆盖规划脸向，AI保持原流程，逐张选择最多五参考；实现不等于全面验证，公开beta.12下载包仍为旧发行内容。</desc>',
 '<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#244c73"/></marker></defs>',
 '<style>text{font-family:"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",Arial,sans-serif;fill:#17334e} .title{font-weight:700} .muted{fill:#496177}</style>',
 '<rect width="2400" height="1900" fill="#f7fafc"/>']
@@ -43,7 +43,7 @@ def arrow(points,label=None,lx=None,ly=None):
 
 # Header and product goals.
 txt(40,65,'ThreadTruth Studio | 裁光',53,True)
-txt(40,110,'底层逻辑与关键流程  ·  beta.12 现状图',30,True)
+txt(40,110,'底层逻辑与关键流程  ·  当前源码 2026-10-08',30,True)
 txt(40,147,'真实服饰事实 → 受约束的拍摄方案 → 逐张生成与验收 → 对应规格交付',23)
 rect(1350,28,1010,125,'#eaf3fb')
 for i,(a,b) in enumerate([('商品真实','不编造不可见细节'),('摄影质感','风格服务于商品'),('人物可延续','确认后携带参考包'),('交付可核对','原文件与分项验收')]):
@@ -60,12 +60,14 @@ card(60,562,360,234,'不同意图，不同出口',['咨询、识别、推荐：�
 panel(510,180,890,640,'2. Skill 核心 · Codex Agent 读取规则并执行','blue')
 card(532,245,846,102,'SKILL.md · 总控规则',['规则决定读什么、何时调用、何时暂停；不是独立调度服务。'],'blue',22)
 card(532,362,270,176,'识别与流程',['recognition.md','flow-gates.md','商品事实 / 意图 / 授权'],'blue',20,32)
-card(820,362,270,176,'事实与人物约束',['safety-core.md','model-selection.md','已有身份 ≠ 严格锁脸'],'blue',20,32)
+card(820,362,270,176,'人物来源分流',['model-selection.md','real：按真实覆盖规划脸向','ai / new：保留原流程','来源不明且影响分流才核对'],'blue',19,28)
 card(1108,362,270,176,'提示词编排',['prompt-build.md','只取受约束视觉字段','当前商品始终是事实源'],'blue',20,32)
-card(532,553,540,162,'拍摄规划与风格选择',['style-router.md · 24 风格包','modes-scenes.md · 棚拍 / 场景 / 混合','真人 / 不露脸 / 平铺 / 挂拍 / 人台'],'blue',21,31)
-card(1090,553,288,162,'验收字段独立',['qa_extra 先按事实过滤','仅进入质量验收','不进入生成提示词'],'orange',20,31)
-rect(532,732,846,63,'#dcecf9')
-txt(550,773,'一份具体方案；已有授权沿用；冻结整组前预检后续参考图数量。',22,True)
+card(532,553,540,134,'拍摄规划与风格选择',['style-router.md · 24 风格包','modes-scenes.md · 棚拍 / 场景 / 混合','真人 / 不露脸 / 平铺 / 挂拍 / 人台'],'blue',21,27)
+card(1090,553,288,134,'验收字段独立',['qa_extra 先按事实过滤','仅进入质量验收','不进入生成提示词'],'orange',20,27)
+rect(532,704,846,91,'#dcecf9')
+txt(550,731,'真人：正脸 → 正面/近正面；多角度 → 实际清晰覆盖。AI / new 保持原流程。',18,True,maxwidth=810)
+txt(550,758,'有衣背无真人回眸 → 背部不露脸；无衣背 → 第六张正面站姿替代。',18,True,maxwidth=810)
+txt(550,785,'身体 / 头向 / 视线分开；每张参考 ≤5；库存留全；AI补充不扩真人角度。',18,True,maxwidth=810)
 
 # 3: generation is optional and native is default.
 panel(1450,180,380,640,'3. 生图执行 · 可选入口','purple')
@@ -83,13 +85,13 @@ card(1902,1010,436,190,'用于图片素材交付',['电商主图 / 社媒封面 
 # 5: resources.
 panel(40,875,870,350,'5. 数据与资源 · 本地记录，私人素材不进公开仓库','blue')
 card(60,942,267,257,'规则与配置',['references/ · 方法规则','references/styles/ · 风格包','scripts/ · 本地助手','.codex-plugin/plugin.json','agents/openai.yaml','仅发现，不授予调用权限'],'blue',17,31)
-card(343,942,267,257,'私人任务与参考包',['原人物：长期身份依据','补充图：显式接受的表现','本组首张：组内身份锚点','姿势母图：选用局部换装','新品不继承旧商品 / 授权','私人记录保留历史与次数'],'pink',19,31)
-card(626,942,264,257,'本地工具职责',['web-task.py：两入口账本','model-reference.py：人物包','image-spec-check.py：尺寸','wardrobe-edit.cjs：局部编辑','不点击网页，不调用生图','固定姿势需手工边界'],'blue',17,31)
+card(343,942,267,257,'私人任务与参考包',['原人物：长期身份依据','AI补充：不补真人未知角度','本组首张：组内身份锚点','姿势母图：选用局部换装','新品不继承旧商品 / 授权','私人记录保留历史与次数'],'pink',19,31)
+card(626,942,264,257,'本地工具职责',['web-task.py：两入口账本','real_face_plan.py：真人计划','model-reference.py：人物包','image-spec-check.py：尺寸','wardrobe-edit.cjs：局部编辑','不点击网页，不调用生图'],'blue',17,31)
 
 # 6: QA.
 panel(960,875,870,350,'6. 质量控制 · 机器文件检查 + Agent 视觉核对 + 用户确认','orange')
 card(980,942,267,257,'文件与元数据',['原文件可读取且完整','每张尺寸符合目标','首张建立像素基线','后续保持同组尺寸','重复文件 / 张数 / 顺序','脚本或宿主等价检查'],'orange',20,31)
-card(1263,942,267,257,'Agent 视觉 QA',['对照当前商品实拍','结构、细节、配饰、构图','人物、动作与风格表现','qa_extra 只作核对项','不能用元数据替代目测','首张或画布失败即停'],'orange',20,31)
+card(1263,942,267,257,'Agent 视觉 QA',['对照当前商品实拍','结构、细节、配饰、构图','原真人 / 候选连续性分开','qa_extra 只作核对项','不能用元数据替代目测','首张或画布失败即停'],'orange',20,31)
 card(1546,942,264,257,'用户实际确认',['人像首张需接受当前人','非人像跳过身份项','商品硬事实由用户核对','满意不覆盖硬错误','已授权整组消费剩余额度','新增重试需明确授权'],'orange',19,31)
 
 # Dependencies in gutters, no implied direct release from generation.
@@ -107,10 +109,10 @@ flows=[
 ('A. 咨询 / 推荐','不生图',['描述需求 / 可选参考','分析与推荐方向','给出一个具体建议','需要时展开备选','文字交付并结束'],'不消耗图片额度'),
 ('B. 识别 / 分析','不生图',['读取当前商品实拍','识别可见服饰事实','未知细节标不确定','给出分析与建议','素材不足请求补图'],'不编造背面或细节'),
 ('C. 仅提示词','不生图',['确认用途与方案','商品 / 人物约束过滤','编排编号提示词','交付提示词与负面词','不自动提交生成'],'qa_extra 不进入提示词'),
-('D. 单张测试','动作 2 · 一次',['明确方案与生成授权','生成并取得原文件','尺寸 + 商品 / 人物 QA','展示图并接受反馈','满意即完成单张'],'失败暂停；重试需授权'),
+('D. 单张测试','动作 2 · 一次',['确认自定义呈现与授权','逐张选参考并取得原图','尺寸 + 商品 / 人物 QA','展示图并接受反馈','满意即完成单张'],'失败暂停；重试需授权'),
 ('E. 六张独立图','动作 1 · 串行',['确认方案与最多六次授权','首张：尺寸 + 视觉 QA','人像：用户接受实际人物','按剩余额度逐张检查续生','六张齐后核整组放行'],'首张 / 画布失败即停'),
 ('F. 修改已有图','明确修改范围',['指定要改的任务与图片','确认改什么、保留什么','依适用授权执行编辑','重新检查受影响项目','保留旧图与新版记录'],'不自动覆盖原确认锚点'),
-('G. 新品 / 换场景','沿用已确认人物',['指定原始人物参考包','读取新品事实与保留条件','明确新任务和生成授权','新首张再次分项核对','更新记录并按规格交付'],'不继承旧商品或旧授权'),
+('G. 新品 / 换场景','沿用已确认人物',['指定原始人物参考包','新品事实；真人核脸向','明确新任务和生成授权','新首张再次分项核对','更新记录并按规格交付'],'不继承旧商品或旧授权'),
 ('H. 异常恢复','不盲目重发',['未知结果：先恢复原请求','下载失败：恢复同一原图','终态失败：保留凭据 / 字节','核实终态 + 显式恢复协议','获新授权后才新增重试'],'保留历史与已用次数'),
 ]
 for i,(title,sub,steps,note) in enumerate(flows):
@@ -126,8 +128,8 @@ for i,(title,sub,steps,note) in enumerate(flows):
     txt(x+14,1738,note,17,True,colors['pink'][0],maxwidth=242)
 
 # Footnotes tie evidence to capability inventory without invented maturity numbers.
-txt(40,1834,'现状边界：24 风格已实现且有历史样例；人物复用仅有受限实图证据。严格真人还原、自由姿势一致性与部分商品细节仍未解决。',24,True)
-txt(40,1873,'基线 beta.12 · 2026-10-07   |   实现 / 实际验证 / 未解决项分开盘点：docs/CAPABILITY-STATUS.md   |   github.com/denggui-ai/threadtruth-studio',22)
+txt(40,1834,'验证边界：近正面两种坐姿已获接受；不代表严格锁脸、完整六张、多角度、跨商品或全风格稳定。商品细节仍须逐图核对。',24,True)
+txt(40,1873,'当前源码 · 2026-10-08；公开 beta.12 ZIP 保留原发行内容   |   能力盘点：docs/CAPABILITY-STATUS.md   |   github.com/denggui-ai/threadtruth-studio',22)
 parts.append('</svg>')
 (ROOT/'docs/assets/architecture-overview.svg').write_text('\n'.join(parts)+'\n',encoding='utf-8')
 print('Built docs/assets/architecture-overview.svg (2400 × 1900)')
