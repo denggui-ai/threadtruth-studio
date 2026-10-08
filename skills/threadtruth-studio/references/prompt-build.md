@@ -1,7 +1,7 @@
 # 姿势母版 + 头部视线 + 负面词 + image_gen 调用 + 单张重试(core,风格无关管线)
 
 > **行为等价基线:** 抽取自 `korean-fashion-editorial/references/prompt-build.md`,**护栏逐字保留**;唯一抽象点 = §4.1/§4.2 公式里"韩系底座/场景"→ **pack 变量**;**风格美学负面词下沉到 `pack.negative_delta_add`**(core §3a/§3b 只保留通用安全/反拼图/保真/质量负面词,core 在预览+成片两阶段经 §4.1 商品事实守卫过滤后 append 本组 pack 负面词)。
-> **铁律:** 未另行指定时使用原六姿势;默认整组缺背面资料时按 §1b 明示替代第六张。用户明确单张呈现按 §1 的覆盖规则处理;闭集、串行、分阶段负面词与 source-truth 逻辑继续保留,不得放宽 B7、安全或服饰保真。
+> **铁律:** 未另行指定时使用原六姿势身体动作;默认整组缺背面资料时按 §1b 明示替代第六张。沿用真人身份的头向与第六张露脸范围另按 `model-selection.md` 真实覆盖规则，AI/新模特维持原流程。用户明确单张呈现按 §1 的覆盖规则处理;闭集、串行、分阶段负面词与 source-truth 逻辑继续保留,不得放宽 B7、安全或服饰保真。
 
 ## Contents
 - §1 六个姿势母版 / §1a 输出形态覆盖层 / §1b 缺背面资料的第六张替代 / §2 头部视线 / §3 负面词(3a 成片 / 3b 预览 / 露肤追加) / §4 image_gen 规范(4.0 闭集串行计数 / 4.0a 首张身份锚点 / 4.0b 批次画布契约 / 4.1 成片公式 / 4.2 预览公式 / 4.3 预览→成片红线 / §4.4 落盘) / §5 QA / §6 高风险 fallback / §7 单张重试
@@ -17,9 +17,9 @@
 | 5 | 微前倾俯身 | SLIGHT_FORWARD_LEAN |
 | 6 | 背身回眸 | BACK_TURN_GLANCE |
 
-默认搭配流程除 §1b 的明确例外,不得自行替换为普通商品站桩 / 普通街拍 / 普通 lookbook / 写真姿势。用户明确要求详情页细节 shot 时,沿用 `modes-scenes.md §4` 已有编号覆盖规则,仍须真实素材支持。pack 可经 `pose_masters` 声明风格化增量,但**不得删减这 6 母版**。
+默认搭配流程除 §1b 及真人覆盖的明确例外,不得自行替换为普通商品站桩 / 普通街拍 / 普通 lookbook / 写真姿势。真人覆盖限制改变头向或取消第六张露脸回眸时，保留身体动作/背部展示并明示实际计划，不声称原母版头向完整兑现。用户明确要求详情页细节 shot 时,沿用 `modes-scenes.md §4` 已有编号覆盖规则,仍须真实素材支持。pack 可经 `pose_masters` 声明风格化增量,但**不得删减这 6 母版**。
 
-**用户明确单张呈现优先于对应默认项。** 用户明确指定动作、景别或搭配展示(包括要求跟随已给审美参考的姿态)时,按该要求覆盖冲突的默认姿势、头部关系或鞋包入镜条件;只上传审美图不自动修改方案。内部记录 `context.first_pose="custom"` 与 `pose_description` 中的实际动作/取景,不把自定义动作冒记为母版1或5。这是单张任务,不能隐式续成默认六张组;默认整组仍按原编号与 §1b。覆盖不放宽真实服饰、原始人物条件、安全或调用授权。半身/坐姿不因画布是竖版或整组鞋型需一致就强求双脚、双鞋全露。
+**用户明确单张呈现优先于对应默认项。** 用户明确指定动作、景别或搭配展示(包括要求跟随已给审美参考的姿态)时,按该要求覆盖冲突的默认姿势、头部关系或鞋包入镜条件;只上传审美图不自动修改方案。真人头向超出真实参考覆盖时先说明冲突并给出补图或改该方向的选择，不静默改用户指定头向。内部记录 `context.first_pose="custom"` 与 `pose_description` 中的实际动作/取景,不把自定义动作冒记为母版1或5。这是单张任务,不能隐式续成默认六张组;默认整组仍按原编号、§1b 与真人覆盖例外。覆盖不放宽真实服饰、原始人物条件、安全或调用授权。半身/坐姿不因画布是竖版或整组鞋型需一致就强求双脚、双鞋全露。
 
 **动作与家具分开。** 提示词先按本轮实际计划区分回转、倚墙、端坐、迈步与微前倾，不以同一站姿加换视线/裁切凑差异；动作细化仍限于实拍支持的服饰范围。已选日系家居沙发场景时，母版3可在沙发上端坐，母版5可在沙发前沿微前倾，保留两者动作区别；家具按场景或用户要求选择，不默认固定木椅，也不强制沙发。新构图先写入计划，已调用记录保持原样；已选固定姿势母图仍按 `fixed-pose-wardrobe.md`，不为去重重建姿势或转头。
 
@@ -52,7 +52,7 @@
 
 **六张是交付数量,原六姿势是默认方案。** 调用前先核识别卡的素材可见范围:
 
-- 有同款真实背面图且所需结构清楚:保留 §1 全部六母版。AI 生成的背面、同类/另一 SKU 图片和文字描述都不能充当背部事实图。
+- 有同款真实背面图且所需结构清楚:保留 §1 六母版；沿用真人身份但无对应回眸参考时，按 `model-selection.md` 明示第六张保背部、不露脸，不写完整兑现 `BACK_TURN_GLANCE`。AI 生成的背面、同类/另一 SKU 图片和文字描述都不能充当背部事实图。
 - 正面清楚、前五姿势可在实拍支持的正面/前侧范围内完成,但没有足够背部事实:只把第六张 `BACK_TURN_GLANCE` 替代为 `FRONT_RELAXED_STANDING`(正面自然站姿),仍交六张独立图。前五母版、身份、服饰、风格和画布不变,不新增姿势库或风格包字段。
 - 用户明确要求“原六姿势不变”“背部结构图”或同等要求:不能自动替代,先索取真实背面图或请用户确认第六张替代。不可把“凑满六张”当作编造后片/扣位/开衩的授权。前五也无法在已知范围完成时,补对应素材或暂停该编号;不连带任意换姿势。非人像的背面构图不套用此真人例外,所需背部事实仍须补图。
 
@@ -80,7 +80,9 @@ Show only source-supported front/front-side construction; do not invent or expos
 
 ## 2. 头部方向 / 视线(24 风格共用,服从身体姿势)
 
-头部只保留与身体姿势必要的关系。左右、抬低头和是否看镜头不固定;表情先服从本次人物保留/允许调整条件，无指定再沿用所选 pack 的 `model_persona`。保留表情和发型不等于冻结同一倾头、视线或身体姿势；视线配合已有动作和场景,不额外发明道具。直视镜头不等于亲和,低头也不等于冷感。服饰展示和自然头肩关系优先；固定姿势母图的头脸保护条件不由本节放宽。
+先按人物来源分支。沿用真人身份(`source_type=real`)且露脸时，使用 [model-selection.md](model-selection.md#真人参考覆盖与本轮朝向计划) 的本轮覆盖与逐张计划替换下表及自由头向共用句中冲突的部分；仅正脸时以正面/近正面为主，身体动作仍不同，视线可自然变化。真人第六张无对应回眸依据时取消露脸回眸并明示，不强扭颈。`ai`/`new`（包括上传已有 AI 图）继续使用以下原默认，不因照片只有正脸而限制头向。风格审美参考不触发真人分支。
+
+原默认中，头部只保留与身体姿势必要的关系。左右、抬低头和是否看镜头不固定;表情先服从本次人物保留/允许调整条件，无指定再沿用所选 pack 的 `model_persona`。保留表情和发型不等于冻结同一倾头、视线或身体姿势；视线配合已有动作和场景,不额外发明道具。直视镜头不等于亲和,低头也不等于冷感。服饰展示和自然头肩关系优先；固定姿势母图的头脸保护条件不由本节放宽。
 
 | 图 | 头部 / 视线关系 |
 |---|---|
@@ -93,7 +95,7 @@ Show only source-supported front/front-side construction; do not invent or expos
 
 §1b 替代第六张时,使用正面站立的自然头颈关系,不注入母版6的越肩回看;不露脸仍由 §1a 覆盖。
 
-真人模特的预览、独立图及 prompts-only 在姿势块之前使用下面的共用说明一次;整组以“结合动作和场景形成自然变化,避免机械重复”为目标,不设左右数量、直视比例或角度配额。
+AI/新模特的预览、独立图及 prompts-only 在姿势块之前使用下面的原共用说明一次;真人身份沿用改用已核对覆盖内的逐张头向/视线计划，不同时注入相冲突的“左右不固定”或“必须越肩回看”。整组以“结合动作和场景形成自然变化,避免机械重复”为目标,不设左右数量、直视比例或角度配额。
 
 ```
 Head/gaze guidance: choose head orientation and gaze naturally for the body action and existing scene, with no fixed left/right direction, head tilt or eye-contact quota; expression honors the current model's preserved/permitted conditions, otherwise the selected style's Attitude; preserve garment visibility and natural head/neck alignment without adding props; vary naturally with action and scene to avoid mechanical repetition.
@@ -223,8 +225,9 @@ batch_canvas_baseline: <首张通过比例门禁后的实际 WIDTHxHEIGHT>
    (非人像输出时再把人物/portrait 语义转译为服饰呈现与光线)]
 + [经商品事实守卫过滤后的 pack.model_persona
    (真人模特/不露脸时气质叠加;非人像输出只保留氛围/气质词,忽略或转译表情/脸部/姿态要求)]
-+ [真人模特→§2 共用头部说明一次;不露脸/非人像→§1a 覆盖]
-+ Pose/composition: [真人模特→本轮实际姿势 #N + 对应头部关系(默认母版,第6张可按 §1b 明示替代);
++ [AI/新模特→§2 原共用头部说明一次;real身份沿用→本轮真实覆盖内的头向/眼球视线计划;
+   不露脸/非人像→§1a 覆盖]
++ Pose/composition: [真人模特→本轮实际姿势 #N + 对应头部关系(默认母版,第6张可按 §1b 替代或真人覆盖取消露脸回眸并明示);
    非人像输出→平铺/挂拍/人台构图 #N,无真人头部视线]
 + Mode/scene: [真人模特/不露脸→棚拍背景 或 pack.scenes #N(对齐 modes-scenes 场景强度);
    平铺/挂拍/人台→棚拍表面/衣架/人台/低干扰商品背景;C/D 模式只把 pack.scenes #N 转译为材质、光线、色调、背景氛围或陈列环境,不得直拼真人地点场景或拉回人像]
@@ -238,11 +241,12 @@ batch_canvas_baseline: <首张通过比例门禁后的实际 WIDTHxHEIGHT>
 ### 4.2 六宫格预览 prompt 拼装公式(动作 0,只调一次 image_gen 出 1 张图)
 ```
 [core 安全主体] + [STYLE_VISUAL(先过 §4.1 商品事实守卫;非人像时再转译人物/portrait 语义)] + [经商品事实守卫过滤后的 pack.model_persona(非人像时只保留气质/氛围)]
-+ [真人模特→§2 共用头部说明一次;不露脸/非人像→§1a 覆盖]
++ [AI/新模特→§2 原共用头部说明一次;real身份沿用→已声明的真实覆盖内逐格头向/眼球视线;
+   不露脸/非人像→§1a 覆盖]
 + A single 2x3 grid contact-sheet preview showing the SAME one outfit in 6
   different directions.
   - 真人模特/不露脸: show the SAME one model in six pose templates
-    (top row poses 1-2-3, bottom row poses 4-5-6; pose 6 follows the declared §1b substitution when back sources are missing), with head/gaze per actual pose
+    (top row poses 1-2-3, bottom row poses 4-5-6; pose 6 follows the declared §1b substitution when back sources are missing, or the declared real-face plan's back display without a visible face), with head/gaze per actual pose
     or face-obscured framing when requested.
   - 平铺/挂拍/人台: show the SAME garment presentation type in six non-portrait
     composition views #1-#6 from §1a, no human model, no head/gaze instruction.
@@ -275,9 +279,11 @@ batch_canvas_baseline: <首张通过比例门禁后的实际 WIDTHxHEIGHT>
 
 第六张替代时在同一记录保留 `ordinal: 6`、`original_pose: BACK_TURN_GLANCE`、`actual_pose: FRONT_RELAXED_STANDING`、替代理由、实际素材可见范围与明示/用户确认依据。实际姿势与去重 QA 以画面复核为准,提示词仅表示计划;缺失信息写 `unknown`,不倒填历史案例。
 
+真人覆盖导致第六张仅取消露脸回眸时，分别记录背部身体动作、`head_view=hidden`、`face_visible=false` 与具体素材缺口/明示依据，不冒记为正面站姿替代，也不把不露脸验收写成面部保真通过。
+
 ## 5. QA 审计(生成或出提示词前内部自检)
 
-逐张检查:通过输入门禁 / 有真实服饰事实源 / 有明确生成意图 / 单图输出 / 服饰是主角 / 输出形态符合用户或安全默认(真人模特/不露脸/平铺/挂拍/人台) / 真人模特时符合本轮实际姿势计划并核动作不重复(§1b 例外不可说原六母版齐全) / 非人像时符合 §1a 构图编号且无真人头部视线 / 身体结构清楚(非人像不适用) / 头部方向合理(非人像不适用) / 场景低干扰 / **已读取元数据且符合本组 `canvas_contract` 与 `batch_canvas_baseline`** / 用途构图与留白目标到位 / 颜色材质版型保真 / pack 未新增或删除参考图不存在/已有的材质、结构、图案、层叠、配饰 / 鞋包配饰保留 / 模特身份一致(非人像不适用) / **风格底座到位(对齐所选 pack;非人像时人物/portrait 语义已转译)** / **光源、方向、阴影、对比/曝光与所选 pack 一致,柔光/低阴影 pack 未被戏剧化,光线未改变服饰颜色、材质或结构可见性** / 露肤已非性感化。
+逐张检查:通过输入门禁 / 有真实服饰事实源 / 有明确生成意图 / 单图输出 / 服饰是主角 / 输出形态符合用户或安全默认(真人模特/不露脸/平铺/挂拍/人台) / 真人模特时符合本轮实际姿势计划并核动作不重复(§1b 或取消真人露脸回眸的例外不可说原六母版齐全) / 非人像时符合 §1a 构图编号且无真人头部视线 / 身体结构清楚(非人像不适用) / 头部方向合理且real露脸符合已核真实覆盖(非人像不适用,AI/new不加真人覆盖限制) / 场景低干扰 / **已读取元数据且符合本组 `canvas_contract` 与 `batch_canvas_baseline`** / 用途构图与留白目标到位 / 颜色材质版型保真 / pack 未新增或删除参考图不存在/已有的材质、结构、图案、层叠、配饰 / 鞋包配饰保留 / 模特身份一致(非人像不适用) / **风格底座到位(对齐所选 pack;非人像时人物/portrait 语义已转译)** / **光源、方向、阴影、对比/曝光与所选 pack 一致,柔光/低阴影 pack 未被戏剧化,光线未改变服饰颜色、材质或结构可见性** / 露肤已非性感化。
 
 **裁切检查按姿势分类(B4):**
 - **全身姿势(母版 1/2/4/6):** 检查画框是否错误裁掉应保留的鞋、包、下摆。自然迈步遮住后鞋不自动等同裁切或人体缺失；按 `commercial-qa.md` 的用途分级判断。明确商品结构错误、用户明确指定的关键展示内容缺失仍须拒绝。

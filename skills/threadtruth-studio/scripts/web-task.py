@@ -21,6 +21,18 @@ sys.dont_write_bytecode = True
 _model_spec = importlib.util.spec_from_file_location('task_model_reference', Path(__file__).with_name('model_reference.py'))
 models = importlib.util.module_from_spec(_model_spec)
 _model_spec.loader.exec_module(models)
+_face_plans = None
+
+
+def real_face_helper():
+    # Old/default tasks and read-only --help retain their existing dependencies.
+    global _face_plans
+    if _face_plans is None:
+        spec=importlib.util.spec_from_file_location('task_real_face_plan', Path(__file__).with_name('real_face_plan.py'))
+        _face_plans=importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(_face_plans)
+    return _face_plans
+
 ROLE_TEXT = {
     'garment-source': 'garment source; authoritative product facts',
     'identity-reference': 'original model identity; ignore clothing, accessories, pose, backdrop and lighting',
@@ -179,7 +191,7 @@ def retain_failure(root,row,source,kind,reason):
     return dict(kind=kind,reason=reason,evidence=dict(file=str(out.relative_to(root)),sha256=digest(out)),at=stamp())
 
 
-def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,context=None,route='chatgpt_web',model_package=None):
+def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,context=None,route='chatgpt_web',model_package=None,real_face_plan=None):
     root=Path(root)
     if model_package is not None:
         if schema_version!=2 or not identity or model is not None:raise ValueError('Package use requires a new portrait task and no conflicting inline model')
@@ -224,7 +236,12 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
         identities=[digest(p) for p,item in zip(sources,items) if item['role'] in ('identity-reference','model-supplement')]
         if len(identities)!=len(set(identities)):
             raise ValueError('Deduplicate identical identity references before task initialization and prompt numbering')
-    native_reference_check(items,route,extra_anchor=int(identity and len(prompts)==6))
+    inventory=[dict(sha256=digest(p),role=item['role']) for p,item in zip(sources,items)]
+    if real_face_plan is not None:
+        real_face_plan=real_face_helper().validate(real_face_plan,inventory,schema_version=schema_version,identity=identity,
+            model=model,context=context,count=len(prompts),route=route)
+    else:
+        native_reference_check(items,route,extra_anchor=int(identity and len(prompts)==6))
     root.mkdir(parents=True,exist_ok=False)
     try:
         (root/'references').mkdir();frozen=[]
@@ -242,6 +259,10 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
         if schema_version==2:
             data.update(context=context,context_sha256=object_hash(context),model=model,model_sha256=object_hash(model),model_confirmation=None,
                         references_sha256=object_hash(frozen),failure_recovery_version=1)
+        if real_face_plan is not None:
+            real_face_plan=real_face_helper().validate(real_face_plan,frozen,schema_version=schema_version,identity=identity,
+                model=model,context=context,count=len(prompts),route=route)
+            data.update(real_face_plan=real_face_plan,real_face_plan_sha256=object_hash(real_face_plan))
         save(root,data);return data
     except Exception:
         shutil.rmtree(root)
@@ -254,14 +275,15 @@ def references(root,data,look):
     if not 1<=look<=len(data['looks']):raise ValueError('Unknown look number')
     row=data['looks'][look-1]
     if hashlib.sha256(row['prompt'].encode()).hexdigest()!=row['prompt_sha256']:raise ValueError('Frozen prompt changed')
-    rows=list(data['references'])
+    rows=(real_face_helper().selected(data['real_face_plan'],data['references'],look)
+          if 'real_face_plan' in data else list(data['references']))
     if data['schema_version']==2 and data['identity'] and look>1 and not data['model_confirmation']:
         raise ValueError('First-image model has not been confirmed by the user')
     if data['identity'] and look>1:
         anchor=data['looks'][0]
         if anchor['state']!='accepted':raise ValueError('look-1 has not passed visual anchor QA')
         rows=rows+[dict(anchor['output'],role='identity-only')]
-        if data['schema_version']==2:
+        if data['schema_version']==2 and 'real_face_plan' not in data:
             seen=set();unique=[]
             for ref in rows:
                 key=(ref['sha256'], 'identity' if ref['role'] in ('identity-reference','model-supplement','identity-only') else ref['role'])
@@ -322,7 +344,45 @@ def check_model_confirmation(data):
             raise ValueError('Model confirmation does not bind the current first-image output')
 
 
+def check_real_face_plan(root,data):
+    fields={'real_face_plan','real_face_plan_sha256','real_face_plan_history'} & set(data)
+    if not fields:return
+    if not {'real_face_plan','real_face_plan_sha256'} <= fields:
+        raise ValueError('Real face plan requires its frozen metadata hash')
+    if 'references_sha256' not in data or object_hash(data['references'])!=data['references_sha256']:
+        raise ValueError('Real face plan requires the frozen full-inventory role/acceptance hash')
+    if object_hash(data['real_face_plan'])!=data['real_face_plan_sha256']:
+        raise ValueError('Frozen real face plan changed')
+    if (data['schema_version']!=2 or object_hash(data['model'])!=data['model_sha256']
+            or object_hash(data['context'])!=data['context_sha256']):
+        raise ValueError('Frozen real-person source/context changed')
+    real_face_helper().validate(data['real_face_plan'],data['references'],schema_version=data['schema_version'],
+        identity=data['identity'],model=data['model'],context=data['context'],count=len(data['looks']),route=data['route'])
+    history=data.get('real_face_plan_history',[])
+    if (not isinstance(history,list) or len(history)>1
+            or (bool(data.get('continuation_authorization')) and len(history)!=1)):
+        raise ValueError('Invalid real face plan extension history')
+    for prior in history:
+        if (not isinstance(prior,dict) or set(prior)!={'plan','sha256','note','at'}
+                or not real_face_helper().text(prior['note']) or not real_face_helper().text(prior['at'])
+                or object_hash(prior['plan'])!=prior['sha256']
+                or len(data['looks'])!=6 or not data.get('continuation_authorization')):
+            raise ValueError('Frozen real face plan history changed')
+        real_face_helper().validate(prior['plan'],data['references'],schema_version=2,identity=data['identity'],
+            model=data['model'],context=data['context'],count=1,route=data['route'])
+        current=data['real_face_plan']
+        if (prior['plan']['primary_identity_sha256']!=current['primary_identity_sha256']
+                or prior['plan']['coverage']!=current['coverage']
+                or prior['plan']['looks'][0]!=current['looks'][0]):
+            raise ValueError('Continuation cannot replace original face coverage or first-look plan')
+    for ref in data['references']:
+        file=safe_file(Path(root),ref['file'])
+        if digest(file)!=ref['sha256']:raise ValueError('Frozen inventory changed, including unselected references')
+        models.validate_image(file)
+
+
 def check_reference_metadata(root,data):
+    check_real_face_plan(root,data)
     if data['schema_version']!=2:return
     supplements=[r for r in data['references'] if r['role']=='model-supplement']
     if supplements and 'references_sha256' not in data:
@@ -405,6 +465,8 @@ def update(root,event,**kw):
     with locked(root):
         d=read(root);n=kw.get('look');row=None;stop_error=None
         check_evidence(root,d)
+        if kw.get('real_face_looks') is not None and event!='continue-authorize':
+            raise ValueError('real_face_looks is only accepted for explicit continuation')
         if n is not None:
             if type(n)!=int or not 1<=n<=len(d['looks']):raise ValueError('Unknown look number')
             row=d['looks'][n-1]
@@ -447,11 +509,27 @@ def update(root,event,**kw):
                 raise ValueError('Explicit five-image approval and a fresh ID required')
             if not isinstance(prompts,list) or len(prompts)!=5 or any(not isinstance(p,str) or not p.strip() for p in prompts):
                 raise ValueError('Provide exactly five continuation prompts')
-            future=list(d['references'])
-            anchor=d['looks'][0]['output']
-            if d['identity'] and not any(r['role'] in ('identity-reference','model-supplement') and r['sha256']==anchor['sha256'] for r in future):
-                future.append(dict(anchor,role='identity-only'))
-            native_reference_check(future,d['route'])
+            continuation_plan=None
+            if 'real_face_plan' in d:
+                extra=kw.get('real_face_looks')
+                if not isinstance(extra,list) or len(extra)!=5:
+                    raise ValueError('Continue a planned real task with five explicit real_face_looks')
+                continuation_plan=copy.deepcopy(d['real_face_plan'])
+                continuation_plan['looks'].extend(copy.deepcopy(extra))
+                real_face_helper().validate(continuation_plan,d['references'],schema_version=2,identity=d['identity'],
+                    model=d['model'],context=d['context'],count=6,route=d['route'])
+            elif kw.get('real_face_looks') is not None:
+                raise ValueError('real_face_looks only extends an existing real_face_plan; do not retrofit old or AI tasks')
+            else:
+                future=list(d['references'])
+                anchor=d['looks'][0]['output']
+                if d['identity'] and not any(r['role'] in ('identity-reference','model-supplement') and r['sha256']==anchor['sha256'] for r in future):
+                    future.append(dict(anchor,role='identity-only'))
+                native_reference_check(future,d['route'])
+            if continuation_plan is not None:
+                d['real_face_plan_history']=[dict(plan=copy.deepcopy(d['real_face_plan']),
+                    sha256=d['real_face_plan_sha256'],note=note,at=stamp())]
+                d.update(real_face_plan=continuation_plan,real_face_plan_sha256=object_hash(continuation_plan))
             d['continuation_authorization']={'approval_id':approval,'additional_requests':5,'note':note,'at':stamp()}
             d['looks'].extend({'number':i,'prompt':p,'prompt_sha256':hashlib.sha256(p.encode()).hexdigest(),'state':'pending'} for i,p in enumerate(prompts,2))
         elif event=='reject-model':
@@ -612,6 +690,8 @@ def export(root):
                 instruction.append('Operation: correct the declared edit target using the original person and garment sources; '
                                    'retain only the requested picture elements. Native editing is soft conditioning, not pixel protection or guaranteed facial fidelity.')
             prompt='Only use built-in image generation, no other plugins. One standalone image.\n'+'\n'.join(instruction)+f'\nExact canvas: {d["size"][0]}x{d["size"][1]}.\n'+row['prompt']
+            if 'real_face_plan' in d:
+                prompt+='\n'+'\n'.join(real_face_helper().prompt_lines(d['real_face_plan']['looks'][n-1]))
             (out/'prompt.txt').write_text(prompt,encoding='utf-8')
             if d['route']=='codex_native':
                 request=dict(prompt=prompt,
@@ -622,6 +702,12 @@ def export(root):
                 manifest=dict(look=n,attempt_number=row.get('attempt_number',1),plan_revision=row.get('plan_revision',0),
                     frozen_prompt_sha256=row['prompt_sha256'],tool_prompt_sha256=hashlib.sha256(prompt.encode()).hexdigest(),
                     reference_hashes=[r['sha256'] for r in refs])
+                if 'real_face_plan' in d:
+                    chosen=d['real_face_plan']['looks'][n-1]
+                    manifest.update(real_face_plan=copy.deepcopy(d['real_face_plan']),
+                        real_face_plan_sha256=d['real_face_plan_sha256'],real_face_look=copy.deepcopy(chosen),
+                        omitted_reference_sha256s=[r['sha256'] for r in d['references']
+                            if r['sha256'] not in chosen['reference_sha256s']])
                 (out/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf-8')
         (folder/'README.md').write_text('\n'.join(lines)+'\n',encoding='utf-8');return str(folder)
 
@@ -653,7 +739,7 @@ def main():
         if a.accepted_scope is not None and not a.include_accepted_reference:
             raise ValueError('Declare --include-accepted-reference before choosing its scope')
         if a.command=='init':
-            spec=json.loads(a.spec.read_text());result=create(a.task,spec['references'],spec['prompts'],spec['size'],spec.get('identity',True),schema_version=spec.get('schema_version',2),model=spec.get('model'),context=spec.get('context'),route=spec.get('route','chatgpt_web'),model_package=spec.get('model_package'))
+            spec=json.loads(a.spec.read_text());result=create(a.task,spec['references'],spec['prompts'],spec['size'],spec.get('identity',True),schema_version=spec.get('schema_version',2),model=spec.get('model'),context=spec.get('context'),route=spec.get('route','chatgpt_web'),model_package=spec.get('model_package'),real_face_plan=spec.get('real_face_plan'))
         elif a.command=='status':result=read(a.task)
         elif a.command=='export':result=export(a.task)
         elif a.command=='export-model':result=export_model(a.task,a.destination,a.name,include_accepted=a.include_accepted_reference,accepted_scope=a.accepted_scope or 'face')
@@ -665,6 +751,7 @@ def main():
             if a.prompt_file:args['prompt']=a.prompt_file.read_text(encoding='utf-8')
             if a.command=='continue-authorize':
                 spec=json.loads(a.spec.read_text(encoding='utf-8'));args.update(context=spec['context'],prompts=spec['prompts'])
+                if 'real_face_looks' in spec:args['real_face_looks']=spec['real_face_looks']
             result=update(a.task,a.command,**args)
         print(json.dumps(result,ensure_ascii=False,indent=2))
     except (ValueError,OSError,KeyError,TypeError,AttributeError) as error:p.exit(1,str(error)+'\n')

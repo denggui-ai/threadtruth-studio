@@ -2149,6 +2149,166 @@
       "ref": "model-selection.md §参考角色与冲突; prompt-build.md §4/§7; scripts/web-task.py",
       "source_case_id": "RC-06",
       "validation_scope": "no-image request preparation and QA scenario; definitions are not retained model-run or visual-improvement evidence"
+    },
+    {
+      "id": 169,
+      "category": "real_frontal_with_garment_back",
+      "prompt": "只准备，不生图。成人真人人物包明确source_type=real，用户已授权沿用其身份；真实人物原图只有清晰正面，scope=face。当前同款开衫有清晰正面及背面实拍，用户要默认六张日系生活感搭配图，没有要求六张都露脸。请准备本轮六张方案与可恢复任务，并导出当前允许准备的原生请求；首张尚未生成。",
+      "expected_output": "前五张在正面/近正面露脸范围内保持不同身体动作；第六张保留真实背部展示并明示取消露脸回眸。",
+      "expectations": [
+        "按已有声明沿用real与现有授权依据，不因上传参考再选AI人物或重复核对已知来源；只以真实原始正面图声明面部覆盖",
+        "real_face_plan以主要原图哈希及实际可见方向记录本轮覆盖，逐张分别记录身体动作、头部朝向、眼球视线和是否露脸；前五张露脸方向为front或near-front，身体动作仍对应原编号且有区别",
+        "第六张利用同款真实背面事实安排背部商品展示，自然不露脸并明示取消露脸回眸；不强扭颈追求正脸，不把第六张改成正面或声称兑现原BACK_TURN_GLANCE全部要求",
+        "方案、编号提示词与当前实际request.json使用同一计划；第六张不声称已核验面部保真，未生成的look-1不伪造确认或后五张接受状态",
+        "画布、商品事实、首张确认、串行和调用额度门禁保持；准备文件不代表已出图，实际图片调用为0"
+      ],
+      "ref": "model-selection.md §真人参考覆盖与本轮朝向计划; prompt-build.md §1/§2/§4.0a; commercial-qa.md",
+      "source_case_id": "RF-01",
+      "validation_scope": "no-image planning, request preparation and routing scenario; definitions are not retained model-run or visual-improvement evidence"
+    },
+    {
+      "id": 170,
+      "category": "real_frontal_without_garment_back",
+      "prompt": "只准备六张方案和提示词，不生图。成人真人参考来源、用途授权已明确，只有清晰正脸原图；当前针织外套只有清楚正面实拍，没有背部依据。用户接受六张日系生活感默认搭配展示，不另指定背部或露脸数量。请说明每张身体动作、头向及第六张变化，保留原人物表情与妆发条件。",
+      "expected_output": "六张露脸采用正面或近正面；第六张明示采用既有正面站姿替代，前五动作有实际区别。",
+      "expectations": [
+        "真实正脸覆盖约束本轮露脸头向，不推导侧脸，不永久写入人物卡locked，也不把front解释为六张必须盯镜头或同一倾头",
+        "前五张仍分别表现身体回转、倚靠、坐姿、行进和前倾等原编号差异；安排自然头颈及可行支撑，不能为了正脸把六张变成相同站姿",
+        "因缺商品背面，明确第六张按既有front-standing替代，不要求背身回眸，不凭人物照片或生成图补造商品后背结构",
+        "编号方案和六条提示词的身体、头向及露脸目标一致，保留全部本次固定人物条件、风格光线与商品可见事实，不将日系生活感整体改成棚拍",
+        "零图片调用，无预览、首张接受、整组完成或锁脸成功声明；若实图任务后续展开，仍需独立面部/身体/商品QA"
+      ],
+      "ref": "model-selection.md §真人参考覆盖与本轮朝向计划; prompt-build.md §1b/§2/§4.1",
+      "source_case_id": "RF-02",
+      "validation_scope": "no-image planning, request preparation and routing scenario; definitions are not retained model-run or visual-improvement evidence"
+    },
+    {
+      "id": 171,
+      "category": "real_multiview_with_garment_back",
+      "prompt": "只准备默认六张任务，不生图。已有成人真人包与现有身份用途授权，真实原图分别清晰覆盖正面、头部朝画面左侧及右侧的三分之四方向，另有一张完全侧脸但模糊不可核对。当前同款服装有清晰正、背实拍。用户希望自然多方向露脸，也允许第六张按素材作自然调整。请规划六张并导出当前可准备请求。",
+      "expected_output": "在清晰真实方向内规划自然变化；可被参考支持的第六张回眸允许露脸，模糊完全侧脸不扩大覆盖。",
+      "expectations": [
+        "逐图按SHA256与实际观察记录front、left-three-quarter、right-three-quarter，模糊图方向标unknown或说明不可用；不按四张照片认定各角度齐全",
+        "身体动作仍保留六编号差异，头部方向只取清晰覆盖范围及可互通的正面/近正面；不加入未覆盖的left-profile/right-profile或角度配额",
+        "真实衣服背面仅支持商品背部事实；第六张在对应清晰人物视角与自然头颈关系都支持时可安排露脸回眸，若不能同时成立则明示不露脸调整而非硬扭脖子",
+        "每张实际选图保留主要真实身份、对应方向真实原图及该张必要商品事实，后续编号预留首张位置；不把所有库存图机械全部塞进每次请求",
+        "覆盖与请求引用核对只证明规划有依据，不宣称多图能保证硬锁脸；当前调用为0且没有伪造首张人物确认"
+      ],
+      "ref": "model-selection.md §真人参考覆盖与本轮朝向计划/§参考角色与冲突; prompt-build.md §2/§4.0a",
+      "source_case_id": "RF-03",
+      "validation_scope": "no-image planning, request preparation and routing scenario; definitions are not retained model-run or visual-improvement evidence"
+    },
+    {
+      "id": 172,
+      "category": "real_multiview_without_garment_back",
+      "prompt": "只准备六张真人搭配方案，不生图。人物已声明real且授权沿用；真实人物图清晰覆盖正面、头部朝画面左右的三分之四及侧脸。新品只有清楚正面及前侧服装实拍，没有衣服后背。用户要自然多朝向的六张默认成片方案，没有另指定背部必拍。请决定第六张并给出可导出计划。",
+      "expected_output": "人物多角度只扩大露脸方向，不补商品背面；第六张仍明示正面自然站姿替代。",
+      "expectations": [
+        "依真实可见方向记录人物覆盖，允许各张在已覆盖方向中自然变化，不统一压为正脸，也不强制各角度恰好出现一次",
+        "因新品后背缺依据，第六张仍采用既有front-standing替代并明示，不能把人物多角度当服装背面源或用AI背身补商品事实",
+        "前五张保持不同身体动作，头向与站、坐、倚靠和行进自然协调；商品可见区域不超出当前实拍支持范围",
+        "计划、提示词和实际附件角色一致；人物照片的旧服装不进入garment-source，服装缺图不被错误判成真人全部角度不可用",
+        "零图片调用，不声称已经展示/验收背部、面部稳定或六张完成"
+      ],
+      "ref": "model-selection.md §真人参考覆盖与本轮朝向计划; prompt-build.md §1b/§2",
+      "source_case_id": "RF-04",
+      "validation_scope": "no-image planning, request preparation and routing scenario; definitions are not retained model-run or visual-improvement evidence"
+    },
+    {
+      "id": 173,
+      "category": "real_unilateral_with_ai_supplement",
+      "prompt": "只核对并准备一张，不生图。人物包明确real，原始真人图只有正面及人物自身左侧三分之四；用户已接受一张右侧AI生成补充，包内role=model-supplement、scope=face与接受记录齐全。用户现明确要求右侧三分之四露脸，当前服装实拍齐全。请判断能否直接准备这张；不允许自动换成人物左侧或新AI模特。",
+      "expected_output": "真人来源不变，AI补充不证明右侧真人事实；先提供补真实右侧图或修改本张方向的明确选择。",
+      "expectations": [
+        "人物来源仍为real，真实覆盖只有正面和左侧；保留生成补充的已接受model-supplement角色，不重新标成identity-reference或真实右侧依据",
+        "不能从左侧镜像推导右侧或将AI补充纳入真实coverage；对当前明确右侧要求指出具体缺口，不直接导出看似可提交的右侧锁脸请求",
+        "提供补真实对应右侧参考，或由用户明确同意改为已覆盖方向的选择；不静默改头向，不换人，不增加固定多角度照片张数或拍摄问卷",
+        "保留完整原图、补充图、哈希与接受记录；不为了消除冲突删补充、重置source_type或覆盖旧调用历史",
+        "已有补充接受不等于本次右侧严格真人保真授权或验证，实际图片调用为0"
+      ],
+      "ref": "model-selection.md §两个入口/§真人参考覆盖与本轮朝向计划/§参考角色与冲突",
+      "source_case_id": "RF-05",
+      "validation_scope": "no-image planning, request preparation and routing scenario; definitions are not retained model-run or visual-improvement evidence"
+    },
+    {
+      "id": 174,
+      "category": "real_explicit_uncovered_and_unknown_origin",
+      "prompt": "只做交互与准备决定，不生图。(A)已有real来源、正脸真人原图与商品背面，身份用途授权明确；用户坚持原六姿势不变、六张都露脸，尤其第六张必须越肩回眸。(B)另一用户上传一张正脸，只说沿用这位模特，并未说明真人或AI，来源记录也为空；服装图齐全。分别给出最小必要下一步，不可根据长相推断来源。",
+      "expected_output": "A指出第六张明确冲突并给补图或改编号选择；B仅核对会改变分流的来源信息，不误执行或过度询问。",
+      "expectations": [
+        "A直接沿用已知real及授权，明确第六张缺对应真实回眸方向；不得默默改不露脸、正面站姿或硬扭颈来伪称原要求已满足",
+        "A提供补真实对应方向，或由用户明确修改第六张露脸/动作要求的选择；未解决前不冻结冲突方案或导出可提交请求，不拒绝其它已有充分素材的能力",
+        "B简短核对真人/已有AI来源或参考用途，因为这些会改变朝向分支；不凭照片真假观感分类，不把上传自动当real，也不预先要求完整多角度",
+        "两者不扩大为选角调查、额外诊断生图或多轮固定审批；已有同意与范围不重复询问",
+        "当前实际调用为0，用户六张意图不替代缺口解决或人物接受；保存明确未决事项而非prepared成功"
+      ],
+      "ref": "model-selection.md §两个入口/§真人参考覆盖与本轮朝向计划; flow-gates.md; prompt-build.md §2",
+      "source_case_id": "RF-06",
+      "validation_scope": "no-image planning, request preparation and routing scenario; definitions are not retained model-run or visual-improvement evidence"
+    },
+    {
+      "id": 175,
+      "category": "real_inventory_per_look_hash_selection",
+      "prompt": "只准备与核对原生转交，不生图。测试资料包是成人real人物，身份用途授权已记录；库存含主要真实正脸、真实左右三分之四三张、已接受AI正脸face补充一张；新品有必要的正、背两张服饰源。另给出测试执行器提供的既有look-1及真实技术/人物接受记录，接受锚点与库存字节均不同。用户希望六张在真实覆盖范围内变化，不要求每张带所有参考。请准备一个后续背部露脸编号的选图转交；再判断如果用户要求每张携带全部库存能否继续。",
+      "expected_output": "库存完整保留但每张按哈希选必要子集，包含主真实身份、对应视角、必要商品及look-1，实际最多五图；无法收敛时停止。",
+      "expectations": [
+        "完整库存与原角色不改写或删除；逐张reference_sha256s选定有序子集，选择及省略冗余图理由保留在计划/manifest，而非按前五张自动截断",
+        "该后续编号使用必要正背商品、主要真实正脸、匹配目标方向的一张真实原图和本组已接受look-1，共不超过五张；冗余另一侧与AI正脸补充可以按明确理由省略，不冒充真实角度",
+        "实际request.json中的文件与hash-bound记录/角色一致，后续首张实际追加且不漏原始主要身份、不覆盖商品事实；不同字节的首张须作为实际附件计入五图上限",
+        "若明确要求全部不同字节库存连同look-1每次都传，则如实指出超过五图，先给收敛参考或修改要求的选择；不拼贴、不丢关键源、不新增授权或调用",
+        "只使用执行器已经提供的真实测试接受记录进行导出；若文件/记录缺失则停在缺输入，不捏造确认或实际图片质量，当前调用为0"
+      ],
+      "ref": "model-selection.md §真人参考覆盖与本轮朝向计划/§参考包与后续新品; prompt-build.md §4.0a; scripts/web-task.py",
+      "source_case_id": "RF-07",
+      "validation_scope": "no-image planning, request preparation and routing scenario; definitions are not retained model-run or visual-improvement evidence"
+    },
+    {
+      "id": 176,
+      "category": "existing_ai_frontal_no_real_direction_limit",
+      "prompt": "只准备默认六张方案及当前可导出请求，不生图。用户已明确上传的是已确认AI成人模特，人物包source_type=ai，只有清晰正脸图。当前同款服装有完整正背实拍，用户要求保留原六姿势、自然头向变化和原妆发。请沿用已有AI流程，不另选人。",
+      "expected_output": "已有AI正脸上传不触发真人参考覆盖规则，保持原六姿势和自然头向流程，仍保留原一致性QA。",
+      "expectations": [
+        "直接沿用ai声明与已有身份条件，不因图片上传或只正脸改为real，不要求用户补真人多角度，也不凭图目测真假",
+        "不添加real_face_plan或真人front-only/真实角度覆盖提示条件，原六编号与合理头向变化保留，第六张继续依真实商品背面安排原回眸要求",
+        "完整固定/允许人物条件进入实际request.json，原AI参考、商品源和后续首张各自角色保留，不因取消真人限制而删除已有一致性QA或附件上限",
+        "首张尚未生成时不伪造人物确认或继续后五张；来源已明确不再发来源核对问卷",
+        "零调用，不宣称AI不存在漂移、严格硬锁脸成功或真实图像质量已改善"
+      ],
+      "ref": "model-selection.md §两个入口/§真人参考覆盖与本轮朝向计划/§首张确认与六张续生; prompt-build.md §2/§4.0a",
+      "source_case_id": "RF-08",
+      "validation_scope": "no-image planning, request preparation and routing scenario; definitions are not retained model-run or visual-improvement evidence"
+    },
+    {
+      "id": 177,
+      "category": "new_ai_export_reuse_no_real_limit",
+      "prompt": "只核对流程与已有测试产物，不生图。用户没有真人参考，委托选择成年新AI模特；第一阶段source_type=new，当前商品正背实拍齐全。第二阶段测试执行器提供同一任务的首张图、技术接受和真实用户人物确认记录；请用现有入口导出人物包，并用用户指定的新商品实拍准备新品六张任务。不得新生成或伪造第二阶段记录。",
+      "expected_output": "new选角和首张确认流程不变，接受后导出ai；新品复用继续AI流程，不进入真人朝向限制。",
+      "expectations": [
+        "第一阶段按已有推荐/用户目标准备new，不要求凭空提供多角度身份照片，不添加real_face_plan或front-only约束，保留真实商品背面与原六姿势计划",
+        "第二阶段只有执行器确实提供首张文件、技术接受与用户确认时导出；若缺一项则明确缺口并停止，不能把推荐方案同意当实际选人接受",
+        "导出包source_type变为ai，已接受首张成为AI原始参考；本轮朝向限制不进入永久locked或人物参考包，不捏造真人授权及未知身体数据",
+        "新品任务独立用新商品源并保留AI人物原始参考/角色，不继承旧商品事实、旧组人物确认或旧调用授权，不进入真人真实角度核对分支",
+        "图片调用为0，实际包准备不证明新品自由姿势人物连续性或商业QA已通过"
+      ],
+      "ref": "model-selection.md §两个入口/§真人参考覆盖与本轮朝向计划/§首张确认与六张续生/§参考包与后续新品; scripts/model-reference.py",
+      "source_case_id": "RF-09",
+      "validation_scope": "no-image planning, request preparation and routing scenario; definitions are not retained model-run or visual-improvement evidence"
+    },
+    {
+      "id": 178,
+      "category": "aesthetic_faceless_fixed_mother_boundaries",
+      "prompt": "只核对三个任务的路径，不生图。(A)新AI选角，用户给一张真人正脸照片但明确只借自然妆发与摄影气氛，不沿用身份。(B)已有real人物包与授权，但本次明确只做不露脸服装六张，脸不入画；商品正背源齐全。(C)用户明确指定已接受侧向坐姿母图做本地固定姿势换装，头脸保护区与姿态不能变化，新品仅正面实拍支持当前可见部位。请说明是否需要真人多角度朝向计划以及可准备边界。",
+      "expected_output": "审美借鉴、不露脸和固定母图分别保持原路径，不误触发真人露脸重规划，也不放宽身份/商品边界。",
+      "expectations": [
+        "A照片为aesthetic-reference，人物来源仍new，不复制真人身份或因为真人审美照片要求补锁脸角度；妆发借鉴不覆盖商品源或授权门禁",
+        "B保留不露脸形态，不添加要求露脸的real_face_plan或转头/直视条件；依原六身体动作与真实商品背面安排构图，不复制或声称核验未出现的面部",
+        "C沿用fixed-pose-wardrobe保护编辑与选定pose-mother，不因只有正脸身份参考强制重建母图头部、改正脸或重做六张；母图不升级为新品背部事实源",
+        "三者均保持真实商品、参考角色与数量/调用范围；未支持的可见商品结构仍须指出缺口，不凭保护区或审美图补造",
+        "实际调用为0，没有安装、发布或固化当前任务朝向进永久人物卡；固定母图像素保护不被冒称通用自由姿态真人锁脸"
+      ],
+      "ref": "model-selection.md §两个入口/§真人参考覆盖与本轮朝向计划; prompt-build.md §1a; fixed-pose-wardrobe.md",
+      "source_case_id": "RF-10",
+      "validation_scope": "no-image planning, request preparation and routing scenario; definitions are not retained model-run or visual-improvement evidence"
     }
   ]
 }
