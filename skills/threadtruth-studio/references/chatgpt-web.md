@@ -18,6 +18,10 @@ python3 scripts/web-task.py status --task <task-directory>
 
 ## Authorization and entry setup
 
+For an explicitly requested custom single-image presentation, set `context.first_pose="custom"` and `pose_description` to the actual user-selected action/framing; do not pretend it is one of the six masters. For correction of an existing person's failed output, set `context.purpose="correction-edit"` and include exactly one `edit-target`, original identity and current garment sources. This is a single-image task, not a continuation to six; all original reference/hash/approval checks remain. The target is never exported as an original identity or accepted supplement.
+
+For `codex_native`, `export` also writes `handoff/look-N/request.json` with the exact prompt and ordered frozen local attachments. Read that file directly as the built-in tool arguments, compare its prompt/reference hashes to the adjacent `manifest.json`, then reserve and call once. Do not independently rewrite the request and omit model conditions. The exported file grants no authorization and does not prove visual fidelity; returned originals still undergo the same QA and human acceptance.
+
 Confirm the existing user instruction covers this outfit, upload to ChatGPT, the selected action and request limit. Inherit sufficient authorization without asking again. Before approval, recognition, prompt preparation and export are allowed, but upload/submission are not.
 
 Record the exact approval in `authorize --note <user-approval-summary> --limit <1-or-6>`. The helper never infers approval from a mode selection. Set `mode --mode automatic` only after browser capabilities are confirmed; changing mode preserves all reservations.

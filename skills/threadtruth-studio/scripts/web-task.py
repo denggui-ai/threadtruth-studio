@@ -25,6 +25,7 @@ ROLE_TEXT = {
     'garment-source': 'garment source; authoritative product facts',
     'identity-reference': 'original model identity; ignore clothing, accessories, pose, backdrop and lighting',
     'aesthetic-reference': 'aesthetic only; do not copy identity or clothing',
+    'edit-target': 'image to correct; supplies only the explicitly retained layout, pose and scene, not an accepted identity or authoritative garment facts; correct failed traits from the original identity and garment sources',
     'identity-only': 'current outfit accepted first-image identity; never override original identity or garment sources',
 }
 
@@ -36,16 +37,34 @@ def native_reference_check(rows, route, extra_anchor=0):
 
 def context_check(context, size):
     required = {'outfit', 'style', 'mode', 'output_form', 'size', 'first_pose'}
-    if not isinstance(context, dict) or set(context) - {'purpose'} != required:
+    if not isinstance(context, dict) or set(context) - {'purpose', 'pose_description'} != required:
         raise ValueError('Declare outfit, style, mode, output_form, size and first_pose for the frozen task context')
     if any(not isinstance(context[k], str) or not context[k].strip() for k in required - {'size','first_pose'}):
         raise ValueError('Task context labels must be nonempty')
-    if type(context['first_pose']) is not int or context['first_pose'] not in range(1,7):raise ValueError('Declare the actual first pose number')
+    if context['first_pose'] == 'custom':
+        if not isinstance(context.get('pose_description'), str) or not context['pose_description'].strip():
+            raise ValueError('A custom single-image presentation requires the explicit user pose/framing description')
+    elif type(context['first_pose']) is not int or context['first_pose'] not in range(1,7):
+        raise ValueError('Declare the actual first pose number or custom presentation')
+    elif 'pose_description' in context:
+        raise ValueError('Use custom when overriding the default pose/framing; do not relabel it as a numbered master')
     if context['mode'] not in ('B', 'C', 'D') or context['size'] != list(size):
         raise ValueError('Task mode/canvas does not match context')
-    if context.get('purpose', 'delivery') not in ('delivery', 'model-check'):
-        raise ValueError('Task purpose must be delivery or model-check')
+    if context.get('purpose', 'delivery') not in ('delivery', 'model-check', 'correction-edit'):
+        raise ValueError('Task purpose must be delivery, model-check or correction-edit')
     return copy.deepcopy(context)
+
+
+def presentation_check(context, refs, count, identity, model):
+    if context['first_pose'] == 'custom' and count != 1:
+        raise ValueError('A custom presentation is a single-image task, not a default six-pose set')
+    targets = sum(r['role'] == 'edit-target' for r in refs)
+    if context.get('purpose') == 'correction-edit':
+        if (count != 1 or not identity or not model or model['source_type'] not in ('ai', 'real')
+                or not any(r['role'] == 'identity-reference' for r in refs) or targets != 1):
+            raise ValueError('Correction edit requires one image, one edit target and an existing original person reference')
+    elif targets:
+        raise ValueError('An edit target is only valid for an explicitly requested correction-edit')
 
 
 def object_hash(value):
@@ -188,7 +207,7 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
         for i,item in enumerate(items):
             if item.get('role')=='model-supplement':
                 items[i]=dict(models.validate_supplement({k:v for k,v in item.items() if k!='role'}),role='model-supplement')
-            elif set(item)!={'path','role'} or item['role'] not in ('garment-source','identity-reference','aesthetic-reference'):
+            elif set(item)!={'path','role'} or item['role'] not in ('garment-source','identity-reference','aesthetic-reference','edit-target'):
                 raise ValueError('Declare an explicit reference role')
         if not any(x['role']=='garment-source' for x in items):raise ValueError('A model/photo/card is not a garment source')
         has_identity=any(x['role']=='identity-reference' for x in items)
@@ -196,6 +215,7 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
             raise ValueError('An accepted supplement requires the original identity reference')
         if not identity and any(x['role']!='garment-source' for x in items):raise ValueError('Non-portrait task cannot carry person references')
         if identity and (has_identity != (model['source_type'] in ('ai','real'))):raise ValueError('Existing models need original identity references; new models do not copy identity')
+        presentation_check(context, items, len(prompts), identity, model)
     sources=[Path(x['path']).resolve() for x in items]
     if any(not p.is_file() or p.suffix.lower() not in ('.png','.jpg','.jpeg','.webp') for p in sources):
         raise ValueError('References must be existing image files')
@@ -327,6 +347,7 @@ def check_evidence(root,data):
             raise ValueError('Frozen context/model changed')
         context_check(data['context'],data['size'])
         if data['identity']:models.validate_model(data['model'])
+        presentation_check(data['context'], data['references'], len(data['looks']), data['identity'], data['model'])
     for row in evidence_rows(data):
         if hashlib.sha256(row['prompt'].encode()).hexdigest()!=row['prompt_sha256']:
             raise ValueError('Frozen prompt changed')
@@ -417,8 +438,8 @@ def update(root,event,**kw):
             note=kw.get('note','').strip();approval=kw.get('approval_id','').strip();prompts=kw.get('prompts')
             if d['schema_version']!=2 or len(d['looks'])!=1 or d['looks'][0]['state']!='accepted' or not d['authorization']:
                 raise ValueError('Continue only the same accepted one-image task')
-            if d['context'].get('purpose')=='model-check':
-                raise ValueError('model-check cannot become look-1 of a production six-pose set')
+            if d['context'].get('purpose') in ('model-check', 'correction-edit'):
+                raise ValueError(d['context']['purpose']+' cannot become look-1 of a production six-pose set')
             if d['identity'] and not d['model_confirmation']:raise ValueError('User must confirm the model first')
             if d['context']['first_pose']!=1:raise ValueError('Only an actual pose-1 trial can become look-1 of the six-pose set')
             if kw.get('context')!=d['context']:raise ValueError('Continuation must keep outfit, style, mode, output form and canvas')
@@ -584,8 +605,19 @@ def export(root):
                 shutil.copyfile(src,dst)
                 instruction.append(f'Image {i}: '+(models.supplement_prompt(r) if r['role']=='model-supplement' else ROLE_TEXT[r['role']]))
             if d['schema_version']==2 and d['model']:instruction.extend(models.prompt_lines(d['model']))
+            if d['schema_version']==2 and d['context']['first_pose']=='custom':
+                instruction.append('Explicit user presentation: '+d['context']['pose_description']+
+                                   ' This overrides conflicting default pose/framing, not garment facts or original model conditions.')
+            if d['schema_version']==2 and d['context'].get('purpose')=='correction-edit':
+                instruction.append('Operation: correct the declared edit target using the original person and garment sources; '
+                                   'retain only the requested picture elements. Native editing is soft conditioning, not pixel protection or guaranteed facial fidelity.')
             prompt='Only use built-in image generation, no other plugins. One standalone image.\n'+'\n'.join(instruction)+f'\nExact canvas: {d["size"][0]}x{d["size"][1]}.\n'+row['prompt']
             (out/'prompt.txt').write_text(prompt,encoding='utf-8')
+            if d['route']=='codex_native':
+                request=dict(prompt=prompt,
+                             referenced_image_paths=[str((out/f'{i:02d}-{r["role"]}{Path(r["file"]).suffix}').resolve()) for i,r in enumerate(refs,1)],
+                             transparent_background=False)
+                (out/'request.json').write_text(json.dumps(request,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
             if d['schema_version']==2:
                 manifest=dict(look=n,attempt_number=row.get('attempt_number',1),plan_revision=row.get('plan_revision',0),
                     frozen_prompt_sha256=row['prompt_sha256'],tool_prompt_sha256=hashlib.sha256(prompt.encode()).hexdigest(),
