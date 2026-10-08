@@ -1,5 +1,11 @@
 # Changelog
 
+## Local real-face source installed — 2026-10-08
+
+- Merge PR #37 after final hosted CI passes all 391 tests and independent review; retain source head `88c3eef` / merge `838d5ea`, the updated seven-layer topology, capability inventory and offline guide. The existing public beta.12 archive remains unchanged.
+- Install the clean private allowlist candidate with the authorized backup/replace path and official plugin activation. Actual local version is `1.0.0-beta.12+codex.20261008T124523-3b5a4639`, installed/enabled true. All 281 source/cache files and 46 runtime files match; the complete 280-file old source and registration backup are verified, with other plugin entries unchanged. Independent install review has no blocking finding.
+- Verify installed helper help, both accepted real-task status reads and the portable real-model package without modifying runtime bytes. Record sanitized installation facts separately in `docs/verification/2026-10-08-real-face-local-install.md`; raw paths, receipts, logs and private images remain outside source. This follow-up changes only source-side documentation, adds no image call, fresh-session/host claim, actual rollback or maturity promotion.
+
 ## Unreleased — source delivery and current capability topology, 2026-10-08
 
 - Update the existing seven-layer SVG/PNG topology and capability/usage pages to describe real/AI provenance, supported real-person face views, separate garment-back and over-shoulder evidence, explicit single-image presentation and per-image reference selection. Distinguish current source, the existing beta.12 download and the actual local installation; no new public ZIP is cut.

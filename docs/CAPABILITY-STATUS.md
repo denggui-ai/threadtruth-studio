@@ -1,6 +1,6 @@
 # 裁光当前能力盘点
 
-核对日期：**2026-10-08**。本页盘点当前源码：通用参考执行修正及真人朝向计划（运行源码 `36625a2`），加上两张日系家居的限定验收记录。架构与流程见[用户总图](ARCHITECTURE.md)。**源码、下载包和本机安装分别核对**：公开 beta.12 ZIP 仍是此前发行内容；源码合并不自动更新该 ZIP，本机实际启用内容以[安装记录](verification/2026-10-08-home-local-install.md)为准。原六图案例见[完整教程](JAPANESE-HOME-TUTORIAL.md)，本轮两图结论见[限定画面验证](verification/2026-10-08-real-face-native-validation.md)。
+核对日期：**2026-10-08**。本页盘点当前源码：通用参考执行修正及真人朝向计划（运行源码 `36625a2`），加上两张日系家居的限定验收记录。架构与流程见[用户总图](ARCHITECTURE.md)。**源码、下载包和本机安装分别核对**：PR #37已合并，维护者本机已备份安装并启用对应源码，见[安装记录](verification/2026-10-08-real-face-local-install.md)；公开 beta.12 ZIP 仍是此前发行内容，源码合并不自动更新该 ZIP。原六图案例见[完整教程](JAPANESE-HOME-TUTORIAL.md)，本轮两图结论见[限定画面验证](verification/2026-10-08-real-face-native-validation.md)。
 
 **目前是可使用的受限 Beta，完整产品目标尚未全面验收。** 基础识别、拍摄规划、两种入口、文件检查、任务记录和安装分发已经存在；真正薄弱的地方是人物与商品的生成效果可靠性，以及新用户、新环境的验证。不能把发布完成说成全部能力完成。
 
@@ -42,7 +42,7 @@
 | 文件校验、视觉QA和商业放行 | 元数据助手与QA规则已实现 | 回归与源图对照记录，历史失败已保留 | 机器不能保证Agent目测正确；细微结构、Logo、小字仍需人工核对 |
 | 异常恢复与授权重试 | recovery v1及旧任务显式采用已实现 | 已知失败/未知请求/坏返回/旧协议回归 | 工具路径已验证；未知请求先恢复，下载失败不新生图，重试不清零 |
 | 简化交互 | 一份方案、沿用授权、图片优先、满意收尾及批量记录已实现 | 新对话六图案例暴露重复停顿，修正后完成续跑；本轮两图分别实际确认 | 单例真实证据；不代表完整用户体验通过，首回复维护项继续保留，历史失败不覆盖 |
-| 安装、升级、回滚与公开下载 | beta.12发行包及安装器已完成 | 本机安装、隔离升级/回滚、公开重新下载字节核验 | 维护者/隔离环境通过；独立新用户及所有系统未全面验证 |
+| 安装、升级、回滚与公开下载 | beta.12发行包及安装器已完成；维护者本机已更新当前修订 | 新版本installed/enabled，281源/缓存及46运行文件一致，完整旧源/登记备份；隔离升级/回滚及历史公开下载核验 | 维护者/隔离环境通过；本轮未实际回滚，独立新用户及所有系统未全面验证；公开ZIP不含本次源码修订 |
 | 新聊天发现与加载 | 插件元信息与显式调用已实现 | 本机新CLI显式调用已验证 | 隐式自然语言触发、其他主机仍未全面验证；宿主元提示长度问题保留 |
 
 ## 真正仍未完成的部分
@@ -69,6 +69,7 @@
 - [三旅程覆盖核对](verification/2026-10-04-model-mainline-coverage.md) · [AI两商品实验](verification/2026-10-02-model-reference-reuse-native.md) · [真人单张实验](verification/2026-10-02-real-model-single-trials.md)
 - [固定姿势局部换装](verification/2026-10-03-fixed-pose-wardrobe-reuse.md) · [失败恢复与校验修复](verification/2026-10-03-reverse-audit-repairs.md)
 - [通用参考执行审计与15项新增回归](verification/2026-10-08-reference-execution.md) · [真人规划与27项新增回归](verification/2026-10-08-real-face-reference-planning.md) · [两张原生限定验收](verification/2026-10-08-real-face-native-validation.md)
+- [PR #37源码交付与新版本机安装验收](verification/2026-10-08-real-face-local-install.md)
 - [历史flow2行为验收](verification/2026-10-04-flow2-live-install.md) · [简化版安装核验](verification/2026-10-05-compact-live-install.md) · [beta.12发行核验](verification/2026-10-07-beta12-release.md)
 
 本页按各批记录复用已有证据：当前运行源码全量391项通过，新增源侧场景163–178是回归定义，不是16场模型实测。本轮两图实际验收仅支持所述近正面案例，没有受控因果对照，不能单独归因于朝向规则；此前面部失败、严格保真缺口及DRAFT成熟度均保留。源码、文件或发行检查不替代视觉验收。
