@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — source delivery and current capability topology, 2026-10-08
+
+- Update the existing seven-layer SVG/PNG topology and capability/usage pages to describe real/AI provenance, supported real-person face views, separate garment-back and over-shoulder evidence, explicit single-image presentation and per-image reference selection. Distinguish current source, the existing beta.12 download and the actual local installation; no new public ZIP is cut.
+- Preserve the two accepted near-front home examples as limited evidence, with no strict identity, full-six, multiview, cross-product or universal style guarantee. Reuse the 391-test runtime evidence; current source/creator validation, 14 repository contracts, independent integration checks and diagram rendering are verified separately. Private inputs and outputs remain outside the repository.
+- The maintainer authorizes GitHub review/CI integration and a backed-up local update. Installation and remote results are recorded only after their actual completion; this preparation entry does not claim either action has occurred.
+
 ## Unreleased — limited real-face native validation, 2026-10-08
 
 - Run the reviewed Japanese-home case on source `36625a2` within an explicit maximum-two-native-call grant. The first barefoot cross-legged image uses four references and receives actual user acceptance; export it as a face-only supplement while retaining the original real identity. The second uses five references and a different seated support/body action, with the same near-front real coverage. Preserve the shared two-call limit across the separate custom single-image tasks; both calls are consumed without retries.
