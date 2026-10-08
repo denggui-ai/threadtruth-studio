@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — limited real-face native validation, 2026-10-08
+
+- Run the reviewed Japanese-home case on source `36625a2` within an explicit maximum-two-native-call grant. The first barefoot cross-legged image uses four references and receives actual user acceptance; export it as a face-only supplement while retaining the original real identity. The second uses five references and a different seated support/body action, with the same near-front real coverage. Preserve the shared two-call limit across the separate custom single-image tasks; both calls are consumed without retries.
+- Both returned originals are 1024x1536. Root and independent visual reviews find no obvious blocking face, anatomy or garment-structure failure; retain `qa-user-review` for fine facial impressions, partial occlusion and seated garment length. The second image still awaits human acceptance. This is limited case evidence, without a controlled causal comparison, strict real-person fidelity, a full-six/multiview/cross-product run or new AI visual evidence.
+- Retain private inputs, outputs, accepted model package, exact requests and receipts outside the repository. Add a sanitized validation record and update current development handoff; preserve prior failures and the deferred first-reply finding. No runtime rule, style pack, eval definition, live installation, publication or maturity change. See docs/verification/2026-10-08-real-face-native-validation.md.
+
 ## Unreleased — real-person reference direction planning, 2026-10-08
 
 - Trigger: the approved plan limits reference-angle planning to real-person identity reuse, after a complete-prompt correction still failed the face target. Add reviewed real-reference coverage and separate body action, head direction and eye gaze; distinguish garment-back availability from a supported real over-shoulder face. Preserve AI/new defaults, aesthetic/faceless/fixed-mother routes and all 24 style packs.
