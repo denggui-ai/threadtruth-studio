@@ -1,16 +1,18 @@
 # 裁光模特开发交接
 
-更新：2026-10-09。Owner：当前用户会话中的 Codex。当前活跃安装历史：真人朝向计划与通用参考执行修订已通过PR #37、最终GitHub CI及独立审查进入main；能力清单与七层拓扑已更新。本机新版已完整备份安装并启用，源码/缓存及46运行文件一致。既有2次原生画面均获用户整体接受，额度剩余0；前批失败保留。公开beta.12原ZIP不变，成熟度不升级。
+更新：2026-10-09。Owner：当前用户会话中的 Codex。当前活跃安装：运行源码d981873（共享摄影规划及24风格基准）已完成完整备份、本机替换与官方启用，283源/缓存及48运行文件一致；限定安装审查通过。PR #37与两张日系家居接受为历史证据，本批没有新生图。公开beta.12原ZIP不变，成熟度不升级。
 
-- 正确开发位置：本 worktree `threadtruth-studio/.worktrees/model-reference-reuse`；本轮安装证据分支 `docs/real-face-local-install`，前源码分支 `fix/custom-reference-execution`保留。
-- 当前已安装源码：`88c3eef`（与PR #37合并后的`838d5ea`同树，运行修订基线`36625a2`）；原`43e942b`（日系家居）、`7dd00bf`（简化流程）及flow2安装记录作为历史保留。运行时目标：`skills/threadtruth-studio/`；开发证据根：本仓库。
+- 正确开发位置：本 worktree `threadtruth-studio/.worktrees/model-reference-reuse`；当前分支 `fix/shared-style-photography-targets`，前安装/源码分支保留。
+- 当前已安装源码：`d981873`；上次`88c3eef`（与PR #37合并后的`838d5ea`同树，运行修订基线`36625a2`）、原`43e942b`（日系家居）、`7dd00bf`（简化流程）及flow2安装作为历史保留。运行时目标：`skills/threadtruth-studio/`；开发证据根：本仓库。
 - 当前唯一开发路线：[model-selection-roadmap.md](../docs/development/model-selection-roadmap.md)。它更新后续排期，不改写历史实验。
 - 核心目标：已有模特可沿用；没有模特时可推荐和选择；因子可理解和调整；首张确认后可携带参考包继续展示新品。
 - 已完成：规则/辅助工具实现、固定姿势受限路径、四处恢复与校验修复、beta.11 规则整合，以及用户授权的本机安装启用。
 - 当前限制：严格原真人还原、自由换姿势的一致性、部分商品细节及隐式自动触发未全面解决；本机新CLI显式调用已验证。六姿势样片只有有限可用接受，不能升级为完整产品验收。
-- 本机安装版：`1.0.0-beta.12+codex.20261008T124523-3b5a4639`，installed=true、enabled=true；281个source/cache文件一致、46运行文件匹配候选，旧源280文件与登记备份核验完整。已安装助手读取两例已接受任务及校验人物包通过；独立安装复核无阻断。见[本机更新](../docs/verification/2026-10-08-real-face-local-install.md)。该交付零生图、未重跑完整新模型会话，安装成功不证明画面改善。
+- 本机安装版：`1.0.0-beta.12+codex.20261009T123312-ea80f1b6`，installed=true、enabled=true；283个source/cache文件一致、48运行文件匹配固定候选，旧源281文件与登记备份完整。已安装助手help及旧失败/新准备两任务CLI读取通过，账本不变；独立安装审查无阻断。见[本机更新](../docs/verification/2026-10-09-photography-local-install.md)。本批零生图，未跑新模型会话，安装成功不证明画面改善。
 
 ## 当前工作与唯一下一步
+
+**最新交付已完成：摄影修订及24风格基准本机更新。** 用户要求先完成Skill再测试，并在剩余本机更新上下文中继续执行。已按固定d981873构建私人allowlist、干净解包、完整备份替换及官方启用；283源/cache、48运行文件、旧281备份与登记通过，独立安装open=0。见[安装验收](../docs/verification/2026-10-09-photography-local-install.md)。已用安装助手重新导出四图身份隔离请求，条件与最终prompt保持，原任务不变、授权为空、调用0。下一步是明确测试次数后的画面验证，不重开源码维护、安装或公开发布；不宣称锁脸和24视觉已解决。
 
 **最新源码接入已完成：所选风格摄影基准。** 用户明确本轮只推进Skill、不新增生图；24基准从私人审计接入运行参考，入口/编译准备/商业QA按所选slug读取并依当前条件转译。24pack、脚本、默认模式与真人/AI分流不变。47项定向、creator/source标准、48文件净stage与独立只读审查通过，open must-fix=0；新增SB-01–03为源定义，未做新模型/画面验证。见[接入验证](../docs/verification/2026-10-09-style-photography-baselines.md)。源码包已收口，安装版尚未更新，不自动安装或发布；锁脸隔离请求保持未执行，用户本轮不授新额度。
 

@@ -1,5 +1,11 @@
 # Changelog
 
+## Local photography source installed — 2026-10-09
+
+- Finish the user's Skill-first delivery sequence with a reviewed private candidate pinned to runtime source `d981873`, clean extraction, full existing-source/registration backups and official plugin activation. Actual local version is `1.0.0-beta.12+codex.20261009T123312-ea80f1b6`; installed/enabled are true. All 283 source/cache files and 48 runtime files match; the old281-file source and registration backups are exact, with other entries unchanged.
+- Verify installed local helper help and two retained task-status reads without changing ledgers or accepting their business results; preserve rejected calibration and pending unauthorised isolation. Independent install review closes an initial smoke-record null-field issue after scoped correction, with no reinstall or task replay. Retain initial receipts privately.
+- Re-export a four-original-reference identity-isolation preparation using the installed helper with the same frozen prompt, person/photography constraints and no paid authority. No image call, fresh model invocation, implicit trigger, new-host run, actual rollback, GitHub push, public ZIP replacement or maturity promotion is included. Source documentation only records installation facts and current capability boundaries.
+
 ## Unreleased — selected-style photography baselines, 2026-10-09
 
 - Trigger: the user wants all 24 styles to remain close to their corresponding gallery cases and explicitly chooses Skill-only work with no new image calls. The completed pixel audit and offline exports are planning evidence, not 24 current visual passes.
