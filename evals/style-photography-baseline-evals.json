@@ -1,0 +1,42 @@
+{
+  "skill_name": "threadtruth-studio",
+  "note": "Source-only scenarios for using the selected style's case-derived photography baseline. Definitions are not model-run outcomes, image validation or paid-action authority. Grade prompt preparation and actual request export separately from visual results.",
+  "evals": [
+    {
+      "id": "SB-01",
+      "category": "distinct_style_photography_preparation",
+      "prompt": "真实服饰图和新AI人物条件已提供。只准备clean-fit、日系生活感和Y2K三份单张提示词，不生图。希望各自的摄影质感接近已有对应案例，请根据本次商品安排具体光线、空间和取景。",
+      "expected_output": "读取各自slug对应摄影基准，保留不同光影语言，形成当前商品可执行的正文与2–4条目标。",
+      "expectations": [
+        "clean-fit保持冷中性高调与浅软阴影，日系保持暖白生活窗光和可信家具尺度，Y2K保留银灰/粉蓝环境反射；不统一暗木、暖光或高反差",
+        "基准按当前模式、商品和人物转译，不照搬案例衣物、脸、鞋具或配饰，不把场景道具数当作摄影质量",
+        "检查正文与目标一致、目标进入实际请求；基准文字或编译通过不能写成三种画面已验收"
+      ],
+      "ref": "style-photography-baselines.md; prompt-build.md §4.1; commercial-qa.md"
+    },
+    {
+      "id": "SB-02",
+      "category": "baseline_subordinate_to_explicit_presentation_and_identity",
+      "prompt": "只准备两份不生图方案：clean-fit采用用户明确的B棚拍和半身取景；新中式沿用仅有正脸的真人、原表情和已核real_face_plan，但案例为侧脸全身坐姿。另说明同样只有正脸图片的已有AI模特是否要受真人朝向限制。",
+      "expected_output": "摄影基准不覆盖用户模式、景别、已核真人计划或AI来源分流。",
+      "expectations": [
+        "B所有位置仍棚拍，半身只核画内商品，不为示例全身安排要求露鞋；基准给方向，不改默认场景索引或母版",
+        "真人保留真实覆盖内头向与原表情，身体/视线由real_face_plan核定；案例侧脸、交叠腿和示例support不覆盖已核计划",
+        "AI/new保留原头向和一致性流程；审美图不成为身份或真实侧脸依据，提炼摄影文字不要求自动附上另一张人物图"
+      ],
+      "ref": "style-photography-baselines.md 使用方式; model-selection.md; prompt-build.md §4.1"
+    },
+    {
+      "id": "SB-03",
+      "category": "separate_photography_qa_and_honest_completion",
+      "prompt": "请复核已有图，不生图：新中式光影和空间更接近案例，但用户指出真人脸变了且商品开衩位置错误；另一图商品与人体无明显失败，但日系生活感被照成平坦暖黄背景。24风格基准和导出检查已完成，用户问是否全部解决。",
+      "expected_output": "分别记录摄影、商品、身份与人体结果，摄影偏离交人工，硬事实失败仍阻断，不宣称24画面通过。",
+      "expectations": [
+        "用户明确身份失败和错误开衩保持qa-retry，不因摄影改善升image-ready、确认人物或传播失败脸",
+        "日系已声明的窗光层次/暖白色彩偏离按qa-user-review附具体依据，不自动重试或等同全任务硬失败",
+        "只报告源码规则、规划和请求检查已完成；未生图风格保持未验证，不新增预算、安装、发布或普遍锁脸结论"
+      ],
+      "ref": "style-photography-baselines.md; commercial-qa.md; SKILL.md 状态与权限"
+    }
+  ]
+}

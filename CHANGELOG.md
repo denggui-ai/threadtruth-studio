@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased — selected-style photography baselines, 2026-10-09
+
+- Trigger: the user wants all 24 styles to remain close to their corresponding gallery cases and explicitly chooses Skill-only work with no new image calls. The completed pixel audit and offline exports are planning evidence, not 24 current visual passes.
+- Add the runtime `references/style-photography-baselines.md` with selected-slug photography observations and optional existing-master arrangements, and connect it to entrypoint preparation, prompt assembly and commercial QA. Read only the common usage and selected style; preserve each pack's own light/color/space rather than applying one universal recipe.
+- Keep the baseline subordinate to garment facts, explicit B/C/D and framing choices, safety, real reference coverage/original expression and the reviewed real-face plan. AI/new flow, all 24 pack bytes, helper defaults, frozen requests and task schemas remain unchanged. Baseline reading does not require another model image as an attachment or guarantee identity isolation.
+- Add source-side SB-01–SB-03 scenarios, integrated as main IDs197–199, for distinct photographic languages, presentation/person constraints and independent QA/claims. These are definitions, not model runs or image validation. No generation, live installation, publication or maturity promotion is part of this change.
+- Validation: 47 targeted photography-spec/target/export and repository-contract tests pass; system creator/source standard checks and a clean 48-file runtime stage pass. Independent source review reports no open must-fix findings. Retain the existing source cache and its direct-runtime-profile failure separately from the clean-stage result; no fresh model run or image quality conclusion is added.
+
 ## Unreleased — photography planning and shared compilation, 2026-10-09
 
 - Trigger: the retained neo-Chinese pair did not match the accepted case's photography. Audit traced an execution gap before export: the case was reduced to scene props and soft light, then broad fill, modest contrast and direct standing presentation were added without a requirement. Shared compilation also tied scene selection to pose ordinals, used location text in B studio mode, and mixed body-category and framing constraints. The pair does not isolate the provider's contribution or prove all style visuals regressed.
