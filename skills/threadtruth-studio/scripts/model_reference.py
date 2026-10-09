@@ -160,30 +160,35 @@ def prompt_lines(model):
 
 
 def resolve_style(model, persona, negatives):
-    """A custom model's presentation replaces persona; only person-specific negatives yield."""
+    """Declared person axes yield without replacing the pack's unaffected attitude."""
     model = validate_model(model)
-    terms = r'\b(face|hair|makeup|smile|expression|skin|body|young|age|influencer|idol|aegyo)\b'
-    safety = r'sexual|nudity|anatom|deform|extra|missing|child|minor|unsafe'
-    kept = [x for x in negatives if re.search(safety, x, re.I) or not re.search(terms, x, re.I)]
-    return '; '.join(model['locked'] + model['adjustable']) or 'retain the declared model appearance', kept
+    actual = _filter_style_text(model, persona)
+    kept = [value for negative in negatives if (value := _filter_style_text(model, negative))]
+    return actual or '; '.join(model['locked'] + model['adjustable']) or 'retain the declared model appearance', kept
 
 
 
 def resolve_mood(model, mood):
-    """Identity defaults and explicit conditions replace same-axis alternatives.
-
-    Frozen pack language is comma/semicolon phrased. Preserve all unaffected text,
-    including skin texture, age-neutral settings and feminine garment details.
-    This is a scoped phrase filter, not a free-text semantic conflict detector.
-    """
+    """Keep photography while yielding conflicting, declared person conditions."""
     model = validate_model(model)
+    return _filter_style_text(model, mood) or 'retain the selected photographic atmosphere'
+
+
+def _filter_style_text(model, text):
+    """Filter frozen pack clauses; do not infer arbitrary natural-language conflicts.
+
+    Identity attributes, expression and gesture are separate. A plain smile also
+    does not request idol/influencer presentation. Ambiguous mixed photography
+    clauses require review rather than silently losing photographic direction.
+    """
     axes = {
-        'expression': r'\b(expression|smil\w*|melancholy|influencer|idol|aegyo)\b|表情|微笑|笑容',
+        'expression': r'\b(expression|smil\w*|melancholy|detached|aegyo|mugging|frown\w*)\b|表情|微笑|笑容',
+        'presentation': r'\b(influencer|idol)\b',
         'hair': r'\b(hair|hairstyle)\b|发型|髮型|头发',
         'makeup': r'\b(makeup|make-up|lips|lipstick)\b|妆|唇',
         'face': r'\b(face|facial)\b|五官|脸|面部',
-        'age': r'\b(young|youthful|age|aged)\b|年龄|年齡',
-        'body': r'\b(body|physique|slim|slender|curvy|fuller|muscular)\b|身形|身材|体型',
+        'age': r'\b(young|youthful|mature|age|aged)\b|年龄|年齡',
+        'body': r'\b(physique|slim|slender|curvy|fuller|muscular)\b|\bbody (shape|proportions|type|build|size)\b|\bsame body\b|身形|身材|体型',
         'gender': r'\b(female|male|feminine|masculine|girlish|boyish)\b|性别',
         'skin': r'\bskin (tone|color|colour)\b|肤色',
     }
@@ -191,41 +196,64 @@ def resolve_mood(model, mood):
     declared = ' '.join(conditions + [model['subject']] +
                         [f['name'] + ' ' + f['value'] for f in model.get('factors', []) if f['status'] != 'unknown'])
     active = {name for name, pattern in axes.items() if re.search(pattern, declared, re.I)}
-    # Reusing an identity already defaults to its hair and makeup; omission of
-    # those fields is not permission for the style pack to recast them. New
-    # casting keeps the pack defaults until the user supplies an override.
+    # Existing identity references supply known appearance, including default
+    # hair/makeup. Face-only references cannot supply an unseen body's shape.
     if model['source_type'] in ('ai', 'real'):
-        active.update(('hair', 'makeup'))
+        active.update(('face', 'age', 'skin', 'hair', 'makeup'))
+        if model['scope'] == 'full':
+            active.add('body')
     safety = r'sexual|nudity|anatom|deform|extra|missing|child|minor|unsafe'
     photo = r'\b(light\w*|palette|texture|photograph\w*|grain|backdrop|background|setting|composition|framing)\b'
+    exact_conditions = {c.strip().casefold() for c in conditions}
 
     def filter_phrase(phrase):
-        if re.search(safety, phrase, re.I) or phrase.strip().casefold() in {c.casefold() for c in conditions}:
+        if re.search(safety, phrase, re.I) or phrase.strip().casefold() in exact_conditions:
             return phrase
         # These words describe rendering, setting or framing, not casting.
         # Unqualified "proportions" is also often garment styling, so the body
         # axis requires a body-specific term rather than that word alone.
         inspected = re.sub(r'\bage-neutral\b|\b(?:realistic native )?skin texture\b|\bfull-body\b', '', phrase, flags=re.I)
+        # These visible states do not recast facial identity. Keep them unless
+        # an expression condition, rather than face identity, is declared.
+        inspected = re.sub(r'\bfacial (expression|mood)\b|\b(relaxed|calm|neutral|smiling|friendly|detached|serious|soft) face\b',
+                           lambda match: re.sub(r'\b(face|facial)\b', '', match.group(), flags=re.I), inspected, flags=re.I)
         conflicts = [name for name in active if re.search(axes[name], inspected, re.I)]
         if 'gender' in conflicts and re.search(r'\b(details|garment|bows|tailoring)\b', inspected, re.I):
             conflicts.remove('gender')
         if not conflicts:
             return phrase
+        # The frozen Korean pack coordinates two colors under one makeup noun.
+        # Its "and" cannot make the first color a standalone atmosphere target.
+        coordinated = [match.span() for match in re.finditer(
+            r'\bgray-brown\s+and\s+nude pink eye makeup\b', phrase, re.I)]
+        parts, start = [], 0
+        for boundary in re.finditer(r'\s+(?:and|with|under|against|on|in)\s+', phrase, re.I):
+            if any(left <= boundary.start() and boundary.end() <= right for left, right in coordinated):
+                continue
+            parts.append(phrase[start:boundary.start()])
+            start = boundary.end()
+        parts.append(phrase[start:])
+        if len(parts) > 1:
+            # Preserve a separate demeanor/gesture or photograph clause even
+            # when it shares a comma phrase with the conflicting appearance.
+            remaining = [(part, value) for part in parts if (value := filter_phrase(part))]
+            independent = r'\b(attitude|confidence|confident|composure|poise|presence|ease|calm|warmth|shoulders?|jaw|hands?|gaze|gesture|body language)\b'
+            for part, _ in remaining:
+                if not (re.search(photo, part, re.I) or re.search(independent, part, re.I)
+                        or any(re.search(pattern, part, re.I) for pattern in axes.values())):
+                    raise ValueError('Review coordinated person/style phrase before prompt assembly: ' + phrase.strip())
+            return ' '.join(value.strip() for _, value in remaining)
         if re.search(photo, inspected, re.I):
-            # Mixed short clauses need a smaller boundary: keep the light/scene.
-            parts = re.split(r'\s+(?:and|with|under|against|on)\s+', phrase, flags=re.I)
-            if len(parts) > 1:
-                return ' '.join(x for part in parts if (x := filter_phrase(part)))
             raise ValueError('Review mixed person/photography phrase before prompt assembly: ' + phrase.strip())
         return ''
 
-    pieces = re.split(r'([;,]\s*)', mood)
+    pieces = re.split(r'([;,]\s*)', text)
     kept = []
     for index in range(0, len(pieces), 2):
         phrase = filter_phrase(pieces[index])
         if phrase.strip():
             kept.append((pieces[index - 1] if index else ', ', phrase))
-    return ''.join(('' if i == 0 else separator) + phrase for i, (separator, phrase) in enumerate(kept)).strip() or 'retain the selected photographic atmosphere'
+    return ''.join(('' if i == 0 else separator) + phrase for i, (separator, phrase) in enumerate(kept)).strip()
 
 
 def export_package(destination, model, references, name, confirmation_note, *, supplements=None, pose_mothers=None):

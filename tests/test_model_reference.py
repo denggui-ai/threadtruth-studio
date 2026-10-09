@@ -189,7 +189,7 @@ class ModelReferenceTests(unittest.TestCase):
         _, negatives = self.m.resolve_style(self.model(), 'cold face', ['no vintage background', 'no sexualized body', 'no sweet smile'])
         self.assertIn('no vintage background', negatives)
         self.assertIn('no sexualized body', negatives)
-        self.assertNotIn('no sweet smile', negatives)
+        self.assertIn('no sweet smile', negatives)
         mood=self.m.resolve_mood(self.model(adjustable=['neutral expression']), 'quiet photographic mood; no sexualized body; sweet smile')
         self.assertIn('no sexualized body',mood)
         self.assertNotIn('sweet smile',mood)
@@ -278,9 +278,9 @@ class ModelReferenceTests(unittest.TestCase):
                 else:
                     for phrase in ['restrained editorial mood', 'soft even lighting', 'cold gray',
                                    'medium format film photography texture', 'realistic native skin texture',
-                                   'subtle pores', 'no excessive retouching', 'referenced accessory']:
+                                   'subtle pores', 'no excessive retouching', 'referenced accessory', 'no influencer style']:
                         self.assertIn(phrase, actual)
-                    for phrase in ['detached expression', 'melancholy', 'commercial smile', 'influencer style',
+                    for phrase in ['detached expression', 'melancholy', 'commercial smile',
                                    'translucent makeup', 'eye makeup', 'dusty rose lips', 'flyaway hair']:
                         self.assertNotIn(phrase, actual)
 

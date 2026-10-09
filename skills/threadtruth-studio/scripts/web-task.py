@@ -22,6 +22,7 @@ _model_spec = importlib.util.spec_from_file_location('task_model_reference', Pat
 models = importlib.util.module_from_spec(_model_spec)
 _model_spec.loader.exec_module(models)
 _face_plans = None
+_photography_targets = None
 
 
 def real_face_helper():
@@ -32,6 +33,15 @@ def real_face_helper():
         _face_plans=importlib.util.module_from_spec(spec)
         spec.loader.exec_module(_face_plans)
     return _face_plans
+
+
+def photography_helper():
+    global _photography_targets
+    if _photography_targets is None:
+        spec=importlib.util.spec_from_file_location('task_photography_targets', Path(__file__).with_name('photography_targets.py'))
+        _photography_targets=importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(_photography_targets)
+    return _photography_targets
 
 ROLE_TEXT = {
     'garment-source': 'garment source; authoritative product facts',
@@ -49,7 +59,7 @@ def native_reference_check(rows, route, extra_anchor=0):
 
 def context_check(context, size):
     required = {'outfit', 'style', 'mode', 'output_form', 'size', 'first_pose'}
-    if not isinstance(context, dict) or set(context) - {'purpose', 'pose_description'} != required:
+    if not isinstance(context, dict) or set(context) - {'purpose', 'pose_description', 'photography_targets'} != required:
         raise ValueError('Declare outfit, style, mode, output_form, size and first_pose for the frozen task context')
     if any(not isinstance(context[k], str) or not context[k].strip() for k in required - {'size','first_pose'}):
         raise ValueError('Task context labels must be nonempty')
@@ -64,7 +74,10 @@ def context_check(context, size):
         raise ValueError('Task mode/canvas does not match context')
     if context.get('purpose', 'delivery') not in ('delivery', 'model-check', 'correction-edit'):
         raise ValueError('Task purpose must be delivery, model-check or correction-edit')
-    return copy.deepcopy(context)
+    result=copy.deepcopy(context)
+    if 'photography_targets' in context:
+        result['photography_targets']=photography_helper().validate(context['photography_targets'])
+    return result
 
 
 def presentation_check(context, refs, count, identity, model):
@@ -228,6 +241,8 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
         if not identity and any(x['role']!='garment-source' for x in items):raise ValueError('Non-portrait task cannot carry person references')
         if identity and (has_identity != (model['source_type'] in ('ai','real'))):raise ValueError('Existing models need original identity references; new models do not copy identity')
         presentation_check(context, items, len(prompts), identity, model)
+    for prompt in prompts:
+        photography_helper().apply(prompt, context.get('photography_targets') if schema_version==2 else None)
     sources=[Path(x['path']).resolve() for x in items]
     if any(not p.is_file() or p.suffix.lower() not in ('.png','.jpg','.jpeg','.webp') for p in sources):
         raise ValueError('References must be existing image files')
@@ -411,6 +426,7 @@ def check_evidence(root,data):
     for row in evidence_rows(data):
         if hashlib.sha256(row['prompt'].encode()).hexdigest()!=row['prompt_sha256']:
             raise ValueError('Frozen prompt changed')
+        photography_helper().apply(row['prompt'], data['context'].get('photography_targets') if data['schema_version']==2 else None)
         history=row.get('prompt_history',[])
         revision=row.get('plan_revision',0)
         if type(revision) is not int or revision<0 or not isinstance(history,list) or len(history)!=revision:
@@ -419,6 +435,7 @@ def check_evidence(root,data):
             if (prior.get('revision')!=i or not prior.get('note','').strip()
                     or hashlib.sha256(prior['prompt'].encode()).hexdigest()!=prior['prompt_sha256']):
                 raise ValueError('Historical prompt revision changed')
+            photography_helper().apply(prior['prompt'], data['context'].get('photography_targets') if data['schema_version']==2 else None)
         if 'model' in row and object_hash(row['model'])!=row['model_sha256']:raise ValueError('Historical model conditions changed')
         if 'output' in row and digest(safe_file(root,row['output']['file']))!=row['output']['sha256']:
             raise ValueError('Previously imported output changed')
@@ -509,6 +526,8 @@ def update(root,event,**kw):
                 raise ValueError('Explicit five-image approval and a fresh ID required')
             if not isinstance(prompts,list) or len(prompts)!=5 or any(not isinstance(p,str) or not p.strip() for p in prompts):
                 raise ValueError('Provide exactly five continuation prompts')
+            for prompt in prompts:
+                photography_helper().apply(prompt,d['context'].get('photography_targets'))
             continuation_plan=None
             if 'real_face_plan' in d:
                 extra=kw.get('real_face_looks')
@@ -569,6 +588,7 @@ def update(root,event,**kw):
                 raise ValueError('Resolve the existing request before changing pending plans')
             if kw.get('expected_prompt_sha256')!=row['prompt_sha256']:
                 raise ValueError('Pending revision must target the current frozen prompt hash')
+            photography_helper().apply(prompt,d['context'].get('photography_targets'))
             revision=row.get('plan_revision',0)
             row.setdefault('prompt_history',[]).append(dict(prompt=row['prompt'],
                 prompt_sha256=row['prompt_sha256'],revision=revision,note=note,at=stamp()))
@@ -583,6 +603,7 @@ def update(root,event,**kw):
             attempt=row.get('attempt_number',1)
             if type(kw.get('expected_attempt'))!=int or kw['expected_attempt']!=attempt:raise ValueError('Approval must target the current rejected/failed attempt')
             if not note or not approval or not isinstance(prompt,str) or not prompt.strip():raise ValueError('Explicit retry approval, unique approval ID and corrected prompt required')
+            photography_helper().apply(prompt,d['context'].get('photography_targets') if d['schema_version']==2 else None)
             if any(g['approval_id']==approval for g in grants) or d.get('continuation_authorization',{}).get('approval_id')==approval:raise ValueError('Retry approval already used')
             if (d['schema_version']==1 or n==1) and any(x['state']!='pending' for x in d['looks'][n:]):raise ValueError('Cannot replace an anchor with existing downstream work')
             history=copy.deepcopy(row.get('history',[]));old=copy.deepcopy(row);old.pop('history',None)
@@ -692,6 +713,7 @@ def export(root):
             prompt='Only use built-in image generation, no other plugins. One standalone image.\n'+'\n'.join(instruction)+f'\nExact canvas: {d["size"][0]}x{d["size"][1]}.\n'+row['prompt']
             if 'real_face_plan' in d:
                 prompt+='\n'+'\n'.join(real_face_helper().prompt_lines(d['real_face_plan']['looks'][n-1]))
+            prompt=photography_helper().apply(prompt,d['context'].get('photography_targets') if d['schema_version']==2 else None)
             (out/'prompt.txt').write_text(prompt,encoding='utf-8')
             if d['route']=='codex_native':
                 request=dict(prompt=prompt,

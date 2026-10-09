@@ -320,6 +320,14 @@ def _model_tools():
     return module
 
 
+def _photography_tools():
+    path = Path(__file__).resolve().parents[1] / 'skills/threadtruth-studio/scripts/photography_targets.py'
+    spec = importlib.util.spec_from_file_location('preview_photography_targets', path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 def _model_preview(preview, model):
     if model is None:
         return preview
@@ -358,7 +366,7 @@ def _apply_model(lines, source_count, model, model_references):
     return lines[:1] + instructions + lines[1:]
 
 
-def _prompt(preview, source, anchor, preview_negative, head_gaze_guidance, pilot=False, model=None, model_references=None):
+def _prompt(preview, source, anchor, preview_negative, head_gaze_guidance, pilot=False, model=None, model_references=None, photography_targets=None):
     preview = _model_preview(preview, model)
     visual = preview["visual"]
     source_count = len(source["assets"])
@@ -400,7 +408,7 @@ def _prompt(preview, source, anchor, preview_negative, head_gaze_guidance, pilot
         "Preview negative (grid is intentionally allowed): " + preview_negative,
         "Style negative append: " + ", ".join(preview["negative_delta_add"]),
     ])
-    return "\n".join(_apply_model(lines, source_count, model, model_references)) + "\n"
+    return _photography_tools().apply("\n".join(_apply_model(lines, source_count, model, model_references)) + "\n", photography_targets)
 
 
 def _orientation(ratio):
@@ -411,7 +419,7 @@ def _orientation(ratio):
     return "square" if width == height else ("portrait" if height > width else "landscape")
 
 
-def _single_prompt(preview, source, anchor, pose, general_negative, full_body_append, ratio, pilot, head_gaze_guidance, model=None, model_references=None):
+def _single_prompt(preview, source, anchor, pose, general_negative, full_body_append, ratio, pilot, head_gaze_guidance, model=None, model_references=None, photography_targets=None):
     """prompt-build §4.1 single independent image (action 2 test / one look) for one canonical pose template."""
     preview = _model_preview(preview, model)
     visual = preview["visual"]
@@ -446,10 +454,10 @@ def _single_prompt(preview, source, anchor, pose, general_negative, full_body_ap
         "Final negative: " + general_negative + (" " + full_body_append if full_body else ""),
         "Style negative append: " + ", ".join(preview["negative_delta_add"]),
     ]
-    return "\n".join(_apply_model(lines, source_count, model, model_references)) + "\n"
+    return _photography_tools().apply("\n".join(_apply_model(lines, source_count, model, model_references)) + "\n", photography_targets)
 
 
-def single_prompt(root, run_id, style, pose, source_case, ratio="1:1", model=None, model_references=None, action=2):
+def single_prompt(root, run_id, style, pose, source_case, ratio="1:1", model=None, model_references=None, action=2, photography_targets=None):
     """Write one action-2 single-image prompt into <run>/prompts/ without touching evidence.json.
 
     This is a validation aid for a human-authorized single native call; it registers no batch and never generates.
@@ -465,12 +473,12 @@ def single_prompt(root, run_id, style, pose, source_case, ratio="1:1", model=Non
     text = _single_prompt(
         preview, plan["source"], plan["identity_anchor"], preview["poses"][pose - 1],
         general_negative, full_body_append, ratio, style in PILOT_PHOTOGRAPHY_SLUGS,
-        _head_gaze_guidance(root), model=model, model_references=model_references,
+        _head_gaze_guidance(root), model=model, model_references=model_references, photography_targets=photography_targets,
     )
     if action == 0:
         if model is None:raise ValueError("Model preview requires explicit model data")
         _, negative = _canonical_action_zero(root)
-        text = _prompt(preview, plan["source"], plan["identity_anchor"], negative, _head_gaze_guidance(root), pilot=style in PILOT_PHOTOGRAPHY_SLUGS, model=model, model_references=model_references)
+        text = _prompt(preview, plan["source"], plan["identity_anchor"], negative, _head_gaze_guidance(root), pilot=style in PILOT_PHOTOGRAPHY_SLUGS, model=model, model_references=model_references, photography_targets=photography_targets)
     elif action != 2:raise ValueError("Only model preview or single test prompt is supported")
     attachments=[]
     if model is not None:
@@ -1929,6 +1937,7 @@ def main(argv=None):
             command.add_argument("--action", type=int, choices=[0,2], default=2)
             command.add_argument("--pose", type=int, required=True, help="canonical pose template 1-6")
             command.add_argument("--ratio", default="1:1", help="canvas contract W:H (modes-scenes §4; ecommerce main image defaults to 1:1)")
+            command.add_argument("--photography-target", action="append", dest="photography_targets", help="Optional current-task scene/light/composition target; repeat 2–4 times, each a nonempty single line of at most 240 characters")
         if name == "register-batch":
             command.add_argument("--manifest", type=Path, required=True)
         if name in {"ingest", "compose", "audit", "gallery", "approve"}:
@@ -1960,7 +1969,7 @@ def main(argv=None):
                 path = Path(ref['path']).resolve()
                 if not path.is_file() or path.suffix.lower() not in {'.png','.jpg','.jpeg','.webp'} or digest(path.read_bytes()) != ref['sha256']:
                     raise ValueError('Missing or changed model reference')
-            result = single_prompt(args.root, args.run_id, args.style, args.pose, args.source_case, args.ratio, model=model, model_references=refs, action=args.action)
+            result = single_prompt(args.root, args.run_id, args.style, args.pose, args.source_case, args.ratio, model=model, model_references=refs, action=args.action, photography_targets=args.photography_targets)
         elif args.command == "ingest":
             correction = read_json(args.correction_record) if args.correction_record else None
             failed_retry = read_json(args.failed_retry_record) if args.failed_retry_record else None

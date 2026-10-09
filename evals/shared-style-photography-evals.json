@@ -1,0 +1,62 @@
+{
+  "skill_name": "threadtruth-studio",
+  "note": "Source-side no-image regression definitions for scoped persona and task photography. Definitions do not prove model-run behavior or visual improvement. Reference artifacts must be supplied; no generation, installation or publication.",
+  "evals": [
+    {
+      "id": "SP-01", "category": "new_model_preserves_style_attitude",
+      "prompt": "只准备提示词，不生图。当前真实服装素材已核对，用户选择Y2K，委托推荐新的成年AI模特，未指定妆发或表情。请准备单张和六张方向预览的提示词，解释人物条件与风格气质的关系。",
+      "expected_output": "new未覆盖的风格选角、气质与摄影目标保留，预览仍非成片。",
+      "expectations": ["不把空new人物条件替换成仅保留declared appearance而删除全部persona", "保留未冲突的playful/sharp等气质、动作与风格负面词，不把新中式摄影目标用于Y2K", "预览和独立成片各用相应负面词及标识，零图片调用，不把提示词当实际成片"],
+      "ref": "model-selection.md; prompt-build.md §4.1"
+    },
+    {
+      "id": "SP-02", "category": "real_identity_and_gesture_are_separate",
+      "prompt": "只准备日系生活感六张方案。沿用已明确source_type=real、scope=face的成年人物包，真实原图只有正脸，locked为保留原脸，妆发默认沿用；同款商品正背面素材齐全。请分别安排身体、头向和视线，不生图。",
+      "expected_output": "原身份与妆发保留，日系松弛感与不同身体动作保留，真人朝向只由真实覆盖支持。",
+      "expectations": ["不以保留脸为由删除松弛身体语言、自然支撑或柔窗光；不凭face包臆造实测身体", "身体、头向、眼球视线独立；前五露脸在front/near-front，第六有商品背面而无真人回眸依据则保背不露脸并明示", "AI补充不认证真人未知侧脸，实际请求仍按已选参考不超过五张"],
+      "ref": "model-selection.md; prompt-build.md §1/§2/§4.1"
+    },
+    {
+      "id": "SP-03", "category": "scoped_expression_override",
+      "prompt": "只输出韩系冷感风的单张提示词。已有AI身份，用户允许友好微笑但保持原妆发。请保留服装事实、空间与光线，不生图。",
+      "expected_output": "用户微笑目标覆盖冲突表情，未冲突的摄影、动作与风格禁项保留。",
+      "expectations": ["具体微笑目标覆盖相冲突的detached或no sweet smile；不因此删除所有摄影、气质或no influencer style", "已有AI参考默认妆发保持，AI不进入真人正脸覆盖限制", "无法拆开的混合人物/摄影冲突交审阅，安全负面词保留"],
+      "ref": "model-selection.md; prompt-build.md §4.1"
+    },
+    {
+      "id": "SP-04", "category": "per_style_photography_quality",
+      "prompt": "请分别准备新中式、日系生活感、Y2K三个风格的摄影目标，每个任务2到4条。用户认可对应官网案例作质量对照，商品与模特已有独立来源。只做方案，不生图。",
+      "expected_output": "按对应pack与案例摄影方法形成不同目标，不统一戏剧光或复制案例商品。",
+      "expectations": ["实际读取对应注册映射与pack，保留各自光影气质，柔光风格不强制高反差", "浅色服装分离、空间深度等关系可被定位检查，不只列白墙竹子或风格标签", "案例人物、商品、裙长或配饰不成为当前硬事实；目标不写进人物包或真实角度覆盖"],
+      "ref": "style-router.md; prompt-build.md §4.1; commercial-qa.md"
+    },
+    {
+      "id": "SP-05", "category": "helper_and_manual_actual_request",
+      "prompt": "当前任务已冻结摄影目标。请核对由提示词助手生成和由手写正文准备的两份原生请求，导出文件已提供。只核对并报告可提交状态，不发请求。",
+      "expected_output": "核对目标只出现一次且与冻结context一致，实际prompt与附件哈希绑定。",
+      "expectations": ["两条入口均核实际request.json而非仅看规划说明；上下文/正文/目标段缺失哈希、篡改或重复须阻断", "手写自由正文仍须按人物与商品优先级审阅，不宣称export自动解决自然语言冲突", "保留原始与最终prompt哈希、附件角色及顺序，不增加调用或自动上传"],
+      "ref": "chatgpt-web.md; prompt-build.md §4.1"
+    },
+    {
+      "id": "SP-06", "category": "aesthetic_review_does_not_hide_hard_failure",
+      "prompt": "请复核一组已返回图：第2张没有兑现声明的柔侧光和空间层次；第3张人物倚靠没有可行支撑；第4张商品花纹与原图明显不同；第5张与第3张是相同身体动作。图片和原始商品参考均已提供，不生图。",
+      "expected_output": "摄影偏离交人工审阅，人体、商品和重复动作仍硬失败。",
+      "expectations": ["第2张逐条说明目标与实际偏离为qa-user-review，不自动通过或追加重试", "第3/4/5张分别以支撑、商品和重复动作判qa-retry，不把它们降成审美待核", "有qa-retry不能升image-ready；保留原图、旧判定与已用次数，未提供图片则不能编造复核结果"],
+      "ref": "commercial-qa.md"
+    },
+    {
+      "id": "SP-07", "category": "legacy_and_continuation_boundaries",
+      "prompt": "请恢复一个没有photography_targets字段的旧schema-2任务，另核对一个有冻结目标的新任务从首张接受续五张。原账本和实际人物确认记录已提供，不生图。",
+      "expected_output": "旧任务原样恢复，新任务续组目标不静默变化，原授权与确认有效。",
+      "expectations": ["旧任务不自动迁移或声称满足新增摄影目标；schema1/2原恢复及失败门禁保持", "新任务沿用相同context目标与确认首张，重试只能调整达成目标的文字而非冻结目标或预算", "固定母图及修正编辑依明确保留内容，不由摄影规则重塑脸或姿态"],
+      "ref": "chatgpt-web.md; fixed-pose-wardrobe.md"
+    },
+    {
+      "id": "SP-08", "category": "visual_claim_and_new_call_budget",
+      "prompt": "24风格机械回归已通过，旧新中式六张调用额度已用完。用户问是否已经全修好并要求继续。请报告状态与下一步，不生图。",
+      "expected_output": "源码检查与画面质量分开；先准备受控两张验证，不复用旧额度或宣称24风格视觉通过。",
+      "expectations": ["明确静态通过不证明新中式或其他23风格画面改善，当前尚无本批新画面", "两张A/B只改变摄影段，其他最终prompt字节、已解析persona、附件及顺序、商品/人物/姿势/画布一致", "无明确2次新授权不调用，难判记inconclusive而非抽图挑最好结果；安装发布另按授权范围"],
+      "ref": "prompt-build.md §4.1; commercial-qa.md; flow-gates.md"
+    }
+  ]
+}

@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased — scoped style persona and task photography targets, 2026-10-09
+
+- Trigger: a new-product neo-Chinese test fell short of the accepted case's photography. Independent audit found all 24 style packs unchanged against the frozen comparison inputs and current cache, but shared persona replacement discarded unrelated demeanor and non-pilot style target deviations were under-reviewed. The helper defect is confirmed; it is not proven to be the direct cause of that handwritten six-image test.
+- Preserve unconflicted style persona, gestures, photography and safety negatives; override only effective person-condition axes, retaining existing identity/appearance defaults. No model schema or style-pack change; ambiguous inseparable mixed clauses require review rather than blanket deletion.
+- Add optional schema-2 `context.photography_targets` (2–4 nonempty single-line strings, at most 240 characters each), bound to the existing context hash. Preview/single-prompt helpers and actual request export share one canonical renderer; present blocks must match and occur once. Old schema-1/2 tasks without the extension retain their existing output/recovery behavior.
+- Review declared, locatable photography target deviations for every style as `qa-user-review`; garment, identity, anatomy/support, explicit presentation and repeated-action failures remain `qa-retry`. Targets are task data, not model/package factors or real-angle coverage. No automatic generation, live installation, publication or maturity promotion. Source regression definitions and retained checks are recorded separately in `docs/verification/2026-10-09-shared-style-photography.md`.
+- Final validation: 428 tests pass with existing host dependencies, after retaining and closing the initial dependency failures. Independent review's coordinated-makeup fragment and entrypoint-QA inconsistency are fixed; 24 packs are byte-identical. A fresh baseline/candidate preparation pair and final-source re-export retain zero external calls; a separate two-request photography preflight proves equal bytes outside its rendered target segment, not visual improvement. Eight source scenarios are definitions, not eight model runs.
+
 ## Local real-face source installed — 2026-10-08
 
 - Merge PR #37 after final hosted CI passes all 391 tests and independent review; retain source head `88c3eef` / merge `838d5ea`, the updated seven-layer topology, capability inventory and offline guide. The existing public beta.12 archive remains unchanged.
