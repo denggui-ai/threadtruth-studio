@@ -69,7 +69,7 @@ def context_check(context, size):
     elif type(context['first_pose']) is not int or context['first_pose'] not in range(1,7):
         raise ValueError('Declare the actual first pose number or custom presentation')
     elif 'pose_description' in context:
-        raise ValueError('Use custom when overriding the default pose/framing; do not relabel it as a numbered master')
+        raise ValueError('pose_description is only for a custom body-action category; keep numbered-master framing/support/gaze choices in the frozen prompt')
     if context['mode'] not in ('B', 'C', 'D') or context['size'] != list(size):
         raise ValueError('Task mode/canvas does not match context')
     if context.get('purpose', 'delivery') not in ('delivery', 'model-check', 'correction-edit'):

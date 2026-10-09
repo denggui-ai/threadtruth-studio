@@ -1,6 +1,6 @@
 {
   "skill_name": "threadtruth-studio",
-  "note": "横切 eval(风格无关)。前 18 条迁移自基线 korean-fashion-editorial(行为等价,韩系措辞泛化为多风格);19+ 为五正交轴扩展(safety-core R1-R7 + style-router),56+ 补显式风格与性别年龄/品类/非人像输出的 source-truth 对抗回归,64+ 补首张身份锚点与商业 QA 阻断,75+ 补 AI 推荐+完整风格目录自由选择交互。真机项(#17/#18/#14 + 19-22)未跑不得标 PASS;64+ 目前也是声明式规则回归,不能替代变更后真机复测。 2026-10-04当前交互改为一份方案、一次确认、按需目录；143–151覆盖确认绑定、收尾和失败边界，旧真机记录不回写。 2026-10-08：152–158补日系家居实测暴露的批量续行、复核与未提交计划版本化等边界；运行脚本回归和真实候选续跑证据分开，安装版未更新。",
+  "note": "横切 eval(风格无关)。前 18 条迁移自基线 korean-fashion-editorial(行为等价,韩系措辞泛化为多风格);19+ 为五正交轴扩展(safety-core R1-R7 + style-router),56+ 补显式风格与性别年龄/品类/非人像输出的 source-truth 对抗回归,64+ 补首张身份锚点与商业 QA 阻断,75+ 补 AI 推荐+完整风格目录自由选择交互。真机项(#17/#18/#14 + 19-22)未跑不得标 PASS;64+ 目前也是声明式规则回归,不能替代变更后真机复测。 2026-10-04当前交互改为一份方案、一次确认、按需目录；143–151覆盖确认绑定、收尾和失败边界，旧真机记录不回写。 2026-10-08：152–158补日系家居实测暴露的批量续行、复核与未提交计划版本化等边界；运行脚本回归和真实候选续跑证据分开，安装版未更新。 2026-10-09：187–196补摄影方法转译、同母版独立景别/场景/支撑、棚拍分配、真人计划权威、部件视角事实与实际请求检查；仅为零生图源侧定义，未自动形成模型会话或画面通过证据。",
   "evals": [
     {
       "id": 1,
@@ -2420,6 +2420,146 @@
       ],
       "ref": "prompt-build.md §4.1; commercial-qa.md; flow-gates.md",
       "source_case_id": "SP-08",
+      "validation_scope": "No-image source regression definition; not retained model-run or visual improvement evidence."
+    },
+    {
+      "id": 187,
+      "category": "numbered_pose_photography_decoupling",
+      "prompt": "只准备新中式母版3单张和六格预览，不生图。商品与身份材料已提供。摄影规格指定端坐保持UPRIGHT_SEATED、场景1、full-body，两手分别支撑凳边和腿侧。请核对最终正文与预览第3格。",
+      "expected_output": "母版3仍是端正坐姿，场景索引与编号解耦，全身正文与裁切约束一致。",
+      "expectations": [
+        "context.first_pose保持3，不因全身端坐改成custom或母版1；其他身体类别与顺序不变",
+        "预览第3格与单张使用同一解析后的场景、景别、支撑；不保留半身和全身相反句",
+        "全身要求保留鞋、下摆与安全边距；不把真实支撑关系视作已由文本自动验证"
+      ],
+      "ref": "prompt-build.md §1/§3a/§4.1; commercial-qa.md",
+      "source_case_id": "PP-01",
+      "validation_scope": "No-image source regression definition; not retained model-run or visual improvement evidence."
+    },
+    {
+      "id": 188,
+      "category": "studio_mode_and_scene_selection",
+      "prompt": "只核对三份摄影规格：B模式给pose3指定scene_index=1；D默认前2棚拍、pose3选场景1；D声明studio_prefix=3且pose3选场景1。各自有真实素材，不生图。",
+      "expected_output": "B和D棚拍位拒绝地点选择，D默认场景位允许独立索引。",
+      "expectations": [
+        "B所有编号使用棚拍背景，拒绝所给地点scene_index，不偷换模式",
+        "D默认前2棚拍时pose3可选场景1；studio_prefix=3时该地点选择须先修订",
+        "不重排母版，未配置摄影项沿用默认；预览/单张解析一致"
+      ],
+      "ref": "prompt-build.md §4.1; modes-scenes.md",
+      "source_case_id": "PP-02",
+      "validation_scope": "No-image source regression definition; not retained model-run or visual improvement evidence."
+    },
+    {
+      "id": 189,
+      "category": "real_plan_authority_and_expression",
+      "prompt": "只准备沿用真人的母版3。real_face_plan声明近正面、原表情不变、两手分别支撑凳边和腿侧、自然画外眼球视线。摄影规格的support和gaze先与该计划一致，另提供一份gaze写直视镜头的冲突规格。",
+      "expected_output": "已有真人计划为唯一身体/头向/视线依据，冲突规格阻断准备。",
+      "expectations": [
+        "一致规格使用real_face_plan正文；显式support与body_action全文相同，gaze同值，未指定时沿用计划",
+        "gaze冲突不生成两种视线指令，先修订方案；字符串一致仅证明机械准备一致",
+        "保留原表情/妆发与真实覆盖；画外眼球视线不授权未知侧脸或复制案例冷脸"
+      ],
+      "ref": "model-selection.md; prompt-build.md §2/§4.1",
+      "source_case_id": "PP-03",
+      "validation_scope": "No-image source regression definition; not retained model-run or visual improvement evidence."
+    },
+    {
+      "id": 190,
+      "category": "ai_custom_and_fixed_mother_boundaries",
+      "prompt": "只核对三种任务：已有正脸AI模特按默认六姿势；用户要求六类之外的单张身体动作；已有固定姿势母图只换裙子。另核对母版3单张是否可原地续成六张，不生图。",
+      "expected_output": "AI默认头向流程、custom单张、固定母图保护和既有续组门禁均保留。",
+      "expectations": [
+        "AI/new未明确摄影变化时保留原头向/复用流程，不因正脸附件触发真人覆盖限制",
+        "六类以外动作如实custom+pose_description且单张；固定母图不因摄影规则重塑姿势/头脸",
+        "母版3全身端坐仍编号3，但不会绕过仅母版1可续组的现有门禁；不新增首张重排"
+      ],
+      "ref": "prompt-build.md §1/§2; fixed-pose-wardrobe.md; chatgpt-web.md",
+      "source_case_id": "PP-04",
+      "validation_scope": "No-image source regression definition; not retained model-run or visual improvement evidence."
+    },
+    {
+      "id": 191,
+      "category": "case_to_photography_method",
+      "prompt": "只用已提供对应风格案例准备新中式、日系生活感、Y2K三份拍法。当前商品与人物另有来源，要求保留原表情。请将案例观察落实到提示词正文，不生图。",
+      "expected_output": "按各自pack将摄影关系转为具体拍法，不只复制道具或统一明暗语言。",
+      "expectations": [
+        "观察明暗主次、色彩、前中后景、身体支撑和视线，再写相容正文；不把柔光自动变成弱对比平坦照明",
+        "分别保留各pack视觉语言，不把新中式暗木/暖光普遍用于24风格",
+        "案例衣服、人物、裙长、表情和未知头向不替代当前条件；目标段不能与正文的光线/景别/视线相反"
+      ],
+      "ref": "prompt-build.md §4.1; commercial-qa.md",
+      "source_case_id": "PP-05",
+      "validation_scope": "No-image source regression definition; not retained model-run or visual improvement evidence."
+    },
+    {
+      "id": 192,
+      "category": "component_view_and_distinctive_motifs",
+      "prompt": "只识别并准备提示词：同款正背面合并源图标明正面闭合、后中开衩；局部图未标视角；独立珠网披肩与袖身分别可见；裙身有可辨鸟类与植物织纹。请准备正面坐姿和背部展示。",
+      "expected_output": "保留部件、源视角和当前应出现关系，不错误压缩事实。",
+      "expectations": [
+        "正面闭合与后中开衩按明确主视图定位，模糊角度细节不反向增加前侧开衩；背部展示仅写源图支持结构",
+        "披肩珠网/垂挂与袖身分开，不能转移配件材质；可见腰饰按源图位置关系保留",
+        "鸟类与植物关系不被泛称花纹抹掉；不猜物种/纤维/隐藏数量或实测长度"
+      ],
+      "ref": "recognition.md §2/§3.8; prompt-build.md §4.1",
+      "source_case_id": "PP-06",
+      "validation_scope": "No-image source regression definition; not retained model-run or visual improvement evidence."
+    },
+    {
+      "id": 193,
+      "category": "critical_facts_in_actual_handoff",
+      "prompt": "真实源图与识别记录已提供，易错结构已按部件与视角写明。只核对由辅助脚本及手写正文形成的实际原生request.json，确认关键事实和人物条件是否进入最终请求，不发请求。",
+      "expected_output": "实际请求保留关键关系并绑定现有正文/附件哈希，不把导出成功当成语义正确。",
+      "expectations": [
+        "核最终prompt中的源支持部件/视角关系，而不只看识别卡或摄影目标段",
+        "检查附件角色与顺序、实际prompt/hash，库存和原人物依据保持且每次最多五张",
+        "无新增任务shot_plan或商品schema；语义关系仍需看源图审阅，不声称导出器会自动发现任意改款/光线矛盾"
+      ],
+      "ref": "recognition.md §2; prompt-build.md §4.1; chatgpt-web.md",
+      "source_case_id": "PP-07",
+      "validation_scope": "No-image source regression definition; not retained model-run or visual improvement evidence."
+    },
+    {
+      "id": 194,
+      "category": "all_styles_compile_and_legacy_scope",
+      "prompt": "只检查24注册风格的辅助编译及实际请求导出，摄影规格未给的任务沿用默认。另恢复schema1/2旧冻结任务和历史画廊。报告本次检查能支持哪些结论，不生图。",
+      "expected_output": "修正规则作用新编译，既有冻结请求原样恢复；24风格机械结果不当作画面结论。",
+      "expectations": [
+        "各风格保留自己的pack视觉语言与字节，模式/景别编译遵守本轮修正规则",
+        "没有photography-spec的旧账本/历史画廊不自动改写或迁移；恢复按旧冻结prompt/hash",
+        "公开maturity不升；源检查或24导出通过不能声称24画面已改善，也不能证实严格锁脸"
+      ],
+      "ref": "prompt-build.md §4.1; commercial-qa.md; chatgpt-web.md",
+      "source_case_id": "PP-08",
+      "validation_scope": "No-image source regression definition; not retained model-run or visual improvement evidence."
+    },
+    {
+      "id": 195,
+      "category": "actual_framing_and_independent_qa",
+      "prompt": "请复核已提供图片：母版3方案full-body但鞋被画框切掉；另一母版3方案half-body且鞋在画外；摄影层次变好但裙子出现错误前侧开衩；局部脸/细纹样难判断。不生图。",
+      "expected_output": "按实际景别而非母版编号判断裁切，摄影不抵消硬事实失败。",
+      "expectations": [
+        "full-body母版3错误裁鞋按明确展示失败qa-retry；half-body画外鞋不自动判废，仍核画内服饰",
+        "错误前侧开衩qa-retry，即使摄影改善也保持失败；不偷偷接受或传播身份",
+        "面部/细纹样无法可靠判断qa-user-review；已声明摄影偏离独立记理由，不自动追加重试"
+      ],
+      "ref": "prompt-build.md §3a/§5; commercial-qa.md",
+      "source_case_id": "PP-09",
+      "validation_scope": "No-image source regression definition; not retained model-run or visual improvement evidence."
+    },
+    {
+      "id": 196,
+      "category": "one_image_calibration_authority_and_claims",
+      "prompt": "源码修复与零生图请求已完成。以前两次对照调用全部用完，用户只是要求实现此源码计划。请给出当前状态和画面校准的下一步，不生图。",
+      "expected_output": "交付源码与可审阅请求；新的单张校准需新的明确一次授权。",
+      "expectations": [
+        "原两次失败/待核证据及累计调用保留，不把源码实施同意当新增生图次数",
+        "单张母版3校准用三商品源+原真人+一个案例审美源最多五附件；审美源不认证商品/身份，原表情与近正面覆盖保持",
+        "没有新画面就不宣称摄影问题或24风格视觉闭环；校准失败不自动追加，安装发布按各自授权"
+      ],
+      "ref": "prompt-build.md §4.1/§4.4; commercial-qa.md; flow-gates.md",
+      "source_case_id": "PP-10",
       "validation_scope": "No-image source regression definition; not retained model-run or visual improvement evidence."
     }
   ]

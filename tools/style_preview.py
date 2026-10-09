@@ -293,7 +293,7 @@ def _registered_packs(root):
 
 def _mode_scene(mode, scenes, ordinal):
     if mode == "B":
-        return scenes[ordinal - 1]
+        return _photography_spec_tools().studio_scene(scenes[ordinal - 1])
     if mode == "D" and ordinal <= 2:
         return "low-distraction white or light-gray studio background"
     return scenes[ordinal - 1]
@@ -309,7 +309,73 @@ def _anchor_line(source_count, pilot):
 
 
 def _framing_text(framing, pilot):
-    return PILOT_FRAMING.get(framing, framing) if pilot else framing
+    if framing == 'full-body':
+        if pilot:
+            return PILOT_FRAMING['full-body']
+        return 'full-body; full body, garment hem, feet and source-supported shoes visible inside safe margins'
+    if framing in {'half-body', 'half-body-permitted'}:
+        return framing + '; keep the face and in-frame garment details inside safe margins; shoes and full hem need not appear'
+    raise ValueError('unsupported photography framing')
+
+
+def _photography_spec_tools():
+    spec = importlib.util.spec_from_file_location('preview_photography_spec', Path(__file__).with_name('photography_spec.py'))
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def _real_plan_tools():
+    path = Path(__file__).resolve().parents[1] / 'skills/threadtruth-studio/scripts/real_face_plan.py'
+    spec = importlib.util.spec_from_file_location('preview_real_face_plan', path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def resolve_photography(preview, source, photography_spec=None, *, model=None,
+                        model_references=None, real_face_plan=None, pose=1, action=2):
+    """Prepare shared preview/single photography without writing files or generating.
+
+    The caller supplies the frozen source and person inventory; complete real plan
+    validation therefore applies before any per-shot text replaces defaults.
+    """
+    if type(pose) is not int or not 1 <= pose <= 6 or type(action) is not int or action not in (0, 2):
+        raise ValueError('photography supports only existing poses 1-6 and actions 0/2')
+    if (photography_spec is not None and isinstance(model, dict) and model.get('source_type') == 'real'
+            and real_face_plan is None):
+        raise ValueError('New real-person photography choices require a reviewed real_face_plan')
+    if real_face_plan is not None:
+        if not isinstance(model, dict) or model.get('source_type') != 'real':
+            raise ValueError('real_face_plan applies only to an existing real model')
+        inventory = [dict(asset, role='garment-source') for asset in source['assets']]
+        inventory += model_references or []
+        looks = real_face_plan.get('looks') if isinstance(real_face_plan, dict) else None
+        count = len(looks) if isinstance(looks, list) else 0
+        _real_plan_tools().validate(real_face_plan, inventory, schema_version=2, identity=True,
+            model=model, context=dict(first_pose=pose), count=count, route='codex_native')
+    result = _photography_spec_tools().resolve(preview, photography_spec,
+        real_face_plan=real_face_plan, pose=pose, action=action)
+    if 'subtitle' in source and 'label_contract' in result:
+        result['label_contract']['subtitle'] = f"{source['subtitle']} · {result['mode']} {MODE_NAMES[result['mode']]} · 六姿势预览"
+    return result
+
+
+def _pose_lines(preview, pose, pilot, label):
+    shot = next((row for row in preview.get('resolved_shots', []) if row['pose'] == pose['ordinal']), None)
+    lines = [f"{label}: {pose['master']} — {shot['body_action'] if shot else pose['description']}"]
+    if shot and 'real_face_look' in shot:
+        lines.extend(_real_plan_tools().prompt_lines(shot['real_face_look'])[1:])
+    else:
+        lines.append(f"Head/gaze: {pose['head_gaze']}")
+        if shot and shot['gaze'] is not None:
+            lines.append('Eye gaze: ' + shot['gaze'] + '. Preserve the current expression and natural neck alignment.')
+        if shot and shot['support'] is not None:
+            lines.append('Body support: ' + shot['support'] + '.')
+    lines.extend([f"Mode/scene: {pose['scene']}",
+                  f"Framing: {_framing_text(preview['layout_contract']['framing'][pose['ordinal'] - 1], pilot)}",
+                  "Retain every core outfit item and all visible source construction detail within this framing."])
+    return lines
 
 
 def _model_tools():
@@ -381,13 +447,14 @@ def _prompt(preview, source, anchor, preview_negative, head_gaze_guidance, pilot
         f"Render this exact disclosure natively in the footer: {preview['label_contract']['footer']}",
         f"Attached image{'s' if source_count != 1 else ''} 1{'-' + str(source_count) if source_count != 1 else ''} {'are' if source_count != 1 else 'is'} the only authoritative outfit truth.",
         "Preserve every core item exactly: " + "; ".join(source["outfit"]["core_items"]) + ".",
-        "Keep the complete coordinated outfit visible in all six cells. Never replace a garment or invent a brand, logo or text.",
+        "Preserve the complete coordinated outfit consistently; each cell follows its declared framing. Never replace a garment or invent a brand, logo or text.",
         _anchor_line(source_count, pilot),
         "Style may change mood, low-distraction background, pose treatment and lighting only; source truth overrides every style-pack suggestion.",
-        f"Mode: {preview['mode']} derived from the registered pack default and runtime mode rules.",
+        f"Mode: {preview['mode']} following the resolved photography plan and runtime mode rules.",
         f"Mood only: {visual['mood']}",
         f"Attitude: {visual['persona']}",
-        head_gaze_guidance,
+        ("Real-person head and eye directions follow each validated original-reference plan; preserve the current expression, hair and makeup."
+         if any('real_face_look' in row for row in preview.get('resolved_shots', [])) else head_gaze_guidance),
         f"Lighting/background palette: {visual['lighting']}",
         "This is a LOW-RES DIRECTION PREVIEW, not a final deliverable. Keep the footer visible and unobtrusive, no larger than about 3-4% of image height.",
         "All requested text must be native-rendered in the generated board. Never cover the model, face, vest, shoes, bag or pose. Do not place a large centered watermark.",
@@ -395,14 +462,8 @@ def _prompt(preview, source, anchor, preview_negative, head_gaze_guidance, pilot
         "Identity-only reference: " + anchor["path"],
     ]
     for pose in preview["poses"]:
-        lines.extend([
-            "",
-            f"POSE {pose['ordinal']} / row {pose['row']} column {pose['column']}: {pose['master']} — {pose['description']}",
-            f"Head/gaze: {pose['head_gaze']}",
-            f"Mode/scene: {pose['scene']}",
-            f"Framing: {_framing_text(preview['layout_contract']['framing'][pose['ordinal'] - 1], pilot)}",
-            "Retain every core outfit item and all visible source construction detail.",
-        ])
+        lines.extend(["", *_pose_lines(preview, pose, pilot,
+            f"POSE {pose['ordinal']} / row {pose['row']} column {pose['column']}")])
     lines.extend([
         "",
         "Preview negative (grid is intentionally allowed): " + preview_negative,
@@ -426,29 +487,31 @@ def _single_prompt(preview, source, anchor, pose, general_negative, full_body_ap
     source_count = len(source["assets"])
     framing = preview["layout_contract"]["framing"][pose["ordinal"] - 1]
     full_body = framing == "full-body"
+    shot = next((row for row in preview.get('resolved_shots', []) if row['pose'] == pose['ordinal']), None)
+    visibility = ('keep the complete required subject, garment, source-supported shoes, bag and hem inside safe margins'
+                  if full_body else 'keep the face and required in-frame garment details inside safe margins; shoes and full hem need not appear')
     lines = [
         f"Create one independent action-2 test image for style {preview['style']}: pose template {pose['ordinal']} "
         f"({pose['master']} — {pose['description']}), one adult female model, single image only.",
         *([PILOT_PHOTOREAL_LINE] if pilot else []),
-        f"Canvas contract: exact {ratio} {_orientation(ratio)} canvas; keep the complete required subject, garment, shoes, bag and hem inside safe margins; no extra-tall or alternate-ratio canvas.",
+        f"Canvas contract: exact {ratio} {_orientation(ratio)} canvas; {visibility}; no extra-tall or alternate-ratio canvas.",
         f"Attached image{'s' if source_count != 1 else ''} 1{'-' + str(source_count) if source_count != 1 else ''} {'are' if source_count != 1 else 'is'} the only authoritative outfit truth.",
         "Preserve every core item exactly: " + "; ".join(source["outfit"]["core_items"]) + ".",
-        "Keep the complete coordinated outfit visible. Never replace a garment or invent a brand, logo or text.",
+        ("Keep the complete coordinated outfit visible." if full_body else
+         "Preserve the complete coordinated outfit; show the required details within the declared half-body framing.") +
+        " Never replace a garment or invent a brand, logo or text.",
         _anchor_line(source_count, pilot),
         "Style may change mood, low-distraction background, pose treatment and lighting only; source truth overrides every style-pack suggestion.",
-        f"Mode: {preview['mode']} derived from the registered pack default and runtime mode rules.",
+        f"Mode: {preview['mode']} following the resolved photography plan and runtime mode rules.",
         f"Mood only: {visual['mood']}",
         f"Attitude: {visual['persona']}",
-        head_gaze_guidance,
+        ("Real-person head and eye directions follow the validated original-reference plan; preserve the current expression, hair and makeup."
+         if shot and 'real_face_look' in shot else head_gaze_guidance),
         f"Lighting/background palette: {visual['lighting']}",
         "Outfit references: " + ", ".join(asset["path"] for asset in source["assets"]),
         "Identity-only reference: " + anchor["path"],
         "",
-        f"POSE {pose['ordinal']}: {pose['master']} — {pose['description']}",
-        f"Head/gaze: {pose['head_gaze']}",
-        f"Mode/scene: {pose['scene']}",
-        f"Framing: {_framing_text(framing, pilot)}",
-        "Retain every core outfit item and all visible source construction detail.",
+        *_pose_lines(preview, pose, pilot, f"POSE {pose['ordinal']}"),
         "",
         "single image only, one model only, one pose only.",
         "Final negative: " + general_negative + (" " + full_body_append if full_body else ""),
@@ -457,18 +520,21 @@ def _single_prompt(preview, source, anchor, pose, general_negative, full_body_ap
     return _photography_tools().apply("\n".join(_apply_model(lines, source_count, model, model_references)) + "\n", photography_targets)
 
 
-def single_prompt(root, run_id, style, pose, source_case, ratio="1:1", model=None, model_references=None, action=2, photography_targets=None):
+def single_prompt(root, run_id, style, pose, source_case, ratio="1:1", model=None, model_references=None,
+                  action=2, photography_targets=None, photography_spec=None, real_face_plan=None):
     """Write one action-2 single-image prompt into <run>/prompts/ without touching evidence.json.
 
     This is a validation aid for a human-authorized single native call; it registers no batch and never generates.
     """
-    if not isinstance(pose, int) or not 1 <= pose <= 6:
+    if type(pose) is not int or not 1 <= pose <= 6:
         raise ValueError("pose must be 1-6")
     directory = run_dir(root, run_id)
     plan = _plan_v5(root, run_id, source_case)
     preview = next((item for item in plan["previews"] if item["style"] == style), None)
     if preview is None:
         raise ValueError(f"style {style} is not registered")
+    preview = resolve_photography(preview, plan['source'], photography_spec, model=model,
+        model_references=model_references, real_face_plan=real_face_plan, pose=pose, action=action)
     general_negative, full_body_append = _final_negatives(root)
     text = _single_prompt(
         preview, plan["source"], plan["identity_anchor"], preview["poses"][pose - 1],
@@ -504,7 +570,8 @@ def single_prompt(root, run_id, style, pose, source_case, ratio="1:1", model=Non
     (directory / "prompts").mkdir(parents=True, exist_ok=True)
     path = child(directory, f"prompts/{style}.action{action}-pose{pose}.txt")
     path.write_text(text, encoding="utf-8")
-    result={"path": str(path.relative_to(root.resolve())), "sha256": digest(text.encode()), "words": len(text.split()), "ratio": ratio}
+    result={"path": str(path.relative_to(root.resolve())), "sha256": digest(text.encode()), "words": len(text.split()), "ratio": ratio,
+            "mode": preview['mode'], "studio_prefix": preview['studio_prefix'], "resolved_shots": copy.deepcopy(preview['resolved_shots'])}
     if model is not None:result["references"]=attachments
     return result
 
@@ -535,6 +602,7 @@ def _plan_v5(root, run_id, source_case):
             "mode": mode,
             "visual": _visual(text),
             "negative_delta_add": _list_field(text, "negative_delta_add"),
+            "scenes": scenes,
             "poses": poses,
             "layout_contract": copy.deepcopy(LAYOUT_CONTRACT),
             "label_contract": {
@@ -543,6 +611,7 @@ def _plan_v5(root, run_id, source_case):
                 "footer": PREVIEW_MARK,
             },
         }
+        preview = resolve_photography(preview, source)
         preview["prompt_sha256"] = digest(_prompt(preview, source, anchor, preview_negative, head_gaze_guidance, pilot=style in PILOT_PHOTOGRAPHY_SLUGS).encode())
         preview["display_contract"] = copy.deepcopy(_cards().CONTRACT)
         previews.append(preview)
@@ -1938,6 +2007,7 @@ def main(argv=None):
             command.add_argument("--pose", type=int, required=True, help="canonical pose template 1-6")
             command.add_argument("--ratio", default="1:1", help="canvas contract W:H (modes-scenes §4; ecommerce main image defaults to 1:1)")
             command.add_argument("--photography-target", action="append", dest="photography_targets", help="Optional current-task scene/light/composition target; repeat 2–4 times, each a nonempty single line of at most 240 characters")
+            command.add_argument("--photography-spec", type=Path, help="Private JSON photography choices: mode, D studio_prefix and per-mother scene_index/framing/support/gaze")
         if name == "register-batch":
             command.add_argument("--manifest", type=Path, required=True)
         if name in {"ingest", "compose", "audit", "gallery", "approve"}:
@@ -1969,7 +2039,10 @@ def main(argv=None):
                 path = Path(ref['path']).resolve()
                 if not path.is_file() or path.suffix.lower() not in {'.png','.jpg','.jpeg','.webp'} or digest(path.read_bytes()) != ref['sha256']:
                     raise ValueError('Missing or changed model reference')
-            result = single_prompt(args.root, args.run_id, args.style, args.pose, args.source_case, args.ratio, model=model, model_references=refs, action=args.action, photography_targets=args.photography_targets)
+            result = single_prompt(args.root, args.run_id, args.style, args.pose, args.source_case, args.ratio,
+                model=model, model_references=refs, action=args.action, photography_targets=args.photography_targets,
+                photography_spec=read_json(args.photography_spec) if args.photography_spec else None,
+                real_face_plan=custom.get('real_face_plan'))
         elif args.command == "ingest":
             correction = read_json(args.correction_record) if args.correction_record else None
             failed_retry = read_json(args.failed_retry_record) if args.failed_retry_record else None
