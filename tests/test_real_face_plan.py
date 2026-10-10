@@ -463,7 +463,8 @@ class RealFacePlanTests(unittest.TestCase):
 
     def test_frontal_only_coverage_rejects_new_directional_off_lens_gaze(self):
         for gaze in ('Eyes look gently just to image-right outside the lens',
-                     'look away from the camera', 'off-lens eyes toward image-left', 'eyes drift off-frame'):
+                     'look away from the camera', 'off-lens eyes toward image-left', 'eyes drift off-frame',
+                     'looks to the left of the camera', 'glances sideways', 'looks back over her shoulder'):
             plan = self.plan()
             plan['looks'][0]['gaze'] = gaze
             with self.subTest(gaze=gaze), self.assertRaisesRegex(ValueError, 'Frontal-only'):

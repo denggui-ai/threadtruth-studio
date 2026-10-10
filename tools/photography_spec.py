@@ -115,9 +115,9 @@ def resolve(preview, value=None, *, real_face_plan=None, pose=1, action=2):
         if look is not None:
             shot['real_face_look'] = copy.deepcopy(look)
             if look['face_visible'] and framing == 'full-body':
-                shot['identity_risk'] = ('full-body real face is small in frame; identity often drifts. Prefer a '
-                                         'user-confirmed knee-up first image exported as an accepted supplement; '
-                                         'review this face as qa-user-review.')
+                shot['identity_risk'] = ('full-body real face is small in frame and identity often drifts; deliver it '
+                                         'as a product image, review this face as qa-user-review and use knee-up '
+                                         'when likeness matters.')
         template.update(description=description, scene=scene)
         result['layout_contract']['framing'][number - 1] = framing
         resolved.append(shot)

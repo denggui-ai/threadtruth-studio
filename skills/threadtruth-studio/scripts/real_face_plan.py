@@ -18,7 +18,8 @@ LOOK_FIELDS = {'body_action', 'head_view', 'gaze', 'face_visible',
 FRONTAL = {'front', 'near-front'}
 # Directional off-camera gaze; slight "past/beside the lens" stays allowed.
 OFF_LENS = re.compile(r'\b(?:image[- ](?:left|right)|outside (?:of )?the (?:lens|frame|camera)|off[- ](?:lens|camera|frame)'
-                      r'|away from (?:the )?(?:lens|camera))\b', re.I)
+                      r'|away from (?:the )?(?:lens|camera)|(?:to|toward) the (?:left|right) of the (?:lens|camera)'
+                      r'|sideways|over (?:her|his|their|the) shoulder)\b', re.I)
 
 
 def text(value):
