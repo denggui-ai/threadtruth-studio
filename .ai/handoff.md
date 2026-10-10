@@ -1,9 +1,9 @@
 # 裁光模特开发交接
 
-更新：2026-10-10。Owner：真人锁脸分支终审通过并推送（37a9d61），本机已安装 `1.0.0-beta.12+codex.20261010T124045-d8c3845c`；版本 bump 到 beta.13 并合并 main（本提交），未发布 GitHub prerelease。真人全身锁脸课题关闭（用户判定），素材指南 `references/real-face-material-guide.md` 已进 skill。上一状态：当前活跃安装：运行源码d981873（共享摄影规划及24风格基准）已完成完整备份、本机替换与官方启用，283源/缓存及48运行文件一致；限定安装审查通过。后续用户新增授权的四参考实际测试已执行1/1，人物/商品仍qa-retry、不传播，剩余0。PR #37与两张日系家居接受为历史证据。公开beta.12原ZIP不变，成熟度不升级。
+更新：2026-10-10。Owner：真人锁脸分支终审通过并推送（37a9d61），本机已安装 `1.0.0-beta.12+codex.20261010T124045-d8c3845c`；版本 bump 到 beta.13 并合并 main（e12d7f6），同日已发布 GitHub prerelease `v1.0.0-beta.13`（发布记录 24f1df6）。下一主线：skill 完整交互梳理，交接见 korea 顶层 `.ai/thread-handoff-caiguang-interaction-review-20261010.md`。真人全身锁脸课题关闭（用户判定），素材指南 `references/real-face-material-guide.md` 已进 skill。上一状态：当前活跃安装：运行源码d981873（共享摄影规划及24风格基准）已完成完整备份、本机替换与官方启用，283源/缓存及48运行文件一致；限定安装审查通过。后续用户新增授权的四参考实际测试已执行1/1，人物/商品仍qa-retry、不传播，剩余0。PR #37与两张日系家居接受为历史证据。公开beta.12原ZIP不变，成熟度不升级。
 
 - 正确开发位置：本 worktree `threadtruth-studio/.worktrees/model-reference-reuse`；当前分支 `fix/shared-style-photography-targets`，前安装/源码分支保留。
-- 当前已安装源码：`d981873`；上次`88c3eef`（与PR #37合并后的`838d5ea`同树，运行修订基线`36625a2`）、原`43e942b`（日系家居）、`7dd00bf`（简化流程）及flow2安装作为历史保留。运行时目标：`skills/threadtruth-studio/`；开发证据根：本仓库。
+- 当前已安装源码：`37a9d61`（2026-10-10，与 beta.13 运行文件一致）；此前 `d981873`；上次`88c3eef`（与PR #37合并后的`838d5ea`同树，运行修订基线`36625a2`）、原`43e942b`（日系家居）、`7dd00bf`（简化流程）及flow2安装作为历史保留。运行时目标：`skills/threadtruth-studio/`；开发证据根：本仓库。
 - 当前唯一开发路线：[model-selection-roadmap.md](../docs/development/model-selection-roadmap.md)。它更新后续排期，不改写历史实验。
 - 核心目标：已有模特可沿用；没有模特时可推荐和选择；因子可理解和调整；首张确认后可携带参考包继续展示新品。
 - 已完成：规则/辅助工具实现、固定姿势受限路径、四处恢复与校验修复、beta.11 规则整合，以及用户授权的本机安装启用。
