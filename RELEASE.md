@@ -1,6 +1,10 @@
 # Release Readiness
 
-## Current release target — beta.12
+## Current release target — beta.13 (source cut; prerelease not yet published)
+
+Version `1.0.0-beta.13` is cut on `main` from the real-person face-lock branch: strict directional off-lens gaze rejection for frontal-only real coverage, knee-up default for a single real-person visible look, full-body real faces delivered as product images with face `qa-user-review`, `unknown` coverage excluded from the frontal-only test, and the new `references/real-face-material-guide.md` (recommended 4+2 capture set, delivery boundary, graded evidence). Evidence is a private user-judged ablation (97 native calls); likeness is a human judgement, not a biometric score. No GitHub prerelease tag, ZIP or tryout document exists for beta.13 yet; publishing it requires the release build, allowlist staging, privacy scan and hosted CI described below for beta.12. The maintainer host runs these runtime bytes as a `+codex` local install.
+
+## Published prerelease — beta.12
 
 Channel: GitHub prerelease; `guide-required`. Includes portable adult model references, guarded first-image confirmation, recoverable cumulative task accounting, guided fixed-pose wardrobe editing and compact proposal/confirmation/image-review flow. Runtime files are unchanged from the locally installed compact source. PR #31 and hosted CI passed; this release updates version and distribution documentation without new image calls.
 

@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.0-beta.13 — source cut, 2026-10-10
+
+- Trigger: the owner authorized merging the `fix/shared-style-photography-targets` branch into `main` and bumping the version, because 57b1929/5fa202b/37a9d61 change runtime behavior (strict directional off-lens gaze rejection for frontal-only real coverage, knee-up default for single real-person visible looks, `unknown` coverage excluded from the frontal-only test) and 48c7c29 adds the real-person material guide. The Unreleased entries below from 2026-10-08 to 2026-10-10 are folded into this version.
+- Scope of this cut: `.codex-plugin/plugin.json` version, RELEASE.md target, this entry and a verification note. No GitHub prerelease tag, ZIP artifact, tryout document, README or offline-guide refresh is published with this cut; the public prerelease remains beta.12 until a release build is run and verified.
+- Local state: the maintainer host runs the same runtime files as this cut, installed from 37a9d61 as `1.0.0-beta.12+codex.20261010T124045-d8c3845c` before the version bump; runtime bytes under `skills/threadtruth-studio/` are identical. Validation for this cut: release/contract/installer tests plus the 119 targeted real-face tests (see commit message).
+
 ## Unreleased — real-person face-lock material guide, 2026-10-10
 
 - Trigger: the owner reframed the face-lock work after a user-authorized private ablation reached 97 native calls (user-judged likeness; private evidence only): AI/new models do not drift (a fictional test person stayed one person in 7/7 of an 8-angle reference set), real-person references do. What the product needs is a material requirement and shooting tutorial shown to the user when a real model is used, not a new architecture. Stage results that closed the full-body question: extending a user-judged knee-up to full body as an edit target gave 0/3 alike (3 partial, head-to-body proportion the main defect); together with earlier 2/27 (no anchor) and 3/6 (anchor), full-body real faces stay product-image deliveries. A single-attachment 2x2 reference sheet of the fictional person was judged alike 2/2 versus 1/2 for two separate references, with no grid copying; it is recorded as evidence only and not added as a role.
