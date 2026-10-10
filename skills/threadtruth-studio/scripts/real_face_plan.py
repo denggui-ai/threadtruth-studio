@@ -93,7 +93,7 @@ def validate(plan, inventory, *, schema_version, identity, model, context, count
         if look['face_visible'] and not any(h in reviewed and supports(reviewed[h], target) for h in hashes):
             raise ValueError('Requested face direction lacks a selected clear original view; do not infer or mirror an unseen angle')
         covered = set().union(*(reviewed[h] for h in hashes if h in reviewed))
-        if (number in strict_looks and look['face_visible'] and covered <= FRONTAL
+        if (number in strict_looks and look['face_visible'] and (covered - {'unknown'}) <= FRONTAL
                 and OFF_LENS.search(look['gaze'])):
             raise ValueError('Frontal-only original coverage supports a camera or near-camera gaze; '
                              'directional off-lens eyes turn the head and drift identity')

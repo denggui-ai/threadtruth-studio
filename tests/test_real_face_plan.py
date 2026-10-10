@@ -480,6 +480,15 @@ class RealFacePlanTests(unittest.TestCase):
         plan['looks'][0]['gaze'] = 'eyes toward image-left outside the lens'
         self.assertEqual(self.create(plan, extra=True)['real_face_plan'], plan)
 
+    def test_unknown_view_reference_does_not_unlock_off_lens_gaze(self):
+        plan = self.plan(extra=True)
+        plan['coverage'][1] = dict(sha256=self.sha('left'), views=['unknown'], note='Blurred; angle not reviewable')
+        plan['looks'][0] = self.look('front', ['garment', 'front', 'left'])
+        plan['looks'][0]['gaze'] = 'eyes toward image-left outside the lens'
+        with self.assertRaisesRegex(ValueError, 'Frontal-only'):
+            self.create(plan, extra=True)
+        self.assertFalse(self.task.exists())
+
     def test_frozen_off_lens_plan_still_reads_and_exports(self):
         self.create()
         data = json.loads((self.task / 'task.json').read_text())
