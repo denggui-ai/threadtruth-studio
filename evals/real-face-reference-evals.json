@@ -166,6 +166,32 @@
         "旧任务已冻结的同类目标照常恢复导出，不据此宣称通过新检查；实际调用为0"
       ],
       "ref": "model-selection.md §真人参考覆盖与本轮朝向计划; prompt-build.md §摄影目标/--photography-spec; commercial-qa.md 构图与呈现"
+    },
+    {
+      "id": "RF-13",
+      "category": "real_face_material_guide_single_selfie",
+      "prompt": "真人模特只上传了一张开了美颜的近距自拍，要六张新中式成片，其中两张全身，要求“脸要像”。请核对素材并说明能做什么。",
+      "expected_output": "出示真人锁脸素材清单（建议必拍4张+加分2张、无美颜/自然光/无遮挡/授权），记录当前覆盖只有正脸且为美颜自拍；说明膝上/半身露脸可做（用户判定7/7像），全身按商品图交付、脸qa-user-review不承诺像；不生图。",
+      "expectations": [
+        "向用户出示 real-face-material-guide.md 第二至五节内容，补拍为建议，不说“确保/保证成功率”",
+        "覆盖记录只写正脸/近正面，其余角度 unknown，不用 AI 生成补角度",
+        "全身张明确按商品图交付、脸至少 qa-user-review；不因清单未满足而拒绝膝上/半身任务",
+        "实际调用为0；不把 Claude 目测或替身实验写成验证"
+      ],
+      "ref": "real-face-material-guide.md; model-selection.md §真人参考覆盖与本轮朝向计划"
+    },
+    {
+      "id": "RF-14",
+      "category": "real_face_material_guide_four_photos",
+      "prompt": "真人模特按清单补了 4 张：1.5米正脸无美颜、左3/4、右3/4、站立全身。用户问：现在六张都能保证像了吗？",
+      "expected_output": "按 head_view 记录四个角度的真实覆盖；每张生成按该张头向最多选2张人物参考（3张商品图占位）；侧向 look 可按真实覆盖安排，但只能说“建议/替身实验偏乐观”，全身仍不承诺像、保留比例人工QA。",
+      "expectations": [
+        "覆盖记录 front/left-three-quarter/right-three-quarter/full-body 均来自用户照片，不镜像推断另一侧",
+        "逐张参考选择 ≤2 张人物图且与该张头向对应；不拼贴、不绕过5附件上限",
+        "回答不出现“保证/确保像”；全身张仍按商品图交付、脸 qa-user-review",
+        "实际调用为0"
+      ],
+      "ref": "real-face-material-guide.md §五/§六; model-selection.md §真人参考覆盖与本轮朝向计划"
     }
   ]
 }
