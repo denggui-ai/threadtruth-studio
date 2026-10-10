@@ -15,6 +15,10 @@ VIEW_TEXT = {'left-three-quarter': 'head facing image-left in a three-quarter vi
              'right-profile': 'head facing image-right in profile'}
 LOOK_FIELDS = {'body_action', 'head_view', 'gaze', 'face_visible',
                'reference_sha256s', 'selection_note'}
+FRONTAL = {'front', 'near-front'}
+# Directional off-camera gaze; slight "past/beside the lens" stays allowed.
+OFF_LENS = re.compile(r'\b(?:image[- ](?:left|right)|outside (?:of )?the (?:lens|frame|camera)|off[- ](?:lens|camera|frame)'
+                      r'|away from (?:the )?(?:lens|camera))\b', re.I)
 
 
 def text(value):
@@ -35,7 +39,8 @@ def selected(plan, inventory, number):
     return [by_hash[h] for h in plan['looks'][number - 1]['reference_sha256s']]
 
 
-def validate(plan, inventory, *, schema_version, identity, model, context, count, route):
+def validate(plan, inventory, *, schema_version, identity, model, context, count, route, strict_looks=()):
+    """strict_looks: 1-based numbers of newly planned looks; frozen looks are never re-judged by newer rules."""
     if schema_version != 2 or not identity or not model or model['source_type'] != 'real':
         raise ValueError('real_face_plan applies only to an existing real-person identity task')
     if not isinstance(plan, dict) or set(plan) != {'primary_identity_sha256', 'coverage', 'looks'}:
@@ -86,6 +91,11 @@ def validate(plan, inventory, *, schema_version, identity, model, context, count
             raise ValueError('A correction selection must retain its unique declared edit-target')
         if look['face_visible'] and not any(h in reviewed and supports(reviewed[h], target) for h in hashes):
             raise ValueError('Requested face direction lacks a selected clear original view; do not infer or mirror an unseen angle')
+        covered = set().union(*(reviewed[h] for h in hashes if h in reviewed))
+        if (number in strict_looks and look['face_visible'] and covered <= FRONTAL
+                and OFF_LENS.search(look['gaze'])):
+            raise ValueError('Frontal-only original coverage supports a camera or near-camera gaze; '
+                             'directional off-lens eyes turn the head and drift identity')
         if route == 'codex_native' and len(rows) + int(number > 1) > 5:
             raise ValueError('Each native image permits five attachments, including the mandatory later first-image anchor; revise the explicit selection without silently dropping inputs')
     return copy.deepcopy(plan)

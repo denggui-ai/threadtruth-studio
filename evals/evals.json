@@ -2603,6 +2603,35 @@
       "ref": "style-photography-baselines.md; commercial-qa.md; SKILL.md 状态与权限",
       "source_case_id": "SB-03",
       "validation_scope": "No-image source regression definition; not retained model-run or visual improvement evidence."
+    },
+    {
+      "id": 200,
+      "category": "frontal_only_gaze_and_single_look_framing",
+      "prompt": "只准备不生图：真人只有一张近正面自拍，用户要新中式端坐单张，准备方案写了“头近正面、眼睛看画面右侧镜外”，风格默认全身。请给出可冻结的真人计划与景别。",
+      "expected_output": "拒绝带方向离镜视线并改为看镜头或镜头旁，单张露脸默认knee-up，说明全身的身份风险与更稳妥路径。",
+      "expectations": [
+        "仅正脸覆盖时不冻结image-left/right、outside the lens、away from camera等带方向离镜视线，改为看镜头或slightly past/beside the lens，不改表情",
+        "未声明景别且风格默认全身时用knee-up（头到膝下），不追加cropped shoes/hem负面词，商品下摆/开衩未入画列待核",
+        "用户明确要全身时照常编译但标identity_risk，脸部至少qa-user-review；建议先确认knee-up首张并经export-model --include-accepted-reference导出补充图再出全身，且说明这只提高概率不保证像",
+        "已冻结的旧离镜任务仍可读取与导出，不重写旧prompt/hash；AI/new与六张预览默认景别不变；实际调用为0"
+      ],
+      "ref": "model-selection.md §真人参考覆盖与本轮朝向计划; prompt-build.md §摄影目标/--photography-spec; commercial-qa.md 构图与呈现",
+      "source_case_id": "RF-11",
+      "validation_scope": "No-image source regression definition; not retained model-run or visual improvement evidence."
+    },
+    {
+      "id": 201,
+      "category": "task_targets_scene_light_only",
+      "prompt": "只准备不生图：从风格案例提炼任务级摄影目标时，写了“全身端坐构图，双手支撑，近正面脸和离镜眼神保留原表情”。请冻结这些目标。",
+      "expected_output": "目标只保留场景、光线和构图层次，视线/头向/景别移回真人计划与逐张景别。",
+      "expectations": [
+        "新任务目标不得复述视线、眼睛、头向或全身/半身/knee-up景别；eye-level机位等非人物词可保留",
+        "头向与视线只由已核real_face_plan提供，景别由逐张framing提供，避免六张共用目标与母版3/5半身或真人计划冲突",
+        "旧任务已冻结的同类目标照常恢复导出，不据此宣称通过新检查；实际调用为0"
+      ],
+      "ref": "model-selection.md §真人参考覆盖与本轮朝向计划; prompt-build.md §摄影目标/--photography-spec; commercial-qa.md 构图与呈现",
+      "source_case_id": "RF-12",
+      "validation_scope": "No-image source regression definition; not retained model-run or visual improvement evidence."
     }
   ]
 }

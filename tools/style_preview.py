@@ -313,6 +313,9 @@ def _framing_text(framing, pilot):
         if pilot:
             return PILOT_FRAMING['full-body']
         return 'full-body; full body, garment hem, feet and source-supported shoes visible inside safe margins'
+    if framing == 'knee-up':
+        return ('knee-up; head to just below the knees with the face and upper garment large in frame; '
+                'feet, shoes and full hem need not appear')
     if framing in {'half-body', 'half-body-permitted'}:
         return framing + '; keep the face and in-frame garment details inside safe margins; shoes and full hem need not appear'
     raise ValueError('unsupported photography framing')
@@ -353,7 +356,8 @@ def resolve_photography(preview, source, photography_spec=None, *, model=None,
         looks = real_face_plan.get('looks') if isinstance(real_face_plan, dict) else None
         count = len(looks) if isinstance(looks, list) else 0
         _real_plan_tools().validate(real_face_plan, inventory, schema_version=2, identity=True,
-            model=model, context=dict(first_pose=pose), count=count, route='codex_native')
+            model=model, context=dict(first_pose=pose), count=count, route='codex_native',
+            strict_looks=range(1, count + 1))
     result = _photography_spec_tools().resolve(preview, photography_spec,
         real_face_plan=real_face_plan, pose=pose, action=action)
     if 'subtitle' in source and 'label_contract' in result:
@@ -489,7 +493,10 @@ def _single_prompt(preview, source, anchor, pose, general_negative, full_body_ap
     full_body = framing == "full-body"
     shot = next((row for row in preview.get('resolved_shots', []) if row['pose'] == pose['ordinal']), None)
     visibility = ('keep the complete required subject, garment, source-supported shoes, bag and hem inside safe margins'
-                  if full_body else 'keep the face and required in-frame garment details inside safe margins; shoes and full hem need not appear')
+                  if full_body else
+                  'keep the head and required garment details down to just below the knees inside safe margins; shoes and full hem need not appear'
+                  if framing == 'knee-up' else
+                  'keep the face and required in-frame garment details inside safe margins; shoes and full hem need not appear')
     lines = [
         f"Create one independent action-2 test image for style {preview['style']}: pose template {pose['ordinal']} "
         f"({pose['master']} — {pose['description']}), one adult female model, single image only.",
@@ -498,6 +505,8 @@ def _single_prompt(preview, source, anchor, pose, general_negative, full_body_ap
         f"Attached image{'s' if source_count != 1 else ''} 1{'-' + str(source_count) if source_count != 1 else ''} {'are' if source_count != 1 else 'is'} the only authoritative outfit truth.",
         "Preserve every core item exactly: " + "; ".join(source["outfit"]["core_items"]) + ".",
         ("Keep the complete coordinated outfit visible." if full_body else
+         "Preserve the complete coordinated outfit; show the required details within the declared knee-up framing."
+         if framing == 'knee-up' else
          "Preserve the complete coordinated outfit; show the required details within the declared half-body framing.") +
         " Never replace a garment or invent a brand, logo or text.",
         _anchor_line(source_count, pilot),
@@ -535,6 +544,8 @@ def single_prompt(root, run_id, style, pose, source_case, ratio="1:1", model=Non
         raise ValueError(f"style {style} is not registered")
     preview = resolve_photography(preview, plan['source'], photography_spec, model=model,
         model_references=model_references, real_face_plan=real_face_plan, pose=pose, action=action)
+    if photography_targets is not None:
+        _photography_tools().strict_check(photography_targets)
     general_negative, full_body_append = _final_negatives(root)
     text = _single_prompt(
         preview, plan["source"], plan["identity_anchor"], preview["poses"][pose - 1],

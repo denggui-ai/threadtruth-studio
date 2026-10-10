@@ -461,6 +461,51 @@ class RealFacePlanTests(unittest.TestCase):
         self.assertIsNone(data['authorization'])
         self.assertEqual(data['attempts'], 0)
 
+    def test_frontal_only_coverage_rejects_new_directional_off_lens_gaze(self):
+        for gaze in ('Eyes look gently just to image-right outside the lens',
+                     'look away from the camera', 'off-lens eyes toward image-left', 'eyes drift off-frame'):
+            plan = self.plan()
+            plan['looks'][0]['gaze'] = gaze
+            with self.subTest(gaze=gaze), self.assertRaisesRegex(ValueError, 'Frontal-only'):
+                self.create(plan)
+            self.assertFalse(self.task.exists())
+        plan = self.plan()
+        plan['looks'][0]['gaze'] = 'Eyes look slightly past the lens with the original slight smile'
+        self.assertEqual(self.create(plan)['real_face_plan'], plan)
+
+    def test_reviewed_side_coverage_still_permits_off_lens_gaze(self):
+        plan = self.plan(extra=True)
+        plan['looks'][0] = self.look('left-three-quarter', ['left', 'garment', 'front'])
+        plan['looks'][0]['gaze'] = 'eyes toward image-left outside the lens'
+        self.assertEqual(self.create(plan, extra=True)['real_face_plan'], plan)
+
+    def test_frozen_off_lens_plan_still_reads_and_exports(self):
+        self.create()
+        data = json.loads((self.task / 'task.json').read_text())
+        data['real_face_plan']['looks'][0]['gaze'] = 'Eyes look just to image-right outside the lens'
+        data['real_face_plan_sha256'] = m.object_hash(data['real_face_plan'])
+        m.save(self.task, data)
+        m.export(self.task)
+        prompt = (self.task / 'handoff/look-1/prompt.txt').read_text()
+        self.assertIn('Eye gaze: Eyes look just to image-right outside the lens.', prompt)
+
+    def test_continuation_judges_only_new_looks_by_the_gaze_rule(self):
+        self.create()
+        data = json.loads((self.task / 'task.json').read_text())
+        data['real_face_plan']['looks'][0]['gaze'] = 'Eyes look just to image-right outside the lens'
+        data['real_face_plan_sha256'] = m.object_hash(data['real_face_plan'])
+        m.save(self.task, data)
+        self.accept_first()
+        bad = [self.look(body='next action ' + str(i)) for i in range(5)]
+        bad[2]['gaze'] = 'eyes away from the camera'
+        before = (self.task / 'task.json').read_bytes()
+        with self.assertRaisesRegex(ValueError, 'Frontal-only'):
+            m.update(self.task, 'continue-authorize', **self.continue_args(bad))
+        self.assertEqual((self.task / 'task.json').read_bytes(), before)
+        good = [self.look(body='next action ' + str(i)) for i in range(5)]
+        data = m.update(self.task, 'continue-authorize', **self.continue_args(good))
+        self.assertIn('outside the lens', data['real_face_plan']['looks'][0]['gaze'])
+
 
 if __name__ == '__main__':
     unittest.main()

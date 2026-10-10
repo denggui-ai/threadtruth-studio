@@ -1,4 +1,5 @@
 """Validate and bind the current task's scene, light and composition targets."""
+import re
 
 BEGIN = '[Task photography targets]'
 END = '[/Task photography targets]'
@@ -16,6 +17,21 @@ def validate(value):
             raise ValueError('Each task photography target must be a nonempty single-line string of at most 240 characters, without block markers')
         result.append(target.strip())
     return result
+
+
+# Head, gaze and framing belong to the real face plan / per-shot framing; a task-wide target that restates
+# them bypasses that validation and conflicts across the six mothers.
+PERSON_OR_FRAMING = re.compile(r'\b(?:gaze|eyes?(?!-level)|eyeline|off[- ](?:lens|camera|frame)|head (?:turn|direction|view)|near[- ]front'
+                               r'|full[- ]body|half[- ]body|knee[- ]up)\b', re.I)
+
+
+def strict_check(value):
+    """New tasks/compilations only; frozen tasks keep validate() so they remain restorable."""
+    for target in validate(value):
+        if PERSON_OR_FRAMING.search(target):
+            raise ValueError('Task photography targets describe scene, light and composition only; '
+                             'keep head/gaze in the real face plan and framing in the per-shot choice')
+    return validate(value)
 
 
 def render(value):

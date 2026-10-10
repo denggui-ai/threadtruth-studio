@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased — real-person gaze and single-look framing, 2026-10-09
+
+- Trigger: the installed neo-Chinese real-person test kept failing face lock. A user-authorized private ablation (51 native calls, 44 returned images, user-judged likeness; private evidence only) replayed the frozen failed request and changed one factor at a time. Directional off-lens gaze ("image-right outside the lens") with frontal-only coverage produced turned heads in 0/9 plan-compliant images versus 18/18 after a camera gaze. Full-body faces without an accepted anchor were judged alike in 2/27; a knee-up framing of the same request in 5/5; full-body with a knee-up output as face anchor in 3/6. Face-detail wording and persona removal showed no visible gain. Likeness is a human judgement, not a biometric score.
+- `real_face_plan.validate(strict_looks=...)` rejects directional off-lens gaze for newly planned visible looks whose selected original coverage is frontal-only; slight "past/beside the lens" stays allowed and reviewed side coverage still permits off-lens eyes. Only creation, helper compilation and the five continuation looks are strict, so frozen tasks still read, export and continue.
+- Add `knee-up` framing. A single real-person visible look whose style default is full-body now resolves to knee-up without the cropped-shoe/hem append; explicit full-body stays but its resolved shot carries `identity_risk` and face review is at least `qa-user-review`. AI/new, six-look previews and half-body defaults are unchanged.
+- `photography_targets.strict_check` keeps new task-wide targets to scene, light and composition, rejecting gaze, eyes, head direction and framing words that bypass the real plan; frozen targets remain restorable through the unchanged `validate`.
+- Update model-selection, prompt-build and commercial-qa wording; add RF-11/RF-12 (main IDs 200–201) as no-image definitions. Validation: 118 targeted tests pass; the full suite's 13 failures are identical before and after this change (environment: Node sharp, missing modules). Not yet validated by images compiled from this code.
+
 ## Local photography source installed — 2026-10-09
 
 - Finish the user's Skill-first delivery sequence with a reviewed private candidate pinned to runtime source `d981873`, clean extraction, full existing-source/registration backups and official plugin activation. Actual local version is `1.0.0-beta.12+codex.20261009T123312-ea80f1b6`; installed/enabled are true. All 283 source/cache files and 48 runtime files match; the old281-file source and registration backups are exact, with other entries unchanged.

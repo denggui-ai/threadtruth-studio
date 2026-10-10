@@ -265,6 +265,37 @@ class PhotographyTaskTests(unittest.TestCase):
                 self.assertNotIn('photography_targets', data.get('context', {}))
                 self.assertEqual(data['looks'][0]['prompt_sha256'], hashlib.sha256(raw.encode()).hexdigest())
 
+    def test_new_targets_cannot_restate_head_gaze_or_framing(self):
+        helper = load('photography_targets_strict', 'skills/threadtruth-studio/scripts/photography_targets.py')
+        bad = ['Full-body upright seated composition with two distinct hand supports; near-front face and '
+               'off-lens eyes preserve the original expression',
+               'Eyes look toward the window light', 'Half-body crop with a calm gaze', 'Near front pose against the wall']
+        for target in bad:
+            with self.subTest(target=target), self.assertRaisesRegex(ValueError, 'scene, light and composition'):
+                helper.strict_check(TARGETS[:2] + [target])
+        for ok in ('Eye-level camera height with quiet depth', 'Soft lens flare from the window',
+                   'Low-profile bench with three-quarter backlight on the wall'):
+            self.assertEqual(helper.strict_check(TARGETS[:2] + [ok]), TARGETS[:2] + [ok])
+        context = dict(self.context, photography_targets=TARGETS[:2] + [bad[0]])
+        with self.assertRaisesRegex(ValueError, 'scene, light and composition'):
+            task.create(self.job, [dict(path=str(self.garment), role='garment-source'),
+                                   dict(path=str(self.face), role='identity-reference')],
+                        ['Keep the room description.\n' + block(context['photography_targets'])], (20, 30),
+                        model=self.model, context=context, route='codex_native')
+        self.assertFalse(self.job.exists())
+
+    def test_frozen_targets_with_person_words_still_read_and_export(self):
+        self.create(prompt='Keep the room description.\n' + block())
+        data = json.loads((self.job / 'task.json').read_text())
+        legacy = TARGETS[:2] + ['Full-body seated composition; near-front face and off-lens eyes']
+        data['context']['photography_targets'] = legacy
+        data['context_sha256'] = task.object_hash(data['context'])
+        data['looks'][0]['prompt'] = 'Keep the room description.\n' + block(legacy)
+        data['looks'][0]['prompt_sha256'] = hashlib.sha256(data['looks'][0]['prompt'].encode()).hexdigest()
+        task.save(self.job, data)
+        task.export(self.job)
+        self.assertIn('off-lens eyes', (self.job / 'handoff/look-1/prompt.txt').read_text())
+
 
 class PhotographyHelperTests(unittest.TestCase):
     @classmethod

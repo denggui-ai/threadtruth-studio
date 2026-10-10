@@ -223,6 +223,7 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
         items=[dict(path=p,role='garment-source') for p in refs]
     else:
         context=context_check(context,size)
+        if 'photography_targets' in context:photography_helper().strict_check(context['photography_targets'])
         if context.get('purpose')=='model-check' and (not identity or len(prompts)!=1):
             raise ValueError('model-check is a single portrait diagnostic, not a six-pose delivery')
         if identity:
@@ -254,7 +255,7 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
     inventory=[dict(sha256=digest(p),role=item['role']) for p,item in zip(sources,items)]
     if real_face_plan is not None:
         real_face_plan=real_face_helper().validate(real_face_plan,inventory,schema_version=schema_version,identity=identity,
-            model=model,context=context,count=len(prompts),route=route)
+            model=model,context=context,count=len(prompts),route=route,strict_looks=range(1,len(prompts)+1))
     else:
         native_reference_check(items,route,extra_anchor=int(identity and len(prompts)==6))
     root.mkdir(parents=True,exist_ok=False)
@@ -276,7 +277,7 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
                         references_sha256=object_hash(frozen),failure_recovery_version=1)
         if real_face_plan is not None:
             real_face_plan=real_face_helper().validate(real_face_plan,frozen,schema_version=schema_version,identity=identity,
-                model=model,context=context,count=len(prompts),route=route)
+                model=model,context=context,count=len(prompts),route=route,strict_looks=range(1,len(prompts)+1))
             data.update(real_face_plan=real_face_plan,real_face_plan_sha256=object_hash(real_face_plan))
         save(root,data);return data
     except Exception:
@@ -536,7 +537,7 @@ def update(root,event,**kw):
                 continuation_plan=copy.deepcopy(d['real_face_plan'])
                 continuation_plan['looks'].extend(copy.deepcopy(extra))
                 real_face_helper().validate(continuation_plan,d['references'],schema_version=2,identity=d['identity'],
-                    model=d['model'],context=d['context'],count=6,route=d['route'])
+                    model=d['model'],context=d['context'],count=6,route=d['route'],strict_looks=range(2,7))
             elif kw.get('real_face_looks') is not None:
                 raise ValueError('real_face_looks only extends an existing real_face_plan; do not retrofit old or AI tasks')
             else:

@@ -227,6 +227,44 @@ class PhotographySpecTests(unittest.TestCase):
                 self.assertEqual([r['sha256'] for r in task.read(job)['references']],
                                  [r['sha256'] for r in result['references']])
 
+    def test_single_real_face_full_body_default_becomes_knee_up_without_crop_append(self):
+        model, refs, plan = self.real_fixture()
+        layout = self.plan['previews'][0]['layout_contract']['framing']
+        self.assertEqual((layout[0], layout[2]), ('full-body', 'half-body-permitted'))
+        result, raw = self.helper(model=model, refs=refs, real_face_plan=plan, pose=1, run_id='real-knee-up')
+        self.assertEqual(result['resolved_shots'][0]['framing'], 'knee-up')
+        self.assertIn('Framing: knee-up; head to just below the knees', raw)
+        self.assertIn('declared knee-up framing', raw)
+        self.assertNotIn('cropped shoes', raw)
+        self.assertNotIn('identity_risk', result['resolved_shots'][0])
+        result, _ = self.helper(model=model, refs=refs, real_face_plan=plan, run_id='real-half-default')
+        self.assertEqual(result['resolved_shots'][2]['framing'], 'half-body-permitted')
+
+    def test_explicit_real_full_body_is_kept_but_flagged_for_identity_review(self):
+        model, refs, plan = self.real_fixture()
+        result, raw = self.helper(dict(mode='C', shots=[dict(pose=3, framing='full-body')]),
+                                  model=model, refs=refs, real_face_plan=plan, run_id='real-full-body')
+        shot = result['resolved_shots'][2]
+        self.assertEqual(shot['framing'], 'full-body')
+        self.assertIn('qa-user-review', shot['identity_risk'])
+        self.assertIn('full body, garment hem, feet', raw)
+
+    def test_knee_up_default_does_not_touch_ai_new_or_six_look_real_plans(self):
+        new, _ = self.helper(pose=1, run_id='new-default-framing')
+        self.assertEqual(new['resolved_shots'][0]['framing'], 'full-body')
+        model, refs, plan = self.real_fixture(count=6)
+        resolved = preview.resolve_photography(copy.deepcopy(self.plan['previews'][0]), self.plan['source'],
+            model=model, model_references=refs, real_face_plan=plan, pose=1, action=0)
+        self.assertEqual([s['framing'] for s in resolved['resolved_shots']],
+                         self.plan['previews'][0]['layout_contract']['framing'])
+
+    def test_new_real_plan_rejects_directional_off_lens_gaze_before_prompt_write(self):
+        model, refs, plan = self.real_fixture()
+        plan['looks'][0]['gaze'] = 'Eyes look gently just to image-right outside the lens'
+        with self.assertRaisesRegex(ValueError, 'Frontal-only'):
+            self.helper(model=model, refs=refs, real_face_plan=plan, run_id='real-off-lens')
+        self.assertFalse((preview.run_dir(self.root, 'real-off-lens') / 'prompts').exists())
+
 
 if __name__ == '__main__':
     unittest.main()

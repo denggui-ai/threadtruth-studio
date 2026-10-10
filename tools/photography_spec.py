@@ -5,6 +5,7 @@ import unicodedata
 STUDIO = 'low-distraction white or light-gray studio background'
 SPEC_FIELDS = {'mode', 'studio_prefix', 'shots'}
 SHOT_FIELDS = {'pose', 'scene_index', 'framing', 'support', 'gaze'}
+FRAMINGS = {'full-body', 'knee-up', 'half-body'}
 
 
 def studio_scene(declared):
@@ -51,8 +52,8 @@ def validate(value, default_mode):
                 raise ValueError('scene_index must be 1-6')
             if pose <= prefix:
                 raise ValueError('studio positions cannot select a location scene')
-        if 'framing' in row and (not isinstance(row['framing'], str) or row['framing'] not in {'full-body', 'half-body'}):
-            raise ValueError('framing must be full-body or half-body')
+        if 'framing' in row and (not isinstance(row['framing'], str) or row['framing'] not in FRAMINGS):
+            raise ValueError('framing must be full-body, knee-up or half-body')
         for name in ('support', 'gaze'):
             if name in row:
                 selected[name] = _line(row[name], name)
@@ -88,13 +89,18 @@ def resolve(preview, value=None, *, real_face_plan=None, pose=1, action=2):
     for template in result['poses']:
         number = template['ordinal']
         row = choices.get(number, {})
+        look = real_looks.get(number)
         framing = row.get('framing', result['layout_contract']['framing'][number - 1])
+        # A single real-person look has no accepted first-image anchor; a small full-body face
+        # drifts toward a generic face, so its undeclared default is knee-up.
+        if (look is not None and len(real_looks) == 1 and look['face_visible'] and 'framing' not in row
+                and framing == 'full-body'):
+            framing = 'knee-up'
         scene_index = None if number <= prefix else row.get('scene_index', number)
         scene = studio_scene(scenes[number - 1]) if scene_index is None else scenes[scene_index - 1]
         description = template['description']
         if template['master'] == 'UPRIGHT_SEATED':
             description = description.replace('端正半身坐姿', '端正坐姿')
-        look = real_looks.get(number)
         if look is not None:
             for name, authority in (('support', 'body_action'), ('gaze', 'gaze')):
                 if name in row and row[name] != look[authority]:
@@ -108,6 +114,10 @@ def resolve(preview, value=None, *, real_face_plan=None, pose=1, action=2):
                     scene_index=scene_index, scene=scene, framing=framing)
         if look is not None:
             shot['real_face_look'] = copy.deepcopy(look)
+            if look['face_visible'] and framing == 'full-body':
+                shot['identity_risk'] = ('full-body real face is small in frame; identity often drifts. Prefer a '
+                                         'user-confirmed knee-up first image exported as an accepted supplement; '
+                                         'review this face as qa-user-review.')
         template.update(description=description, scene=scene)
         result['layout_contract']['framing'][number - 1] = framing
         resolved.append(shot)
