@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased — Q10 kidswear ledger bridge, 2026-10-16
+
+- Allow explicit `child model` new/AI subjects only in schema2 task validation and prompt export, on native and web routes. Reuse existing authorization, attempts, recovery, QA, first-image acceptance and same-outfit continuation; keep the age label and age-appropriate safety wording. Existing adult and schema1 contracts stay unchanged.
+- Keep real-child identity reuse and portable model packages outside this bridge; package validation remains adult-only. Add two focused local regression cases using synthetic files; no generation, model evaluation, installation or unrelated test workflow.
+
 ## Unreleased — Q10 kidswear scope clarification, 2026-10-16
 
 - Scope the unified portrait ledger and model-package claims to adult single-person tasks. Kidswear retains its existing age-appropriate flow and original records; newer portrait-ledger integration and live verification remain unavailable. Clarify that web-only schema1 cannot serve as a native kidswear ledger, and prohibit age or task-type relabeling to bypass this limit.

@@ -150,3 +150,41 @@ class WebTaskTests(unittest.TestCase):
         self.authorize();self.reserve();m.update(self.job,'returned',look=1,file=self.result());m.update(self.job,'accept',look=1,note='QA',qa='qa-pass')
         with self.assertRaises(ValueError):m.update(self.job,'reject',look=1,note='Later change')
         with self.assertRaises(ValueError):self.retry()
+
+class KidswearLedgerTests(unittest.TestCase):
+    """Only the kidswear ledger bridge; synthetic files, no provider calls."""
+    def test_native_and_web_keep_child_subject_and_existing_ledger_gates(self):
+        for route in ('codex_native', 'chatgpt_web'):
+            with self.subTest(route=route), tempfile.TemporaryDirectory() as tmp:
+                root=Path(tmp);ref=root/'garment.png';result=root/'result.png'
+                Image.new('RGB',(20,30),'red').save(ref)
+                Image.new('RGB',(20,30),'blue').save(result)
+                model=dict(source_type='new',scope='full',subject='child model',locked=[],adjustable=[],consent_note='')
+                context=dict(outfit='kids-shirt',style='ecommerce-studio',mode='B',output_form='human',size=[20,30],first_pose=1)
+                job=root/'task'
+                m.create(job,[ref],['Age-appropriate child wearing the source shirt'],[20,30],model=model,context=context,route=route)
+                folder=Path(m.export(job));prompt=(folder/'look-1/prompt.txt').read_text()
+                self.assertIn('child model',prompt);self.assertIn('non-sexualized',prompt)
+                ready=dict(look=1,ready=True,refs=m.reference_hashes(job,1),conversation='https://chatgpt.com/c/synthetic')
+                with self.assertRaises(ValueError):m.update(job,'reserve',**ready)
+                m.update(job,'authorize',note='Synthetic one-image approval',limit=1)
+                m.update(job,'reserve',**ready)
+                m.update(job,'unknown',look=1)
+                with self.assertRaises(ValueError):m.update(job,'reserve',**ready)
+                m.update(job,'returned',look=1,file=result)
+                d=m.update(job,'accept',look=1,qa='qa-pass',note='Synthetic ledger acceptance only')
+                self.assertEqual(d['attempts'],1);self.assertFalse(d['complete'])
+                self.assertEqual(d['model']['subject'],'child model')
+                d=m.update(job,'confirm-model',look=1,note='Synthetic first-image acceptance')
+                self.assertTrue(d['complete'])
+                with self.assertRaises(ValueError):m.export_model(job,root/'package','child')
+                self.assertFalse((root/'package').exists())
+                m.update(job,'continue-authorize',prompts=['Age-appropriate next image']*5,context=context,note='Synthetic five-image approval',approval_id='synthetic-five')
+                self.assertEqual(len(m.reference_hashes(job,2)),2)
+                self.assertEqual(m.read(job)['attempts'],1)
+
+    def test_child_allowance_is_ledger_only_and_excludes_real_child_identity(self):
+        child=dict(source_type='ai',scope='full',subject='child model',locked=[],adjustable=[],consent_note='')
+        self.assertEqual(m.models.validate_model(child,allow_child=True)['subject'],'child model')
+        with self.assertRaises(ValueError):m.models.validate_model(child)
+        with self.assertRaises(ValueError):m.models.validate_model(dict(child,source_type='real',consent_note='Synthetic'),allow_child=True)

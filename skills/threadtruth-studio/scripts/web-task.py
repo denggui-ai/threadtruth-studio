@@ -245,7 +245,7 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
         if context.get('purpose')=='model-check' and (not identity or len(prompts)!=1):
             raise ValueError('model-check is a single portrait diagnostic, not a six-pose delivery')
         if identity:
-            model=models.validate_model(model or dict(source_type='new',scope='full',subject='adult model',locked=[],adjustable=[],consent_note=''))
+            model=models.validate_model(model or dict(source_type='new',scope='full',subject='adult model',locked=[],adjustable=[],consent_note=''),allow_child=True)
         elif model is not None:raise ValueError('Non-portrait tasks cannot carry a model')
         items=[dict(path=p,role='garment-source') if isinstance(p,(str,Path)) else dict(p) for p in refs]
         for i,item in enumerate(items):
@@ -489,7 +489,7 @@ def check_evidence(root,data):
         if object_hash(data['context'])!=data['context_sha256'] or object_hash(data['model'])!=data['model_sha256']:
             raise ValueError('Frozen context/model changed')
         context_check(data['context'],data['size'])
-        if data['identity']:models.validate_model(data['model'])
+        if data['identity']:models.validate_model(data['model'],allow_child=True)
         presentation_check(data['context'], data['references'], len(data['looks']), data['identity'], data['model'])
         if is_preview(data) and (data.get('model_confirmation') or len(data.get('retry_authorizations',[]))>3):
             raise ValueError('A preview cannot confirm identity or exceed three correction requests')
@@ -698,7 +698,7 @@ def update(root,event,**kw):
                 old.update(model=copy.deepcopy(d['model']),model_sha256=d['model_sha256'])
             if kw.get('model') is not None:
                 if d['schema_version']!=2 or n!=1 or not row.get('model_rejected') or d['model_confirmation']:raise ValueError('Model revision requires explicit unconfirmed-first-model rejection')
-                changed=models.validate_model(kw['model'])
+                changed=models.validate_model(kw['model'],allow_child=True)
                 if any(changed[k]!=d['model'][k] for k in ('source_type','scope','subject')):raise ValueError('A different identity/source/scope requires a new declared model version, not replacement of original references')
                 d.update(model=changed,model_sha256=object_hash(changed))
             if d['schema_version']==2 and n==1 and d['model_confirmation']:
@@ -791,7 +791,7 @@ def export(root):
                 if dst.exists() and digest(dst)!=r['sha256']:raise ValueError('Existing handoff attachment changed')
                 shutil.copyfile(src,dst)
                 instruction.append(f'Image {i}: '+(models.supplement_prompt(r) if r['role']=='model-supplement' else ROLE_TEXT[r['role']]))
-            if d['schema_version']==2 and d['model']:instruction.extend(models.prompt_lines(d['model']))
+            if d['schema_version']==2 and d['model']:instruction.extend(models.prompt_lines(d['model'],allow_child=True))
             if d['schema_version']==2 and d['context']['first_pose']=='custom':
                 instruction.append('Explicit user presentation: '+d['context']['pose_description']+
                                    ' This overrides conflicting default pose/framing, not garment facts or original model conditions.')

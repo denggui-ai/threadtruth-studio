@@ -4,7 +4,7 @@ Read when the user selects ChatGPT web. This adapter is designed for macOS Codex
 
 ## Local task contract
 
-The schema2 portrait contract below covers adult single-person tasks. Kidswear retains its existing age-appropriate flow and original run records; its schema2 portrait ledger, model packages and cross-product person reuse are not integrated or live-verified. Schema1 remains web-only and cannot stand in for a native kidswear ledger. Do not relabel a child as an adult or a non-portrait task to bypass this boundary; see [kidswear scope](model-selection.md).
+The schema2 ledger below also records age-appropriate AI kidswear tasks: explicitly use `model.subject="child model"`, `source_type=new|ai` and `identity=true`, retaining the child label in exported prompts. Both native and web routes use the existing authorization, count, result/recovery, QA and first-image confirmation gates. Real-child identity reuse and portable/cross-product model packages remain unsupported; package validation remains adult-only. Preserve existing tasks; schema1 remains web-only. Follow [kidswear scope and safety](model-selection.md); local ledger checks do not verify real kidswear generation.
 
 Action 0 uses the same schema2 ledger with `context.purpose="preview-grid"` and one complete grid prompt, not six separate requests. Read [preview bookkeeping and final handoff](preview-ledger.md) for counting, real-person cell plans, explicit stopping and `prepare-delivery`. Grid results remain preview-grid; they never confirm identity or become delivery look-1. Ordinary delivery/diagnostic/edit behavior below is unchanged.
 
