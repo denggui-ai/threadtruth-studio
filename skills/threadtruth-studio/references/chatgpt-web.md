@@ -4,6 +4,8 @@ Read when the user selects ChatGPT web. This adapter is designed for macOS Codex
 
 ## Local task contract
 
+The schema2 portrait contract below covers adult single-person tasks. Kidswear retains its existing age-appropriate flow and original run records; its schema2 portrait ledger, model packages and cross-product person reuse are not integrated or live-verified. Schema1 remains web-only and cannot stand in for a native kidswear ledger. Do not relabel a child as an adult or a non-portrait task to bypass this boundary; see [kidswear scope](model-selection.md).
+
 Action 0 uses the same schema2 ledger with `context.purpose="preview-grid"` and one complete grid prompt, not six separate requests. Read [preview bookkeeping and final handoff](preview-ledger.md) for counting, real-person cell plans, explicit stopping and `prepare-delivery`. Grid results remain preview-grid; they never confirm identity or become delivery look-1. Ordinary delivery/diagnostic/edit behavior below is unchanged.
 
 Use `scripts/web-task.py` relative to this skill. Store task files under the user's chosen workspace, never inside the installed skill. All helper commands are local; they do not click Send or grant approval. The agent records only approval actually given by the user and observations actually made in the browser. JSON task state is private workflow data, not public evidence.

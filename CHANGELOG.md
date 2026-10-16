@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased — Q10 kidswear scope clarification, 2026-10-16
+
+- Scope the unified portrait ledger and model-package claims to adult single-person tasks. Kidswear retains its existing age-appropriate flow and original records; newer portrait-ledger integration and live verification remain unavailable. Clarify that web-only schema1 cannot serve as a native kidswear ledger, and prohibit age or task-type relabeling to bypass this limit.
+- Documentation only; no functionality, tests, installation or image generation added.
+
 ## Unreleased — Q09 web operation guidance, 2026-10-16
 
 - Distinguish agent-operated browsing from manual user handoff, state who performs the current step, and show only that step. Keep the full manual instructions available on demand and preserve the existing reservation, authorization and QA sequence.
