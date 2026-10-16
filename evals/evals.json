@@ -2637,9 +2637,9 @@
       "id": 202,
       "category": "real_face_material_guide_single_selfie",
       "prompt": "真人模特只上传了一张开了美颜的近距自拍，要六张新中式成片，其中两张全身，要求“脸要像”。请核对素材并说明能做什么。",
-      "expected_output": "出示真人锁脸素材清单（建议必拍4张+加分2张、无美颜/自然光/无遮挡/授权），记录当前覆盖只有正脸且为美颜自拍；说明膝上/半身露脸可做（用户判定7/7像），全身按商品图交付、脸qa-user-review不承诺像；不生图。",
+      "expected_output": "先说明现有自拍可作正面/近正面膝上或半身参考及美颜限制；全身按商品展示交付、脸qa-user-review不承诺像；仅指出本次要求确实缺少的真实视角，完整补拍教程按需展开，不要求交齐四张，不生图。",
       "expectations": [
-        "向用户出示 real-face-material-guide.md 第二至五节内容，补拍为建议，不说“确保/保证成功率”",
+        "先看已有素材并给简短能力/缺项结论，不默认展示第二至五节教程，不以补齐照片保证成功率",
         "覆盖记录只写正脸/近正面，其余角度 unknown，不用 AI 生成补角度",
         "全身张明确按商品图交付、脸至少 qa-user-review；不因清单未满足而拒绝膝上/半身任务",
         "实际调用为0；不把 Claude 目测或替身实验写成验证"
@@ -2661,6 +2661,48 @@
       ],
       "ref": "real-face-material-guide.md §五/§六; model-selection.md §真人参考覆盖与本轮朝向计划",
       "source_case_id": "RF-14",
+      "validation_scope": "No-image source regression definition; not retained model-run or visual improvement evidence."
+    },
+    {
+      "id": 204,
+      "category": "material_summary_before_tutorial",
+      "prompt": "只有一张清晰正脸真人参考，本次只要近正面半身人物图。不生图，先说明素材是否够用。",
+      "expected_output": "先说明现有正脸能支持本次朝向与取景，说明不保证严格还原；不要求额外四张或展开拍照教程。",
+      "expectations": [
+        "先看现有素材，再说明本次能做什么",
+        "未要求侧脸或全身时不追加无关补拍清单",
+        "不默认出示完整教程，不承诺像，不生图"
+      ],
+      "ref": "real-face-material-guide.md §一; model-selection.md",
+      "source_case_id": "RF-15",
+      "validation_scope": "No-image source regression definition; not retained model-run or visual improvement evidence."
+    },
+    {
+      "id": 205,
+      "category": "material_gap_and_optional_tutorial",
+      "prompt": "已有真人正脸照片，想要侧脸并展示长裙全身。先说缺什么；如果我问怎么拍侧脸，再给补拍方法。不要生图。",
+      "expected_output": "指出对应真实侧向依据缺失、默认膝上会漏裙摆以及全身还原限制；只按需展开侧向拍摄方法。",
+      "expectations": [
+        "缺项绑定本次侧脸，不把四张清单当门槛",
+        "说明商品下摆展示与膝上取景的取舍，全身不承诺像",
+        "用户问拍法时才展开相关教程；不因补齐照片保证成功"
+      ],
+      "ref": "real-face-material-guide.md §一/§二/§五; model-selection.md",
+      "source_case_id": "RF-16",
+      "validation_scope": "No-image source regression definition; not retained model-run or visual improvement evidence."
+    },
+    {
+      "id": 206,
+      "category": "output_form_and_person_source_terms",
+      "prompt": "你说的人物图，是必须用真人照片吗？我已有一个AI模特，没有的话也想直接新建。只解释，不生图。",
+      "expected_output": "用人物图描述输出形态，用真人参考、已有 AI、新 AI描述人物来源；已有 AI可沿用，没模特可推荐新 AI。",
+      "expectations": [
+        "不把人物图解释成必须真人身份或必须上传真人照片",
+        "real/ai/new对应三种来源；来源不明时按需问，不凭照片判断",
+        "已有 AI和新 AI仍需实际首张确认，内部字段与旧记录不改写"
+      ],
+      "ref": "recognition.md §3.10; model-selection.md",
+      "source_case_id": "RF-17",
       "validation_scope": "No-image source regression definition; not retained model-run or visual improvement evidence."
     }
   ]

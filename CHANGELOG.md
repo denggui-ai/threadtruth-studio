@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — Q07/Q11 concise material guidance and names, 2026-10-16
+
+- For real-reference visible-face tasks, inspect existing photos first and give the current capability, specific missing input and relevant limitation. Show the shooting tutorial only when requested; the four-photo list is advice, not a mandatory intake gate or fidelity guarantee.
+- Name the output form “人物图” and person sources “真人参考 / 已有 AI / 新 AI”. Align the entrypoint, recognition and prompt/flow labels; preserve source_type, output_form data, source classification and first-image acceptance behavior.
+- Add RF-15–17 source-side scenarios. Documentation only: no script/schema change, model evaluation, image call, installation or release.
+
 ## Unreleased — Q04 preview bookkeeping, 2026-10-16
 
 - Owner requested that six-panel previews join the unified count/status/final-handoff ledger, with no image calls. Add schema2 `context.purpose=preview-grid`: one prompt/request, marked grid export, preview-only result status, explicit direction/stop completion and at most three separately authorized correction requests after the initial call. Existing tasks retain their stored contracts.
