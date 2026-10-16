@@ -2,6 +2,7 @@
 
 ## Find an example
 
+- [Codex desktop tutorial: your own portrait and a real bear-pattern apron](../APRON-CODEX-TUTORIAL.md) — one actual generated draft, with copyable Chinese instructions and separate likeness/product review.
 - [Single garment: 24 historical direction previews](style-previews/white-vest-24-v1/).
 - [Coordinated outfit: 24 historical direction previews](style-previews/beige-blazer-denim-outfit-24-v1/).
 - [Single garment: six independent final images](primary-cases/white-hooded-puffer-vest-korean-cold/README.md).
