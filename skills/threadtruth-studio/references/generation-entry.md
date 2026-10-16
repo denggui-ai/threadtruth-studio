@@ -25,7 +25,7 @@ python3 scripts/recommend-entry.py --style office-commute-women --goal rendering
 
 ## 网页执行
 
-用户选择网页时读取 [网页转交与自动执行](chatgpt-web.md)，使用统一任务记录。浏览器操作由可用宿主工具执行；未通过真实六图实测前标注 candidate，不宣传即装即用。
+用户选择网页时读取 [网页转交与自动执行](chatgpt-web.md)，使用统一任务记录。明确当前是“代理代操作”还是“用户手动交接”，每次只说明当前一步和由谁操作；完整教程按需展开。代理代操作使用可用宿主工具；未通过真实六图实测前标注 candidate，不宣传即装即用。
 
 ## 执行边界
 

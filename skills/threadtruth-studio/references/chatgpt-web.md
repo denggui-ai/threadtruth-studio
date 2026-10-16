@@ -44,6 +44,10 @@ The user signs into ChatGPT themselves. Login required, quota restriction, loadi
 
 ## Automatic loop: one image at a time
 
+Tell the user who operates the page: “代理代操作” means the agent uploads, sends and downloads through available authorized browser tools; “用户手动交接” means the user operates the page while the agent prepares the current files/prompt and maintains the same ledger and QA. State the active arrangement once. If a missing capability requires handing a step to the user, name that current step and who performs it; do not silently switch responsibility.
+
+For either arrangement, explain only the current step in each user-facing reply. Ask for user action only when it is needed now (for example login or first-image confirmation). Keep the execution sequence below as internal guidance; do not present the whole workflow or repeat a full tutorial at each handoff.
+
 1. Read task status. If any reserved/unknown request exists, recover it first. Otherwise export the next look and open a new persistent ChatGPT chat in the dedicated session.
 2. Upload the numbered references and wait for each upload to finish. Verify thumbnail count/order against the exported files; paste the exact exported prompt. Do not click Send until login, attachments and prompt are verified. Record visible model wording only; keep image model unverified unless explicit image-model evidence exists.
 3. Immediately before clicking Send, execute `reserve --look N --ready --refs <ordered SHA256 values> --conversation <observed-url>`. For a new chat that does not yet have a `/c/` URL, also supply `--tab <observed-stable-tab-handle>` with the observed ChatGPT root URL. `--ready` attests all UI checks above, not merely that a tab exists. A successful reservation is required. Click Send exactly once. On failure or uncertainty do not repeat the click.
@@ -54,7 +58,7 @@ The user signs into ChatGPT themselves. Login required, quota restriction, loadi
 
 ## Manual path
 
-Give the user the exported `handoff` directory and its README. They upload numbered files, paste `prompt.txt` and provide the chat URL (or agree an observed new-chat tab identifier). Before they click Send, reserve that look in the same task. They click once, download the original and return it for `returned` plus visual QA. Do not give six unlocked prompt bundles before look-1 validation. If they already sent outside the ledger, stop and reconcile actual submissions before authorizing more; never claim automated request-count verification for unobserved manual actions.
+Use “用户手动交接” when the user chooses manual operation or the required browser capability is unavailable. Provide only the current look's exported `handoff` files and make its README available on demand. Guide one current step at a time: first upload the numbered files and paste `prompt.txt`, holding Send; once ready, obtain the chat URL (or agree an observed new-chat tab identifier) and reserve that look in the same task before instructing one Send. After submission, guide downloading and returning the original when that is the current step; the agent records `returned` and performs visual QA. These are internal sequencing instructions, not a checklist to send all at once. Do not give six unlocked prompt bundles before look-1 validation. If they already sent outside the ledger, stop and reconcile actual submissions before authorizing more; never claim automated request-count verification for unobserved manual actions.
 
 ## Recovery and limits
 

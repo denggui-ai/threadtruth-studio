@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased — Q09 web operation guidance, 2026-10-16
+
+- Distinguish agent-operated browsing from manual user handoff, state who performs the current step, and show only that step. Keep the full manual instructions available on demand and preserve the existing reservation, authorization and QA sequence.
+- Documentation only; no functionality, tests, installation or image generation added.
+
 ## Unreleased — Q07/Q11 concise material guidance and names, 2026-10-16
 
 - For real-reference visible-face tasks, inspect existing photos first and give the current capability, specific missing input and relevant limitation. Show the shooting tutorial only when requested; the four-photo list is advice, not a mandatory intake gate or fidelity guarantee.
