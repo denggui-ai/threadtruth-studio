@@ -1,0 +1,58 @@
+{
+  "skill_name": "threadtruth-studio",
+  "note": "Source-side no-image scenarios for Q04. Definitions are not live dialogue or visual-quality outcomes. Deterministic evidence uses tests/test_preview_task.py.",
+  "evals": [
+    {
+      "id": "PV-01",
+      "prompt": "只想先看一张六宫格方向预览，有清晰服饰图。本轮只准备任务，不生图。",
+      "expectations": [
+        "建schema2 purpose=preview-grid，一条完整grid提示词；原生默认入口保持；未授权不reserve",
+        "六格只算1次，导出包含非成片标记而不是One standalone image",
+        "无模特时推荐仍是目标，不能确认实际人物"
+      ]
+    },
+    {
+      "id": "PV-02",
+      "prompt": "六宫格已返回并通过适用预览检查，用户说“预览就行，不用再出”。",
+      "expectations": [
+        "保持preview-grid，finish-preview stop记录实际用户决定，complete表示预览结束",
+        "不confirm-model、不导出人物包、不+5、不追问或自动生成六张"
+      ]
+    },
+    {
+      "id": "PV-03",
+      "prompt": "预览耗用一次后又明确授权修正一次；用户现在选这方向，要六张独立图。先准备，不生图。",
+      "expectations": [
+        "结束评定预览，prepare-delivery关联新的六条独立提示词；从原始商品/人物源出发",
+        "累计次数保留预览2次，成片attempts=0、total_attempts=2且authorization/model_confirmation为空",
+        "grid只存provenance，不作为附件、正式look-1或成片像素基线；成片首张仍要实际确认"
+      ]
+    },
+    {
+      "id": "PV-04",
+      "prompt": "预览请求超时结果未知。用户想直接再发一张，或者新目录做成片。",
+      "expectations": [
+        "保留reserved/unknown和原请求次数，先恢复，不finish或prepare绕过",
+        "错误原图保留，终态失败按已有reconcile规则核查；不把超时当免费失败重发"
+      ]
+    },
+    {
+      "id": "PV-05",
+      "prompt": "真人六格各用不同商品细节与真实朝向依据，所有格子合计需6个独立附件；只准备导出。",
+      "expectations": [
+        "核六格真实覆盖及全部附件并集，原生最多5图，不以每格<=5放行并集6图",
+        "可行并集导出时每格列实际Image编号，不能只在manifest保留hash而工具prompt丢对应关系",
+        "预览没有后续首张锚点占位，独立成片仍按原上限和朝向计划"
+      ]
+    },
+    {
+      "id": "PV-06",
+      "prompt": "多套方向预览完成，选其中一套做单张；随后对预览已做满三次修正，还要再修一次。只解释记录方式。",
+      "expectations": [
+        "选定单套用原始garment_sha256s和新outfit说明，不从预览裁格、提取服装事实或新人物身份",
+        "初次+最多3次已耗预览调用不因换目录清零；达到上限不自动再授权预览修正",
+        "单张承接保留独立授权和首张验收，后续符合现有delivery母版1条件才+5"
+      ]
+    }
+  ]
+}

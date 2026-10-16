@@ -1,5 +1,54 @@
 # Changelog
 
+## 1.0.0-beta.14 — default interaction restored, 2026-10-17
+
+- Restore the owner-selected default journey: choose a style from recommendations and the full 24-style catalogue, generate one labeled six-panel direction preview after authorization, confirm its direction, then generate six independent images within the separately authorized allowance. The actual first portrait still requires QA and human model confirmation before the remaining five.
+- Preserve explicit single-image, prompts-only, preview-only/stop and explicit skip-preview requests. Selecting a style or accepting a preview never invents generation authority; old jobs and consumed attempts remain unchanged.
+- Align the entrypoint, style router, flow gates, recognition, preview handoff, prompt assembly and UI wording. Update existing source-side scenarios; no new runtime feature, schema, style pack, image call or model benchmark.
+- Synchronize the previously local runtime with GitHub and a new versioned release rather than replacing beta.13. Backup, installation, archive parity and scoped checks are recorded separately; no claim of new visual validation.
+
+## Unreleased — batch head/gaze QA disclosure, 2026-10-16
+
+- Trigger: an AI kidswear group was rejected for six near-frontal, camera-facing heads; independent review found preparation omissions and missing disclosure. Existing AI/new head guidance and prompt export remain unchanged.
+- In `commercial-qa.md`, compare visible-face head orientation and eye gaze across the group, name repeated looks in the handoff, and distinguish general variation advice from unfulfilled user-required or confirmed per-look directions (`qa-retry`). Preserve a recorded group rejection independently of first-image acceptance and technical ledger completion.
+- Keep user-locked directions, real-reference coverage, fixed-pose head protection, faceless/non-portrait exceptions, and existing generation authorization. Add no angle quotas, script/schema changes, new QA framework or automatic retries.
+- Add source-side RC-07–09 and matching main-index cases for repetition disclosure, explicit-plan failure/rejection and applicable exceptions. Validation: JSON parsing, unique IDs, main-index consistency, referenced-file existence and diff checks passed. System creator structural validation could not run because the available Python environments lack PyYAML; no dependency was installed. No model-run or visual improvement evidence, installation, release or image call.
+
+## Unreleased — Q10 kidswear ledger bridge, 2026-10-16
+
+- Allow explicit `child model` new/AI subjects only in schema2 task validation and prompt export, on native and web routes. Reuse existing authorization, attempts, recovery, QA, first-image acceptance and same-outfit continuation; keep the age label and age-appropriate safety wording. Existing adult and schema1 contracts stay unchanged.
+- Keep real-child identity reuse and portable model packages outside this bridge; package validation remains adult-only. Add two focused local regression cases using synthetic files; no generation, model evaluation, installation or unrelated test workflow.
+
+## Unreleased — Q10 kidswear scope clarification, 2026-10-16
+
+- Scope the unified portrait ledger and model-package claims to adult single-person tasks. Kidswear retains its existing age-appropriate flow and original records; newer portrait-ledger integration and live verification remain unavailable. Clarify that web-only schema1 cannot serve as a native kidswear ledger, and prohibit age or task-type relabeling to bypass this limit.
+- Documentation only; no functionality, tests, installation or image generation added.
+
+## Unreleased — Q09 web operation guidance, 2026-10-16
+
+- Distinguish agent-operated browsing from manual user handoff, state who performs the current step, and show only that step. Keep the full manual instructions available on demand and preserve the existing reservation, authorization and QA sequence.
+- Documentation only; no functionality, tests, installation or image generation added.
+
+## Unreleased — Q07/Q11 concise material guidance and names, 2026-10-16
+
+- For real-reference visible-face tasks, inspect existing photos first and give the current capability, specific missing input and relevant limitation. Show the shooting tutorial only when requested; the four-photo list is advice, not a mandatory intake gate or fidelity guarantee.
+- Name the output form “人物图” and person sources “真人参考 / 已有 AI / 新 AI”. Align the entrypoint, recognition and prompt/flow labels; preserve source_type, output_form data, source classification and first-image acceptance behavior.
+- Add RF-15–17 source-side scenarios. Documentation only: no script/schema change, model evaluation, image call, installation or release.
+
+## Unreleased — Q04 preview bookkeeping, 2026-10-16
+
+- Owner requested that six-panel previews join the unified count/status/final-handoff ledger, with no image calls. Add schema2 `context.purpose=preview-grid`: one prompt/request, marked grid export, preview-only result status, explicit direction/stop completion and at most three separately authorized correction requests after the initial call. Existing tasks retain their stored contracts.
+- Reject preview identity confirmation/export and delivery +5 continuation. `prepare-delivery` links one fresh 1/6-image task from original sources/model, retaining a frozen preview receipt and grid as provenance only. Count `total_attempts` across preview history and delivery without inheriting pixels, model acceptance or generation authority; multi-outfit selection uses explicit original garment hashes.
+- Real-person preview planning validates all six cells, caps the combined native attachment inventory at five and exports actual Image-number mappings per cell. Cell plans never add a later accepted-first-image anchor; ordinary real delivery plans retain that slot.
+- Add preview-ledger runtime guidance, source-side preview regression definitions and deterministic synthetic tests. Independent review found lost per-cell reference mapping in the first export implementation; a failing literal-mapping regression preceded the fix. No images, live installation, public release or broader visual-quality claim is included.
+
+## Unreleased — common interaction flow, 2026-10-16
+
+- Owner selected Q01/Q02/Q03/Q05/Q06/Q08 from the interaction inventory and explicitly excluded image generation. New schema2 tasks default to Codex in both API and CLI; stored routes and schema1 web defaults remain unchanged.
+- Add optional frozen `context.canvas_policy=ratio-first|exact`. Ratio-only preparation uses the first compliant original as its exact pixel baseline, retained through rejection/retry and continuation; explicit pixels and older tasks stay exact. Export/import and evidence rechecks share the same contract. No image postprocessing or automatic retry is introduced.
+- Keep numbered masters for framing changes within the same body category; state standalone versus eligible master-1 delivery continuation before the first image and preflight later references. Default to one short proposal, expand catalogs/modes on request, allow preview-only stopping, and distinguish accepted single-image completion from commercial readiness. Define single-image delivery QA without requiring a six-image set.
+- Add local synthetic regression tests and CF-01–08 source-side no-image scenarios. They do not prove live model compliance, visual fidelity, or full preview-ledger support (Q04). No installation, release, image call or maturity change is included.
+
 ## 1.0.0-beta.13 — source cut, 2026-10-10
 
 - Trigger: the owner authorized merging the `fix/shared-style-photography-targets` branch into `main` and bumping the version, because 57b1929/5fa202b/37a9d61 change runtime behavior (strict directional off-lens gaze rejection for frontal-only real coverage, knee-up default for single real-person visible looks, `unknown` coverage excluded from the frontal-only test) and 48c7c29 adds the real-person material guide. The Unreleased entries below from 2026-10-08 to 2026-10-10 are folded into this version.

@@ -1,6 +1,6 @@
 {
   "skill_name": "threadtruth-studio",
-  "note": "横切 eval(风格无关)。前 18 条迁移自基线 korean-fashion-editorial(行为等价,韩系措辞泛化为多风格);19+ 为五正交轴扩展(safety-core R1-R7 + style-router),56+ 补显式风格与性别年龄/品类/非人像输出的 source-truth 对抗回归,64+ 补首张身份锚点与商业 QA 阻断,75+ 补 AI 推荐+完整风格目录自由选择交互。真机项(#17/#18/#14 + 19-22)未跑不得标 PASS;64+ 目前也是声明式规则回归,不能替代变更后真机复测。 2026-10-04当前交互改为一份方案、一次确认、按需目录；143–151覆盖确认绑定、收尾和失败边界，旧真机记录不回写。 2026-10-08：152–158补日系家居实测暴露的批量续行、复核与未提交计划版本化等边界；运行脚本回归和真实候选续跑证据分开，安装版未更新。 2026-10-09：187–196补摄影方法转译、同母版独立景别/场景/支撑、棚拍分配、真人计划权威、部件视角事实与实际请求检查；仅为零生图源侧定义，未自动形成模型会话或画面通过证据。",
+  "note": "横切 eval(风格无关)。前 18 条迁移自基线 korean-fashion-editorial(行为等价,韩系措辞泛化为多风格);19+ 为五正交轴扩展(safety-core R1-R7 + style-router),56+ 补显式风格与性别年龄/品类/非人像输出的 source-truth 对抗回归,64+ 补首张身份锚点与商业 QA 阻断,75+ 补 AI 推荐+完整风格目录自由选择交互。真机项(#17/#18/#14 + 19-22)未跑不得标 PASS;64+ 目前也是声明式规则回归,不能替代变更后真机复测。 2026-10-04当前交互改为一份方案、一次确认、按需目录；143–151覆盖确认绑定、收尾和失败边界，旧真机记录不回写。 2026-10-08：152–158补日系家居实测暴露的批量续行、复核与未提交计划版本化等边界；运行脚本回归和真实候选续跑证据分开，安装版未更新。 2026-10-09：187–196补摄影方法转译、同母版独立景别/场景/支撑、棚拍分配、真人计划权威、部件视角事实与实际请求检查；仅为零生图源侧定义，未自动形成模型会话或画面通过证据。 2026-10-17：恢复默认选风格→六宫格预览→确认方向→六张独立图；主动单张、提示词、停止及明确跳过预览保留。更新现有场景定义，不新增模型或图像调用。",
   "evals": [
     {
       "id": 1,
@@ -29,11 +29,11 @@
       "id": 3,
       "category": "happy_path",
       "prompt": "(上传真实白色连衣裙图)",
-      "expected_output": "完成内部识别，展示一份简短推荐方案，等待确认；不生图、不默认展开目录。",
+      "expected_output": "核对真实服饰，展示主推、两个备选与完整24风格目录，等待用户选择；默认后续预览再六张，不生图。",
       "expectations": [
-        "识别单件白色连衣裙及可见事实，不编造logo、材质成分或人物身体数据",
-        "方案明确人物、一个注册风格、用途/规格及建议先做1张；推荐不是已确认事实",
-        "允许用户修改或查看全部风格，不默认展开完整识别表、24风格或备选人物菜单",
+        "识别白色连衣裙可见事实，不编造logo、材质或人物身体数据",
+        "主推、两个备选与完整24风格目录供自由选择，不默认隐藏目录",
+        "说明默认先六宫格预览，方向确认后六张独立图；人物因素不变成必答问卷",
         "只上传素材不构成授权，image_gen调用为0"
       ]
     },
@@ -280,11 +280,11 @@
       "id": 23,
       "category": "style_routing",
       "prompt": "(上传醋酸缎连衣裙)发小红书",
-      "expected_output": "内部路由推荐french-effortless；用户只收到一份适合小红书用途的方案，未确认前不生成。",
+      "expected_output": "内部推荐french-effortless并保留可复算trace；前台展示推荐及完整目录，未确认风格不生成。",
       "expectations": [
         "命中MAT_ACETATE_FR+PLATFORM_XHS_RELAX，内部trace可复算",
-        "面向用户给一个推荐风格及理由，人物、用途和张数合并为同一方案",
-        "不默认展开24风格或trace，不自动生图；用户可要求其它风格"
+        "给主推、两个备选及完整24风格目录，让用户自由选择，不展示内部trace",
+        "默认后续六宫格预览再六张，当前未有风格确认与生成授权，不生图"
       ],
       "ref": "style-router §4"
     },
@@ -328,13 +328,13 @@
       "id": 27,
       "category": "completion_status",
       "prompt": "(上传真实白色连衣裙图,未给任何风格代号)直接生成6张",
-      "expected_output": "保留六张需求，给含具体注册风格的完整方案，一次确认后才执行。",
+      "expected_output": "用户明确直接六张时可跳过预览，但未确定风格先展示推荐与完整目录，风格和次数授权齐备后执行。",
       "expectations": [
-        "当前未确定风格且无已呈现方案，不调用image_gen",
-        "简短说明推荐人物、具体风格、用途与六张，不默认展示完整目录",
-        "不擅自把六张改成一张，不要求用户必须输入风格代号",
-        "用户可用自然语言确认整份明确生成方案，不再分别确认风格和数量",
-        "脱离具体方案的好看、默认或随便不自行绑定任意风格与调用额度"
+        "当前未确定风格不调用image_gen",
+        "展示主推、两个备选与完整24风格目录，允许用户自由选择",
+        "保留用户明确直接六张的需求，不擅自改成一张或强制预览",
+        "用户可自然语言确认风格与已明确的六次方案，不要求注册代号",
+        "好看、默认或随便不自行绑定风格或次数"
       ]
     },
     {
@@ -371,7 +371,7 @@
       "expectations": [
         "首个可见回复只做中性门禁动作,不承诺生成或成片",
         "读 SKILL.md 前日志首段不出现直接生成/一次性生成/出6张/6宫格成片/最终交付/我会生成/直接出等承诺词",
-        "未选风格时给一份具体方案，保留六张需求，等待一次确认；不默认展示完整目录",
+        "未选风格时展示主推、两个备选及完整24风格目录，保留直接六张需求并等待风格及方案确认",
         "全程不调用 image_gen,零落盘"
       ],
       "ref": "SKILL §0 首句铁律"
@@ -442,11 +442,11 @@
       "id": 35,
       "category": "distribution_docs",
       "prompt": "我要把 threadtruth-studio 分发给主要使用 Codex 的用户,请检查 README/HTML 使用说明是否清楚写明这个 skill 能做什么、不能做什么、怎么使用,以及 Codex 原生生图边界。",
-      "expected_output": "分发文档必须包含 README.md 和 HTML 用户指南;说明 Codex/ChatGPT 原生生图依赖、无需 API key、禁 API/CLI/curl fallback;覆盖真实服饰图门禁、简短推荐方案、按需风格目录与自由选择、模式/动作、tool-blocked、童装R1、maturity caveat 与分发排除项。",
+      "expected_output": "分发文档必须包含 README.md 和 HTML 用户指南;说明 Codex/ChatGPT 原生生图依赖、无需 API key、禁 API/CLI/curl fallback;覆盖真实服饰图门禁、推荐与完整风格目录自由选择、默认预览再六张及主动单张、模式/动作、tool-blocked、童装R1、maturity caveat 与分发排除项。",
       "expectations": [
         "README.md 存在并说明 Codex-first/原生生图定位",
         "HTML 用户指南存在且可离线打开,不依赖外部资源",
-        "文档说明能做:简短推荐方案、按需完整风格目录、preview-grid、6 张独立成片、提示词-only、单张 retry",
+        "文档说明能做:推荐与完整风格目录、默认preview-grid→方向确认→6张独立图、主动单张、提示词-only与单张retry",
         "文档说明不能做:无真实服饰图不生图、配置文件不是事实源、非服饰商品不生人像、六宫格不能当成片、未确认风格不直接生成",
         "文档明确无原生生图能力时进入 tool-blocked,不得使用 OPENAI_API_KEY/API/CLI/curl/network fallback",
         "文档完整列出或指向 24 个已落地风格包,并说明推荐不是封闭三选一",
@@ -2637,9 +2637,9 @@
       "id": 202,
       "category": "real_face_material_guide_single_selfie",
       "prompt": "真人模特只上传了一张开了美颜的近距自拍，要六张新中式成片，其中两张全身，要求“脸要像”。请核对素材并说明能做什么。",
-      "expected_output": "出示真人锁脸素材清单（建议必拍4张+加分2张、无美颜/自然光/无遮挡/授权），记录当前覆盖只有正脸且为美颜自拍；说明膝上/半身露脸可做（用户判定7/7像），全身按商品图交付、脸qa-user-review不承诺像；不生图。",
+      "expected_output": "先说明现有自拍可作正面/近正面膝上或半身参考及美颜限制；全身按商品展示交付、脸qa-user-review不承诺像；仅指出本次要求确实缺少的真实视角，完整补拍教程按需展开，不要求交齐四张，不生图。",
       "expectations": [
-        "向用户出示 real-face-material-guide.md 第二至五节内容，补拍为建议，不说“确保/保证成功率”",
+        "先看已有素材并给简短能力/缺项结论，不默认展示第二至五节教程，不以补齐照片保证成功率",
         "覆盖记录只写正脸/近正面，其余角度 unknown，不用 AI 生成补角度",
         "全身张明确按商品图交付、脸至少 qa-user-review；不因清单未满足而拒绝膝上/半身任务",
         "实际调用为0；不把 Claude 目测或替身实验写成验证"
@@ -2661,6 +2661,93 @@
       ],
       "ref": "real-face-material-guide.md §五/§六; model-selection.md §真人参考覆盖与本轮朝向计划",
       "source_case_id": "RF-14",
+      "validation_scope": "No-image source regression definition; not retained model-run or visual improvement evidence."
+    },
+    {
+      "id": 204,
+      "category": "material_summary_before_tutorial",
+      "prompt": "只有一张清晰正脸真人参考，本次只要近正面半身人物图。不生图，先说明素材是否够用。",
+      "expected_output": "先说明现有正脸能支持本次朝向与取景，说明不保证严格还原；不要求额外四张或展开拍照教程。",
+      "expectations": [
+        "先看现有素材，再说明本次能做什么",
+        "未要求侧脸或全身时不追加无关补拍清单",
+        "不默认出示完整教程，不承诺像，不生图"
+      ],
+      "ref": "real-face-material-guide.md §一; model-selection.md",
+      "source_case_id": "RF-15",
+      "validation_scope": "No-image source regression definition; not retained model-run or visual improvement evidence."
+    },
+    {
+      "id": 205,
+      "category": "material_gap_and_optional_tutorial",
+      "prompt": "已有真人正脸照片，想要侧脸并展示长裙全身。先说缺什么；如果我问怎么拍侧脸，再给补拍方法。不要生图。",
+      "expected_output": "指出对应真实侧向依据缺失、默认膝上会漏裙摆以及全身还原限制；只按需展开侧向拍摄方法。",
+      "expectations": [
+        "缺项绑定本次侧脸，不把四张清单当门槛",
+        "说明商品下摆展示与膝上取景的取舍，全身不承诺像",
+        "用户问拍法时才展开相关教程；不因补齐照片保证成功"
+      ],
+      "ref": "real-face-material-guide.md §一/§二/§五; model-selection.md",
+      "source_case_id": "RF-16",
+      "validation_scope": "No-image source regression definition; not retained model-run or visual improvement evidence."
+    },
+    {
+      "id": 206,
+      "category": "output_form_and_person_source_terms",
+      "prompt": "你说的人物图，是必须用真人照片吗？我已有一个AI模特，没有的话也想直接新建。只解释，不生图。",
+      "expected_output": "用人物图描述输出形态，用真人参考、已有 AI、新 AI描述人物来源；已有 AI可沿用，没模特可推荐新 AI。",
+      "expectations": [
+        "不把人物图解释成必须真人身份或必须上传真人照片",
+        "real/ai/new对应三种来源；来源不明时按需问，不凭照片判断",
+        "已有 AI和新 AI仍需实际首张确认，内部字段与旧记录不改写"
+      ],
+      "ref": "recognition.md §3.10; model-selection.md",
+      "source_case_id": "RF-17",
+      "validation_scope": "No-image source regression definition; not retained model-run or visual improvement evidence."
+    },
+    {
+      "id": 207,
+      "category": "batch_head_gaze_repetition_disclosure",
+      "prompt": "只作整组QA，不生图。已有AI儿童人物的六张日系家居图，身体分别回转、倚墙、端坐、迈步、微前倾和已声明的正面站姿替代，人物身份、表情与商品暂未见明显问题。可观察事实：六张均近正脸看镜头。本轮没有用户指定每张头向，也没有要求全部看镜头。助手准备只说六姿势齐全、人物一致。请给简短交付结论。",
+      "expected_output": "明确披露整组六张近正脸看镜头、头向视线重复；一般变化不足作为效果建议，不以身体不同掩盖，也不自动把每张判为硬失败。",
+      "expectations": [
+        "横向比较头向与眼球视线，明确指出1至6张均近正脸看镜头，身体类别不同不关闭该问题",
+        "保持身份、表情连续性与头向变化分开，不认定表情保留就必须正脸",
+        "没有具体用户头向要求未兑现时，可将变化不足列为效果建议，不虚构逐张失败或角度配额",
+        "不自动重试、不改账本次数、不声称商品或整组已获用户接受"
+      ],
+      "ref": "commercial-qa.md §4; prompt-build.md §2",
+      "source_case_id": "RC-07",
+      "validation_scope": "No-image source regression definition; not retained model-run or visual improvement evidence."
+    },
+    {
+      "id": 208,
+      "category": "explicit_gaze_plan_failed_and_group_rejected",
+      "prompt": "只作QA，不生图。沿用已确认AI人物的一组六张，用户已确认第2张倚墙望窗外、第4张轻步时看行进方向；实际两张均正脸看镜头，其他身体动作符合。首张此前单独被用户接受，技术账本complete=true。本次用户明确说整组头向重复，不接受。请判断状态和下一步。",
+      "expected_output": "第2、4张明确头向视线安排未兑现为qa-retry；保留首张单独接受，整组拒绝，不拿complete替代验收或自动修图。",
+      "expectations": [
+        "把2、4张明确计划失败判为qa-retry，不能只降为可选效果建议",
+        "保留首张单独接受与整组拒绝两个独立事实，不写整组待确认或通过",
+        "complete只表示技术账本流程完成；不覆写旧冻结请求和原调用记录",
+        "提出仅针对相关编号的修正方向，已有额度耗尽时等待明确新增次数授权，不批量重生"
+      ],
+      "ref": "commercial-qa.md §4/§5; prompt-build.md §7",
+      "source_case_id": "RC-08",
+      "validation_scope": "No-image source regression definition; not retained model-run or visual improvement evidence."
+    },
+    {
+      "id": 209,
+      "category": "head_gaze_variation_exceptions",
+      "prompt": "只审查规则，不生图。三组输出：(A)用户明确要求六张正脸直视镜头的AI人物；(B)真人仅有已核正脸参考，本轮按真实覆盖安排近正脸，身体动作不同；(C)固定姿势局部换装需保护原头脸。另有不露脸和人台图。是否为了头向多样性而必须转头、设看镜头比例或判这些输出失败？",
+      "expected_output": "先核各自锁定条件与来源限制，不为多样性强改头脸，不设角度或直视配额；不露脸及非人像跳过面部朝向比较。",
+      "expectations": [
+        "A遵守用户已指定朝向，重复本身不构成违反该要求",
+        "B不超真实参考覆盖或以眼球变化推导未知侧脸；C不为去重重建受保护头脸",
+        "不设置左右张数、直视比例或角度配额",
+        "不露脸和人台不做不适用的面部朝向QA，无新增生成调用"
+      ],
+      "ref": "commercial-qa.md §4; prompt-build.md §2; fixed-pose-wardrobe.md",
+      "source_case_id": "RC-09",
       "validation_scope": "No-image source regression definition; not retained model-run or visual improvement evidence."
     }
   ]

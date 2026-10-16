@@ -103,12 +103,15 @@ def supplement_prompt(reference):
             'accessories, pose, backdrop and lighting. Accepted-candidate continuity is not proof of exact original-face fidelity.')
 
 
-def validate_model(model):
+def validate_model(model, *, allow_child=False):
     if not isinstance(model, dict) or set(model) - MODEL_KEYS:
         raise ValueError('Model fields are source_type, scope, subject, locked, adjustable, consent_note and optional factors only')
     if model.get('source_type') not in {'new', 'ai', 'real'} or model.get('scope') not in {'face', 'full'}:
         raise ValueError('Declare new/ai/real source and face/full identity scope')
-    if model.get('subject') not in SUBJECTS:
+    child = allow_child and model.get('subject') == 'child model'
+    if child and model.get('source_type') == 'real':
+        raise ValueError('Kidswear ledger does not support real-child identity reuse')
+    if model.get('subject') not in SUBJECTS and not child:
         raise ValueError('New model reuse supports adult single-person subjects only')
     for name in ('locked', 'adjustable'):
         if not isinstance(model.get(name), list) or any(not isinstance(x, str) or not x.strip() for x in model[name]):
@@ -143,14 +146,16 @@ def validate_model(model):
     return copy.deepcopy(model)
 
 
-def prompt_lines(model):
-    model = validate_model(model)
+def prompt_lines(model, *, allow_child=False):
+    model = validate_model(model, allow_child=allow_child)
     existing = model['source_type'] in ('ai', 'real')
     styling_default = ('follow the fixed model conditions'
                        if existing else 'follow the declared model conditions and selected style')
     scope = ('face-only reference; do not infer its unseen body; use declared body presentation'
              if model['scope'] == 'face' else 'preserve visible face, apparent age, skin tone and body proportions')
-    return [f"Model subject: {model['subject']}. Identity scope: {scope}.",
+    return [*(['Child model: age-appropriate, modest clothing, safe everyday setting, non-sexualized.']
+              if model['subject'] == 'child model' else []),
+            f"Model subject: {model['subject']}. Identity scope: {scope}.",
             'Fixed model conditions: ' + ('; '.join(model['locked']) or 'follow declared identity references'),
             'Permitted styling: ' + ('; '.join(model['adjustable']) or styling_default),
             'Model references never supply clothing, accessories, pose, backdrop or lighting. '

@@ -29,7 +29,7 @@
 
 ## 1a. 输出形态覆盖层(仅 opt-in 或安全降级触发)
 
-默认输出形态 = **真人模特服饰人像**,沿用 §1 六姿势母版与 §2 头部视线。用户未指定输出形态时,不得主动打断追问;在识别卡给一句可改提示即可。
+默认输出形态 = **人物图（露脸）**,沿用 §1 六姿势母版与 §2 头部视线。用户未指定输出形态时,不得主动打断追问;在识别卡给一句可改提示即可。
 
 允许的覆盖:
 - **不露脸 / 局部 / 切头:** 仍是人像输出,可继承 6 姿势母版;但头部视线改为 `face out of frame, face naturally obscured, cropped below the nose or from neck down when composition allows, no identifiable face, garment remains the focus`。不得复刻源图真人身份。若使用母版 6,`BACK_TURN_GLANCE` 的回眸只保留背身/肩线姿态张力,不得要求露脸或看向镜头。
@@ -48,7 +48,7 @@
 | 5 | 轻微 45° 造型平铺,显示厚度/层次,不扭曲版型 | 侧向 45° 挂拍,显示厚度/垂坠 | 侧向 45° 人台,显示版型体积 |
 | 6 | 折叠/搭配展示,只包含参考图里已有鞋包配饰 | 低干扰搭配挂拍,只包含参考图里已有鞋包配饰 | 细节/配饰关系展示,只包含参考图里已有鞋包配饰 |
 
-非人像输出仍遵守一套 outfit 一组、最多 6 张、串行、计数、服饰保真、风险与 tool gates。它只改变"呈现形态",不允许并发、多套混合、API fallback 或放宽安全。非人像输出保留经 §4.1 `STYLE_VISUAL` 商品事实守卫过滤后的 `pack.visual_language` 与 `pack.lighting_palette`,但其中任何人物、真人、portrait、pose、street portrait、editorial model 等语义都必须转译为服饰呈现、商品构图、材质光线或低干扰场景,不得据此拉回真人模特。`pack.model_persona` 中的脸部、表情、姿态、身份词忽略或转译;克制、松弛、高级、低调、冷感等气质词可保留为光线/场景/构图倾向。童装敏感品类的安全降级优先使用平铺/挂拍/人台,并在前台明示。
+非人像输出仍遵守一套 outfit 一组、最多 6 张、串行、计数、服饰保真、风险与 tool gates。它只改变"呈现形态",不允许并发、多套混合、API fallback 或放宽安全。非人像输出保留经 §4.1 `STYLE_VISUAL` 商品事实守卫过滤后的 `pack.visual_language` 与 `pack.lighting_palette`,但其中任何人物、真人、portrait、pose、street portrait、editorial model 等语义都必须转译为服饰呈现、商品构图、材质光线或低干扰场景,不得据此拉回人物图。`pack.model_persona` 中的脸部、表情、姿态、身份词忽略或转译;克制、松弛、高级、低调、冷感等气质词可保留为光线/场景/构图倾向。童装敏感品类的安全降级优先使用平铺/挂拍/人台,并在前台明示。
 
 ## 1b. 缺背面资料的第六张替代(真人/不露脸搭配图)
 
@@ -165,7 +165,7 @@ no provocative pose, no upskirt, modest seated posture.
 
 ### 4.0a 真人组首张身份锚点(P1 商业一致性门禁)
 
-动作1的默认真人模特与不露脸/局部真人输出,必须按以下顺序执行;平铺、挂拍、人台/ghost mannequin 跳过本节:
+动作1的默认人物图与不露脸/局部真人输出,必须按以下顺序执行;平铺、挂拍、人台/ghost mannequin 跳过本节:
 
 1. **首张参考角色。** 成人 look-1 可接收当前商品全部服饰源、已有原始人物身份参考、可选审美参考;逐图编号声明用途。仅服饰源决定商品事实。没有身份沿用要求时不复制服饰源中的真人;审美样图不复制脸。preview-grid 永不作首张身份参考。
 2. **技术 QA 和用户选人分开。** 首张落盘核服饰硬事实、画幅、人体/安全、原始身份与明确人物条件。硬失败=`qa-retry`,停止传播。合格或仅剩不阻断的 `qa-user-review` 可记录技术接受,但成人组必须展示首张并等用户明确接受人物,再记录 `model_confirmation`、使用 `accepted_identity_anchor`。用户对当前图的整体接受可作为人物确认，不再拆开追问；单张结束与整组续生按 `flow-gates.md`，不能把满意当新增调用授权。没有用户确认不得继续后五张;选人通过不代表 `image-ready`。
@@ -173,7 +173,7 @@ no provocative pose, no upskirt, modest seated posture.
 4. **后五张携带全部依据。** 顺序为 `Image 1…N = current SKU garment sources`、`Image N+1…M = original identity-reference (ignore garment/pose/background/lighting)`、可选 `aesthetic-reference (do not copy identity or garment)`、最后 `accepted current look-1 = identity-only`。按文件哈希对重复身份文件去重,保留不同角色。每个新商品首张重新对照原始人物,后五张也始终携带原始依据,不只对照最近一张生成图。本组 look-1 不作 `pose-mother`，不自动复制其固定倾头、视线或身体姿势。
 5. **人物固定条件覆盖冲突的人物气质与人物负面词。** 预览、测试、成片及仅提示词都采用同一份人物条件;不删除安全/人体/商品负面词。妆发调整以用户明确允许项为准。原始人物参考和本组锚点永不覆盖新商品事实,也不自动继承旧搭配、配饰、拍摄风格或背景。人物卡只写人物,不保存旧商品。
 6. **不露脸仍不补可识别脸。** 成人不露脸组固定其可见轮廓,继续遮脸/切头规则。童装仍按原安全流程:首张技术 QA 后才用 AI 身份锚点,本次成人参考包功能不扩展到儿童。
-7. **单张测试续生成组。** 首张必须是本组母版1独立图,技术接受且成人人物已获用户确认;上下文商品/风格/模式/形态/画幅一致,并有新增五张授权时原图直接为 look-1,只追加 look-2…6。保留累计预算、失败历史和原始首张。其他母版测试不直接转成组六张;另行说明剩余编号和授权,不得悄悄重生第一张。
+7. **单张测试续生成组。** 首张必须是本组母版1 delivery 独立图,技术接受且成人人物已获用户确认;上下文商品/风格/模式/形态/画幅一致,并有新增五张授权时原图直接为 look-1,只追加 look-2…6。生成首张前说明是否可续组，并预检后续参考（含首张占位和真人覆盖）；只改同类动作的取景/支撑/视线仍保留母版编号，不误记 custom。保留累计预算、失败历史和原始首张。其他母版、custom、model-check 和 correction-edit 均为独立单张，不直接转成组六张；新需求另按实际任务说明，不能悄悄重生第一张。
 
 具体选人、因子交付、原始参考包及第二版任务记录见 `model-selection.md`。旧版任务执行/恢复语义保持不变,不自动升级。
 
@@ -201,7 +201,7 @@ batch_canvas_baseline: <首张通过比例门禁后的实际 WIDTHxHEIGHT>
 
 ### 4.1 单张成片 prompt 拼装公式(抽象点:底座/场景→pack 变量)
 
-**`STYLE_VISUAL` 商品事实守卫(中心规则,预览/成片/prompts-only 与所有输出形态共用):** 先用识别卡中的真实服饰事实过滤 `pack.visual_language`、`pack.lighting_palette` 与会影响服饰外观的 `pack.model_persona` 语义,再注入 prompt。pack 提到的面料/材质、口袋/绑带/五金、层叠、腰线/衣长、图案/logo、配饰、廓形/剪裁/结构或搭配方式,只有在参考图已明确存在时才可作为服饰描述保留,且只能强调、不得改写。参考图未出现或无法确认时,不得给服装新增这些事实;只把相应风格意图转译为灯光、色调、低干扰背景/道具或构图氛围,且道具不得覆盖服饰。`pack.negative_delta_add` 同样不得删除参考图已有的 logo、图案、材质、结构、配饰或层次;冲突项改写为 `no added/invented ...` 或跳过。该守卫对真人模特、不露脸、平铺、挂拍、人台一视同仁。
+**`STYLE_VISUAL` 商品事实守卫(中心规则,预览/成片/prompts-only 与所有输出形态共用):** 先用识别卡中的真实服饰事实过滤 `pack.visual_language`、`pack.lighting_palette` 与会影响服饰外观的 `pack.model_persona` 语义,再注入 prompt。pack 提到的面料/材质、口袋/绑带/五金、层叠、腰线/衣长、图案/logo、配饰、廓形/剪裁/结构或搭配方式,只有在参考图已明确存在时才可作为服饰描述保留,且只能强调、不得改写。参考图未出现或无法确认时,不得给服装新增这些事实;只把相应风格意图转译为灯光、色调、低干扰背景/道具或构图氛围,且道具不得覆盖服饰。`pack.negative_delta_add` 同样不得删除参考图已有的 logo、图案、材质、结构、配饰或层次;冲突项改写为 `no added/invented ...` 或跳过。该守卫对人物图、不露脸、平铺、挂拍、人台一视同仁。
 
 拼装前实际看当前服饰源与可用的本组已确认图，只写可见结构和已选搭配。鞋包若为本组明确选定的搭配，后五张沿用通过首张中的可见鞋型、鞋头、鞋底、开口/系带等特征，不只锁“白鞋”等颜色；看不清写 `unknown`，不统一新增某种鞋设计。该图仍不认证商品事实，已选搭配不写入人物卡或默认跨新品继承。
 
@@ -234,18 +234,18 @@ batch_canvas_baseline: <首张通过比例门禁后的实际 WIDTHxHEIGHT>
    → adult model(默认)/ child model, age-appropriate, modest(童装)/ + 去性感化锁(露肤时)]
 + [成人组:注入已选择/推荐后确认的人物条件,童装仅在用户明确选角时注入短目标,覆盖冲突的 pack 人物气质;
    未指定时不添加此块,沿用现有默认;非人像跳过]
-+ [output form: 默认真人模特→用 §1 姿势母版+§2 头部视线;
++ [output form: 默认人物图→用 §1 姿势母版+§2 头部视线;
    不露脸→继承姿势但改 face-obscured/cropped framing;
    平铺/挂拍/人台→改用 §1a 非人像构图,跳过真人头部视线]
 + [STYLE_VISUAL = 经商品事实守卫过滤后的 pack.visual_language + 场景自适应四段光影签名 pack.lighting_palette
    (非人像输出时再把人物/portrait 语义转译为服饰呈现与光线)]
 + [经商品事实守卫过滤后的 pack.model_persona
-   (真人模特/不露脸时气质叠加;非人像输出只保留氛围/气质词,忽略或转译表情/脸部/姿态要求)]
+   (人物图/不露脸时气质叠加;非人像输出只保留氛围/气质词,忽略或转译表情/脸部/姿态要求)]
 + [AI/新模特→§2 原共用头部说明一次;real身份沿用→本轮真实覆盖内的头向/眼球视线计划;
    不露脸/非人像→§1a 覆盖]
-+ Pose/composition: [真人模特→本轮实际姿势 #N + 对应头部关系(默认母版,第6张可按 §1b 替代或真人覆盖取消露脸回眸并明示);
++ Pose/composition: [人物图→本轮实际姿势 #N + 对应头部关系(默认母版,第6张可按 §1b 替代或真人覆盖取消露脸回眸并明示);
    非人像输出→平铺/挂拍/人台构图 #N,无真人头部视线]
-+ Mode/scene: [真人模特/不露脸→依本轮B/C/D棚拍分配，使用棚拍背景或已选择的pack场景（默认索引N，可独立选取），对齐modes-scenes场景强度;
++ Mode/scene: [人物图/不露脸→依本轮B/C/D棚拍分配，使用棚拍背景或已选择的pack场景（默认索引N，可独立选取），对齐modes-scenes场景强度;
    平铺/挂拍/人台→棚拍表面/衣架/人台/低干扰商品背景;C/D场景位只把已选pack场景转译为材质、光线、色调、背景氛围或陈列环境,不得直拼真人地点场景或拉回人像]
 + Garment fidelity: keep the garment from the reference image unchanged —
   keep [颜色/材质/版型/长度/领型/袖型/肩线/下摆/纽扣/图案/logo/鞋/包/配饰 中的实际项],
@@ -262,7 +262,7 @@ batch_canvas_baseline: <首张通过比例门禁后的实际 WIDTHxHEIGHT>
    不露脸/非人像→§1a 覆盖]
 + A single 2x3 grid contact-sheet preview showing the SAME one outfit in 6
   different directions.
-  - 真人模特/不露脸: show the SAME one model in six pose templates
+  - 人物图/不露脸: show the SAME one model in six pose templates
     (top row poses 1-2-3, bottom row poses 4-5-6; pose 6 follows the declared §1b substitution when back sources are missing, or the declared real-face plan's back display without a visible face), with head/gaze per actual pose
     or face-obscured framing when requested.
   - 平铺/挂拍/人台: show the SAME garment presentation type in six non-portrait
@@ -280,12 +280,12 @@ batch_canvas_baseline: <首张通过比例门禁后的实际 WIDTHxHEIGHT>
 > 多套不同 outfit 的预览(`recognition.md §3.9`):6 格改为「每格一套 outfit 的代表姿势」,其余规则一致。
 > **摄影试点追加句(仅 ecommerce-studio,预览与动作 2 单张共用,独立于 §2 通用头部规则):** ①身份锚点句补齐 §4.0a 第 4 条的忽略项——`is identity-only: preserve face, hair, apparent age and body proportions; ignore its garments, garment colors and washes, lighting, backdrop, pose and crop; never treat it as outfit authority`;②实际全身 Framing 写成可见动作 `full body visible, feet and shoes fully inside the frame with a small margin below the soles`(实际半身不追加);③首行后加一次真实感锚词 `Photorealistic photograph taken with a real camera`。三句都不触碰服饰事实、母版编号、负面词与安全主体;动作 2 单张按 §3a 成片负面词拼装并注入 §4.0b 精确画幅。
 
-### 4.3 ⛔ 预览→成片的红线(逐字保留,风格无关)
-1. **`preview-grid` 与 `image-ready` 严格互斥。** 六宫格预览**永远**不能当最终成片,哪怕用户主动说"预览就行/不用再出了"也必须拒绝,固定回复:"预览图为低分辨率方向示意,无法逐张做服饰保真审计,不能当成片。要拿到可用成片,需逐张重新生成 6 张高清独立图(消耗订阅额度)。要我现在开始生成这 6 张吗?"**到此停住等用户明确回答,不自动进成片。** 仅当用户明确说"生成/全部生成/动作1/好/开始"等才进成片;用户改口不生成则停在 `preview-grid` 不调 image_gen。
+### 4.3 ⛔ 预览→成片的红线(风格无关)
+1. **`preview-grid` 与 `image-ready` 严格互斥。** 六宫格预览**永远**不能当最终成片。用户说“预览就行/不用再出了”时直接结束，可简述“本次方向预览已完成，预览不作为独立成片交付”，不追问六张、不调用生图。默认方向确认后承接6张独立重新生成图；主动只要1张时按1张方案执行。方向确认与成片次数授权分别核对，已有足够明确授权则沿用，不重复确认，也不重开1张或6张的默认选项题。
 2. **禁止任何形式的子图提取/裁切/放大/超分。** 对预览图做切割/抠图/放大/超分的请求一律拒绝。成片必须是**重新独立调用 image_gen** 生成的单图。用户说"把预览第3格给我高清版"= 按预览阶段输出形态对应的姿势母版 3 或非人像构图 #3 **重新独立生成**,不是放大预览格。
 3. **不接受去标记请求。** 预览标记是生成时画进图里的,**不得**应用户要求 P 掉/遮盖/透明化/局部重绘;遇此请求拒绝并引导进成片。
-4. **预览修正至多 3 轮**,但预览永远不具备成片资格;进成片必须经用户**明确**"方向确认/全部生成/动作1"等指令。**"可以了/出图吧/就这个"等模糊词不自行推断为成片授权**——先回确认一句"那我进成片逐张生 6 张高清独立图?"得到肯定再开始。
-5. 预览阶段产出状态 = `preview-grid`,绝不标 `image-draft`/`image-ready`。**升 `image-ready` 前二次核验:本组有 look-1…look-6 六个有效独立文件、无 preview-grid 残留、调用数已报告且商业 QA/用户确认已关闭**,否则不得标 ready。
+4. **预览修正至多 3 轮**，且每次须有对应调用授权。单独的“方向确认/可以了/就这个”只确认方向，不授权独立成片；用户明确要求停止则结束。确实要求生成但数量不明时，只补问所需张数，不默认扩成六张。对已说明具体方案与次数的“确认/继续”按 `flow-gates.md` 继承对应授权。
+5. 预览阶段产出状态 = `preview-grid`,绝不标 `image-draft`/`image-ready`。次数、完成决定与关联成片按 `preview-ledger.md`；初次1次加最多3次明确授权修正，不按六格记6次、不自动补调用。**升 `image-ready` 前按本次约定核验**：单张须有1个有效独立文件，六张组须有 look-1…look-6 六个有效独立文件；无 preview-grid 混入，调用数已报告且 `commercial-qa.md §5` 的相应 QA/用户确认已关闭，否则不得标 ready。
 
 ### 4.4 落盘(官方 save-path 策略 + B3 沙箱 fallback,逐字保留)
 - 内置模式产物默认在 `$CODEX_HOME/generated_images/...`;要保存时生成后 move/copy 到工作目录,**不只留默认路径**。
@@ -300,7 +300,7 @@ batch_canvas_baseline: <首张通过比例门禁后的实际 WIDTHxHEIGHT>
 
 ## 5. QA 审计(生成或出提示词前内部自检)
 
-逐张检查:通过输入门禁 / 有真实服饰事实源 / 有明确生成意图 / 单图输出 / 服饰是主角 / 输出形态符合用户或安全默认(真人模特/不露脸/平铺/挂拍/人台) / 真人模特时符合本轮实际姿势计划并核动作不重复(§1b 或取消真人露脸回眸的例外不可说原六母版齐全) / 非人像时符合 §1a 构图编号且无真人头部视线 / 身体结构清楚(非人像不适用) / 头部方向合理且real露脸符合已核真实覆盖(非人像不适用,AI/new不加真人覆盖限制) / 场景低干扰 / **已读取元数据且符合本组 `canvas_contract` 与 `batch_canvas_baseline`** / 用途构图与留白目标到位 / 颜色材质版型保真 / pack 未新增或删除参考图不存在/已有的材质、结构、图案、层叠、配饰 / 鞋包配饰保留 / 模特身份一致(非人像不适用) / **风格底座到位(对齐所选 pack;非人像时人物/portrait 语义已转译)** / **光源、方向、阴影、对比/曝光与所选 pack 一致,柔光/低阴影 pack 未被戏剧化,光线未改变服饰颜色、材质或结构可见性** / 露肤已非性感化。
+逐张检查:通过输入门禁 / 有真实服饰事实源 / 有明确生成意图 / 单图输出 / 服饰是主角 / 输出形态符合用户或安全默认(人物图/不露脸/平铺/挂拍/人台) / 人物图时符合本轮实际姿势计划并核动作不重复(§1b 或取消真人露脸回眸的例外不可说原六母版齐全) / 非人像时符合 §1a 构图编号且无真人头部视线 / 身体结构清楚(非人像不适用) / 头部方向合理且real露脸符合已核真实覆盖(非人像不适用,AI/new不加真人覆盖限制) / 场景低干扰 / **已读取元数据且符合本组 `canvas_contract` 与 `batch_canvas_baseline`** / 用途构图与留白目标到位 / 颜色材质版型保真 / pack 未新增或删除参考图不存在/已有的材质、结构、图案、层叠、配饰 / 鞋包配饰保留 / 模特身份一致(非人像不适用) / **风格底座到位(对齐所选 pack;非人像时人物/portrait 语义已转译)** / **光源、方向、阴影、对比/曝光与所选 pack 一致,柔光/低阴影 pack 未被戏剧化,光线未改变服饰颜色、材质或结构可见性** / 露肤已非性感化。
 
 **裁切检查按本轮实际景别(B4)，不按姿势编号推断:**
 - **全身取景:** 含母版3全身坐姿，检查画框是否错误裁掉应保留的鞋、包、下摆。自然迈步遮住后鞋不自动等同裁切或人体缺失；按 `commercial-qa.md` 的用途分级判断。明确商品结构错误、用户明确指定的关键展示内容缺失仍须拒绝。
@@ -320,7 +320,7 @@ batch_canvas_baseline: <首张通过比例门禁后的实际 WIDTHxHEIGHT>
 
 用户说"重试第3张""第5张不好""只改图2"时,只重试指定单张。**仅用于成片阶段(`image-draft`)的单张**;预览阶段(`preview-grid`)改方向走 flow-gates 分支4b"第N格调整"。QA 发现失败只报告 `qa-retry`,**未经用户明确单张重试授权不自动调用 image_gen**。
 
-**必须继承:** 当前已锁定 outfit/SKU 的全部用户上传服饰参考图(始终第一事实源) / 原服饰事实档案 / 原模式 / 原场景逻辑 / 原输出形态(真人模特/不露脸/平铺/挂拍/人台) / 已验收 look-1 身份锚点(真人/不露脸适用) / 原姿势编号或非人像构图编号及实际景别 / 原鞋包配饰关系 / 原用途规格线索 / **原 `canvas_contract` + `batch_canvas_baseline`** / **原风格底座(所选 pack)** / 原负面规则(真人实际全身拼 cropped 三条、实际半身不拼;非人像 #1/#2/#5/#6 查全轮廓/搭配关系,#3/#4 细节图不拼真人 cropped 规则)。
+**必须继承:** 当前已锁定 outfit/SKU 的全部用户上传服饰参考图(始终第一事实源) / 原服饰事实档案 / 原模式 / 原场景逻辑 / 原输出形态(人物图/不露脸/平铺/挂拍/人台) / 已验收 look-1 身份锚点(真人/不露脸适用) / 原姿势编号或非人像构图编号及实际景别 / 原鞋包配饰关系 / 原用途规格线索 / **原 `canvas_contract` + `batch_canvas_baseline`** / **原风格底座(所选 pack)** / 原负面规则(真人实际全身拼 cropped 三条、实际半身不拼;非人像 #1/#2/#5/#6 查全轮廓/搭配关系,#3/#4 细节图不拼真人 cropped 规则)。
 
 - 重试 look-2…look-6:同时传上传新品服饰源 + 原始人物参考 + 已确认本组 look-1;生成图只作身份锚点。
 - 重试 look-1:旧 look-1 若脸/发型身份种子可用,可在用户授权后作为 identity-only seed 与上传服饰源共同传入;若身份/人体本身不可用,必须前台说明需要重建锚点,不得静默换人。仅当后续尚未生成、旧首张未获技术接受时才可在原任务显式重试;已接受首张不可静默替换。新首张通过 QA 且成人用户确认后才继续余图;长期原始人物参考不更新。
@@ -343,7 +343,7 @@ Fix only this issue: <retryReason>.
 Do not redesign the outfit. Do not change the mode. Do not regenerate the whole set.
 single image only, one model/mannequin/garment presentation only, one pose or composition only,
 no collage, no grid, no text.
-[真人模特/不露脸且本轮实际取景为全身,追加: no cropped shoes, no cropped bag, no cropped hem.]
+[人物图/不露脸且本轮实际取景为全身,追加: no cropped shoes, no cropped bag, no cropped hem.]
 [平铺/挂拍/人台且 N 为 #1/#2/#5/#6,追加: no cropped garment outline, no cropped hem, no cropped accessories.]
 [平铺/挂拍/人台且 N 为 #3/#4,不要追加真人 cropped 或 full-outline 裁切负面词;只写清目标细节必须完整清楚。]
 ```
