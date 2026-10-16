@@ -58,6 +58,14 @@ def native_reference_check(rows, route, extra_anchor=0):
         raise ValueError('Native imagegen allows at most five references; select sufficient garment views before freezing, leaving room for original identity and the current first-image anchor; never silently drop inputs')
 
 
+def is_preview(data):
+    return data.get('schema_version') == 2 and data.get('context', {}).get('purpose') == 'preview-grid'
+
+
+def face_plan_count(context, count):
+    return 6 if (context or {}).get('purpose') == 'preview-grid' else count
+
+
 def context_check(context, size):
     required = {'outfit', 'style', 'mode', 'output_form', 'size', 'first_pose'}
     if not isinstance(context, dict) or set(context) - {'purpose', 'pose_description', 'photography_targets', 'canvas_policy'} != required:
@@ -73,8 +81,8 @@ def context_check(context, size):
         raise ValueError('pose_description is only for a custom body-action category; keep numbered-master framing/support/gaze choices in the frozen prompt')
     if context['mode'] not in ('B', 'C', 'D') or context['size'] != list(size):
         raise ValueError('Task mode/canvas does not match context')
-    if context.get('purpose', 'delivery') not in ('delivery', 'model-check', 'correction-edit'):
-        raise ValueError('Task purpose must be delivery, model-check or correction-edit')
+    if context.get('purpose', 'delivery') not in ('delivery', 'model-check', 'correction-edit', 'preview-grid'):
+        raise ValueError('Task purpose must be delivery, model-check, correction-edit or preview-grid')
     if context.get('canvas_policy', 'exact') not in ('exact', 'ratio-first'):
         raise ValueError('Canvas policy must be exact or ratio-first')
     result=copy.deepcopy(context)
@@ -84,6 +92,8 @@ def context_check(context, size):
 
 
 def presentation_check(context, refs, count, identity, model):
+    if context.get('purpose') == 'preview-grid' and (count != 1 or context['first_pose'] != 1):
+        raise ValueError('A preview-grid is one six-panel request with master numbering starting at 1')
     if context['first_pose'] == 'custom' and count != 1:
         raise ValueError('A custom presentation is a single-image task, not a default six-pose set')
     targets = sum(r['role'] == 'edit-target' for r in refs)
@@ -154,7 +164,10 @@ def stamp():
 
 def refresh_delivery_status(data):
     # Retried images remain evidence even after the current row returns to pending.
-    data['delivery_status']='image-draft' if any(row.get('output') for row in evidence_rows(data)) else 'prepared'
+    has_output=any(row.get('output') for row in evidence_rows(data))
+    data['delivery_status']=('preview-grid' if is_preview(data) else 'image-draft') if has_output else 'prepared'
+    if is_preview(data) or 'preview_origin' in data:
+        data['total_attempts']=data['attempts']+data.get('preview_origin', {}).get('attempts', 0)
 
 
 def save(root,data):
@@ -184,6 +197,7 @@ def read(root):
     if 'failure_recovery_version' in data and (data['schema_version']!=2 or type(data['failure_recovery_version']) is not int or data['failure_recovery_version']!=1):
         raise ValueError('Unsupported failure recovery version')
     # Normalize legacy records in memory; reading must not rewrite evidence.
+    check_preview_origin(root,data)
     refresh_delivery_status(data)
     return data
 
@@ -257,9 +271,15 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
         if len(identities)!=len(set(identities)):
             raise ValueError('Deduplicate identical identity references before task initialization and prompt numbering')
     inventory=[dict(sha256=digest(p),role=item['role']) for p,item in zip(sources,items)]
+    if schema_version==2 and context.get('purpose')=='preview-grid' and identity and model['source_type']=='real' and real_face_plan is None:
+        raise ValueError('A real-person preview requires six declared cell plans and original view coverage')
     if real_face_plan is not None:
+        plan_count=face_plan_count(context,len(prompts))
         real_face_plan=real_face_helper().validate(real_face_plan,inventory,schema_version=schema_version,identity=identity,
-            model=model,context=context,count=len(prompts),route=route,strict_looks=range(1,len(prompts)+1))
+            model=model,context=context,count=plan_count,route=route,strict_looks=range(1,plan_count+1))
+        if context.get('purpose')=='preview-grid':
+            selected={h for look in real_face_plan['looks'] for h in look['reference_sha256s']}
+            native_reference_check([r for r in inventory if r['sha256'] in selected],route)
     else:
         native_reference_check(items,route,extra_anchor=int(identity and len(prompts)==6))
     root.mkdir(parents=True,exist_ok=False)
@@ -281,7 +301,7 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
                         references_sha256=object_hash(frozen),failure_recovery_version=1)
         if real_face_plan is not None:
             real_face_plan=real_face_helper().validate(real_face_plan,frozen,schema_version=schema_version,identity=identity,
-                model=model,context=context,count=len(prompts),route=route,strict_looks=range(1,len(prompts)+1))
+                model=model,context=context,count=plan_count,route=route,strict_looks=range(1,plan_count+1))
             data.update(real_face_plan=real_face_plan,real_face_plan_sha256=object_hash(real_face_plan))
         save(root,data);return data
     except Exception:
@@ -295,8 +315,12 @@ def references(root,data,look):
     if not 1<=look<=len(data['looks']):raise ValueError('Unknown look number')
     row=data['looks'][look-1]
     if hashlib.sha256(row['prompt'].encode()).hexdigest()!=row['prompt_sha256']:raise ValueError('Frozen prompt changed')
-    rows=(real_face_helper().selected(data['real_face_plan'],data['references'],look)
-          if 'real_face_plan' in data else list(data['references']))
+    if is_preview(data) and 'real_face_plan' in data:
+        selected={h for cell in data['real_face_plan']['looks'] for h in cell['reference_sha256s']}
+        rows=[r for r in data['references'] if r['sha256'] in selected]
+    else:
+        rows=(real_face_helper().selected(data['real_face_plan'],data['references'],look)
+              if 'real_face_plan' in data else list(data['references']))
     if data['schema_version']==2 and data['identity'] and look>1 and not data['model_confirmation']:
         raise ValueError('First-image model has not been confirmed by the user')
     if data['identity'] and look>1:
@@ -327,6 +351,8 @@ def progression_error(data, look):
     remain blocking. A visual rejection is never promoted to acceptance here.
     Schema 1 retains its existing strict order.
     """
+    if is_preview(data) and data.get('preview_decision'):
+        return 'Preview task is closed; no further preview submissions'
     if data['schema_version']==1:
         return 'Earlier look is unresolved or not accepted' if any(
             x['state']!='accepted' for x in data['looks'][:look-1]) else None
@@ -400,7 +426,7 @@ def check_real_face_plan(root,data):
             or object_hash(data['context'])!=data['context_sha256']):
         raise ValueError('Frozen real-person source/context changed')
     real_face_helper().validate(data['real_face_plan'],data['references'],schema_version=data['schema_version'],
-        identity=data['identity'],model=data['model'],context=data['context'],count=len(data['looks']),route=data['route'])
+        identity=data['identity'],model=data['model'],context=data['context'],count=face_plan_count(data['context'],len(data['looks'])),route=data['route'])
     history=data.get('real_face_plan_history',[])
     if (not isinstance(history,list) or len(history)>1
             or (bool(data.get('continuation_authorization')) and len(history)!=1)):
@@ -442,7 +468,21 @@ def check_reference_metadata(root,data):
                                         **{k:row[k] for k in ('sha256','scope','confirmation_note')}))
 
 
+def check_preview_origin(root,data):
+    if 'preview_origin' in data:
+        origin=data['preview_origin']
+        snapshot=safe_file(root,'provenance/preview-task.json')
+        if digest(snapshot)!=origin['snapshot_sha256']:
+            raise ValueError('Preview provenance snapshot changed')
+        prior=json.loads(snapshot.read_text())
+        if (not is_preview(prior) or not prior.get('preview_decision') or prior['looks'][0]['state']!='accepted'
+                or origin['attempts']!=prior['attempts'] or is_preview(data)
+                or digest(safe_file(root,'provenance/preview.png'))!=prior['looks'][0]['output']['sha256']):
+            raise ValueError('Invalid preview provenance or cumulative request count')
+
+
 def check_evidence(root,data):
+    check_preview_origin(root,data)
     check_model_confirmation(data)
     check_reference_metadata(root,data)
     if data['schema_version']==2:
@@ -451,6 +491,8 @@ def check_evidence(root,data):
         context_check(data['context'],data['size'])
         if data['identity']:models.validate_model(data['model'])
         presentation_check(data['context'], data['references'], len(data['looks']), data['identity'], data['model'])
+        if is_preview(data) and (data.get('model_confirmation') or len(data.get('retry_authorizations',[]))>3):
+            raise ValueError('A preview cannot confirm identity or exceed three correction requests')
     for row in evidence_rows(data):
         if hashlib.sha256(row['prompt'].encode()).hexdigest()!=row['prompt_sha256']:
             raise ValueError('Frozen prompt changed')
@@ -510,12 +552,27 @@ def update(root,event,**kw):
     with locked(root):
         d=read(root);n=kw.get('look');row=None;stop_error=None
         check_evidence(root,d)
+        if is_preview(d) and d.get('preview_decision'):
+            raise ValueError('Preview task is closed; create a linked independent delivery instead')
+        if is_preview(d) and event in ('confirm-model','reject-model','continue-authorize'):
+            raise ValueError('A preview is not an accepted identity or delivery look-1')
         if kw.get('real_face_looks') is not None and event!='continue-authorize':
             raise ValueError('real_face_looks is only accepted for explicit continuation')
         if n is not None:
             if type(n)!=int or not 1<=n<=len(d['looks']):raise ValueError('Unknown look number')
             row=d['looks'][n-1]
-        if event=='authorize':
+        if event=='finish-preview':
+            decision=kw.get('decision');note=kw.get('note','').strip()
+            if not is_preview(d) or n is not None or not note or decision not in ('stop','direction-confirmed'):
+                raise ValueError('Record a task-level preview stop or actual direction confirmation')
+            state=d['looks'][0]['state']
+            if state in ('reserved','unknown') or (state=='failed' and not d['looks'][0].get('failure_reconciliation')):
+                raise ValueError('Resolve the original preview request before closing it')
+            if decision=='direction-confirmed' and state!='accepted':
+                raise ValueError('Confirm direction only after preview review')
+            if state=='returned':raise ValueError('Review the returned preview before closing')
+            d['preview_decision']=dict(decision=decision,note=note,at=stamp())
+        elif event=='authorize':
             if d['authorization'] or d['attempts']:raise ValueError('Existing authorization/budget cannot be reset')
             limit=kw.get('limit');note=kw.get('note','').strip()
             if type(limit)!=int or not 1<=limit<=len(d['looks']) or not note:raise ValueError('Explicit ChatGPT upload and generation approval with limit required')
@@ -622,6 +679,8 @@ def update(root,event,**kw):
                 prompt_sha256=row['prompt_sha256'],revision=revision,note=note,at=stamp()))
             row.update(prompt=prompt,prompt_sha256=hashlib.sha256(prompt.encode()).hexdigest(),plan_revision=revision+1)
         elif event=='retry-authorize':
+            if is_preview(d) and len(d.get('retry_authorizations',[]))>=3:
+                raise ValueError('Preview correction limit reached: three additional requests maximum')
             # One explicit grant replaces one rejected/reconciled failed attempt, never resets the task.
             note=kw.get('note','').strip();approval=kw.get('approval_id','').strip();prompt=kw.get('prompt','')
             grants=d.get('retry_authorizations',[])
@@ -705,7 +764,8 @@ def update(root,event,**kw):
             if digest(root/row['output']['file'])!=row['output']['sha256']:raise ValueError('Output changed since import')
             row.update(state='accepted',qa=kw['qa'],qa_note=kw['note'])
         else:raise ValueError('Unknown event')
-        d['complete']=all(x['state']=='accepted' for x in d['looks']) and (d['schema_version']==1 or not d['identity'] or bool(d['model_confirmation']))
+        d['complete']=(bool(d.get('preview_decision')) if is_preview(d) else
+            all(x['state']=='accepted' for x in d['looks']) and (d['schema_version']==1 or not d['identity'] or bool(d['model_confirmation'])))
         # Completeness never confers image-ready or user commercial acceptance.
         d['events'].append({'at':stamp(),'event':event,'look':n,'attempts':d['attempts']})
         save(root,d)
@@ -738,9 +798,17 @@ def export(root):
             if d['schema_version']==2 and d['context'].get('purpose')=='correction-edit':
                 instruction.append('Operation: correct the declared edit target using the original person and garment sources; '
                                    'retain only the requested picture elements. Native editing is soft conditioning, not pixel protection or guaranteed facial fidelity.')
-            prompt='Only use built-in image generation, no other plugins. One standalone image.\n'+'\n'.join(instruction)+'\n'+canvas_instruction(d)+'\n'+row['prompt']
+            form=('One six-panel direction preview, not standalone delivery. Include the small single-line label '
+                  '方向预览·非成片 / PREVIEW ONLY — NOT FINAL.' if is_preview(d) else 'One standalone image.')
+            prompt='Only use built-in image generation, no other plugins. '+form+'\n'+'\n'.join(instruction)+'\n'+canvas_instruction(d)+'\n'+row['prompt']
             if 'real_face_plan' in d:
-                prompt+='\n'+'\n'.join(real_face_helper().prompt_lines(d['real_face_plan']['looks'][n-1]))
+                cells=enumerate(d['real_face_plan']['looks'],1) if is_preview(d) else [(n,d['real_face_plan']['looks'][n-1])]
+                for number,cell in cells:
+                    prompt+='\n'+(f'Preview cell {number}:\n' if is_preview(d) else '')+'\n'.join(real_face_helper().prompt_lines(cell))
+                    if is_preview(d):
+                        positions={r['sha256']:i for i,r in enumerate(refs,1)}
+                        selected=', '.join(f'Image {positions[h]}' for h in cell['reference_sha256s'])
+                        prompt+='\nCell reference images: '+selected+'. Use only these references for this cell, retaining their declared garment/identity roles; do not mix product facts from other cells. Selection note: '+cell['selection_note']
             prompt=photography_helper().apply(prompt,d['context'].get('photography_targets') if d['schema_version']==2 else None)
             (out/'prompt.txt').write_text(prompt,encoding='utf-8')
             if d['route']=='codex_native':
@@ -753,20 +821,72 @@ def export(root):
                     frozen_prompt_sha256=row['prompt_sha256'],tool_prompt_sha256=hashlib.sha256(prompt.encode()).hexdigest(),
                     reference_hashes=[r['sha256'] for r in refs])
                 if 'real_face_plan' in d:
-                    chosen=d['real_face_plan']['looks'][n-1]
                     manifest.update(real_face_plan=copy.deepcopy(d['real_face_plan']),
-                        real_face_plan_sha256=d['real_face_plan_sha256'],real_face_look=copy.deepcopy(chosen),
-                        omitted_reference_sha256s=[r['sha256'] for r in d['references']
-                            if r['sha256'] not in chosen['reference_sha256s']])
+                        real_face_plan_sha256=d['real_face_plan_sha256'])
+                    if is_preview(d):
+                        manifest['preview_cell_plans']=copy.deepcopy(d['real_face_plan']['looks'])
+                        chosen={r['sha256'] for r in refs}
+                    else:
+                        manifest['real_face_look']=copy.deepcopy(d['real_face_plan']['looks'][n-1])
+                        chosen=set(manifest['real_face_look']['reference_sha256s'])
+                    manifest['omitted_reference_sha256s']=[r['sha256'] for r in d['references'] if r['sha256'] not in chosen]
                 (out/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf-8')
         (folder/'README.md').write_text('\n'.join(lines)+'\n',encoding='utf-8');return str(folder)
+
+
+def create_from_preview(root, preview_root, spec, *, note):
+    """Prepare one linked delivery, without inheriting preview pixels or authority."""
+    root=Path(root).resolve();parent=Path(preview_root).resolve()
+    if root==parent or root.is_relative_to(parent) or parent.is_relative_to(root):
+        raise ValueError('Delivery and preview must have separate task directories')
+    with locked(parent):
+        d=read(parent);check_evidence(parent,d)
+        if (not is_preview(d) or not d.get('preview_decision') or d.get('delivery_task')
+                or d['looks'][0]['state']!='accepted' or not isinstance(note,str) or not note.strip()):
+            raise ValueError('Prepare delivery only from a closed, reviewed preview with an actual user request and no prior delivery link')
+        if not isinstance(spec,dict) or set(spec)-{'context','size','prompts','real_face_plan','garment_sha256s'}:
+            raise ValueError('Delivery spec contains only context, size, prompts, optional real_face_plan and garment selection')
+        context=spec['context']
+        garments={r['sha256'] for r in d['references'] if r['role']=='garment-source'}
+        selected=spec.get('garment_sha256s')
+        if selected is not None and (not isinstance(selected,list) or not selected
+                or any(not isinstance(h,str) or h not in garments for h in selected) or len(set(selected))!=len(selected)):
+            raise ValueError('Select distinct original garment hashes for the requested outfit')
+        if context.get('purpose','delivery')!='delivery' or any(
+                context.get(k)!=d['context'][k] for k in ('style','mode','output_form')) or (
+                context.get('outfit')!=d['context']['outfit'] and (selected is None or set(selected)==garments)):
+            raise ValueError('A preview handoff retains outfit, style, mode and output form; changes are a separate task')
+        if 'real_face_plan' in d:
+            planned=spec.get('real_face_plan',{})
+            if any(planned.get(k)!=d['real_face_plan'][k] for k in ('coverage','primary_identity_sha256')):
+                raise ValueError('Keep original reviewed real coverage; preview faces supply no new authentic view')
+        refs=[dict(path=str(safe_file(parent,r['file'])),**{k:v for k,v in r.items() if k!='file'}) for r in d['references']
+              if r['role']!='garment-source' or selected is None or r['sha256'] in selected]
+        # create accepts hashes only on model supplements; original rows are rehashed.
+        for ref in refs:
+            if ref['role']!='model-supplement':ref.pop('sha256')
+        child=create(root,refs,spec['prompts'],spec['size'],d['identity'],model=d['model'],
+                     context=context,route=d['route'],real_face_plan=spec.get('real_face_plan'))
+        try:
+            provenance=root/'provenance';provenance.mkdir()
+            snapshot=provenance/'preview-task.json'
+            snapshot.write_text(json.dumps(d,ensure_ascii=False,indent=2)+'\n')
+            shutil.copyfile(safe_file(parent,d['looks'][0]['output']['file']),provenance/'preview.png')
+            child['preview_origin']=dict(task=str(parent),snapshot_sha256=digest(snapshot),attempts=d['attempts'],note=note)
+            check_evidence(root,child);save(root,child)
+            d['delivery_task']=dict(task=str(root),note=note,at=stamp())
+            save(parent,d)
+        except Exception:
+            shutil.rmtree(root)
+            raise
+        return child
 
 
 def export_model(root, destination, name, *, include_accepted=False, accepted_scope='face'):
     root=Path(root)
     with locked(root):
         d=read(root);check_evidence(root,d)
-        if d['schema_version']!=2 or not d['identity'] or not d['model_confirmation'] or d['looks'][0]['state']!='accepted':
+        if is_preview(d) or d['schema_version']!=2 or not d['identity'] or not d['model_confirmation'] or d['looks'][0]['state']!='accepted':
             raise ValueError('Export only a technically accepted and human-confirmed first-image model')
         refs=[root/r['file'] for r in d['references'] if r['role']=='identity-reference']
         if d['model']['source_type']=='new':refs=[root/d['looks'][0]['output']['file']]
@@ -782,7 +902,7 @@ def export_model(root, destination, name, *, include_accepted=False, accepted_sc
 
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('command',choices=['init','status','export','authorize','mode','reserve','bind','unknown','failed','returned','accept','reject','audit-reject','review-output','revise-pending','retry-authorize','confirm-model','reject-model','continue-authorize','export-model','enable-failure-recovery','reconcile-failure']);p.add_argument('--task',type=Path,required=True);p.add_argument('--spec',type=Path);p.add_argument('--destination',type=Path);p.add_argument('--name');p.add_argument('--look',type=int);p.add_argument('--note');p.add_argument('--limit',type=int);p.add_argument('--mode',choices=['manual','automatic']);p.add_argument('--ready',action='store_true');p.add_argument('--refs',nargs='*');p.add_argument('--conversation');p.add_argument('--tab');p.add_argument('--file',type=Path);p.add_argument('--failure-receipt',type=Path);p.add_argument('--reason');p.add_argument('--request-check-completed',action='store_true');p.add_argument('--qa',choices=['qa-pass','qa-user-review','qa-retry']);p.add_argument('--expected-output-sha256');p.add_argument('--expected-prompt-sha256');p.add_argument('--expected-attempt',type=int);p.add_argument('--approval-id');p.add_argument('--prompt-file',type=Path);p.add_argument('--model-spec',type=Path);p.add_argument('--include-accepted-reference',action='store_true');p.add_argument('--accepted-scope',choices=['face','full']);a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('command',choices=['init','status','export','authorize','mode','reserve','bind','unknown','failed','returned','accept','reject','audit-reject','review-output','revise-pending','retry-authorize','confirm-model','reject-model','continue-authorize','export-model','enable-failure-recovery','reconcile-failure','finish-preview','prepare-delivery']);p.add_argument('--task',type=Path,required=True);p.add_argument('--spec',type=Path);p.add_argument('--destination',type=Path);p.add_argument('--preview-task',type=Path);p.add_argument('--decision',choices=['stop','direction-confirmed']);p.add_argument('--name');p.add_argument('--look',type=int);p.add_argument('--note');p.add_argument('--limit',type=int);p.add_argument('--mode',choices=['manual','automatic']);p.add_argument('--ready',action='store_true');p.add_argument('--refs',nargs='*');p.add_argument('--conversation');p.add_argument('--tab');p.add_argument('--file',type=Path);p.add_argument('--failure-receipt',type=Path);p.add_argument('--reason');p.add_argument('--request-check-completed',action='store_true');p.add_argument('--qa',choices=['qa-pass','qa-user-review','qa-retry']);p.add_argument('--expected-output-sha256');p.add_argument('--expected-prompt-sha256');p.add_argument('--expected-attempt',type=int);p.add_argument('--approval-id');p.add_argument('--prompt-file',type=Path);p.add_argument('--model-spec',type=Path);p.add_argument('--include-accepted-reference',action='store_true');p.add_argument('--accepted-scope',choices=['face','full']);a=p.parse_args()
     try:
         if a.command!='export-model' and (a.include_accepted_reference or a.accepted_scope is not None):
             raise ValueError('Accepted-reference options are only for export-model')
@@ -790,11 +910,13 @@ def main():
             raise ValueError('Declare --include-accepted-reference before choosing its scope')
         if a.command=='init':
             spec=json.loads(a.spec.read_text());result=create(a.task,spec['references'],spec['prompts'],spec['size'],spec.get('identity',True),schema_version=spec.get('schema_version',2),model=spec.get('model'),context=spec.get('context'),route=spec.get('route'),model_package=spec.get('model_package'),real_face_plan=spec.get('real_face_plan'))
+        elif a.command=='prepare-delivery':
+            result=create_from_preview(a.task,a.preview_task,json.loads(a.spec.read_text()),note=a.note)
         elif a.command=='status':result=read(a.task)
         elif a.command=='export':result=export(a.task)
         elif a.command=='export-model':result=export_model(a.task,a.destination,a.name,include_accepted=a.include_accepted_reference,accepted_scope=a.accepted_scope or 'face')
         else:
-            args={k:v for k,v in vars(a).items() if k not in ('command','task','spec','prompt_file','destination','name','model_spec','include_accepted_reference','accepted_scope') and v is not None}
+            args={k:v for k,v in vars(a).items() if k not in ('command','task','spec','prompt_file','destination','preview_task','name','model_spec','include_accepted_reference','accepted_scope') and v is not None}
             if a.model_spec:
                 if a.command!='retry-authorize':raise ValueError('Model revision is only accepted with explicit first-image retry authority')
                 args['model']=json.loads(a.model_spec.read_text(encoding='utf-8'))['model']

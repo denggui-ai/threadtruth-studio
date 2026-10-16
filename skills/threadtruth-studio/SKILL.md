@@ -78,6 +78,7 @@ description: "服饰人像；首句随用户语言只核对素材，不预告交
 - **成人模特选择、因子交付、首张用户确认与跨商品参考包复用** → [references/model-selection.md](references/model-selection.md)。人像动作必读;原人物保真、候选连续性和商品 QA 分开验收，不把固定条件称作硬锁脸。新任务原生与网页均使用第二版本地记录。童装/非人像沿用原规则。
 - **明确沿用已确认身体姿势，只换指定服饰部件** → [references/fixed-pose-wardrobe.md](references/fixed-pose-wardrobe.md)。可选的本地保护编辑流程；手动核对衣物/头脸边界，不承诺自动遮罩或原真人精确还原，不改变六姿势母版。
 - **商业交付逐张/整组 QA + `qa-pass`/`qa-retry`/`qa-user-review` + `image-ready` 门禁** → `references/commercial-qa.md`
+- **动作0预览的统一账本、次数、停止与关联成片** → `references/preview-ledger.md`；预览不是正式首张，不继承授权、人物确认或画布。
 - **平台政策红线 R1–R7 + 优先级链 + pack 加载二次校验** → `references/safety-core.md`
 
 **快捷键映射:** 字母=模式,数字=动作。A=自动推荐(由系统在 B/C/D 选一) / B=棚拍 / C=场景 / D=混合;0=六宫格预览(非成片) / 1=6 张独立成片 / 2=1 张测试 / 3=只出提示词。风格用独立**风格代号**(见 style-router 注册表)。例:`法式 B0`、`韩系 A1`、`电商 B1`。

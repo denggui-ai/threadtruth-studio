@@ -97,7 +97,7 @@ def validate(plan, inventory, *, schema_version, identity, model, context, count
                 and OFF_LENS.search(look['gaze'])):
             raise ValueError('Frontal-only original coverage supports a camera or near-camera gaze; '
                              'directional off-lens eyes turn the head and drift identity')
-        if route == 'codex_native' and len(rows) + int(number > 1) > 5:
+        if route == 'codex_native' and len(rows) + int(number > 1 and context.get('purpose') != 'preview-grid') > 5:
             raise ValueError('Each native image permits five attachments, including the mandatory later first-image anchor; revise the explicit selection without silently dropping inputs')
     return copy.deepcopy(plan)
 

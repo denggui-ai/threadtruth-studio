@@ -4,6 +4,8 @@ Read when the user selects ChatGPT web. This adapter is designed for macOS Codex
 
 ## Local task contract
 
+Action 0 uses the same schema2 ledger with `context.purpose="preview-grid"` and one complete grid prompt, not six separate requests. Read [preview bookkeeping and final handoff](preview-ledger.md) for counting, real-person cell plans, explicit stopping and `prepare-delivery`. Grid results remain preview-grid; they never confirm identity or become delivery look-1. Ordinary delivery/diagnostic/edit behavior below is unchanged.
+
 Use `scripts/web-task.py` relative to this skill. Store task files under the user's chosen workspace, never inside the installed skill. All helper commands are local; they do not click Send or grant approval. The agent records only approval actually given by the user and observations actually made in the browser. JSON task state is private workflow data, not public evidence.
 
 Create a JSON spec containing `references` (ordered `{path,role}` images: garment-source, identity-reference, aesthetic-reference; accepted model-supplement additionally requires sha256, scope face/full and actual confirmation_note), `prompts` (one single-image prompt for action 2, or six for action 1), `size` (`[width,height]`), `context` (outfit, style, mode B/C/D, output_form, size, first_pose, canvas_policy), `route` (`chatgpt_web` when web was selected; otherwise `codex_native`, the schema2 helper/CLI default), optional `model` (see model-selection.md) or `model_package` (private package path), and `identity` (true for real/faceless models; false for flat/hanger/mannequin). Compose prompts from the selected style and prompt-build; do not use old comparison prompts with unrelated identity references.

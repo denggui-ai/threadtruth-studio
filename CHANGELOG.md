@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — Q04 preview bookkeeping, 2026-10-16
+
+- Owner requested that six-panel previews join the unified count/status/final-handoff ledger, with no image calls. Add schema2 `context.purpose=preview-grid`: one prompt/request, marked grid export, preview-only result status, explicit direction/stop completion and at most three separately authorized correction requests after the initial call. Existing tasks retain their stored contracts.
+- Reject preview identity confirmation/export and delivery +5 continuation. `prepare-delivery` links one fresh 1/6-image task from original sources/model, retaining a frozen preview receipt and grid as provenance only. Count `total_attempts` across preview history and delivery without inheriting pixels, model acceptance or generation authority; multi-outfit selection uses explicit original garment hashes.
+- Real-person preview planning validates all six cells, caps the combined native attachment inventory at five and exports actual Image-number mappings per cell. Cell plans never add a later accepted-first-image anchor; ordinary real delivery plans retain that slot.
+- Add preview-ledger runtime guidance, source-side preview regression definitions and deterministic synthetic tests. Independent review found lost per-cell reference mapping in the first export implementation; a failing literal-mapping regression preceded the fix. No images, live installation, public release or broader visual-quality claim is included.
+
 ## Unreleased — common interaction flow, 2026-10-16
 
 - Owner selected Q01/Q02/Q03/Q05/Q06/Q08 from the interaction inventory and explicitly excluded image generation. New schema2 tasks default to Codex in both API and CLI; stored routes and schema1 web defaults remain unchanged.
