@@ -1,8 +1,8 @@
 # Release Readiness
 
-## Current candidate — beta.14
+## Current release — beta.14 (GitHub prerelease)
 
-Version `1.0.0-beta.14` restores the owner-selected default: choose a style, authorize a labeled six-panel preview, confirm the direction, then generate six independent images. Explicit single-image requests, preview-only stopping and existing authorization/QA gates remain. It synchronizes the already-installed runtime changes with the public source; no new generation feature or image call is added. Release and local-install checks will be recorded in [verification](docs/verification/2026-10-17-default-flow-restore.md). Previous releases remain unchanged.
+Version `1.0.0-beta.14` restores the owner-selected default: choose a style, authorize a labeled six-panel preview, confirm the direction, then generate six independent images. Explicit single-image requests, preview-only stopping and existing authorization/QA gates remain. It synchronizes the already-installed runtime changes with the public source; no new generation feature or image call is added. PR #39 passed the existing CI and was merged. Local activation, 50-file runtime parity, the 285-file archive and backup checks are recorded in [verification](docs/verification/2026-10-17-default-flow-restore.md). Download [v1.0.0-beta.14](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.14) and its SHA-256 sidecar. Previous releases remain unchanged.
 
 ## Historical release — beta.13 (GitHub prerelease)
 
