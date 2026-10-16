@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.0-beta.14 — default interaction restored, 2026-10-17
+
+- Restore the owner-selected default journey: choose a style from recommendations and the full 24-style catalogue, generate one labeled six-panel direction preview after authorization, confirm its direction, then generate six independent images within the separately authorized allowance. The actual first portrait still requires QA and human model confirmation before the remaining five.
+- Preserve explicit single-image, prompts-only, preview-only/stop and explicit skip-preview requests. Selecting a style or accepting a preview never invents generation authority; old jobs and consumed attempts remain unchanged.
+- Align the entrypoint, style router, flow gates, recognition, preview handoff, prompt assembly and UI wording. Update existing source-side scenarios; no new runtime feature, schema, style pack, image call or model benchmark.
+- Synchronize the previously local runtime with GitHub and a new versioned release rather than replacing beta.13. Backup, installation, archive parity and scoped checks are recorded separately; no claim of new visual validation.
+
 ## Unreleased — batch head/gaze QA disclosure, 2026-10-16
 
 - Trigger: an AI kidswear group was rejected for six near-frontal, camera-facing heads; independent review found preparation omissions and missing disclosure. Existing AI/new head guidance and prompt export remain unchanged.

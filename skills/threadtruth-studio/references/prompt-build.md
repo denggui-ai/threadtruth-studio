@@ -281,7 +281,7 @@ batch_canvas_baseline: <首张通过比例门禁后的实际 WIDTHxHEIGHT>
 > **摄影试点追加句(仅 ecommerce-studio,预览与动作 2 单张共用,独立于 §2 通用头部规则):** ①身份锚点句补齐 §4.0a 第 4 条的忽略项——`is identity-only: preserve face, hair, apparent age and body proportions; ignore its garments, garment colors and washes, lighting, backdrop, pose and crop; never treat it as outfit authority`;②实际全身 Framing 写成可见动作 `full body visible, feet and shoes fully inside the frame with a small margin below the soles`(实际半身不追加);③首行后加一次真实感锚词 `Photorealistic photograph taken with a real camera`。三句都不触碰服饰事实、母版编号、负面词与安全主体;动作 2 单张按 §3a 成片负面词拼装并注入 §4.0b 精确画幅。
 
 ### 4.3 ⛔ 预览→成片的红线(风格无关)
-1. **`preview-grid` 与 `image-ready` 严格互斥。** 六宫格预览**永远**不能当最终成片。用户说“预览就行/不用再出了”时直接结束，可简述“本次方向预览已完成，预览不作为独立成片交付”，不追问六张、不调用生图。用户明确想要成片时，按其需求提出1张或6张独立重新生成方案，说明具体次数；已有足够明确授权则沿用，不重复确认。
+1. **`preview-grid` 与 `image-ready` 严格互斥。** 六宫格预览**永远**不能当最终成片。用户说“预览就行/不用再出了”时直接结束，可简述“本次方向预览已完成，预览不作为独立成片交付”，不追问六张、不调用生图。默认方向确认后承接6张独立重新生成图；主动只要1张时按1张方案执行。方向确认与成片次数授权分别核对，已有足够明确授权则沿用，不重复确认，也不重开1张或6张的默认选项题。
 2. **禁止任何形式的子图提取/裁切/放大/超分。** 对预览图做切割/抠图/放大/超分的请求一律拒绝。成片必须是**重新独立调用 image_gen** 生成的单图。用户说"把预览第3格给我高清版"= 按预览阶段输出形态对应的姿势母版 3 或非人像构图 #3 **重新独立生成**,不是放大预览格。
 3. **不接受去标记请求。** 预览标记是生成时画进图里的,**不得**应用户要求 P 掉/遮盖/透明化/局部重绘;遇此请求拒绝并引导进成片。
 4. **预览修正至多 3 轮**，且每次须有对应调用授权。单独的“方向确认/可以了/就这个”只确认方向，不授权独立成片；用户明确要求停止则结束。确实要求生成但数量不明时，只补问所需张数，不默认扩成六张。对已说明具体方案与次数的“确认/继续”按 `flow-gates.md` 继承对应授权。

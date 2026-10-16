@@ -2,13 +2,13 @@
 
 **AI Fashion Studio · 服饰 AI 影棚**
 
-**Current prerelease: beta.12.** Model-reference reuse and a compact conversation flow are included: one proposal, one confirmation, image-first review and single-image closeout. It displays “裁光 · Caiguang” in Codex and keeps `$threadtruth-studio`. Use the [version-matched trial guide](docs/BETA12-TRYOUT.md). Fresh-host testing and stable-release acceptance remain pending; older release assets stay unchanged.
+**Current prerelease: beta.14.** Model-reference reuse and a compact conversation flow are included: one proposal, one confirmation, image-first review and single-image closeout. It displays “裁光 · Caiguang” in Codex and keeps `$threadtruth-studio`. Use the [version-matched trial guide](docs/BETA12-TRYOUT.md). Fresh-host testing and stable-release acceptance remain pending; older release assets stay unchanged.
 
 [![裁光 · Caiguang — AI Fashion Studio。米色套装参考图与 AI 生成效果。](https://denggui-ai.github.io/threadtruth-studio/assets/brand/og-home.png)](https://denggui-ai.github.io/threadtruth-studio/)
 
 **单件或整套服饰，生成六姿势 AI 模特图，24 种风格可选。**<br>Turn a garment or coordinated outfit into six-pose AI model portraits. Choose from 24 styles.
 
-**[下载裁光插件 · Download Caiguang](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.12)**　·　**[开始安装 · Install](docs/INSTALL.md#english)**　·　**[查看成片 · See results](https://denggui-ai.github.io/threadtruth-studio/#reviewed-cases)**　·　**[探索 24 风格 · Explore styles](https://denggui-ai.github.io/threadtruth-studio/#style-highlights)**
+**[下载裁光插件 · Download Caiguang](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.14)**　·　**[开始安装 · Install](docs/INSTALL.md#english)**　·　**[查看成片 · See results](https://denggui-ai.github.io/threadtruth-studio/#reviewed-cases)**　·　**[探索 24 风格 · Explore styles](https://denggui-ai.github.io/threadtruth-studio/#style-highlights)**
 
 [English guide](README.md) · [中文说明](README.zh-CN.md) · [产品首页 / Website](https://denggui-ai.github.io/threadtruth-studio/) · [能力清单与拓扑 / Capability topology](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md) · [当前能力状态 / Capability status](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/CAPABILITY-STATUS.md)
 
@@ -34,7 +34,7 @@ Both collections are historical direction previews: one six-panel sheet per styl
 
 - **Garment details you can review.** Review color, construction and styling before generation, then compare each result with your source photos. [See the six-pose cases](https://denggui-ai.github.io/threadtruth-studio/#reviewed-cases).
 - **Explore more looks for one outfit.** Find a direction across 24 styles, from ecommerce studio to fashion editorial. [See one outfit in three styles](https://denggui-ai.github.io/threadtruth-studio/#outfit).
-- **Try one image before a full set.** Start with a plan or prompts only. Approve one test image when ready, then decide whether to continue. [Start with recognition](https://denggui-ai.github.io/threadtruth-studio/#begin).
+- **Preview the direction, then create six images.** Choose a style, approve a six-panel direction preview, confirm it, then create six independent images. Request one image explicitly to use the single-image branch. [Start with recognition](https://denggui-ai.github.io/threadtruth-studio/#begin).
 
 ## What you can do
 
@@ -47,13 +47,13 @@ Both collections are historical direction previews: one six-panel sheet per styl
 
 [Full capabilities, copyable prompts and verification scope →](docs/CAPABILITIES.md)
 
-Install **裁光 · Caiguang** in **Codex**. The beta.12 prerelease displays **裁光 · Caiguang**; older beta.8 installations still display **ThreadTruth Studio**. Generate there by default, or explicitly choose the optional ChatGPT web handoff described below.
+Install **裁光 · Caiguang** in **Codex**. The beta.14 prerelease displays **裁光 · Caiguang**; older beta.8 installations still display **ThreadTruth Studio**. Generate there by default, or explicitly choose the optional ChatGPT web handoff described below.
 
 ## Get started
 
 **What you need:** macOS, Python 3, a terminal, and a Codex CLI that supports `codex plugin add`. This is the only tested setup; Windows, Linux, and fresh machines are unverified. The first recognition step generates no images. Generating images later needs a Codex account with native image generation, or a ChatGPT account with image access if you choose the web route.
 
-1. Follow the [English installation guide](docs/INSTALL.md#english) to download the beta.12 Plugin ZIP and matching `.sha256`, check prerequisites, verify the archive, and enable the Plugin. Use the named Plugin download, not GitHub's automatic source-code ZIP.
+1. Follow the [English installation guide](docs/INSTALL.md#english) to download the beta.14 Plugin ZIP and matching `.sha256`, check prerequisites, verify the archive, and enable the Plugin. Use the named Plugin download, not GitHub's automatic source-code ZIP.
 2. Start a **new Codex task** and upload a real garment or coordinated-outfit photo you are authorized to use.
 3. Ask for recognition and style recommendations:
 
@@ -61,7 +61,7 @@ Install **裁光 · Caiguang** in **Codex**. The beta.12 prerelease displays **�
 Use $threadtruth-studio to identify this garment and recommend styles. Do not generate images.
 ```
 
-Expect a garment recognition card, a primary recommendation with alternatives, and the full 24-style catalogue. This first step does **not** authorize image generation. Confirm the style, composition, dimensions, and number of images before approving generation, which uses the selected account's image quota.
+Expect visible garment facts, a primary recommendation, two alternatives and all 24 styles. This step does **not** authorize generation. By default, choose a style, approve one six-panel direction preview, confirm the direction, then authorize six independent images. Review the actual first portrait before the remaining five. Explicitly request a single image to skip the default preview and use a one-call trial. Each generation uses the selected account's image quota.
 
 If recognition does not appear, follow [installation troubleshooting](docs/INSTALL.md#troubleshooting). Share a brief success or failure through the [installation feedback form](https://github.com/denggui-ai/threadtruth-studio/issues/new?template=installation-feedback.yml).
 
@@ -155,7 +155,7 @@ These historical previews retain their source records, reviews, and hashes. They
 
 [Install, upgrade, and rollback](docs/INSTALL.md) · [Compatibility](docs/COMPATIBILITY.md) · [Offline guide](USER-GUIDE.html) (bundled in the Plugin ZIP; open it locally, since GitHub shows its HTML source) · [Changelog](https://github.com/denggui-ai/threadtruth-studio/blob/main/CHANGELOG.md) · [Beta progress](docs/BETA.md)
 
-**Current prerelease: beta.12.** It includes optional casting goals, aesthetic-reference translation and first-image casting QA, with garment-first priorities. The first reply stays with input checks even for prompt-only requests. ChatGPT web handoff and controlled retries remain available. Earlier releases and their galleries remain historical records; use each old archive's bundled guide when installing that version. Beta exit targets and remaining validation are tracked in the [Beta register](docs/BETA.md).
+**Current prerelease: beta.14.** It includes optional casting goals, aesthetic-reference translation and first-image casting QA, with garment-first priorities. The first reply stays with input checks even for prompt-only requests. ChatGPT web handoff and controlled retries remain available. Earlier releases and their galleries remain historical records; use each old archive's bundled guide when installing that version. Beta exit targets and remaining validation are tracked in the [Beta register](docs/BETA.md).
 
 Share sanitized installation results through the [feedback form](https://github.com/denggui-ai/threadtruth-studio/issues/new?template=installation-feedback.yml). Report bugs in [Issues](https://github.com/denggui-ai/threadtruth-studio/issues) and ask questions in [Discussions](https://github.com/denggui-ai/threadtruth-studio/discussions). Keep private garments, customer data, credentials, and full logs out of public posts. Maintainer: DENGGUI · WeChat: `Lvmusic0930`.
 

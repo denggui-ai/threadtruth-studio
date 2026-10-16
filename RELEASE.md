@@ -1,6 +1,10 @@
 # Release Readiness
 
-## Current release — beta.13 (GitHub prerelease)
+## Current candidate — beta.14
+
+Version `1.0.0-beta.14` restores the owner-selected default: choose a style, authorize a labeled six-panel preview, confirm the direction, then generate six independent images. Explicit single-image requests, preview-only stopping and existing authorization/QA gates remain. It synchronizes the already-installed runtime changes with the public source; no new generation feature or image call is added. Release and local-install checks will be recorded in [verification](docs/verification/2026-10-17-default-flow-restore.md). Previous releases remain unchanged.
+
+## Historical release — beta.13 (GitHub prerelease)
 
 Version `1.0.0-beta.13` is cut on `main` from the real-person face-lock branch: strict directional off-lens gaze rejection for frontal-only real coverage, knee-up default for a single real-person visible look, full-body real faces delivered as product images with face `qa-user-review`, `unknown` coverage excluded from the frontal-only test, and the new `references/real-face-material-guide.md` (recommended 4+2 capture set, delivery boundary, graded evidence). Evidence is a private user-judged ablation (97 native calls); likeness is a human judgement, not a biometric score. Published as [v1.0.0-beta.13](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.13) on 2026-10-10. The ZIP has 284 files with SHA256 `b9b83fcd…43ff85`. No new tryout document was written. See [verification](docs/verification/2026-10-10-beta13-source-cut.md). The maintainer host runs these runtime bytes as a `+codex` local install.
 

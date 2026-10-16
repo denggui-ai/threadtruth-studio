@@ -1,6 +1,6 @@
 {
   "skill_name": "threadtruth-studio",
-  "note": "Source-side no-image regression definitions for Q01/Q02/Q03/Q05/Q06/Q08. These are not executed model evaluations or visual-quality results. Mechanical task behavior is covered in tests/test_common_flow.py.",
+  "note": "Source-side no-image regression definitions for existing common flows, updated 2026-10-17 to restore style selection → six-panel preview → direction confirmation → six independent images while preserving explicit single-image requests. These are not executed model evaluations or visual-quality results; existing helper tests cover accounting and progression.",
   "evals": [
     {
       "id": "CF-01",
@@ -9,7 +9,8 @@
       "expectations": [
         "给一份具体推荐方案，默认Codex；不插入必答入口题、不导出网页转交包",
         "准备schema2并记录codex_native；未给精确像素时canvas_policy=ratio-first",
-        "只准备不调用生图"
+        "只准备不调用生图",
+        "用户主动只要一张，保持单张分支，不强制六宫格或自动扩为六张"
       ]
     },
     {
@@ -44,12 +45,13 @@
     },
     {
       "id": "CF-05",
-      "category": "short_default_plan",
-      "prompt": "我给了清晰服饰图，没有指定风格，想先做一张。只给方案，不生图。",
+      "category": "default_style_preview_six_flow",
+      "prompt": "我给了清晰服饰图和已授权的人物参考，没有指定风格或张数。请按裁光默认流程给我下一步，先不要生图。",
       "expectations": [
-        "只给一个推荐人物/具体注册风格/模式/用途画布/张数的短方案，入口未选默认Codex",
-        "不默认铺24风格、两个人物备选或A/B/C/D菜单；用户要求展开时保留全目录能力",
-        "说明本张可续组或独立，确认选择与具体次数可合为一次；不编造授权"
+        "简述服饰事实，给主推、两个备选与完整24风格目录，各风格一次，允许自由选任一主风格",
+        "当前停在风格选择，默认后续为六宫格方向预览、确认方向、六张独立图；不建议先测一张、不默认隐藏目录",
+        "入口未选默认Codex，不增加人物问卷或必答入口选择；仅有流程需求不视为预览或六次成片授权",
+        "当前不调用任何生图；已有明确风格时不重复铺目录"
       ]
     },
     {
@@ -76,10 +78,10 @@
       "category": "preview_direction_not_generation_authority",
       "prompt": "用户只说预览方向可以了；没有给独立生成张数和授权。",
       "expectations": [
-        "确认方向不等于独立生成授权，不直接调工具",
-        "用户只确认方向时不催生成；明确要成片但缺数量时才补问1张还是6张",
-        "已有具体1张方案及对应确认时沿用该授权，不默认扩成6张",
-        "跨轮预览及GRID-FINAL拒绝分支同样不强制授权六张；拒绝将六宫格作成片与允许结束分别表达"
+        "方向确认不等于六次独立生成授权，不直接调工具",
+        "默认承接六张独立图，说明并确认缺失的六次成片授权，不重新问1张还是6张；已经授权则沿用",
+        "预览确认不能代替实际独立首张的技术QA和人物确认；后五张在首张确认前仍锁定",
+        "用户明确只要1张、只看预览或停止时尊重其选择，不强迫六张、不新增调用"
       ]
     }
   ]

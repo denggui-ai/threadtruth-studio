@@ -2,13 +2,13 @@
 
 [用户架构总图（GitHub在线）](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md) · [当前能力盘点：实现、验证与缺口](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/CAPABILITY-STATUS.md)
 
-从真实服饰照片开始，先识别、选方向，再决定是否生成。本文说明**当前源码**的工作流与条件，含显式单张呈现、真人参考朝向规划及逐张选图。公开 **beta.12 ZIP** 仍是此前发行内容；源码更新不自动更新下载包。本机版本须按安装记录核对；不承诺所有功能组合都已实测。
+从真实服饰照片开始，先识别、选方向，再决定是否生成。本文说明**当前源码**的工作流与条件，含显式单张呈现、真人参考朝向规划及逐张选图。beta.14恢复默认选风格、六宫格预览、方向确认、六张独立图，保留主动单张；请使用匹配版本的公开安装包。本机版本须按安装记录核对；不承诺所有功能组合都已实测。
 
-Start with real garment photos, identify the source and choose a direction before generating. This guide describes the **current source** workflow, including explicit single-image composition, real-person view coverage and per-image reference selection. The published **beta.12 ZIP** retains its earlier release content; source updates do not replace that archive. Check installation records for the active local version. Not every combination has been tested.
+Start with real garment photos, identify the source and choose a direction before generating. This guide describes the **current source** workflow, including explicit single-image composition, real-person view coverage and per-image reference selection. Beta.14 restores style selection, a six-panel direction preview, direction confirmation and six independent images, while preserving explicit single-image requests. Use the matching release package. Check installation records for the active local version. Not every combination has been tested.
 
 [开始安装 / Install](INSTALL.md) · [产品首页 / Website](https://denggui-ai.github.io/threadtruth-studio/) · [24 风格样例 / Style examples](https://denggui-ai.github.io/threadtruth-studio/#style-highlights) · [兼容性 / Compatibility](COMPATIBILITY.md)
 
-默认一份人物、风格、用途和张数方案，一次明确确认后执行；已有授权沿用，图片优先展示，单张满意即结束。人物因子、备选和完整目录按需展开。模特参考包与受限局部换装见[模特复用](MODEL-REUSE.md)。
+默认选风格（主推、两个备选与完整24风格目录）→ 授权六宫格方向预览 → 确认方向 → 按授权生成六张独立图。实际首张仍须人物确认；已有授权沿用。用户主动要求单张则走单张，验收后结束，不强制预览或扩组。模特参考包与受限局部换装见[模特复用](MODEL-REUSE.md)。
 
 ## 单件、套装与六姿势 / Garments, outfits and six poses
 
@@ -78,9 +78,9 @@ After enabling the Plugin, upload a clear, authorized garment or coordinated-out
 Use $threadtruth-studio to identify this garment and recommend styles. Do not generate images.
 ```
 
-预期得到：素材核对及一个具体推荐方案；人物因子、备选与完整24风格目录按需展开。看不清的细节应标为不确定或请求补图；不会因为上传照片就自动消耗生图额度。
+预期得到：素材核对、主推与两个备选及完整24风格目录。默认下一阶段是六宫格方向预览，确认方向后六张独立图；人物因子按需。看不清的细节应标为不确定或请求补图；不会因为上传照片就自动消耗生图额度。
 
-Expect source checks and one concrete proposal; factors, alternatives and the full 24-style catalogue expand on request. Unclear details require uncertainty notes or better photos. Uploading a photo alone does not authorize image generation.
+Expect source checks, a primary recommendation, two alternatives and all 24 styles. The default next stages are a six-panel direction preview, direction confirmation and six independent images; model factors remain optional. Unclear details require uncertainty notes or better photos. Uploading a photo alone does not authorize image generation.
 
 ## 六组能力 / Six capability groups
 
