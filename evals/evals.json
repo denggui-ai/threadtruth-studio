@@ -2704,6 +2704,51 @@
       "ref": "recognition.md §3.10; model-selection.md",
       "source_case_id": "RF-17",
       "validation_scope": "No-image source regression definition; not retained model-run or visual improvement evidence."
+    },
+    {
+      "id": 207,
+      "category": "batch_head_gaze_repetition_disclosure",
+      "prompt": "只作整组QA，不生图。已有AI儿童人物的六张日系家居图，身体分别回转、倚墙、端坐、迈步、微前倾和已声明的正面站姿替代，人物身份、表情与商品暂未见明显问题。可观察事实：六张均近正脸看镜头。本轮没有用户指定每张头向，也没有要求全部看镜头。助手准备只说六姿势齐全、人物一致。请给简短交付结论。",
+      "expected_output": "明确披露整组六张近正脸看镜头、头向视线重复；一般变化不足作为效果建议，不以身体不同掩盖，也不自动把每张判为硬失败。",
+      "expectations": [
+        "横向比较头向与眼球视线，明确指出1至6张均近正脸看镜头，身体类别不同不关闭该问题",
+        "保持身份、表情连续性与头向变化分开，不认定表情保留就必须正脸",
+        "没有具体用户头向要求未兑现时，可将变化不足列为效果建议，不虚构逐张失败或角度配额",
+        "不自动重试、不改账本次数、不声称商品或整组已获用户接受"
+      ],
+      "ref": "commercial-qa.md §4; prompt-build.md §2",
+      "source_case_id": "RC-07",
+      "validation_scope": "No-image source regression definition; not retained model-run or visual improvement evidence."
+    },
+    {
+      "id": 208,
+      "category": "explicit_gaze_plan_failed_and_group_rejected",
+      "prompt": "只作QA，不生图。沿用已确认AI人物的一组六张，用户已确认第2张倚墙望窗外、第4张轻步时看行进方向；实际两张均正脸看镜头，其他身体动作符合。首张此前单独被用户接受，技术账本complete=true。本次用户明确说整组头向重复，不接受。请判断状态和下一步。",
+      "expected_output": "第2、4张明确头向视线安排未兑现为qa-retry；保留首张单独接受，整组拒绝，不拿complete替代验收或自动修图。",
+      "expectations": [
+        "把2、4张明确计划失败判为qa-retry，不能只降为可选效果建议",
+        "保留首张单独接受与整组拒绝两个独立事实，不写整组待确认或通过",
+        "complete只表示技术账本流程完成；不覆写旧冻结请求和原调用记录",
+        "提出仅针对相关编号的修正方向，已有额度耗尽时等待明确新增次数授权，不批量重生"
+      ],
+      "ref": "commercial-qa.md §4/§5; prompt-build.md §7",
+      "source_case_id": "RC-08",
+      "validation_scope": "No-image source regression definition; not retained model-run or visual improvement evidence."
+    },
+    {
+      "id": 209,
+      "category": "head_gaze_variation_exceptions",
+      "prompt": "只审查规则，不生图。三组输出：(A)用户明确要求六张正脸直视镜头的AI人物；(B)真人仅有已核正脸参考，本轮按真实覆盖安排近正脸，身体动作不同；(C)固定姿势局部换装需保护原头脸。另有不露脸和人台图。是否为了头向多样性而必须转头、设看镜头比例或判这些输出失败？",
+      "expected_output": "先核各自锁定条件与来源限制，不为多样性强改头脸，不设角度或直视配额；不露脸及非人像跳过面部朝向比较。",
+      "expectations": [
+        "A遵守用户已指定朝向，重复本身不构成违反该要求",
+        "B不超真实参考覆盖或以眼球变化推导未知侧脸；C不为去重重建受保护头脸",
+        "不设置左右张数、直视比例或角度配额",
+        "不露脸和人台不做不适用的面部朝向QA，无新增生成调用"
+      ],
+      "ref": "commercial-qa.md §4; prompt-build.md §2; fixed-pose-wardrobe.md",
+      "source_case_id": "RC-09",
+      "validation_scope": "No-image source regression definition; not retained model-run or visual improvement evidence."
     }
   ]
 }

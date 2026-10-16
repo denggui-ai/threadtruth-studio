@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — batch head/gaze QA disclosure, 2026-10-16
+
+- Trigger: an AI kidswear group was rejected for six near-frontal, camera-facing heads; independent review found preparation omissions and missing disclosure. Existing AI/new head guidance and prompt export remain unchanged.
+- In `commercial-qa.md`, compare visible-face head orientation and eye gaze across the group, name repeated looks in the handoff, and distinguish general variation advice from unfulfilled user-required or confirmed per-look directions (`qa-retry`). Preserve a recorded group rejection independently of first-image acceptance and technical ledger completion.
+- Keep user-locked directions, real-reference coverage, fixed-pose head protection, faceless/non-portrait exceptions, and existing generation authorization. Add no angle quotas, script/schema changes, new QA framework or automatic retries.
+- Add source-side RC-07–09 and matching main-index cases for repetition disclosure, explicit-plan failure/rejection and applicable exceptions. Validation: JSON parsing, unique IDs, main-index consistency, referenced-file existence and diff checks passed. System creator structural validation could not run because the available Python environments lack PyYAML; no dependency was installed. No model-run or visual improvement evidence, installation, release or image call.
+
 ## Unreleased — Q10 kidswear ledger bridge, 2026-10-16
 
 - Allow explicit `child model` new/AI subjects only in schema2 task validation and prompt export, on native and web routes. Reuse existing authorization, attempts, recovery, QA, first-image acceptance and same-outfit continuation; keep the age label and age-appropriate safety wording. Existing adult and schema1 contracts stay unchanged.
