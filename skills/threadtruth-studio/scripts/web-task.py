@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 import hashlib
 import importlib.util
 import json
+import math
 import os
 from pathlib import Path
 import shutil
@@ -59,7 +60,7 @@ def native_reference_check(rows, route, extra_anchor=0):
 
 def context_check(context, size):
     required = {'outfit', 'style', 'mode', 'output_form', 'size', 'first_pose'}
-    if not isinstance(context, dict) or set(context) - {'purpose', 'pose_description', 'photography_targets'} != required:
+    if not isinstance(context, dict) or set(context) - {'purpose', 'pose_description', 'photography_targets', 'canvas_policy'} != required:
         raise ValueError('Declare outfit, style, mode, output_form, size and first_pose for the frozen task context')
     if any(not isinstance(context[k], str) or not context[k].strip() for k in required - {'size','first_pose'}):
         raise ValueError('Task context labels must be nonempty')
@@ -74,6 +75,8 @@ def context_check(context, size):
         raise ValueError('Task mode/canvas does not match context')
     if context.get('purpose', 'delivery') not in ('delivery', 'model-check', 'correction-edit'):
         raise ValueError('Task purpose must be delivery, model-check or correction-edit')
+    if context.get('canvas_policy', 'exact') not in ('exact', 'ratio-first'):
+        raise ValueError('Canvas policy must be exact or ratio-first')
     result=copy.deepcopy(context)
     if 'photography_targets' in context:
         result['photography_targets']=photography_helper().validate(context['photography_targets'])
@@ -204,8 +207,9 @@ def retain_failure(root,row,source,kind,reason):
     return dict(kind=kind,reason=reason,evidence=dict(file=str(out.relative_to(root)),sha256=digest(out)),at=stamp())
 
 
-def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,context=None,route='chatgpt_web',model_package=None,real_face_plan=None):
+def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,context=None,route=None,model_package=None,real_face_plan=None):
     root=Path(root)
+    if route is None:route='chatgpt_web' if schema_version==1 else 'codex_native'
     if model_package is not None:
         if schema_version!=2 or not identity or model is not None:raise ValueError('Package use requires a new portrait task and no conflicting inline model')
         card=models.load_package(model_package);model=card['model']
@@ -351,6 +355,29 @@ def evidence_rows(data):
         yield row
 
 
+def canvas_baseline(data):
+    """Derive from retained first-look evidence, including rejected/retried outputs."""
+    if data.get('context', {}).get('canvas_policy', 'exact') == 'exact':
+        return data['size']
+    first=data['looks'][0]
+    for row in [*first.get('history', []), first]:
+        if 'output' in row:return row['output']['dimensions']
+    return None
+
+
+def canvas_matches(data, dimensions):
+    w,h=data['size']
+    baseline=canvas_baseline(data)
+    return dimensions[0]*h==dimensions[1]*w and (baseline is None or dimensions==baseline)
+
+
+def canvas_instruction(data):
+    baseline=canvas_baseline(data)
+    if baseline is not None:return f'Exact canvas: {baseline[0]}x{baseline[1]}.'
+    w,h=data['size'];divisor=math.gcd(w,h)
+    return f'Canvas aspect ratio: {w//divisor}:{h//divisor}. First compliant original establishes the exact pixel baseline for this task.'
+
+
 def check_model_confirmation(data):
     if data['schema_version']==2 and data.get('model_confirmation'):
         confirmation=data['model_confirmation']
@@ -442,7 +469,7 @@ def check_evidence(root,data):
             raise ValueError('Previously imported output changed')
         if data['schema_version']==2 and 'output' in row:
             actual=png_size(safe_file(root,row['output']['file']))
-            if actual!=data['size'] or actual!=row['output']['dimensions']:
+            if not canvas_matches(data,actual) or actual!=row['output']['dimensions']:
                 raise ValueError('Previously imported output has wrong canvas')
         reviews=row.get('qa_history',[])
         if not isinstance(reviews,list):raise ValueError('Invalid QA review history')
@@ -662,7 +689,7 @@ def update(root,event,**kw):
             source=Path(kw['file'])
             try:
                 dimensions=png_size(source);sha=digest(source)
-                if dimensions!=d['size']:raise ValueError('Wrong canvas: stop without another generation call')
+                if not canvas_matches(d,dimensions):raise ValueError('Wrong canvas: stop without another generation call')
                 if sha in [x.get('output',{}).get('sha256') for x in evidence_rows(d)]:raise ValueError('Duplicate output image')
             except ValueError as error:
                 if not failure_recovery(d):raise
@@ -711,7 +738,7 @@ def export(root):
             if d['schema_version']==2 and d['context'].get('purpose')=='correction-edit':
                 instruction.append('Operation: correct the declared edit target using the original person and garment sources; '
                                    'retain only the requested picture elements. Native editing is soft conditioning, not pixel protection or guaranteed facial fidelity.')
-            prompt='Only use built-in image generation, no other plugins. One standalone image.\n'+'\n'.join(instruction)+f'\nExact canvas: {d["size"][0]}x{d["size"][1]}.\n'+row['prompt']
+            prompt='Only use built-in image generation, no other plugins. One standalone image.\n'+'\n'.join(instruction)+'\n'+canvas_instruction(d)+'\n'+row['prompt']
             if 'real_face_plan' in d:
                 prompt+='\n'+'\n'.join(real_face_helper().prompt_lines(d['real_face_plan']['looks'][n-1]))
             prompt=photography_helper().apply(prompt,d['context'].get('photography_targets') if d['schema_version']==2 else None)
@@ -762,7 +789,7 @@ def main():
         if a.accepted_scope is not None and not a.include_accepted_reference:
             raise ValueError('Declare --include-accepted-reference before choosing its scope')
         if a.command=='init':
-            spec=json.loads(a.spec.read_text());result=create(a.task,spec['references'],spec['prompts'],spec['size'],spec.get('identity',True),schema_version=spec.get('schema_version',2),model=spec.get('model'),context=spec.get('context'),route=spec.get('route','chatgpt_web'),model_package=spec.get('model_package'),real_face_plan=spec.get('real_face_plan'))
+            spec=json.loads(a.spec.read_text());result=create(a.task,spec['references'],spec['prompts'],spec['size'],spec.get('identity',True),schema_version=spec.get('schema_version',2),model=spec.get('model'),context=spec.get('context'),route=spec.get('route'),model_package=spec.get('model_package'),real_face_plan=spec.get('real_face_plan'))
         elif a.command=='status':result=read(a.task)
         elif a.command=='export':result=export(a.task)
         elif a.command=='export-model':result=export_model(a.task,a.destination,a.name,include_accepted=a.include_accepted_reference,accepted_scope=a.accepted_scope or 'face')

@@ -1,0 +1,86 @@
+{
+  "skill_name": "threadtruth-studio",
+  "note": "Source-side no-image regression definitions for Q01/Q02/Q03/Q05/Q06/Q08. These are not executed model evaluations or visual-quality results. Mechanical task behavior is covered in tests/test_common_flow.py.",
+  "evals": [
+    {
+      "id": "CF-01",
+      "category": "default_native_entry",
+      "prompt": "服饰图清晰，人物条件齐全。先准备一张电商棚拍，未指定入口，不生图。",
+      "expectations": [
+        "给一份具体推荐方案，默认Codex；不插入必答入口题、不导出网页转交包",
+        "准备schema2并记录codex_native；未给精确像素时canvas_policy=ratio-first",
+        "只准备不调用生图"
+      ]
+    },
+    {
+      "id": "CF-02",
+      "category": "ratio_only_first_baseline",
+      "prompt": "只要求2:3。首张有效原图是800×1200，准备时示例值为1024×1536；请记录并继续原已授权任务，不新增调用。",
+      "expectations": [
+        "ratio-first只比较精确比例，800×1200可导入并成为本任务像素基线",
+        "后续必须800×1200；800×1201或1024×1536不能当作同组通过",
+        "无静默裁切或重新调用；既有像素明确任务仍严格匹配"
+      ]
+    },
+    {
+      "id": "CF-03",
+      "category": "single_continuation_expectation",
+      "prompt": "想先看母版1的半身取景，满意后继续六张。原生首张已需要5个独立附件，不生图。",
+      "expectations": [
+        "同身体类别半身取景保留母版1编号，不因取景变化标custom",
+        "先核后五张含首张锚点的附件是否装得下；不能无依据承诺可续",
+        "说明独立单张仍可做；不静默丢附件或额外授权，人物接受后也不自动追加5次"
+      ]
+    },
+    {
+      "id": "CF-04",
+      "category": "standalone_diagnostic",
+      "prompt": "先做一张人物近景诊断，之后能直接算六张的第一张吗？只说明，不生图。",
+      "expectations": [
+        "说明model-check为独立诊断，不能转成正式look-1，即使编号1且人物满意",
+        "custom、修正编辑和其它母版单张同样不承诺直接+5；正式delivery母版1满足前提才可续",
+        "不因续组限制拒绝用户原本的独立诊断需求"
+      ]
+    },
+    {
+      "id": "CF-05",
+      "category": "short_default_plan",
+      "prompt": "我给了清晰服饰图，没有指定风格，想先做一张。只给方案，不生图。",
+      "expectations": [
+        "只给一个推荐人物/具体注册风格/模式/用途画布/张数的短方案，入口未选默认Codex",
+        "不默认铺24风格、两个人物备选或A/B/C/D菜单；用户要求展开时保留全目录能力",
+        "说明本张可续组或独立，确认选择与具体次数可合为一次；不编造授权"
+      ]
+    },
+    {
+      "id": "CF-06",
+      "category": "preview_stop",
+      "prompt": "这张方向预览我看懂了，预览就行，不用再出了。",
+      "expectations": [
+        "直接结束本次方向预览，可简述非独立成片",
+        "不要求用户回答生成六张，不调用工具，不把预览升image-ready或裁格交付"
+      ]
+    },
+    {
+      "id": "CF-07",
+      "category": "single_completion_and_commercial_review",
+      "prompt": "本次只做一张，技术QA和人物确认已记录。用户整体满意，但小字logo已披露且仍待高清源核对；账本complete=true、delivery_status=image-draft。问：做完了吗？",
+      "expectations": [
+        "说明本次单张制作已完成，logo商业核对仍待处理，不要求再做五张或再确认人物",
+        "不把complete当可商用，也不因image-draft称整项制作未完成",
+        "当本张适用QA、商品待核与标识核对均实际关闭时，可按单张范围说明通过交付核对"
+      ]
+    },
+    {
+      "id": "CF-08",
+      "category": "preview_direction_not_generation_authority",
+      "prompt": "用户只说预览方向可以了；没有给独立生成张数和授权。",
+      "expectations": [
+        "确认方向不等于独立生成授权，不直接调工具",
+        "用户只确认方向时不催生成；明确要成片但缺数量时才补问1张还是6张",
+        "已有具体1张方案及对应确认时沿用该授权，不默认扩成6张",
+        "跨轮预览及GRID-FINAL拒绝分支同样不强制授权六张；拒绝将六宫格作成片与允许结束分别表达"
+      ]
+    }
+  ]
+}

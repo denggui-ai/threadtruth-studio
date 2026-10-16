@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — common interaction flow, 2026-10-16
+
+- Owner selected Q01/Q02/Q03/Q05/Q06/Q08 from the interaction inventory and explicitly excluded image generation. New schema2 tasks default to Codex in both API and CLI; stored routes and schema1 web defaults remain unchanged.
+- Add optional frozen `context.canvas_policy=ratio-first|exact`. Ratio-only preparation uses the first compliant original as its exact pixel baseline, retained through rejection/retry and continuation; explicit pixels and older tasks stay exact. Export/import and evidence rechecks share the same contract. No image postprocessing or automatic retry is introduced.
+- Keep numbered masters for framing changes within the same body category; state standalone versus eligible master-1 delivery continuation before the first image and preflight later references. Default to one short proposal, expand catalogs/modes on request, allow preview-only stopping, and distinguish accepted single-image completion from commercial readiness. Define single-image delivery QA without requiring a six-image set.
+- Add local synthetic regression tests and CF-01–08 source-side no-image scenarios. They do not prove live model compliance, visual fidelity, or full preview-ledger support (Q04). No installation, release, image call or maturity change is included.
+
 ## 1.0.0-beta.13 — source cut, 2026-10-10
 
 - Trigger: the owner authorized merging the `fix/shared-style-photography-targets` branch into `main` and bumping the version, because 57b1929/5fa202b/37a9d61 change runtime behavior (strict directional off-lens gaze rejection for frontal-only real coverage, knee-up default for single real-person visible looks, `unknown` coverage excluded from the frontal-only test) and 48c7c29 adds the real-person material guide. The Unreleased entries below from 2026-10-08 to 2026-10-10 are folded into this version.

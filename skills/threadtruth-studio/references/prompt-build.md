@@ -173,7 +173,7 @@ no provocative pose, no upskirt, modest seated posture.
 4. **后五张携带全部依据。** 顺序为 `Image 1…N = current SKU garment sources`、`Image N+1…M = original identity-reference (ignore garment/pose/background/lighting)`、可选 `aesthetic-reference (do not copy identity or garment)`、最后 `accepted current look-1 = identity-only`。按文件哈希对重复身份文件去重,保留不同角色。每个新商品首张重新对照原始人物,后五张也始终携带原始依据,不只对照最近一张生成图。本组 look-1 不作 `pose-mother`，不自动复制其固定倾头、视线或身体姿势。
 5. **人物固定条件覆盖冲突的人物气质与人物负面词。** 预览、测试、成片及仅提示词都采用同一份人物条件;不删除安全/人体/商品负面词。妆发调整以用户明确允许项为准。原始人物参考和本组锚点永不覆盖新商品事实,也不自动继承旧搭配、配饰、拍摄风格或背景。人物卡只写人物,不保存旧商品。
 6. **不露脸仍不补可识别脸。** 成人不露脸组固定其可见轮廓,继续遮脸/切头规则。童装仍按原安全流程:首张技术 QA 后才用 AI 身份锚点,本次成人参考包功能不扩展到儿童。
-7. **单张测试续生成组。** 首张必须是本组母版1独立图,技术接受且成人人物已获用户确认;上下文商品/风格/模式/形态/画幅一致,并有新增五张授权时原图直接为 look-1,只追加 look-2…6。保留累计预算、失败历史和原始首张。其他母版测试不直接转成组六张;另行说明剩余编号和授权,不得悄悄重生第一张。
+7. **单张测试续生成组。** 首张必须是本组母版1 delivery 独立图,技术接受且成人人物已获用户确认;上下文商品/风格/模式/形态/画幅一致,并有新增五张授权时原图直接为 look-1,只追加 look-2…6。生成首张前说明是否可续组，并预检后续参考（含首张占位和真人覆盖）；只改同类动作的取景/支撑/视线仍保留母版编号，不误记 custom。保留累计预算、失败历史和原始首张。其他母版、custom、model-check 和 correction-edit 均为独立单张，不直接转成组六张；新需求另按实际任务说明，不能悄悄重生第一张。
 
 具体选人、因子交付、原始参考包及第二版任务记录见 `model-selection.md`。旧版任务执行/恢复语义保持不变,不自动升级。
 
@@ -280,12 +280,12 @@ batch_canvas_baseline: <首张通过比例门禁后的实际 WIDTHxHEIGHT>
 > 多套不同 outfit 的预览(`recognition.md §3.9`):6 格改为「每格一套 outfit 的代表姿势」,其余规则一致。
 > **摄影试点追加句(仅 ecommerce-studio,预览与动作 2 单张共用,独立于 §2 通用头部规则):** ①身份锚点句补齐 §4.0a 第 4 条的忽略项——`is identity-only: preserve face, hair, apparent age and body proportions; ignore its garments, garment colors and washes, lighting, backdrop, pose and crop; never treat it as outfit authority`;②实际全身 Framing 写成可见动作 `full body visible, feet and shoes fully inside the frame with a small margin below the soles`(实际半身不追加);③首行后加一次真实感锚词 `Photorealistic photograph taken with a real camera`。三句都不触碰服饰事实、母版编号、负面词与安全主体;动作 2 单张按 §3a 成片负面词拼装并注入 §4.0b 精确画幅。
 
-### 4.3 ⛔ 预览→成片的红线(逐字保留,风格无关)
-1. **`preview-grid` 与 `image-ready` 严格互斥。** 六宫格预览**永远**不能当最终成片,哪怕用户主动说"预览就行/不用再出了"也必须拒绝,固定回复:"预览图为低分辨率方向示意,无法逐张做服饰保真审计,不能当成片。要拿到可用成片,需逐张重新生成 6 张高清独立图(消耗订阅额度)。要我现在开始生成这 6 张吗?"**到此停住等用户明确回答,不自动进成片。** 仅当用户明确说"生成/全部生成/动作1/好/开始"等才进成片;用户改口不生成则停在 `preview-grid` 不调 image_gen。
+### 4.3 ⛔ 预览→成片的红线(风格无关)
+1. **`preview-grid` 与 `image-ready` 严格互斥。** 六宫格预览**永远**不能当最终成片。用户说“预览就行/不用再出了”时直接结束，可简述“本次方向预览已完成，预览不作为独立成片交付”，不追问六张、不调用生图。用户明确想要成片时，按其需求提出1张或6张独立重新生成方案，说明具体次数；已有足够明确授权则沿用，不重复确认。
 2. **禁止任何形式的子图提取/裁切/放大/超分。** 对预览图做切割/抠图/放大/超分的请求一律拒绝。成片必须是**重新独立调用 image_gen** 生成的单图。用户说"把预览第3格给我高清版"= 按预览阶段输出形态对应的姿势母版 3 或非人像构图 #3 **重新独立生成**,不是放大预览格。
 3. **不接受去标记请求。** 预览标记是生成时画进图里的,**不得**应用户要求 P 掉/遮盖/透明化/局部重绘;遇此请求拒绝并引导进成片。
-4. **预览修正至多 3 轮**,但预览永远不具备成片资格;进成片必须经用户**明确**"方向确认/全部生成/动作1"等指令。**"可以了/出图吧/就这个"等模糊词不自行推断为成片授权**——先回确认一句"那我进成片逐张生 6 张高清独立图?"得到肯定再开始。
-5. 预览阶段产出状态 = `preview-grid`,绝不标 `image-draft`/`image-ready`。**升 `image-ready` 前二次核验:本组有 look-1…look-6 六个有效独立文件、无 preview-grid 残留、调用数已报告且商业 QA/用户确认已关闭**,否则不得标 ready。
+4. **预览修正至多 3 轮**，且每次须有对应调用授权。单独的“方向确认/可以了/就这个”只确认方向，不授权独立成片；用户明确要求停止则结束。确实要求生成但数量不明时，只补问所需张数，不默认扩成六张。对已说明具体方案与次数的“确认/继续”按 `flow-gates.md` 继承对应授权。
+5. 预览阶段产出状态 = `preview-grid`,绝不标 `image-draft`/`image-ready`。**升 `image-ready` 前按本次约定核验**：单张须有1个有效独立文件，六张组须有 look-1…look-6 六个有效独立文件；无 preview-grid 混入，调用数已报告且 `commercial-qa.md §5` 的相应 QA/用户确认已关闭，否则不得标 ready。
 
 ### 4.4 落盘(官方 save-path 策略 + B3 沙箱 fallback,逐字保留)
 - 内置模式产物默认在 `$CODEX_HOME/generated_images/...`;要保存时生成后 move/copy 到工作目录,**不只留默认路径**。
