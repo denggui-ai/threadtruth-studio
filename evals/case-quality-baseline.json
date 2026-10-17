@@ -1,0 +1,396 @@
+{
+  "schema_version": 1,
+  "baseline_id": "case-quality-20261017-v1",
+  "status": "reference snapshot; no new generation or candidate visual pass",
+  "prior_review": "docs/verification/2026-10-09-style-case-alignment.md",
+  "current_pixel_review": [
+    "style-nordic-minimal"
+  ],
+  "hard_axes": [
+    "garment facts",
+    "anatomy/support",
+    "explicit casting/styling",
+    "agreed pose/framing"
+  ],
+  "comparison_axes": [
+    "garment readability",
+    "pose naturalness",
+    "casting contrast",
+    "photography",
+    "series continuity"
+  ],
+  "acceptance": "No critical failure; no explicit degradation on comparable axes; predeclared improvement confirmed by human comparison.",
+  "comparison_rules": [
+    "Compare the same production stage and equivalent display conditions",
+    "Route B discloses substituted sixth view; never claim full rear coverage",
+    "No weighted average offsets a critical failure",
+    "Preserve all attempts and disagreements; no cherry-picking",
+    "Original case defects are not mandatory; accepted corrections require a new baseline version"
+  ],
+  "unknown": [
+    "Complete original request and input lineage for style A images",
+    "Candidate visual results for this change"
+  ],
+  "cases": [
+    {
+      "id": "classic-pose-1",
+      "kind": "pose",
+      "path": "docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/look-1.jpg",
+      "sha256": "843daf8b554d1350d0060800b778fd34bd5ce2a8a775e1c48bcef42268821c7a",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "rights_record": "docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/rights.json",
+      "role": "relations and framing only; not identity or garment facts"
+    },
+    {
+      "id": "classic-pose-2",
+      "kind": "pose",
+      "path": "docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/look-2.jpg",
+      "sha256": "fc3ee043c97d69ad734f9eaff010b2409aecae8086923142d6b27f9f14849043",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "rights_record": "docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/rights.json",
+      "role": "relations and framing only; not identity or garment facts"
+    },
+    {
+      "id": "classic-pose-3",
+      "kind": "pose",
+      "path": "docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/look-3.jpg",
+      "sha256": "41d34ce6fa18280dab62270751ed9ffe77c77a231d3deb410de297246e60da1e",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "rights_record": "docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/rights.json",
+      "role": "relations and framing only; not identity or garment facts"
+    },
+    {
+      "id": "classic-pose-4",
+      "kind": "pose",
+      "path": "docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/look-4.jpg",
+      "sha256": "216f3ccbb530d4104cf28379c158e54f6d842a046fe83df80e4e31eb325152d9",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "rights_record": "docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/rights.json",
+      "role": "relations and framing only; not identity or garment facts"
+    },
+    {
+      "id": "classic-pose-5",
+      "kind": "pose",
+      "path": "docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/look-5.jpg",
+      "sha256": "01242181973b6e0176db65eb5a4e58ecd8521d6a774bdd4118c5d540f788c990",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "rights_record": "docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/rights.json",
+      "role": "relations and framing only; not identity or garment facts"
+    },
+    {
+      "id": "classic-pose-6",
+      "kind": "pose",
+      "path": "docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/look-6.jpg",
+      "sha256": "e87339d9ed8658d4af895bdef70e5cc48f2663c25d109418dee6fb5fd7e3db24",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "rights_record": "docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/rights.json",
+      "role": "relations and framing only; not identity or garment facts"
+    },
+    {
+      "id": "style-american-street",
+      "kind": "photography",
+      "path": "gallery/style24-comparison-20260929/images/american-street/A.png",
+      "sha256": "37e43e0afb1dfab78126305138f8f34fb839cbb741625a53d1c6c84820011fd3",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "rights_record": "unknown; repository-internal comparison only, no redistribution inferred",
+      "role": "light, colour, spatial depth only; exact historical request unknown"
+    },
+    {
+      "id": "style-athleisure",
+      "kind": "photography",
+      "path": "gallery/style24-comparison-20260929/images/athleisure/A.png",
+      "sha256": "36f0ed61614c63a7b9cec8f35ae91fefeef8a0405cd71b3f752feafb1bb7eb40",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "rights_record": "unknown; repository-internal comparison only, no redistribution inferred",
+      "role": "light, colour, spatial depth only; exact historical request unknown"
+    },
+    {
+      "id": "style-balletcore",
+      "kind": "photography",
+      "path": "gallery/style24-comparison-20260929/images/balletcore/A.png",
+      "sha256": "ab9e73380e905183cbb391fff0cabf77161ec2aef4cae6aee0467f7ef1845996",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "rights_record": "unknown; repository-internal comparison only, no redistribution inferred",
+      "role": "light, colour, spatial depth only; exact historical request unknown"
+    },
+    {
+      "id": "style-british-heritage",
+      "kind": "photography",
+      "path": "gallery/style24-comparison-20260929/images/british-heritage/A.png",
+      "sha256": "aee79962bd5e9027b43fa5ef611a64244e4c70aea7e4ac28e327b40e1ab17457",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "rights_record": "unknown; repository-internal comparison only, no redistribution inferred",
+      "role": "light, colour, spatial depth only; exact historical request unknown"
+    },
+    {
+      "id": "style-cityboy",
+      "kind": "photography",
+      "path": "gallery/style24-comparison-20260929/images/cityboy/A.png",
+      "sha256": "ae57786bd50dfc73121133a17c78fbac59210e69b98388677ffa66d7fcce5f17",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "rights_record": "unknown; repository-internal comparison only, no redistribution inferred",
+      "role": "light, colour, spatial depth only; exact historical request unknown"
+    },
+    {
+      "id": "style-clean-fit",
+      "kind": "photography",
+      "path": "gallery/style24-comparison-20260929/images/clean-fit/A.png",
+      "sha256": "6fe791fa1b856f75794da4cbb125832840447cccf15dea5d3c4ee9db1629596f",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "rights_record": "unknown; repository-internal comparison only, no redistribution inferred",
+      "role": "light, colour, spatial depth only; exact historical request unknown"
+    },
+    {
+      "id": "style-coquette-ladylike",
+      "kind": "photography",
+      "path": "gallery/style24-comparison-20260929/images/coquette-ladylike/A.png",
+      "sha256": "331bfc8852ddeb4a2ea3ba8f3d950074e89de07b0ccd97ed38c0388dbc6e02d5",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "rights_record": "unknown; repository-internal comparison only, no redistribution inferred",
+      "role": "light, colour, spatial depth only; exact historical request unknown"
+    },
+    {
+      "id": "style-ecommerce-studio",
+      "kind": "photography",
+      "path": "gallery/style24-comparison-20260929/images/ecommerce-studio/A.png",
+      "sha256": "c31f01fad17118b167dca0b08b250a0347a068cb2220131ae41832539efc15b6",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "rights_record": "unknown; repository-internal comparison only, no redistribution inferred",
+      "role": "light, colour, spatial depth only; exact historical request unknown"
+    },
+    {
+      "id": "style-french-effortless",
+      "kind": "photography",
+      "path": "gallery/style24-comparison-20260929/images/french-effortless/A.png",
+      "sha256": "16c85402017a3a87d7972a285e7a89dcb6b7b5388693d2a9d50904aa02cff059",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "rights_record": "unknown; repository-internal comparison only, no redistribution inferred",
+      "role": "light, colour, spatial depth only; exact historical request unknown"
+    },
+    {
+      "id": "style-gorpcore",
+      "kind": "photography",
+      "path": "gallery/style24-comparison-20260929/images/gorpcore/A.png",
+      "sha256": "e9f74381cdaf45365e45e3c2166b64b6fff87eff5db0c063d0ac2156f88fb189",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "rights_record": "unknown; repository-internal comparison only, no redistribution inferred",
+      "role": "light, colour, spatial depth only; exact historical request unknown"
+    },
+    {
+      "id": "style-guochao-street",
+      "kind": "photography",
+      "path": "gallery/style24-comparison-20260929/images/guochao-street/A.png",
+      "sha256": "a1a10054a7610fd1cca85dd99b0d4fc19e68c2805a60082b9aea4c053f96471d",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "rights_record": "unknown; repository-internal comparison only, no redistribution inferred",
+      "role": "light, colour, spatial depth only; exact historical request unknown"
+    },
+    {
+      "id": "style-italian-luxe",
+      "kind": "photography",
+      "path": "gallery/style24-comparison-20260929/images/italian-luxe/A.png",
+      "sha256": "f4f1c0458e97793efb0c29de12afb424a05a83f37991d934d7831992aed3d969",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "rights_record": "unknown; repository-internal comparison only, no redistribution inferred",
+      "role": "light, colour, spatial depth only; exact historical request unknown"
+    },
+    {
+      "id": "style-japanese-lifestyle",
+      "kind": "photography",
+      "path": "gallery/style24-comparison-20260929/images/japanese-lifestyle/A.png",
+      "sha256": "4138bf7ead770fe0695cb158d6f37a173ae742219c487d07c40d1b579121d9ab",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "rights_record": "unknown; repository-internal comparison only, no redistribution inferred",
+      "role": "light, colour, spatial depth only; exact historical request unknown"
+    },
+    {
+      "id": "style-korean-cold-editorial",
+      "kind": "photography",
+      "path": "gallery/style24-comparison-20260929/images/korean-cold-editorial/A.png",
+      "sha256": "8ceba6ee43069f53c6dc351183ded51535dd2a0e58979e37d6a368d32b012ddd",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "rights_record": "unknown; repository-internal comparison only, no redistribution inferred",
+      "role": "light, colour, spatial depth only; exact historical request unknown"
+    },
+    {
+      "id": "style-korean-menswear",
+      "kind": "photography",
+      "path": "gallery/style24-comparison-20260929/images/korean-menswear/A.png",
+      "sha256": "427af75922e3f5bacaf42c04146cd45415377fe0ddb85d0a52415eb629942860",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "rights_record": "unknown; repository-internal comparison only, no redistribution inferred",
+      "role": "light, colour, spatial depth only; exact historical request unknown"
+    },
+    {
+      "id": "style-neo-chinese",
+      "kind": "photography",
+      "path": "gallery/style24-comparison-20260929/images/neo-chinese/A.png",
+      "sha256": "ca05f2dcedd3f4e778658bf1d18ddbca0d65ea5f65c13ac116fe256138b4b234",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "rights_record": "unknown; repository-internal comparison only, no redistribution inferred",
+      "role": "light, colour, spatial depth only; exact historical request unknown"
+    },
+    {
+      "id": "style-nordic-minimal",
+      "kind": "photography",
+      "path": "gallery/style24-comparison-20260929/images/nordic-minimal/A.png",
+      "sha256": "afc85cd704b22a160c8762bba58ad520beaa5ee4c0255cbed5a148943e3e4ef6",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "rights_record": "unknown; repository-internal comparison only, no redistribution inferred",
+      "role": "light, colour, spatial depth only; exact historical request unknown"
+    },
+    {
+      "id": "style-office-commute-women",
+      "kind": "photography",
+      "path": "gallery/style24-comparison-20260929/images/office-commute-women/A.png",
+      "sha256": "17ef974858c7f8befe4edee07cf73af34544ce47611ef80232d436e9785503d4",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "rights_record": "unknown; repository-internal comparison only, no redistribution inferred",
+      "role": "light, colour, spatial depth only; exact historical request unknown"
+    },
+    {
+      "id": "style-old-money",
+      "kind": "photography",
+      "path": "gallery/style24-comparison-20260929/images/old-money/A.png",
+      "sha256": "e65df5c86555e9e500908ba3bb95294cd13b7081d92f65c6afc84948e9731e1c",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "rights_record": "unknown; repository-internal comparison only, no redistribution inferred",
+      "role": "light, colour, spatial depth only; exact historical request unknown"
+    },
+    {
+      "id": "style-preppy",
+      "kind": "photography",
+      "path": "gallery/style24-comparison-20260929/images/preppy/A.png",
+      "sha256": "8dce36e639bc57ce7ce1025dee767c440ee0661760882d5e9ed6140900fa9699",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "rights_record": "unknown; repository-internal comparison only, no redistribution inferred",
+      "role": "light, colour, spatial depth only; exact historical request unknown"
+    },
+    {
+      "id": "style-quiet-luxury",
+      "kind": "photography",
+      "path": "gallery/style24-comparison-20260929/images/quiet-luxury/A.png",
+      "sha256": "4ec5e1ee659806377d89a559d02cbc05ef24e5162e896e2f98b4c4fe58c87228",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "rights_record": "unknown; repository-internal comparison only, no redistribution inferred",
+      "role": "light, colour, spatial depth only; exact historical request unknown"
+    },
+    {
+      "id": "style-resort-vacation",
+      "kind": "photography",
+      "path": "gallery/style24-comparison-20260929/images/resort-vacation/A.png",
+      "sha256": "beee28537e5ab78211f2c097d0e6b42615ef8ae30444a5a2ee6ace8a9b249f9d",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "rights_record": "unknown; repository-internal comparison only, no redistribution inferred",
+      "role": "light, colour, spatial depth only; exact historical request unknown"
+    },
+    {
+      "id": "style-workwear-vintage",
+      "kind": "photography",
+      "path": "gallery/style24-comparison-20260929/images/workwear-vintage/A.png",
+      "sha256": "e55d3a281927f955a061ae19551561f404ffa46f7cf8370a98cfdd815a69be58",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "rights_record": "unknown; repository-internal comparison only, no redistribution inferred",
+      "role": "light, colour, spatial depth only; exact historical request unknown"
+    },
+    {
+      "id": "style-y2k-millennium",
+      "kind": "photography",
+      "path": "gallery/style24-comparison-20260929/images/y2k-millennium/A.png",
+      "sha256": "069f220696a29a1d5c0505c88bfd2d29b392833f917bc7ab0815b4e286e8e635",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "rights_record": "unknown; repository-internal comparison only, no redistribution inferred",
+      "role": "light, colour, spatial depth only; exact historical request unknown"
+    }
+  ]
+}

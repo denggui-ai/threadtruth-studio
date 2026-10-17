@@ -1,5 +1,10 @@
 # 裁光能力与用法 / Capabilities & usage
 
+## 2026-10-17候选源码：预览修订与双路由
+
+可在同一未关闭任务中修订已评定预览，保留技术QA与原图，单次授权后启用最新人物/逐格方案。商品正背覆盖决定第6姿态；经典第3半身、第5站立自然垂臂微前倾，明确适配才改变。转成片继承最新方案；预览不作身份锚点。案例下限和预先声明的提升分别验收。此源码未安装、未生图；离线通过不表示图片优于案例。运行机制见[预览记录](../skills/threadtruth-studio/references/preview-ledger.md)；候选拓扑与验证记录保留在开发源docs/ARCHITECTURE.md及docs/verification/2026-10-17-preview-plan-revision.md，尚未发布。
+
+
 [用户架构总图（GitHub在线）](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md) · [当前能力盘点：实现、验证与缺口](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/CAPABILITY-STATUS.md)
 
 从真实服饰照片开始，先识别、选方向，再决定是否生成。本文说明**当前源码**的工作流与条件，含显式单张呈现、真人参考朝向规划及逐张选图。beta.14恢复默认选风格、六宫格预览、方向确认、六张独立图，保留主动单张；请使用匹配版本的公开安装包。本机版本须按安装记录核对；不承诺所有功能组合都已实测。

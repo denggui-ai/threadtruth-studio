@@ -1,5 +1,10 @@
 # modes-scenes.md — 三模式 + 自动推荐 + 场景强度框架(模式轴,风格无关)
 
+## 模式与经典姿态
+
+B/C/D只决定棚拍、场景及混合分配；新编号人物任务的动作关系和默认景别来自pose-baselines/current shot_plan。第3经典半身，第5站立自然垂臂微前倾；改为全身/坐姿/支撑须有明确适配范围，不因场景家具自动改变。保留原画布与模式选择门禁。
+
+
 > **模式轴 ≠ 风格轴。** 本文件只管 B/C/D 三种**生成模式**与场景强度;**具体场景模板与视觉底座来自风格包**(`styles/<slug>.pack.yaml` 的 `scenes` / `visual_language` / `lighting_palette`)。
 > 模式可被用户覆盖;风格层默认模式由 `pack.default_mode` 给出。
 

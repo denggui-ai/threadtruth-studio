@@ -100,7 +100,7 @@ class RepositoryContractTests(unittest.TestCase):
     def test_skill_identity_and_description_are_exact(self):
         text = (SKILL / "SKILL.md").read_text()
         self.assertIn("name: threadtruth-studio", text)
-        expected = '服饰人像；首句随用户语言只核对素材，不预告交付（如“先核对服饰与人物参考。”）；随后读技能。真实服饰图的选角、24风格、提示词与图片制作；缺图时只做素材准备。生成需明确授权和商业QA。排除非服饰商品、纯文字虚构服装设计、虚拟试衣/API集成。'
+        expected = '服饰人像；首句随用户语言只核对素材，不预告交付（如“先核对服饰与人物参考。”）；随后读技能。真实服饰图的选角、24风格、提示词与图片制作；缺图时只做素材准备。生成需明确授权和商业QA。排除非服饰商品、纯文字虚构服装设计、虚拟试衣/API集成；源码审计/修改按开发任务处理，不启动素材创作流程。'
         normalized = " ".join(text.split())
         self.assertIn(expected, normalized)
 

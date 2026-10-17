@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased — preview plan revision and source-backed garment routes, 2026-10-17
+
+- Repair accepted/rejected preview styling revisions without inventing a technical rejection: `revise-preview` stages a hash-bound candidate, and the existing one-call retry authorization adopts it atomically with model/shot/history retained. Direction confirmation and delivery preparation cannot accept an unrendered candidate; closed/unknown previews and the initial-plus-three-corrections limit remain protected.
+- Add optional version-1 `shot_plan` for numbered human tasks: same-SKU usable front/rear declarations, actual selected garment references, classic relations/framing or explicitly recorded adaptation, shared preview/delivery rendering, versioned manifests and stale-plan submission checks. Front-facing mothers require supported front/front-side input. Later original garment additions preserve attempts; real face coverage/identity remain frozen, with rear route changes hiding unsupported sixth-cell faces. Single-to-six continuation checks actual per-shot attachments plus the anchor.
+- Keep current model conditions single-sourced. Add named factor replacement and current-block validation; reject stale structured model/shot clauses before every prompt-writing transition. Preserve existing complete, matching frozen model prose byte-for-byte. Delivery inherits the latest reviewed model and shot plan, while preview pixels, authority and identity acceptance remain separate.
+- Clarify professional casting/styling and partial feedback, classical pose relations, case-quality non-regression and user journey. Long hair is task-specific, not a universal fashion-model rule. Distinguish development-only `tools/style-preview.py single-prompt` from the installed ledger interface; its implementation already existed in source.
+- Add deterministic synthetic regressions, PV-07–12/source eval IDs 210–215 and a source-only 30-asset quality reference snapshot. The snapshot binds existing six-pose and 24-style reference bytes; unknown source lineage/rights and current visual validation remain explicit. No images or private customer records are added.
+- Validation and finding closeout: see `docs/verification/2026-10-17-preview-plan-revision.md`. Source-only candidate: no installation, publication, new model trigger or image call, and no visual-quality/maturity promotion. Existing unrelated brand-font tests lack the optional local fontTools dependency; do not label those checks passed.
+
+
 ## 1.0.0-beta.14 — default interaction restored, 2026-10-17
 
 - Restore the owner-selected default journey: choose a style from recommendations and the full 24-style catalogue, generate one labeled six-panel direction preview after authorization, confirm its direction, then generate six independent images within the separately authorized allowance. The actual first portrait still requires QA and human model confirmation before the remaining five.

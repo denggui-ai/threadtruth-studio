@@ -146,6 +146,36 @@ def validate_model(model, *, allow_child=False):
     return copy.deepcopy(model)
 
 
+
+def replace_factors(model, updates, *, allow_child=False):
+    """Replace named current factors; obsolete values survive only in task history.
+
+    Unstructured legacy clauses are not interpreted. Review those explicitly
+    before supplying a complete revised model to the ledger.
+    """
+    result=validate_model(model,allow_child=allow_child)
+    if not isinstance(updates,list) or not updates:
+        raise ValueError('Provide nonempty factor updates')
+    names=[]
+    for row in updates:
+        if not isinstance(row,dict) or not isinstance(row.get('name'),str):
+            raise ValueError('Each factor update needs its name and complete current state')
+        names.append(row['name'].strip().casefold())
+    if len(names)!=len(set(names)):raise ValueError('Update each factor once')
+    factors=result.get('factors',[])
+    old=[f for f in factors if f['name'].strip().casefold() in names]
+    retained=[f for f in factors if f['name'].strip().casefold() not in names]
+    old_values={f['value'] for f in old}
+    kept_values={f['value'] for f in retained if f['status']!='unknown'}
+    for key in ('locked','adjustable'):
+        result[key]=[v for v in result[key] if v not in old_values or v in kept_values]
+    result['factors']=retained+copy.deepcopy(updates)
+    for row in updates:
+        key={'fixed':'locked','target':'locked','adjustable':'adjustable'}.get(row.get('status'))
+        if key and row.get('value') not in result[key]:result[key].append(row.get('value'))
+    return validate_model(result,allow_child=allow_child)
+
+
 def prompt_lines(model, *, allow_child=False):
     model = validate_model(model, allow_child=allow_child)
     existing = model['source_type'] in ('ai', 'real')
@@ -162,6 +192,34 @@ def prompt_lines(model, *, allow_child=False):
             'User model conditions override conflicting style personas; never infer nationality or measured fit.',
             *(['Retain reference hair and makeup unless the declared model conditions explicitly change them.']
               if existing else [])]
+
+
+
+def apply_conditions(prompt, model, *, allow_child=False):
+    """Render one current model block; reject detectable stale structured clauses.
+
+    This deliberately does not interpret arbitrary prose or infer its meaning.
+    """
+    begin='[Current model conditions]';end='[/Current model conditions]'
+    lines=prompt_lines(model,allow_child=allow_child)
+    canonical=begin+'\n'+'\n'.join(lines)+'\n'+end
+    if begin in prompt or end in prompt:
+        if prompt.count(begin)!=1 or prompt.count(end)!=1 or canonical not in prompt:
+            raise ValueError('Model conditions block conflicts with the current model')
+        outside=prompt.replace(canonical,'',1)
+        if any(line.startswith(('Model subject:','Fixed model conditions:','Permitted styling:')) for line in outside.splitlines()):
+            raise ValueError('Duplicate structured model conditions outside the current block')
+        return prompt
+    clauses=[line for line in prompt.splitlines() if line.startswith(('Model subject:','Fixed model conditions:','Permitted styling:'))]
+    for clause in clauses:
+        if clause not in lines:raise ValueError('Structured model clause conflicts with current model; replace obsolete conditions')
+    if clauses:
+        if len(clauses)!=3 or len(set(clauses))!=3:
+            raise ValueError('Provide one complete current model condition block, not partial or duplicate clauses')
+        # The development compiler already rendered these exact current conditions.
+        # Preserve frozen prose bytes rather than reformatting historical requests.
+        return prompt
+    return canonical+'\n'+prompt
 
 
 def resolve_style(model, persona, negatives):

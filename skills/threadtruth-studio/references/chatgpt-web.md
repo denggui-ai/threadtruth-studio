@@ -1,5 +1,10 @@
 # ChatGPT web: handoff and host-browser execution
 
+## 预览方案修订与版本
+
+网页与原生共用web-task.py记录。已评定预览的用户审美修改用revise-preview准备候选，再按实际单次授权retry-authorize，不伪造QA否决；新shot_plan及model同版导出。提交前读取当前manifest并用reserve的expected-plan-sha256核版本；网页手动交接也不得提交旧包。命令与规格见[preview-ledger.md](preview-ledger.md)。tools/style-preview.py是开发源专用，不是用户安装包中的网页或原生命令。
+
+
 Read when the user selects ChatGPT web. This adapter is designed for macOS Codex Desktop with an authorized dedicated Chrome and host browser tools. Actual availability is checked each session; installation alone does not supply browser tools. Other environments receive the manual package. No API, private endpoints, credentials, main-browser profile or undocumented tool commands.
 
 ## Local task contract
