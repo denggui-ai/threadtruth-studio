@@ -15,13 +15,31 @@ revision.json含完整新`prompt`、可选完整`model`、可选`shot_plan`；�
 
 manifest给出`current_plan_sha256`与版本；采用此扩展或正常预览修订后的reserve必须同时提供`--expected-plan-sha256`，并照旧匹配当前prompt/参考哈希。旧handoff不可提交；导出目录带版本。方向确认后prepare-delivery直接继承最新有效model、路由及六格计划；单张选择对应编号，预览只留provenance，不当身份附件。停止不等于接受未实现的候选，未解决修订不能转成片。
 
+### 撤回候选与失效素材退出
+
+用户撤回尚未采用的修改、明确继续使用原图时，记录真实撤回意思并执行：
+
+```sh
+python3 scripts/web-task.py cancel-preview-revision --task <preview> --look 1 --expected-candidate-sha256 <当前候选哈希> --expected-output-sha256 <原预览哈希> --note <实际撤回理由>
+```
+
+该操作只归档并移除指定候选，不改变原QA、原图、model/shot_plan、次数或授权；原图技术accepted才可随后确认方向。rejected原图不能因撤回变成通过。取消不是新的生成授权，也不自动等于方向接受；结束仍用finish-preview stop。已关闭或未决请求不走此分支。
+
+尚未采用候选的外部图片在提议时和采用时核字节；其间删除、改变或失效只能阻止采用，不能阻止撤回、替换或停止。已冻结商品、原图、当前请求/历史哈希与候选元数据绑定仍须有效，不得把这一退出能力扩成跳过事实检查。
+
+### 提示词契约与历史恢复
+
+新schema2任务自动标prompt_contract_version=1；缺标记的旧冻结记录按0恢复，保留原prompt字节/哈希，不要求旧单条或两条人物说明事后凑齐新格式。新准备、候选采用或续组显式进入v1时，原记录按原契约留痕；不自动修改已接受图或无关后续记录。不要删字段伪装旧任务以绕过新检查。
+
+新契约采用shot_plan的请求只由当前计划生成编号动作；正文中的已知`POSE n:`/`Shot n:`旧块先整理到计划，不能再和当前块一起提交。旧契约冻结任务的已知编号master及显式Framing与当前计划一致时，可原字节恢复导出；冲突或未知头允许读取/停止，但必须显式重新准备后才能提交。该检查不解析任意自由文本语义，摄影自由正文仍保留并人工核对。
+
 ### 商品覆盖与双路由扩展
 
 `shot_plan`包含version=1、sku、route=A|B、preservation=classic|adapted、adaptation_note、coverage、looks。coverage每项为`{sha256, views, usable, same_sku, note}`；views从front/front-side/back/detail中选择，引用真实garment-source。实际看图后声明清晰度和同SKU，不以文件名或AI生成背面作依据。正面不足先补图；有可用同款背面为A，否则B。脚本检查声明及引用一致，不会识别SKU、角度或视觉质量。
 
 looks按实际编号排列：预览及整组6项，单张1项。每项为`{pose, master, framing, garment_views, reference_sha256s}`；classic关系/景别见[pose-baselines.md](pose-baselines.md)。adapted须有真实变更说明，可另给本格arrangement。程序渲染统一身体关系；真人计划仍独占真实头向/眼球视线/面部覆盖，所需商品引用必须在其本格附件选择中，不复制两份自由文本权威。新增商品视角没有授权推断真人侧脸。
 
-可在revision.json增加`garment_references: [{path, sha256}]`，与修订后的shot_plan一起声明用户新提供的真实商品图。准备阶段只核对文件，取得对应重试授权后才加入冻结库存；原图、历史与累计次数不改写。真人只由工具派生当前商品附件选择，保留原始面部覆盖、身份与未指定的身体/头向/视线；B→A第6显示背部并隐藏脸，明示不补未知回眸脸。若要改变真人面部覆盖或其他头向，须遵守原始身份的显式版本边界。所有实际请求仍受5附件限制；不合格/另一SKU素材不成为实际商品附件。
+可在revision.json增加`garment_references: [{path, sha256}]`，与修订后的shot_plan一起声明用户新提供的真实商品图。准备阶段只核对文件，取得对应重试授权后才加入冻结库存；原图、历史与累计次数不改写。真人的real_face_plan拥有本格完整实际附件选择，shot_plan声明商品必需引用并作子集校验；额外选择的商品细节也须在coverage声明可用且同SKU，不静默过滤。修订保留仍可用的已选细节，增补当前必需商品引用，保留原始面部覆盖、身份与未指定的身体/头向/视线；B→A第6显示背部并隐藏脸，明示不补未知回眸脸。若要改变真人面部覆盖或其他头向，须遵守原始身份的显式版本边界。所有实际请求仍受5附件限制；不合格/另一SKU素材不成为实际商品附件。
 
 同商品母版1单张续五张时，若已有shot_plan，continue-authorize的spec还要给完整6项shot_plan；其覆盖、路由、已接受第1项不变，后五沿同一规则编译。已有真人任务同时声明原real_face_looks，不新增默认调用权限。
 

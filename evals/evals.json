@@ -2815,6 +2815,61 @@
         "说明tools/style-preview.py single-prompt是开发源工具，运行包使用web-task的spec/export",
         "按源码审查处理，不启动服饰素材问卷，不生图、不修改安装版"
       ]
+    },
+    {
+      "id": 216,
+      "category": "preview-recovery",
+      "source_eval": "PV-13",
+      "prompt": "已提议更换发型但尚未生成，用户撤回修改并明确使用原预览。只做本地记录。",
+      "expected_output": "仅执行用户当前指定的本地恢复或准备，保留原图、历史与授权边界。",
+      "expectations": [
+        "取消绑定当前候选与原图，归档撤回理由，不新增授权/调用或改技术QA",
+        "原图通过才可方向确认并准备成片；原图rejected不因撤回变成通过"
+      ]
+    },
+    {
+      "id": 217,
+      "category": "preview-recovery",
+      "source_eval": "PV-14",
+      "prompt": "预览候选追加的临时商品背面图失效了，用户决定停止或撤回。",
+      "expected_output": "仅执行用户当前指定的本地恢复或准备，保留原图、历史与授权边界。",
+      "expectations": [
+        "失效外部候选仅阻止采用；仍可撤回、替换、停止",
+        "已冻结素材和原图证据失败仍阻断，不清零次数或重开新任务绕过"
+      ]
+    },
+    {
+      "id": 218,
+      "category": "preview-recovery",
+      "source_eval": "PV-15",
+      "prompt": "真人逐格计划同时选正面商品、细节图和原身份，商品pose计划只列正面必需引用。先导出不生图。",
+      "expected_output": "仅执行用户当前指定的本地恢复或准备，保留原图、历史与授权边界。",
+      "expectations": [
+        "实际附件以真人完整选择为准，细节必须有可用同SKU覆盖",
+        "逐格Image编号与manifest和实际附件一致，不静默丢图或抛KeyError；实际并集最多5"
+      ]
+    },
+    {
+      "id": 219,
+      "category": "preview-recovery",
+      "source_eval": "PV-16",
+      "prompt": "接管旧版合法schema2预览，其冻结prompt只有一两条匹配的人物说明；现在恢复停止或准备新修订。",
+      "expected_output": "仅执行用户当前指定的本地恢复或准备，保留原图、历史与授权边界。",
+      "expectations": [
+        "旧字节/哈希按原契约恢复，不被新格式追溯拒绝",
+        "新准备采用v1，新旧历史分别记录；已有图片/次数保留，新冲突仍拒绝"
+      ]
+    },
+    {
+      "id": 220,
+      "category": "preview-recovery",
+      "source_eval": "PV-17",
+      "prompt": "仅正面商品，计划第6正面替代，但旧提示词还有POSE 6背身块；第3/5也带旧摄影动作段。",
+      "expected_output": "仅执行用户当前指定的本地恢复或准备，保留原图、历史与授权边界。",
+      "expectations": [
+        "已知旧POSE/Shot块不得和当前shot_plan双份提交，给明确整理提示",
+        "不误删相容场景摄影文字，不声称通用语义理解，不生图"
+      ]
     }
   ]
 }

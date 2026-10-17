@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased — close reverse-audit R01–R05, 2026-10-17
+
+- R01: add hash-bound `cancel-preview-revision` to archive an unexecuted proposal without changing its original output, QA, model, authorization or attempts. Cancelling does not accept a rejected image or grant another call.
+- R02: separate candidate metadata integrity from external proposal-file availability. Proposal creation/adoption validate file bytes; cancellation, replacement and stop remain possible after an unadopted file expires. Frozen source/output hashes and current request gates remain enforced.
+- R03: keep the real-face plan's full per-cell actual reference selection. The shot plan supplies required garment references; optional real-selected details need usable same-SKU coverage. Creation, retry, continuation, manifest and Image-number mapping use the complete actual set and keep the five-reference cap.
+- R04: version new schema-2 prompt preparation as contract 1; unversioned frozen tasks recover under contract 0 with their original prose bytes. Explicit new preparation marks historical records with their original contract instead of retrospectively imposing complete model blocks, or rewriting unrelated accepted rows.
+- R05: reject recognized legacy `POSE n:`/`Shot n:` blocks outside the current shot-plan block before new planned submission. Preserve scene prose; unplanned legacy prompts are not silently rewritten. Legacy planned exports preserve matching known master/framing headers; conflicting or unknown headers remain recoverable but require explicit new preparation before submission. Free-text semantics still require review.
+- Add source-side recovery regressions and PV-13–17/main IDs 216–220. Validation, earlier failures and targeted re-review are recorded in `docs/verification/2026-10-17-revision-recovery.md`; no image call, installation, publication or visual maturity promotion is included.
+
+
 ## Unreleased — preview plan revision and source-backed garment routes, 2026-10-17
 
 - Repair accepted/rejected preview styling revisions without inventing a technical rejection: `revise-preview` stages a hash-bound candidate, and the existing one-call retry authorization adopts it atomically with model/shot/history retained. Direction confirmation and delivery preparation cannot accept an unrendered candidate; closed/unknown previews and the initial-plus-three-corrections limit remain protected.

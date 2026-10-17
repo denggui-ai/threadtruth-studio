@@ -1,5 +1,6 @@
 """Source-backed garment routes and numbered shot plans. No image understanding or network."""
 import copy
+import re
 
 BEGIN='[Task shot plan]'
 END='[/Task shot plan]'
@@ -33,7 +34,7 @@ def default_plan(sku,coverage):
     return dict(version=1,sku=sku,route='A' if back else 'B',preservation='classic',adaptation_note='',coverage=copy.deepcopy(coverage),looks=looks)
 
 
-def validate(plan,inventory,*,context,count,identity=True,real_face_plan=None):
+def validate(plan,inventory,*,context,count,identity=True,real_face_plan=None,strict_references=True):
     fields={'version','sku','route','preservation','adaptation_note','coverage','looks'}
     if not isinstance(plan,dict) or set(plan)!=fields or type(plan['version']) is not int or plan['version']!=1:
         raise ValueError('Shot plan requires version=1, sku, route, preservation, adaptation_note, coverage and looks')
@@ -87,6 +88,9 @@ def validate(plan,inventory,*,context,count,identity=True,real_face_plan=None):
         if real_face_plan is not None:
             face=real_face_plan['looks'][i-1]
             if not set(refs)<=set(face['reference_sha256s']):raise ValueError('Garment shot references must be included in the real face look selection')
+            actual_garments=set(face['reference_sha256s']) & garments
+            if strict_references and not actual_garments<=set(usable):
+                raise ValueError('Every real-selected garment, including optional detail, needs usable same-SKU coverage')
     return copy.deepcopy(plan)
 
 
@@ -110,10 +114,33 @@ def render(plan,look=None,real_face_plan=None):
     return '\n'.join(rows+[END])
 
 
-def apply(prompt,plan,look=None,real_face_plan=None):
+def check_legacy_headers(prompt,plan,look=None,real_face_plan=None):
+    """Restore known legacy syntax only when its explicit master/framing agrees.
+
+    This is an export gate, not a retrospective evidence check or prose parser.
+    """
     canonical=render(plan,look,real_face_plan)
-    if BEGIN in prompt or END in prompt:
+    outside=prompt.replace(canonical,'',1)
+    shots=plan['looks'] if look is None else [plan['looks'][look-1]]
+    expected={s['pose']:s for s in shots}
+    headers=list(re.finditer(r'^\s*(?:POSE|Shot)\s+([1-6])\s*:\s*([A-Za-z_]+)',outside,re.I|re.M))
+    if len(headers)!=len(re.findall(r'^\s*(?:POSE|Shot)\s+[1-6]\s*:',outside,re.I|re.M)):
+        raise ValueError('Unrecognized legacy shot header requires explicit new preparation')
+    for i,header in enumerate(headers):
+        shot=expected.get(int(header[1]))
+        section=outside[header.end():headers[i+1].start() if i+1<len(headers) else len(outside)]
+        framings=re.findall(r'\bFraming:\s*(full-body|half-body|knee-up)\b',section,re.I)
+        if shot is None or header[2].upper()!=shot['master'] or any(f.lower()!=shot['framing'] for f in framings):
+            raise ValueError('Legacy shot header conflicts with the current plan; explicitly prepare a new prompt')
+
+
+def apply(prompt,plan,look=None,real_face_plan=None,*,strict=True):
+    canonical=render(plan,look,real_face_plan)
+    marked=BEGIN in prompt or END in prompt
+    if marked:
         if prompt.count(BEGIN)!=1 or prompt.count(END)!=1 or canonical not in prompt:
             raise ValueError('Frozen shot plan block conflicts with the current plan')
-        return prompt
-    return prompt.rstrip()+'\n'+canonical+'\n'
+    outside=prompt.replace(canonical,'',1) if marked else prompt
+    if strict and re.search(r'^\s*(?:POSE|Shot)\s+[1-6]\s*:',outside,re.I|re.M):
+        raise ValueError('Remove legacy POSE/Shot blocks from prose; numbered arrangements come only from the current shot_plan')
+    return prompt if marked else prompt.rstrip()+'\n'+canonical+'\n'
