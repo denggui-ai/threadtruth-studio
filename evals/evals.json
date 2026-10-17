@@ -2870,6 +2870,50 @@
         "已知旧POSE/Shot块不得和当前shot_plan双份提交，给明确整理提示",
         "不误删相容场景摄影文字，不声称通用语义理解，不生图"
       ]
+    },
+    {
+      "id": 221,
+      "category": "missing_photo_detailed_plan",
+      "prompt": "使用裁光继续围裙案例，目前没有附图。成年长发职业时尚女模特，冷灰画廊。先核对原图与六格动作、妆发，等我明确确认后只生成一张方向预览。",
+      "files": [],
+      "expected_output": "缺图时只请求最少素材并简短保留已定偏好，暂停具体方案，不生图。",
+      "expectations": [
+        "读取当前目标技能；不读取来源或其他聊天补素材",
+        "无可用服饰图时不扩写新妆发/逐格商品/摄影方案，不用待核验标签绕过停点",
+        "不能把未附图等同已确认没有背面；请求至少清晰正面，有背面可一并提供",
+        "不调用任何生图、替代服务或修改文件；无条件式生成承诺"
+      ],
+      "ref": "SKILL.md §0 missing-photo vs actual planning; flow-gates.md current-plan prerequisite"
+    },
+    {
+      "id": 222,
+      "category": "photo_present_plan_review",
+      "prompt": "本轮仅用指定的白色连帽羽绒马甲正面实拍，商品为马甲不是围裙。人物指定成年欧美外观长发职业时尚女模特，成熟冷峻、修长、不甜笑；11北欧极简、冷灰画廊。先识别可见商品事实并给妆发及经典六格计划，第5站立微前倾；仅正面素材，第6正面静站。先供审阅，不生图，不做独立图。",
+      "files": [
+        "docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/source-1-front.jpg"
+      ],
+      "expected_output": "实际读图，区分可见事实与未知，给待审具体方案并停下。",
+      "expectations": [
+        "实际查看指定真实服饰图，不把有图未授权生图误判成缺图",
+        "不沿用原图人物身份；保留指定人物/风格，妆发新增部分作为提案",
+        "六格保留经典关系及景别；第6明确正面替代，不从邻近背面文件或历史补事实",
+        "前五按正面支持范围限定展示，未知细节不编造",
+        "不调用生图或替代服务，不要求新增必做人物测试"
+      ],
+      "ref": "SKILL.md §0; pose-baselines.md; model-selection.md"
+    },
+    {
+      "id": 223,
+      "category": "no_photo_generic_text_exception",
+      "prompt": "我还没有商品照片，现在只想了解通用六姿势和职业时尚模特妆发思路，不针对任何实际商品，不生图。",
+      "files": [],
+      "expected_output": "提供通用文字并说明不属于具体商品已核方案，不强制用户先补图才能得到通用知识。",
+      "expectations": [
+        "允许明确无图通用文字请求；不虚构商品识别/背面依据",
+        "不生成商品专属完整请求、不调用生图",
+        "不误套缺图阻断给用户额外上传门槛"
+      ],
+      "ref": "SKILL.md §0 generic text exception"
     }
   ]
 }

@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased — missing-photo planning boundary, 2026-10-17
+
+- Incident: an isolated, image-free startup expanded model styling and six garment-specific shot plans instead of stopping for the minimum original photos. No generation occurred. This is an observed instruction-following/routing ambiguity, not evidence of a ledger bug.
+- Clarify the existing SKILL.md missing-photo stop and flow-gates.md planning prerequisite: retain stated preferences briefly, but a conditional request to review a real product first does not authorize completing its missing-photo plan, even when labelled provisional. Do not infer rear availability from an empty attachment set.
+- Preserve explicit generic text-only requests (planning concepts, pose explanations, startup prompts, catalogue) and real-photo plan review without generation authority. No new script, state field, hairstyle defaults or duplicate rule layer.
+- Add source regression cases 221–223 for detailed missing-photo requests, real-photo review and the generic-text exception. Fresh-process and local-install verification are recorded in docs/verification/2026-10-17-input-gate-boundary.md; no images or publication are authorized.
+
+
 ## Unreleased — close reverse-audit R01–R05, 2026-10-17
 
 - R01: add hash-bound `cancel-preview-revision` to archive an unexecuted proposal without changing its original output, QA, model, authorization or attempts. Cancelling does not accept a rejected image or grant another call.
