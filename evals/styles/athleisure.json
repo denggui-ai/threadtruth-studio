@@ -13,9 +13,9 @@
   },
   {
     "id": "al-anti-fit-3",
-    "type": "anti-fit",
+    "type": "recommendation-fit",
     "input": "(上传婚纱) 运动休闲风",
-    "expect": "婚纱 ∈ anti_categories → 提示风格×品类不匹配(运动休闲不适配婚纱礼服),请确认或改推"
+    "expect": "anti_categories仅提示此商品不属于该方向的默认推荐，不是服种禁令。用户明确借用摄影时保留当前商品，使用该方向的环境、光线与构图；不改商品、不重复索要已有确认。真正缺失的来源/适龄/动作授权仍按核心门禁处理。"
   },
   {
     "id": "al-pure-data-4",
@@ -25,9 +25,9 @@
   },
   {
     "id": "al-conflict-hold-5",
-    "type": "style-conflict",
+    "type": "explicit-fusion-resolution",
     "input": "(上传服饰) athleisure 运动风混老钱世家感",
-    "expect": "第0步检测 athleisure↔old-money 互斥(router §3:机能运动↔克制低调)→style-conflict-hold,出候选+请二选一,fallback_used=conflict,不生图"
+    "expect": "识别为明确融合意图；为主辅方向分配摄影或艺术字段并形成单一方案，不因旧互斥矩阵要求二选一。主次或字段归属确实无法确定时仅澄清该缺项；服装原貌和人物条件不被融合改写，生成仍按实际动作授权。"
   },
   {
     "id": "al-action-gate-6",
@@ -41,8 +41,26 @@
     "input": "(上传针织衫) 巴黎慵懒松弛感的日常",
     "expect": "🔴触发隔离:『松弛感/巴黎/慵懒』→french-effortless(巴黎松弛);athleisure 自有『运动风/瑜伽/运动休闲/健身穿搭』属机能运动,刻意不含『松弛感』(松弛属 french/street SILH_RELAXED)与裸『运动』(过宽,注册词是运动风/运动休闲);防『运动休闲』休闲语义把 french 误拉",
     "assert_triggers": {
-      "french-effortless": {"contains": ["松弛感"]},
-      "athleisure": {"contains": ["运动休闲"], "excludes": ["松弛感", "运动"]}
+      "french-effortless": {
+        "contains": [
+          "松弛感"
+        ]
+      },
+      "athleisure": {
+        "contains": [
+          "运动休闲"
+        ],
+        "excludes": [
+          "松弛感",
+          "运动"
+        ]
+      }
     }
+  },
+  {
+    "id": "al-scene-action-10",
+    "type": "source-preservation-regression",
+    "input": "运动休闲的第4、5张已另定动作",
+    "expect": "咖啡店外步道、公园草坪运动空间只是场景；场景不得强加散步、坐姿或拉伸。"
   }
 ]

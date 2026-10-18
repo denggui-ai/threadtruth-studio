@@ -461,7 +461,12 @@ class PreviewTests(unittest.TestCase):
             ("coquette-ladylike", "bows"), ("neo-chinese", "oriental structure"),
         ]:
             self.assertNotIn(forbidden, previews[slug]["visual"]["mood"])
-        self.assertIn("graceful elongated posture", previews["balletcore"]["visual"]["mood"])
+        ballet_mood = previews["balletcore"]["visual"]["mood"]
+        self.assertIn("graceful composition", ballet_mood)
+        self.assertIn("rehearsal-room calm", ballet_mood)
+        self.assertIn("preserve approved anatomy", ballet_mood)
+        self.assertIn("keep the planned pose unchanged", ballet_mood)
+        self.assertNotIn("elongated posture", ballet_mood)
 
     def test_incomplete_audit_and_gallery_report_real_missing_styles(self):
         run = self.prepare()

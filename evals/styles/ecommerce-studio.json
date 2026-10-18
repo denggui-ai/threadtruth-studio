@@ -13,9 +13,9 @@
   },
   {
     "id": "ec-anti-fit-3",
-    "type": "anti-fit",
+    "type": "recommendation-fit",
     "input": "(上传服饰) 电商主图但要韩系大片氛围场景",
-    "expect": "用途冲突(ecommerce-studio ↔ 重场景 editorial 互斥,style-router §3 互斥矩阵)→提示二者取向冲突,请确认主图(B)还是大片(C)"
+    "expect": "anti_categories仅提示此商品不属于该方向的默认推荐，不是服种禁令。用户明确借用摄影时保留当前商品，使用该方向的环境、光线与构图；不改商品、不重复索要已有确认。真正缺失的来源/适龄/动作授权仍按核心门禁处理。"
   },
   {
     "id": "ec-default-mode-4",
@@ -41,8 +41,21 @@
     "input": "(上传连衣裙) 想要韩系冷感大片的棚拍氛围",
     "expect": "🔴触发隔离(用途轴 vs 风格轴):『韩系/冷感大片』→korean-cold-editorial(重场景 editorial);ecommerce-studio 自有『电商主图/棚拍主图/淘宝白底/详情页人像』属用途轴商品图,刻意不含纯风格词『冷感大片/韩系』,且注册词是完整『棚拍主图』非裸『棚拍』,防字样泛化把 editorial 误拉进电商",
     "assert_triggers": {
-      "korean-cold-editorial": {"contains": ["冷感大片"]},
-      "ecommerce-studio": {"contains": ["电商主图"], "excludes": ["冷感大片", "韩系", "棚拍"]}
+      "korean-cold-editorial": {
+        "contains": [
+          "冷感大片"
+        ]
+      },
+      "ecommerce-studio": {
+        "contains": [
+          "电商主图"
+        ],
+        "excludes": [
+          "冷感大片",
+          "韩系",
+          "棚拍"
+        ]
+      }
     }
   },
   {
@@ -56,5 +69,11 @@
     "type": "prompt-build",
     "input": "(上传西装外套+牛仔裤套装) 电商 B2 母版 1 单张测试(2026-09-16 试点瘦身版)",
     "expect": "保留摄影试点:lighting_palette 简短且不含任何服饰部件词(袖/驳领/口袋盖);model_persona 不预设口袋,重心句限『when standing』;仅电商提示词追加锚点忽略项、全身格完整鞋脚留白、首行真实感锚词,其适用范围独立于24风格共用的头部规则;动作 2 单张(tools single-prompt)只含一个 POSE 块、一个 §2 共用说明、拼 §3a 成片负面词 + 全身追加 cropped 三条、注入精确画幅(电商主图默认 1:1);不登记批次、不生图;提示词拼装通过不能代替视觉验证"
+  },
+  {
+    "id": "ec-output-form-10",
+    "type": "source-preservation-regression",
+    "input": "同一商品分别拍人物、衣架及平铺图",
+    "expect": "按真实出镜形态解析；人物气质不强加手部、视线或重心动作；鞋底接触阴影仅在鞋实际可见且接地时使用。"
   }
 ]

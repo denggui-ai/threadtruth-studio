@@ -13,9 +13,9 @@
   },
   {
     "id": "gs-anti-fit-3",
-    "type": "anti-fit",
+    "type": "recommendation-fit",
     "input": "(上传古装戏服) 国潮街头",
-    "expect": "古装戏服 ∈ anti_categories → 提示不匹配"
+    "expect": "anti_categories仅提示此商品不属于该方向的默认推荐，不是服种禁令。用户明确借用摄影时保留当前商品，使用该方向的环境、光线与构图；不改商品、不重复索要已有确认。真正缺失的来源/适龄/动作授权仍按核心门禁处理。"
   },
   {
     "id": "gs-pure-data-4",
@@ -25,9 +25,9 @@
   },
   {
     "id": "gs-conflict-hold-5",
-    "type": "style-conflict",
+    "type": "multi-style-intent",
     "input": "(上传服饰) 国潮街头老钱风",
-    "expect": "第0步检测 guochao-street↔old-money 互斥(router §3)→style-conflict-hold"
+    "expect": "两个名称同时出现且未说明比较或融合：保留两方向，核对本次意图，不自动混合，也不将审美差异判为不可兼容；未获生成授权时不生图。"
   },
   {
     "id": "gs-action-gate-6",
@@ -41,8 +41,27 @@
     "input": "(上传夹克) 美式街头 american street",
     "expect": "触发隔离:美式街头/american street→american-street,不落 guochao-street;裸街头不由本包独占",
     "assert_triggers": {
-      "american-street": {"contains": ["american street"]},
-      "guochao-street": {"contains": ["街头国风"], "excludes": ["美式街头", "american street", "街拍"]}
+      "american-street": {
+        "contains": [
+          "american street"
+        ]
+      },
+      "guochao-street": {
+        "contains": [
+          "街头国风"
+        ],
+        "excludes": [
+          "美式街头",
+          "american street",
+          "街拍"
+        ]
+      }
     }
+  },
+  {
+    "id": "gs-source-ceremony-10",
+    "type": "source-preservation-regression",
+    "input": "上传真实仪式服，只借国潮街头环境",
+    "expect": "保留实物仪式装饰；只限制额外历史/仪式服装元素，文化线索放低干扰环境，不把原衣装改成卫衣。"
   }
 ]

@@ -13,9 +13,9 @@
   },
   {
     "id": "bh-anti-fit-3",
-    "type": "anti-fit",
+    "type": "recommendation-fit",
     "input": "(上传泳装) 英伦传承",
-    "expect": "泳装 ∈ anti_categories → 提示风格×品类不匹配并叠加 safety-core R4,不自动生图"
+    "expect": "anti_categories仅提示此商品不属于该方向的默认推荐，不是服种禁令。用户明确借用摄影时保留当前商品，使用该方向的环境、光线与构图；不改商品、不重复索要已有确认。真正缺失的来源/适龄/动作授权仍按核心门禁处理。"
   },
   {
     "id": "bh-pure-data-4",
@@ -35,8 +35,21 @@
     "input": "(上传针织开衫) 美式学院常春藤风",
     "expect": "触发隔离:美式学院/常春藤风→preppy,不落 british-heritage",
     "assert_triggers": {
-      "preppy": {"contains": ["常春藤风"]},
-      "british-heritage": {"contains": ["英伦传承"], "excludes": ["美式学院", "常春藤风", "preppy"]}
+      "preppy": {
+        "contains": [
+          "常春藤风"
+        ]
+      },
+      "british-heritage": {
+        "contains": [
+          "英伦传承"
+        ],
+        "excludes": [
+          "美式学院",
+          "常春藤风",
+          "preppy"
+        ]
+      }
     }
   }
 ]

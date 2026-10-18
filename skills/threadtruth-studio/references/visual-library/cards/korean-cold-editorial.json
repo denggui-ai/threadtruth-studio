@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "id": "korean-cold-editorial",
+  "version": "0.1.0",
+  "name": "韩系冷感杂志风 / Korean Cold Editorial",
+  "entry_type": "legacy-style",
+  "aliases": [
+    "韩系",
+    "韩杂",
+    "韩系杂志风",
+    "韩国杂志",
+    "韩国杂志人像",
+    "W Korea",
+    "Vogue Korea",
+    "性冷淡",
+    "安静奢华",
+    "冷感大片"
+  ],
+  "medium": "photography",
+  "purpose_support": [
+    "product-display",
+    "styled-editorial",
+    "art-campaign"
+  ],
+  "status": "draft",
+  "bases": [
+    "korean-cold-editorial"
+  ],
+  "source_ids": [
+    "R01"
+  ],
+  "scope": "冷中性杂志摄影、安静表情与建筑分离；不把soft even理解为无阴影。",
+  "distinctive_features": [
+    "冷中性杂志摄影、安静表情与建筑分离；不把soft even理解为无阴影。",
+    "与北欧的空旷建筑留白区分：更强调人物杂志状态、肤质与城市空间。"
+  ],
+  "legacy": {
+    "slug": "korean-cold-editorial",
+    "pack_path": "references/styles/korean-cold-editorial.pack.yaml",
+    "version": "1.0.0",
+    "sha256": "456cbb936e7d70980ef57ffb542cc86c578e21dbd922cf7927bd87a6c75e97a8",
+    "maturity": "DRAFT"
+  },
+  "base_policy": "未选新组件时保留旧配方；明确用途/媒介/逐张计划替换冲突段，不能把本卡与旧pack重复累加。",
+  "input_requirements": [
+    "明确当前商品参考及不可改事实；仅展示有依据的视角。",
+    "人物来源与允许调整项沿用当前人物记录；不得把服装图中的人脸自动当作身份授权。"
+  ],
+  "boundaries": [
+    "风格名是已定义摄影配方，不代表该国家全部审美或人物国籍。",
+    "适用品类/anti_categories是默认推荐线索；用户明确保留商品借用摄影时，按实际结构与适龄边界适配，不改成推荐服种。",
+    "当前修订未获得新实图验收，旧样片的接受只保留原范围。"
+  ],
+  "garment_preservation": [
+    "服装和允许搭配分别记录；原商品的版型、衣长、领袖、开合、层次、颜色、材质、图案、标识及配饰以参考为准。",
+    "配色与艺术语言不得给原商品染色、增删装饰、收腰、加长或改变露肤范围。",
+    "身份、年龄、体型与头眼动作由当前人物条件和逐张计划决定，风格名不决定人物国籍、族群或脸型。",
+    "照片只能证明可见特征；手工、手织、手绣、材质成分等来源声明须另有依据。"
+  ],
+  "planning_requirements": [
+    "场景列表给空间候选，不能由其顺序改变逐张动作。",
+    "单张/系列/独立比较/融合按本次意图，多个名称不自动混在一张图。"
+  ],
+  "photography": {
+    "scene": "高级公寓玄关，简洁建筑表面与主体相互分离。",
+    "lighting": "柔和均匀但保留方向性的光线；阴影轻柔可读，不将均匀理解为完全无影。",
+    "composition": "杂志式精确构图，用主体与建筑线条的距离和疏密制造张力。 每张按已确认的逐张计划组织。",
+    "palette": "环境采用冷白、冷灰、浅米与奶油色的低饱和中性关系。 商品原色与饱和度保持不变。"
+  },
+  "prompt_fragment": "本卡审美意图：韩系冷感杂志编辑摄影：克制、疏离、精致的编辑气氛，强调真实质感和时装画面张力。 摄影内容只使用本次解析后的 photography 字段；人物气质仅按当前人物条件处理，不另行拼接旧 pack 全文。",
+  "art": {
+    "direction": "韩系冷感杂志编辑摄影：克制、疏离、精致的编辑气氛，强调真实质感和时装画面张力。",
+    "techniques": [
+      "中画幅胶片质感，保留细节而非重磨皮。",
+      "人物出镜时保留可见皮肤纹理。"
+    ],
+    "limits": [
+      "服装和允许搭配分别记录；原商品的版型、衣长、领袖、开合、层次、颜色、材质、图案、标识及配饰以参考为准。",
+      "配色与艺术语言不得给原商品染色、增删装饰、收腰、加长或改变露肤范围。",
+      "身份、年龄、体型与头眼动作由当前人物条件和逐张计划决定，风格名不决定人物国籍、族群或脸型。",
+      "照片只能证明可见特征；手工、手织、手绣、材质成分等来源声明须另有依据。"
+    ]
+  },
+  "negatives": [
+    "不新增商品参考中没有的服装部件、图案、首饰或品牌标识",
+    "不通过拉长身体、缩腰或改变人物年龄制造风格",
+    "不加入广告标题、价格、促销语、品牌口号或海报版式；商品原有文字标识保留",
+    "no influencer style",
+    "no e-commerce catalog look"
+  ],
+  "acceptance": [
+    "商品与人物事实分别对照原始参考，不能只拿上一次生成图互相核对。",
+    "独立成图满足本次画幅与逐张计划；联系表或预览不能替代独立图片。",
+    "风格差异来自所选视觉手段，不能以改变商品或身份换取差异。",
+    "与北欧的空旷建筑留白区分：更强调人物杂志状态、肤质与城市空间。",
+    "光线、色彩与场景的具体特征可在画面中判断；不以名字或形容词代替验收。"
+  ],
+  "evidence": {
+    "visual_status": "unverified",
+    "records": [],
+    "scope": "当前修订尚无实图验收；既有历史记录保留，不自动扩展其接受范围。"
+  },
+  "scene_options": [
+    "高级公寓玄关 / 入户镜前",
+    "现代办公楼大堂 / 石材墙面",
+    "首尔极简咖啡馆窗边",
+    "浅灰城市街角 / 清晨人行道",
+    "极简画廊 / 艺术空间",
+    "酒店走廊 / 电梯厅"
+  ],
+  "default_objective": "styled-editorial",
+  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。calm, detached, quietly confident; restrained editorial attitude; no aegyo, no influencer mugging 可选 calm detached expression、subtle melancholy；不得覆盖用户已确认的笑容或神态。"
+}

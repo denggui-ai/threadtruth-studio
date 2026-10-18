@@ -13,9 +13,9 @@
   },
   {
     "id": "nm-anti-fit-3",
-    "type": "anti-fit",
+    "type": "recommendation-fit",
     "input": "(上传婚纱) 北欧极简",
-    "expect": "礼服婚纱 ∈ anti_categories → 提示风格×品类不匹配"
+    "expect": "anti_categories仅提示此商品不属于该方向的默认推荐，不是服种禁令。用户明确借用摄影时保留当前商品，使用该方向的环境、光线与构图；不改商品、不重复索要已有确认。真正缺失的来源/适龄/动作授权仍按核心门禁处理。"
   },
   {
     "id": "nm-pure-data-4",
@@ -35,8 +35,21 @@
     "input": "(上传白衬衫) 极简基础 clean fit",
     "expect": "触发隔离:极简基础/clean fit→clean-fit,不落 nordic-minimal;裸极简只作 §5 评分词",
     "assert_triggers": {
-      "clean-fit": {"contains": ["极简基础"]},
-      "nordic-minimal": {"contains": ["性冷淡极简"], "excludes": ["极简基础", "clean fit", "基础款"]}
+      "clean-fit": {
+        "contains": [
+          "极简基础"
+        ]
+      },
+      "nordic-minimal": {
+        "contains": [
+          "性冷淡极简"
+        ],
+        "excludes": [
+          "极简基础",
+          "clean fit",
+          "基础款"
+        ]
+      }
     }
   },
   {
@@ -45,8 +58,21 @@
     "input": "(上传服饰) 韩系性冷淡冷感大片",
     "expect": "触发隔离:性冷淡/冷感大片→korean-cold-editorial,不因『性冷淡』子串误落 nordic-minimal 的『性冷淡极简』",
     "assert_triggers": {
-      "korean-cold-editorial": {"contains": ["性冷淡"]},
-      "nordic-minimal": {"contains": ["性冷淡极简"], "excludes": ["性冷淡", "冷感大片", "韩系"]}
+      "korean-cold-editorial": {
+        "contains": [
+          "性冷淡"
+        ]
+      },
+      "nordic-minimal": {
+        "contains": [
+          "性冷淡极简"
+        ],
+        "excludes": [
+          "性冷淡",
+          "冷感大片",
+          "韩系"
+        ]
+      }
     }
   }
 ]

@@ -1,0 +1,146 @@
+{
+  "status": "pass-static-only",
+  "performed_at": "2026-10-18",
+  "scope": "Request matrix, dependency graph, declared card IDs, local fixture bytes and unrun definition bookkeeping. No runtime or visual quality claim.",
+  "requests": 60,
+  "source_assets_checked": 18,
+  "source_evals": 36,
+  "new_dialogue_definitions": 12,
+  "actual_image_calls": 0,
+  "current_commit_frozen": false,
+  "actual_runtime_dialogues": 0,
+  "known_missing_inputs": [
+    "qualified-gongbu-garment-source",
+    "designated-authorized-real-adult"
+  ],
+  "checks": [
+    {
+      "check": "60 unique contiguous request slots",
+      "result": "pass"
+    },
+    {
+      "check": "56 primary plus 4 conditional reserve",
+      "result": "pass"
+    },
+    {
+      "check": "zero dispatched image and runtime model calls",
+      "result": "pass"
+    },
+    {
+      "check": "36 unique direction singles match existing card IDs",
+      "result": "pass"
+    },
+    {
+      "check": "dependencies point to defined requests",
+      "result": "pass"
+    },
+    {
+      "check": "dependency graph has no cycles",
+      "result": "pass"
+    },
+    {
+      "check": "native-child-six contains exactly six standalone positions",
+      "result": "pass"
+    },
+    {
+      "check": "web-adult-six contains exactly six standalone positions",
+      "result": "pass"
+    },
+    {
+      "check": "web sixth image does not invent missing back",
+      "result": "pass"
+    },
+    {
+      "check": "three fixed-input baseline pairs",
+      "result": "pass"
+    },
+    {
+      "check": "source bytes fixtures/white-puffer-vest/source-1-front.jpg",
+      "result": "pass"
+    },
+    {
+      "check": "source bytes fixtures/white-puffer-vest/source-2-hood-collar.jpg",
+      "result": "pass"
+    },
+    {
+      "check": "source bytes fixtures/white-puffer-vest/source-3-zipper-detail.jpg",
+      "result": "pass"
+    },
+    {
+      "check": "source bytes fixtures/white-puffer-vest/source-4-back.jpg",
+      "result": "pass"
+    },
+    {
+      "check": "source bytes fixtures/ai-adult-public/look-1.jpg",
+      "result": "pass"
+    },
+    {
+      "check": "source bytes fixtures/met-159228/source.jpg",
+      "result": "pass"
+    },
+    {
+      "check": "source bytes fixtures/met-159518/source-1.jpg",
+      "result": "pass"
+    },
+    {
+      "check": "source bytes fixtures/met-159518/source-2.jpg",
+      "result": "pass"
+    },
+    {
+      "check": "source bytes fixtures/met-163116/source-1.jpg",
+      "result": "pass"
+    },
+    {
+      "check": "source bytes fixtures/met-163116/source-2.jpg",
+      "result": "pass"
+    },
+    {
+      "check": "source bytes fixtures/met-163116/source-3.jpg",
+      "result": "pass"
+    },
+    {
+      "check": "source bytes fixtures/qipao-henan-2015/source.jpg",
+      "result": "pass"
+    },
+    {
+      "check": "source bytes fixtures/hanfu-daopao-2017/source.jpg",
+      "result": "pass"
+    },
+    {
+      "check": "source bytes fixtures/lolita-ijoy-2021/source.jpg",
+      "result": "pass"
+    },
+    {
+      "check": "source bytes fixtures/hanfu-store-2018/source.jpg",
+      "result": "pass"
+    },
+    {
+      "check": "source bytes fixtures/lolita-shop-2024/source.jpg",
+      "result": "pass"
+    },
+    {
+      "check": "source bytes fixtures/met-157943/source-1.jpg",
+      "result": "pass"
+    },
+    {
+      "check": "source bytes fixtures/met-157943/source-2.jpg",
+      "result": "pass"
+    },
+    {
+      "check": "all new dialogue definitions remain not-run",
+      "result": "pass"
+    },
+    {
+      "check": "dialogue request references share existing budget",
+      "result": "pass"
+    },
+    {
+      "check": "36 unique source-side eval definitions",
+      "result": "pass"
+    },
+    {
+      "check": "no absolute local paths in public verification files",
+      "result": "pass"
+    }
+  ]
+}

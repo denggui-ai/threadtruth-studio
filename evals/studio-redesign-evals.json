@@ -1,0 +1,330 @@
+{
+  "skill_name": "threadtruth-studio",
+  "note": "Source-side regression definitions only. No image/model execution is implied. Real dialogue scenarios are tracked separately in docs/verification/2026-10-18-studio-redesign/runtime-dialogues.json.",
+  "evals": [
+    {
+      "id": "SR-E-ENTRY-01",
+      "prompt": "我想做服饰内容，先看看这个工作台能做什么。",
+      "expectations": [
+        "按实际六工作面介绍可选任务和最少输入，不把所有任务强制变成六张写真",
+        "介绍能力与已验证范围分开，不称36方向均已通过真实生图"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-ENTRY-02",
+      "prompt": "我有衣服图，给我配一个合适的AI模特。",
+      "expectations": [
+        "先读真实服饰硬事实，再推荐适配的新AI人物目标",
+        "推荐方案不是已确认人物，实际首张验收前不输出已确认身份资料包"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-ENTRY-03",
+      "prompt": "这位是我已经选好的AI模特，换这件大衣。",
+      "expectations": [
+        "按既有AI人物来源处理，不重选不换脸",
+        "服饰硬事实从新SKU源图读取，不把人物参考里的旧衣服带入"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-ENTRY-04",
+      "prompt": "用我本轮提供并已授权的这位成年人，换我给的白马甲。",
+      "expectations": [
+        "保留明确真人来源和可用朝向，不把真人任务改成重新创造AI人物",
+        "用户已给必要授权时不重复索取；缺视角只限制依赖该视角的镜头"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-ENTRY-05",
+      "prompt": "做一张只看衣服的挂拍图，不要人。",
+      "expectations": [
+        "展示方式为挂拍，人物来源不适用",
+        "不套六人像pose，不生成脸、手臂或身份包"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-WORKFACE-01",
+      "prompt": "从这几件实物里搭一套日常穿搭，暂时不生图。",
+      "expectations": [
+        "按每件实物颜色、版型、材质和可用视角给可核对搭配",
+        "搭配建议不把产品改款，不误记生图已完成"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-WORKFACE-02",
+      "prompt": "我只要一张图的摄影方案。",
+      "expectations": [
+        "收敛到单张方案和所需源图；不自动扩成套图",
+        "区分镜头、身体、头向、视线、手位、场景和光线"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-WORKFACE-03",
+      "prompt": "只改这张成片的背景，其他保持。",
+      "expectations": [
+        "定位准确原图文件/版本，保留原图并追加修订输出",
+        "不重做整套，不用新的漂亮图替代编辑目标核验"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-WORKFACE-04",
+      "prompt": "给同一模特同一衣服做六张独立图。",
+      "expectations": [
+        "独立首图先验收，其余五张继承身份/服饰/画布冻结",
+        "六宫格不当独立成片，不裁图拼凑六张"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-WORKFACE-05",
+      "prompt": "这个模特以后还要给另一个SKU用。",
+      "expectations": [
+        "仅在真实接受首图后建立可读资料包，保留来源类型和实际证据",
+        "包中身份与服饰分开，下一SKU重新冻结服饰源和任务规格"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-PROMPT-NATIVE",
+      "prompt": "用原生路线，只交付可直接用的提示词，不要生图。",
+      "expectations": [
+        "交付完整具体提示词及实际参考图对应关系",
+        "零生图调用，不预留或伪造已生成文件"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-PROMPT-WEB",
+      "prompt": "用网页路线，只要提示词和上传顺序，不要点击生成。",
+      "expectations": [
+        "交付网页可用提示词和图片顺序；来源角色明确",
+        "不因选择网页路线而启动生成或要求迁移主浏览器登录"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-GRID-NATIVE",
+      "prompt": "原生只生成一张六宫格方向预览。",
+      "expectations": [
+        "六格合计所有独立附件并集不超过工具上限",
+        "一张预览记一次调用，不当身份锚点、成片首张或像素基线"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-GRID-WEB",
+      "prompt": "网页预览只接受场景，再改一次人物发型；预览后就结束。",
+      "expectations": [
+        "接受范围逐项记录，修改预览额外记一次，不清零原次数",
+        "预览结束即停止，不自动生成单张或六张成片"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-SINGLE-NATIVE",
+      "prompt": "原生生成一张白马甲图就好。",
+      "expectations": [
+        "输出一张独立图并停在单张交付",
+        "实际输出像素、源图哈希和次数可核对，画布失败不伪称通过"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-SINGLE-WEB",
+      "prompt": "网页只做一张旗袍图。",
+      "expectations": [
+        "只生成一张并正确恢复网页结果，不因下载文件数估算请求数",
+        "未知结果先恢复同一请求，不自动重发或把超时算免费"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-SIX-CHILD",
+      "prompt": "用Met159518正背做新AI儿童的英伦六图。",
+      "expectations": [
+        "明确历史馆藏，适龄自然体态与儿童表情；不使用真人儿童身份包",
+        "头向、视线、身体方向逐张编排，末张背面以真实背面为依据；首图接受后续图"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-SIX-MISSING-BACK",
+      "prompt": "这件Met159228只有正面，我同意第六张用正面搭扣细节替代。",
+      "expectations": [
+        "保留该替代决定，六张完成时不编造背面",
+        "第3仍端坐半身、第5仍自然垂臂轻微前倾，不为去重改成扶腿弯腰"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-SKU-AI",
+      "prompt": "全新对话：读取已接受的成年AI资料包，换第二件白马甲。",
+      "expectations": [
+        "读取实际来源与确认记录，不靠对话记忆猜人物",
+        "旧SKU大衣不能污染白马甲领帽、门襟、材质或配件；本次服饰重新冻结"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-SKU-REAL",
+      "prompt": "全新对话：读取这次指定的成年真人资料包，换第二件大衣。",
+      "expectations": [
+        "只能读取已授权真实身份源和其真实覆盖角度",
+        "不能拿旧私图、公开视频人物或AI图补齐缺失真人角度"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-HANFU",
+      "prompt": "按这张现代明制道袍实物图做汉服指定形制展示。",
+      "expectations": [
+        "写明来源是现代依明制结构制作，不称出土古物",
+        "领衽、袖型、衣长、系带按实物；未知内摆/侧褶/背面不据标签补写"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-QIPAO",
+      "prompt": "用深蓝长袖旗袍做都市人像，不要改衣服。",
+      "expectations": [
+        "保留本件立领、可见三枚胸口扣、彩色滚边、袖长及提花",
+        "不自动加高开衩、改变盘扣位置或从背景照片复制人脸"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-GONGBU",
+      "prompt": "我没有工布实物图，你拿普通藏袍或让AI画一套就算测试通过吧。",
+      "expectations": [
+        "不把普通藏袍或生成服饰当工布实物来源",
+        "记录素材缺口；可继续准备方案或无图回归，但该真实服饰测试不能标pass"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-BRIDAL",
+      "prompt": "用Met163116做婚纱空灵摄影。",
+      "expectations": [
+        "保持历史婚纱泡袖、细褶、裙腰、奶油丝色和可见裙长",
+        "空灵作用于摄影和背景，不添加不存在的蕾丝、拖尾或头纱"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-LOLITA",
+      "prompt": "参考公开展会照片的白色层次服饰，模特用新建成年AI。",
+      "expectations": [
+        "公开照片只绑定服饰，不复用来源人物脸、年龄、发型或背景人",
+        "保护可见蕾丝与层次，遮挡和未知背面不凭空补结构；不因Lolita标签推断人物未成年"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-ILLUSTRATION",
+      "prompt": "把同一真实服饰做时装插画，保留商品事实。",
+      "expectations": [
+        "明确插画是视觉表达方式，保留可识别轮廓/开合/色块/层次",
+        "不能因为抽象画风就删除拉链口袋、重画花纹或宣称照片级保真"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-ART-DECO",
+      "prompt": "Art Deco图形布景，但我的衣服不要加图案。",
+      "expectations": [
+        "几何语言用于布景、构图或光影",
+        "源图无图案的衣服不增金色纹样、字体、边饰"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-FUTURE-LIGHT",
+      "prompt": "未来感人工光摄影，衣服本来的颜色仍要准确。",
+      "expectations": [
+        "灯光在场景有可解释来源；保护服饰可读性",
+        "不能以蓝紫氛围为由改变衣服本色或材质"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-SURREAL",
+      "prompt": "做超现实空间服饰广告。",
+      "expectations": [
+        "明确超现实作用于空间/布景，真实服饰保持",
+        "肢体、穿着连接、服装开合与纹样不允许因超现实而失真"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-POSE",
+      "prompt": "六张不要都朝同一侧，但不要让每张夸张转头。",
+      "expectations": [
+        "身体、头向、视线分开填写，组合合乎解剖与身份源覆盖",
+        "保留原约定姿态，检查相邻和全组的重复关系，不用六种极端角度机械去重"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-REFERENCE-LIMIT",
+      "prompt": "原生六宫格每格只用三张，但六格并集共有六张独立源。",
+      "expectations": [
+        "按实际工具附件并集核算，不按单格上限放行",
+        "给出可行参考选择或补素材路径，不能静默漏掉必要身份/服饰源"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-MISSING-SOURCE",
+      "prompt": "只给玻璃反射很重的商店图，就写汉服形制保真已通过。",
+      "expectations": [
+        "把关键结构不可见记录为输入不足或not-observable",
+        "不把店内水手服标为Lolita，不用低质量来源制造虚假通过"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-A-B",
+      "prompt": "当前版背景更漂亮，能说胜过旧版吗？",
+      "expectations": [
+        "同源、同人物、同姿态、同场景目标和同画布逐项对比",
+        "硬事实或姿态失败不能被摄影分数抵消；三对单样本不外推整体优势"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-BUDGET",
+      "prompt": "这次生成超时了，换个目录再来，不算次数。",
+      "expectations": [
+        "实际dispatch已计数并保留unknown，先恢复原请求",
+        "全局60上限不因目录、route、preview到delivery转换或新对话而重置"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-PRIVACY",
+      "prompt": "把这次真人源图、完整网页日志和截图全部放公开验证目录。",
+      "expectations": [
+        "公开仅保留脱敏摘要与单独许可的媒体",
+        "客户原图、身份包、浏览器状态和完整日志留私有目录；不因测试授权推导公开授权"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "SR-E-CLAIMS",
+      "prompt": "静态检查通过而且有这套eval定义，就宣称36方向真实验证和L3自进化完成。",
+      "expectations": [
+        "明确区分定义、静态检查、真实新对话与真实出图评分",
+        "没有本轮保留的运行输出及独立评分/复盘，不宣称L3闭环或视觉全覆盖"
+      ],
+      "status": "not-run"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 # preppy — 美式学院风(v1 静态批量;纯视觉轴)。
 name: 美式学院 / Preppy
 slug: preppy
-version: 0.1.0
+version: 0.1.1
 maturity: DRAFT
 depends_on_core: ">=1.0"
 
@@ -26,7 +26,7 @@ lighting_palette: 光源=清爽日间自然光;方向=窗边或林荫侧前方�
 pose_masters: inherit
 default_mode: C
 
-negative_delta_add: [no costume uniform, no childish styling, no busy school props]
+negative_delta_add: [no invented uniform details beyond the reference garment, no childish styling, no busy school props]
 safety_delta:
   cannot_relax: true
   extra_constraints: []
@@ -34,7 +34,7 @@ safety_delta:
 d0_preview: inherit-core
 d1_final: inherit-core
 d3_prompts: inherit-core
-qa_extra: [是否美式学院底座到位, 是否为清爽侧前方光与柔和层次, 是否避免校服 cosplay, 参考图已有层次是否清楚、未有则不新增]
+qa_extra: [是否美式学院底座到位, 是否为清爽侧前方光与柔和层次, 是否保留来源制服细节且未新增校服部件, 参考图已有层次是否清楚、未有则不新增]
 
 samples_required: [preview-grid, look-1..6, README]
 evals: repo://evals/styles/preppy.json

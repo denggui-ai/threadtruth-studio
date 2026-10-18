@@ -1,0 +1,345 @@
+{
+  "schema_version": 1,
+  "provenance": {
+    "id": "china-planning-2026-10-18",
+    "title": "国内市场使用风格与中国文化服饰策划目录",
+    "scope": "已确认的工作目录，非热度榜、艺术史定本或全部可运行能力；摄影片段是策划建议。",
+    "context_source": "https://www.cbndata.com/report/3290/detail?isReading=report",
+    "source_rule": "有一手来源的关键文化区别保留URL；工作命名和策划推断明确标注。资料可支持识别边界，不证明样片效果或该资料图像的使用许可。"
+  },
+  "records": [
+    {
+      "id": "C01",
+      "name": "新中式·日常清简〔工作命名〕",
+      "layer": "cultural-dress",
+      "distinction": "现代生活穿着，利用商品已有的中式结构或设计关系",
+      "prompt_fragment": "当代中式日常穿搭，利落上下装关系，现代生活空间，自然侧光，清楚呈现原有结构",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "neo-chinese",
+          "relation": "implements-subset"
+        }
+      ],
+      "source": "china-planning-2026-10-18",
+      "naming_status": "working-name",
+      "primary_sources": []
+    },
+    {
+      "id": "C02",
+      "name": "新中式·文人生活〔工作命名〕",
+      "layer": "cultural-dress",
+      "distinction": "偏舒缓层次、生活与文化情境，不自动等于宗教或古装",
+      "prompt_fragment": "舒缓而有层次的中式穿搭，安静生活空间，自然动作，保留衣料垂坠与原色",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "neo-chinese",
+          "relation": "implements-subset"
+        }
+      ],
+      "source": "china-planning-2026-10-18",
+      "naming_status": "working-name",
+      "primary_sources": []
+    },
+    {
+      "id": "C03",
+      "name": "新中式·华丽仪式〔工作命名〕",
+      "layer": "cultural-dress",
+      "distinction": "正式场合、丰富材料或装饰；不要求所有中式都极简",
+      "prompt_fragment": "中式正式服饰肖像，清楚呈现原有装饰密度，主光与轮廓光分离，站姿稳定",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "neo-chinese",
+          "relation": "adjacent"
+        }
+      ],
+      "source": "china-planning-2026-10-18",
+      "naming_status": "working-name",
+      "primary_sources": []
+    },
+    {
+      "id": "C04",
+      "name": "国潮街头〔设计方向〕",
+      "layer": "cultural-dress",
+      "distinction": "中国文化表达与当代街头结合；国货品牌不自动等于这一视觉风格",
+      "prompt_fragment": "当代国潮街头摄影，明确的都市构图与色彩节奏，保留商品已有文化图形与文字",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "guochao-street",
+          "relation": "implements-subset"
+        }
+      ],
+      "source": "china-planning-2026-10-18",
+      "naming_status": "design-direction",
+      "primary_sources": []
+    },
+    {
+      "id": "C05",
+      "name": "汉服·唐代参考",
+      "layer": "cultural-dress",
+      "distinction": "落实到具体服种、时期和实物或图像参考，不能只写盛唐华丽",
+      "prompt_fragment": "依据指定唐代服饰参考，拍清衣装层次，保留原配色，头饰与披帛严格依照资料",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "hanfu-form-specific",
+          "relation": "requires-specific-form-and-reference"
+        }
+      ],
+      "source": "china-planning-2026-10-18",
+      "naming_status": "garment-or-cultural-entry",
+      "primary_sources": [
+        "https://www.dpm.org.cn/collection/sculpture/228352.html"
+      ]
+    },
+    {
+      "id": "C06",
+      "name": "汉服·宋代参考",
+      "layer": "cultural-dress",
+      "distinction": "需要具体衣物依据，并非所有宋代服装都素色或无装饰",
+      "prompt_fragment": "依据指定宋代衣装参考，柔侧光展示衣袖及叠穿关系，完整保留原有花边和纹样",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "hanfu-form-specific",
+          "relation": "requires-specific-form-and-reference"
+        }
+      ],
+      "source": "china-planning-2026-10-18",
+      "naming_status": "garment-or-cultural-entry",
+      "primary_sources": [
+        "https://www.chinasilkmuseum.com/info_151.aspx?itemid=27859"
+      ]
+    },
+    {
+      "id": "C07",
+      "name": "汉服·明代参考",
+      "layer": "cultural-dress",
+      "distinction": "袍、衫、袄、裙不能互换，服种、时期和场合都重要",
+      "prompt_fragment": "依据指定明代成衣与实物资料，平视全身构图，拍清领襟、衣长和层叠关系",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "hanfu-form-specific",
+          "relation": "requires-specific-form-and-reference"
+        }
+      ],
+      "source": "china-planning-2026-10-18",
+      "naming_status": "garment-or-cultural-entry",
+      "primary_sources": [
+        "https://www.dpm.org.cn/Uploads/File/2024/05/20/u664ae466745b0.pdf"
+      ]
+    },
+    {
+      "id": "C08",
+      "name": "马面裙·当代搭配",
+      "layer": "cultural-dress",
+      "distinction": "围绕具体裙种形成现代搭配，不等于整套历史复原",
+      "prompt_fragment": "现代空间中的马面裙穿搭，正面与轻侧面构图，拍清裙门、侧褶和腰部关系",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "hanfu-form-specific",
+          "relation": "requires-specific-form-and-reference"
+        }
+      ],
+      "source": "china-planning-2026-10-18",
+      "naming_status": "garment-or-cultural-entry",
+      "primary_sources": [
+        "https://chinasilkmuseum.com/zggd/info_21.aspx?itemid=1928"
+      ]
+    },
+    {
+      "id": "C09",
+      "name": "清代旗装·指定服种",
+      "layer": "cultural-dress",
+      "distinction": "与现代旗袍分开，不能自动套现代收腰和开衩",
+      "prompt_fragment": "按指定服种参考拍摄，保持衣身宽度、袖部比例和衣长，饰物依照来源",
+      "status": "knowledge-reference",
+      "execution_refs": [],
+      "source": "china-planning-2026-10-18",
+      "naming_status": "garment-or-cultural-entry",
+      "primary_sources": [
+        "https://www.dpm.org.cn/Uploads/File/2019/11/30/u5de1d61c0e900.pdf"
+      ]
+    },
+    {
+      "id": "C10",
+      "name": "旗袍·年代复古",
+      "layer": "cultural-dress",
+      "distinction": "要明确年代，领高、袖长、收腰和开衩均有变化",
+      "prompt_fragment": "指定年代的旗袍都市肖像，窗光与几何背景，清楚展示实际领袖、腰身与开衩",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "qipao-urban",
+          "relation": "implements-subset"
+        }
+      ],
+      "source": "china-planning-2026-10-18",
+      "naming_status": "garment-or-cultural-entry",
+      "primary_sources": [
+        "https://www.shanghaimuseum.net/mu/frontend/pg/article/id/E00004230"
+      ]
+    },
+    {
+      "id": "C11",
+      "name": "旗袍·当代日常",
+      "layer": "cultural-dress",
+      "distinction": "使用现代成衣及生活搭配，不必营造旧上海情境",
+      "prompt_fragment": "当代旗袍日常摄影，现代街道，自然步行，保留原有合体程度与活动余量",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "qipao-urban",
+          "relation": "implements-subset"
+        }
+      ],
+      "source": "china-planning-2026-10-18",
+      "naming_status": "garment-or-cultural-entry",
+      "primary_sources": [
+        "https://www.shanghaimuseum.net/mu/frontend/pg/article/id/E00004230"
+      ]
+    },
+    {
+      "id": "C12",
+      "name": "现代中式袄褂／商品所称唐装",
+      "layer": "cultural-dress",
+      "distinction": "应按具体成衣识别，商品名称不能直接当唐代复原依据",
+      "prompt_fragment": "现代中式袄褂肖像，拍清实际领型、门襟和扣位，中性背景，准确呈现面料",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "neo-chinese",
+          "relation": "adjacent"
+        }
+      ],
+      "source": "china-planning-2026-10-18",
+      "naming_status": "garment-or-cultural-entry",
+      "primary_sources": []
+    },
+    {
+      "id": "C13",
+      "name": "近现代长衫／长袍",
+      "layer": "cultural-dress",
+      "distinction": "独立于旗袍和中山装，重点是长衣结构与穿着关系",
+      "prompt_fragment": "近现代长袍人物肖像，柔侧光表现纵向垂坠，全身构图，保留原有外搭",
+      "status": "knowledge-reference",
+      "execution_refs": [],
+      "source": "china-planning-2026-10-18",
+      "naming_status": "garment-or-cultural-entry",
+      "primary_sources": [
+        "https://www.chinasilkmuseum.com/cs/info_164.aspx?itemid=28358&parent="
+      ]
+    },
+    {
+      "id": "C14",
+      "name": "中山装",
+      "layer": "cultural-dress",
+      "distinction": "以具体成衣的领型、门襟和口袋结构识别",
+      "prompt_fragment": "中山装现代肖像，平视构图，肩线与领型清晰，纽扣和口袋数量保持准确",
+      "status": "knowledge-reference",
+      "execution_refs": [],
+      "source": "china-planning-2026-10-18",
+      "naming_status": "garment-or-cultural-entry",
+      "primary_sources": [
+        "https://www.ihchina.cn/project_details/23802.html"
+      ]
+    },
+    {
+      "id": "C15",
+      "name": "中式婚礼服饰〔用途入口〕",
+      "layer": "cultural-dress",
+      "distinction": "包含多种具体服装和地方传统，不能统一成一种红金造型",
+      "prompt_fragment": "按指定婚服款式和穿戴参考，完整呈现上下装、头饰与原有纹样，控制装饰高光",
+      "status": "knowledge-reference",
+      "execution_refs": [],
+      "source": "china-planning-2026-10-18",
+      "naming_status": "garment-or-cultural-entry",
+      "primary_sources": []
+    },
+    {
+      "id": "C16",
+      "name": "贵州台江苗族服饰",
+      "layer": "cultural-dress",
+      "distinction": "核对地方类型、常服或盛装、头饰与衣装配套，不能用一顶银角代表全部",
+      "prompt_fragment": "按已确认的台江地方类型，完整展示衣装与配饰组合，柔光保留色彩和纹样",
+      "status": "knowledge-reference",
+      "execution_refs": [],
+      "source": "china-planning-2026-10-18",
+      "naming_status": "garment-or-cultural-entry",
+      "primary_sources": [
+        "https://www.ihchina.cn/project_details/15049/"
+      ],
+      "scope_note": "按地区、地方类型、场合和本件参考继续细分；族名不提供统一配色、头饰、动作或工艺。"
+    },
+    {
+      "id": "C17",
+      "name": "黔东南侗族服饰",
+      "layer": "cultural-dress",
+      "distinction": "核对具体地区、服装层次与场合，不统一写成靛蓝银饰",
+      "prompt_fragment": "按指定地方类型拍摄，衣装各层位置准确，平视全身构图，装饰完整可辨",
+      "status": "knowledge-reference",
+      "execution_refs": [],
+      "source": "china-planning-2026-10-18",
+      "naming_status": "garment-or-cultural-entry",
+      "primary_sources": [
+        "https://www.ihchina.cn/project_details/15329.html"
+      ],
+      "scope_note": "按地区、地方类型、场合和本件参考继续细分；族名不提供统一配色、头饰、动作或工艺。"
+    },
+    {
+      "id": "C18",
+      "name": "海南黎族服饰",
+      "layer": "cultural-dress",
+      "distinction": "核对地方类型、纹样排列及具体织染绣资料",
+      "prompt_fragment": "保留参考纹样尺度、方向和配色，拍摄全身与织物细节，工艺只按来源描述",
+      "status": "knowledge-reference",
+      "execution_refs": [],
+      "source": "china-planning-2026-10-18",
+      "naming_status": "garment-or-cultural-entry",
+      "primary_sources": [
+        "https://www.ihchina.cn/lizuzhixiu.html"
+      ],
+      "scope_note": "按地区、地方类型、场合和本件参考继续细分；族名不提供统一配色、头饰、动作或工艺。"
+    },
+    {
+      "id": "C19",
+      "name": "林芝工布藏族服饰",
+      "layer": "cultural-dress",
+      "distinction": "地方服种以及日常、节庆等用途，不代表全部藏族服饰",
+      "prompt_fragment": "按工布具体服饰与场合，展示外套和内搭关系，保持开口、层次及原有配饰",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "gongbu-dress",
+          "relation": "requires-specific-form-and-reference"
+        }
+      ],
+      "source": "china-planning-2026-10-18",
+      "naming_status": "garment-or-cultural-entry",
+      "primary_sources": [
+        "https://www.ihchina.cn/project_details/15263/"
+      ],
+      "scope_note": "按地区、地方类型、场合和本件参考继续细分；族名不提供统一配色、头饰、动作或工艺。"
+    },
+    {
+      "id": "C20",
+      "name": "乌珠穆沁蒙古族服饰",
+      "layer": "cultural-dress",
+      "distinction": "核对地域款式、传统或现代改良、袍服与腰带帽饰关系",
+      "prompt_fragment": "保留参考袍服体量和腰带关系，拍摄全身与侧面，衣缘、帽饰和首饰准确",
+      "status": "knowledge-reference",
+      "execution_refs": [],
+      "source": "china-planning-2026-10-18",
+      "naming_status": "garment-or-cultural-entry",
+      "primary_sources": [
+        "https://www.xwq.gov.cn/xwzmqq/xwfy/yjxw/ylgl/gzxw/6d9e3842d8f140d09798db95457c7ea9/index.html"
+      ],
+      "scope_note": "按地区、地方类型、场合和本件参考继续细分；族名不提供统一配色、头饰、动作或工艺。"
+    }
+  ]
+}

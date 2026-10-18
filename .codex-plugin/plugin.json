@@ -20,13 +20,13 @@
   "interface": {
     "displayName": "裁光 · Caiguang",
     "shortDescription": "AI Fashion Studio for real garment photos",
-    "longDescription": "Create AI fashion portraits from real garment photos. Choose among all 24 styles, review a labeled six-panel direction preview, confirm the direction, then generate six independent images with first-image model review. Explicit single-image requests remain available.",
+    "longDescription": "Create source-faithful garment imagery for product display, styled editorials and artistic campaigns. Choose among 36 visual entries, compare directions or specify a primary and supporting style. Review a labeled six-panel direction preview before six independent images with first-image model review. Explicit single-image and prompt-only requests remain available. Visual validation is scoped to documented cases.",
     "developerName": "DENGGUI",
     "category": "Creative",
     "capabilities": [
       "single-garment fidelity",
       "coordinated-outfit fidelity",
-      "24-style routing",
+      "36-entry visual planning",
       "commercial QA"
     ],
     "websiteURL": "https://denggui-ai.github.io/threadtruth-studio/",

@@ -13,9 +13,9 @@
   },
   {
     "id": "it-anti-fit-3",
-    "type": "anti-fit",
+    "type": "recommendation-fit",
     "input": "(上传瑜伽服) 意式奢华",
-    "expect": "瑜伽服 ∈ anti_categories → 提示风格×品类不匹配(意式奢华不适配运动瑜伽服),请确认或改推"
+    "expect": "anti_categories仅提示此商品不属于该方向的默认推荐，不是服种禁令。用户明确借用摄影时保留当前商品，使用该方向的环境、光线与构图；不改商品、不重复索要已有确认。真正缺失的来源/适龄/动作授权仍按核心门禁处理。"
   },
   {
     "id": "it-pure-data-4",
@@ -25,9 +25,9 @@
   },
   {
     "id": "it-conflict-hold-5",
-    "type": "style-conflict",
+    "type": "explicit-fusion-resolution",
     "input": "(上传服饰) 意式奢华混运动休闲健身感",
-    "expect": "第0步检测 italian-luxe↔athleisure 互斥(router §3:机能运动↔italian-luxe)→style-conflict-hold,出候选+请二选一,fallback_used=conflict,不生图"
+    "expect": "识别为明确融合意图；为主辅方向分配摄影或艺术字段并形成单一方案，不因旧互斥矩阵要求二选一。主次或字段归属确实无法确定时仅澄清该缺项；服装原貌和人物条件不被融合改写，生成仍按实际动作授权。"
   },
   {
     "id": "it-action-gate-6",
@@ -41,8 +41,21 @@
     "input": "(上传大衣) 想要杂志感品牌大片的冷白韩系感",
     "expect": "🔴触发隔离(editorial 族共享词命门):『杂志感/品牌大片/editorial』→editorial 族(§5 USE_EDITORIAL 共享评分,按识别事实细分,不被任一包独占直路由);本条冷白韩系底色→korean-cold(COLOR_COOLWHITE_KR + 韩系 explicit);italian-luxe 自有『意式奢华/意式优雅/米兰风』属暖调意式,刻意不含『杂志感/品牌大片』(共享词只作 §5 评分→korean-cold/italian-luxe 共候选)与『韩系/性冷淡』(归 korean);防 editorial 共享词被 italian-luxe 独占抢路由(对齐 L21:§6 措辞列=pack trigger_words,不加共享/方便词)",
     "assert_triggers": {
-      "korean-cold-editorial": {"contains": ["韩系"]},
-      "italian-luxe": {"contains": ["意式奢华"], "excludes": ["杂志感", "品牌大片", "韩系"]}
+      "korean-cold-editorial": {
+        "contains": [
+          "韩系"
+        ]
+      },
+      "italian-luxe": {
+        "contains": [
+          "意式奢华"
+        ],
+        "excludes": [
+          "杂志感",
+          "品牌大片",
+          "韩系"
+        ]
+      }
     }
   }
 ]

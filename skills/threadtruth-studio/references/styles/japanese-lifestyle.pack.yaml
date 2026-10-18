@@ -7,7 +7,7 @@
 # 视觉差异化:暖调自然光 + 燕麦/原木中性(区别 korean-cold 的冷感),无印生活底色(区别 quiet-luxury 的高奢)。
 name: 日系生活感 / Japanese Lifestyle
 slug: japanese-lifestyle
-version: 0.1.0
+version: 0.1.1
 maturity: DRAFT                              # 公开权利清单下的真机证据待补
 
 depends_on_core: ">=1.0"
@@ -21,7 +21,7 @@ visual_language: >
   soft diffused window light, gentle documentary candid mood, lived-in calm everyday atmosphere,
   muted earthy neutral palette of oatmeal beige warm white soft brown and faded olive,
   fine film grain texture, realistic native skin texture with no heavy retouching,
-  unpretentious natural styling, quiet relaxed warmth, minimalist Japanese interior backdrop.
+  unpretentious everyday atmosphere, quiet relaxed warmth, minimalist Japanese interior backdrop; preserve the reference garment's ornament, finish and saturation without simplifying it.
 model_persona: gentle natural ease, soft everyday calm, unguarded relaxed warmth, quiet understated presence, no posed glamour
 
 scenes:
@@ -35,7 +35,7 @@ lighting_palette: 自然柔光为主(暖白 / 正午散射),低饱和大地中�
 pose_masters: inherit
 default_mode: C
 
-negative_delta_add: [no high-gloss editorial polish, no heavy retouching, no luxury opulence, no cold studio glare, no influencer glam]
+negative_delta_add: [no high-gloss editorial polish, no heavy retouching, no added opulent scenery obscuring the reference garment, no cold studio glare, no influencer glam]
 safety_delta:
   cannot_relax: true
   extra_constraints: []

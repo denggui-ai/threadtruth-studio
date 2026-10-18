@@ -67,7 +67,11 @@ class EcommerceStudioLightingPilotTests(unittest.TestCase):
             self.assertNotIn(part, lighting)
         self.assertNotIn("pocket", visual["persona"])
         self.assertNotIn("direct", visual["persona"])
-        self.assertIn("when standing", visual["persona"])
+        # Current persona describes demeanor only. The actual shot plan owns
+        # stance, hand placement and gaze; a catalog default must not override it.
+        for action in ("standing", "sitting", "one leg", "weight", "hands", "gaze"):
+            self.assertNotIn(action, visual["persona"])
+        self.assertIn("where visible shoes meet the floor", lighting)
         self.assertLessEqual(len(visual["lighting"].split()), 80)
 
     def test_pilot_prompt_carries_anchor_ignore_framing_and_photoreal_lines(self):

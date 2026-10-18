@@ -1,0 +1,184 @@
+{
+  "schema_version": 1,
+  "status": "not-run",
+  "note": "Each item requires an actual new model conversation. Request IDs are shared with the 60-call matrix, not additional generation budget. These definitions and static checks are not runtime evidence.",
+  "dialogues": [
+    {
+      "dialogue_id": "D01",
+      "route": "native",
+      "delivery": "prompt-only",
+      "model_source": "new-ai",
+      "requests": [],
+      "user_brief": "从真实白马甲源图进入工作台，只交付单张提示词。",
+      "status": "not-run",
+      "actual_thread_id": null,
+      "evidence_ref": null,
+      "review": null
+    },
+    {
+      "dialogue_id": "D02",
+      "route": "web",
+      "delivery": "prompt-only",
+      "model_source": "existing-ai",
+      "requests": [],
+      "user_brief": "读取公开成年AI锚点与大衣，只交付网页提示词与上传顺序。",
+      "status": "not-run",
+      "actual_thread_id": null,
+      "evidence_ref": null,
+      "review": null
+    },
+    {
+      "dialogue_id": "D03",
+      "route": "native",
+      "delivery": "preview-to-six",
+      "model_source": "new-ai",
+      "requests": [
+        "SR-047",
+        "SR-004",
+        "SR-037",
+        "SR-038",
+        "SR-039",
+        "SR-040",
+        "SR-041"
+      ],
+      "user_brief": "童装正背、先预览，再接受首图后完成六张。",
+      "status": "not-run",
+      "actual_thread_id": null,
+      "evidence_ref": null,
+      "review": null
+    },
+    {
+      "dialogue_id": "D04",
+      "route": "web",
+      "delivery": "preview-revise-to-six",
+      "model_source": "existing-ai",
+      "requests": [
+        "SR-048",
+        "SR-049",
+        "SR-018",
+        "SR-042",
+        "SR-043",
+        "SR-044",
+        "SR-045",
+        "SR-046"
+      ],
+      "user_brief": "成年人AI、只有衣服正面，预览修订一次，接受首图后完成含替代镜头的六图。",
+      "status": "not-run",
+      "actual_thread_id": null,
+      "evidence_ref": null,
+      "review": null
+    },
+    {
+      "dialogue_id": "D05",
+      "route": "native",
+      "delivery": "preview-stop",
+      "model_source": "new-ai",
+      "requests": [
+        "SR-050"
+      ],
+      "user_brief": "旗袍只要六宫格，明确预览后即止。",
+      "status": "not-run",
+      "actual_thread_id": null,
+      "evidence_ref": null,
+      "review": null
+    },
+    {
+      "dialogue_id": "D06",
+      "route": "native",
+      "delivery": "single-image",
+      "model_source": "existing-ai",
+      "requests": [
+        "SR-006"
+      ],
+      "user_brief": "Clean Fit单张，明确不续图，后续指定修改另开对话。",
+      "status": "not-run",
+      "actual_thread_id": null,
+      "evidence_ref": null,
+      "review": null
+    },
+    {
+      "dialogue_id": "D07",
+      "route": "web",
+      "delivery": "single-image",
+      "model_source": "authorized-real-adult",
+      "requests": [
+        "SR-024"
+      ],
+      "user_brief": "指定已授权成年人单张；未给实际文件时blocked-input。",
+      "status": "not-run",
+      "actual_thread_id": null,
+      "evidence_ref": null,
+      "review": null
+    },
+    {
+      "dialogue_id": "D08",
+      "route": "native",
+      "delivery": "single-image",
+      "model_source": "authorized-real-adult",
+      "requests": [
+        "SR-021"
+      ],
+      "user_brief": "指定成年真人首个SKU，实际接受后建立人物资料包。",
+      "status": "not-run",
+      "actual_thread_id": null,
+      "evidence_ref": null,
+      "review": null
+    },
+    {
+      "dialogue_id": "D09",
+      "route": "web",
+      "delivery": "cross-sku-new-conversation",
+      "model_source": "existing-ai",
+      "requests": [
+        "SR-051"
+      ],
+      "user_brief": "全新对话仅从已接受资料包恢复成人AI身份，换第二个SKU。",
+      "status": "not-run",
+      "actual_thread_id": null,
+      "evidence_ref": null,
+      "review": null
+    },
+    {
+      "dialogue_id": "D10",
+      "route": "native",
+      "delivery": "cross-sku-new-conversation",
+      "model_source": "authorized-real-adult",
+      "requests": [
+        "SR-052"
+      ],
+      "user_brief": "全新对话从本轮指定成年真人资料包恢复身份，换第二个SKU。",
+      "status": "not-run",
+      "actual_thread_id": null,
+      "evidence_ref": null,
+      "review": null
+    },
+    {
+      "dialogue_id": "D11",
+      "route": "native",
+      "delivery": "specified-image-edit",
+      "model_source": "existing-ai",
+      "requests": [
+        "SR-053"
+      ],
+      "user_brief": "定位准确SR-006版本，只有背景颜色变化，不重做整组。",
+      "status": "not-run",
+      "actual_thread_id": null,
+      "evidence_ref": null,
+      "review": null
+    },
+    {
+      "dialogue_id": "D12",
+      "route": "native",
+      "delivery": "single-image",
+      "model_source": "none",
+      "requests": [
+        "SR-017"
+      ],
+      "user_brief": "明确挂拍不含人物，检查人像pose与身份包流程不进入此任务。",
+      "status": "not-run",
+      "actual_thread_id": null,
+      "evidence_ref": null,
+      "review": null
+    }
+  ]
+}

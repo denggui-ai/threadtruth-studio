@@ -13,9 +13,9 @@
   },
   {
     "id": "oc-anti-fit-3",
-    "type": "anti-fit",
+    "type": "recommendation-fit",
     "input": "(上传瑜伽服) 职场通勤",
-    "expect": "运动瑜伽服 ∈ anti_categories → 提示不匹配"
+    "expect": "anti_categories仅提示此商品不属于该方向的默认推荐，不是服种禁令。用户明确借用摄影时保留当前商品，使用该方向的环境、光线与构图；不改商品、不重复索要已有确认。真正缺失的来源/适龄/动作授权仍按核心门禁处理。"
   },
   {
     "id": "oc-pure-data-4",
@@ -35,8 +35,21 @@
     "input": "(上传衬衫) 男装通勤 cityboy",
     "expect": "触发隔离:男装通勤/cityboy→cityboy,不落 office-commute-women",
     "assert_triggers": {
-      "cityboy": {"contains": ["男装通勤"]},
-      "office-commute-women": {"contains": ["职场通勤"], "excludes": ["男装通勤", "cityboy", "宽松男装"]}
+      "cityboy": {
+        "contains": [
+          "男装通勤"
+        ]
+      },
+      "office-commute-women": {
+        "contains": [
+          "职场通勤"
+        ],
+        "excludes": [
+          "男装通勤",
+          "cityboy",
+          "宽松男装"
+        ]
+      }
     }
   },
   {
@@ -44,5 +57,11 @@
     "type": "lighting-signature",
     "input": "(上传驼色西装) office commute,C3",
     "expect": "STYLE_VISUAL 保留写字楼窗光/柔棚光→侧前方克制塑形→不遮结构的清晰阴影→中低对比标准曝光;不得戏剧化压暗或改动西装颜色、材质和剪裁"
+  },
+  {
+    "id": "oc-source-formal-10",
+    "type": "source-preservation-regression",
+    "input": "保留这件礼服，借通勤空间和拍法",
+    "expect": "礼服原样保留，不因职业风格改成西服；负面词禁止额外正式礼服元素而非当前商品。"
   }
 ]

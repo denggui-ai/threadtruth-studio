@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased — complete visual-studio candidate, 2026-10-18
+
+- Owner-approved redesign: source identification, people/reuse, visual selection, complete planning, dual-route output and review/correction/delivery; product-display, styled-editorial and art-campaign purposes, independent images only.
+- Add frozen visual_plan v1 and prompt contract 2, shared validation/compilation and portable visual-library preparation. Propagate through preview revisions, accepted delivery selection, continuation, export and recovery; original model/shot/real-face ownership and old contract 0/1 bytes remain. Numbered human/faceless v2 tasks require an actual shot plan.
+- Preserve 24 legacy IDs and add 12 execution cards; keep the 132-source catalogue and Chinese market/culture navigation separate from executable and visually verified scope. Repair affected pack scene/action/material exclusions without homogenizing the original aesthetics. No new visual maturity claims.
+- Replace unconditional multi-token holds with explicit selection/negation/comparison/main-support intent and bounded runtime routing; bare American is navigation, not automatic streetwear. Purpose controls scene intensity and medium, while existing garment logos/lace/uniforms remain source facts.
+- Development previews retain old frozen 24 collections and add selected-entry preparation through the runtime compiler. Repair substring removal of place/palace and lost light/architecture fallback clauses.
+- Add runtime, library, routing and full-journey regression coverage; validation work is ongoing. Real image requests are capped at 60 with original material rights and per-dimension review; code checks do not prove improved images. No public release or push is authorized.
+
+
 ## Unreleased — WP2-A / F02 photography-target checks, 2026-10-18
 
 - Reproduce three leaked directives: Chinese whole-group full-body framing, frontal camera gaze and English `Every head faces camera`. The proposed `identical head direction` example was already rejected. Also reproduce an adjacent false positive for the legitimate `Camera at approximately eye level` phrase.

@@ -13,9 +13,9 @@
   },
   {
     "id": "qm-anti-fit-3",
-    "type": "anti-fit",
+    "type": "recommendation-fit",
     "input": "(上传冲锋衣) quiet luxury",
-    "expect": "冲锋衣 ∈ anti_categories → 提示风格×品类不匹配,改推 gorpcore 或请确认"
+    "expect": "anti_categories仅提示此商品不属于该方向的默认推荐，不是服种禁令。用户明确借用摄影时保留当前商品，使用该方向的环境、光线与构图；不改商品、不重复索要已有确认。真正缺失的来源/适龄/动作授权仍按核心门禁处理。"
   },
   {
     "id": "qm-pure-data-4",
@@ -25,9 +25,9 @@
   },
   {
     "id": "qm-conflict-hold-5",
-    "type": "style-conflict",
+    "type": "explicit-fusion-resolution",
     "input": "(上传服饰) quiet luxury 混 Y2K 辣妹",
-    "expect": "第0步检测 quiet-luxury↔y2k-millennium 互斥(见 style-router §3 互斥矩阵)→style-conflict-hold,出候选+请二选一,fallback_used=conflict,不生图"
+    "expect": "识别为明确融合意图；为主辅方向分配摄影或艺术字段并形成单一方案，不因旧互斥矩阵要求二选一。主次或字段归属确实无法确定时仅澄清该缺项；服装原貌和人物条件不被融合改写，生成仍按实际动作授权。"
   },
   {
     "id": "qm-action-gate-6",
@@ -41,9 +41,28 @@
     "input": "(上传服饰) 想要安静奢华或低调奢华的感觉",
     "expect": "🔴触发隔离:『安静奢华』→korean-cold-editorial、『低调奢华』→old-money;均不得落 quiet-luxury(其触发词仅 quiet luxury/静奢风/当代静奢,不含裸『安静奢华』『低调奢华』,无子串截断);防 STEP14 L8 型碰撞。反向锁死:『quiet luxury』专属 quiet-luxury——korean-cold 已移除该重复触发词(P2 双归属修复),只保留 性冷淡/安静奢华/冷感大片,不再双归属",
     "assert_triggers": {
-      "quiet-luxury": {"contains": ["quiet luxury"], "excludes": ["安静奢华", "低调奢华"]},
-      "korean-cold-editorial": {"contains": ["安静奢华"], "excludes": ["quiet luxury"]},
-      "old-money": {"contains": ["低调奢华"]}
+      "quiet-luxury": {
+        "contains": [
+          "quiet luxury"
+        ],
+        "excludes": [
+          "安静奢华",
+          "低调奢华"
+        ]
+      },
+      "korean-cold-editorial": {
+        "contains": [
+          "安静奢华"
+        ],
+        "excludes": [
+          "quiet luxury"
+        ]
+      },
+      "old-money": {
+        "contains": [
+          "低调奢华"
+        ]
+      }
     }
   }
 ]

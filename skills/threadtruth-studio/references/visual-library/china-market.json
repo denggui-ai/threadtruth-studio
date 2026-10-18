@@ -1,0 +1,749 @@
+{
+  "schema_version": 1,
+  "provenance": {
+    "id": "china-planning-2026-10-18",
+    "title": "国内市场使用风格与中国文化服饰策划目录",
+    "scope": "已确认的工作目录，非热度榜、艺术史定本或全部可运行能力；摄影片段是策划建议。",
+    "context_source": "https://www.cbndata.com/report/3290/detail?isReading=report",
+    "source_rule": "有一手来源的关键文化区别保留URL；工作命名和策划推断明确标注。资料可支持识别边界，不证明样片效果或该资料图像的使用许可。"
+  },
+  "records": [
+    {
+      "id": "M01",
+      "name": "极简主义",
+      "layer": "market-expression",
+      "distinction": "减少装饰，强调线条、比例和结构；不限定基础款，也不限定浅色",
+      "prompt_fragment": "减少视觉元素，强调原有轮廓与结构，建筑式构图，清楚的明暗关系",
+      "status": "knowledge-reference",
+      "execution_refs": [],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M02",
+      "name": "Clean Fit／干净基础",
+      "layer": "market-expression",
+      "distinction": "用基础单品和整洁比例形成完成度，更接近日常搭配",
+      "prompt_fragment": "清爽基础穿搭，比例自然，浅灰背景，均匀柔光，完整展示穿着关系",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "clean-fit",
+          "relation": "implements-subset"
+        }
+      ],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M03",
+      "name": "静奢",
+      "layer": "market-expression",
+      "distinction": "低标识、材质与剪裁优先，可以非常现代；原有标识仍须保留",
+      "prompt_fragment": "当代简洁空间，细腻侧光，清楚呈现面料与剪裁，装饰克制",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "quiet-luxury",
+          "relation": "implements-subset"
+        }
+      ],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M04",
+      "name": "老钱风",
+      "layer": "market-expression",
+      "distinction": "经典服装、传承休闲和传统运动语境；不等于全身米白",
+      "prompt_fragment": "经典休闲着装，历史建筑阅读室，自然窗光，稳重而松弛的姿态",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "old-money",
+          "relation": "implements-subset"
+        }
+      ],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M05",
+      "name": "都市通勤／商务休闲",
+      "layer": "market-expression",
+      "distinction": "以工作和城市社交的穿着需求组织搭配",
+      "prompt_fragment": "现代办公空间，利落行走，中性日光，肩线、门襟和上下装关系清楚",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "office-commute-women",
+          "relation": "implements-subset"
+        }
+      ],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M06",
+      "name": "学院／Ivy—Preppy",
+      "layer": "market-expression",
+      "distinction": "校园经典与休闲社交语汇；针织、衬衫等层次较常见",
+      "prompt_fragment": "学院生活氛围，砖墙与台阶，清爽日光，保留原有叠穿层次",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "preppy",
+          "relation": "implements-subset"
+        }
+      ],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M07",
+      "name": "暗黑学院",
+      "layer": "market-expression",
+      "distinction": "偏深色、书卷感与怀旧学术氛围；与清爽学院风区分",
+      "prompt_fragment": "深木书房，方向性窗光，沉静构图，暗部仍保留织物细节",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "british-heritage",
+          "relation": "adjacent"
+        }
+      ],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M08",
+      "name": "小香风〔商业标签〕",
+      "layer": "market-expression",
+      "distinction": "常围绕粗花呢、短外套、滚边及精致套装；不等于全部法式",
+      "prompt_fragment": "精致都市套装摄影，拍清织纹与原有滚边，柔和侧光，端正而自然",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "coquette-ladylike",
+          "relation": "adjacent"
+        }
+      ],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M09",
+      "name": "英伦乡间",
+      "layer": "market-expression",
+      "distinction": "乡间生活、耐用材质和传统户外语汇，区别于城市商务",
+      "prompt_fragment": "乡间砖屋与草地，阴天柔光，环境人像，保留衣料真实肌理",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "british-heritage",
+          "relation": "implements-subset"
+        }
+      ],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M10",
+      "name": "韩系清冷都市",
+      "layer": "market-expression",
+      "distinction": "国内语境中的一种韩系分支，偏利落比例、冷中性色和克制状态",
+      "prompt_fragment": "冷中性色城市建筑，清楚的纵向线条，柔侧光，人物状态安静利落",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "korean-cold-editorial",
+          "relation": "implements-subset"
+        }
+      ],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M11",
+      "name": "日系自然生活",
+      "layer": "market-expression",
+      "distinction": "侧重日常、舒适和生活质感；不代表全部日系",
+      "prompt_fragment": "自然生活穿搭，木质室内或住宅街道，散射日光，轻松真实的动作",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "japanese-lifestyle",
+          "relation": "implements-subset"
+        }
+      ],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M12",
+      "name": "Cityboy／都市宽松休闲",
+      "layer": "market-expression",
+      "distinction": "宽松休闲组合、叠穿和城市生活；不只是把衣服放大",
+      "prompt_fragment": "街角书店与咖啡馆，开阔构图，保留原有宽松比例和搭配层次",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "cityboy",
+          "relation": "implements-subset"
+        }
+      ],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M13",
+      "name": "法式松弛日常",
+      "layer": "market-expression",
+      "distinction": "适度修饰、自然穿着和生活感，不强求完美对称",
+      "prompt_fragment": "石质街道与露台，自然侧光，随意驻足，穿搭自然且细节清楚",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "french-effortless",
+          "relation": "implements-subset"
+        }
+      ],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M14",
+      "name": "法式复古",
+      "layer": "market-expression",
+      "distinction": "需要指定年代或具体参考，区别于泛泛的松弛",
+      "prompt_fragment": "依据指定年代参考组织画面，旧公寓与柔窗光，轻微胶片颗粒",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "french-effortless",
+          "relation": "adjacent"
+        }
+      ],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M15",
+      "name": "美式复古生活",
+      "layer": "market-expression",
+      "distinction": "可以包含休闲、运动、工装等分支；不等于美式街头",
+      "prompt_fragment": "复古日常穿搭，旧街店面与生活空间，自然侧光，保留原有配色和层次",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "retro-americana",
+          "relation": "implements-subset"
+        }
+      ],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M16",
+      "name": "港风复古〔影像与市场标签〕",
+      "layer": "market-expression",
+      "distinction": "需指定年代和电影、街头或通勤语境，不能只加红唇滤镜",
+      "prompt_fragment": "参考指定年代的香港都市影像，街道环境光与人物补光，鲜明但准确的色彩",
+      "status": "knowledge-reference",
+      "execution_refs": [],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M17",
+      "name": "海岸度假",
+      "layer": "market-expression",
+      "distinction": "以海岸生活和轻松活动为中心；不同于所有Boho或所有旅行穿搭",
+      "prompt_fragment": "明亮海岸日光，开阔空间，轻松步行，保留衣料原有垂坠与透度",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "resort-vacation",
+          "relation": "implements-subset"
+        }
+      ],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M18",
+      "name": "Coquette／俏皮浪漫",
+      "layer": "market-expression",
+      "distinction": "精细装饰与浪漫表达；蝴蝶结不是必需条件",
+      "prompt_fragment": "细腻浪漫氛围，柔窗光，自然对视，清楚展示商品已有蕾丝与装饰",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "coquette-ladylike",
+          "relation": "implements-subset"
+        }
+      ],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M19",
+      "name": "Balletcore／芭蕾灵感",
+      "layer": "market-expression",
+      "distinction": "借鉴训练服、轻柔层次和舒展线条，不等于舞台舞服",
+      "prompt_fragment": "轻盈训练室氛围，自然舒展站姿，人体比例不变，柔和侧光",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "balletcore",
+          "relation": "implements-subset"
+        }
+      ],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M20",
+      "name": "可爱／Kawaii〔宽泛标签〕",
+      "layer": "market-expression",
+      "distinction": "俏皮、童趣和趣味组合可有很多分支；不自动幼化人物",
+      "prompt_fragment": "俏皮日常穿搭，趣味色点，明亮柔光，自然表情，人物年龄保持明确",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "japanese-lifestyle",
+          "relation": "adjacent"
+        }
+      ],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M21",
+      "name": "森系",
+      "layer": "market-expression",
+      "distinction": "常偏自然材质观感、宽松层次和植物环境；不要求真实森林",
+      "prompt_fragment": "保留原有柔软层次，植物与木质环境，漫射日光，自然舒缓的状态",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "japanese-lifestyle",
+          "relation": "adjacent"
+        }
+      ],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M22",
+      "name": "Cottagecore／田园生活幻想",
+      "layer": "market-expression",
+      "distinction": "乡村、花园、手作与理想化生活叙事，比森系更强调情境",
+      "prompt_fragment": "乡村花园与朴素屋舍，柔和晨光，缓慢行走，呈现田园日常",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "japanese-lifestyle",
+          "relation": "adjacent"
+        }
+      ],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M23",
+      "name": "Boho／波西米亚时尚",
+      "layer": "market-expression",
+      "distinction": "自由组合、艺术生活及装饰语汇；不能代称某个民族服饰",
+      "prompt_fragment": "开阔庭院与艺术生活空间，自由舒展姿态，突出原有织物与装饰层次",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "romantic-bohemian",
+          "relation": "implements-subset"
+        }
+      ],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M24",
+      "name": "甜酷〔混搭标签〕",
+      "layer": "market-expression",
+      "distinction": "柔美元素与硬朗、运动或街头元素形成对照",
+      "prompt_fragment": "突出原搭配中的柔软与硬朗对比，直接而清楚的光线，自信自然的姿态",
+      "status": "knowledge-reference",
+      "execution_refs": [],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M25",
+      "name": "辣妹〔商业标签〕",
+      "layer": "market-expression",
+      "distinction": "常围绕贴合、短长比例或身体线条组织；不等于Y2K",
+      "prompt_fragment": "成人时尚穿搭，展示原有贴合与短长比例，直闪或清楚侧光，保留原有露肤范围",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "y2k-millennium",
+          "relation": "adjacent"
+        }
+      ],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M26",
+      "name": "晚宴华丽",
+      "layer": "market-expression",
+      "distinction": "场合导向，强调正式度、材料光泽和装饰表现",
+      "prompt_fragment": "晚宴服饰肖像，点状环境光配中性主光，保留珠饰、亮片和织物高光细节",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "italian-luxe",
+          "relation": "adjacent"
+        }
+      ],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M27",
+      "name": "复古工装",
+      "layer": "market-expression",
+      "distinction": "劳动服来源、工具性结构、耐用材质，是阿美咔叽的常见分支之一",
+      "prompt_fragment": "工坊外墙，明确侧光，稳定站姿，清楚呈现口袋、缝线与原有磨损",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "workwear-vintage",
+          "relation": "implements-subset"
+        }
+      ],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M28",
+      "name": "滑板街头",
+      "layer": "market-expression",
+      "distinction": "与滑板活动和行动自由度相关，是街头文化的一支",
+      "prompt_fragment": "城市滑板场环境，广角环境人像，自然迈步，保留服装活动余量",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "american-street",
+          "relation": "adjacent"
+        }
+      ],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M29",
+      "name": "嘻哈街头",
+      "layer": "market-expression",
+      "distinction": "强调个人姿态与搭配存在感；不等于大衣服加金链",
+      "prompt_fragment": "城市街口，略低机位，明确身体姿态，干净直闪，突出原有搭配",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "american-street",
+          "relation": "adjacent"
+        }
+      ],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M30",
+      "name": "Y2K／千禧复古",
+      "layer": "market-expression",
+      "distinction": "世纪之交流行与数码未来想象，内部有多种分支",
+      "prompt_fragment": "千禧数码时尚氛围，反光亚克力背景，直闪与冷色环境光，俏皮构图",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "y2k-millennium",
+          "relation": "implements-subset"
+        }
+      ],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M31",
+      "name": "运动休闲／Athleisure",
+      "layer": "market-expression",
+      "distinction": "将运动服与城市日常衔接，不要求专业竞技动作",
+      "prompt_fragment": "城市运动场边，清晨日光，轻快步行，清楚呈现日常活动状态",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "athleisure",
+          "relation": "implements-subset"
+        }
+      ],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M32",
+      "name": "山系户外／Gorpcore",
+      "layer": "market-expression",
+      "distinction": "登山、徒步装备语汇进入日常，强调户外功能感",
+      "prompt_fragment": "岩石与山径环境，阴天自然光，纪实式全身构图，展示原有功能细节",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "gorpcore",
+          "relation": "implements-subset"
+        }
+      ],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M33",
+      "name": "机能／Techwear",
+      "layer": "market-expression",
+      "distinction": "功能结构、材料和穿着系统是重点；全黑不是充分条件",
+      "prompt_fragment": "城市坡道与建筑线条，冷调环境加中性补光，准确展示原有功能结构",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "future-artificial-light",
+          "relation": "related-not-equivalent"
+        }
+      ],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M34",
+      "name": "足球复古／Blokecore",
+      "layer": "market-expression",
+      "distinction": "球衣等足球服饰进入日常搭配，不等于所有运动风",
+      "prompt_fragment": "球场外围与城市街道，日间抓拍，突出已有球衣与日常单品的组合",
+      "status": "knowledge-reference",
+      "execution_refs": [],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M35",
+      "name": "西部／Western",
+      "layer": "market-expression",
+      "distinction": "牛仔文化与牧场服饰语汇；穿牛仔裤不自动成为西部风",
+      "prompt_fragment": "木质廊道与开阔旷野，方向性日光，清楚呈现原有服装和配饰",
+      "status": "knowledge-reference",
+      "execution_refs": [],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M36",
+      "name": "朋克／Punk",
+      "layer": "market-expression",
+      "distinction": "反叛、DIY和对常规秩序的挑战；不只是皮衣和黑色",
+      "prompt_fragment": "粗粝排练空间，直接闪光，紧张构图，保留原有DIY细节，不新增破洞铆钉",
+      "status": "knowledge-reference",
+      "execution_refs": [],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M37",
+      "name": "Grunge",
+      "layer": "market-expression",
+      "distinction": "音乐文化与不精修的混搭，偏疏离、随意",
+      "prompt_fragment": "旧楼梯间，阴天漫射光，松散构图，人物状态自然，保留原服层次",
+      "status": "knowledge-reference",
+      "execution_refs": [],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M38",
+      "name": "哥特／Goth",
+      "layer": "market-expression",
+      "distinction": "暗黑浪漫及相关亚文化语汇，不是全黑穿搭的统称",
+      "prompt_fragment": "暗黑浪漫氛围，方向性侧光，沉静姿态，深色服装仍有清楚细节",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "gothic-editorial",
+          "relation": "implements-subset"
+        }
+      ],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M39",
+      "name": "Lolita／洛丽塔时装",
+      "layer": "market-expression",
+      "distinction": "有具体轮廓和搭配文化，含甜系、古典、哥特等分支",
+      "prompt_fragment": "按所选分支拍摄，平视全身构图，完整保留裙型、头饰与配饰组合",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "lolita-layered",
+          "relation": "implements-subset"
+        }
+      ],
+      "source": "china-planning-2026-10-18",
+      "primary_sources": [
+        "https://www.vam.ac.uk/articles/lolita-fashion-japanese-street-style"
+      ]
+    },
+    {
+      "id": "M40",
+      "name": "Mod／摩登青年",
+      "layer": "market-expression",
+      "distinction": "1960年代青年文化，强调利落线条与图形现代感",
+      "prompt_fragment": "几何色块空间，正面机位，清楚轮廓，干净直接的光线",
+      "status": "knowledge-reference",
+      "execution_refs": [],
+      "source": "china-planning-2026-10-18",
+      "primary_sources": [
+        "https://www.vam.ac.uk/collections/1960s-fashion"
+      ]
+    },
+    {
+      "id": "M41",
+      "name": "Space Age／太空时代",
+      "layer": "market-expression",
+      "distinction": "几何未来主义与新材料想象，与Mod相关但不相同",
+      "prompt_fragment": "白色几何建筑，冷静侧光，简洁站姿，呈现复古未来想象",
+      "status": "knowledge-reference",
+      "execution_refs": [],
+      "source": "china-planning-2026-10-18",
+      "primary_sources": [
+        "https://www.vam.ac.uk/collections/1960s-fashion"
+      ]
+    },
+    {
+      "id": "M42",
+      "name": "Disco／迪斯科",
+      "layer": "market-expression",
+      "distinction": "舞厅、身体运动与夜间装饰表达；亮片只是可能的材料",
+      "prompt_fragment": "复古舞厅环境光，中性人物补光，轻微舞动，商品色彩仍清楚",
+      "status": "knowledge-reference",
+      "execution_refs": [],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M43",
+      "name": "先锋／解构",
+      "layer": "market-expression",
+      "distinction": "先锋范围很大；解构强调已有结构重组、非对称等设计方法",
+      "prompt_fragment": "非对称构图，方向明确的侧光，用机位展示原有结构，不重剪衣服",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "surreal-space-ad",
+          "relation": "adjacent"
+        }
+      ],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M44",
+      "name": "Dandy／绅装表达",
+      "layer": "market-expression",
+      "distinction": "通过剪裁、仪态和细节经营个人形象，可以张扬，也可以克制",
+      "prompt_fragment": "精准侧光，富有个性的自然仪态，展示剪裁、层次与原有细节",
+      "status": "knowledge-reference",
+      "execution_refs": [],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "M45",
+      "name": "极繁主义",
+      "layer": "market-expression",
+      "distinction": "装饰、图案、色彩或体积的丰富组织，不等于随意堆砌",
+      "prompt_fragment": "有秩序的丰富视觉层次，鲜明主次，完整保留原有图案与装饰",
+      "status": "knowledge-reference",
+      "execution_refs": [
+        {
+          "id": "lolita-layered",
+          "relation": "related-not-equivalent"
+        }
+      ],
+      "source": "china-planning-2026-10-18",
+      "primary_sources": [
+        "https://www.fitnyc.edu/museum/exhibitions/minimalism-maximalism.php"
+      ]
+    },
+    {
+      "id": "M46",
+      "name": "Camp",
+      "layer": "market-expression",
+      "distinction": "幽默、反讽、戏仿和戏剧性表达，区别于单纯华丽",
+      "prompt_fragment": "戏剧化时尚舞台，带幽默感的构图与姿态，夸张表达服从既定服装",
+      "status": "knowledge-reference",
+      "execution_refs": [],
+      "source": "china-planning-2026-10-18",
+      "primary_sources": [
+        "https://www.metmuseum.org/exhibitions/listings/2019/camp-notes-on-fashion"
+      ]
+    }
+  ],
+  "modifiers": [
+    {
+      "id": "T01",
+      "name": "多巴胺",
+      "layer": "modifier",
+      "distinction": "高彩度、活跃的配色关系",
+      "prompt_fragment": "明快色块与清楚主次；商品原色保持不变",
+      "status": "knowledge-reference",
+      "execution_refs": [],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "T02",
+      "name": "美拉德",
+      "layer": "modifier",
+      "distinction": "棕、焦糖、暖中性色等色彩组合",
+      "prompt_fragment": "暖棕色系搭配与环境，区分深浅层次，避免全图泛黄",
+      "status": "knowledge-reference",
+      "execution_refs": [],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "T03",
+      "name": "格雷系／黑白灰",
+      "layer": "modifier",
+      "distinction": "无彩色关系",
+      "prompt_fragment": "用不同明度和材质区分层次，避免衣物融入背景",
+      "status": "knowledge-reference",
+      "execution_refs": [],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "T04",
+      "name": "莫兰迪／低饱和",
+      "layer": "modifier",
+      "distinction": "常用来描述柔和、灰化的色彩关系",
+      "prompt_fragment": "背景采用低饱和色，保留商品自身饱和度与颜色",
+      "status": "knowledge-reference",
+      "execution_refs": [],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "T05",
+      "name": "松弛、清冷、知性、轻熟",
+      "layer": "modifier",
+      "distinction": "人物状态、搭配语气和摄影表达",
+      "prompt_fragment": "写成具体神态、动作、穿着关系和光线，不仅堆形容词",
+      "status": "knowledge-reference",
+      "execution_refs": [],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "T06",
+      "name": "大女主、御姐、名媛、千金",
+      "layer": "modifier",
+      "distinction": "商业叙事标签，内部差异很大",
+      "prompt_fragment": "改写成利落剪裁、正式度、装饰密度、姿态与场合等可见特征",
+      "status": "knowledge-reference",
+      "execution_refs": [],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "T07",
+      "name": "纯欲〔成人商业标签〕",
+      "layer": "modifier",
+      "distinction": "常混合柔美气质、妆面和服装露肤关系",
+      "prompt_fragment": "成人时尚人物，柔和妆面与自然眼神，严格保留原有露肤范围",
+      "status": "knowledge-reference",
+      "execution_refs": [],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "T08",
+      "name": "胶片、电影感、纪实、直闪",
+      "layer": "modifier",
+      "distinction": "摄影媒介或表现方法",
+      "prompt_fragment": "指定颗粒程度、光线、机位和色彩，不据此改变服装",
+      "status": "knowledge-reference",
+      "execution_refs": [],
+      "source": "china-planning-2026-10-18"
+    },
+    {
+      "id": "T09",
+      "name": "武侠、仙侠、敦煌舞乐、戏曲灵感",
+      "layer": "modifier",
+      "distinction": "叙事或艺术创作方向",
+      "prompt_fragment": "指定作品、图像或服装参考；分别写动作、空间与光线，不自动宣称历史复原",
+      "status": "knowledge-reference",
+      "execution_refs": [],
+      "source": "china-planning-2026-10-18"
+    }
+  ]
+}

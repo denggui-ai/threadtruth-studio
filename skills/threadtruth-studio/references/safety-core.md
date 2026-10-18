@@ -54,7 +54,7 @@
 ### R5 · 品牌/logo:本地 IP/保真规则,非平台硬禁
 - **条款/出处:** S1 泛化 IP(无专门 logo 条款)/ 2026-09-12。
 - **skill 状态:** 不发明 logo/文字;不能准确渲染时降级为正确位置色块标记,不漂移。
-- **工程规则:** prompt 加 `no logos, no trademarks, no invented brand text`;保留原图 logo 位置关系。
+- **工程规则:** prompt 加 `no added logos or trademarks, no invented brand text`;保留源图已有logo、文字及位置关系，不能把“禁止新增”写成删除原标识。
 - **说明:** **本地 IP/法务/保真规则,非平台硬禁**;用户自有/已授权品牌素材可按保真处理;**skill 不判断商标授权状态,商用合规责任由用户/法务承担**。**真机等级:** 逻辑(基线已覆盖"不编造 logo")。
 
 ### R6 · moderation 机制:官方机制 vs 本 skill host 门禁(分栏,勿混淆)

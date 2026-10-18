@@ -1,7 +1,7 @@
 # korean-menswear — 韩式冷感男装风(v1 静态批量;纯视觉轴)。
 name: 韩式男装 / Korean Menswear
 slug: korean-menswear
-version: 0.1.0
+version: 0.1.1
 maturity: DRAFT
 depends_on_core: ">=1.0"
 
@@ -26,7 +26,7 @@ lighting_palette: 光源=冷灰城市自然光或大面积柔棚光;方向=侧�
 pose_masters: inherit
 default_mode: C
 
-negative_delta_add: [no idol fan-service styling, no sweet aegyo mood, no flashy streetwear]
+negative_delta_add: [no idol fan-service styling, no sweet aegyo mood, no added flashy streetwear styling beyond the reference]
 safety_delta:
   cannot_relax: true
   extra_constraints: []

@@ -13,9 +13,9 @@
   },
   {
     "id": "om-anti-fit-3",
-    "type": "anti-fit",
+    "type": "recommendation-fit",
     "input": "(上传冲锋衣) 老钱风",
-    "expect": "冲锋衣 ∈ anti_categories → 提示风格×品类不匹配,改推 gorpcore 或请确认"
+    "expect": "anti_categories仅提示此商品不属于该方向的默认推荐，不是服种禁令。用户明确借用摄影时保留当前商品，使用该方向的环境、光线与构图；不改商品、不重复索要已有确认。真正缺失的来源/适龄/动作授权仍按核心门禁处理。"
   },
   {
     "id": "om-pure-data-4",
@@ -25,9 +25,9 @@
   },
   {
     "id": "om-conflict-hold-5",
-    "type": "style-conflict",
+    "type": "explicit-fusion-resolution",
     "input": "(上传服饰) 老钱风混 Y2K 辣妹",
-    "expect": "第0步检测 old-money↔y2k-millennium 互斥→style-conflict-hold,出候选+请二选一,fallback_used=conflict,不生图"
+    "expect": "识别为明确融合意图；为主辅方向分配摄影或艺术字段并形成单一方案，不因旧互斥矩阵要求二选一。主次或字段归属确实无法确定时仅澄清该缺项；服装原貌和人物条件不被融合改写，生成仍按实际动作授权。"
   },
   {
     "id": "om-action-gate-6",
@@ -41,9 +41,27 @@
     "input": "(上传西装) 想要当代静奢/安静奢华那种低调感",
     "expect": "🔴触发隔离(静奢族命门,L18 同族):『当代静奢/静奢』→quiet-luxury;『安静奢华』→korean-cold-editorial;old-money 自有『老钱/世家/低调奢华/名媛世家』,刻意不含静奢族词与『安静奢华』,防低调奢华≈静奢≈安静奢华 语义混淆而双归属",
     "assert_triggers": {
-      "old-money": {"contains": ["低调奢华"], "excludes": ["静奢风", "当代静奢", "quiet luxury", "安静奢华"]},
-      "quiet-luxury": {"contains": ["当代静奢"]},
-      "korean-cold-editorial": {"contains": ["安静奢华"]}
+      "old-money": {
+        "contains": [
+          "低调奢华"
+        ],
+        "excludes": [
+          "静奢风",
+          "当代静奢",
+          "quiet luxury",
+          "安静奢华"
+        ]
+      },
+      "quiet-luxury": {
+        "contains": [
+          "当代静奢"
+        ]
+      },
+      "korean-cold-editorial": {
+        "contains": [
+          "安静奢华"
+        ]
+      }
     }
   }
 ]

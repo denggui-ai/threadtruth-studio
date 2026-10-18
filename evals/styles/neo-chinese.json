@@ -13,9 +13,9 @@
   },
   {
     "id": "nc-anti-fit-3",
-    "type": "anti-fit",
+    "type": "recommendation-fit",
     "input": "(上传汉服 cosplay) 新中式",
-    "expect": "汉服 cosplay ∈ anti_categories → 提示新中式不等于古装 cosplay"
+    "expect": "anti_categories仅提示此商品不属于该方向的默认推荐，不是服种禁令。用户明确借用摄影时保留当前商品，使用该方向的环境、光线与构图；不改商品、不重复索要已有确认。真正缺失的来源/适龄/动作授权仍按核心门禁处理。"
   },
   {
     "id": "nc-pure-data-4",
@@ -25,9 +25,9 @@
   },
   {
     "id": "nc-conflict-hold-5",
-    "type": "style-conflict",
+    "type": "explicit-fusion-resolution",
     "input": "(上传服饰) 新中式混国潮街头",
-    "expect": "第0步真实命中 neo-chinese 与 guochao-street 两个已落地 pack;无论视觉是否可融合均停 style-conflict-hold,确认主次前不生图"
+    "expect": "识别为明确融合意图；为主辅方向分配摄影或艺术字段并形成单一方案，不因旧互斥矩阵要求二选一。主次或字段归属确实无法确定时仅澄清该缺项；服装原貌和人物条件不被融合改写，生成仍按实际动作授权。"
   },
   {
     "id": "nc-action-gate-6",
@@ -41,8 +41,27 @@
     "input": "(上传卫衣) 国潮街头",
     "expect": "触发隔离:国潮街头→guochao-street,不落 neo-chinese",
     "assert_triggers": {
-      "guochao-street": {"contains": ["国潮街头"]},
-      "neo-chinese": {"contains": ["新中式"], "excludes": ["国潮街头", "街头国风", "guochao street"]}
+      "guochao-street": {
+        "contains": [
+          "国潮街头"
+        ]
+      },
+      "neo-chinese": {
+        "contains": [
+          "新中式"
+        ],
+        "excludes": [
+          "国潮街头",
+          "街头国风",
+          "guochao street"
+        ]
+      }
     }
+  },
+  {
+    "id": "nc-source-history-10",
+    "type": "source-preservation-regression",
+    "input": "上传真实汉服，只借新中式建筑和光影，不改衣服",
+    "expect": "区分现代摄影与服种；保留原衣装和配饰，不用no added historical costume删除商品，也不补盘扣龙凤。"
   }
 ]

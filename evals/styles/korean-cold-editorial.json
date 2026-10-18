@@ -13,9 +13,9 @@
   },
   {
     "id": "kr-anti-fit-3",
-    "type": "anti-fit",
+    "type": "recommendation-fit",
     "input": "(上传冲锋衣) 韩系冷感",
-    "expect": "冲锋衣 ∈ anti_categories → 提示『风格×品类不匹配,确认?』,不强行套用,等用户确认或改推 gorpcore"
+    "expect": "anti_categories仅提示此商品不属于该方向的默认推荐，不是服种禁令。用户明确借用摄影时保留当前商品，使用该方向的环境、光线与构图；不改商品、不重复索要已有确认。真正缺失的来源/适龄/动作授权仍按核心门禁处理。"
   },
   {
     "id": "kr-preview-not-final-4",
@@ -41,8 +41,22 @@
     "input": "(上传大衣) 日系无印那种暖调自然光生活感",
     "expect": "🔴触发隔离(镜像 jl-nearmiss-6 + L18 同族):『日系/无印』→japanese-lifestyle(暖调自然光);korean-cold-editorial 自有『韩系/冷感大片/安静奢华』属冷白杂志,刻意不含『日系/无印风』,且持有『安静奢华』但不含静奢族词(静奢→quiet-luxury),双向锁韩/日 + 静奢族归属",
     "assert_triggers": {
-      "japanese-lifestyle": {"contains": ["日系"]},
-      "korean-cold-editorial": {"contains": ["安静奢华"], "excludes": ["日系", "无印风", "静奢风", "当代静奢"]}
+      "japanese-lifestyle": {
+        "contains": [
+          "日系"
+        ]
+      },
+      "korean-cold-editorial": {
+        "contains": [
+          "安静奢华"
+        ],
+        "excludes": [
+          "日系",
+          "无印风",
+          "静奢风",
+          "当代静奢"
+        ]
+      }
     }
   }
 ]
