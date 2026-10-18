@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased — explicit one-call web execution envelope, 2026-10-19
+
+- A live web preview returned an image and announced an unsolicited correction after one Send. Stopping the page did not establish whether another image tool call had started. Keep that incident separate from local reservation counts and visual QA.
+- Add explicit `export-web-execution` for the current pending handoff. Immutable submission/metadata sidecars bind the unchanged canonical prompt, manifest, ordered attachments and look/attempt/plan; the receiving turn may invoke an image generation/edit tool at most once and must return or stop on success, failure or uncertainty. QA returns to the caller without autonomous refinements or retries.
+- Bind the exact sidecar/hash through existing `reserve` metadata and evidence checks, preserving failed/retried history and normal authorization/count gates. No new task state, automatic migration, rewritten old art prompt or native request change. Hashes do not authenticate remote execution counts.
+- Add targeted artifact/CLI/tamper/stale-plan/legacy/history regressions and source-side web execution scenarios. No image call, installation, publication or claim of live receiver compliance is included in this source fix.
+- Scoped validation, independent review and the structural check passed using existing host dependencies; the initial missing-PyYAML attempt is retained in `docs/verification/2026-10-19-web-execution-envelope.md`.
+
 ## Unreleased — complete visual-studio candidate, 2026-10-18
 
 - Owner-approved redesign: source identification, people/reuse, visual selection, complete planning, dual-route output and review/correction/delivery; product-display, styled-editorial and art-campaign purposes, independent images only.

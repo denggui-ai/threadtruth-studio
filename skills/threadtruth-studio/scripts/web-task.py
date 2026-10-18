@@ -47,6 +47,16 @@ def photography_helper():
 
 _shot_plans = None
 _visual_plans = None
+_web_execution = None
+
+
+def web_execution_helper():
+    global _web_execution
+    if _web_execution is None:
+        spec=importlib.util.spec_from_file_location('task_web_execution',Path(__file__).with_name('web_execution.py'))
+        _web_execution=importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(_web_execution)
+    return _web_execution
 
 
 def visual_helper():
@@ -727,6 +737,8 @@ def check_evidence(root,data):
         checked=preview_candidate(data,row,check_sources=False,**candidate['candidate'])
         if checked!=candidate['candidate']:raise ValueError('Invalid preview candidate')
     for row in evidence_rows(data):
+        if 'web_execution' in row:
+            web_execution_helper().check_retained(root,row)
         if hashlib.sha256(row['prompt'].encode()).hexdigest()!=row['prompt_sha256']:
             raise ValueError('Frozen prompt changed')
         photography_helper().apply(row['prompt'], data['context'].get('photography_targets') if data['schema_version']==2 else None)
@@ -811,6 +823,8 @@ def safe_file(root,relative):
 
 def update(root,event,**kw):
     root=Path(root)
+    if event!='reserve' and any(kw.get(k) is not None for k in ('execution_manifest','expected_submission_sha256')):
+        raise ValueError('Web execution binding is only accepted with reserve')
     with locked(root):
         d=read(root);n=kw.get('look');row=None;stop_error=None
         check_evidence(root,d)
@@ -1084,7 +1098,18 @@ def update(root,event,**kw):
             if kw.get('refs')!=expected or kw.get('ready') is not True:raise ValueError('Check login, persistent chat, prompt and completed attachment order before reserving')
             url=kw.get('conversation','');u=urlparse(url)
             if d['route']=='chatgpt_web' and (u.scheme!='https' or u.hostname!='chatgpt.com' or not ((u.path.startswith('/c/') and u.path[3:]) or (u.path in ('','/') and kw.get('tab','').strip()))):raise ValueError('Provide the observed persistent conversation, or a new-chat URL plus stable browser tab handle')
+            execution=None
+            if kw.get('execution_manifest') is not None:
+                selected=references(root,d,n);canonical=handoff_prompt(d,row,selected)
+                execution=web_execution_helper().validate_current(root,d,row,handoff_directory(root,d,row),
+                    selected,canonical,handoff_manifest(d,row,selected,canonical),
+                    kw['execution_manifest'],kw.get('expected_submission_sha256'))
+            elif kw.get('expected_submission_sha256') is not None:
+                raise ValueError('Expected submission hash requires the web execution manifest')
+            elif d['route']=='chatgpt_web' and (handoff_directory(root,d,row)/'web-execution-v1').exists():
+                raise ValueError('Prepared web execution requires its manifest and submission hash binding')
             row.update(state='reserved',conversation=url,tab=kw.get('tab'),submitted_at=stamp(),reference_hashes=expected)
+            if execution is not None:row['web_execution']=execution
             if d['schema_version']==2:row['submitted_prompt_sha256']=row['prompt_sha256']
             d['attempts']+=1
         elif event=='bind':
@@ -1130,6 +1155,91 @@ def update(root,event,**kw):
         return d
 
 
+def handoff_directory(root,data,row):
+    suffix=f"-attempt-{row['attempt_number']}" if row.get('attempt_number',1)>1 else ''
+    if row.get('plan_revision',0):suffix+=f"-plan-{row['plan_revision']}"
+    if 'plan_version' in data:suffix+=f"-v{data['plan_version']}"
+    return Path(root)/'handoff'/f"look-{row['number']}{suffix}"
+
+
+def handoff_prompt(d,row,refs):
+    """Render the existing canonical request; execution policy lives separately."""
+    n=row['number'];instruction=[]
+    for i,r in enumerate(refs,1):
+        instruction.append(f'Image {i}: '+(models.supplement_prompt(r) if r['role']=='model-supplement' else ROLE_TEXT[r['role']]))
+    if d['schema_version']==2 and d['model'] and prompt_contract(d,row)==0:
+        instruction.extend(models.prompt_lines(d['model'],allow_child=True))
+    if d['schema_version']==2 and d['context']['first_pose']=='custom':
+        instruction.append('Explicit user presentation: '+d['context']['pose_description']+
+                           ' This overrides conflicting default pose/framing, not garment facts or original model conditions.')
+    if d['schema_version']==2 and d['context'].get('purpose')=='correction-edit':
+        instruction.append('Operation: correct the declared edit target using the original person and garment sources; '
+                           'retain only the requested picture elements. Native editing is soft conditioning, not pixel protection or guaranteed facial fidelity.')
+    form=('One six-panel direction preview, not standalone delivery. Include the small single-line label '
+          '方向预览·非成片 / PREVIEW ONLY — NOT FINAL.' if is_preview(d) else 'One standalone image.')
+    prompt='Only use built-in image generation, no other plugins. '+form+'\n'+'\n'.join(instruction)+'\n'+canvas_instruction(d)+'\n'+row['prompt']
+    if 'real_face_plan' in d:
+        cells=enumerate(d['real_face_plan']['looks'],1) if is_preview(d) else [(n,d['real_face_plan']['looks'][n-1])]
+        for number,cell in cells:
+            prompt+='\n'+(f'Preview cell {number}:\n' if is_preview(d) else '')+'\n'.join(real_face_helper().prompt_lines(cell))
+            if is_preview(d):
+                positions={r['sha256']:i for i,r in enumerate(refs,1)}
+                selected=', '.join(f'Image {positions[h]}' for h in cell['reference_sha256s'])
+                prompt+='\nCell reference images: '+selected+'. Use only these references for this cell, retaining their declared garment/identity roles; do not mix product facts from other cells. Selection note: '+cell['selection_note']
+    if d['schema_version']==2 and d['model'] and prompt_contract(d,row)>=1:
+        prompt=models.apply_conditions(prompt,d['model'],allow_child=True)
+    if 'shot_plan' in d:
+        shot_look=None if is_preview(d) else n
+        if prompt_contract(d,row)==0:
+            shot_helper().check_legacy_headers(row['prompt'],d['shot_plan'],shot_look,d.get('real_face_plan'))
+        prompt=shot_helper().apply(prompt,d['shot_plan'],shot_look,d.get('real_face_plan'),strict=prompt_contract(d,row)>=1)
+    prompt=photography_helper().apply(prompt,d['context'].get('photography_targets') if d['schema_version']==2 else None)
+    if 'visual_plan' in d:
+        prompt=visual_helper().apply(prompt,d['visual_plan'],None if is_preview(d) else n)
+    return prompt
+
+
+def handoff_manifest(d,row,refs,prompt):
+    if d['schema_version']!=2:return None
+    n=row['number']
+    manifest=dict(look=n,attempt_number=row.get('attempt_number',1),plan_revision=row.get('plan_revision',0),
+        frozen_prompt_sha256=row['prompt_sha256'],tool_prompt_sha256=hashlib.sha256(prompt.encode()).hexdigest(),
+        reference_hashes=[r['sha256'] for r in refs])
+    manifest.update(current_plan_sha256=plan_fingerprint(d),current_plan_version=d.get('plan_version',0))
+    if 'visual_plan' in d:
+        manifest.update(visual_plan=copy.deepcopy(d['visual_plan']),visual_plan_sha256=d['visual_plan_sha256'],
+            prompt_contract_version=2)
+    if 'shot_plan' in d:
+        manifest.update(shot_plan=d['shot_plan'],shot_plan_sha256=d['shot_plan_sha256'],
+            omitted_reference_sha256s=[r['sha256'] for r in d['references'] if r['sha256'] not in {x['sha256'] for x in refs}])
+    if 'real_face_plan' in d:
+        manifest.update(real_face_plan=copy.deepcopy(d['real_face_plan']),
+            real_face_plan_sha256=d['real_face_plan_sha256'])
+        if is_preview(d):
+            manifest['preview_cell_plans']=copy.deepcopy(d['real_face_plan']['looks'])
+            chosen={r['sha256'] for r in refs}
+        else:
+            manifest['real_face_look']=copy.deepcopy(d['real_face_plan']['looks'][n-1])
+            chosen=set(manifest['real_face_look']['reference_sha256s'])
+        manifest['omitted_reference_sha256s']=[r['sha256'] for r in d['references'] if r['sha256'] not in chosen]
+    return manifest
+
+
+def export_web_execution(root,look):
+    """Explicitly add a one-call web envelope to an unchanged current export."""
+    root=Path(root)
+    with locked(root):
+        d=read(root);check_evidence(root,d)
+        if type(look) is not int or not 1<=look<=len(d['looks']):raise ValueError('Select one current look')
+        row=d['looks'][look-1]
+        if row['state']!='pending':raise ValueError('Prepare execution only for an unsubmitted pending look')
+        blocked=progression_error(d,look)
+        if blocked:raise ValueError(blocked)
+        refs=references(root,d,look);prompt=handoff_prompt(d,row,refs)
+        return web_execution_helper().prepare(root,d,row,handoff_directory(root,d,row),refs,prompt,
+                                               handoff_manifest(d,row,refs,prompt))
+
+
 def export(root):
     root=Path(root)
     with locked(root):
@@ -1139,45 +1249,13 @@ def export(root):
         for row in d['looks']:
             n=row['number'];lines.append(f"- look-{n}: {row['state']}")
             if row['state']!='pending' or progression_error(d,n):continue
-            refs=references(root,d,n);suffix=f"-attempt-{row['attempt_number']}" if row.get('attempt_number',1)>1 else ''
-            if row.get('plan_revision',0):suffix+=f"-plan-{row['plan_revision']}"
-            if 'plan_version' in d:suffix+=f"-v{d['plan_version']}"
-            out=folder/f'look-{n}{suffix}';out.mkdir(exist_ok=True);lines.append(f'  Current handoff: {out.name}; earlier attempt/plan folders are evidence only, never resubmit them.')
-            instruction=[]
+            refs=references(root,d,n);out=handoff_directory(root,d,row)
+            out.mkdir(exist_ok=True);lines.append(f'  Current handoff: {out.name}; earlier attempt/plan folders are evidence only, never resubmit them.')
             for i,r in enumerate(refs,1):
                 src=root/r['file'];dst=out/f'{i:02d}-{r["role"]}{src.suffix}'
                 if dst.exists() and digest(dst)!=r['sha256']:raise ValueError('Existing handoff attachment changed')
                 shutil.copyfile(src,dst)
-                instruction.append(f'Image {i}: '+(models.supplement_prompt(r) if r['role']=='model-supplement' else ROLE_TEXT[r['role']]))
-            if d['schema_version']==2 and d['model'] and prompt_contract(d,row)==0:
-                instruction.extend(models.prompt_lines(d['model'],allow_child=True))
-            if d['schema_version']==2 and d['context']['first_pose']=='custom':
-                instruction.append('Explicit user presentation: '+d['context']['pose_description']+
-                                   ' This overrides conflicting default pose/framing, not garment facts or original model conditions.')
-            if d['schema_version']==2 and d['context'].get('purpose')=='correction-edit':
-                instruction.append('Operation: correct the declared edit target using the original person and garment sources; '
-                                   'retain only the requested picture elements. Native editing is soft conditioning, not pixel protection or guaranteed facial fidelity.')
-            form=('One six-panel direction preview, not standalone delivery. Include the small single-line label '
-                  '方向预览·非成片 / PREVIEW ONLY — NOT FINAL.' if is_preview(d) else 'One standalone image.')
-            prompt='Only use built-in image generation, no other plugins. '+form+'\n'+'\n'.join(instruction)+'\n'+canvas_instruction(d)+'\n'+row['prompt']
-            if 'real_face_plan' in d:
-                cells=enumerate(d['real_face_plan']['looks'],1) if is_preview(d) else [(n,d['real_face_plan']['looks'][n-1])]
-                for number,cell in cells:
-                    prompt+='\n'+(f'Preview cell {number}:\n' if is_preview(d) else '')+'\n'.join(real_face_helper().prompt_lines(cell))
-                    if is_preview(d):
-                        positions={r['sha256']:i for i,r in enumerate(refs,1)}
-                        selected=', '.join(f'Image {positions[h]}' for h in cell['reference_sha256s'])
-                        prompt+='\nCell reference images: '+selected+'. Use only these references for this cell, retaining their declared garment/identity roles; do not mix product facts from other cells. Selection note: '+cell['selection_note']
-            if d['schema_version']==2 and d['model'] and prompt_contract(d,row)>=1:
-                prompt=models.apply_conditions(prompt,d['model'],allow_child=True)
-            if 'shot_plan' in d:
-                shot_look=None if is_preview(d) else n
-                if prompt_contract(d,row)==0:
-                    shot_helper().check_legacy_headers(row['prompt'],d['shot_plan'],shot_look,d.get('real_face_plan'))
-                prompt=shot_helper().apply(prompt,d['shot_plan'],shot_look,d.get('real_face_plan'),strict=prompt_contract(d,row)>=1)
-            prompt=photography_helper().apply(prompt,d['context'].get('photography_targets') if d['schema_version']==2 else None)
-            if 'visual_plan' in d:
-                prompt=visual_helper().apply(prompt,d['visual_plan'],None if is_preview(d) else n)
+            prompt=handoff_prompt(d,row,refs)
             (out/'prompt.txt').write_text(prompt,encoding='utf-8')
             if d['route']=='codex_native':
                 request=dict(prompt=prompt,
@@ -1185,26 +1263,7 @@ def export(root):
                              transparent_background=False)
                 (out/'request.json').write_text(json.dumps(request,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
             if d['schema_version']==2:
-                manifest=dict(look=n,attempt_number=row.get('attempt_number',1),plan_revision=row.get('plan_revision',0),
-                    frozen_prompt_sha256=row['prompt_sha256'],tool_prompt_sha256=hashlib.sha256(prompt.encode()).hexdigest(),
-                    reference_hashes=[r['sha256'] for r in refs])
-                manifest.update(current_plan_sha256=plan_fingerprint(d),current_plan_version=d.get('plan_version',0))
-                if 'visual_plan' in d:
-                    manifest.update(visual_plan=copy.deepcopy(d['visual_plan']),visual_plan_sha256=d['visual_plan_sha256'],
-                        prompt_contract_version=2)
-                if 'shot_plan' in d:
-                    manifest.update(shot_plan=d['shot_plan'],shot_plan_sha256=d['shot_plan_sha256'],
-                        omitted_reference_sha256s=[r['sha256'] for r in d['references'] if r['sha256'] not in {x['sha256'] for x in refs}])
-                if 'real_face_plan' in d:
-                    manifest.update(real_face_plan=copy.deepcopy(d['real_face_plan']),
-                        real_face_plan_sha256=d['real_face_plan_sha256'])
-                    if is_preview(d):
-                        manifest['preview_cell_plans']=copy.deepcopy(d['real_face_plan']['looks'])
-                        chosen={r['sha256'] for r in refs}
-                    else:
-                        manifest['real_face_look']=copy.deepcopy(d['real_face_plan']['looks'][n-1])
-                        chosen=set(manifest['real_face_look']['reference_sha256s'])
-                    manifest['omitted_reference_sha256s']=[r['sha256'] for r in d['references'] if r['sha256'] not in chosen]
+                manifest=handoff_manifest(d,row,refs,prompt)
                 (out/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf-8')
         (folder/'README.md').write_text('\n'.join(lines)+'\n',encoding='utf-8');return str(folder)
 
@@ -1290,7 +1349,7 @@ def export_model(root, destination, name, *, include_accepted=False, accepted_sc
 
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('command',choices=['init','status','export','authorize','mode','reserve','bind','unknown','failed','returned','accept','reject','audit-reject','review-output','revise-pending','retry-authorize','confirm-model','reject-model','continue-authorize','export-model','enable-failure-recovery','reconcile-failure','finish-preview','prepare-delivery','revise-preview','cancel-preview-revision']);p.add_argument('--task',type=Path,required=True);p.add_argument('--spec',type=Path);p.add_argument('--destination',type=Path);p.add_argument('--preview-task',type=Path);p.add_argument('--decision',choices=['stop','direction-confirmed']);p.add_argument('--name');p.add_argument('--look',type=int);p.add_argument('--note');p.add_argument('--limit',type=int);p.add_argument('--mode',choices=['manual','automatic']);p.add_argument('--ready',action='store_true');p.add_argument('--refs',nargs='*');p.add_argument('--conversation');p.add_argument('--tab');p.add_argument('--file',type=Path);p.add_argument('--failure-receipt',type=Path);p.add_argument('--reason');p.add_argument('--request-check-completed',action='store_true');p.add_argument('--qa',choices=['qa-pass','qa-user-review','qa-retry']);p.add_argument('--expected-output-sha256');p.add_argument('--expected-prompt-sha256');p.add_argument('--expected-plan-sha256');p.add_argument('--expected-candidate-sha256');p.add_argument('--expected-attempt',type=int);p.add_argument('--approval-id');p.add_argument('--prompt-file',type=Path);p.add_argument('--model-spec',type=Path);p.add_argument('--include-accepted-reference',action='store_true');p.add_argument('--accepted-scope',choices=['face','full']);a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('command',choices=['init','status','export','export-web-execution','authorize','mode','reserve','bind','unknown','failed','returned','accept','reject','audit-reject','review-output','revise-pending','retry-authorize','confirm-model','reject-model','continue-authorize','export-model','enable-failure-recovery','reconcile-failure','finish-preview','prepare-delivery','revise-preview','cancel-preview-revision']);p.add_argument('--task',type=Path,required=True);p.add_argument('--spec',type=Path);p.add_argument('--destination',type=Path);p.add_argument('--preview-task',type=Path);p.add_argument('--decision',choices=['stop','direction-confirmed']);p.add_argument('--name');p.add_argument('--look',type=int);p.add_argument('--note');p.add_argument('--limit',type=int);p.add_argument('--mode',choices=['manual','automatic']);p.add_argument('--ready',action='store_true');p.add_argument('--refs',nargs='*');p.add_argument('--conversation');p.add_argument('--tab');p.add_argument('--file',type=Path);p.add_argument('--failure-receipt',type=Path);p.add_argument('--reason');p.add_argument('--request-check-completed',action='store_true');p.add_argument('--qa',choices=['qa-pass','qa-user-review','qa-retry']);p.add_argument('--execution-manifest',type=Path);p.add_argument('--expected-submission-sha256');p.add_argument('--expected-output-sha256');p.add_argument('--expected-prompt-sha256');p.add_argument('--expected-plan-sha256');p.add_argument('--expected-candidate-sha256');p.add_argument('--expected-attempt',type=int);p.add_argument('--approval-id');p.add_argument('--prompt-file',type=Path);p.add_argument('--model-spec',type=Path);p.add_argument('--include-accepted-reference',action='store_true');p.add_argument('--accepted-scope',choices=['face','full']);a=p.parse_args()
     try:
         if a.command!='export-model' and (a.include_accepted_reference or a.accepted_scope is not None):
             raise ValueError('Accepted-reference options are only for export-model')
@@ -1302,6 +1361,7 @@ def main():
             result=create_from_preview(a.task,a.preview_task,json.loads(a.spec.read_text()),note=a.note)
         elif a.command=='status':result=read(a.task)
         elif a.command=='export':result=export(a.task)
+        elif a.command=='export-web-execution':result=export_web_execution(a.task,a.look)
         elif a.command=='export-model':result=export_model(a.task,a.destination,a.name,include_accepted=a.include_accepted_reference,accepted_scope=a.accepted_scope or 'face')
         else:
             args={k:v for k,v in vars(a).items() if k not in ('command','task','spec','prompt_file','destination','preview_task','name','model_spec','include_accepted_reference','accepted_scope') and v is not None}

@@ -2916,6 +2916,42 @@
         "不误套缺图阻断给用户额外上传门槛"
       ],
       "ref": "SKILL.md §0 generic text exception"
+    },
+    {
+      "id": 224,
+      "category": "web-execution-envelope",
+      "source_eval": "SR-E-WEB-ONE-CALL",
+      "prompt": "网页只生成这张单图或六宫格预览一次；回图有问题也先给我，不要自己修。",
+      "expected_output": "使用显式单调用信封并保留旧字节与原预算；不明调用先恢复，不自行重试。",
+      "expectations": [
+        "从当前导出显式准备执行信封，完整艺术prompt逐字保留；单次接收turn最多调用一次image generation/edit工具，包含代理分工",
+        "发送submission.txt并在原任务reserve绑定execution manifest及提交hash；回图、失败、不明均停止，QA交回调用者",
+        "不把单次Send或本地hash检查宣称为远端一次image工具调用的证明"
+      ]
+    },
+    {
+      "id": 225,
+      "category": "web-execution-envelope",
+      "source_eval": "SR-E-WEB-IMMUTABLE",
+      "prompt": "接管已经准备好的旧网页任务，补单调用执行约束；原prompt和manifest一字都不能改。",
+      "expected_output": "使用显式单调用信封并保留旧字节与原预算；不明调用先恢复，不自行重试。",
+      "expectations": [
+        "只新增不可覆盖的信封sidecar，不重导出、不改原prompt/manifest/授权/次数",
+        "遇到prompt、manifest、附件、信封篡改或已陈旧的attempt/plan，准备或reserve失败且保留原证据，不改hash凑通过",
+        "原生艺术prompt/request不添加网页信封；旧submitted或unknown仅恢复，不补写已发执行证据"
+      ]
+    },
+    {
+      "id": 226,
+      "category": "web-execution-envelope",
+      "source_eval": "SR-E-WEB-UNCERTAIN",
+      "prompt": "网页刚回首图又说要定向修正，我点了停止但不知道第二次是否开始；直接当只用了一次继续吧。",
+      "expected_output": "使用显式单调用信封并保留旧字节与原预算；不明调用先恢复，不自行重试。",
+      "expectations": [
+        "保留首图与实际观察记录，明确第二次调用状态不明，不断言已阻止或已发生",
+        "暂停追加调用并先核实原回复；不自动重试、改目录或清零预算",
+        "视觉QA与远端调用次数分别记录；本地reserved/returned不构成远端调用计数证明"
+      ]
     }
   ]
 }

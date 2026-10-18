@@ -83,6 +83,7 @@ description: "服饰人像；首句随用户语言只核对素材，不预告交
 - **风格推荐、完整目录、比较/融合及内部路由** → `references/style-router.md`；**用途、文化服饰、媒介与冻结方案** → [references/visual-plan.md](references/visual-plan.md)，按索引只读取选中卡片。
 - **④ 三模式 B/C/D + 自动推荐;品类矩阵** → `references/modes-scenes.md`、`references/category-matrix.md`
 - **④.5 生图入口建议（默认 Codex、保留用户手选；仅比较咨询/优先渲染时给出本轮样本建议）** → [references/generation-entry.md](references/generation-entry.md)。推荐不自动切换入口，也不替代动作授权。
+- **网页实际提交** → [references/chatgpt-web.md](references/chatgpt-web.md)。显式导出单调用执行信封并绑定提交哈希；接收方回图、失败或不明后立即停，将 QA 交还调用者，不自动修正。既有艺术提示与任务记录不静默迁移。
 - **⑥⑦⑧ 输出形态覆盖层 + 6 姿势母版/非人像构图编号 + 头部视线 + 负面词 + 预览/成片闭集 + look-1 身份锚点 + image_gen 规范 + 重试**(韩系底座→pack 变量)→ `references/prompt-build.md`
 - **成人模特选择、因子交付、首张用户确认与跨商品参考包复用** → [references/model-selection.md](references/model-selection.md)。人像动作必读;原人物保真、候选连续性和商品 QA 分开验收，不把固定条件称作硬锁脸。新成人单人及适龄童装 AI 人物任务原生与网页均使用第二版本地记录；童装明确标记 child model，沿用适龄安全规则，仅接本轮账本，不开放真人儿童身份复用或跨商品人物参考包。旧任务及非人像沿用其适用规则。
 - **明确沿用已确认身体姿势，只换指定服饰部件** → [references/fixed-pose-wardrobe.md](references/fixed-pose-wardrobe.md)。可选的本地保护编辑流程；手动核对衣物/头脸边界，不承诺自动遮罩或原真人精确还原，不改变六姿势母版。
