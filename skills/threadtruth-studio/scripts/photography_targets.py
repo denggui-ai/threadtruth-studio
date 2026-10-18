@@ -21,12 +21,18 @@ def validate(value):
 
 # Head, gaze and framing belong to the real face plan / per-shot framing; a task-wide target that restates
 # them bypasses that validation and conflicts across the six mothers.
-PERSON_OR_FRAMING = re.compile(r'\b(?:gaze|eyes?(?!-level)|eyeline|off[- ](?:lens|camera|frame)|head (?:turn|direction|view)|near[- ]front'
-                               r'|full[- ]body|half[- ]body|knee[- ]up)\b', re.I)
+PERSON_OR_FRAMING = re.compile(r'\b(?:gaze|eyes?(?![- ]level)|eyeline|off[- ](?:lens|camera|frame)|head (?:turn|direction|view)|near[- ]front'
+                               r'|heads?\s+faces?\s+(?:the\s+)?camera'
+                               r'|full[- ]body|half[- ]body|knee[- ]up)\b'
+                               r'|(?:全身|半身)(?:取景|构图)|(?:正脸)?直视镜头', re.I)
 
 
 def strict_check(value):
-    """New tasks/compilations only; frozen tasks keep validate() so they remain restorable."""
+    """Reject known directives in new preparation, not arbitrary prose semantics.
+
+    Eye-level camera/light placement remains photography. Frozen tasks keep
+    validate() so they remain restorable without rewriting historical targets.
+    """
     for target in validate(value):
         if PERSON_OR_FRAMING.search(target):
             raise ValueError('Task photography targets describe scene, light and composition only; '

@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — WP2-A / F02 photography-target checks, 2026-10-18
+
+- Reproduce three leaked directives: Chinese whole-group full-body framing, frontal camera gaze and English `Every head faces camera`. The proposed `identical head direction` example was already rejected. Also reproduce an adjacent false positive for the legitimate `Camera at approximately eye level` phrase.
+- Extend only the existing new-preparation lexical check for explicit Chinese framing/camera-gaze and English head-facing-camera phrases; allow spaced as well as hyphenated eye-level placement. Reject the field with the existing per-shot-plan/framing guidance, without rewriting requests or adding confirmation steps. This remains bounded lexical validation, not arbitrary semantic conflict detection.
+- Keep validate/render/apply and all frozen-task recovery/export rules unchanged. No pose, style, person/product/reference, canvas, ledger or runtime prompt-format changes. Add five deterministic test methods and extend RF-12/main 201; no new framework or broad keyword list.
+- Verification: 25 photography-target tests and 73 related tests pass; 36 old/new synthetic exports are byte-identical and six old-helper frozen tasks recover byte-identically. See docs/verification/2026-10-18-wp2a-f02.md. Source fix only: no image call, installation, push, PR, release or visual-improvement claim.
+
 ## Unreleased — missing-photo planning boundary, 2026-10-17
 
 - Incident: an isolated, image-free startup expanded model styling and six garment-specific shot plans instead of stopping for the minimum original photos. No generation occurred. This is an observed instruction-following/routing ambiguity, not evidence of a ledger bug.
