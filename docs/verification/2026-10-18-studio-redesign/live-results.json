@@ -1,21 +1,21 @@
 {
   "schema_version": 1,
   "status": "candidate-with-failed-visual-gate",
-  "captured_at_utc": "2026-10-18T20:21:27.673275+00:00",
+  "captured_at_utc": "2026-10-18T23:52:19.523424+00:00",
   "runtime_commit": "f5519a85564a7893b240d5c7aaf1d1c3f82967e9",
   "visual_plan_commit": "f531e1a18947ced0901a54b9d872709e089677fa",
   "baseline_commit": "1c4887167631e1b02413ad2b385e5df3a267e621",
   "counts": {
     "planned_slots": 60,
-    "confirmed_dispatched": 49,
-    "historical_reserved": 50,
+    "confirmed_dispatched": 50,
+    "historical_reserved": 51,
     "active_reserved": 0,
     "uncertain_additional": 1,
-    "conservative_used": 51,
+    "conservative_used": 52,
     "ceiling": 60,
-    "retained_files": 49,
+    "retained_files": 50,
     "qa_grades": {
-      "qa-retry": 16,
+      "qa-retry": 17,
       "qa-user-review": 33
     }
   },
@@ -33,10 +33,12 @@
     "original_ai_or_nonportrait": 9,
     "additional_ai_or_nonportrait": 3,
     "ai_or_nonportrait_planned": 12,
-    "ai_or_nonportrait_executed": 10,
-    "ai_or_nonportrait_blocked_or_waiting": 2,
+    "ai_or_nonportrait_executed": 11,
+    "ai_or_nonportrait_blocked_or_waiting": 1,
     "real_person_deferred": 3,
-    "explicit_root_behavior_pass_records": 7
+    "explicit_root_behavior_pass_records": 7,
+    "fresh_isolated_ai_or_nonportrait_executed": 10,
+    "root_coordinated_followup_cases": 1
   },
   "images": [
     {
@@ -1752,6 +1754,40 @@
         "observations": [],
         "qa_hash_bound": true
       }
+    },
+    {
+      "request_id": "SR-053",
+      "title": "Clean Fit",
+      "direction_id": "clean-fit",
+      "route": "native",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "existing-ai",
+      "garment_fixture_id": "white-puffer-vest",
+      "sha256": "3e5c1bb9439750ead3b197e93f961964840b4291a401f23b69a57bbb6fc7d9e9",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": null,
+      "qa": {
+        "grade": "qa-retry",
+        "decision": "rejected",
+        "scope": "根操作者实际编辑结果QA；当前对话完成，非新隔离子代理测试",
+        "hard_findings": [
+          "only-background invariant: 裤腿局部细纹和明暗相对底图发生可见重绘；修改超出背景颜色。",
+          "实际并排查看原像素裤腿区域，成图出现不同的不规则细纹/云状明暗。区域RGB差异量只是辅助描述，视觉比较为主要判据。"
+        ],
+        "observations": [
+          "灰色无缝背景和地面已变为浅米色，仍保留柔和过渡及鞋底接触阴影。",
+          "脸部主要外观、发型、头向、视线、表情、站姿、手脚位置、马甲主轮廓与金色拉链/袋位总体保持；未见明显换人或新姿态。微小五金及皮肤不作逐像素不变认证。"
+        ],
+        "qa_hash_bound": true
+      },
+      "edit_target_request": "SR-006",
+      "edit_target_sha256": "e730d0bbdda3f918fe37c5f18ae35e10d6028dc7d31e799da7430ff2ddf672da"
     }
   ],
   "pairs": [
@@ -1874,8 +1910,7 @@
     "SR-045": "blocked-by-D04-failed-preview",
     "SR-046": "blocked-by-D04-failed-preview",
     "SR-051": "blocked-by-unaccepted-D04-adult-first-image-and-package",
-    "SR-052": "deferred-user-real-input",
-    "SR-053": "waiting-user-edit-target-and-acceptance"
+    "SR-052": "deferred-user-real-input"
   },
   "dialogues": [
     {
@@ -2286,34 +2321,37 @@
         "SR-053"
       ],
       "user_brief": "定位准确SR-006版本，只有背景颜色变化，不重做整组。",
-      "status": "waiting-user-not-executed",
+      "status": "executed-root-followup-image-rejected",
       "actual_thread_id": null,
-      "evidence_ref": "live-results.json#D11",
+      "evidence_ref": "image-edit-followup.md",
       "review": {
         "status": "waiting-user-not-executed",
         "summary": "无D11实际actions/answer/root-review，也无SR-053任务或预约；不从SR-006技术接受推断用户批准。"
       },
-      "actual_scope": "原计划定位SR-006准确版本后仅改背景颜色；目前等待用户目标接受/编辑确认，未启动实际编辑对话。",
-      "actual_executed": false,
+      "actual_scope": "用户确认SR-006为修改底图并指定只将灰背景改浅米色；当前根对话执行一次原生修改。",
+      "actual_executed": true,
       "image_result": {
-        "status": "not-generated",
-        "qa": null,
-        "summary": "SR-053零调用；目标SR-006保留qa-user-review和空人物确认。"
+        "status": "rejected",
+        "qa": "qa-retry",
+        "independent_images": 1,
+        "summary": "背景浅米色目标成立；裤腿细纹和明暗出现额外重绘，未达其余保持。"
       },
-      "blocking_reason": "root当前仍在等待用户接受SR-006目标及确认编辑，未收到答复。",
+      "blocking_reason": null,
       "related_requests": {
         "planned": [
           "SR-053"
         ],
-        "actually_executed_for_this_case": [],
-        "not_executed_for_this_case": [
+        "actually_executed_for_this_case": [
           "SR-053"
         ],
-        "separate_validation_not_counted_here": [],
-        "edit_target": [
-          "SR-006"
-        ]
-      }
+        "not_executed_for_this_case": [],
+        "separate_validation_not_counted_here": []
+      },
+      "behavior_result": {
+        "status": "executed-root-followup",
+        "summary": "准确版本/用户确认/原始人物与商品来源/单次调用已记录；不是新隔离子代理对话，严格背景保护实图未过。"
+      },
+      "fresh_isolated_dialogue": false
     },
     {
       "dialogue_id": "D12",
@@ -2472,9 +2510,9 @@
     },
     {
       "id": "EDIT-01",
-      "status": "deferred(user-target-confirmation)",
+      "status": "open",
       "scope": "D11/SR-053",
-      "finding": "Exact accepted target and edit confirmation remain unanswered; no edit was executed."
+      "finding": "User confirmed exact SR-006 base and pale-beige background scope. One native edit returned; protected denim texture/shading changed, so strict background-only acceptance failed."
     },
     {
       "id": "WEB-01",
@@ -2484,10 +2522,11 @@
     }
   ],
   "private_evidence_integrity": {
-    "ledger_sha256": "6f3eca46d11aea724b520aba754251002e55a8bcf8ecc8147176cfbf140b82cc",
-    "gallery_data_sha256": "952d335e4fe8fc27233b829b2042387f3a37bc5e880c0b6be157a06466dbf378",
+    "ledger_sha256": "23142f8617b239dc7080abbcfb4c837b089330014731b10c01b899c5acff57ff",
+    "gallery_data_sha256": "b7196b4ca65852c10baf09aacf5551a0968c993d9a468abe86dee0d7a71e49de",
     "dialogue_summary_sha256": "117d4a0cd7932b94aec02625cdb36f5799f2c5645ef4a940e663d1d9a4c40341",
-    "code_check_summary_sha256": "e5729f09417586eb8e88de694c5c0fdb75154ea870408d363504411edb15d78f"
+    "code_check_summary_sha256": "e5729f09417586eb8e88de694c5c0fdb75154ea870408d363504411edb15d78f",
+    "followup_edit_qa_sha256": "0ea9827f298a003b35fc4c58cd6dd57640775829a6fa7c038c82a560451f3a62"
   },
   "final_source_checks": {
     "source-standard": {
@@ -2502,5 +2541,11 @@
       "returncode": 0,
       "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     }
+  },
+  "followup_edit": {
+    "request": "SR-053",
+    "source_scope": "root-current-conversation; not fresh isolated dialogue",
+    "qa": "qa-retry",
+    "evidence_ref": "image-edit-followup.md"
   }
 }

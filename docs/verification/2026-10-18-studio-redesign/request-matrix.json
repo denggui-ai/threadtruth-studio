@@ -285,13 +285,13 @@
     "hard_ceiling": 60,
     "planned_primary_calls": 56,
     "conditional_reserve_calls": 4,
-    "actual_image_calls": 49,
+    "actual_image_calls": 50,
     "formula": "36 direction singles + 10 remaining set images + 4 preview grids + 2 cross-SKU + 1 edit + 3 baseline controls = 56; 4 conditional reserve = 60",
     "counting_rule": "Count every actual generation/edit dispatch, including failed, timed-out and rejected attempts. Unknown results stay charged; recover the same request before deciding any retry. One six-cell grid is one call and zero independent final images.",
-    "confirmed_dispatches": 49,
-    "historical_reserved_attempts": 50,
+    "confirmed_dispatches": 50,
+    "historical_reserved_attempts": 51,
     "uncertain_additional_calls": 1,
-    "conservative_used": 51,
+    "conservative_used": 52,
     "conditional_reserve_remaining": 0,
     "remote_web_tool_call_count": "unverified",
     "accounting_note": "Confirmed operator dispatches exclude SR-049, which failed before Send. Its reserved slot remains charged; SR-058 holds one possible automatic web call. The 60 ceiling was not exhausted; unavailable dependencies are not reassigned to unplanned retries."
@@ -3057,27 +3057,31 @@
       "identity_fixture_id": "ai-adult-public",
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "waiting-user-edit-target-and-acceptance",
-      "attempts": 0,
+      "execution_status": "rejected-background-only-edit",
+      "attempts": 1,
       "depends_on": [
         "SR-006"
       ],
-      "blockers": [
-        "waiting-user-edit-target-and-acceptance"
-      ],
+      "blockers": [],
       "canvas": {
         "ratio": "2:3",
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "user_request_zh": "只修改已验收的SR-006这一张，把背景从暖灰改为浅米色；服装、模特身份、姿态、构图与画布保持。保留原图与新版本，不重做整组。",
       "edit_target": "SR-006",
-      "confirmed_dispatches": 0,
+      "confirmed_dispatches": 1,
       "uncertain_additional_call": false,
       "actual_result_ref": "live-results.json#SR-053",
-      "qa": "not-run-no-output"
+      "qa": "qa-retry",
+      "output_sha256": "3e5c1bb9439750ead3b197e93f961964840b4291a401f23b69a57bbb6fc7d9e9",
+      "qa_decision": "rejected",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-054",
@@ -3391,6 +3395,6 @@
       "effect": "SR-021 and SR-024 retain their style-image slots using the existing public AI identity. These provide no real-adult evidence. SR-052 real-adult cross-SKU stays deferred."
     }
   ],
-  "updated_at": "2026-10-18T20:21:27.673275+00:00",
+  "updated_at": "2026-10-18T23:52:19.523424+00:00",
   "visual_plan_commit": "f531e1a18947ced0901a54b9d872709e089677fa"
 }
