@@ -1,7 +1,20 @@
 {
   "schema_version": 1,
-  "status": "not-run",
-  "note": "Each item requires an actual new model conversation. Request IDs are shared with the 60-call matrix, not additional generation budget. These definitions and static checks are not runtime evidence.",
+  "status": "executed-with-open-findings",
+  "updated_at": "2026-10-18T20:21:27.673275+00:00",
+  "note": "Fresh isolated Codex subagent actions and answers were retained; root operator performed authorized image calls. Model conversation execution does not imply visual acceptance. No authentic thread ID is retained in these artifacts; case/agent names are not substituted.",
+  "counts": {
+    "all_planned_cases": 15,
+    "original_cases": 12,
+    "original_ai_or_nonportrait": 9,
+    "additional_ai_or_nonportrait": 3,
+    "ai_or_nonportrait_planned": 12,
+    "ai_or_nonportrait_executed": 10,
+    "ai_or_nonportrait_blocked_or_waiting": 2,
+    "real_person_deferred": 3,
+    "explicit_root_behavior_pass_records": 7
+  },
+  "legacy_compatibility": "deterministic-old-writer-evidence-only; no fresh-dialogue pass claimed",
   "dialogues": [
     {
       "dialogue_id": "D01",
@@ -10,10 +23,27 @@
       "model_source": "new-ai",
       "requests": [],
       "user_brief": "从真实白马甲源图进入工作台，只交付单张提示词。",
-      "status": "not-run",
+      "status": "pass-root-review",
       "actual_thread_id": null,
-      "evidence_ref": null,
-      "review": null
+      "evidence_ref": "live-results.json#D01",
+      "review": {
+        "status": "pass-root-review",
+        "summary": "实际查看原服饰，场景/色彩与主方向分轴，原马甲保持白色；交付一份提示词，无生成。"
+      },
+      "actual_scope": "法式居家、奶油环境、新成年AI人物的单张完整提示词；仅本地任务准备和导出。",
+      "actual_executed": true,
+      "image_result": {
+        "status": "not-generated",
+        "qa": null,
+        "summary": "本例0调用，没有图像质量结论。"
+      },
+      "blocking_reason": null,
+      "related_requests": {
+        "planned": [],
+        "actually_executed_for_this_case": [],
+        "not_executed_for_this_case": [],
+        "separate_validation_not_counted_here": []
+      }
     },
     {
       "dialogue_id": "D02",
@@ -22,10 +52,27 @@
       "model_source": "existing-ai",
       "requests": [],
       "user_brief": "读取公开成年AI锚点与大衣，只交付网页提示词与上传顺序。",
-      "status": "not-run",
+      "status": "pass-root-review",
       "actual_thread_id": null,
-      "evidence_ref": null,
-      "review": null
+      "evidence_ref": "live-results.json#D02",
+      "review": {
+        "status": "pass-root-review",
+        "summary": "商品与人物参考角色分开，排除身份照片原白马甲；一份网页提示词和编号附件已交付。"
+      },
+      "actual_scope": "沿用已有成年AI人物的大衣哥特网页单张提示词及上传顺序；本地准备，未打开网页或上传。",
+      "actual_executed": true,
+      "image_result": {
+        "status": "not-generated",
+        "qa": null,
+        "summary": "本例0调用，无网页实图或上传验收。"
+      },
+      "blocking_reason": null,
+      "related_requests": {
+        "planned": [],
+        "actually_executed_for_this_case": [],
+        "not_executed_for_this_case": [],
+        "separate_validation_not_counted_here": []
+      }
     },
     {
       "dialogue_id": "D03",
@@ -42,10 +89,48 @@
         "SR-041"
       ],
       "user_brief": "童装正背、先预览，再接受首图后完成六张。",
-      "status": "not-run",
+      "status": "executed-with-failed-visual-delivery",
       "actual_thread_id": null,
-      "evidence_ref": null,
-      "review": null
+      "evidence_ref": "live-results.json#D03",
+      "review": {
+        "status": "executed-with-failed-visual-delivery",
+        "summary": "实际经过预览与独立首图门禁，固定SR-004身份锚点续后五张；最终记录并保留失败，没有自动修复或升级image-ready。"
+      },
+      "actual_scope": "原生童装预览、修订预览、用户确认首张人物后完成六张独立图并逐张/整组审查。",
+      "actual_executed": true,
+      "image_result": {
+        "status": "group-not-accepted",
+        "qa": "qa-retry",
+        "independent_images": 6,
+        "preview_images": 2,
+        "technical_qa_user_review_images": 4,
+        "rejected_images": 2,
+        "summary": "SR-038/SR-040缺第三排前片纽扣且景别不符；前五张头向、左向视线与微笑重复，整组未通过。"
+      },
+      "blocking_reason": "已返回全部六张但真实商品/景别失败与整组重复仍未关闭。",
+      "related_requests": {
+        "planned": [
+          "SR-047",
+          "SR-004",
+          "SR-037",
+          "SR-038",
+          "SR-039",
+          "SR-040",
+          "SR-041"
+        ],
+        "actually_executed_for_this_case": [
+          "SR-047",
+          "SR-057",
+          "SR-004",
+          "SR-037",
+          "SR-038",
+          "SR-039",
+          "SR-040",
+          "SR-041"
+        ],
+        "not_executed_for_this_case": [],
+        "separate_validation_not_counted_here": []
+      }
     },
     {
       "dialogue_id": "D04",
@@ -63,10 +148,55 @@
         "SR-046"
       ],
       "user_brief": "成年人AI、只有衣服正面，预览修订一次，接受首图后完成含替代镜头的六图。",
-      "status": "not-run",
+      "status": "executed-preview-rejected-dependencies-blocked",
       "actual_thread_id": null,
-      "evidence_ref": null,
-      "review": null
+      "evidence_ref": "live-results.json#D04",
+      "review": {
+        "status": "executed-preview-rejected-dependencies-blocked",
+        "summary": "早期actions/answer只记录准备；最终actual-status/final-actions记录实际预览、发出前失败及修订，不能沿用早期0调用为最终状态。"
+      },
+      "actual_scope": "成年已有AI人物、仅衣服正面资料的网页预览与多次修订；后续独立六张未启动。",
+      "actual_executed": true,
+      "image_result": {
+        "status": "preview-rejected",
+        "qa": "qa-retry",
+        "preview_images": 3,
+        "independent_images": 0,
+        "summary": "SR-060部分修复成立，但第1格躯干回转仍不足、第1–5格右向离镜视线重复；方向和独立首张人物均未接受。"
+      },
+      "blocking_reason": "失败预览未得到合格方向及独立首图人物确认，阻断SR-018/SR-042–046及D09复用。",
+      "related_requests": {
+        "planned": [
+          "SR-048",
+          "SR-049",
+          "SR-018",
+          "SR-042",
+          "SR-043",
+          "SR-044",
+          "SR-045",
+          "SR-046"
+        ],
+        "actually_executed_for_this_case": [
+          "SR-048",
+          "SR-059",
+          "SR-060"
+        ],
+        "not_executed_for_this_case": [
+          "SR-018",
+          "SR-042",
+          "SR-043",
+          "SR-044",
+          "SR-045",
+          "SR-046"
+        ],
+        "separate_validation_not_counted_here": [],
+        "failed_before_send": [
+          "SR-049"
+        ],
+        "uncertain_auto_retry": [
+          "SR-058"
+        ]
+      }
     },
     {
       "dialogue_id": "D05",
@@ -77,10 +207,33 @@
         "SR-050"
       ],
       "user_brief": "旗袍只要六宫格，明确预览后即止。",
-      "status": "not-run",
+      "status": "correct-stop-observed-in-retained-evidence",
       "actual_thread_id": null,
-      "evidence_ref": null,
-      "review": null
+      "evidence_ref": "live-results.json#D05",
+      "review": {
+        "status": "correct-stop-observed-in-retained-evidence",
+        "summary": "finish-preview stop及complete=true记录的是停止流程；没有生成独立图、自动重试或把停止当方向接受。"
+      },
+      "actual_scope": "旗袍六宫格方向预览，按原要求返回后停止；不转独立成片。",
+      "actual_executed": true,
+      "image_result": {
+        "status": "preview-rejected",
+        "qa": "qa-retry",
+        "preview_images": 1,
+        "independent_images": 0,
+        "summary": "彩色滚边偏为金橙色且第5格比膝上更紧；保留拒收。"
+      },
+      "blocking_reason": "用户限定仅此预览即止，失败不再修订。",
+      "related_requests": {
+        "planned": [
+          "SR-050"
+        ],
+        "actually_executed_for_this_case": [
+          "SR-050"
+        ],
+        "not_executed_for_this_case": [],
+        "separate_validation_not_counted_here": []
+      }
     },
     {
       "dialogue_id": "D06",
@@ -91,10 +244,32 @@
         "SR-006"
       ],
       "user_brief": "Clean Fit单张，明确不续图，后续指定修改另开对话。",
-      "status": "not-run",
+      "status": "pass-root-review",
       "actual_thread_id": null,
-      "evidence_ref": null,
-      "review": null
+      "evidence_ref": "live-results.json#D06",
+      "review": {
+        "status": "pass-root-review",
+        "summary": "限定恢复/仅一张/不重复生成行为通过；未续预览或六张，未虚构人物接受。"
+      },
+      "actual_scope": "中断后恢复已返回的SR-006 Clean Fit单图，核对原图与参考后交付；没有重生成。",
+      "actual_executed": true,
+      "image_result": {
+        "status": "technical-user-review",
+        "qa": "qa-user-review",
+        "independent_images": 1,
+        "summary": "已有原图1024×1536，主要结构与身份无明确阻断；暖灰目标偏弱、细微五金/面料待人工核对，image-draft且未有人物接受。"
+      },
+      "blocking_reason": "等待用户对目标图和编辑范围的实际回应；本例恢复交付不构成D11编辑授权。",
+      "related_requests": {
+        "planned": [
+          "SR-006"
+        ],
+        "actually_executed_for_this_case": [
+          "SR-006"
+        ],
+        "not_executed_for_this_case": [],
+        "separate_validation_not_counted_here": []
+      }
     },
     {
       "dialogue_id": "D07",
@@ -105,10 +280,33 @@
         "SR-024"
       ],
       "user_brief": "指定已授权成年人单张；未给实际文件时blocked-input。",
-      "status": "not-run",
+      "status": "deferred-real-person-not-executed",
       "actual_thread_id": null,
-      "evidence_ref": null,
-      "review": null
+      "evidence_ref": "live-results.json#D07",
+      "review": {
+        "status": "deferred-real-person-not-executed",
+        "summary": "未找到本例实际actions/answer/root-review，不记实际真人对话或通过。"
+      },
+      "actual_scope": "原计划为已授权成年真人身份专项；用户已决定先完成AI测试，真人专项待补。",
+      "actual_executed": false,
+      "image_result": {
+        "status": "not-generated-for-real-person-case",
+        "qa": null,
+        "summary": "本例真人画面及其跨商品身份能力未验证。"
+      },
+      "blocking_reason": "本轮未提供并启用指定已授权成年真人素材/可接受人物包；用户明确延期真人专项。",
+      "related_requests": {
+        "planned": [
+          "SR-024"
+        ],
+        "actually_executed_for_this_case": [],
+        "not_executed_for_this_case": [
+          "SR-024"
+        ],
+        "separate_validation_not_counted_here": [
+          "SR-024"
+        ]
+      }
     },
     {
       "dialogue_id": "D08",
@@ -119,10 +317,33 @@
         "SR-021"
       ],
       "user_brief": "指定成年真人首个SKU，实际接受后建立人物资料包。",
-      "status": "not-run",
+      "status": "deferred-real-person-not-executed",
       "actual_thread_id": null,
-      "evidence_ref": null,
-      "review": null
+      "evidence_ref": "live-results.json#D08",
+      "review": {
+        "status": "deferred-real-person-not-executed",
+        "summary": "未找到本例实际actions/answer/root-review，不记实际真人对话或通过。"
+      },
+      "actual_scope": "原计划为已授权成年真人身份专项；用户已决定先完成AI测试，真人专项待补。",
+      "actual_executed": false,
+      "image_result": {
+        "status": "not-generated-for-real-person-case",
+        "qa": null,
+        "summary": "本例真人画面及其跨商品身份能力未验证。"
+      },
+      "blocking_reason": "本轮未提供并启用指定已授权成年真人素材/可接受人物包；用户明确延期真人专项。",
+      "related_requests": {
+        "planned": [
+          "SR-021"
+        ],
+        "actually_executed_for_this_case": [],
+        "not_executed_for_this_case": [
+          "SR-021"
+        ],
+        "separate_validation_not_counted_here": [
+          "SR-021"
+        ]
+      }
     },
     {
       "dialogue_id": "D09",
@@ -133,10 +354,31 @@
         "SR-051"
       ],
       "user_brief": "全新对话仅从已接受资料包恢复成人AI身份，换第二个SKU。",
-      "status": "not-run",
+      "status": "blocked-dependency-not-executed",
       "actual_thread_id": null,
-      "evidence_ref": null,
-      "review": null
+      "evidence_ref": "live-results.json#D09",
+      "review": {
+        "status": "blocked-dependency-not-executed",
+        "summary": "没有D09实际actions/answer或人物包恢复对话，不能以单独AI样本替代跨SKU链。"
+      },
+      "actual_scope": "原计划从D04已接受人物包在新对话换第二个SKU；实际未启动。",
+      "actual_executed": false,
+      "image_result": {
+        "status": "not-generated",
+        "qa": null,
+        "summary": "SR-051未发出，无D09独立图。"
+      },
+      "blocking_reason": "D04预览失败，缺合格独立首图、实际人物确认及可接受人物包。",
+      "related_requests": {
+        "planned": [
+          "SR-051"
+        ],
+        "actually_executed_for_this_case": [],
+        "not_executed_for_this_case": [
+          "SR-051"
+        ],
+        "separate_validation_not_counted_here": []
+      }
     },
     {
       "dialogue_id": "D10",
@@ -147,10 +389,31 @@
         "SR-052"
       ],
       "user_brief": "全新对话从本轮指定成年真人资料包恢复身份，换第二个SKU。",
-      "status": "not-run",
+      "status": "deferred-real-person-not-executed",
       "actual_thread_id": null,
-      "evidence_ref": null,
-      "review": null
+      "evidence_ref": "live-results.json#D10",
+      "review": {
+        "status": "deferred-real-person-not-executed",
+        "summary": "未找到本例实际actions/answer/root-review，不记实际真人对话或通过。"
+      },
+      "actual_scope": "原计划为已授权成年真人身份专项；用户已决定先完成AI测试，真人专项待补。",
+      "actual_executed": false,
+      "image_result": {
+        "status": "not-generated-for-real-person-case",
+        "qa": null,
+        "summary": "本例真人画面及其跨商品身份能力未验证。"
+      },
+      "blocking_reason": "本轮未提供并启用指定已授权成年真人素材/可接受人物包；用户明确延期真人专项。",
+      "related_requests": {
+        "planned": [
+          "SR-052"
+        ],
+        "actually_executed_for_this_case": [],
+        "not_executed_for_this_case": [
+          "SR-052"
+        ],
+        "separate_validation_not_counted_here": []
+      }
     },
     {
       "dialogue_id": "D11",
@@ -161,24 +424,142 @@
         "SR-053"
       ],
       "user_brief": "定位准确SR-006版本，只有背景颜色变化，不重做整组。",
-      "status": "not-run",
+      "status": "waiting-user-not-executed",
       "actual_thread_id": null,
-      "evidence_ref": null,
-      "review": null
+      "evidence_ref": "live-results.json#D11",
+      "review": {
+        "status": "waiting-user-not-executed",
+        "summary": "无D11实际actions/answer/root-review，也无SR-053任务或预约；不从SR-006技术接受推断用户批准。"
+      },
+      "actual_scope": "原计划定位SR-006准确版本后仅改背景颜色；目前等待用户目标接受/编辑确认，未启动实际编辑对话。",
+      "actual_executed": false,
+      "image_result": {
+        "status": "not-generated",
+        "qa": null,
+        "summary": "SR-053零调用；目标SR-006保留qa-user-review和空人物确认。"
+      },
+      "blocking_reason": "root当前仍在等待用户接受SR-006目标及确认编辑，未收到答复。",
+      "related_requests": {
+        "planned": [
+          "SR-053"
+        ],
+        "actually_executed_for_this_case": [],
+        "not_executed_for_this_case": [
+          "SR-053"
+        ],
+        "separate_validation_not_counted_here": [],
+        "edit_target": [
+          "SR-006"
+        ]
+      }
     },
     {
       "dialogue_id": "D12",
       "route": "native",
-      "delivery": "single-image",
+      "delivery": "prompt-only-nonportrait",
       "model_source": "none",
-      "requests": [
-        "SR-017"
-      ],
+      "requests": [],
       "user_brief": "明确挂拍不含人物，检查人像pose与身份包流程不进入此任务。",
-      "status": "not-run",
+      "status": "pass-root-review",
       "actual_thread_id": null,
-      "evidence_ref": null,
-      "review": null
+      "evidence_ref": "live-results.json#D12",
+      "review": {
+        "status": "pass-root-review",
+        "summary": "实际非人像准备通过；无model/face plan，原任务authorization=null、attempts=0。"
+      },
+      "actual_scope": "原fresh用户明确只要浅灰摄影棚、北欧简约、无人物无人台的1张2:3挂拍方案与提示词，明确不要现在生图。",
+      "actual_executed": true,
+      "image_result": {
+        "status": "not-generated-in-this-dialogue",
+        "qa": null,
+        "summary": "D12原task保持0调用，不提供图像效果验收。"
+      },
+      "blocking_reason": null,
+      "related_requests": {
+        "planned": [
+          "SR-017"
+        ],
+        "actually_executed_for_this_case": [],
+        "not_executed_for_this_case": [
+          "SR-017"
+        ],
+        "separate_validation_not_counted_here": [
+          "SR-017"
+        ]
+      },
+      "definition_note": "Original planned single-image was actually exercised as an explicitly prompt-only dialogue. SR-017 is separate visual testing, not D12 generation."
+    },
+    {
+      "dialogue_id": "D13",
+      "status": "pass-root-review",
+      "actual_thread_id": null,
+      "evidence_ref": "live-results.json#D13",
+      "actual_scope": "同一白马甲分别比较法式与美式复古日常，居家、美拉德分轴；明确不融合、不生成。",
+      "actual_executed": true,
+      "review": {
+        "status": "pass-root-review",
+        "summary": "两份独立比较方案，无风格合并、商品改色或未知背部/材质编造。"
+      },
+      "image_result": {
+        "status": "not-generated",
+        "qa": null,
+        "summary": "文字比较目标未作实图验证，0调用。"
+      },
+      "blocking_reason": null,
+      "related_requests": {
+        "planned": [],
+        "actually_executed_for_this_case": [],
+        "not_executed_for_this_case": [],
+        "separate_validation_not_counted_here": []
+      }
+    },
+    {
+      "dialogue_id": "D14",
+      "status": "pass-root-review",
+      "actual_thread_id": null,
+      "evidence_ref": "live-results.json#D14",
+      "actual_scope": "无真实工布商品图时检查输入门禁；保留新AI、不要美式、不替代普通藏袍偏好后停止索取最小素材。",
+      "actual_executed": true,
+      "review": {
+        "status": "pass-root-review",
+        "summary": "实际对话完成了应有的缺图停止；没有制造服饰事实、完整商品提示词或生成。"
+      },
+      "image_result": {
+        "status": "not-generated",
+        "qa": null,
+        "summary": "0调用；输入门禁正确停止不证明工布图像能力。"
+      },
+      "blocking_reason": "本对话未提供真实可核对商品照片；这是本例测试的预期停点。",
+      "related_requests": {
+        "planned": [],
+        "actually_executed_for_this_case": [],
+        "not_executed_for_this_case": [],
+        "separate_validation_not_counted_here": []
+      }
+    },
+    {
+      "dialogue_id": "D15",
+      "status": "pass-root-review",
+      "actual_thread_id": null,
+      "evidence_ref": "live-results.json#D15",
+      "actual_scope": "明确法式主导、哥特仅暗部辅助，居家为场景、美拉德为环境色；只交单张提示词。",
+      "actual_executed": true,
+      "review": {
+        "status": "pass-root-review",
+        "summary": "不重复追问已指定主辅，白马甲保持白色；本地v1措辞错误在提交前修正，v1保留，最终v2导出1个pending且无授权/attempts。"
+      },
+      "image_result": {
+        "status": "not-generated",
+        "qa": null,
+        "summary": "0调用，融合方案未作图像验收。"
+      },
+      "blocking_reason": null,
+      "related_requests": {
+        "planned": [],
+        "actually_executed_for_this_case": [],
+        "not_executed_for_this_case": [],
+        "separate_validation_not_counted_here": []
+      }
     }
   ]
 }

@@ -1,6 +1,6 @@
 # 裁光 · Caiguang
 
-**2026-10-18 source candidate under validation:** the studio redesign retains 24 directions and adds 12 execution entries for product display, styled editorials and art campaigns, sharing one frozen visual plan across native and web routes. New visual acceptance and local installation are pending. Public downloads and historical galleries below retain their original scope. [Current source capabilities and limits](docs/CAPABILITIES.md).
+**2026-10-18 source candidate — visual acceptance not passed:** the studio redesign retains 24 directions and adds 12 execution entries for product display, styled editorials and art campaigns. All 36 entries remain DRAFT. Source checks passed; visual and end-to-end acceptance did not all pass. Three paired samples do not establish overall improvement; the child six-image set failed, and a failed web preview blocked its six-image and reuse workflows. Real-person cases are deferred. The candidate is not installed; public downloads and historical galleries below retain their original scope. [Actual results and limits](docs/verification/2026-10-18-studio-redesign/live-results.md) · [Source capabilities](docs/CAPABILITIES.md).
 
 **AI Fashion Studio · 服饰 AI 影棚**
 

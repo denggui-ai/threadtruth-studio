@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "status": "prepared-not-run",
+  "status": "executed-with-open-findings",
   "skill": "threadtruth-studio",
   "prepared_at": "2026-10-18",
-  "scope": "Source-side execution plan; a task definition is not a successful model run.",
+  "scope": "Execution definitions and sanitized actual results. Returned files, technical QA, human acceptance and final delivery remain separate.",
   "baseline_commit": "1c4887167631e1b02413ad2b385e5df3a267e621",
-  "current_commit": null,
+  "current_commit": "f5519a85564a7893b240d5c7aaf1d1c3f82967e9",
   "fixture_bindings": [
     {
       "fixture_id": "white-puffer-vest",
@@ -249,9 +249,9 @@
     },
     {
       "fixture_id": "gongbu-user-or-cleared-public",
-      "status": "blocked-missing-qualified-source",
+      "status": "superseded-by-limited-qualified-candidate",
       "title": "林芝工布服饰",
-      "note": "需同件真实服饰清晰源图及许可；一般藏袍、其他地区民族服饰或模型生成服饰不能替代。已知公开视频候选的 CC BY 版本记录冲突，未作为生成输入。",
+      "note": "Initial candidate remained unsuitable; see gongbu-dance-2011 for the actually used front-only festive/dance outfit. Cultural attribution remains a documented inference.",
       "files": []
     },
     {
@@ -260,15 +260,41 @@
       "title": "用户本轮指定的已授权成年人",
       "note": "用户尚未指定实际文件。不能将公开模特、旧私图、服饰照片里的脸或测试推荐视为本人授权；私有身份输入不进入公开证据。",
       "files": []
+    },
+    {
+      "fixture_id": "gongbu-dance-2011",
+      "status": "accepted-garment-only-with-cultural-limits",
+      "title": "公布藏族-锅庄舞蹈-7",
+      "views": [
+        "front-worn-selected-outfit"
+      ],
+      "source_page": "https://commons.wikimedia.org/wiki/File:%E5%85%AC%E5%B8%83%E8%97%8F%E6%97%8F-%E9%94%85%E5%BA%84%E8%88%9E%E8%B9%88-7_(13072811393).jpg",
+      "author": "shengjingyoujian",
+      "license": "CC BY-SA 2.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0/",
+      "note": "Only the selected blue-blouse, red-belt, purple-skirt and gold-trim long-vest outfit was used. New synthetic adult identity; no source-person identity authorization. Caption/location/shape support a Gongbu festive/dance candidate, not museum certification or universal cultural coverage. Flickr license was checked through the retained Commons review, not a new direct Flickr check.",
+      "files": [
+        {
+          "path": "private-fixture:gongbu-dance-2011/source.jpg",
+          "sha256": "5b37e3d734302f0dd980cf4ead60cb9ce6c62146f74b0eae3441643283a92668"
+        }
+      ]
     }
   ],
   "budget": {
     "hard_ceiling": 60,
     "planned_primary_calls": 56,
     "conditional_reserve_calls": 4,
-    "actual_image_calls": 0,
+    "actual_image_calls": 49,
     "formula": "36 direction singles + 10 remaining set images + 4 preview grids + 2 cross-SKU + 1 edit + 3 baseline controls = 56; 4 conditional reserve = 60",
-    "counting_rule": "Count every actual generation/edit dispatch, including failed, timed-out and rejected attempts. Unknown results stay charged; recover the same request before deciding any retry. One six-cell grid is one call and zero independent final images."
+    "counting_rule": "Count every actual generation/edit dispatch, including failed, timed-out and rejected attempts. Unknown results stay charged; recover the same request before deciding any retry. One six-cell grid is one call and zero independent final images.",
+    "confirmed_dispatches": 49,
+    "historical_reserved_attempts": 50,
+    "uncertain_additional_calls": 1,
+    "conservative_used": 51,
+    "conditional_reserve_remaining": 0,
+    "remote_web_tool_call_count": "unverified",
+    "accounting_note": "Confirmed operator dispatches exclude SR-049, which failed before Send. Its reserved slot remains charged; SR-058 holds one possible automatic web call. The 60 ceiling was not exhausted; unavailable dependencies are not reassigned to unplanned retries."
   },
   "coverage_contract": {
     "directions": 36,
@@ -343,8 +369,10 @@
       ],
       "frozen_user_brief": "使用已绑定的真实服饰源图，按“Clean Fit”方向生成一张独立2:3竖幅图。场景目标：暖灰无缝背景与柔和侧光。保留本件服饰的真实结构、颜色和细节。先输出可核对的拍摄方案，按已授权测试请求执行；本请求只算一张，不自动续图。",
       "old_version": "1c4887167631e1b02413ad2b385e5df3a267e621",
-      "current_version": "freeze-commit-before-dispatch",
-      "limitations": "Single paired samples, not statistical superiority. If model product, route or image access differs, label confounded rather than a controlled win."
+      "current_version": "f531e1a18947ced0901a54b9d872709e089677fa",
+      "limitations": "Single paired samples, not statistical superiority. If model product, route or image access differs, label confounded rather than a controlled win.",
+      "web_execution_envelope_version": "f5519a85564a7893b240d5c7aaf1d1c3f82967e9",
+      "actual_result_ref": "live-results.json#PAIR-01"
     },
     {
       "pair_id": "PAIR-02",
@@ -362,8 +390,10 @@
       ],
       "frozen_user_brief": "使用已绑定的真实服饰源图，按“韩系冷感”方向生成一张独立2:3竖幅图。场景目标：冷灰画廊与左侧大柔光。保留本件服饰的真实结构、颜色和细节。先输出可核对的拍摄方案，按已授权测试请求执行；本请求只算一张，不自动续图。",
       "old_version": "1c4887167631e1b02413ad2b385e5df3a267e621",
-      "current_version": "freeze-commit-before-dispatch",
-      "limitations": "Single paired samples, not statistical superiority. If model product, route or image access differs, label confounded rather than a controlled win."
+      "current_version": "f531e1a18947ced0901a54b9d872709e089677fa",
+      "limitations": "Single paired samples, not statistical superiority. If model product, route or image access differs, label confounded rather than a controlled win.",
+      "web_execution_envelope_version": "f5519a85564a7893b240d5c7aaf1d1c3f82967e9",
+      "actual_result_ref": "live-results.json#PAIR-02"
     },
     {
       "pair_id": "PAIR-03",
@@ -381,8 +411,10 @@
       ],
       "frozen_user_brief": "使用已绑定的真实服饰源图，按“老钱风”方向生成一张独立2:3竖幅图。场景目标：浅米石材庭院的柔和日光。保留本件服饰的真实结构、颜色和细节。先输出可核对的拍摄方案，按已授权测试请求执行；本请求只算一张，不自动续图。",
       "old_version": "1c4887167631e1b02413ad2b385e5df3a267e621",
-      "current_version": "freeze-commit-before-dispatch",
-      "limitations": "Single paired samples, not statistical superiority. If model product, route or image access differs, label confounded rather than a controlled win."
+      "current_version": "f531e1a18947ced0901a54b9d872709e089677fa",
+      "limitations": "Single paired samples, not statistical superiority. If model product, route or image access differs, label confounded rather than a controlled win.",
+      "web_execution_envelope_version": "f5519a85564a7893b240d5c7aaf1d1c3f82967e9",
+      "actual_result_ref": "live-results.json#PAIR-03"
     }
   ],
   "requests": [
@@ -399,8 +431,8 @@
       "identity_fixture_id": null,
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -408,7 +440,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "美式街头",
       "scene_brief": "城市砖墙和通透自然光",
@@ -427,7 +462,14 @@
         "pose-if-applicable",
         "identity-if-applicable",
         "canvas"
-      ]
+      ],
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-001",
+      "output_sha256": "9853cdd17e2a1a0bd33ae778fdaaab2062a5207a96441f31cd5609ea80a80da3",
+      "qa": "qa-retry",
+      "qa_decision": "rejected",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-002",
@@ -442,8 +484,8 @@
       "identity_fixture_id": null,
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -451,7 +493,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "运动休闲",
       "scene_brief": "明亮室内训练空间边缘",
@@ -470,7 +515,14 @@
         "pose-if-applicable",
         "identity-if-applicable",
         "canvas"
-      ]
+      ],
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-002",
+      "output_sha256": "8c78d1633dbea01fdd63b7b24db8a443deb865cd65598d70640981a6f9f4ac6b",
+      "qa": "qa-retry",
+      "qa_decision": "rejected",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-003",
@@ -485,8 +537,8 @@
       "identity_fixture_id": null,
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -494,7 +546,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "芭蕾日常",
       "scene_brief": "安静浅色排练室；不改原服饰为芭蕾裙",
@@ -513,7 +568,14 @@
         "pose-if-applicable",
         "identity-if-applicable",
         "canvas"
-      ]
+      ],
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-003",
+      "output_sha256": "15a462d544fae009a1574d836ba010a0e1c3cd3f86d8d4d7d05d02fc98c28771",
+      "qa": "qa-user-review",
+      "qa_decision": "accept",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-004",
@@ -528,8 +590,8 @@
       "identity_fixture_id": null,
       "delivery": "six-image-set-first",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "accepted-first-model-confirmed-by-user",
+      "attempts": 1,
       "depends_on": [
         "SR-047"
       ],
@@ -539,7 +601,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "英伦复古",
       "scene_brief": "自然采光的木质历史室内",
@@ -560,7 +625,14 @@
         "canvas"
       ],
       "group_id": "native-child-six",
-      "group_position": 1
+      "group_position": 1,
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-004",
+      "output_sha256": "f7e1881f62c35f503febf78e4083655442da873f6eb1bc603e3ebc3b59559c7a",
+      "qa": "qa-user-review",
+      "qa_decision": "accepted",
+      "human_model_accepted": true
     },
     {
       "request_id": "SR-005",
@@ -575,8 +647,8 @@
       "identity_fixture_id": null,
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -584,7 +656,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "Cityboy",
       "scene_brief": "城市咖啡店外的自然光",
@@ -603,7 +678,14 @@
         "pose-if-applicable",
         "identity-if-applicable",
         "canvas"
-      ]
+      ],
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-005",
+      "output_sha256": "4668e49621d702f560e4346b8666b07d66278f62518d2caff560bce8f644e508",
+      "qa": "qa-retry",
+      "qa_decision": "rejected",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-006",
@@ -618,8 +700,8 @@
       "identity_fixture_id": "ai-adult-public",
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "accepted-technical-user-review",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -627,7 +709,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "Clean Fit",
       "scene_brief": "暖灰无缝背景与柔和侧光",
@@ -647,7 +732,14 @@
         "identity-if-applicable",
         "canvas"
       ],
-      "baseline_pair": "SR-054"
+      "baseline_pair": "SR-054",
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-006",
+      "output_sha256": "e730d0bbdda3f918fe37c5f18ae35e10d6028dc7d31e799da7430ff2ddf672da",
+      "qa": "qa-user-review",
+      "qa_decision": "accepted",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-007",
@@ -662,8 +754,8 @@
       "identity_fixture_id": null,
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -671,7 +763,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "淑女柔美",
       "scene_brief": "暖白室内与克制精致布景",
@@ -690,7 +785,14 @@
         "pose-if-applicable",
         "identity-if-applicable",
         "canvas"
-      ]
+      ],
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-007",
+      "output_sha256": "e4c5b7811ed72e878880ebb88b74b4b6be33c8675aa77346f8ae889e4a98be1a",
+      "qa": "qa-retry",
+      "qa_decision": "rejected",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-008",
@@ -705,8 +807,8 @@
       "identity_fixture_id": null,
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -714,7 +816,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "电商棚拍",
       "scene_brief": "中性浅灰棚拍背景",
@@ -733,7 +838,14 @@
         "pose-if-applicable",
         "identity-if-applicable",
         "canvas"
-      ]
+      ],
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-008",
+      "output_sha256": "0816c444d2d2de00faf9345867551b1b70e62503bdc09ade72a4f275c9d4dc2e",
+      "qa": "qa-retry",
+      "qa_decision": "rejected",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-009",
@@ -748,8 +860,8 @@
       "identity_fixture_id": null,
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -757,7 +869,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "法式日常",
       "scene_brief": "自然窗光的巴黎式公寓角落",
@@ -776,7 +891,14 @@
         "pose-if-applicable",
         "identity-if-applicable",
         "canvas"
-      ]
+      ],
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-009",
+      "output_sha256": "af39f7067d94de1d4aa5e3235f88d760f6b4ba05bdf1e82b7d4bde5373fbcb7e",
+      "qa": "qa-user-review",
+      "qa_decision": "accept",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-010",
@@ -791,8 +913,8 @@
       "identity_fixture_id": null,
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -800,7 +922,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "都市户外",
       "scene_brief": "阴天城市公园石径",
@@ -819,7 +944,14 @@
         "pose-if-applicable",
         "identity-if-applicable",
         "canvas"
-      ]
+      ],
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-010",
+      "output_sha256": "a40b71203ea69a08fc4ad0c5a5db7d8a4c2920566477a22f4bf59e4b60880d01",
+      "qa": "qa-retry",
+      "qa_decision": "rejected",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-011",
@@ -834,8 +966,8 @@
       "identity_fixture_id": null,
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -843,7 +975,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "国潮街头",
       "scene_brief": "现代城市红砖空间；不加服装文字或图腾",
@@ -862,7 +997,14 @@
         "pose-if-applicable",
         "identity-if-applicable",
         "canvas"
-      ]
+      ],
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-011",
+      "output_sha256": "05abaf9e95409d6ee1d75b739d21a1085d5a33a2c61cf01a84b4bbe3322df9f6",
+      "qa": "qa-user-review",
+      "qa_decision": "accept",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-012",
@@ -877,8 +1019,8 @@
       "identity_fixture_id": null,
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -886,7 +1028,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "意式轻奢",
       "scene_brief": "暖色石墙与柔和定向光",
@@ -905,7 +1050,14 @@
         "pose-if-applicable",
         "identity-if-applicable",
         "canvas"
-      ]
+      ],
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-012",
+      "output_sha256": "e873b2f9dbd6fdd6b96caa6cb98415c4ce56ac01a47ac318341c3e546e42b30c",
+      "qa": "qa-user-review",
+      "qa_decision": "accept",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-013",
@@ -920,8 +1072,8 @@
       "identity_fixture_id": null,
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -929,7 +1081,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "日系生活",
       "scene_brief": "自然光木质居室",
@@ -948,7 +1103,14 @@
         "pose-if-applicable",
         "identity-if-applicable",
         "canvas"
-      ]
+      ],
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-013",
+      "output_sha256": "5786c1ea6856601f986d1925dbcd51ecd76bdd8d15283c384a6982519f6da79f",
+      "qa": "qa-user-review",
+      "qa_decision": "accept",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-014",
@@ -963,8 +1125,8 @@
       "identity_fixture_id": "ai-adult-public",
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -972,7 +1134,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "韩系冷感",
       "scene_brief": "冷灰画廊与左侧大柔光",
@@ -992,7 +1157,14 @@
         "identity-if-applicable",
         "canvas"
       ],
-      "baseline_pair": "SR-055"
+      "baseline_pair": "SR-055",
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-014",
+      "output_sha256": "a13c17d933cec0cf03b51cafaf5992b3fb390010c765987f33d52ab6b728fd6c",
+      "qa": "qa-user-review",
+      "qa_decision": null,
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-015",
@@ -1007,8 +1179,8 @@
       "identity_fixture_id": null,
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -1016,7 +1188,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "韩系男装",
       "scene_brief": "简洁都市建筑外墙",
@@ -1035,7 +1210,14 @@
         "pose-if-applicable",
         "identity-if-applicable",
         "canvas"
-      ]
+      ],
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-015",
+      "output_sha256": "74ef8b5af83716db92b48d4d978234f35f36327ca75f63b8bbc1cbd75f50bf65",
+      "qa": "qa-user-review",
+      "qa_decision": "accept",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-016",
@@ -1050,8 +1232,8 @@
       "identity_fixture_id": null,
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -1059,7 +1241,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "新中式",
       "scene_brief": "素雅现代东方室内；不改变服装结构",
@@ -1078,7 +1263,14 @@
         "pose-if-applicable",
         "identity-if-applicable",
         "canvas"
-      ]
+      ],
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-016",
+      "output_sha256": "4df14d007ba76c31bcac0e582846295c43b71023748c3ee0497ece1b99227080",
+      "qa": "qa-user-review",
+      "qa_decision": "accept",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-017",
@@ -1093,8 +1285,8 @@
       "identity_fixture_id": null,
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -1102,7 +1294,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "北欧极简",
       "scene_brief": "白木和浅灰墙面的自然采光空间",
@@ -1121,7 +1316,14 @@
         "pose-if-applicable",
         "identity-if-applicable",
         "canvas"
-      ]
+      ],
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-017",
+      "output_sha256": "aa0256291e30453adfcd07d0e51b0deb4f7269f13f38ae3f3e60887635fb7b13",
+      "qa": "qa-user-review",
+      "qa_decision": "accept",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-018",
@@ -1136,12 +1338,14 @@
       "identity_fixture_id": "ai-adult-public",
       "delivery": "six-image-set-first",
       "planned_calls": 1,
-      "execution_status": "not-started",
+      "execution_status": "blocked-by-D04-failed-preview",
       "attempts": 0,
       "depends_on": [
         "SR-049"
       ],
-      "blockers": [],
+      "blockers": [
+        "blocked-by-D04-failed-preview"
+      ],
       "canvas": {
         "ratio": "2:3",
         "orientation": "portrait",
@@ -1168,7 +1372,11 @@
         "canvas"
       ],
       "group_id": "web-adult-six",
-      "group_position": 1
+      "group_position": 1,
+      "confirmed_dispatches": 0,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-018",
+      "qa": "not-run-no-output"
     },
     {
       "request_id": "SR-019",
@@ -1183,8 +1391,8 @@
       "identity_fixture_id": "ai-adult-public",
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -1192,7 +1400,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "老钱风",
       "scene_brief": "浅米石材庭院的柔和日光",
@@ -1212,7 +1423,14 @@
         "identity-if-applicable",
         "canvas"
       ],
-      "baseline_pair": "SR-056"
+      "baseline_pair": "SR-056",
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-019",
+      "output_sha256": "6015c8d5cbfffe9a6abf14cdb8bf53f91553ca748fc7b12d517dd8a84b52a48e",
+      "qa": "qa-user-review",
+      "qa_decision": null,
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-020",
@@ -1227,8 +1445,8 @@
       "identity_fixture_id": null,
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -1236,7 +1454,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "学院风",
       "scene_brief": "简洁图书室背景",
@@ -1255,7 +1476,14 @@
         "pose-if-applicable",
         "identity-if-applicable",
         "canvas"
-      ]
+      ],
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-020",
+      "output_sha256": "891b7db7be8c59dd2e154fb77ccf54a37c08ed14e3239fbfa36e9213160ed54c",
+      "qa": "qa-user-review",
+      "qa_decision": "accept",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-021",
@@ -1264,24 +1492,25 @@
       "direction_id": "quiet-luxury",
       "route": "native",
       "garment_fixture_id": "white-puffer-vest",
-      "model_source": "authorized-real-adult",
+      "model_source": "existing-ai",
       "age_group": "adult",
       "presentation": "human",
-      "identity_fixture_id": "designated-real-adult",
+      "identity_fixture_id": "ai-adult-public",
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
-      "blockers": [
-        "user-must-designate-authorized-adult-files-and-allowed-view-coverage"
-      ],
+      "blockers": [],
       "canvas": {
         "ratio": "2:3",
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "静奢",
       "scene_brief": "浅暖灰室内与柔和材质光",
@@ -1300,7 +1529,16 @@
         "pose-if-applicable",
         "identity-if-applicable",
         "canvas"
-      ]
+      ],
+      "original_model_source": "authorized-real-adult",
+      "scope_note": "AI-only visual test; real-adult identity coverage is deferred, not passed.",
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-021",
+      "output_sha256": "52a2fef1afc131af0d49e5289264daae41d5f8fa1f9a5e627c868aae23df3a1c",
+      "qa": "qa-user-review",
+      "qa_decision": "accept",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-022",
@@ -1315,8 +1553,8 @@
       "identity_fixture_id": null,
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -1324,7 +1562,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "度假",
       "scene_brief": "明亮海边建筑阴影处",
@@ -1343,7 +1584,14 @@
         "pose-if-applicable",
         "identity-if-applicable",
         "canvas"
-      ]
+      ],
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-022",
+      "output_sha256": "6631b06c4d26793ed46d63dfa53d01837ae7da593df3b6977637c466aebce518",
+      "qa": "qa-user-review",
+      "qa_decision": "accept",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-023",
@@ -1358,8 +1606,8 @@
       "identity_fixture_id": null,
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -1367,7 +1615,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "工装复古",
       "scene_brief": "自然采光的旧砖工作室",
@@ -1386,7 +1637,14 @@
         "pose-if-applicable",
         "identity-if-applicable",
         "canvas"
-      ]
+      ],
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-023",
+      "output_sha256": "f4221a071ff46c75db2b9c8ea1bae17dd5b6dbb53f65188534fcdbd20ef1f472",
+      "qa": "qa-user-review",
+      "qa_decision": "accept",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-024",
@@ -1395,24 +1653,25 @@
       "direction_id": "y2k-millennium",
       "route": "web",
       "garment_fixture_id": "white-puffer-vest",
-      "model_source": "authorized-real-adult",
+      "model_source": "existing-ai",
       "age_group": "adult",
       "presentation": "human",
-      "identity_fixture_id": "designated-real-adult",
+      "identity_fixture_id": "ai-adult-public",
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
-      "blockers": [
-        "user-must-designate-authorized-adult-files-and-allowed-view-coverage"
-      ],
+      "blockers": [],
       "canvas": {
         "ratio": "2:3",
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "千禧风",
       "scene_brief": "银灰装置背景与清楚不偏色的主体光",
@@ -1431,7 +1690,16 @@
         "pose-if-applicable",
         "identity-if-applicable",
         "canvas"
-      ]
+      ],
+      "original_model_source": "authorized-real-adult",
+      "scope_note": "AI-only visual test; real-adult identity coverage is deferred, not passed.",
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-024",
+      "output_sha256": "789b5f0f309f9aeafc5c1e769efc37a456a04c0c92d11685c1e67d909b0e7ac0",
+      "qa": "qa-user-review",
+      "qa_decision": "accept",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-025",
@@ -1446,8 +1714,8 @@
       "identity_fixture_id": "ai-adult-public",
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -1455,7 +1723,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "美式复古日常",
       "scene_brief": "复古日常室内与胶片色彩",
@@ -1474,7 +1745,14 @@
         "pose-if-applicable",
         "identity-if-applicable",
         "canvas"
-      ]
+      ],
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-025",
+      "output_sha256": "b4c9a99b840fbcdf3460ed7136f317158e76969a66e3673b0b6256c6857f1ed7",
+      "qa": "qa-user-review",
+      "qa_decision": "accept",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-026",
@@ -1489,8 +1767,8 @@
       "identity_fixture_id": "ai-adult-public",
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -1498,7 +1776,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "哥特暗调摄影",
       "scene_brief": "暗色建筑布景与保留细节的侧光",
@@ -1517,7 +1798,14 @@
         "pose-if-applicable",
         "identity-if-applicable",
         "canvas"
-      ]
+      ],
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-026",
+      "output_sha256": "cc50a895825ac949007387545cea08364faa558670483969dcf3001fa4d99292",
+      "qa": "qa-user-review",
+      "qa_decision": "accept",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-027",
@@ -1532,8 +1820,8 @@
       "identity_fixture_id": null,
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -1541,7 +1829,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "浪漫波西米亚",
       "scene_brief": "柔和户外自然光与低干扰植物背景",
@@ -1560,7 +1851,14 @@
         "pose-if-applicable",
         "identity-if-applicable",
         "canvas"
-      ]
+      ],
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-027",
+      "output_sha256": "878dac09d65b5b7adb23fe05ebfb2cdc27aee3d586862bcf8d68f8b94dd4377b",
+      "qa": "qa-retry",
+      "qa_decision": "rejected",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-028",
@@ -1575,8 +1873,8 @@
       "identity_fixture_id": "ai-adult-public",
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -1584,7 +1882,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "未来人工光摄影",
       "scene_brief": "可解释的人工灯带与不污染衣服本色的主体光",
@@ -1603,7 +1904,14 @@
         "pose-if-applicable",
         "identity-if-applicable",
         "canvas"
-      ]
+      ],
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-028",
+      "output_sha256": "ef119a2201757b9ffcf51b987deda3e3b51bd175c552a5c7626239684fde2784",
+      "qa": "qa-retry",
+      "qa_decision": "rejected",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-029",
@@ -1618,8 +1926,8 @@
       "identity_fixture_id": null,
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -1627,7 +1935,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "汉服指定形制展示",
       "scene_brief": "素雅室内；展示实物道袍而非混搭朝代",
@@ -1646,7 +1957,14 @@
         "pose-if-applicable",
         "identity-if-applicable",
         "canvas"
-      ]
+      ],
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-029",
+      "output_sha256": "a1c0c22c9174cccdb45d98293cf4828fc66e1e707c19b259bb27bbc0be21de7c",
+      "qa": "qa-user-review",
+      "qa_decision": "accept",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-030",
@@ -1661,8 +1979,8 @@
       "identity_fixture_id": null,
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -1670,7 +1988,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "旗袍都市人像",
       "scene_brief": "现代城市建筑与克制日常姿态",
@@ -1689,7 +2010,14 @@
         "pose-if-applicable",
         "identity-if-applicable",
         "canvas"
-      ]
+      ],
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-030",
+      "output_sha256": "156b208d94f28306efda3647583a2271a0dc80dbeba69b82bdb53b1947d83a98",
+      "qa": "qa-user-review",
+      "qa_decision": "accept",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-031",
@@ -1697,25 +2025,26 @@
       "version": "current-redesign",
       "direction_id": "gongbu-dress",
       "route": "native",
-      "garment_fixture_id": "gongbu-user-or-cleared-public",
+      "garment_fixture_id": "gongbu-dance-2011",
       "model_source": "new-ai",
       "age_group": "adult",
       "presentation": "human",
       "identity_fixture_id": null,
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
-      "blockers": [
-        "qualified-gongbu-garment-source-missing"
-      ],
+      "blockers": [],
       "canvas": {
         "ratio": "2:3",
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "林芝工布服饰展示",
       "scene_brief": "中性自然光背景；不凭空添加民族纹样或地域符号",
@@ -1734,7 +2063,14 @@
         "pose-if-applicable",
         "identity-if-applicable",
         "canvas"
-      ]
+      ],
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-031",
+      "output_sha256": "bbec346c1807c06d23e106a05c121196f41c1267b4217d5bbabfecbab93ad7d8",
+      "qa": "qa-user-review",
+      "qa_decision": "accept",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-032",
@@ -1749,8 +2085,8 @@
       "identity_fixture_id": null,
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -1758,7 +2094,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "婚纱空灵",
       "scene_brief": "明亮柔光空间；本件历史婚纱袖型与裙身保持",
@@ -1777,7 +2116,14 @@
         "pose-if-applicable",
         "identity-if-applicable",
         "canvas"
-      ]
+      ],
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-032",
+      "output_sha256": "256c649c850b24f7f75944385b4e3012d4bfbce182507b850fb56899cbf67023",
+      "qa": "qa-user-review",
+      "qa_decision": "accept",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-033",
@@ -1792,8 +2138,8 @@
       "identity_fixture_id": null,
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -1801,7 +2147,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "Lolita层次展示",
       "scene_brief": "克制室内背景；突出源服装真实层次",
@@ -1820,7 +2169,14 @@
         "pose-if-applicable",
         "identity-if-applicable",
         "canvas"
-      ]
+      ],
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-033",
+      "output_sha256": "9fb115eba972c21de94fa56bf66c19742b16789d13052eb7febbd7bb049c7b6c",
+      "qa": "qa-user-review",
+      "qa_decision": "accept",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-034",
@@ -1835,8 +2191,8 @@
       "identity_fixture_id": null,
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -1844,7 +2200,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "服饰插画",
       "scene_brief": "纸面时装插画；服装结构与色块仍须可核对",
@@ -1863,7 +2222,14 @@
         "pose-if-applicable",
         "identity-if-applicable",
         "canvas"
-      ]
+      ],
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-034",
+      "output_sha256": "de660be8c5b0ac90381762ee6808da58424ace67144df9f20d7f579984563364",
+      "qa": "qa-user-review",
+      "qa_decision": "accept",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-035",
@@ -1878,8 +2244,8 @@
       "identity_fixture_id": "ai-adult-public",
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -1887,7 +2253,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "Art Deco图形布景",
       "scene_brief": "Art Deco几何布景；图形不进入服饰",
@@ -1906,7 +2275,14 @@
         "pose-if-applicable",
         "identity-if-applicable",
         "canvas"
-      ]
+      ],
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-035",
+      "output_sha256": "5df99db4d546b75f987fbc5113484ad6a96d6e6ffd1c0b2523ee7c67709daacd",
+      "qa": "qa-user-review",
+      "qa_decision": "accept",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-036",
@@ -1921,8 +2297,8 @@
       "identity_fixture_id": "ai-adult-public",
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -1930,7 +2306,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "超现实空间广告",
       "scene_brief": "违反空间常识的舞台布景；服饰材质和结构仍真实",
@@ -1949,7 +2328,14 @@
         "pose-if-applicable",
         "identity-if-applicable",
         "canvas"
-      ]
+      ],
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-036",
+      "output_sha256": "d89d1308c412e360039862ff49b92ca6f0a988212fbffb973aae58acbd7ae7f4",
+      "qa": "qa-retry",
+      "qa_decision": "rejected",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-037",
@@ -1964,20 +2350,21 @@
       "identity_fixture_id": null,
       "delivery": "six-image-set-continuation",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "accepted-technical-user-review",
+      "attempts": 1,
       "depends_on": [
         "SR-004"
       ],
-      "blockers": [
-        "accepted-first-image-and-task-freeze-required"
-      ],
+      "blockers": [],
       "canvas": {
         "ratio": "2:3",
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "group_id": "native-child-six",
       "group_position": 2,
@@ -1989,7 +2376,14 @@
         "framing": "full-body"
       },
       "scene_brief": "自然采光的木质历史室内",
-      "user_request_zh": "继续已验收的同一模特同一服饰六图组，第2张；服装与身份绑定保持，头向和视线遵守本张pose，不重复整组六次同一头向。只生成一张独立成片。"
+      "user_request_zh": "继续已验收的同一模特同一服饰六图组，第2张；服装与身份绑定保持，头向和视线遵守本张pose，不重复整组六次同一头向。只生成一张独立成片。",
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-037",
+      "output_sha256": "3e9a43ad87a79a2863eb1b0ba4afbc72d4cd6dd4bcf0b150bbb8b61e235842db",
+      "qa": "qa-user-review",
+      "qa_decision": "accepted",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-038",
@@ -2004,21 +2398,22 @@
       "identity_fixture_id": null,
       "delivery": "six-image-set-continuation",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [
         "SR-004",
         "SR-037"
       ],
-      "blockers": [
-        "accepted-first-image-and-task-freeze-required"
-      ],
+      "blockers": [],
       "canvas": {
         "ratio": "2:3",
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "group_id": "native-child-six",
       "group_position": 3,
@@ -2030,7 +2425,14 @@
         "framing": "half-body"
       },
       "scene_brief": "自然采光的木质历史室内",
-      "user_request_zh": "继续已验收的同一模特同一服饰六图组，第3张；服装与身份绑定保持，头向和视线遵守本张pose，不重复整组六次同一头向。只生成一张独立成片。"
+      "user_request_zh": "继续已验收的同一模特同一服饰六图组，第3张；服装与身份绑定保持，头向和视线遵守本张pose，不重复整组六次同一头向。只生成一张独立成片。",
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-038",
+      "output_sha256": "3238785e9f57334b2b255f54854db5c0659494a3a773cb731863f9734026abea",
+      "qa": "qa-retry",
+      "qa_decision": "rejected",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-039",
@@ -2045,21 +2447,22 @@
       "identity_fixture_id": null,
       "delivery": "six-image-set-continuation",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [
         "SR-004",
         "SR-038"
       ],
-      "blockers": [
-        "accepted-first-image-and-task-freeze-required"
-      ],
+      "blockers": [],
       "canvas": {
         "ratio": "2:3",
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "group_id": "native-child-six",
       "group_position": 4,
@@ -2071,7 +2474,14 @@
         "framing": "three-quarter-body"
       },
       "scene_brief": "自然采光的木质历史室内",
-      "user_request_zh": "继续已验收的同一模特同一服饰六图组，第4张；服装与身份绑定保持，头向和视线遵守本张pose，不重复整组六次同一头向。只生成一张独立成片。"
+      "user_request_zh": "继续已验收的同一模特同一服饰六图组，第4张；服装与身份绑定保持，头向和视线遵守本张pose，不重复整组六次同一头向。只生成一张独立成片。",
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-039",
+      "output_sha256": "4fb487d55587856d832fbffe5833b817b7cd9b523b2126d8fb6b74161585e781",
+      "qa": "qa-user-review",
+      "qa_decision": "accepted",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-040",
@@ -2086,21 +2496,22 @@
       "identity_fixture_id": null,
       "delivery": "six-image-set-continuation",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [
         "SR-004",
         "SR-039"
       ],
-      "blockers": [
-        "accepted-first-image-and-task-freeze-required"
-      ],
+      "blockers": [],
       "canvas": {
         "ratio": "2:3",
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "group_id": "native-child-six",
       "group_position": 5,
@@ -2112,7 +2523,14 @@
         "framing": "three-quarter-body"
       },
       "scene_brief": "自然采光的木质历史室内",
-      "user_request_zh": "继续已验收的同一模特同一服饰六图组，第5张；服装与身份绑定保持，头向和视线遵守本张pose，不重复整组六次同一头向。只生成一张独立成片。"
+      "user_request_zh": "继续已验收的同一模特同一服饰六图组，第5张；服装与身份绑定保持，头向和视线遵守本张pose，不重复整组六次同一头向。只生成一张独立成片。",
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-040",
+      "output_sha256": "25926b8e9101429614bb4ac09cea7b4c04013573ea25bcde9b98a8c7c2464dab",
+      "qa": "qa-retry",
+      "qa_decision": "rejected",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-041",
@@ -2127,21 +2545,22 @@
       "identity_fixture_id": null,
       "delivery": "six-image-set-continuation",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [
         "SR-004",
         "SR-040"
       ],
-      "blockers": [
-        "accepted-first-image-and-task-freeze-required"
-      ],
+      "blockers": [],
       "canvas": {
         "ratio": "2:3",
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "group_id": "native-child-six",
       "group_position": 6,
@@ -2153,7 +2572,14 @@
         "framing": "full-body"
       },
       "scene_brief": "自然采光的木质历史室内",
-      "user_request_zh": "继续已验收的同一模特同一服饰六图组，第6张；服装与身份绑定保持，头向和视线遵守本张pose，不重复整组六次同一头向。只生成一张独立成片。"
+      "user_request_zh": "继续已验收的同一模特同一服饰六图组，第6张；服装与身份绑定保持，头向和视线遵守本张pose，不重复整组六次同一头向。只生成一张独立成片。",
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-041",
+      "output_sha256": "60235174dc96d8c675c236e10cc5f54d8886d68396887203bbd58175426a7bac",
+      "qa": "qa-user-review",
+      "qa_decision": "accepted",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-042",
@@ -2168,13 +2594,13 @@
       "identity_fixture_id": "ai-adult-public",
       "delivery": "six-image-set-continuation",
       "planned_calls": 1,
-      "execution_status": "not-started",
+      "execution_status": "blocked-by-D04-failed-preview",
       "attempts": 0,
       "depends_on": [
         "SR-018"
       ],
       "blockers": [
-        "accepted-first-image-and-task-freeze-required"
+        "blocked-by-D04-failed-preview"
       ],
       "canvas": {
         "ratio": "2:3",
@@ -2193,7 +2619,11 @@
         "framing": "full-body"
       },
       "scene_brief": "清楚呈现衣服的现代办公楼廊道",
-      "user_request_zh": "继续已验收的同一模特同一服饰六图组，第2张；服装与身份绑定保持，头向和视线遵守本张pose，不重复整组六次同一头向。只生成一张独立成片。"
+      "user_request_zh": "继续已验收的同一模特同一服饰六图组，第2张；服装与身份绑定保持，头向和视线遵守本张pose，不重复整组六次同一头向。只生成一张独立成片。",
+      "confirmed_dispatches": 0,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-042",
+      "qa": "not-run-no-output"
     },
     {
       "request_id": "SR-043",
@@ -2208,14 +2638,14 @@
       "identity_fixture_id": "ai-adult-public",
       "delivery": "six-image-set-continuation",
       "planned_calls": 1,
-      "execution_status": "not-started",
+      "execution_status": "blocked-by-D04-failed-preview",
       "attempts": 0,
       "depends_on": [
         "SR-018",
         "SR-042"
       ],
       "blockers": [
-        "accepted-first-image-and-task-freeze-required"
+        "blocked-by-D04-failed-preview"
       ],
       "canvas": {
         "ratio": "2:3",
@@ -2234,7 +2664,11 @@
         "framing": "half-body"
       },
       "scene_brief": "清楚呈现衣服的现代办公楼廊道",
-      "user_request_zh": "继续已验收的同一模特同一服饰六图组，第3张；服装与身份绑定保持，头向和视线遵守本张pose，不重复整组六次同一头向。只生成一张独立成片。"
+      "user_request_zh": "继续已验收的同一模特同一服饰六图组，第3张；服装与身份绑定保持，头向和视线遵守本张pose，不重复整组六次同一头向。只生成一张独立成片。",
+      "confirmed_dispatches": 0,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-043",
+      "qa": "not-run-no-output"
     },
     {
       "request_id": "SR-044",
@@ -2249,14 +2683,14 @@
       "identity_fixture_id": "ai-adult-public",
       "delivery": "six-image-set-continuation",
       "planned_calls": 1,
-      "execution_status": "not-started",
+      "execution_status": "blocked-by-D04-failed-preview",
       "attempts": 0,
       "depends_on": [
         "SR-018",
         "SR-043"
       ],
       "blockers": [
-        "accepted-first-image-and-task-freeze-required"
+        "blocked-by-D04-failed-preview"
       ],
       "canvas": {
         "ratio": "2:3",
@@ -2275,7 +2709,11 @@
         "framing": "three-quarter-body"
       },
       "scene_brief": "清楚呈现衣服的现代办公楼廊道",
-      "user_request_zh": "继续已验收的同一模特同一服饰六图组，第4张；服装与身份绑定保持，头向和视线遵守本张pose，不重复整组六次同一头向。只生成一张独立成片。"
+      "user_request_zh": "继续已验收的同一模特同一服饰六图组，第4张；服装与身份绑定保持，头向和视线遵守本张pose，不重复整组六次同一头向。只生成一张独立成片。",
+      "confirmed_dispatches": 0,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-044",
+      "qa": "not-run-no-output"
     },
     {
       "request_id": "SR-045",
@@ -2290,14 +2728,14 @@
       "identity_fixture_id": "ai-adult-public",
       "delivery": "six-image-set-continuation",
       "planned_calls": 1,
-      "execution_status": "not-started",
+      "execution_status": "blocked-by-D04-failed-preview",
       "attempts": 0,
       "depends_on": [
         "SR-018",
         "SR-044"
       ],
       "blockers": [
-        "accepted-first-image-and-task-freeze-required"
+        "blocked-by-D04-failed-preview"
       ],
       "canvas": {
         "ratio": "2:3",
@@ -2316,7 +2754,11 @@
         "framing": "three-quarter-body"
       },
       "scene_brief": "清楚呈现衣服的现代办公楼廊道",
-      "user_request_zh": "继续已验收的同一模特同一服饰六图组，第5张；服装与身份绑定保持，头向和视线遵守本张pose，不重复整组六次同一头向。只生成一张独立成片。"
+      "user_request_zh": "继续已验收的同一模特同一服饰六图组，第5张；服装与身份绑定保持，头向和视线遵守本张pose，不重复整组六次同一头向。只生成一张独立成片。",
+      "confirmed_dispatches": 0,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-045",
+      "qa": "not-run-no-output"
     },
     {
       "request_id": "SR-046",
@@ -2331,14 +2773,14 @@
       "identity_fixture_id": "ai-adult-public",
       "delivery": "six-image-set-continuation",
       "planned_calls": 1,
-      "execution_status": "not-started",
+      "execution_status": "blocked-by-D04-failed-preview",
       "attempts": 0,
       "depends_on": [
         "SR-018",
         "SR-045"
       ],
       "blockers": [
-        "accepted-first-image-and-task-freeze-required"
+        "blocked-by-D04-failed-preview"
       ],
       "canvas": {
         "ratio": "2:3",
@@ -2357,7 +2799,11 @@
         "framing": "collar-closure-detail-with-known-front"
       },
       "scene_brief": "清楚呈现衣服的现代办公楼廊道",
-      "user_request_zh": "继续已验收的同一模特同一服饰六图组，第6张；服装与身份绑定保持，头向和视线遵守本张pose，不重复整组六次同一头向。只生成一张独立成片。 本件只有正面，使用已接受的正面领口搭扣细节替代未知背面；不生成背面。"
+      "user_request_zh": "继续已验收的同一模特同一服饰六图组，第6张；服装与身份绑定保持，头向和视线遵守本张pose，不重复整组六次同一头向。只生成一张独立成片。 本件只有正面，使用已接受的正面领口搭扣细节替代未知背面；不生成背面。",
+      "confirmed_dispatches": 0,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-046",
+      "qa": "not-run-no-output"
     },
     {
       "request_id": "SR-047",
@@ -2372,8 +2818,8 @@
       "identity_fixture_id": null,
       "delivery": "six-cell-preview-grid",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "rejected",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -2381,7 +2827,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1254,
+          1254
+        ]
       },
       "group_id": "native-child-six",
       "user_request_zh": "先做一张六宫格方向预览：六格是同一人物同一服饰的构图方向；只评估大方向。后续选定后仍从原始服饰与人物输入生成独立首张，不裁格、不从格子建立身份锚点。",
@@ -2397,7 +2846,14 @@
         "garment-detail-proof",
         "canvas-baseline",
         "first-delivery-image"
-      ]
+      ],
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-047",
+      "output_sha256": "81d365a7f50a55a9e7ac5d8c918f9e441adbe9f07ef7fcbf4e376d43dc3f420a",
+      "qa": "qa-retry",
+      "qa_decision": "rejected",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-048",
@@ -2412,8 +2868,8 @@
       "identity_fixture_id": "ai-adult-public",
       "delivery": "six-cell-preview-grid",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "rejected",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -2421,7 +2877,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1254,
+          1254
+        ]
       },
       "group_id": "web-adult-six",
       "user_request_zh": "先做一张六宫格方向预览：六格是同一人物同一服饰的构图方向；只评估大方向。后续选定后仍从原始服饰与人物输入生成独立首张，不裁格、不从格子建立身份锚点。",
@@ -2437,7 +2896,14 @@
         "garment-detail-proof",
         "canvas-baseline",
         "first-delivery-image"
-      ]
+      ],
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-048",
+      "output_sha256": "72dcafde1a49a4d3a66f3cc6464722488b066c45f7cf4735ac94f5b4433b4a3c",
+      "qa": "qa-retry",
+      "qa_decision": "rejected",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-049",
@@ -2452,8 +2918,8 @@
       "identity_fixture_id": "ai-adult-public",
       "delivery": "six-cell-preview-grid",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "failed-before-send",
+      "attempts": 1,
       "depends_on": [
         "SR-048"
       ],
@@ -2466,7 +2932,11 @@
         "actual_pixels": null
       },
       "user_request_zh": "明确修改上一张预览：让场景更明亮，保持同一真实服饰和既有AI身份要求，再出一张六宫格；计为额外一次请求。",
-      "group_id": "web-adult-six"
+      "group_id": "web-adult-six",
+      "confirmed_dispatches": 0,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-049",
+      "qa": "not-run-no-output"
     },
     {
       "request_id": "SR-050",
@@ -2481,8 +2951,8 @@
       "identity_fixture_id": null,
       "delivery": "six-cell-preview-grid",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "rejected-and-stopped",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -2490,9 +2960,19 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1254,
+          1254
+        ]
       },
-      "user_request_zh": "只要这件旗袍的一张六宫格方向预览，到预览即止，不生成单张或整组六图。"
+      "user_request_zh": "只要这件旗袍的一张六宫格方向预览，到预览即止，不生成单张或整组六图。",
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-050",
+      "output_sha256": "c433cfed91ec54212011e2afd4ae16b58e022dc4e49e3267b4f3da2c2aa70490",
+      "qa": "qa-retry",
+      "qa_decision": "rejected",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-051",
@@ -2507,13 +2987,13 @@
       "identity_fixture_id": "ai-adult-public",
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
+      "execution_status": "blocked-by-unaccepted-D04-adult-first-image-and-package",
       "attempts": 0,
       "depends_on": [
         "SR-018"
       ],
       "blockers": [
-        "accepted-identity-package-from-SR-018-required"
+        "blocked-by-unaccepted-D04-adult-first-image-and-package"
       ],
       "canvas": {
         "ratio": "2:3",
@@ -2523,7 +3003,11 @@
         "actual_pixels": null
       },
       "user_request_zh": "在全新对话中读取已验收成人AI人物资料包，为第二个SKU白马甲生成一张通勤图；沿用身份，不把第一个SKU大衣的材质、领口、扣件带过来。",
-      "identity_package_origin": "SR-018"
+      "identity_package_origin": "SR-018",
+      "confirmed_dispatches": 0,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-051",
+      "qa": "not-run-no-output"
     },
     {
       "request_id": "SR-052",
@@ -2538,14 +3022,13 @@
       "identity_fixture_id": "designated-real-adult",
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
+      "execution_status": "deferred-user-real-input",
       "attempts": 0,
       "depends_on": [
         "SR-021"
       ],
       "blockers": [
-        "user-must-designate-authorized-adult-files-and-allowed-view-coverage",
-        "accepted-identity-package-from-SR-021-required"
+        "deferred-user-real-input"
       ],
       "canvas": {
         "ratio": "2:3",
@@ -2555,7 +3038,11 @@
         "actual_pixels": null
       },
       "user_request_zh": "在全新对话中读取用户指定的已授权成年真人资料包，为第二个SKU大衣生成一张静奢图；使用包中真实身份源，保留真实可用朝向限制，不把第一个SKU白马甲带过来。",
-      "identity_package_origin": "SR-021"
+      "identity_package_origin": "SR-021",
+      "confirmed_dispatches": 0,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-052",
+      "qa": "not-run-no-output"
     },
     {
       "request_id": "SR-053",
@@ -2570,13 +3057,13 @@
       "identity_fixture_id": "ai-adult-public",
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
+      "execution_status": "waiting-user-edit-target-and-acceptance",
       "attempts": 0,
       "depends_on": [
         "SR-006"
       ],
       "blockers": [
-        "accepted-SR-006-output-required"
+        "waiting-user-edit-target-and-acceptance"
       ],
       "canvas": {
         "ratio": "2:3",
@@ -2586,7 +3073,11 @@
         "actual_pixels": null
       },
       "user_request_zh": "只修改已验收的SR-006这一张，把背景从暖灰改为浅米色；服装、模特身份、姿态、构图与画布保持。保留原图与新版本，不重做整组。",
-      "edit_target": "SR-006"
+      "edit_target": "SR-006",
+      "confirmed_dispatches": 0,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-053",
+      "qa": "not-run-no-output"
     },
     {
       "request_id": "SR-054",
@@ -2601,8 +3092,8 @@
       "identity_fixture_id": "ai-adult-public",
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -2610,7 +3101,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "Clean Fit",
       "scene_brief": "暖灰无缝背景与柔和侧光",
@@ -2630,7 +3124,14 @@
         "identity-if-applicable",
         "canvas"
       ],
-      "baseline_pair": "SR-006"
+      "baseline_pair": "SR-006",
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-054",
+      "output_sha256": "d7c2b02548868ff329f5e5df282f4ba57f7ae6989ba065f74e9b58d45ee37715",
+      "qa": "qa-user-review",
+      "qa_decision": null,
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-055",
@@ -2645,8 +3146,8 @@
       "identity_fixture_id": "ai-adult-public",
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -2654,7 +3155,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "韩系冷感",
       "scene_brief": "冷灰画廊与左侧大柔光",
@@ -2674,7 +3178,14 @@
         "identity-if-applicable",
         "canvas"
       ],
-      "baseline_pair": "SR-014"
+      "baseline_pair": "SR-014",
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-055",
+      "output_sha256": "26b3346451bd6094e1a7fba09b32c82ae709e8f38e93f89ceb2615c939fb5552",
+      "qa": "qa-user-review",
+      "qa_decision": null,
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-056",
@@ -2689,8 +3200,8 @@
       "identity_fixture_id": "ai-adult-public",
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "not-started",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
       "blockers": [],
       "canvas": {
@@ -2698,7 +3209,10 @@
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "老钱风",
       "scene_brief": "浅米石材庭院的柔和日光",
@@ -2718,7 +3232,14 @@
         "identity-if-applicable",
         "canvas"
       ],
-      "baseline_pair": "SR-019"
+      "baseline_pair": "SR-019",
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-056",
+      "output_sha256": "e2ca101f28f86947de07b997abe5fa667f0ceb007883fe0f265ba80ae0c35f62",
+      "qa": "qa-user-review",
+      "qa_decision": null,
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-057",
@@ -2733,21 +3254,29 @@
       "identity_fixture_id": null,
       "delivery": null,
       "planned_calls": 1,
-      "execution_status": "reserve-not-scheduled",
-      "attempts": 0,
+      "execution_status": "accepted-preview-only",
+      "attempts": 1,
       "depends_on": [],
-      "blockers": [
-        "allocate-only-after-recorded-failure-or-review-rejection-within-ceiling"
-      ],
+      "blockers": [],
       "canvas": {
         "ratio": "2:3",
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1254,
+          1254
+        ]
       },
       "replacement_for": null,
-      "user_request_zh": "仅作为失败或验收不通过后的有条件重试额度；先记录原请求和失败依据，不自动消耗，不新增未经批准的范围。"
+      "user_request_zh": "仅作为失败或验收不通过后的有条件重试额度；先记录原请求和失败依据，不自动消耗，不新增未经批准的范围。",
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-057",
+      "output_sha256": "e1ff7e6bc0794bdad0b3c261a1b712be2d77fdf809547dd455e15a70cbf03cde",
+      "qa": "qa-user-review",
+      "qa_decision": "accepted",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-058",
@@ -2762,12 +3291,10 @@
       "identity_fixture_id": null,
       "delivery": null,
       "planned_calls": 1,
-      "execution_status": "reserve-not-scheduled",
+      "execution_status": "uncertain-auto-retry-stopped",
       "attempts": 0,
       "depends_on": [],
-      "blockers": [
-        "allocate-only-after-recorded-failure-or-review-rejection-within-ceiling"
-      ],
+      "blockers": [],
       "canvas": {
         "ratio": "2:3",
         "orientation": "portrait",
@@ -2776,7 +3303,11 @@
         "actual_pixels": null
       },
       "replacement_for": null,
-      "user_request_zh": "仅作为失败或验收不通过后的有条件重试额度；先记录原请求和失败依据，不自动消耗，不新增未经批准的范围。"
+      "user_request_zh": "仅作为失败或验收不通过后的有条件重试额度；先记录原请求和失败依据，不自动消耗，不新增未经批准的范围。",
+      "confirmed_dispatches": 0,
+      "uncertain_additional_call": true,
+      "actual_result_ref": "live-results.json#SR-058",
+      "qa": "not-run-no-output"
     },
     {
       "request_id": "SR-059",
@@ -2791,21 +3322,29 @@
       "identity_fixture_id": null,
       "delivery": null,
       "planned_calls": 1,
-      "execution_status": "reserve-not-scheduled",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
-      "blockers": [
-        "allocate-only-after-recorded-failure-or-review-rejection-within-ceiling"
-      ],
+      "blockers": [],
       "canvas": {
         "ratio": "2:3",
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1254,
+          1254
+        ]
       },
       "replacement_for": null,
-      "user_request_zh": "仅作为失败或验收不通过后的有条件重试额度；先记录原请求和失败依据，不自动消耗，不新增未经批准的范围。"
+      "user_request_zh": "仅作为失败或验收不通过后的有条件重试额度；先记录原请求和失败依据，不自动消耗，不新增未经批准的范围。",
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-059",
+      "output_sha256": "f70129845439c31ac48709911d8132bbeaf3052d027ce9613cd0e3995424624e",
+      "qa": "qa-retry",
+      "qa_decision": "rejected",
+      "human_model_accepted": false
     },
     {
       "request_id": "SR-060",
@@ -2820,21 +3359,38 @@
       "identity_fixture_id": null,
       "delivery": null,
       "planned_calls": 1,
-      "execution_status": "reserve-not-scheduled",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [],
-      "blockers": [
-        "allocate-only-after-recorded-failure-or-review-rejection-within-ceiling"
-      ],
+      "blockers": [],
       "canvas": {
         "ratio": "2:3",
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1254,
+          1254
+        ]
       },
       "replacement_for": null,
-      "user_request_zh": "仅作为失败或验收不通过后的有条件重试额度；先记录原请求和失败依据，不自动消耗，不新增未经批准的范围。"
+      "user_request_zh": "仅作为失败或验收不通过后的有条件重试额度；先记录原请求和失败依据，不自动消耗，不新增未经批准的范围。",
+      "confirmed_dispatches": 1,
+      "uncertain_additional_call": false,
+      "actual_result_ref": "live-results.json#SR-060",
+      "output_sha256": "62bf308c29cc67a1b8479a652116ee8f63622ca9a023d36ac2c8f0bcd53b33ea",
+      "qa": "qa-retry",
+      "qa_decision": "rejected",
+      "human_model_accepted": false
     }
-  ]
+  ],
+  "scope_adjustments": [
+    {
+      "date": "2026-10-19",
+      "reason": "User selected completion of AI tests first, with real adult testing deferred.",
+      "effect": "SR-021 and SR-024 retain their style-image slots using the existing public AI identity. These provide no real-adult evidence. SR-052 real-adult cross-SKU stays deferred."
+    }
+  ],
+  "updated_at": "2026-10-18T20:21:27.673275+00:00",
+  "visual_plan_commit": "f531e1a18947ced0901a54b9d872709e089677fa"
 }

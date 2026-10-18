@@ -1,0 +1,2506 @@
+{
+  "schema_version": 1,
+  "status": "candidate-with-failed-visual-gate",
+  "captured_at_utc": "2026-10-18T20:21:27.673275+00:00",
+  "runtime_commit": "f5519a85564a7893b240d5c7aaf1d1c3f82967e9",
+  "visual_plan_commit": "f531e1a18947ced0901a54b9d872709e089677fa",
+  "baseline_commit": "1c4887167631e1b02413ad2b385e5df3a267e621",
+  "counts": {
+    "planned_slots": 60,
+    "confirmed_dispatched": 49,
+    "historical_reserved": 50,
+    "active_reserved": 0,
+    "uncertain_additional": 1,
+    "conservative_used": 51,
+    "ceiling": 60,
+    "retained_files": 49,
+    "qa_grades": {
+      "qa-retry": 16,
+      "qa-user-review": 33
+    }
+  },
+  "direction_coverage": {
+    "planned": 36,
+    "returned": 35,
+    "missing": [
+      "SR-018"
+    ],
+    "maturity": "all-36-DRAFT"
+  },
+  "dialogue_counts": {
+    "all_planned_cases": 15,
+    "original_cases": 12,
+    "original_ai_or_nonportrait": 9,
+    "additional_ai_or_nonportrait": 3,
+    "ai_or_nonportrait_planned": 12,
+    "ai_or_nonportrait_executed": 10,
+    "ai_or_nonportrait_blocked_or_waiting": 2,
+    "real_person_deferred": 3,
+    "explicit_root_behavior_pass_records": 7
+  },
+  "images": [
+    {
+      "request_id": "SR-001",
+      "title": "美式街头",
+      "direction_id": "american-street",
+      "route": "native",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "new-ai",
+      "garment_fixture_id": "white-puffer-vest",
+      "sha256": "9853cdd17e2a1a0bd33ae778fdaaab2062a5207a96441f31cd5609ea80a80da3",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-retry",
+        "decision": "rejected",
+        "scope": "独立单张技术QA",
+        "hard_findings": [
+          "实际图中前腿向前伸展承重，后腿屈膝后收并向前腿后方交叠，身体形成前进迈步的轮廓；不是双脚静止落地的自然站立。",
+          "只有画面前方一只鞋可见，后腿下段及整只后侧鞋被前腿遮住，无法完成双鞋完整展示检查。该缺失由姿势遮挡造成，不是图像边缘裁切。",
+          "前后腿的迈步形态违反静止站姿要求，且后侧鞋完全被遮；虽然全件马甲和画面边距足够，这仍不符合本次明确的双腿鞋脚展示。"
+        ],
+        "observations": [
+          "白色无袖连帽羽绒马甲的横向绗格、蓬量、高领/帽、前中金色拉链与两侧斜向金色拉链袋保留；从帽领至下摆全件可见，未增加服装部件。",
+          "白色略有光泽的壳层与深棕素针织、靛蓝裤、可见的一只米白无品牌鞋符合允许搭配；没有广告横幅、图案迁移或新增首饰。",
+          "本任务是新成年女性AI，无原始身份参考需要复刻；成年外观与自然妆发符合，未见明显手部或上半身硬异常。",
+          "视线近镜头，头部轻度自然倾斜，双手垂于两侧且不遮马甲开合或口袋；上半身大致正面。",
+          "砖墙、街道纵深、通透自然日光和低饱和城市背景兑现美式街头方案，没有强行加入霓虹、奢华布景或服装几何装饰。",
+          "隐藏背部/帽内结构、精细拉链硬件、实物材质以及被遮后鞋不能由本图核准。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-002",
+      "title": "运动休闲",
+      "direction_id": "athleisure",
+      "route": "web",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "new-ai",
+      "garment_fixture_id": "white-puffer-vest",
+      "sha256": "8c78d1633dbea01fdd63b7b24db8a443deb865cd65598d70640981a6f9f4ac6b",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-retry",
+        "decision": "rejected",
+        "scope": "独立实际单张技术QA；按本次冻结呈现及原服饰源，不替代人类确认或商业交付",
+        "hard_findings": [
+          "当前人物前腿前伸、后腿明显屈膝并置于身后，后鞋朝前下方，整体呈前后交替的迈步式造型；核对原图与后脚原像素局部后，偏离冻结请求的独立静止站立及明确no stepping。判定基于整体腿部动作与支撑造型，不以轻微脚位错开本身判错，也不声称照片证明实际时间中的运动。"
+        ],
+        "observations": [
+          "直接对照原服饰源，白色无袖连帽马甲、蓬松横向绗缝、金色前中拉链和两侧斜拉链口袋等主要部件保留，完整下摆可见。帽领原有金色横向拉链及垂挂拉头有来源，不误判为新首饰。此主要结构判断不覆盖独立记录的呈现方式问题。",
+          "马甲仍为白色、表面轻微光泽和蓬量可辨，金色五金关系保留，未见衣身主色重染或广告文字进入画面。深棕针织、靛蓝长裤和无标米白闭口鞋符合辅助搭配。",
+          "本任务为新建成年女性AI，无原身份图片需复刻。成年外观、自然妆发、轻松笑容及身体比例与冻结人物条件相容；不由外貌推定族群或国籍，不代替用户接受。",
+          "头颈自然轻倾、视线近镜头，双手垂侧且避开前中/口袋扣件；帽领至衣摆、双腿和两鞋完整入画留边。此项不关闭下条明确动作偏离。",
+          "头肩、躯干、手臂与双腿衔接未见明显缺肢或畸形，可见指形和人物与房间尺度可信，适龄非性化；动作不合约定与人体结构错误分别判断。",
+          "左侧大窗、浅灰墙地和后景哑铃架/训练球符合本轮明确的室内训练空间边缘；明亮自然光与前中后景可辨，衣身绗缝和深棕针织有层次。训练器材仅为已选室内环境，不穿戴在人物或商品上；当前冻结室内场景优先，不套用基准的滨江示例。",
+          "冻结要求柔和方向性的自然日光。人物上身明暗较柔和，但地面强窗光亮带和较清楚、延长的投影含明显直射成分；柔和程度保留人工判断，不让明亮运动氛围抵消姿态硬失败。",
+          "源图内标、微小拉链齿/链节/拉头镂空、帽领连接细节和精确绗缝间距仍不能全面认证。当前正面不展示后片；隐藏内标不凭遮挡判为确定删除，背部、精确尺寸、衣长/松量实测和材质成分不作已核实声明。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-003",
+      "title": "芭蕾日常",
+      "direction_id": "balletcore",
+      "route": "native",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "new-ai",
+      "garment_fixture_id": "white-puffer-vest",
+      "sha256": "15a462d544fae009a1574d836ba010a0e1c3cd3f86d8d4d7d05d02fc98c28771",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-user-review",
+        "decision": "accept",
+        "scope": "独立单张实际原图技术QA；逐项对冻结请求及四张原服饰图，不是六张组验收或用户接受",
+        "hard_findings": [],
+        "observations": [
+          "实际白色无袖连帽马甲的高领/帽、蓬松衣身、横向绗缝、金色前中拉链及左右两条斜向金色口袋拉链保持；领帽至完整下摆可见，未见新增腰带、袖子、口袋或舞蹈服装部件。",
+          "白马甲仍呈白色，表面柔和光泽及蓬量可辨；深棕针织内搭、蓝靛色长裤和无标米白闭口鞋符合冻结辅助搭配。源图广告抬头和衣架文字没有进入图像。",
+          "本任务为新建明确成年女性AI，无指定原人物脸需要复刻；可见成年外观、自然妆发、放松温和表情和身体比例符合本轮条件。不由外貌推定国籍或族群，不声称独创身份已由用户接受。",
+          "人物近正面静止站立，双脚均落地且完整可见，腿位小幅错开但未见迈步、踮脚、倚墙或坐姿。头颈轻微自然倾斜、视线近镜头，双手垂于两侧且不遮商品拉链；帽顶到下摆、双腿和鞋底均在画内并留边。",
+          "头、肩颈、躯干、手臂与双腿比例和衔接未见明确失衡或缺肢；手部可见指形未见显著畸变。脚底接触及室内人物尺度可信，呈现适龄、非性化。",
+          "浅色练习室、画面左侧大窗、水平把杆和地面窗光亮带构成安静排练空间；人物有柔和浅明暗过渡，低对比奶油/粉灰背景与较清楚的白色衣身分离。背景芭蕾鞋/轻纱仅作远景道具，未穿到模特身上或改造实际服装；没有舞蹈、踮脚或健身房姿态。",
+          "全身输出不足以认证细小拉链齿、镂空拉头形状、帽领连接机构、内标及每段绗缝间距与实物完全一致；材料成分没有依据。原素材虽有背面，本张正面未展示后片，不能宣称已核实背部结构或精确量化衣长/尺寸。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-004",
+      "title": "英伦复古",
+      "direction_id": "british-heritage",
+      "route": "native",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "new-ai",
+      "garment_fixture_id": "met-159518",
+      "sha256": "f7e1881f62c35f503febf78e4083655442da873f6eb1bc603e3ebc3b59559c7a",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": true,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-user-review",
+        "decision": "accepted",
+        "scope": "Final group review of this exact independent image",
+        "hard_findings": [],
+        "observations": [
+          "mild image-left head turn, eyes off-camera image-left, similar small smile",
+          "['Wood-paneled historical room and visible floor provide depth without blocking the garment.', 'Large left window yields gentle natural light with detail in the cream fabric and visible product shadows.', 'No heavy sepia treatment, theatrical spotlight or royal/stage decoration.']"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-005",
+      "title": "Cityboy",
+      "direction_id": "cityboy",
+      "route": "native",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "new-ai",
+      "garment_fixture_id": "white-puffer-vest",
+      "sha256": "4668e49621d702f560e4346b8666b07d66278f62518d2caff560bce8f644e508",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-retry",
+        "decision": "rejected",
+        "scope": "独立单张实际原图技术QA；冻结custom条件与原商品核对，不是用户接受或整组验收",
+        "hard_findings": [
+          "画面左侧手（人物右手）插入蓝色长裤的裤袋，上臂/肘略屈，只有腕部靠近裤腰；另一只手自然垂放。插袋不符合本轮明确双手垂在身体两侧的手位要求。",
+          "近正面静止站立、自然头颈、近镜头视线和全身双鞋留边基本成立；但画面左侧手插裤袋，未执行明确双手自然下垂。不是迈步、坐姿或倚墙问题，拒收仅基于实际明确手位条件。"
+        ],
+        "observations": [
+          "白色无袖连帽马甲的立领/帽、横向绗缝、蓬松衣身、金色前中拉链与两侧斜向金色口袋拉链可见，领口至完整下摆保持。未见确定增删主要服装部件；画面左侧手位在裤袋而非马甲，不误判商品新增口袋。",
+          "原马甲仍呈白色轻微光泽面料，深棕针织、蓝靛长裤和无标米白闭口鞋符合冻结的中性辅助搭配。源图广告、衣架和文字没有带入。",
+          "任务声明新成年男性AI，不存在需要复刻的原始身份脸图。可见成年外观、自然短卷发和松弛沉静表情符合人物条件；身体比例和可见五官未见明确异常，不推断国籍/族群或记录用户喜欢。",
+          "双脚稳定接触铺装地面，腿部自然，头/躯干/四肢比例没有明显失衡，画面右侧可见手指未见明显畸变；藏于裤袋的手不能核实全部指形。",
+          "城市咖啡店入口、深蓝窗框、浅灰石材和木长凳形成日常生活空间；自然侧前光照清白马甲，店内较暗，暖吊灯只作远景。主体清楚、服装没有被染色，场景松弛克制且无多余文字或时装配饰。",
+          "全身分辨率不能认证拉头镂空形状、细链齿、内标、帽领连接机构及精确绗缝间距；正面图未展示背部。原服饰资料无实测标尺，材质成分、量化衣长和松量不宣称准确。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-006",
+      "title": "Clean Fit",
+      "direction_id": "clean-fit",
+      "route": "native",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "existing-ai",
+      "garment_fixture_id": "white-puffer-vest",
+      "sha256": "e730d0bbdda3f918fe37c5f18ae35e10d6028dc7d31e799da7430ff2ddf672da",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-user-review",
+        "decision": "accepted",
+        "scope": "recover and deliver the existing single image only",
+        "hard_findings": [],
+        "observations": [
+          "Visible white sleeveless hooded padded vest, raised collar/hood construction, horizontal channels, gold-tone front closure and two angled gold-tone zipped pockets remain present. No clear major structure drift observed.",
+          "The full-body image does not establish exact small zipper-pull geometry, fine fabric texture or hidden collar label fidelity; compare with the physical garment or detailed source before commercial approval. Back structure is not visible in this frontal shot and is not claimed verified.",
+          "Directly compared the original AI identity reference. Visible face shape/features, adult appearance, skin tone and chestnut side-part wavy hair show no clear identity replacement; this is visual review, not a strict likeness guarantee or user model acceptance.",
+          "One full-body standing person, near-camera gaze, naturally aligned head and body, arms alongside torso clear of front fasteners, garment and both shoes in frame with margin. No obvious extra/missing limbs, hand failure or unstable support.",
+          "Dark brown knit underlayer, indigo trousers and plain off-white shoes follow the approved supporting outfit; source advertisement captions were not copied.",
+          "Simple gray seamless setting and soft light preserve white fabric detail and clean composition. The specified warm-gray character is weak/closer to neutral gray in the returned image; leave this visual preference to human evaluation.",
+          "Original output hash and all five reference hashes match task records. Actual PNG is 1024x1536, exact 2:3.",
+          "中性/偏冷灰，不足以稳定读作所声明暖灰。",
+          "小五金形态和隐藏背部无法可靠核实。",
+          "无袖连帽白色羽绒马甲，立领/帽缘、正中金色拉链、两侧斜置金色拉链口袋和横向绗缝均可见；没有新增带子、装饰或口袋。；衣摆落在髋部附近，短马甲轮廓与原商品穿着背面图相容。",
+          "主体仍为白色，轻亮壳布与蓬松绗缝可辨；金色五金保持，未被背景明显染成另一主色。；深棕针织、靛蓝裤与无标米白鞋符合约定辅助搭配。",
+          "衣摆完整可见，保持髋部短马甲的长度等级，没有可确认的长款化或截短。",
+          "拉片很小，无法核实细链、镂空拉片形状、帽领拉链末端及全部针脚；后背未在本输出展示。",
+          "对照原AI参考，可见栗棕偏分软卷肩长发、成年年龄感、椭圆脸/鼻唇关系及肤色相容，未见明确换人。",
+          "头、躯干和腿部比例自然，两臂双手与脚部连续，双脚着地，没有可见多肢、断肢或失衡。",
+          "近正面静止站立，头部轻微自然倾斜，视线接近镜头；手臂下垂且未挡门襟/口袋。；帽领至衣摆、腿与双鞋均完整入画，鞋底下留有边距；不是侧转母版、坐姿、迈步或倚靠。",
+          "背景为低干扰无缝灰，左侧柔光和面部明暗渐变可见，白衣细节与鞋底接触阴影基本清楚。；背景总体偏中性至冷灰，暖灰目标兑现不足。",
+          "简洁中性搭配、低干扰棚景和克制表情符合Clean Fit方向；没有靠改造商品实现风格。",
+          "读取PNG元数据为1024×1536，精确2:3；一张单人单构图，无拼图或额外文字。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-007",
+      "title": "淑女柔美",
+      "direction_id": "coquette-ladylike",
+      "route": "native",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "new-ai",
+      "garment_fixture_id": "white-puffer-vest",
+      "sha256": "e4c5b7811ed72e878880ebb88b74b4b6be33c8675aa77346f8ae889e4a98be1a",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-retry",
+        "decision": "rejected",
+        "scope": "独立单张实际原图技术QA；明确首饰限制、商品/人物/custom/风格逐项核对，不是用户接受",
+        "hard_findings": [
+          "画面右侧可见耳垂上有独立亮色圆形耳钉；原图局部最近邻放大后可见该附着耳垂的亮色饰物。当前人物为新AI，冻结搭配未授权耳饰，故属于新增首饰。",
+          "画面右侧耳垂新增亮色耳钉，违反冻结明确不新增首饰/ornaments的条件；该饰物虽小，但已可确认存在，不能归入细节不可辨待核。"
+        ],
+        "observations": [
+          "白色无袖连帽马甲保留立起领帽、蓬量、横向分格、金色前中拉链和两侧金色斜袋拉链，完整下摆在画内。未见马甲被加蕾丝、蝴蝶结、腰带、袖子或更改为裙装。",
+          "马甲保持白色轻微光泽，暖白场景没有把它整体染成粉色或奶茶色。深棕针织、蓝靛长裤和简单米白闭口鞋基本符合明确辅助搭配；源广告文字未带入。",
+          "本任务是新成年女性AI，没有指定原身份脸需要相似度验收。可见成年外观、自然棕色长卷发和克制温和表情符合本轮人物目标；不从风格推断国籍或年龄数值，不代替用户人物接受。",
+          "近正面站姿、头颈轻微自然倾斜、近镜头视线和双手侧垂均可见，未遮挡马甲五金。双脚前后错列但都接触地面、膝腿基本伸直，未见明确抬脚行走动作；不单凭前后错列或轻微重心偏移判成迈步。领帽至衣摆、双腿和双鞋在画内留有边距。",
+          "可见双手、四肢与头身衔接无明确缺失、畸变或支撑错误；成人造型不幼态或性化。白衣与家具比例可信，没有为甜美风明显缩腰或拉长身体的确定证据。",
+          "奶油暖白墙面、粉浅色靠垫/花朵、窗帘、沙发与壁炉构成克制柔和室内，左侧窗光形成浅明暗和地面亮区；背景略软，商品主体清楚。甜美主要通过环境和表情表达，没有背景道具遮挡服装。",
+          "微小拉头/链齿、内标、帽领连接、绗缝间距和确切面料成分无法完整验证；本张正面未展示后片。精确物理衣长/围度与上身松量无尺码或标尺资料，不宣称准确。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-008",
+      "title": "电商棚拍",
+      "direction_id": "ecommerce-studio",
+      "route": "web",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "flatlay",
+      "model_source": "none",
+      "garment_fixture_id": "white-puffer-vest",
+      "sha256": "0816c444d2d2de00faf9345867551b1b70e62503bdc09ade72a4f275c9d4dc2e",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-retry",
+        "decision": "rejected",
+        "scope": "独立实际单张技术QA；按本次冻结呈现及原服饰源，不替代人类确认或商业交付",
+        "hard_findings": [
+          "平铺成图左右肩口/袖窿上缘外侧均露出浅棕色硬质端片，位置与原正面挂拍图衣架两端相符，不能归作白马甲结构或金色拉链。冻结构图明确No hanger，当前保留这两处衣架端部痕迹未兑现该限制。"
+        ],
+        "observations": [
+          "直接对照原服饰源，白色无袖连帽马甲、蓬松横向绗缝、金色前中拉链和两侧斜拉链口袋等主要部件保留，完整下摆可见。帽领原有金色横向拉链及垂挂拉头有来源，不误判为新首饰。此主要结构判断不覆盖独立记录的呈现方式问题。",
+          "马甲仍为白色、表面轻微光泽和蓬量可辨，金色五金关系保留，未见衣身主色重染或广告文字进入画面。未加入额外服装或纹样。",
+          "本图无人物、人台、肢体、腿鞋或人脸；身份、年龄、视线、人体与人物确认不适用。",
+          "服装正面朝上展示，帽领、双肩、完整前中拉链、两个口袋与下摆均完整且有边距；浅灰台面没有额外衣物、标题或拼图。整体平铺展示成立，但独立记录残留衣架端片，不能称完全满足无人无衣架。",
+          "中性浅灰平面与白色马甲保持可读轮廓；左上柔光在蓬松横绗缝上形成缓和渐变，衣摆和侧边有柔接触阴影，未形成平板无影或遮蔽商品的戏剧暗部。",
+          "当前成图可见较弱补光与柔塑形，但单张无标定照片无法验证右侧填充恰为主光约三分之一；不把数值灯比写成已实测。",
+          "源图内标、微小拉链齿/链节/拉头镂空、帽领连接细节和精确绗缝间距仍不能全面认证。当前正面不展示后片；隐藏内标不凭遮挡判为确定删除，背部、精确尺寸、衣长/松量实测和材质成分不作已核实声明。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-009",
+      "title": "法式日常",
+      "direction_id": "french-effortless",
+      "route": "native",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "new-ai",
+      "garment_fixture_id": "white-puffer-vest",
+      "sha256": "af39f7067d94de1d4aa5e3235f88d760f6b4ba05bdf1e82b7d4bde5373fbcb7e",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-user-review",
+        "decision": "accept",
+        "scope": "独立单张实际原图技术QA；逐项对冻结请求及同字节四张原服饰图，不是六张组验收或用户接受",
+        "hard_findings": [],
+        "observations": [
+          "直接对照四张原服饰源，实际白色无袖连帽马甲保留高领/帽、蓬松衣身、横向绗缝、金色前中拉链与双侧斜向金色口袋拉链，主体廓形和领帽至完整下摆可见；未发现可确认的新增袖子、腰带或额外口袋。金色帽领部硬件依据原图保留，不将其误判成新饰物。",
+          "白马甲保持白色及柔和表面光泽、蓬量；深棕针织内搭、靛蓝长裤与无标米白闭口鞋符合冻结辅助搭配。源广告抬头与标签没有变成画面文字；没有服装图案或明显品牌增添。",
+          "本任务为新建成年女性AI，当前成年外观、自然妆发、温和放松表情及身体比例与冻结人物条件相容。没有指定原人物照片需要复刻，不从外貌推定文化身份，不声称用户已接受该人物。",
+          "近正面站立，头颈轻微自然倾斜且视线近镜头，双手垂于两侧且不遮扣件；双脚落地，一侧脚尖向外及腿位小幅错开不构成正在迈步的证据。帽顶、完整衣摆、双腿、两鞋和边距可见，未见坐姿、倚墙或背部视角。",
+          "头颈、肩臂、躯干和双腿衔接及人物与环境尺度未见明确失衡、缺肢或支撑错误；手部可见指形未见显著畸变，呈现适龄、非性化。",
+          "左侧高窗及窗外铁艺栏杆、右侧壁炉和窄金框镜面建立巴黎式公寓角落；左窗光在脸和白马甲上形成柔和明暗过渡。暖中性墙面、原木地板、织物地毯与少量花/书形成前中后景；人物自然站立和温和表情与当前custom方案相容，未见新增标题、logo或服装文化部件。",
+          "冻结方案要求细腻胶片颗粒与不过度修饰的生活感。全身图能看见材质层次，但细腻颗粒和皮肤修饰程度无法据当前呈现可靠认证；空间较整洁精致，随拍感强弱保留审美复核，不将其称为已验证胶片质感。",
+          "全身尺度不足认证微小拉链齿、拉头开孔形状、帽领连接机构、内标及每段绗缝间距与实物完全一致。原素材虽含背面，本张正面未展示后片；背部结构、精确衣长/量化尺寸、材质成分不作已核实声明。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-010",
+      "title": "都市户外",
+      "direction_id": "gorpcore",
+      "route": "web",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "new-ai",
+      "garment_fixture_id": "white-puffer-vest",
+      "sha256": "a40b71203ea69a08fc4ad0c5a5db7d8a4c2920566477a22f4bf59e4b60880d01",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-retry",
+        "decision": "rejected",
+        "scope": "独立实际单张技术QA，按冻结呈现与全部原服饰来源；不代替人类接受",
+        "hard_findings": [
+          "冻结请求明确独立静止站立并排除stepping；实际前腿前伸承重、后膝弯曲、后脚跟进，整体为前后交替的迈步式造型，偏离这一明确动作要求。判定来自整体腿部动作与支撑关系，非仅凭鞋前后有小幅位置差，也不声称单张照片证明真实时间运动。"
+        ],
+        "observations": [
+          "原商品白色无袖连帽结构、蓬松横向绗缝、金色前中拉链与两个斜向金色口袋拉链保留，帽领至完整衣摆可见；未确认新增袖子、腰带、口袋或服装部件。原有帽领金属拉头不误判为新饰物。",
+          "白色马甲及轻亮壳布、蓬量与金色五金保持，源图广告抬头未进入成图。深棕针织、靛蓝长裤与无标米白闭口鞋符合冻结辅助搭配。",
+          "本任务新建成年女性AI无指定原身份源；成年外观、自然妆发、平静表情与自然比例符合冻结条件，不据外貌判断族群国籍，也不代表用户选人。",
+          "头颈自然轻倾、视线近镜头，双手垂侧不遮前门襟或口袋；帽领至完整下摆、双腿和两鞋均在画内留边。此构图通过不抵消独立动作失败。",
+          "头肩、躯干、手臂和双腿连接与环境尺度未见明确畸形或缺肢，手部可见指形正常，适龄非性化。按明确动作要求拒收，不将其误写成人体畸形。",
+          "石径、低石墙、苔绿灌木与树木形成阴天城市公园环境；冷中性漫射光没有强烈金色轮廓或硬投影，白衣绗缝、两袋和针织层次仍可读。近处石面清晰、人物中景、远处植被渐弱，低饱和岩灰苔绿土色符合冻结目标；没有新增背包、带子、户外装备或机能口袋。",
+          "微小拉链齿、镂空拉头、链节、帽领连接、内标及精确绗缝间距仍需实物/高清源核对。当前正面未展示后片；隐藏内标不凭不可见判定删除，原背图也不能证明本输出后片已核实。精确衣长、尺寸松量和材质成分不作确定声明。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-011",
+      "title": "国潮街头",
+      "direction_id": "guochao-street",
+      "route": "native",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "new-ai",
+      "garment_fixture_id": "white-puffer-vest",
+      "sha256": "05abaf9e95409d6ee1d75b739d21a1085d5a33a2c61cf01a84b4bbe3322df9f6",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-user-review",
+        "decision": "accept",
+        "scope": "独立单张实际原图技术QA；逐项对冻结请求及同字节四张原服饰图，不是六张组验收或用户接受",
+        "hard_findings": [],
+        "observations": [
+          "直接对照四张原服饰源，实际白色无袖连帽马甲保留高领/帽、蓬松衣身、横向绗缝、金色前中拉链与双侧斜向金色口袋拉链，主体廓形和领帽至完整下摆可见；未发现可确认的新增袖子、腰带或额外口袋。金色帽领部硬件依据原图保留，不将其误判成新饰物。",
+          "白马甲保持白色及柔和表面光泽、蓬量；深棕针织内搭、靛蓝长裤与无标米白闭口鞋符合冻结辅助搭配。源广告抬头与标签没有变成画面文字；没有服装图案或明显品牌增添。",
+          "本任务为新建成年女性AI，当前成年外观、自然妆发、温和放松表情及身体比例与冻结人物条件相容。没有指定原人物照片需要复刻，不从外貌推定文化身份，不声称用户已接受该人物。",
+          "人物近正面静止站立，双手垂于两侧且不遮拉链，头颈轻微自然倾斜、视线近镜头；双脚分开并有前后位置差，但两鞋均落地、支撑可信，没有足够证据认定为迈步。连帽至完整衣摆、双腿、两鞋和留边均在画内。",
+          "头颈、肩臂、躯干和双腿衔接及人物与环境尺度未见明确失衡、缺肢或支撑错误；手部可见指形未见显著畸变，呈现适龄、非性化。",
+          "现代城市红砖墙、黑色窗框/竖向边界、灰色石基与路面建立清晰透视和图形节奏；画面左上方方向性自然光带来发丝轮廓、明暗墙面与落地阴影，服装暗部和白色衣身层次仍可辨。未以文字/图腾改造服装。",
+          "冻结艺术方向要求当代中国文化表达与都市节奏结合。当前红砖、黑窗和石铺路面均是通用城市线索，图像本身缺少足够独特、可核实的文化线索来确认这一具体目标；不能凭人物面貌推定国籍或族群来补足风格。此为已声明视觉目标待人工裁决，不是商品硬错误，也不要求添加刻板符号。",
+          "冻结场景明确选择红砖空间，同时配色字段要求水泥灰、黑色与少量红色点。实际背景红砖占大面积，兑现红砖场景但并非少量红色点；这两个目标存在张力，记录偏离交人工判断，不自动判废或称全项达标。",
+          "画面右侧可见耳垂有很小浅亮点。原图及原像素局部放大仍不足可靠区分耳部高光与小饰物；没有足够证据判定新增耳钉，也不声称无首饰条款已完全验证。",
+          "全身尺度不足认证微小拉链齿、拉头开孔形状、帽领连接机构、内标及每段绗缝间距与实物完全一致。原素材虽含背面，本张正面未展示后片；背部结构、精确衣长/量化尺寸、材质成分不作已核实声明。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-012",
+      "title": "意式轻奢",
+      "direction_id": "italian-luxe",
+      "route": "web",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "new-ai",
+      "garment_fixture_id": "white-puffer-vest",
+      "sha256": "e873b2f9dbd6fdd6b96caa6cb98415c4ce56ac01a47ac318341c3e546e42b30c",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-user-review",
+        "decision": "accept",
+        "scope": "独立实际原图技术QA，按冻结custom动作与原服饰源；不代替人类确认",
+        "hard_findings": [],
+        "observations": [
+          "白色无袖连帽马甲的帽领、横向蓬量绗缝、金色前中拉链与两侧斜向金色拉链口袋保持，完整衣摆可见；未确认新增袖子、腰带、口袋或装饰。原有帽领金色硬件不当作新增首饰。",
+          "深棕针织、靛蓝长裤与无标米白闭口鞋符合冻结辅助搭配；马甲仍可辨为白色轻亮壳布，没有确认换主色或材质改造。未见额外品牌、广告文字或服装图案。",
+          "本任务新建成年女性AI无原身份照片；当前成年外观、自然妆发、温和克制表情与自然身体比例相容，不从外貌推断国籍或族群，也不宣称用户选人已完成。",
+          "身体近正面、头颈自然轻倾、视线近镜头；双手垂侧且不遮扣件。帽领至完整下摆、双腿和两鞋完整入画并留边，没有倚墙、坐姿或背面展示。",
+          "双脚前后错开、后膝略弯，整体有轻微步态感；但双鞋与石面接触，未见足够明确的抬足推进或失去静止支撑证据。静止站立目标的视觉感受留人工核对，不能仅因前后错脚判qa-retry，也不将该项笼统写成静止动作已完全核实。",
+          "头、肩臂、躯干与双腿衔接未见明显缺肢或比例失衡，手部可见指形与石柱/人物尺度可信，适龄且非性化；未知的实测身体参数不作推定。",
+          "暖色石墙、近侧柱边、中景人物和远处重复拱洞形成有秩序的回廊纵深；少量植物与石材对比提供生活语境，服装轮廓仍清楚。暖金自然侧光和石材反射在人物、衣身及地面保持一致空间关系，没有靠新首饰或奢侈标识创造方向。",
+          "冻结要求暖金自然光并保留商品原色，场景同时写柔和定向光。当前回廊和投影带较强日照，皮肤及白衣受暖金环境反射明显；白色仍可辨且衣身层次可读，但是否过度偏暖、柔和程度是否达标留人工评价，不据当前显示断言主色已漂移或已校准白平衡。",
+          "微小拉链齿、拉头镂空/链节、帽领连接、内标与精确绗缝间距无法完整认证；本张未展示后片，不能把源背图等同输出后片通过。精确衣长/尺寸松量、材质成分不作保证。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-013",
+      "title": "日系生活",
+      "direction_id": "japanese-lifestyle",
+      "route": "native",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "new-ai",
+      "garment_fixture_id": "white-puffer-vest",
+      "sha256": "5786c1ea6856601f986d1925dbcd51ecd76bdd8d15283c384a6982519f6da79f",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-user-review",
+        "decision": "accept",
+        "scope": "独立单张实际原图技术QA；逐项对冻结请求及同字节四张原服饰图，不是六张组验收或用户接受",
+        "hard_findings": [],
+        "observations": [
+          "直接对照四张原服饰源，实际白色无袖连帽马甲保留高领/帽、蓬松衣身、横向绗缝、金色前中拉链与双侧斜向金色口袋拉链，主体廓形和领帽至完整下摆可见；未发现可确认的新增袖子、腰带或额外口袋。金色帽领部硬件依据原图保留，不将其误判成新饰物。",
+          "白马甲保持白色及柔和表面光泽、蓬量；深棕针织内搭、靛蓝长裤与无标米白闭口鞋符合冻结辅助搭配。源广告抬头与标签没有变成画面文字；没有服装图案或明显品牌增添。",
+          "本任务为新建成年女性AI，当前成年外观、自然妆发、温和放松表情及身体比例与冻结人物条件相容。没有指定原人物照片需要复刻，不从外貌推定文化身份，不声称用户已接受该人物。",
+          "近正面静止站立、头颈自然轻倾且看向近镜头，双手下垂并离开全部商品扣件；双腿略错开、两鞋均接地，没有明确迈步动作。帽顶至衣摆、自然比例双腿与双鞋均完整入画且留边；当前custom站姿优先，不按摄影基准中的可选坐姿示例判错。",
+          "头颈、肩臂、躯干和双腿衔接及人物与环境尺度未见明确失衡、缺肢或支撑错误；手部可见指形未见显著畸变，呈现适龄、非性化。",
+          "木框侧窗、木地板与低矮木家具构成自然光木质居室，米白墙面和沙发、燕麦色地毯与绿色植物符合冻结环境配色。前景窗边长凳、中景人物、后景沙发与柜体建立生活空间层次；表情温和、造型克制，商品白色保持。",
+          "冻结目标是暖白自然漫射光及柔和明暗过渡。脸和衣身过渡较柔和，但地板及左侧长凳有强烈直射窗光亮带、清楚窗框/树叶边界和局部高亮，画面环境明显更偏日照直射。这是可定位的已声明光线目标偏离，交人工裁决，不误判为商品结构失败。",
+          "冻结目标包含细腻胶片颗粒与保留真实皮肤质地。当前全身尺度不足可靠认证颗粒方式和细微皮肤修饰程度，不能以柔和氛围代替这两项已核实。",
+          "全身尺度不足认证微小拉链齿、拉头开孔形状、帽领连接机构、内标及每段绗缝间距与实物完全一致。原素材虽含背面，本张正面未展示后片；背部结构、精确衣长/量化尺寸、材质成分不作已核实声明。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-014",
+      "title": "韩系冷感",
+      "direction_id": "korean-cold-editorial",
+      "route": "web",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "existing-ai",
+      "garment_fixture_id": "white-puffer-vest",
+      "sha256": "a13c17d933cec0cf03b51cafaf5992b3fb390010c765987f33d52ab6b728fd6c",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-user-review",
+        "decision": null,
+        "scope": null,
+        "hard_findings": [],
+        "observations": [
+          "细链、镂空、针脚及未展示后背不能可靠核验。",
+          "全身脸部像素不足，无法证明皮肤细纹/胶片颗粒目标达到。",
+          "白色无袖连帽马甲、竖起帽领、金色前中拉链、两侧斜置金色拉链口袋与横向绗缝均可见；没有明确新增或删除主要部件。；衣摆在髋部附近，马甲主体完整显示，无袖结构没有被辅助棕色针织袖混成主商品长袖。",
+          "主体仍是白色轻亮壳布，金色五金保持；冷灰环境没有把白衣染成明显其他主色，白衣亮部仍有绗缝层次。；辅助深棕针织、靛蓝长裤及无标米白鞋符合冻结支持搭配。",
+          "短马甲至髋部的长度等级保持，衣摆未裁断，没有明确长款化或短截化。",
+          "帽领、门襟和口袋拉片占画面很少，无法核实镂空形状、链节和针脚；后帽/后背不在本张正面视角。",
+          "栗棕偏分软卷肩长发、成年年龄感、椭圆脸和鼻唇关系与原AI参考相容，未见明确换人。",
+          "头身腿比例和两臂双手自然，双脚有地面接触，未见额外肢体、明显手指/关节畸变或支撑失衡。",
+          "静止近正面/极轻三分之四，头部轻微自然倾斜、视线接近镜头，双手自然下垂且不遮门襟/口袋。；帽领至衣摆、腿和双鞋均完整入画并留有边距；没有改为侧转母版、走步、坐或倚靠。",
+          "冷灰墙面、深浅错落的建筑立面和右侧后退空间形成画廊式层次，建筑边界未切进主要服饰轮廓。；画面左侧较亮，面部/白衣明暗过渡柔和；地面有向右投影和足底接触阴影，白衣细节保持。",
+          "低饱和冷灰环境、克制近镜头神态和简洁建筑线条支持韩系冷感编辑方向；没有靠新增服装结构或夸张身体比例造风格。",
+          "面部在全身画幅内较小且整体较平滑，无法可靠核实提示中细微毛孔/胶片颗粒目标；不能把清晰全身图等同于中画幅胶片纹理已证实。",
+          "PNG实读1024×1536，精确2:3；单人、单姿势、单构图，无额外图文排版。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-015",
+      "title": "韩系男装",
+      "direction_id": "korean-menswear",
+      "route": "native",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "new-ai",
+      "garment_fixture_id": "white-puffer-vest",
+      "sha256": "74ef8b5af83716db92b48d4d978234f35f36327ca75f63b8bbc1cbd75f50bf65",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-user-review",
+        "decision": "accept",
+        "scope": "独立单张实际原图技术QA；四张原服饰源及适用原身份源，非六张组验收或用户接受",
+        "hard_findings": [],
+        "observations": [
+          "直接对照四张原服饰源，白色无袖连帽马甲的领帽、蓬松体积、横向绗缝、金色前中拉链及左右两条斜向金色口袋拉链保持，领帽到完整下摆可见；未发现可确认的新增袖子、腰带、口袋或结构删除。帽领原有金色硬件不误判为新增饰物。",
+          "商品仍为白色、略有表面光泽并保留蓬量；深棕针织内搭、靛蓝长裤、无标米白闭口鞋符合冻结辅助搭配。未见明显新首饰、服装图案、品牌、广告抬头或商品染色。",
+          "本任务为新建成年男性AI，无指定原人物身份照片。当前明确成年外观、自然妆发、冷静克制的表情、自然头颈与身体比例符合冻结条件；没有甜美撒娇式姿态或新增夸张街头造型，不由外貌推断国籍或族群。",
+          "人物近正面静止站立，头颈自然轻斜并看向近镜头；双手垂侧且不遮商品扣件。两脚分开外转但均落地，没有明确迈步、倚墙或坐姿；帽顶至完整衣摆、双腿、两鞋及四周边距可见。",
+          "整体头颈、肩臂、躯干、手与双腿比例和衔接未见明确失衡或缺肢，双脚支撑与场景尺度可信；可见手指未发现明显畸变，呈现适龄、非性化。",
+          "灰色石材建筑外墙、较暗侧后景玻璃和地面铺装形成简洁都市空间；建筑竖线及地面透视有层次。侧上方柔光在脸和衣身形成缓和明暗过渡，白色表面仍保留蓬量与绗缝体积、深棕针织可辨，背景低饱和冷中性、人物边界清楚，符合本轮克制都市编辑方向。",
+          "全身输出不足可靠认证微小拉链齿、拉头镂空形状、帽领连接机构、内标和每段绗缝间距与实物完全一致。虽有原服饰背面源，本张正面不展示后片，不声称后片已核实；精确衣长/尺寸、材质成分也无量化依据。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-016",
+      "title": "新中式",
+      "direction_id": "neo-chinese",
+      "route": "web",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "new-ai",
+      "garment_fixture_id": "white-puffer-vest",
+      "sha256": "4df14d007ba76c31bcac0e582846295c43b71023748c3ee0497ece1b99227080",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-user-review",
+        "decision": "accept",
+        "scope": "独立实际原图技术QA，按冻结custom动作与原服饰源；不代替人类确认",
+        "hard_findings": [],
+        "observations": [
+          "白色无袖连帽马甲的完整帽领、横向蓬量绗缝、金色前中拉链、两侧斜向金色拉链口袋及下摆保持；未确认新增袖子、腰带、口袋或装饰。源帽领金色硬件不当作新增首饰。",
+          "深棕针织、靛蓝长裤与无标米白闭口鞋符合冻结辅助搭配。白马甲保持可辨白色与轻亮壳布质感，未见中式纹样、盘扣、首饰或新品牌标识。",
+          "新建成年女性AI的成年外观、自然妆发、表情与身体比例符合人物条件；无原身份引用。本项不推断人物国籍或族群，也不等于用户已经选人。",
+          "身体近正面、头颈自然、视线近镜头；双手垂侧并避开扣件。前侧一脚轻微外转、双脚略错位但鞋底均接地，未见明确走步姿态。帽领至完整衣摆、双腿双鞋带边距入画，没有坐姿、倚墙或背面展示。",
+          "头、肩臂、躯干与腿部衔接未见明显缺肢或失衡；双手可见形态与场景尺度相容，适龄且非性化。不据照片推定实测尺寸。",
+          "木质竖向格栅、米白墙、墨色矮案/面板、黑色花器与枝叶、石材地面构成当代东方室内的线条和留白；方向由建筑与构图呈现，未靠改变马甲或指定人物族群表达。近侧人物、后方格栅与墙面具有可读空间层次。",
+          "人物与衣身的侧前自然光柔和且结构可读；墙地局部直射亮斑和枝影更鲜明，整体是否达到冻结要求的柔和程度留人工评价，不能宣称已测量光比或校准色彩。",
+          "微小拉链齿、拉头镂空/链节、帽领连接、内标与精确绗缝间距无法完整认证；当前正面不认证后片。精确衣长、松量、材料成分与手工来源均未核实。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-017",
+      "title": "北欧极简",
+      "direction_id": "nordic-minimal",
+      "route": "native",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "hanger",
+      "model_source": "none",
+      "garment_fixture_id": "white-puffer-vest",
+      "sha256": "aa0256291e30453adfcd07d0e51b0deb4f7269f13f38ae3f3e60887635fb7b13",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": true,
+      "qa": {
+        "grade": "qa-user-review",
+        "decision": "accept",
+        "scope": "独立实际单张技术QA；按本次冻结呈现及原服饰源，不替代人类确认或商业交付",
+        "hard_findings": [],
+        "observations": [
+          "直接对照原服饰源，白色无袖连帽马甲、蓬松横向绗缝、金色前中拉链和两侧斜拉链口袋等主要部件保留，完整下摆可见。帽领原有金色横向拉链及垂挂拉头有来源，不误判为新首饰。此主要结构判断不覆盖独立记录的呈现方式问题。",
+          "马甲仍为白色、表面轻微光泽和蓬量可辨，金色五金关系保留，未见衣身主色重染或广告文字进入画面。未加入额外服装或纹样。",
+          "无人挂拍：没有人物、人台、肢体、脸、眼或额外搭配衣物。身份一致性、年龄、人体姿势及人物确认不适用，不按人像基准可选坐姿验收。",
+          "单件马甲悬挂在无标浅木衣架上，金属挂钩与墙面圆形木挂点构成可见支撑；领帽、肩部、前中全拉链、双侧口袋和弧形下摆均完整入画并留边，未将衣架误判成额外服装。",
+          "左侧大窗、浅灰哑光墙、少量浅色木面和低视觉重量植物构成简洁空间；白马甲与灰墙有细微明度分离，横向蓬量、壳布表面和金色五金可读，身后有自然柔影。未因极简删去主要商品部件，也未把白衣染成蓝/黄主色。",
+          "冻结要求冷中性漫射窗光。衣身与挂衣后影较柔和，但下方墙面和木面有斜向窗光亮带及植物影子，环境带有直射成分；是否满足整张漫射光目标保留人工裁决，未据此宣称商品硬失败。",
+          "源图内标、微小拉链齿/链节/拉头镂空、帽领连接细节和精确绗缝间距仍不能全面认证。当前正面不展示后片；隐藏内标不凭遮挡判为确定删除，背部、精确尺寸、衣长/松量实测和材质成分不作已核实声明。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-019",
+      "title": "老钱风",
+      "direction_id": "old-money",
+      "route": "native",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "existing-ai",
+      "garment_fixture_id": "met-159228",
+      "sha256": "6015c8d5cbfffe9a6abf14cdb8bf53f91553ca748fc7b12d517dd8a84b52a48e",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-user-review",
+        "decision": null,
+        "scope": null,
+        "hard_findings": [],
+        "observations": [
+          "日照直射感和清晰阴影边缘偏硬，与柔和日光目标有偏离。",
+          "细刻纹和连接钩无法全核；扣饰相对衣长看起来更靠上，不能排除穿着支撑因素，也不能声称精确位置通过。",
+          "人台单正面源图不足以保证实测穿着长度、围度或背部。",
+          "深酒红长袖长外套及立领、前缘棕色卷毛条、宽卷毛袖口和宽下摆均存在；中央仍为两片圆/椭圆金属搭扣，没有改成纽扣或加帽。；衣身轻A线与长袖比例基本保留；未混入身份参考的白马甲、牛仔或羽绒结构。",
+          "主色保持深酒红，带有受光时红色丝绒反光；棕色卷毛边与银/金暖色搭扣关系可见，没有明确改成另一主色。；丝绒的明暗绒感及卷曲毛边有区别，不是把两种材质混成一块。",
+          "输出为过膝、至小腿上段附近长外套，完整下摆可见；肩至下摆相对袖长没有明显由长款改短款。；仍不能由人台单图证明原衣实际穿着长度或松量，不能给精确衣长通过。",
+          "仍为一对大型圆/椭圆金属盘，外缘偏银、中心暖金色，连接横向关系可见。；细刻纹及连接钩纹样不能按本输出像素逐一核验；相对衣长的位置看起来比人台源更靠上。",
+          "与原AI参考相比，栗棕偏分软卷发、椭圆脸、鼻唇比例、成年年龄感及肤色相容，未见明确换人。",
+          "头身比例、双手、靴筒与双脚支撑自然，未见明显多肢/断肢或扭曲。",
+          "静止近正面/轻三分之四站姿，头身自然同向、近镜头视线，双手放松不遮搭扣。；立领到衣摆、双腿和深色无标鞋靴完整入画且有边距；无倚靠、跨步或坐姿。；深色长靴属约定允许的简单深色辅助鞋履；没有明确锁鞋型，不将与另一图裤/靴差异当商品硬错。",
+          "浅米石柱、石铺地、庭院植栽及前后层次符合场景；背景与酒红商品分离清楚。；头发边缘和石地日照较强，向画面右下延伸的阴影边缘清晰，整体更像有明显直射成分的日光；未充分兑现柔和侧日光。",
+          "石材庭院、克制姿态和古典外套构成清楚的老钱风表达；没有通过珠宝/徽记等新增服装配件制造风格。",
+          "读取PNG元数据为1024×1536，精确2:3；一张单人单构图，无拼图或额外文字。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-020",
+      "title": "学院风",
+      "direction_id": "preppy",
+      "route": "web",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "mannequin",
+      "model_source": "none",
+      "garment_fixture_id": "white-puffer-vest",
+      "sha256": "891b7db7be8c59dd2e154fb77ccf54a37c08ed14e3239fbfa36e9213160ed54c",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": true,
+      "qa": {
+        "grade": "qa-user-review",
+        "decision": "accept",
+        "scope": "独立实际单张技术QA，按冻结呈现与全部原服饰来源；不代替人类接受",
+        "hard_findings": [],
+        "observations": [
+          "原商品白色无袖连帽结构、蓬松横向绗缝、金色前中拉链与两个斜向金色口袋拉链保留，帽领至完整衣摆可见；未确认新增袖子、腰带、口袋或服装部件。原有帽领金属拉头不误判为新饰物。",
+          "白色马甲及轻亮壳布、蓬量与金色五金保持，源图广告抬头未进入成图。没有加入额外搭配衣物；米色可见部分属于获准的人台本体。",
+          "中性色布面无头人台，顶部木件是人台装饰/结构件；没有真人、脸、视线或人的四肢，不套用人像姿态、年龄或身份一致性检查。",
+          "马甲穿在人台上，主体从帽领、双肩、完整前中拉链、两侧袋口到下摆都在画内并留边，正面构造可读；金属支柱连接到木质立杆，未发现悬空商品或无支撑人台的明确证据。",
+          "画面下缘截在木质支柱中段，底座和实际接地范围未展示。可见支柱支持合理，但完整支架稳定性无法据此认证；冻结要求完整商品而非完整底座，故不将基座在画外单独判硬失败。",
+          "侧前方窗光、深海军蓝书架、酒红/奶白/卡其书脊及低干扰木桌椅形成清楚图书室语境。白马甲与深色书架分离，柔和光线让绗缝体积和五金可读；未新增制服、领带、徽记或儿童化服装。当前明确图书室人台方案优先，不强制复制摄影基准的校园真人示例。",
+          "微小拉链齿、镂空拉头、链节、帽领连接、内标及精确绗缝间距仍需实物/高清源核对。当前正面未展示后片；隐藏内标不凭不可见判定删除，原背图也不能证明本输出后片已核实。精确衣长、尺寸松量和材质成分不作确定声明。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-021",
+      "title": "静奢",
+      "direction_id": "quiet-luxury",
+      "route": "native",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "existing-ai",
+      "garment_fixture_id": "white-puffer-vest",
+      "sha256": "52a2fef1afc131af0d49e5289264daae41d5f8fa1f9a5e627c868aae23df3a1c",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-user-review",
+        "decision": "accept",
+        "scope": "独立单张实际原图技术QA；四张原服饰源及适用原身份源，非六张组验收或用户接受",
+        "hard_findings": [],
+        "observations": [
+          "直接对照四张原服饰源，白色无袖连帽马甲的领帽、蓬松体积、横向绗缝、金色前中拉链及左右两条斜向金色口袋拉链保持，领帽到完整下摆可见；未发现可确认的新增袖子、腰带、口袋或结构删除。帽领原有金色硬件不误判为新增饰物。",
+          "商品仍为白色、略有表面光泽并保留蓬量；深棕针织内搭、靛蓝长裤、无标米白闭口鞋符合冻结辅助搭配。未见明显新首饰、服装图案、品牌、广告抬头或商品染色。",
+          "已直接查看本任务第5张原始AI人物参考并与当前原图核对，未以其他新生成图替代。栗棕色齐肩柔卷侧分发、自然妆容、成年年龄感及整体眉眼/鼻唇布局有可见连续性，未确认明显换人；但参考是侧转头向、成图近正面，精细脸型和五官保真无法在不同角度全身尺度下可靠认证，保留人工核对，不声称严格锁脸或用户已选人。",
+          "当前自然身体比例与参考整体表现未见明确失衡或显著体型改造；没有将参考的侧看头向和抬后脚动作带入本次custom站姿。人物参考仅用于身份，不将其服饰、鞋款或背景作为商品事实。",
+          "人物近正面静止站立，头颈自然、视线近镜头，双手下垂且不遮门襟/口袋拉链；双鞋均与地面接触，腿位轻微错开但没有明确迈步动作。帽顶到衣摆、双腿、完整鞋及边距可见；本次custom站立优先，不按基准中的可选坐姿要求判错。",
+          "整体头颈、肩臂、躯干、手与双腿比例和衔接未见明确失衡或缺肢，双脚支撑与场景尺度可信；可见手指未发现明显畸变，呈现适龄、非性化。",
+          "浅暖灰墙地符合冻结室内中性色环境；较宽柔光让白马甲的横向蓬量、表面轻微光泽与针织内搭纹理可辨，脚下有柔和接触阴影。未以臆造羊绒/丝等昂贵材质或品牌标识表达静奢，未改变商品原色。",
+          "冻结方向要求材料优先的取景、疏密安排及当代内敛的材质细腻感。当前墙地接近同色，前中后景与空间材料层次较弱，视觉上更接近通用浅灰棚拍；商品体积可见，但本轮静奢特异性仍需人工裁决。缺少基准示例家具本身不是硬失败，也不要求复制坐姿或添加道具。",
+          "全身输出不足可靠认证微小拉链齿、拉头镂空形状、帽领连接机构、内标和每段绗缝间距与实物完全一致。虽有原服饰背面源，本张正面不展示后片，不声称后片已核实；精确衣长/尺寸、材质成分也无量化依据。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-022",
+      "title": "度假",
+      "direction_id": "resort-vacation",
+      "route": "web",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "new-ai",
+      "garment_fixture_id": "white-puffer-vest",
+      "sha256": "6631b06c4d26793ed46d63dfa53d01837ae7da593df3b6977637c466aebce518",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-user-review",
+        "decision": "accept",
+        "scope": "单张独立服饰人像技术QA；不构成人物接受、真人路线验收或商业就绪",
+        "hard_findings": [],
+        "observations": [
+          "直接对照四张商品源，白色无袖马甲、竖起的领帽、横向蓬松分格、金色前中拉链以及左右两条斜向金色口袋拉链均可辨。完整衣长及主要轮廓保留，未见确定的新增口袋、腰带或大结构变形；商品源广告抬头未进入成图。",
+          "细小拉头的环形/切面、拉链齿、帽领细五金、内部标签及微小面料纹理在此全身尺寸下不能可靠逐项认证。源图背部虽已查看，成图未展示背部，因此不把背部结构判为已验证。具体纤维成分及精确绗缝间距也不作测量结论。",
+          "海岸日光下马甲仍呈白色，局部略暖的高光和阴影未构成明确主色漂移。深棕针织内搭、靛蓝裤及米白无标鞋符合冻结搭配；没有把度假场景变成泳装、轻薄替换或新增饰物。",
+          "本任务为新建成年AI女性，无身份参考附件；实际成年年龄感、自然妆发和比例符合目标，不存在应对照的原真人同脸验收。用户尚未接受本张实际人物；不要把商品背图的人物当身份依据。",
+          "近正面站立，头颈自然、视线近镜头，双手在两侧且不遮挡前拉链或袋口。双脚有轻微前后错位，但可见承重关系支持静止站姿，未见明确跨步、抬脚或动态摆臂，不能仅凭脚位错开判为迈步。帽领到下摆、双腿和两鞋均完整入画并留边距；未倚墙或坐下。",
+          "可见肩颈、手臂、手指和腿脚关系无明确肢体缺失、异常扭转或支撑失败。单人成人服饰展示，无不适当裸露或性化动作。",
+          "白色海边建筑、蓝海、棕榈与浅色石地形成清楚空间层次。头发与肩侧有明亮海岸逆侧光，正面服饰由柔和补光保持可读；地面阴影和接触关系可辨。服饰轮廓、白色绗缝及金色五金未被背景反光吞没，轻松表情基本支持度假氛围。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-023",
+      "title": "工装复古",
+      "direction_id": "workwear-vintage",
+      "route": "native",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "new-ai",
+      "garment_fixture_id": "white-puffer-vest",
+      "sha256": "f4221a071ff46c75db2b9c8ea1bae17dd5b6dbb53f65188534fcdbd20ef1f472",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-user-review",
+        "decision": "accept",
+        "scope": "独立单张实际原图技术QA；四张原服饰源及适用原身份源，非六张组验收或用户接受",
+        "hard_findings": [],
+        "observations": [
+          "直接对照四张原服饰源，白色无袖连帽马甲的领帽、蓬松体积、横向绗缝、金色前中拉链及左右两条斜向金色口袋拉链保持，领帽到完整下摆可见；未发现可确认的新增袖子、腰带、口袋或结构删除。帽领原有金色硬件不误判为新增饰物。",
+          "商品仍为白色、略有表面光泽并保留蓬量；深棕针织内搭、靛蓝长裤、无标米白闭口鞋符合冻结辅助搭配。未见明显新首饰、服装图案、品牌、广告抬头或商品染色。",
+          "本任务为新建成年女性AI，无指定原身份照片。当前成年外观、自然妆发、平稳温和表情及身体比例与冻结条件相容；没有舞台式夸张表情或军事化造型，不以外貌推断文化身份，也不代替用户确认。",
+          "人物近正面静止站立，头颈自然轻倾且看向近镜头；双手垂于两侧不遮扣件。两脚均落地，一侧向外转并稍前后错开，不足认定为迈步。帽顶、完整下摆、双腿及两鞋完整入画并留边，无倚墙、坐姿或背部视角。",
+          "整体头颈、肩臂、躯干、手与双腿比例和衔接未见明确失衡或缺肢，双脚支撑与场景尺度可信；可见手指未发现明显畸变，呈现适龄、非性化。",
+          "左侧大窗、旧砖墙与局部旧灰墙、木质工作台/凳及后景木架形成实用工作室语境；前景桌边、中景人物与略暗后景有清楚层次。暖灰侧窗自然光保留木、砖、金属和服装表面差异，人物轮廓未被道具切碎；旧材料痕迹没有变成商品污渍、军用符号或装备。地面可见窗光亮带，本轮只声明自然侧窗光，没有将其误套为必须全漫射的其他风格标准。",
+          "全身输出不足可靠认证微小拉链齿、拉头镂空形状、帽领连接机构、内标和每段绗缝间距与实物完全一致。虽有原服饰背面源，本张正面不展示后片，不声称后片已核实；精确衣长/尺寸、材质成分也无量化依据。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-024",
+      "title": "千禧风",
+      "direction_id": "y2k-millennium",
+      "route": "web",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "existing-ai",
+      "garment_fixture_id": "white-puffer-vest",
+      "sha256": "789b5f0f309f9aeafc5c1e769efc37a456a04c0c92d11685c1e67d909b0e7ac0",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-user-review",
+        "decision": "accept",
+        "scope": "单张独立服饰人像技术QA；不构成人物接受、真人路线验收或商业就绪",
+        "hard_findings": [],
+        "observations": [
+          "直接对照四张商品源，白色无袖马甲、竖起的领帽、横向蓬松分格、金色前中拉链以及左右两条斜向金色口袋拉链均可辨。完整衣长及主要轮廓保留，未见确定的新增口袋、腰带或大结构变形；商品源广告抬头未进入成图。",
+          "细小拉头的环形/切面、拉链齿、帽领细五金、内部标签及微小面料纹理在此全身尺寸下不能可靠逐项认证。源图背部虽已查看，成图未展示背部，因此不把背部结构判为已验证。具体纤维成分及精确绗缝间距也不作测量结论。",
+          "白马甲保持白色；粉蓝灯色主要落在金属背景和地面，未造成商品明显染色。深棕针织内搭、靛蓝裤和米白无标鞋符合冻结搭配，未变为低腰、暴露或额外千禧服装部件。",
+          "直接对照原AI身份图，成年年龄感、肤色、棕色肩长微卷侧分发、自然妆容及脸型/五官关系总体相近；当前转为近镜头眼神与轻微头部倾角，未见明确换人或年龄漂移。但此判断不是严格同脸认证，仍需用户接受实际人物。该任务仅验证AI人物替代路线，不是延期真人身份任务的通过证据。",
+          "正面到轻微侧身的静止站姿，双腿分开承重且鞋底落地；没有迈步、坐姿、倚墙或背面展示。头颈轻微自然倾斜、视线靠近镜头，双手垂于两侧避开拉链和袋口。完整衣物、双腿和两鞋均入画有边距。",
+          "单人自然比例，头颈与肩躯连接、手臂/手指可见结构及腿脚支撑无明确阻断异常。保持成年服饰展示，未出现未成年化或性化动作。",
+          "银灰装置、金属球与方体、蓝粉边缘灯及反射地面构成明确千禧布景，反射点未遮挡商品，主体白色和纹理保持可读。主体有正面明亮高光，但整体仍偏柔和棚光，冻结方案要求的“直闪形成明确光感”没有同样强烈地表现；这一可定位摄影目标保留人工裁决，不判商品硬失败。自然克制表情与原身份条件相容，不强迫夸张玩味表情。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-025",
+      "title": "美式复古日常",
+      "direction_id": "retro-americana",
+      "route": "native",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "existing-ai",
+      "garment_fixture_id": "white-puffer-vest",
+      "sha256": "b4c9a99b840fbcdf3460ed7136f317158e76969a66e3673b0b6256c6857f1ed7",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-user-review",
+        "decision": "accept",
+        "scope": "单张独立服饰人像技术QA，不是预览、六张组验收或用户接受",
+        "hard_findings": [],
+        "observations": [
+          "白色无袖连帽绗缝马甲的完整衣长、蓬松体积、横向分格、竖起领帽及绕帽金色五金关系可辨；前中金色拉链和左右两条斜向金色口袋拉链保留，未见明确新增口袋/腰带/饰件。四张商品源的广告抬头没有进入输出。",
+          "暖木色室内中马甲仍呈中性白色，局部阴影略暖但没有整体泛黄或明显改色。深棕针织内搭、靛蓝下装和无标米白鞋符合允许的低存在感搭配。",
+          "与原AI人物直接对照，成年年龄感、棕色肩长微卷发、侧分、淡妆、可见脸型及五官关系总体接近；当前转为近镜头视线且脸角不同，不能据这一张宣称严格同脸。没有明显换人或年龄漂移。",
+          "近正面略侧的静止站立，头颈自然且视线靠近镜头，双手放松在两侧并离开拉链/袋口；未倚墙、坐下、迈步或展示背部。完整帽领至下摆、自然比例双腿及双鞋均在画内有安全边距。",
+          "肩颈、手臂、手指可见关系、双腿与脚底承重无明确阻断异常；没有为风格明显拉长身体或缩窄腰部的证据。",
+          "复古日常室内、木门框/柜面/桌沿与地板构成前中后景；左侧窗光为主要光源，暖台灯作较低亮度环境点光，主体和白色面料细节可读，未把环境年代元素加到服装上。",
+          "拉链齿、细小拉头形状、内部标签及具体面料成分不能在当前成片可靠验真；背部在本次正面构图中不可见，不宣称已验证背部。横向分格关系可辨但未用像素测量认证逐段间距一致。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-026",
+      "title": "哥特暗调摄影",
+      "direction_id": "gothic-editorial",
+      "route": "web",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "existing-ai",
+      "garment_fixture_id": "met-159228",
+      "sha256": "cc50a895825ac949007387545cea08364faa558670483969dcf3001fa4d99292",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-user-review",
+        "decision": "accept",
+        "scope": "独立实际原图技术QA，按冻结custom动作、原服饰源及原始AI身份源；不代替人类确认",
+        "hard_findings": [],
+        "observations": [
+          "酒红长袖长外套、卷绒质感的棕色立领/前襟/宽袖口/宽下摆保持可见，酒红绒面有光泽和暗部层次；正面双片圆形金属扣仍有银色外缘与暖金中心，未替换成纽扣或新增帽子。未见把人物参考中的白马甲、牛仔搭配或羽绒结构带入当前SKU。",
+          "金属扣在当前输出中相对领口至下摆的整体长度显得比馆藏展示源更靠上；衣身相对袖长也显得更修长。来源为展示支架、输出为真人站姿，垂坠、角度及穿着比例不同，缺乏尺寸依据，当前不能可靠确定是否发生明确移扣/加长。冻结要求精确位置及袖长比例，故该项不得写成已核实保持，需人工重点对照。",
+          "只见深色裤腿和无标黑色短靴作为辅助搭配，符合深色下装和鞋的范围；未见新蕾丝、十字架、束腰、尖钉、首饰或宗教物件。",
+          "已对照原始AI身份图而非其他成图；胸栗色侧分及肩波浪发、成年外观、克制妆发、可见眉眼鼻唇关系与自然身材大体相容。眼神从原图侧看改为近镜头属于当前动作要求；角度照明变化下不作精确身份认证或用户人物确认。",
+          "身体近正面，头颈自然微倾，视线近镜头；两手垂侧避开金属扣，两脚分别稳定接地。完整发顶、立领、衣身下摆、腿与两靴均留边，未见坐姿、倚墙、背面或明确迈步。",
+          "头身、肩臂及手指/下肢衔接未见明显缺失或比例失衡；适龄且非性化，不推断人物国籍族群或实测身体参数。",
+          "炭灰石材柱廊、拱形竖向结构、人物两侧不同面积负空间、近侧栏杆与后方柱面形成纵深。衣装保持酒红色，深色背景与卷绒边和人物轮廓分离；没有靠改变衣装或黑妆建立方向。",
+          "右后侧柱面和发丝边缘有明确方向亮部，酒红绒面仍能辨纹理；人物正面补光较充足、整体更均匀明亮。冻结要求窄幅侧主光和低调张力，本张的窄侧光力度及暗调程度仍偏弱，留摄影复核，不把此问题等同服装事实硬失败。",
+          "扣件雕刻/中心纹样和卷绒排列无法逐细认证；只能检查当前正面，未提供的后背、内衬及隐藏构造不据此通过。原材料成分、工法、精确衣长和实测松量未核实。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-027",
+      "title": "浪漫波西米亚",
+      "direction_id": "romantic-bohemian",
+      "route": "native",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "faceless",
+      "model_source": "new-ai",
+      "garment_fixture_id": "white-puffer-vest",
+      "sha256": "878dac09d65b5b7adb23fe05ebfb2cdc27aee3d586862bcf8d68f8b94dd4377b",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-retry",
+        "decision": "rejected",
+        "scope": "独立无脸单张实际原图QA，对冻结request/manifest及四张服饰原源；不等于用户确认或六张组验收",
+        "hard_findings": [
+          "原图顶部中央仍可见下巴底部的浅色弧面及其与颈部的边界。已用原像素区域(470,0,610,70)仅在内存中最近邻放大确认，无眼鼻口且不可识别人物，但明确冻结要求是from just below the chin以及face and eyes remain entirely outside the canvas，当前仍露下巴底部没有完整兑现该裁切边界。"
+        ],
+        "observations": [
+          "白色无袖连帽马甲的横向蓬松绗缝、金色前中拉链及左右斜向拉链口袋可见；帽子自然放下、领帽轮廓及完整衣摆在画内。没有确认新增袖子、腰带、流苏、刺绣、花冠、包或民族饰物，未因Boho方向改变服装结构。",
+          "实际马甲保持白色与表面轻微光泽；深棕针织、靛蓝长裤和无标米白闭口鞋符合辅助搭配。金色侧逆光照亮边缘但未将商品整体重染，未见源广告文字、额外海报版式或新增品牌。",
+          "眼鼻口和可识别人脸未出现，不呈现眼球视线；没有原身份源需比对，脸部保真与妆容判断不适用。仍按下条明确裁切要求单独记录下巴底部入画的问题，不能用不可识别替代全部脸部在画外。",
+          "身体近正面静止站立，双手自然垂侧且不遮前门襟或口袋扣件；腿位略错开、双鞋接地，未见明确迈步或背部展示。马甲从帽领到下摆、双腿与两鞋完整，比例和支撑未见明显失衡。",
+          "按新建成年AI身体呈现检查，颈肩躯干、手臂与双腿关系自然，可见指形未见明确畸变，场景与人物尺度可信且非性化。无脸输出不认证脸部年龄或未知实测体型。",
+          "近处干草/低矮植物、中景人物与远处山坡形成开放陆地空间层次；画面左上侧逆日光在头发边缘、袖缘与草叶形成暖轮廓，正面有反射式填充使白马甲绗缝和金属件可读。土色、绿色和暖自然光来自环境，植物视觉重量较低，未用服装新增Boho符号换取风格。当前冻结方案允许柔和户外植物背景，不把卡片原始草坡示例强制为另一个场景。",
+          "全身尺度不足认证小拉链齿、拉头镂空形状、帽领连接机构、内标及精确绗缝间距。虽有背面源，本张正面不展示后片；隐藏背部、精确衣长/尺寸、材质成分不作已核实结论。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-028",
+      "title": "未来人工光摄影",
+      "direction_id": "future-artificial-light",
+      "route": "web",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "existing-ai",
+      "garment_fixture_id": "white-puffer-vest",
+      "sha256": "ef119a2201757b9ffcf51b987deda3e3b51bd175c552a5c7626239684fde2784",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-retry",
+        "decision": "rejected",
+        "scope": "独立实际原图技术QA，按冻结custom动作、原服饰源及原始AI身份源；不代替人类确认",
+        "hard_findings": [
+          "explicit_static_pose: clear stepping/follow-through pose with bent rear knee and lifted rear heel conflicts with frozen no-stepping requirement",
+          "冻结请求明确 standing 且排除 stepping。实际前腿伸出支撑、后膝明显弯曲，后鞋仅前掌/鞋头近地且后跟抬起，形成清楚迈步跟进姿态；已放大查看后脚区域确认。此判断基于整体腿足动作和抬跟，不是仅凭双脚错位，也不声称单张照片证明真实时间运动。当前没有遵守所要求的静止站姿。"
+        ],
+        "observations": [
+          "白色无袖连帽马甲、完整帽领、横向蓬量、前中金拉链及两侧斜向金拉链口袋可辨；深棕针织、靛蓝长裤、无标米白鞋符合辅助搭配。未新增机能绑带、装甲、电子设备、发光衣料或服装图案。",
+          "当前腿足和双臂姿态与原始AI身份图较相似，存在身份图姿态影响当前动作的可能；仅凭像素结果不能确认生成机制。身份参考按冻结说明不提供姿势，静止姿态硬失败已单独记录，不能因原图本身这样站立而豁免。",
+          "直接对照原始AI身份图：栗棕侧分及肩波浪发、成年面貌、自然妆发和可见眉眼鼻唇总体相容；近镜头眼神符合当前指令而非复用源侧视。身份精确一致及用户选人仍未经人工确认。",
+          "头颈自然、近镜头视线，双手下垂并避开拉链口袋；完整帽领至下摆、腿和两鞋都留边。无坐姿、倚墙或背面展示。",
+          "人物四肢、手部和鞋部未见明显缺失或失衡，身体比例自然，适龄且非性化；未推断民族、国籍或实测尺寸。",
+          "冷色竖向灯带、较远暖色实用灯、玻璃分格和地面反射形成前中后层次与冷暖分离；人物与地面反射能够区分，反射方向未见显著矛盾。主光使白色马甲与金色扣件可读，强彩光主要留在建筑和地面，未把白衣变成霓虹颜色。",
+          "空间和多光源关系已经建立，但主体较均匀柔亮、技术都市的压迫/疏离感较温和；该审美强度留人工评价。未对照明色温、光比、反射几何或商品白平衡作计量认证。",
+          "微小拉链齿、拉头镂空/链节、帽领连接、内标与精确绗缝间距无法完整认证；正面成图不等于背面检查通过。尺寸松量、材质成分及工法不作保证。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-029",
+      "title": "汉服指定形制展示",
+      "direction_id": "hanfu-form-specific",
+      "route": "native",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "new-ai",
+      "garment_fixture_id": "hanfu-daopao-2017",
+      "sha256": "a1c0c22c9174cccdb45d98293cf4828fc66e1e707c19b259bb27bbc0be21de7c",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-user-review",
+        "decision": "accept",
+        "scope": "独立单张技术QA",
+        "hard_findings": [],
+        "observations": [
+          "直接按源图画面方向对照，外层斜襟从画面右上跨向画面左腰系结；输出亦在画面左腰收合，未镜像翻转交领闭合。浅色内领边保留。",
+          "宽长袖与弧形下角/袖口轮廓有保留；下垂后袖筒呈宽松曲线，不是窄袖、束袖或另加护腕。未见花纹/刺绣/盔甲/披风等新增部件。",
+          "长直身主轮廓、可见中央纵向接缝以及画面左腰同色细系带保留；未加入腰带或其他固定装饰。",
+          "输出为长款袍身并完整展示下摆，视觉上至小腿区域；源图是无身体尺度的展挂平展照，不能确定实际衣长、尺码、身高或上身落点，不认定已准确复现量化合体。",
+          "浅灰紫/淡薰衣草灰主色和柔和光泽仍在，未改成强紫、蓝或白色；细褶与光照明暗符合布料悬垂。",
+          "本任务为新成年男性AI人物，没有外部身份需要复刻；成年外观、自然梳理、身体比例、手指和站立承重未见明显硬异常。未添加头冠或文化身份标识。",
+          "正面静止站立、头颈自然、视线近镜头，双手在两侧且不遮系结；整件领至下摆可见，双腿与鞋完整并留边。未变成编号回转、坐姿、迈步、倚墙或背面。",
+          "素雅室内与中性侧前柔光使领襟、袖型和长身接缝可读，背景线条未切割关键结构，未添加混搭朝代配件。",
+          "背部、隐藏里层、内系带和精细接缝不能由当前正面输出验证；未展示就不宣称通过。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-030",
+      "title": "旗袍都市人像",
+      "direction_id": "qipao-urban",
+      "route": "web",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "new-ai",
+      "garment_fixture_id": "qipao-henan-2015",
+      "sha256": "156b208d94f28306efda3647583a2271a0dc80dbeba69b82bdb53b1947d83a98",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-user-review",
+        "decision": "accept",
+        "scope": "单张旗袍服饰人像技术QA；不构成人工人物确认、实物保真认证或商业就绪",
+        "hard_findings": [],
+        "observations": [
+          "输出保留立领及中央开口、长而窄的袖身，以及上胸三枚浅色圆扣：中间一枚位于领根，左右各一枚位于横向胸襟两端。圆扣的数量和主要位置可辨，没有变成常见单侧斜襟盘扣旗袍。",
+          "横向上胸滚边与两侧向下弯转的几何胸襟关系仍可见；整体为长款窄直廓形，完整袖口、下摆及侧边开口轮廓入画。未见明显加高暴露开衩、短裙化或新增腰带。",
+          "深蓝主体及同色结形/点状暗纹保持可辨，未替换为大面积金绣、异色花卉或印花；面料仍呈细腻低反差光泽。此处只评价可见织纹外观，不认证具体织造或成分。",
+          "领口、几何胸襟、袖口、长侧边与下摆均保留窄彩色滚边的位置关系；但在1024×1536全身成图中，粉/绿细条部分显得偏暖、偏橙金，难以可靠确认是否准确保持原粉绿色及逐段交替。需要高清对照；不能将该细色条判为精确通过。圆扣的小型扣袢/尾端和暗纹微细形状、数量也留人工核对。",
+          "源图是陈列人台而非具有尺寸标定的真人试穿图，无法认证实际穿着时的精确衣长、领高、腰部松量与开衩高度。主要相对轮廓未见明确阻断漂移；本张不展示背部、内里或隐藏扣件，不将这些判为已验证。",
+          "身体近正面直立，头颈自然且眼神靠近镜头，双手放松垂在两侧并离开胸襟扣位。双脚有轻微前后交叠，未见足够的跨步、抬脚或动态摆臂证据，按静止重心转移处理，不仅凭脚位判为迈步。整件旗袍从领口到下摆及双鞋均在画内，鞋底下方仍有边距；未坐下、倚墙或转背。",
+          "本任务是新建成年AI女性，没有应复用的人脸参考；陈列背景历史肖像只作排除项。实际人物为自然成年外观、克制妆发，未见明确肢体结构或支撑异常。黑色简洁闭口鞋属于源图未提供的必要搭配，未添加珠串、手套、披肩或烟具。实际人物仍未经用户接受。",
+          "现代石材/玻璃建筑提供都市几何线条与前后景层次，中性侧前自然光保持深蓝服装及纹理可读，地面有自然投影和足部接触关系。未加入复古黑红金滤镜、历史人物或图文海报。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-031",
+      "title": "林芝工布服饰展示",
+      "direction_id": "gongbu-dress",
+      "route": "native",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "new-ai",
+      "garment_fixture_id": "gongbu-dance-2011",
+      "sha256": "bbec346c1807c06d23e106a05c121196f41c1267b4217d5bbabfecbab93ad7d8",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-user-review",
+        "decision": "accept",
+        "scope": "独立实际原图技术QA，按冻结custom动作与原服饰源；不代替人类确认",
+        "hard_findings": [],
+        "observations": [
+          "实际对照群舞原照，仅中央偏右蓝袖、红腰带、紫色长裙舞者的衣装为来源。输出未混入前景男性的服饰或其他舞者的外扩帽型；未带入群舞、夜景闪光、原场地或多人。",
+          "蓝色立领内搭与宽松长袖、圆弧低开口无袖长外层、酒红胸区及金彩宽边、红腰带、下层紫色花纹长裙均可辨。前片金彩边、斜跨的蓝边金彩片与酒红间隙保持可见层次关系，完整下摆未裁掉。未确认明显改变袖型、增设扣件、短截前片或丢失整层的硬性偏差；此项仅针对本张可见正面主要结构。",
+          "输出保留小圆柱形帽、浅金底与彩色横向带；原照帽子同属圆筒并有横带，未见替换为其他舞者的外扩帽型。已对原照及成图帽脸局部放大比对；原照倾斜、透视与当前正面不同，帽高/宽的精确比例无法可靠认证，未有足够证据断定帽型被拉高而判硬失败。",
+          "未见新增耳饰、项链、手链或地域/宗教道具；微小原首饰按冻结范围省略。无饰米白平底鞋属于获准辅助搭配，仅评价这项中性搭配，不声称复刻原照被遮住的鞋。",
+          "输出成年外观、自然比例、克制妆发与约30岁成年人设相容。已将原舞者与成图帽脸区域对照：圆润面颊、眼部与收起的深色头发有相近视觉特征；眼鼻唇颌并非逐像素一致，但角度、表情和照明不同，当前视觉证据不足以可靠断定复制或彻底独立。不能将新人物身份已验证写成通过，也没有把原舞者肖像作为授权身份；留人工确认。",
+          "单人近正面静止站立，头颈自然，双手垂侧避开胸饰、腰带与前片，双足自然接地；完整帽子、衣装轮廓、裙摆及两鞋均带边距，未延续舞蹈、迈步、倚靠或背面视角。",
+          "人物为清楚成年外观，头身、肩臂与腿部比例未见明显失衡；双手与鞋部形态可辨，适龄且非性化。没有据外貌指定民族或国籍。",
+          "简洁浅灰墙与地面、侧前窗光及落地接触影形成中性室内；蓝、红、紫及金彩边分离可读，无地域标志、寺庙、雪山、旅游或宗教布景。背景线条未明显切断主要服饰结构。",
+          "墙地存在较鲜明窗光/叶影，整体柔和程度留复核；原照夜间闪光与现自然光不同，不能宣称色彩经过计量校准。细小花纹形状、数量、比例及面料高光有生成简化可能，本次范围不承诺逐线微纹样复制；实际布料材质、工法、隐藏后背与衬里均未知。",
+          "这是原题《公布藏族-锅庄舞蹈-7》中所选舞者节庆/舞蹈衣装的有限正面研究；“公布”可能为“工布”的解释只属结合林芝分类和外观的推断，非馆藏认证，也不代表全部工布或藏族衣装。CC BY-SA 2.0 服装素材来源记录已读；公开使用时应按来源署名、保留许可证与修改说明，并履行适用的相同方式共享条件。没有取得或声称原舞者身份再用授权。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-032",
+      "title": "婚纱空灵",
+      "direction_id": "bridal-ethereal",
+      "route": "web",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "new-ai",
+      "garment_fixture_id": "met-163116",
+      "sha256": "256c649c850b24f7f75944385b4e3012d4bfbce182507b850fb56899cbf67023",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-user-review",
+        "decision": "accept",
+        "scope": "单张历史婚纱服饰人像技术QA；不构成人工人物确认、实物保真认证或商业就绪",
+        "hard_findings": [],
+        "observations": [
+          "三张原图与输出均可辨认上臂密集细褶、横向窄带约束、下段大幅蓬起及长而收窄袖口的组合。成图没有把这一结构整体替换成无分区的通用泡泡袖；袖部主要体积和分段位置成立。",
+          "成图上臂的细褶更密、更不规则，局部看起来像束皱结团；原袖部特写是较清楚的纵向平行细褶被横向窄带压住。全身图不足以可靠确认逐条细褶、窄带端点和针脚对应。长袖口及细窄边饰可辨，部分小扣在袖口侧边可见，但不能认证每边扣数、间距及边饰花形完全一致。此项未被记为精确通过。",
+          "宽领、向前中汇聚的斜向胸身褶片、前中向下成尖的腰部，以及从腰际展开的长而饱满裙身均保留。未见新增腰带、前开衩、分层荷叶裙或裙身现代蕾丝拼接。",
+          "主体仍为奶油色，未变成纯白、明显金色或透明纱。与原图较平整、光泽柔和的丝面相比，成图从胸身、袖口到整片裙身有更密集的碎亮起伏，部分呈纹样般反光；这使面料观感更光亮、更皱。现有全身分辨率与不同照明条件不足以可靠区分真实褶皱反光、细微面料改写或新增织纹，不能直接认证面料一致，也不无依据命名为花卉提花。应由用户对照高清原图确认；冻结请求的subdued sheen目标也保留为待核。",
+          "未见头纱、皇冠、花束、肩带、透纱拼片、现代蕾丝大片或明显外加刺绣。袖口细边属于原图已有部位。裙摆完整落地，未见从背后或侧面伸出的新增拖尾；不因摄影模板出现拖尾字样而认可新增拖尾。",
+          "源图是无人体、无尺标的平展服装照片，无法从本次上身图认证精确领深、腰围松量、裙撑体积、衣长及体型尺码。主要相对轮廓可评估，但精确上身合体不能宣称已还原。虽然背面参考已经读过，本次正面输出未展示后中开合与后腰细密抽褶，隐藏背部不可标为已验证。",
+          "身体近正面直立，头颈自然、眼神靠近镜头，双手放松下垂且不覆盖胸腰结构；未见明确坐姿、迈步、倚墙或转背。整件领口、袖口和裙摆均在画内，下方有地面边距。前方一只奶油色闭口鞋从裙下可见，另一只和腿部自然被长裙遮挡，不是画框裁切；未发现足以判定肢体缺失或迈步的可见证据。没有把全身要求扩写成两鞋分别完全无遮挡。",
+          "本任务新建成年AI女性，三个服装源图没有需要复用的人物身份。实际人物为成年外观、自然比例与克制盘发，未新增项链、手套或珠宝。用户尚未接受该人物。可见奶油色闭口鞋仅作必要搭配，原服装照片未提供鞋款，不能称历史鞋履复原。",
+          "浅色低饱和室内空间、侧面大窗柔光、清晰人物与墙面层次及柔和地面投影符合明亮柔光婚纱方向；高光没有大面积抹去袖褶或裙摆。但裙身及袖部碎亮反光较多，弱侧后轮廓光的独立贡献也难从单图可靠确认，因此subdued sheen与弱侧后分离的具体达成度保留人工裁决，不以场景漂亮抵消面料待核。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-033",
+      "title": "Lolita层次展示",
+      "direction_id": "lolita-layered",
+      "route": "native",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "new-ai",
+      "garment_fixture_id": "lolita-ijoy-2021",
+      "sha256": "9fb115eba972c21de94fa56bf66c19742b16789d13052eb7febbd7bb049c7b6c",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-user-review",
+        "decision": "accept",
+        "scope": "独立单张技术QA",
+        "hard_findings": [],
+        "observations": [
+          "白/象牙白胸身、前中交叉穿饰、上胸蝴蝶结、颈圈与吊坠、挂颈至露肩关系基本保留；原图已有颈饰和胸前蝴蝶结，因此不把这两项误判为新增。肩部和胸身覆盖未见可确认的改变。",
+          "露肩袖上缘褶边、透视蕾丝垂袖、外层沿纵向抽褶形成的垂弧、内层褶边和蕾丝层次、前裙边支撑圈与竖向连接关系均仍可读，未简化成普通蓬裙。",
+          "输出保留肩后左右横向羽饰和下裙两侧大型羽饰，没有把其移为头冠；画面右下羽饰的下垂形态、主裙与外伸饰物关系仍与源图相近。",
+          "白色蕾丝与偏象牙白光泽裙面存在层次区分，未统一漂白或染成其他颜色；侧前光和填光使纹理仍可读。",
+          "人物呈成年外观、短深色发，未复制原图的长直发、头冠、头部羽饰或展会场景；手臂和手指在本分辨率未见明显硬异常。",
+          "身体正面、头颈自然、视线近镜头，双手垂于身体两侧且避开胸前穿饰；双脚略交叉但呈静态承重，未见迈步、倚墙、坐姿或背面。整件领至外伸羽饰与鞋脚均完整有边距。",
+          "克制灰白室内墙面与侧前柔光分离复杂白色层次，无展会旁人、标题、价格、标语或新增文字。",
+          "原图被头发、手臂和羽饰遮住的领肩区域，以及隐藏背部、羽饰固定方式和精细蕾丝纹样未获充分证据；不宣称这些部分通过实物一致性检查。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-034",
+      "title": "服饰插画",
+      "direction_id": "garment-illustration",
+      "route": "web",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "new-ai",
+      "garment_fixture_id": "white-puffer-vest",
+      "sha256": "de660be8c5b0ac90381762ee6808da58424ace67144df9f20d7f579984563364",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-user-review",
+        "decision": "accept",
+        "scope": "独立原图技术QA，按明确插画媒介允许的光影/笔触转译审查；关键原服饰结构、原色和静止动作仍约束；不代替人类确认",
+        "hard_findings": [],
+        "observations": [
+          "图像明确为纸面设色服饰插画：可见纸纹、轮廓/结构描线、受控笔触及概括明暗，服装边缘和肤发具有绘画表达；非普通实拍图加滤镜。完整独立单图、无标题或海报排版。允许以绘画化高光与笔触表达白色壳布，不因缺少照片式纹理而判失败。",
+          "白色无袖连帽马甲的帽领、前中开合、横向填充层次、两侧斜向口袋、完整下摆和蓬量轮廓可读；前拉链及口袋以金色色线/扣形区分，未换主色或增设袖子、腰带、装甲、图案。深棕针织、靛蓝长裤与米白鞋维持辅助配色关系。",
+          "已对照原帽领与拉链近图。插画帽领两侧仍有金色垂坠五金及细线，但拉链轨道、连接方式、镂空拉头和链节被显著简化，局部容易读成长细金色垂件。当前不足以认证这些细部精确一致，也不足以仅凭绘画省略断言新增抽绳；该项记艺术简化及人工核对，不能作为实物五金证据。",
+          "单一新成年女性AI插画形象、自然成人身体比例、温和表情及克制妆容符合冻结人物条件。源图中人物只供服装信息，本任务未授权身份复用；不从脸或造型推断民族国籍，也不代表用户完成选人。",
+          "近正面站立，头颈自然轻倾、视线近镜头，两手垂侧不遮拉链与口袋。双脚分开并接地，一侧腿略外展但没有后脚抬跟跟进的明确迈步姿态；发顶、帽领、完整衣摆、双腿及双鞋均有边距，无坐姿、倚靠或背面。",
+          "绘画表现中头身约常规成人比例，肩臂、手指和双腿衔接可辨，未见为时装效果明显拉长人体或极端收腰；适龄且非性化。指节/面部细节的笔触概括不等于生理细节已认证。",
+          "浅暖纸面留白包围完整衣装，淡背景笔触未遮挡关键结构；脚下浅灰投影向画面右侧展开，衣身与脸部明暗总体相容，线色面明确区分白马甲、棕内搭与蓝裤。不要求本插画证明真实布光或摄影场地。",
+          "色彩关系保持可读，但画面白色壳布的折面、针织笔触、牛仔纹理和纸面肌理均为绘画表达，不能充当真实面料成分、光泽计量或商品实拍证据。绘画风格的精致程度和笔触偏好留人工审美确认。",
+          "微小拉链齿、内标、精确绗缝间距/衣长/松量无法认证；当前正面不验证原背片。未提供真实纤维、工法、实测尺寸或商业交付确认。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-035",
+      "title": "Art Deco图形布景",
+      "direction_id": "art-deco-set",
+      "route": "native",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "existing-ai",
+      "garment_fixture_id": "white-puffer-vest",
+      "sha256": "5df99db4d546b75f987fbc5113484ad6a96d6e6ffd1c0b2523ee7c67709daacd",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-user-review",
+        "decision": "accept",
+        "scope": "独立单张技术QA",
+        "hard_findings": [],
+        "observations": [
+          "原白色无袖连帽羽绒马甲的蓬量、横向绗格、抬高领/折下帽关系、前中金色拉链和两侧斜插金色拉链袋保留；未增加长袖、腰带或改变为礼服造型。",
+          "主体仍为略有光泽的白色，没有被背景金色明显染色；横向分格与口袋位置可读，背景线条和反射没有覆盖拉链或服装轮廓。",
+          "与原始AI身份图对照，成年外观、脸部主要比例、肤色、偏分栗棕色及肩微卷发和自然妆容大体保持，没有明显人物换龄或陌生新发型。",
+          "深棕素针织内搭、靛蓝长裤、无明显品牌米白鞋符合固定允许搭配，没有新增金色首饰、珠串、肩带或服装几何印花。",
+          "正面/极轻微三分之四静态站立，头部自然、视线近镜头，双手垂于两侧且不遮拉链袋；全件至下摆、完整双腿鞋脚均有边距。未变成侧回转母版、坐姿、倚墙、走步或背面。",
+          "阶梯、竖向金属线、层叠拱形及深绿/金色几何布景提供Art Deco建筑感，地面受控反射和背景灯带与主体分层；风格变化落在布景与照明，未进入服装新增金线、串珠、扇形纹或几何装饰。",
+          "站立承重和四肢比例未见明显硬异常，双手形态可读；无广告横幅、海报文案、价格或额外文字版式。",
+          "隐藏背部/帽内结构、拉链硬件微细差异、精确面料与实测版型不由当前输出背书。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-036",
+      "title": "超现实空间广告",
+      "direction_id": "surreal-space-ad",
+      "route": "web",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "existing-ai",
+      "garment_fixture_id": "white-puffer-vest",
+      "sha256": "d89d1308c412e360039862ff49b92ca6f0a988212fbffb973aae58acbd7ae7f4",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-retry",
+        "decision": "rejected",
+        "scope": "独立实际原图技术QA，艺术变化仅按冻结单一空间回环设定；人物支撑、商品事实与静止动作保持约束；不代替人类确认",
+        "hard_findings": [
+          "frozen_impossible_spatial_loop: receding repeated arch corridor does not clearly establish the specifically requested arch returning recursively into the same room",
+          "冻结方案明确指定单一巨大后景拱门递归返回同一个房间，形成不可能空间回环。实际是一列等形拱门和重复圆形水面按常规透视缩小直达远处消失点；未见返回原房间的识别线索或清楚的不可能连接。重复纵深和天空开口构成梦幻拱廊，但不能据此宣称所选空间回环已实现。该项是已冻结核心创意未清楚实现，非仅凭个人审美要求更夸张，也不因空间艺术化本身判失败。"
+        ],
+        "observations": [
+          "白色无袖连帽马甲保持可读帽领、横向蓬量、前中金拉链、两侧斜向金拉链口袋与完整衣摆；深棕针织、靛蓝长裤和无标米白鞋符合辅助搭配。未把服装改成液体、金属、发光或生物形态，未加装甲/绑带/图案。暖环境下白色仍可辨，关键结构未被背景幻象遮住。",
+          "对照原始成年AI身份图，栗棕及肩侧分波浪发、成年外观、克制妆容及可见眉眼鼻唇关系总体相容，人物比例自然。当前头眼转近镜头遵循本次动作要求；角度照明不同，不能据此替代精确身份或用户人物确认。",
+          "近正面站立，头颈自然微转、视线近镜头，双手垂侧避开扣件。双脚略分开并稳定接地，未见明确后脚抬跟跟进的走步；完整发顶、帽领、衣摆、双腿双鞋带边距，无坐姿、倚靠或背面展示。",
+          "两鞋均位于人物前景的连续平整实体地面并有接触阴影/反射，不是站在背景圆形水面或无依据漂浮。后方水面并不自动构成人物支撑失败。四肢、手部与身体比例未见明显破损，适龄且非性化。",
+          "浅色建筑、巨大拱形、开放天空和深处重复结构形成清楚纵深，前景人物与背景层次分开。主要亮面、人物与建筑投影方向总体相容，衣装可读；没有标题、文字广告或宗教/品牌装饰。该可读纵深不等同已通过冻结的回环概念。",
+          "梦幻回廊/水面的视觉美感与尺度反差强度留人工判断；此图只能归为艺术广告构图，不充当真实地点纪实或建筑存在证明。未测量真实光比、反射几何或色彩校准。",
+          "微小拉链齿、拉头镂空和链节、帽领连接、内标与精确绗缝间距无法完整认证；当前正面不验证后片或隐藏结构。真实纤维、工法、精确衣长和松量均无充分依据。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-037",
+      "title": "英伦复古",
+      "direction_id": "british-heritage",
+      "route": "native",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "new-ai",
+      "garment_fixture_id": "met-159518",
+      "sha256": "3e9a43ad87a79a2863eb1b0ba4afbc72d4cd6dd4bcf0b150bbb8b61e235842db",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-user-review",
+        "decision": "accepted",
+        "scope": "Final group review of this exact independent image",
+        "hard_findings": [],
+        "observations": [
+          "mild image-left head turn, eyes off-camera image-left, similar small smile",
+          "Soft left-window light, detailed cream fabric and receding wood interior remain compatible with frozen direction; no dramatic cast or stage decoration."
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-038",
+      "title": "英伦复古",
+      "direction_id": "british-heritage",
+      "route": "native",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "new-ai",
+      "garment_fixture_id": "met-159518",
+      "sha256": "3238785e9f57334b2b255f54854db5c0659494a3a773cb731863f9734026abea",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-retry",
+        "decision": "rejected",
+        "scope": "Final group review of this exact independent image",
+        "hard_findings": [
+          "missing third lower-front button row；longer crop than frozen half-body",
+          "Returned panel shows two discernible rows (approximately six pale round shapes), then an exposed red/cream stripe interval and the cream lower trim. The third button row is absent from that visible interval."
+        ],
+        "observations": [
+          "mild image-left head turn, eyes off-camera image-left, similar small smile",
+          "Soft left-window daylight, clear wood interior and garment detail are compatible with the frozen direction."
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-039",
+      "title": "英伦复古",
+      "direction_id": "british-heritage",
+      "route": "native",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "new-ai",
+      "garment_fixture_id": "met-159518",
+      "sha256": "4fb487d55587856d832fbffe5833b817b7cd9b523b2126d8fb6b74161585e781",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-user-review",
+        "decision": "accepted",
+        "scope": "Final group review of this exact independent image",
+        "hard_findings": [],
+        "observations": [
+          "mild image-left head turn, eyes off-camera image-left, similar small smile",
+          "Soft left-window daylight and wood-room depth consistent with frozen scene; no new cast or stage props."
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-040",
+      "title": "英伦复古",
+      "direction_id": "british-heritage",
+      "route": "native",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "new-ai",
+      "garment_fixture_id": "met-159518",
+      "sha256": "25926b8e9101429614bb4ac09cea7b4c04013573ea25bcde9b98a8c7c2464dab",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-retry",
+        "decision": "rejected",
+        "scope": "Final group review of this exact independent image",
+        "hard_findings": [
+          "full-body instead of knee-up；missing third lower-front button row",
+          "Entire lower legs and both shoes are visible in a full-body composition, so the specified knee-up framing is not fulfilled.",
+          "Only two discernible pale-button rows, then an exposed red/cream stripe interval and cream lower trim; no third row in that visible interval."
+        ],
+        "observations": [
+          "mild image-left head turn, eyes off-camera image-left, similar small smile",
+          "Soft window light and historical wood interior remain compatible with direction."
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-041",
+      "title": "英伦复古",
+      "direction_id": "british-heritage",
+      "route": "native",
+      "preview": false,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "new-ai",
+      "garment_fixture_id": "met-159518",
+      "sha256": "60235174dc96d8c675c236e10cc5f54d8886d68396887203bbd58175426a7bac",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-user-review",
+        "decision": "accepted",
+        "scope": "Final group review of this exact independent image",
+        "hard_findings": [],
+        "observations": [
+          "natural over-shoulder head turn, eyes near camera",
+          "Soft left-window daylight and coherent oak interior; source-backed rear detail remains visible."
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-047",
+      "title": "英伦复古",
+      "direction_id": "british-heritage",
+      "route": "native",
+      "preview": true,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "new-ai",
+      "garment_fixture_id": "met-159518",
+      "sha256": "81d365a7f50a55a9e7ac5d8c918f9e441adbe9f07ef7fcbf4e376d43dc3f420a",
+      "pixels": [
+        1254,
+        1254
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": true,
+      "qa": {
+        "grade": "qa-retry",
+        "decision": "rejected",
+        "scope": "one six-panel direction preview only; not independent-image commercial delivery QA",
+        "hard_findings": [
+          "Torso faces camera with the back against the wood wall; hands are behind the torso and feet are together/crossed. It reads as a frontal wall-backed stand rather than a side lean.",
+          "Preview upper back reads predominantly as vertical stripes continuing toward the waist, and the distinct central cream/openwork vertical structure is absent. This is a visible structural simplification, not merely an unreadable tiny stitch."
+        ],
+        "observations": [],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-048",
+      "title": "女性通勤",
+      "direction_id": "office-commute-women",
+      "route": "web",
+      "preview": true,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "existing-ai",
+      "garment_fixture_id": "met-159228",
+      "sha256": "72dcafde1a49a4d3a66f3cc6464722488b066c45f7cf4735ac94f5b4433b4a3c",
+      "pixels": [
+        1254,
+        1254
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-retry",
+        "decision": "rejected",
+        "scope": "六宫格方向预览QA，非商业成片验收",
+        "hard_findings": [
+          "第1格肩线、前中门襟、髋腿大体朝前，双脚落地，主要变化是头转向画面右侧；未清楚形成经典母版1所需的身体侧转与自然肩胯回转关系。与第6格的正面自然站姿差异不足。"
+        ],
+        "observations": [
+          "第1–5格头部均朝画面右方且视线离镜；角度有小幅差别，第6格近正面看镜头，因此不能说六格头向完全相同，但连续五格同向使系列变化不足。",
+          "深酒红绒面、棕色镶边位置和双圆扣大形可辨；预览里卷曲纹理较细碎均一，金属扣局部轮廓及针/扣合细节无法按格可靠验证。",
+          "第1格未明确兑现身体侧转母版，与第6格正面站姿区别不足。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-050",
+      "title": "旗袍都市人像",
+      "direction_id": "qipao-urban",
+      "route": "native",
+      "preview": true,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "new-ai",
+      "garment_fixture_id": "qipao-henan-2015",
+      "sha256": "c433cfed91ec54212011e2afd4ae16b58e022dc4e49e3267b4f3da2c2aa70490",
+      "pixels": [
+        1254,
+        1254
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": true,
+      "qa": {
+        "grade": "qa-retry",
+        "decision": "rejected",
+        "scope": "one six-cell direction preview only; no commercial-image acceptance",
+        "hard_findings": [
+          "预览整体把彩边画成以金橙/黄为主的细边，绿色节奏明显减弱；第三、第五格近景可直接对照。不是只因远景看不清。",
+          "第五格裁到大腿位置，膝部未入画，景别比计划更紧；前倾关系存在，但不能据此把完整经典关系全部判过。"
+        ],
+        "observations": [
+          "灰色石材、玻璃立面、街道纵深与地面日光阴影；人物和衣服是画面中心。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-054",
+      "title": "Clean Fit",
+      "direction_id": "clean-fit",
+      "route": "native",
+      "preview": false,
+      "version": "1c4887167631e1b02413ad2b385e5df3a267e621",
+      "presentation": "human",
+      "model_source": "existing-ai",
+      "garment_fixture_id": "white-puffer-vest",
+      "sha256": "d7c2b02548868ff329f5e5df282f4ba57f7ae6989ba065f74e9b58d45ee37715",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-user-review",
+        "decision": null,
+        "scope": null,
+        "hard_findings": [],
+        "observations": [
+          "精细拉片和隐藏视角不可核实。",
+          "白色无袖连帽马甲、竖起帽领、前中金色拉链、双侧斜拉链口袋与横向绗缝均在；没有明确新增或删除主要结构。；短马甲衣摆完整，整体松量与原商品穿着参考相容。",
+          "白色壳布保持、柔亮而不失绗缝；五金金色。深棕针织、靛蓝裤及无标米白鞋符合辅助搭配约定。",
+          "衣摆落在髋部附近，短马甲长度等级保持，未见明确截短或加长。",
+          "门襟、口袋及帽领微小拉片的精确镂空/链节不能可靠核对；帽子背面和服装后背不在此视角。",
+          "栗棕偏分软卷发、成年年龄感、脸型及鼻唇关系与原AI参考相容，未见明确身份替换。",
+          "站姿重心、头身腿比例、肢体连接和可见双手均自然，双鞋落地。",
+          "近正面/极轻三分之四静止站立，头身关系自然、近镜头视线，双手垂下避开五金。；完整衣身、腿和鞋均入画并留边，未替换成编号侧转、坐或步行动作。",
+          "背景清楚呈暖灰无缝棚景；柔和侧光在面部、领口和绗缝形成渐变，地面与鞋底阴影柔和，衣物主体分离清楚。",
+          "中性搭配、整洁廓形和克制棚拍符合Clean Fit；背景未抢服饰主体。",
+          "读取PNG元数据为1024×1536，精确2:3；一张单人单构图，无拼图或额外文字。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-055",
+      "title": "韩系冷感",
+      "direction_id": "korean-cold-editorial",
+      "route": "web",
+      "preview": false,
+      "version": "1c4887167631e1b02413ad2b385e5df3a267e621",
+      "presentation": "human",
+      "model_source": "existing-ai",
+      "garment_fixture_id": "white-puffer-vest",
+      "sha256": "26b3346451bd6094e1a7fba09b32c82ae709e8f38e93f89ceb2615c939fb5552",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-user-review",
+        "decision": null,
+        "scope": null,
+        "hard_findings": [],
+        "observations": [
+          "精细五金形态和隐藏视角不可核实。",
+          "本全身显示尺寸不足以核实毛孔/胶片颗粒。",
+          "白色无袖帽领马甲、前中金色拉链、双侧斜拉链口袋与横向蓬松绗缝保留，未见新增带子、装饰或口袋。；门襟可见且衣摆完整，主要轮廓与原马甲相容。",
+          "白色马甲保持轻亮壳布与绗缝细节，五金为金色；深棕针织、靛蓝裤及无标米白鞋符合辅助搭配。",
+          "可见为至髋部的短马甲，没有明确缩短或加长，衣摆未裁切。",
+          "金属拉片虽可定位但微细镂空、链节及针脚不足以可靠核实；隐藏帽后/后背不可评。",
+          "栗棕偏分软卷发、成年年龄感、可见脸型及鼻唇关系与原AI身份相容，未见明确换人或年龄漂移。",
+          "头、躯干、腿的比例自然，两臂双手和双脚支撑连续，未见明显解剖或重心问题。",
+          "静止近正面，头身关系自然，近镜头视线，双手下垂不遮五金；全帽领/衣身/腿/双鞋留边。；没有变为步行、倚靠、坐姿、背面或明显侧转。",
+          "冷灰墙体、左亮右暗的建筑平面和右侧后退空间构成简洁画廊深度；边界与马甲轮廓分开。；相机左侧较亮、人物受光渐变柔和，鞋底接触阴影可信，白色材质未成无细节白块。",
+          "克制表情、冷灰低饱和画廊与简洁构图符合韩系冷感编辑目标；静止站姿受共同brief约束，不因为缺夸张动作而误判风格失败。",
+          "皮肤较平滑且面部像素有限，不能可靠验证细毛孔/中画幅胶片颗粒目标。",
+          "PNG实读1024×1536，精确2:3；单人、单姿势、单构图，无额外图文排版。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-056",
+      "title": "老钱风",
+      "direction_id": "old-money",
+      "route": "native",
+      "preview": false,
+      "version": "1c4887167631e1b02413ad2b385e5df3a267e621",
+      "presentation": "human",
+      "model_source": "existing-ai",
+      "garment_fixture_id": "met-159228",
+      "sha256": "e2ca101f28f86947de07b997abe5fa667f0ceb007883fe0f265ba80ae0c35f62",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-user-review",
+        "decision": null,
+        "scope": null,
+        "hard_findings": [],
+        "observations": [
+          "细刻纹/连接几何未能完全核实；相对衣身略偏上，单人台源不足以确认物理移位。",
+          "单正面人台来源不足以保证实测长度/围度和背部。",
+          "深酒红长袖长外套及立领、前缘棕色卷毛条、宽卷毛袖口和宽下摆均存在；中央仍为两片圆/椭圆金属搭扣，没有改成纽扣或加帽。；衣身轻A线与长袖比例基本保留；未混入身份参考的白马甲、牛仔或羽绒结构。",
+          "深酒红丝绒、棕色卷曲毛边和银/金色扣饰关系清楚；绒面亮暗变化保持，无可确认主色换色。",
+          "同为完整过膝长外套，衣长等级和宽毛边下摆保持；未见明确缩成短夹克。；人台无身体/尺码信息，无法证明精确穿着衣长和松量。",
+          "两片圆/椭圆金属盘及暖色中心存在，未替换为纽扣；细刻纹/连接关系仍不足以完全核实。；搭扣相对衣身的纵向位置看起来较源图更靠上，不能宣称精确复刻。",
+          "栗棕偏分软卷发、成年年龄感、椭圆脸与鼻唇关系和原AI身份相容，未见明确换人。",
+          "头身腿比例和双手连接自然，深色裤/鞋连续，双脚着地，未见支撑或人体明显失衡。",
+          "近正面静止站立、头身自然同向、视线近镜头，双手下垂避开扣饰；完整衣身、腿和双鞋留边。；黑色素裤与深色无标鞋符合辅助搭配约定。",
+          "浅米石柱庭院与背景植栽构成前后层次；柔和侧光有渐变，地面仍有日照但对比与投影边缘较缓和，符合柔和日光目标的可接受范围。；丝绒层次和棕色卷毛边未被吞黑或过曝，人物与背景分离。",
+          "石材古典庭院、克制表情和简洁配搭，老钱风目标可辨；商品保持主角。",
+          "读取PNG元数据为1024×1536，精确2:3；一张单人单构图，无拼图或额外文字。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-057",
+      "title": "英伦复古",
+      "direction_id": "british-heritage",
+      "route": "native",
+      "preview": true,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "new-ai",
+      "garment_fixture_id": "met-159518",
+      "sha256": "e1ff7e6bc0794bdad0b3c261a1b712be2d77fdf809547dd455e15a70cbf03cde",
+      "pixels": [
+        1254,
+        1254
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": true,
+      "qa": {
+        "grade": "qa-user-review",
+        "decision": "accepted",
+        "scope": "direction preview, not independent-image commercial garment QA",
+        "hard_findings": [],
+        "observations": [
+          "Oblique wall view exposes depth along the wall; the lateral shoulder/upper-arm edge contacts the wall while feet are positioned away from it, giving a credible side lean. The torso can face camera while the side contacts the wall; a strict side profile to camera is not a separate requirement.",
+          "Cell 6 visibly shows diagonal upper-back stripe fields separated by a distinct central cream/openwork vertical strip, below the pointed cream collar and above the waistband. The vertically striped skirt remains separate.",
+          "Exact small front-button arrangement and lace/openwork microgeometry cannot be certified from the grid.",
+          "Exact product color, measured fit, hem fit relative to real body dimensions and hidden construction remain to be checked where independent images and source data support it.",
+          "No precise real age or real-person identity match is claimed; this is a fictional AI child."
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-059",
+      "title": "女性通勤",
+      "direction_id": "office-commute-women",
+      "route": "web",
+      "preview": true,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "existing-ai",
+      "garment_fixture_id": "met-159228",
+      "sha256": "f70129845439c31ac48709911d8132bbeaf3052d027ce9613cd0e3995424624e",
+      "pixels": [
+        1254,
+        1254
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-retry",
+        "decision": "rejected",
+        "scope": "实际六宫格方向预览，不是独立成片或商业交付",
+        "hard_findings": [
+          "第1、2格双手插入大衣腰侧开口，形成清楚的插袋式结构与手位；源图正面没有可核对的这类袋口，本轮冻结条件明确不新增口袋。",
+          "第3格扣件以下的前片明显敞开，大面积黑裤及交叠腿外露，未保持冻结方案的前中闭合与包覆关系；取景一直到小腿和部分鞋，明显宽于约定半身端坐景别。",
+          "第1–5格依然连续朝画面右侧且离镜看，虽然角度和眼球方向有小幅变化，第6格为正面看镜头；最新人物可调条件已明确不要让同一向右离镜视线贯穿序列，本次重复未解决。"
+        ],
+        "observations": [
+          "相较SR-048，第1格前中镶边偏离躯干轮廓中线，两侧衣片可见宽度有差别，腿部重心也有变化，可读出一定躯干侧转；不能诚实地把它仍归为只有头转。肩胯回转较克制，是否充分达到清楚三分之四躯干可交人工核对。",
+          "金属扣的细小扣合结构、卷曲镶边纹理与材质微观细节无法在1254×1254六宫格可靠验真。",
+          "现代办公大厅、侧前窗光、明亮商品与中性石材背景、地面空间深度基本成立；有弱化背景人员，但不抢主要服装。"
+        ],
+        "qa_hash_bound": true
+      }
+    },
+    {
+      "request_id": "SR-060",
+      "title": "女性通勤",
+      "direction_id": "office-commute-women",
+      "route": "web",
+      "preview": true,
+      "version": "current-redesign",
+      "presentation": "human",
+      "model_source": "existing-ai",
+      "garment_fixture_id": "met-159228",
+      "sha256": "62bf308c29cc67a1b8479a652116ee8f63622ca9a023d36ac2c8f0bcd53b33ea",
+      "pixels": [
+        1254,
+        1254
+      ],
+      "model_accepted_for_this_output": false,
+      "task_complete": false,
+      "qa": {
+        "grade": "qa-retry",
+        "decision": "rejected",
+        "scope": "actual final planned preview technical QA against the exact final frozen prompt and two original sources",
+        "hard_findings": [
+          "第1格可读的肩线、衣身前中竖边和下身排列仍接近正面；显著方向变化集中在头向画面右侧转。当前图没有呈现要求的清晰三分之四躯干回转，与第6格正面站立的身体关系区别不足。",
+          "第1–5格依次均向画面右侧离镜，站立、倚墙、端坐、轻迈和前倾未消除连续同向离镜的重复模式；第6格正视不能抵消前五格的连续重复。"
+        ],
+        "observations": [],
+        "qa_hash_bound": true
+      }
+    }
+  ],
+  "pairs": [
+    {
+      "pair_id": "PAIR-01",
+      "current": "SR-006",
+      "baseline": "SR-054",
+      "qa_hashes_bound": true,
+      "image_hashes": {
+        "SR-006": "e730d0bbdda3f918fe37c5f18ae35e10d6028dc7d31e799da7430ff2ddf672da",
+        "SR-054": "d7c2b02548868ff329f5e5df282f4ba57f7ae6989ba065f74e9b58d45ee37715"
+      },
+      "conclusion": "本单对未显示新版可声称的整体改善；可定位差异为暖灰目标遵循退化。两图均保留微细/遮挡待核，未发现必须qa-retry的明确硬失败。",
+      "causal_limit": "一对各一张随机样本。共控记录只证明准备契约；本审查未复核实际模型产品/版本、seed及执行上传回执，因此不把像素差异归因于版本，不推广到全部36入口。"
+    },
+    {
+      "pair_id": "PAIR-02",
+      "current": "SR-014",
+      "baseline": "SR-055",
+      "qa_hashes_bound": true,
+      "image_hashes": {
+        "SR-014": "a13c17d933cec0cf03b51cafaf5992b3fb390010c765987f33d52ab6b728fd6c",
+        "SR-055": "26b3346451bd6094e1a7fba09b32c82ae709e8f38e93f89ceb2615c939fb5552"
+      },
+      "conclusion": "本网页单次配对的主要可见轴持平，微细五金、隐藏视角及皮肤/胶片微纹理无法判断；两图均qa-user-review。未发现足以支持新版提升或明确退化的像素证据，不意味着两文件相同，也不证明版本等效或总体无差异。",
+      "causal_limit": "一对各一张随机样本。共控记录只证明准备契约；本审查未复核实际模型产品/版本、seed及执行上传回执，因此不把像素差异归因于版本，不推广到全部36入口。"
+    },
+    {
+      "pair_id": "PAIR-03",
+      "current": "SR-019",
+      "baseline": "SR-056",
+      "qa_hashes_bound": true,
+      "image_hashes": {
+        "SR-019": "6015c8d5cbfffe9a6abf14cdb8bf53f91553ca748fc7b12d517dd8a84b52a48e",
+        "SR-056": "e2ca101f28f86947de07b997abe5fa667f0ceb007883fe0f265ba80ae0c35f62"
+      },
+      "conclusion": "本单对未显示新版整体优于旧版；主要可定位差异是柔和日光目标遵循退化。两图都保留精确衣长/松量、扣饰细节/位置及隐藏结构待核；没有充足证据把这些未明项改记为确定硬失败，也不能当通过。",
+      "causal_limit": "一对各一张随机样本。共控记录只证明准备契约；本审查未复核实际模型产品/版本、seed及执行上传回执，因此不把像素差异归因于版本，不推广到全部36入口。"
+    }
+  ],
+  "groups": [
+    {
+      "dialogue_id": "D03",
+      "title": "儿童六张独立图",
+      "qa": "qa-retry",
+      "result": "not-accepted",
+      "passed": false,
+      "review_complete": true,
+      "returned_image_count": 6,
+      "expected_image_count": 6,
+      "all_image_hashes_bound": true,
+      "independent_images": 6,
+      "preview_images": 0,
+      "commercial_ready": false,
+      "notes": [
+        "SR-038: missing third lower-front button row；longer crop than frozen half-body",
+        "SR-040: full-body instead of knee-up；missing third lower-front button row",
+        "Looks3/SR-038 and5/SR-040 lack the third lower-front pale-button row visible in original 3x3 source arrangement.",
+        "Main red/cream stripe, puff sleeve, cream collar/chest/waist and skirt structure remain broadly compatible elsewhere; that does not erase button failures.",
+        "Look6 actually preserves original rear diagonal bodice panels and central cream/openwork strip.",
+        "All six visibly retain the same short-brown-haired young child model without an obvious age/identity break.",
+        "No confirmed gross hand/limb/support safety or adultization failure.",
+        "Real user accepted actualSR004 model; later acceptance was not fabricated.",
+        "Look3 seated action is credible but actual lower-leg crop exceeds frozen half-body; correction retained through same-image review-output history.",
+        "Look5 is clearly full-body instead of knee-up; planned subtle forward lean is not clearly demonstrated.",
+        "Looks1/2/4/6 provide standing turn, actual wall lean, light step and rear shoulder-glance body relationships.",
+        "Five images remain front/front-side; look6 supplies source-backed rear view.",
+        "Very similar mild image-left face angles, off-camera image-left eye direction and small smile.",
+        "Soft left-window lighting and restrained historical oak interior remain coherent across six images.",
+        "Garment stays readable and the series avoids stage props or adultized styling.",
+        "Actual head/gaze repetition and loss of planned crop rhythm limit series quality."
+      ],
+      "dependent_workflows": []
+    },
+    {
+      "dialogue_id": "D04",
+      "title": "网页预览与后续流程",
+      "qa": "qa-retry",
+      "result": "blocked-by-failed-preview",
+      "passed": false,
+      "review_complete": true,
+      "returned_image_count": 3,
+      "expected_image_count": 3,
+      "all_image_hashes_bound": true,
+      "independent_images": 0,
+      "preview_images": 3,
+      "commercial_ready": false,
+      "notes": [
+        "第1格可读的肩线、衣身前中竖边和下身排列仍接近正面；显著方向变化集中在头向画面右侧转。当前图没有呈现要求的清晰三分之四躯干回转，与第6格正面站立的身体关系区别不足。",
+        "第1–5格依次均向画面右侧离镜，站立、倚墙、端坐、轻迈和前倾未消除连续同向离镜的重复模式；第6格正视不能抵消前五格的连续重复。"
+      ],
+      "dependent_workflows": [
+        {
+          "workflow": "SR-018 independent web first image",
+          "status": "blocked-by-failed-preview",
+          "passed": false,
+          "generated": false,
+          "reason": "当前预览技术失败且无真实方向接受，不能准备/启动独立首张交付。"
+        },
+        {
+          "workflow": "D04 six independent 2:3 web images",
+          "status": "blocked-by-failed-preview",
+          "passed": false,
+          "reason": "六宫格不替代六张独立成片；方向接受及实际首张人物确认均未成立。"
+        },
+        {
+          "workflow": "web cross-SKU reuse dependent on the accepted D04 direction/model",
+          "status": "blocked-by-failed-preview",
+          "passed": false,
+          "reason": "没有D04通过预览与已确认独立人物证据，不能将该依赖链记为跨SKU验证通过。"
+        }
+      ]
+    }
+  ],
+  "unexecuted_requests": {
+    "SR-018": "blocked-by-D04-failed-preview",
+    "SR-042": "blocked-by-D04-failed-preview",
+    "SR-043": "blocked-by-D04-failed-preview",
+    "SR-044": "blocked-by-D04-failed-preview",
+    "SR-045": "blocked-by-D04-failed-preview",
+    "SR-046": "blocked-by-D04-failed-preview",
+    "SR-051": "blocked-by-unaccepted-D04-adult-first-image-and-package",
+    "SR-052": "deferred-user-real-input",
+    "SR-053": "waiting-user-edit-target-and-acceptance"
+  },
+  "dialogues": [
+    {
+      "dialogue_id": "D01",
+      "route": "native",
+      "delivery": "prompt-only",
+      "model_source": "new-ai",
+      "requests": [],
+      "user_brief": "从真实白马甲源图进入工作台，只交付单张提示词。",
+      "status": "pass-root-review",
+      "actual_thread_id": null,
+      "evidence_ref": "live-results.json#D01",
+      "review": {
+        "status": "pass-root-review",
+        "summary": "实际查看原服饰，场景/色彩与主方向分轴，原马甲保持白色；交付一份提示词，无生成。"
+      },
+      "actual_scope": "法式居家、奶油环境、新成年AI人物的单张完整提示词；仅本地任务准备和导出。",
+      "actual_executed": true,
+      "image_result": {
+        "status": "not-generated",
+        "qa": null,
+        "summary": "本例0调用，没有图像质量结论。"
+      },
+      "blocking_reason": null,
+      "related_requests": {
+        "planned": [],
+        "actually_executed_for_this_case": [],
+        "not_executed_for_this_case": [],
+        "separate_validation_not_counted_here": []
+      }
+    },
+    {
+      "dialogue_id": "D02",
+      "route": "web",
+      "delivery": "prompt-only",
+      "model_source": "existing-ai",
+      "requests": [],
+      "user_brief": "读取公开成年AI锚点与大衣，只交付网页提示词与上传顺序。",
+      "status": "pass-root-review",
+      "actual_thread_id": null,
+      "evidence_ref": "live-results.json#D02",
+      "review": {
+        "status": "pass-root-review",
+        "summary": "商品与人物参考角色分开，排除身份照片原白马甲；一份网页提示词和编号附件已交付。"
+      },
+      "actual_scope": "沿用已有成年AI人物的大衣哥特网页单张提示词及上传顺序；本地准备，未打开网页或上传。",
+      "actual_executed": true,
+      "image_result": {
+        "status": "not-generated",
+        "qa": null,
+        "summary": "本例0调用，无网页实图或上传验收。"
+      },
+      "blocking_reason": null,
+      "related_requests": {
+        "planned": [],
+        "actually_executed_for_this_case": [],
+        "not_executed_for_this_case": [],
+        "separate_validation_not_counted_here": []
+      }
+    },
+    {
+      "dialogue_id": "D03",
+      "route": "native",
+      "delivery": "preview-to-six",
+      "model_source": "new-ai",
+      "requests": [
+        "SR-047",
+        "SR-004",
+        "SR-037",
+        "SR-038",
+        "SR-039",
+        "SR-040",
+        "SR-041"
+      ],
+      "user_brief": "童装正背、先预览，再接受首图后完成六张。",
+      "status": "executed-with-failed-visual-delivery",
+      "actual_thread_id": null,
+      "evidence_ref": "live-results.json#D03",
+      "review": {
+        "status": "executed-with-failed-visual-delivery",
+        "summary": "实际经过预览与独立首图门禁，固定SR-004身份锚点续后五张；最终记录并保留失败，没有自动修复或升级image-ready。"
+      },
+      "actual_scope": "原生童装预览、修订预览、用户确认首张人物后完成六张独立图并逐张/整组审查。",
+      "actual_executed": true,
+      "image_result": {
+        "status": "group-not-accepted",
+        "qa": "qa-retry",
+        "independent_images": 6,
+        "preview_images": 2,
+        "technical_qa_user_review_images": 4,
+        "rejected_images": 2,
+        "summary": "SR-038/SR-040缺第三排前片纽扣且景别不符；前五张头向、左向视线与微笑重复，整组未通过。"
+      },
+      "blocking_reason": "已返回全部六张但真实商品/景别失败与整组重复仍未关闭。",
+      "related_requests": {
+        "planned": [
+          "SR-047",
+          "SR-004",
+          "SR-037",
+          "SR-038",
+          "SR-039",
+          "SR-040",
+          "SR-041"
+        ],
+        "actually_executed_for_this_case": [
+          "SR-047",
+          "SR-057",
+          "SR-004",
+          "SR-037",
+          "SR-038",
+          "SR-039",
+          "SR-040",
+          "SR-041"
+        ],
+        "not_executed_for_this_case": [],
+        "separate_validation_not_counted_here": []
+      }
+    },
+    {
+      "dialogue_id": "D04",
+      "route": "web",
+      "delivery": "preview-revise-to-six",
+      "model_source": "existing-ai",
+      "requests": [
+        "SR-048",
+        "SR-049",
+        "SR-018",
+        "SR-042",
+        "SR-043",
+        "SR-044",
+        "SR-045",
+        "SR-046"
+      ],
+      "user_brief": "成年人AI、只有衣服正面，预览修订一次，接受首图后完成含替代镜头的六图。",
+      "status": "executed-preview-rejected-dependencies-blocked",
+      "actual_thread_id": null,
+      "evidence_ref": "live-results.json#D04",
+      "review": {
+        "status": "executed-preview-rejected-dependencies-blocked",
+        "summary": "早期actions/answer只记录准备；最终actual-status/final-actions记录实际预览、发出前失败及修订，不能沿用早期0调用为最终状态。"
+      },
+      "actual_scope": "成年已有AI人物、仅衣服正面资料的网页预览与多次修订；后续独立六张未启动。",
+      "actual_executed": true,
+      "image_result": {
+        "status": "preview-rejected",
+        "qa": "qa-retry",
+        "preview_images": 3,
+        "independent_images": 0,
+        "summary": "SR-060部分修复成立，但第1格躯干回转仍不足、第1–5格右向离镜视线重复；方向和独立首张人物均未接受。"
+      },
+      "blocking_reason": "失败预览未得到合格方向及独立首图人物确认，阻断SR-018/SR-042–046及D09复用。",
+      "related_requests": {
+        "planned": [
+          "SR-048",
+          "SR-049",
+          "SR-018",
+          "SR-042",
+          "SR-043",
+          "SR-044",
+          "SR-045",
+          "SR-046"
+        ],
+        "actually_executed_for_this_case": [
+          "SR-048",
+          "SR-059",
+          "SR-060"
+        ],
+        "not_executed_for_this_case": [
+          "SR-018",
+          "SR-042",
+          "SR-043",
+          "SR-044",
+          "SR-045",
+          "SR-046"
+        ],
+        "separate_validation_not_counted_here": [],
+        "failed_before_send": [
+          "SR-049"
+        ],
+        "uncertain_auto_retry": [
+          "SR-058"
+        ]
+      }
+    },
+    {
+      "dialogue_id": "D05",
+      "route": "native",
+      "delivery": "preview-stop",
+      "model_source": "new-ai",
+      "requests": [
+        "SR-050"
+      ],
+      "user_brief": "旗袍只要六宫格，明确预览后即止。",
+      "status": "correct-stop-observed-in-retained-evidence",
+      "actual_thread_id": null,
+      "evidence_ref": "live-results.json#D05",
+      "review": {
+        "status": "correct-stop-observed-in-retained-evidence",
+        "summary": "finish-preview stop及complete=true记录的是停止流程；没有生成独立图、自动重试或把停止当方向接受。"
+      },
+      "actual_scope": "旗袍六宫格方向预览，按原要求返回后停止；不转独立成片。",
+      "actual_executed": true,
+      "image_result": {
+        "status": "preview-rejected",
+        "qa": "qa-retry",
+        "preview_images": 1,
+        "independent_images": 0,
+        "summary": "彩色滚边偏为金橙色且第5格比膝上更紧；保留拒收。"
+      },
+      "blocking_reason": "用户限定仅此预览即止，失败不再修订。",
+      "related_requests": {
+        "planned": [
+          "SR-050"
+        ],
+        "actually_executed_for_this_case": [
+          "SR-050"
+        ],
+        "not_executed_for_this_case": [],
+        "separate_validation_not_counted_here": []
+      }
+    },
+    {
+      "dialogue_id": "D06",
+      "route": "native",
+      "delivery": "single-image",
+      "model_source": "existing-ai",
+      "requests": [
+        "SR-006"
+      ],
+      "user_brief": "Clean Fit单张，明确不续图，后续指定修改另开对话。",
+      "status": "pass-root-review",
+      "actual_thread_id": null,
+      "evidence_ref": "live-results.json#D06",
+      "review": {
+        "status": "pass-root-review",
+        "summary": "限定恢复/仅一张/不重复生成行为通过；未续预览或六张，未虚构人物接受。"
+      },
+      "actual_scope": "中断后恢复已返回的SR-006 Clean Fit单图，核对原图与参考后交付；没有重生成。",
+      "actual_executed": true,
+      "image_result": {
+        "status": "technical-user-review",
+        "qa": "qa-user-review",
+        "independent_images": 1,
+        "summary": "已有原图1024×1536，主要结构与身份无明确阻断；暖灰目标偏弱、细微五金/面料待人工核对，image-draft且未有人物接受。"
+      },
+      "blocking_reason": "等待用户对目标图和编辑范围的实际回应；本例恢复交付不构成D11编辑授权。",
+      "related_requests": {
+        "planned": [
+          "SR-006"
+        ],
+        "actually_executed_for_this_case": [
+          "SR-006"
+        ],
+        "not_executed_for_this_case": [],
+        "separate_validation_not_counted_here": []
+      }
+    },
+    {
+      "dialogue_id": "D07",
+      "route": "web",
+      "delivery": "single-image",
+      "model_source": "authorized-real-adult",
+      "requests": [
+        "SR-024"
+      ],
+      "user_brief": "指定已授权成年人单张；未给实际文件时blocked-input。",
+      "status": "deferred-real-person-not-executed",
+      "actual_thread_id": null,
+      "evidence_ref": "live-results.json#D07",
+      "review": {
+        "status": "deferred-real-person-not-executed",
+        "summary": "未找到本例实际actions/answer/root-review，不记实际真人对话或通过。"
+      },
+      "actual_scope": "原计划为已授权成年真人身份专项；用户已决定先完成AI测试，真人专项待补。",
+      "actual_executed": false,
+      "image_result": {
+        "status": "not-generated-for-real-person-case",
+        "qa": null,
+        "summary": "本例真人画面及其跨商品身份能力未验证。"
+      },
+      "blocking_reason": "本轮未提供并启用指定已授权成年真人素材/可接受人物包；用户明确延期真人专项。",
+      "related_requests": {
+        "planned": [
+          "SR-024"
+        ],
+        "actually_executed_for_this_case": [],
+        "not_executed_for_this_case": [
+          "SR-024"
+        ],
+        "separate_validation_not_counted_here": [
+          "SR-024"
+        ]
+      }
+    },
+    {
+      "dialogue_id": "D08",
+      "route": "native",
+      "delivery": "single-image",
+      "model_source": "authorized-real-adult",
+      "requests": [
+        "SR-021"
+      ],
+      "user_brief": "指定成年真人首个SKU，实际接受后建立人物资料包。",
+      "status": "deferred-real-person-not-executed",
+      "actual_thread_id": null,
+      "evidence_ref": "live-results.json#D08",
+      "review": {
+        "status": "deferred-real-person-not-executed",
+        "summary": "未找到本例实际actions/answer/root-review，不记实际真人对话或通过。"
+      },
+      "actual_scope": "原计划为已授权成年真人身份专项；用户已决定先完成AI测试，真人专项待补。",
+      "actual_executed": false,
+      "image_result": {
+        "status": "not-generated-for-real-person-case",
+        "qa": null,
+        "summary": "本例真人画面及其跨商品身份能力未验证。"
+      },
+      "blocking_reason": "本轮未提供并启用指定已授权成年真人素材/可接受人物包；用户明确延期真人专项。",
+      "related_requests": {
+        "planned": [
+          "SR-021"
+        ],
+        "actually_executed_for_this_case": [],
+        "not_executed_for_this_case": [
+          "SR-021"
+        ],
+        "separate_validation_not_counted_here": [
+          "SR-021"
+        ]
+      }
+    },
+    {
+      "dialogue_id": "D09",
+      "route": "web",
+      "delivery": "cross-sku-new-conversation",
+      "model_source": "existing-ai",
+      "requests": [
+        "SR-051"
+      ],
+      "user_brief": "全新对话仅从已接受资料包恢复成人AI身份，换第二个SKU。",
+      "status": "blocked-dependency-not-executed",
+      "actual_thread_id": null,
+      "evidence_ref": "live-results.json#D09",
+      "review": {
+        "status": "blocked-dependency-not-executed",
+        "summary": "没有D09实际actions/answer或人物包恢复对话，不能以单独AI样本替代跨SKU链。"
+      },
+      "actual_scope": "原计划从D04已接受人物包在新对话换第二个SKU；实际未启动。",
+      "actual_executed": false,
+      "image_result": {
+        "status": "not-generated",
+        "qa": null,
+        "summary": "SR-051未发出，无D09独立图。"
+      },
+      "blocking_reason": "D04预览失败，缺合格独立首图、实际人物确认及可接受人物包。",
+      "related_requests": {
+        "planned": [
+          "SR-051"
+        ],
+        "actually_executed_for_this_case": [],
+        "not_executed_for_this_case": [
+          "SR-051"
+        ],
+        "separate_validation_not_counted_here": []
+      }
+    },
+    {
+      "dialogue_id": "D10",
+      "route": "native",
+      "delivery": "cross-sku-new-conversation",
+      "model_source": "authorized-real-adult",
+      "requests": [
+        "SR-052"
+      ],
+      "user_brief": "全新对话从本轮指定成年真人资料包恢复身份，换第二个SKU。",
+      "status": "deferred-real-person-not-executed",
+      "actual_thread_id": null,
+      "evidence_ref": "live-results.json#D10",
+      "review": {
+        "status": "deferred-real-person-not-executed",
+        "summary": "未找到本例实际actions/answer/root-review，不记实际真人对话或通过。"
+      },
+      "actual_scope": "原计划为已授权成年真人身份专项；用户已决定先完成AI测试，真人专项待补。",
+      "actual_executed": false,
+      "image_result": {
+        "status": "not-generated-for-real-person-case",
+        "qa": null,
+        "summary": "本例真人画面及其跨商品身份能力未验证。"
+      },
+      "blocking_reason": "本轮未提供并启用指定已授权成年真人素材/可接受人物包；用户明确延期真人专项。",
+      "related_requests": {
+        "planned": [
+          "SR-052"
+        ],
+        "actually_executed_for_this_case": [],
+        "not_executed_for_this_case": [
+          "SR-052"
+        ],
+        "separate_validation_not_counted_here": []
+      }
+    },
+    {
+      "dialogue_id": "D11",
+      "route": "native",
+      "delivery": "specified-image-edit",
+      "model_source": "existing-ai",
+      "requests": [
+        "SR-053"
+      ],
+      "user_brief": "定位准确SR-006版本，只有背景颜色变化，不重做整组。",
+      "status": "waiting-user-not-executed",
+      "actual_thread_id": null,
+      "evidence_ref": "live-results.json#D11",
+      "review": {
+        "status": "waiting-user-not-executed",
+        "summary": "无D11实际actions/answer/root-review，也无SR-053任务或预约；不从SR-006技术接受推断用户批准。"
+      },
+      "actual_scope": "原计划定位SR-006准确版本后仅改背景颜色；目前等待用户目标接受/编辑确认，未启动实际编辑对话。",
+      "actual_executed": false,
+      "image_result": {
+        "status": "not-generated",
+        "qa": null,
+        "summary": "SR-053零调用；目标SR-006保留qa-user-review和空人物确认。"
+      },
+      "blocking_reason": "root当前仍在等待用户接受SR-006目标及确认编辑，未收到答复。",
+      "related_requests": {
+        "planned": [
+          "SR-053"
+        ],
+        "actually_executed_for_this_case": [],
+        "not_executed_for_this_case": [
+          "SR-053"
+        ],
+        "separate_validation_not_counted_here": [],
+        "edit_target": [
+          "SR-006"
+        ]
+      }
+    },
+    {
+      "dialogue_id": "D12",
+      "route": "native",
+      "delivery": "prompt-only-nonportrait",
+      "model_source": "none",
+      "requests": [],
+      "user_brief": "明确挂拍不含人物，检查人像pose与身份包流程不进入此任务。",
+      "status": "pass-root-review",
+      "actual_thread_id": null,
+      "evidence_ref": "live-results.json#D12",
+      "review": {
+        "status": "pass-root-review",
+        "summary": "实际非人像准备通过；无model/face plan，原任务authorization=null、attempts=0。"
+      },
+      "actual_scope": "原fresh用户明确只要浅灰摄影棚、北欧简约、无人物无人台的1张2:3挂拍方案与提示词，明确不要现在生图。",
+      "actual_executed": true,
+      "image_result": {
+        "status": "not-generated-in-this-dialogue",
+        "qa": null,
+        "summary": "D12原task保持0调用，不提供图像效果验收。"
+      },
+      "blocking_reason": null,
+      "related_requests": {
+        "planned": [
+          "SR-017"
+        ],
+        "actually_executed_for_this_case": [],
+        "not_executed_for_this_case": [
+          "SR-017"
+        ],
+        "separate_validation_not_counted_here": [
+          "SR-017"
+        ]
+      },
+      "definition_note": "Original planned single-image was actually exercised as an explicitly prompt-only dialogue. SR-017 is separate visual testing, not D12 generation."
+    },
+    {
+      "dialogue_id": "D13",
+      "status": "pass-root-review",
+      "actual_thread_id": null,
+      "evidence_ref": "live-results.json#D13",
+      "actual_scope": "同一白马甲分别比较法式与美式复古日常，居家、美拉德分轴；明确不融合、不生成。",
+      "actual_executed": true,
+      "review": {
+        "status": "pass-root-review",
+        "summary": "两份独立比较方案，无风格合并、商品改色或未知背部/材质编造。"
+      },
+      "image_result": {
+        "status": "not-generated",
+        "qa": null,
+        "summary": "文字比较目标未作实图验证，0调用。"
+      },
+      "blocking_reason": null,
+      "related_requests": {
+        "planned": [],
+        "actually_executed_for_this_case": [],
+        "not_executed_for_this_case": [],
+        "separate_validation_not_counted_here": []
+      }
+    },
+    {
+      "dialogue_id": "D14",
+      "status": "pass-root-review",
+      "actual_thread_id": null,
+      "evidence_ref": "live-results.json#D14",
+      "actual_scope": "无真实工布商品图时检查输入门禁；保留新AI、不要美式、不替代普通藏袍偏好后停止索取最小素材。",
+      "actual_executed": true,
+      "review": {
+        "status": "pass-root-review",
+        "summary": "实际对话完成了应有的缺图停止；没有制造服饰事实、完整商品提示词或生成。"
+      },
+      "image_result": {
+        "status": "not-generated",
+        "qa": null,
+        "summary": "0调用；输入门禁正确停止不证明工布图像能力。"
+      },
+      "blocking_reason": "本对话未提供真实可核对商品照片；这是本例测试的预期停点。",
+      "related_requests": {
+        "planned": [],
+        "actually_executed_for_this_case": [],
+        "not_executed_for_this_case": [],
+        "separate_validation_not_counted_here": []
+      }
+    },
+    {
+      "dialogue_id": "D15",
+      "status": "pass-root-review",
+      "actual_thread_id": null,
+      "evidence_ref": "live-results.json#D15",
+      "actual_scope": "明确法式主导、哥特仅暗部辅助，居家为场景、美拉德为环境色；只交单张提示词。",
+      "actual_executed": true,
+      "review": {
+        "status": "pass-root-review",
+        "summary": "不重复追问已指定主辅，白马甲保持白色；本地v1措辞错误在提交前修正，v1保留，最终v2导出1个pending且无授权/attempts。"
+      },
+      "image_result": {
+        "status": "not-generated",
+        "qa": null,
+        "summary": "0调用，融合方案未作图像验收。"
+      },
+      "blocking_reason": null,
+      "related_requests": {
+        "planned": [],
+        "actually_executed_for_this_case": [],
+        "not_executed_for_this_case": [],
+        "separate_validation_not_counted_here": []
+      }
+    }
+  ],
+  "verification_limits": [
+    "Initial full-suite run: 573 tests, 28 failures. Subsequent scoped checks closed the identified failures; no all-green full-suite rerun is claimed.",
+    "Code compatibility is deterministic evidence; it is not a fresh-model legacy dialogue.",
+    "qa-user-review is technical acceptance with unresolved detail/user review, not image-ready.",
+    "Web operator Send receipts and local attempts do not prove the remote image-tool count.",
+    "Single-pair observations do not establish version causality or statistical superiority."
+  ],
+  "candidate": {
+    "source_commit": "f5519a85564a7893b240d5c7aaf1d1c3f82967e9",
+    "runtime_file_count": 97,
+    "archive_sha256": "ecc51d583c60cb7e8059067c799ec64dc3940742d444dc4111acc4960bcd4e8b",
+    "visual_gate": "not-passed",
+    "installed": false,
+    "published": false
+  },
+  "findings": [
+    {
+      "id": "VIS-01",
+      "status": "open",
+      "scope": "D03",
+      "finding": "Two images lose a visible button row and miss framing; front-five head/gaze repetition persists."
+    },
+    {
+      "id": "VIS-02",
+      "status": "open",
+      "scope": "D04",
+      "finding": "Final web preview still misses first-body rotation and repeats rightward gaze; dependent independent set and AI cross-SKU remain unexecuted."
+    },
+    {
+      "id": "VIS-03",
+      "status": "open",
+      "scope": "paired-comparisons",
+      "finding": "No demonstrated overall improvement; two pairs miss color/light targets more than baseline."
+    },
+    {
+      "id": "VIS-04",
+      "status": "open",
+      "scope": "direction-singles",
+      "finding": "Individual rejected samples retain their specific garment, pose or presentation findings below."
+    },
+    {
+      "id": "REAL-01",
+      "status": "deferred(user-real-input)",
+      "scope": "D07/D08/D10",
+      "finding": "User chose AI testing first; no designated adult source supplied for these cases."
+    },
+    {
+      "id": "EDIT-01",
+      "status": "deferred(user-target-confirmation)",
+      "scope": "D11/SR-053",
+      "finding": "Exact accepted target and edit confirmation remain unanswered; no edit was executed."
+    },
+    {
+      "id": "WEB-01",
+      "status": "fixed(source)",
+      "scope": "web-execution-envelope",
+      "finding": "Canonical hashes and explicit one-call envelope implemented; remote invocation count remains unverified."
+    }
+  ],
+  "private_evidence_integrity": {
+    "ledger_sha256": "6f3eca46d11aea724b520aba754251002e55a8bcf8ecc8147176cfbf140b82cc",
+    "gallery_data_sha256": "952d335e4fe8fc27233b829b2042387f3a37bc5e880c0b6be157a06466dbf378",
+    "dialogue_summary_sha256": "117d4a0cd7932b94aec02625cdb36f5799f2c5645ef4a940e663d1d9a4c40341",
+    "code_check_summary_sha256": "e5729f09417586eb8e88de694c5c0fdb75154ea870408d363504411edb15d78f"
+  },
+  "final_source_checks": {
+    "source-standard": {
+      "returncode": 0,
+      "log_sha256": "dcf5c4c83ad389c27eed06c20d2f9d3dfaaa27619eac32d1ba6e5d3f10fe2459"
+    },
+    "public-scan": {
+      "returncode": 0,
+      "log_sha256": "a750f324dd8bd11c81d9401ab84f213b16d80a7423648a234956e8fb7fcd4672"
+    },
+    "diff-check": {
+      "returncode": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

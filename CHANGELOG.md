@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — visual-studio validation outcome, 2026-10-19
+
+- Source and deterministic checks passed; visual and end-to-end acceptance did not all pass. All 36 execution entries remain DRAFT. Three old/new paired samples do not establish overall improvement.
+- Retain the failed D03 child six-image review and the failed D04 web preview. The latter blocks its six independent images and cross-product reuse workflow; returned previews do not count as those deliveries. Real-person cases remain deferred.
+- Keep the `f531e1a` visual-plan baseline separate from the `f5519a8` web execution envelope fix. Each submitted request retains its own frozen canonical prompt and provenance; envelope bindings neither rewrite those art requests nor authenticate remote image-call counts.
+- The candidate is not installed or publicly released. Current summaries link to the [actual results and remaining limits](docs/verification/2026-10-18-studio-redesign/live-results.md); historical entries and galleries retain their original scope.
+
 ## Unreleased — explicit one-call web execution envelope, 2026-10-19
 
 - A live web preview returned an image and announced an unsolicited correction after one Send. Stopping the page did not establish whether another image tool call had started. Keep that incident separate from local reservation counts and visual QA.
