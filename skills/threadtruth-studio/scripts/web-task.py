@@ -111,7 +111,7 @@ def check_shot_plan(data):
         raise ValueError('Frozen shot plan changed')
     shot_helper().validate(data['shot_plan'],data['references'],context=data['context'],
         count=face_plan_count(data['context'],len(data['looks'])),identity=data['identity'],real_face_plan=data.get('real_face_plan'),
-        strict_references=prompt_contract(data)>=1)
+        strict_references=prompt_contract(data)>=1,model_source=(data.get('model') or {}).get('source_type'))
     history=data.get('shot_plan_history',[])
     if not isinstance(history,list):raise ValueError('Invalid shot plan history')
     for prior in history:
@@ -214,7 +214,8 @@ def preview_candidate(data, row, *, model=None, shot_plan=None, prompt=None, gar
         raise ValueError('Preview garment/styling revision cannot change original real face coverage or identity')
     if planned is not None:
         planned=shot_helper().validate(planned,inventory,context=data['context'],count=6,
-                                      identity=data['identity'],real_face_plan=face_plan)
+                                      identity=data['identity'],real_face_plan=face_plan,
+                                      model_source=(changed or {}).get('source_type'))
     visual=visual_plan if visual_plan is not None else data.get('visual_plan')
     if visual is not None:
         visual=visual_helper().validate(visual,inventory,context=data['context'],count=6,identity=data['identity'])
@@ -491,7 +492,8 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
     if shot_plan is not None:
         if schema_version!=2:raise ValueError('Shot plans require schema 2')
         shot_plan=shot_helper().validate(shot_plan,inventory,context=context,
-            count=face_plan_count(context,len(prompts)),identity=identity,real_face_plan=real_face_plan)
+            count=face_plan_count(context,len(prompts)),identity=identity,real_face_plan=real_face_plan,
+            model_source=(model or {}).get('source_type'))
         for number,prompt in enumerate(prompts,1):
             chosen=shot_helper().selected(shot_plan,number,context.get('purpose')=='preview-grid')
             actual=[r for r in inventory if r['role']!='garment-source' or r['sha256'] in chosen]
@@ -938,7 +940,8 @@ def update(root,event,**kw):
                 native_reference_check(future,d['route'])
             if 'shot_plan' in d:
                 full=shot_helper().validate(kw.get('shot_plan'),d['references'],context=d['context'],count=6,
-                    identity=d['identity'],real_face_plan=continuation_plan)
+                    identity=d['identity'],real_face_plan=continuation_plan,
+                    model_source=(d.get('model') or {}).get('source_type'))
                 prior=d['shot_plan']
                 if any(full[k]!=prior[k] for k in ('sku','coverage','route','preservation','adaptation_note')) or full['looks'][0]!=prior['looks'][0]:
                     raise ValueError('Continuation cannot replace the approved first shot or original garment coverage')

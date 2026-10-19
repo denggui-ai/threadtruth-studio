@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — reviewed per-shot AI head and gaze, 2026-10-19
+
+- Trace the repeated adult/child head directions to preparation: retained requests had distinct body/framing rows but only general natural-variation guidance for head and eyes. No specific per-shot head/gaze was lost by export; reference-pose influence remains a visual hypothesis.
+- Add paired optional `head`/`gaze` to existing shot-plan looks for visible AI/new portraits. A plan that uses them must review every look; both routes render them in the same frozen Shot block, including preview revisions and delivery inheritance. Old body-only plans keep their bytes. Real faces retain their existing coverage plan, and faceless/nonportrait tasks cannot inject these fields.
+- Require concrete series preparation and plan-versus-image QA; preserve user-fixed directions, expressions, body masters, framing and existing retry limits. Add seven deterministic regressions and source cases RC-10/11 with main IDs 227/228. Source transmission checks do not prove natural variation in images; no new image, installation or release is included.
+
 ## Unreleased — visual-studio validation outcome, 2026-10-19
 
 - Source and deterministic checks passed; visual and end-to-end acceptance did not all pass. All 36 execution entries remain DRAFT. Three old/new paired samples do not establish overall improvement.

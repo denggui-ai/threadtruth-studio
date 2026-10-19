@@ -97,10 +97,12 @@ Show only source-supported front/front-side construction; do not invent or expos
 
 §1b 替代第六张时,使用正面站立的自然头颈关系,不注入母版6的越肩回看;不露脸仍由 §1a 覆盖。
 
-AI/新模特的预览、独立图及 prompts-only 在姿势块之前使用下面的原共用说明一次;真人身份沿用改用已核对覆盖内的逐张头向/视线计划，不同时注入相冲突的“左右不固定”或“必须越肩回看”。整组以“结合动作和场景形成自然变化,避免机械重复”为目标,不设左右数量、直视比例或角度配额。
+新准备的露脸AI/新模特系列，先把身体朝向、头部相对身体的转向、目光落点分别说清，并排检查本轮六项。仅写“随动作自然变化”或复制身份参考的侧望不能替代逐张安排。头向与目光写入`shot_plan.looks[].head/gaze`，由同一Shot块传给预览、独立图和prompts-only；人物model只保留全组身份、表情及允许调整范围，不另写一套冲突头向。具体方向按动作、场景和商品可见性选择，例如端坐近正面看镜头、轻步看行进方向、微前倾略收下巴看近处；这些是可选例子，不是固定模板或左右/直视配额。已确认的表情、发型、身体动作和景别保持，用户明确固定同一头向时尊重该要求并如实记录。
+
+逐张定向后，下面的共用说明只作为自然衔接原则，不能拿它代替本轮head/gaze。真人身份沿用改用已核对覆盖内的real_face_plan，不同时注入相冲突的自由头向或“必须越肩回看”。旧冻结任务按原提示词恢复，不追溯补写新字段。
 
 ```
-Head/gaze guidance: choose head orientation and gaze naturally for the body action and existing scene, with no fixed left/right direction, head tilt or eye-contact quota; expression honors the current model's preserved/permitted conditions, otherwise the selected style's Attitude; preserve garment visibility and natural head/neck alignment without adding props; vary naturally with action and scene to avoid mechanical repetition.
+Head/gaze guidance: follow each shot's reviewed head orientation and eye gaze, connecting the head and neck naturally to that body action. Preserve the current model's locked expression and grooming; use only allowed changes. Identity references and accepted group anchors identify the person, not a head/gaze template to repeat. Preserve garment visibility without adding props or forcing neck rotation.
 ```
 
 §1a 的输出形态覆盖优先于本节:不露脸时用原有遮脸/切头说明替换头部表及共用说明;平铺、挂拍、人台跳过本节。不因回眸要求露脸,不把非人像拉回真人。

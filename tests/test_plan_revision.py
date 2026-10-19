@@ -59,6 +59,116 @@ class PlanRevisionTests(unittest.TestCase):
         return task.update(self.job,'retry-authorize',look=1,expected_attempt=d['looks'][0].get('attempt_number',1),
             approval_id='synthetic-'+str(d['attempts']),note='Synthetic explicit one-request retry approval',**extra)
 
+    def head_gaze_plan(self):
+        plan=self.plan()
+        choices=[
+            ('Turn the head gently back toward camera with the torso.', 'Look near the lens.'),
+            ('Keep the head relaxed along the wall-side shoulder.', 'Look toward the open room at image-left.'),
+            ('Keep the seated head upright, close to frontal.', 'Look directly at the lens.'),
+            ('Follow the walking body with a mild turn.', 'Look ahead along the path at image-right.'),
+            ('Lower the chin slightly with the forward lean.', 'Look at the nearby ground without adding a prop.'),
+            ('Keep the frontal standing neck neutral.', 'Look just past the lens.'),
+        ]
+        for shot,(head,gaze) in zip(plan['looks'],choices):
+            shot.update(head=head,gaze=gaze)
+        return plan
+
+    def test_reviewed_ai_head_gaze_reaches_both_routes_and_selected_shot(self):
+        for route in ('codex_native','chatgpt_web'):
+            with self.subTest(route=route):
+                plan=self.head_gaze_plan();job=self.root/route
+                model=dict(self.model,source_type='ai')
+                refs=[dict(path=str(self.front),role='garment-source'),
+                      dict(path=str(self.back),role='identity-reference')]
+                try:
+                    task.create(job,refs,['Gallery.'],[60,40],model=model,
+                                context=self.context,route=route,shot_plan=plan)
+                except ValueError as error:
+                    self.fail('Reviewed per-shot head/gaze was rejected before export: '+str(error))
+                task.export(job)
+                raw=(job/'handoff/look-1-v0/prompt.txt').read_text()
+                for shot in plan['looks']:
+                    section=raw.split('Shot '+str(shot['pose'])+':',1)[1].split('\nShot ',1)[0]
+                    self.assertIn(shot['head'],section);self.assertIn(shot['gaze'],section)
+                self.assertEqual(task.read(job)['shot_plan']['preservation'],'classic')
+                single=copy.deepcopy(plan);single['looks']=[single['looks'][2]]
+                ctx=dict(self.context,purpose='delivery',first_pose=3)
+                task.create(job/'single',refs,['Gallery.'],[60,40],model=model,
+                            context=ctx,route=route,shot_plan=single)
+                task.export(job/'single')
+                text=(job/'single/handoff/look-1-v0/prompt.txt').read_text()
+                self.assertIn('Look directly at the lens.',text)
+                self.assertNotIn('Look ahead along the path at image-right.',text)
+
+    def test_head_gaze_requires_a_complete_paired_review(self):
+        for change in ('missing-gaze','missing-cell','empty','multiline'):
+            with self.subTest(change=change):
+                plan=self.head_gaze_plan()
+                if change=='missing-gaze':del plan['looks'][0]['gaze']
+                elif change=='missing-cell':
+                    del plan['looks'][3]['head'];del plan['looks'][3]['gaze']
+                elif change=='empty':plan['looks'][2]['head']=' '
+                else:plan['looks'][2]['gaze']='Near lens\nLook away'
+                with self.assertRaises(ValueError):self.create(plan)
+                self.assertFalse(self.job.exists())
+
+    def test_ai_head_gaze_does_not_bypass_real_face_or_faceless_rules(self):
+        for source,form in (('real','human'),('new','faceless')):
+            with self.subTest(source=source,form=form):
+                self.job=self.root/(source+'-'+form)
+                refs=[dict(path=str(self.front),role='garment-source')]
+                if source=='real':refs.append(dict(path=str(self.back),role='identity-reference'))
+                context=dict(self.context,output_form=form)
+                if source=='real':context['purpose']='delivery'
+                with self.assertRaisesRegex(ValueError,'real_face_plan'):
+                    task.create(self.job,refs,['Gallery.']*(6 if source=='real' else 1),[60,40],
+                                model=dict(self.model,source_type=source,consent_note='Synthetic adult use authorized'),
+                                context=context,shot_plan=self.head_gaze_plan())
+                self.assertFalse(self.job.exists())
+
+    def test_user_fixed_head_gaze_is_not_replaced_by_a_diversity_quota(self):
+        plan=self.head_gaze_plan()
+        for shot in plan['looks']:
+            shot.update(head='User requests the same near-frontal head throughout.',
+                        gaze='User requests looking at the lens in every image.')
+        self.create(plan);task.export(self.job)
+        text=(self.job/'handoff/look-1-v0/prompt.txt').read_text()
+        self.assertEqual(text.count('User requests looking at the lens in every image.'),6)
+
+    def test_preview_head_gaze_revision_is_frozen_and_inherited_by_delivery(self):
+        plan=self.head_gaze_plan()
+        try:self.returned(plan)
+        except ValueError as error:self.fail('Cannot freeze reviewed head/gaze: '+str(error))
+        before=task.read(self.job);changed=copy.deepcopy(plan)
+        changed['looks'][1]['gaze']='Look toward the wall-side window at image-left.'
+        self.revise(shot_plan=changed)
+        self.assertEqual(task.read(self.job)['shot_plan'],before['shot_plan'])
+        self.retry();self.reserve()
+        task.update(self.job,'returned',look=1,file=self.image('revised-head-grid','green'))
+        task.update(self.job,'accept',look=1,qa='qa-pass',note='Synthetic preview review only')
+        task.update(self.job,'finish-preview',decision='direction-confirmed',note='Synthetic approval')
+        child=task.create_from_preview(self.root/'delivery',self.job,
+            dict(context=dict(self.context,purpose='delivery'),size=[60,40],prompts=['Gallery.']*6),
+            note='Synthetic preparation, no provider call')
+        self.assertEqual(child['shot_plan'],changed)
+        self.assertEqual(child['preview_origin']['attempts'],2)
+        self.assertIsNone(child['authorization']);self.assertIsNone(child['model_confirmation'])
+        self.assertEqual(task.read(self.job)['looks'][0]['history'][0]['shot_plan'],plan)
+
+    def test_frozen_head_gaze_tamper_blocks_export(self):
+        try:self.create(self.head_gaze_plan())
+        except ValueError as error:self.fail('Cannot freeze reviewed head/gaze: '+str(error))
+        path=self.job/'task.json';data=json.loads(path.read_text())
+        data['shot_plan']['looks'][1]['gaze']='Different unreviewed gaze.'
+        path.write_text(json.dumps(data))
+        with self.assertRaisesRegex(ValueError,'Frozen shot plan changed'):task.export(self.job)
+
+    def test_legacy_body_only_shot_render_keeps_its_bytes(self):
+        coverage=[dict(sha256='a'*64,views=['front'],usable=True,same_sku=True,note='Synthetic coverage')]
+        legacy=task.shot_helper().default_plan('sku',coverage)
+        self.assertEqual(hashlib.sha256(task.shot_helper().render(legacy).encode()).hexdigest(),
+                         '1cd0a0d4741f3353429d723c7bd589e9f7fbdf8126cc48e4238430d5faa4fdf2')
+
     def test_accepted_preview_can_revise_without_fabricating_qa_failure(self):
         self.returned();before=task.read(self.job);changed=dict(self.model,locked=['mature adult','long loose hair'])
         d=self.revise(model=changed)

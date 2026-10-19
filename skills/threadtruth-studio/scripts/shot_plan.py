@@ -34,7 +34,7 @@ def default_plan(sku,coverage):
     return dict(version=1,sku=sku,route='A' if back else 'B',preservation='classic',adaptation_note='',coverage=copy.deepcopy(coverage),looks=looks)
 
 
-def validate(plan,inventory,*,context,count,identity=True,real_face_plan=None,strict_references=True):
+def validate(plan,inventory,*,context,count,identity=True,real_face_plan=None,strict_references=True,model_source=None):
     fields={'version','sku','route','preservation','adaptation_note','coverage','looks'}
     if not isinstance(plan,dict) or set(plan)!=fields or type(plan['version']) is not int or plan['version']!=1:
         raise ValueError('Shot plan requires version=1, sku, route, preservation, adaptation_note, coverage and looks')
@@ -63,11 +63,17 @@ def validate(plan,inventory,*,context,count,identity=True,real_face_plan=None,st
     if plan['route']!=expected:raise ValueError('Garment route must match usable same-SKU original back coverage')
     looks=plan['looks']
     if not isinstance(looks,list) or len(looks)!=count:raise ValueError('Shot plan look count must match the actual task/cells')
+    head_gaze=any(isinstance(shot,dict) and ('head' in shot or 'gaze' in shot) for shot in looks)
+    if head_gaze and (model_source not in ('ai','new') or real_face_plan is not None
+                      or context.get('output_form')!='human'):
+        raise ValueError('Shot head/gaze is only for visible AI/new portraits; real faces use reviewed real_face_plan')
     for i,shot in enumerate(looks,1):
         n=i if count==6 else context['first_pose']
-        if (not isinstance(shot,dict) or set(shot)-{'arrangement'}!={'pose','master','framing','garment_views','reference_sha256s'}
+        if (not isinstance(shot,dict) or set(shot)-{'arrangement','head','gaze'}!={'pose','master','framing','garment_views','reference_sha256s'}
                 or type(shot['pose']) is not int or shot['pose']!=n):
             raise ValueError('Shot plan preserves numbered mothers in order')
+        if head_gaze and (not line(shot.get('head')) or not line(shot.get('gaze'))):
+            raise ValueError('Review both head orientation and eye gaze for every shot in this plan')
         master='FRONT_RELAXED_STANDING' if n==6 and expected=='B' else MASTERS[n-1]
         if shot['master']!=master:raise ValueError('Shot master conflicts with the garment route or numbered mother')
         if shot['framing'] not in ('full-body','half-body','knee-up'):
@@ -109,6 +115,8 @@ def render(plan,look=None,real_face_plan=None):
         rows.extend([f"Shot {n}: {shot['master']}. Framing: {shot['framing']}.",
                      shot.get('arrangement',relation),
                      'Supported garment views: '+', '.join(shot['garment_views'])+'.'])
+        if 'head' in shot:
+            rows.extend(['Head orientation: '+shot['head'], 'Eye gaze: '+shot['gaze']])
         if real_face_plan is not None:
             rows.append('Body arrangement and head/gaze are supplied by this shot\'s reviewed real_face_plan; keep natural support and the agreed classic/adapted relations. Do not infer another face view.')
     return '\n'.join(rows+[END])
