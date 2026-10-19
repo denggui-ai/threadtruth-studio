@@ -2818,5 +2818,26 @@
     "unused_slot_not_repurposed": true,
     "private_result": "final-authorized-batch/result.json"
   },
-  "updated_at": "2026-10-19T15:50:59.789119+00:00"
+  "updated_at": "2026-10-19T15:50:59.789119+00:00",
+  "local_candidate_install_followup": {
+    "status": "candidate-installed-with-disclosed-limitations",
+    "verified_at_utc": "2026-10-19T16:31:21.320850+00:00",
+    "version": "1.0.0-beta.14+codex.20261019T163011-d70d4e10",
+    "source_cache_files": 332,
+    "source_cache_bytes_match": true,
+    "runtime_files": 97,
+    "candidate_runtime_bytes_match": true,
+    "official_installed": true,
+    "official_enabled": true,
+    "cli_help_passed": true,
+    "new_image_calls": 0,
+    "conservative_budget_used": 80,
+    "ceiling": 81,
+    "visual_acceptance_passed": false,
+    "failed_visual_items": 7,
+    "real_person_cases": "deferred(user-hold)",
+    "published": false,
+    "rollback_exercised": false,
+    "note": "Local candidate delivery after disclosed limitations; not a visual QA pass. Earlier candidate/install fields are historical snapshots."
+  }
 }
