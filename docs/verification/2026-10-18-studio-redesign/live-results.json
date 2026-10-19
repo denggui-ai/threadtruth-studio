@@ -2583,5 +2583,240 @@
     ],
     "qa": "qa-retry",
     "installation_allowed": false
-  }
+  },
+  "final_authorized_closeout_followup": {
+    "status": "execution-complete-acceptance-not-passed",
+    "completed_at_utc": "2026-10-19T15:49:18.070782+00:00",
+    "source_runtime_commit": "043740c",
+    "native_calls": 17,
+    "authorized_additional_ceiling": 18,
+    "conservative_cumulative_budget": 80,
+    "ceiling": 81,
+    "reused_preview": {
+      "original": "SR-047",
+      "accepted_replacement": "SR-057",
+      "new_calls": 0
+    },
+    "targeted_pass_human_review_pending": 10,
+    "failed": 7,
+    "requests": [
+      {
+        "request_id": "SR-065",
+        "parent": "SR-001",
+        "qa": "qa-user-review",
+        "targeted_result": "targeted-pass-human-review-pending",
+        "qa_note": "定向通过：双脚落地、双手衣外、静止站姿，原步行动作问题关闭；白马甲主要结构保留，精细商品QA仍待人工，不标商用通过。",
+        "output_sha256": "916225b994cb4e8b8a138ed0854e4e29c56dc675878f36944dc4e64bf183eee2",
+        "pixels": [
+          1024,
+          1536
+        ]
+      },
+      {
+        "request_id": "SR-066",
+        "parent": "SR-002",
+        "qa": "qa-user-review",
+        "targeted_result": "targeted-pass-human-review-pending",
+        "qa_note": "定向通过：训练空间内静止站姿、双脚落地、双手自然垂放，未用运动动作替代。服装主要结构可读，细节仍待人工。",
+        "output_sha256": "2a9f6305d1a86dff766c773d31d7b75a4a71e474bd01aec30bb84978772c479d",
+        "pixels": [
+          1024,
+          1536
+        ]
+      },
+      {
+        "request_id": "SR-067",
+        "parent": "SR-005",
+        "qa": "qa-user-review",
+        "targeted_result": "targeted-pass-human-review-pending",
+        "qa_note": "定向通过：两只手完整可见、均在裤袋和马甲口袋之外，自然垂放。男成人AI及咖啡店场景保留；商品微细仍待人工。",
+        "output_sha256": "7b481ad8edc114a4e0dc9e80c512201041ee993b1b98ca0909d46a4f535b5ecd",
+        "pixels": [
+          1024,
+          1536
+        ]
+      },
+      {
+        "request_id": "SR-068",
+        "parent": "SR-007",
+        "qa": "qa-user-review",
+        "targeted_result": "targeted-pass-human-review-pending",
+        "qa_note": "定向通过：可见耳部无亮圆耳饰，无新增项链手链；白色马甲及暖白室内成立。隐蔽耳部不据此宣称全可见，商品细节待人工。",
+        "output_sha256": "e8c240b90b79f0bc05afed03a58a2f18c295466e1f9d7bd852ccdb50983a0df5",
+        "pixels": [
+          1024,
+          1536
+        ]
+      },
+      {
+        "request_id": "SR-069",
+        "parent": "SR-008",
+        "qa": "qa-user-review",
+        "targeted_result": "targeted-pass-human-review-pending",
+        "qa_note": "定向通过：浅灰背景上的独立空马甲，无挂钩、横杆、衣架端头、人或人体模具。主要前襟及帽领保留；精细硬件与绗缝仍待人工。",
+        "output_sha256": "89d913136254cc00a4a9e00b4f04b72fce6fe8dcbbd846eb0091bffa13c5f0f8",
+        "pixels": [
+          1024,
+          1536
+        ]
+      },
+      {
+        "request_id": "SR-070",
+        "parent": "SR-010",
+        "qa": "qa-user-review",
+        "targeted_result": "targeted-pass-human-review-pending",
+        "qa_note": "定向通过：园林石路场景中双脚落地、双手垂放，无迈步后脚抬跟。白马甲主要结构保留，精细还原待人工。",
+        "output_sha256": "255415652006870601eb43012d8dae88f31a6c22127e1a6da6b718aeaca19400",
+        "pixels": [
+          1024,
+          1536
+        ]
+      },
+      {
+        "request_id": "SR-071",
+        "parent": "SR-027",
+        "qa": "qa-user-review",
+        "targeted_result": "targeted-pass-human-review-pending",
+        "qa_note": "定向通过：上边缘切入颈部，放大核对未见下巴轮廓或五官，帽领及马甲完整可见；仅核对本次不露脸边界，不代表商品微细通过。",
+        "output_sha256": "42cbd35767ed7c485c467404eb9a056d52faee03f6f0892b8c9a1cdafabd6c32",
+        "pixels": [
+          1024,
+          1536
+        ]
+      },
+      {
+        "request_id": "SR-072",
+        "parent": "SR-028",
+        "qa": "qa-user-review",
+        "targeted_result": "targeted-pass-human-review-pending",
+        "qa_note": "定向通过：人造光大厅内双脚完整落地、静止站姿，无后腿迈步和抬跟；原AI人物主要外观与白马甲保持，严格同脸及五金待人工。",
+        "output_sha256": "e7b9808e70b54d7c8923b088dfc9aa9631c47fe32d7b16b28683752e5f21bfc7",
+        "pixels": [
+          1024,
+          1536
+        ]
+      },
+      {
+        "request_id": "SR-073",
+        "parent": "SR-036",
+        "qa": "qa-retry",
+        "targeted_result": "failed",
+        "qa_note": "未通过：前景人物之外，拱门深处新增第二个穿同款马甲的背影；空间仍主要为重复拱廊，未清楚建立返回同一房间的不可实现闭环。不补拍。",
+        "output_sha256": "dcc88b3bfe62c064f8ba2730c720902f462d2fb27fcfb78f1880286f0f00ab77",
+        "pixels": [
+          1024,
+          1536
+        ]
+      },
+      {
+        "request_id": "SR-074",
+        "parent": "SR-038",
+        "qa": "qa-user-review",
+        "targeted_result": "targeted-pass-human-review-pending",
+        "qa_note": "定向通过：坐姿近景，无小腿鞋地面；下前襟三排纽扣可见，头眼向画面右侧，双手在腿上，原重复左向微笑改善。严格人物一致、纽扣数量间距及面料微细仍待人工。",
+        "output_sha256": "abf427fed9364550a80e4ccfb1f861b3c49371012c684409e4ca3343baa18b5b",
+        "pixels": [
+          1024,
+          1536
+        ]
+      },
+      {
+        "request_id": "SR-075",
+        "parent": "SR-040",
+        "qa": "qa-retry",
+        "targeted_result": "failed",
+        "qa_note": "未通过：低头下视成立，但下前襟仍仅两排明显纽扣、最低排缺失；躯干前倾不足，取景延至膝下并见小腿，未满足膝上景别。不补拍。",
+        "output_sha256": "42a2a1d39dddcf90c6452a67c064ccf56ee21caa729b6faccedc782919fb4c26",
+        "pixels": [
+          1024,
+          1536
+        ]
+      },
+      {
+        "request_id": "SR-076",
+        "parent": "SR-063",
+        "qa": "qa-retry",
+        "targeted_result": "failed",
+        "qa_note": "未通过：坐姿、右向视线、双手腿上及闭襟保持，但画面下缘仍覆盖明显上腿/膝上大段衣料，未止于髋部；背景还见地面。严格取景失败，不补拍。",
+        "output_sha256": "4f2ddd1f5f010c09c2cb8351270328a91c435e5725d8b7316316a0034c80dc6d",
+        "pixels": [
+          1024,
+          1536
+        ]
+      },
+      {
+        "request_id": "SR-077",
+        "parent": "SR-064",
+        "qa": "qa-retry",
+        "targeted_result": "failed",
+        "qa_note": "未通过：低头与前倾更可读，双手衣外、闭襟和主要扣件保持；但取景仍延至长大衣下部，底缘可见下摆毛边局部、大片地面，未达到约定膝下且下摆画外的景别。不补拍。",
+        "output_sha256": "839cd9f3185a3380a1e1f17b2328d8fd5faad21c884ca23dade46256484c0419",
+        "pixels": [
+          1024,
+          1536
+        ]
+      },
+      {
+        "request_id": "SR-078",
+        "parent": "SR-050",
+        "qa": "qa-retry",
+        "targeted_result": "failed",
+        "qa_note": "部分改善但未通过：六格及预览标识成立，领部/部分袖口恢复可辨绿色红色编织；多格前襟、下摆长镶边仍偏黄/金，未逐格保持源图绿色。原停止状态不解锁，不续独立图、不补拍。",
+        "output_sha256": "29c19f4dd4830daf6f110367feb39c155a42a7d94ba1678031d29962af636b33",
+        "pixels": [
+          1254,
+          1254
+        ]
+      },
+      {
+        "request_id": "SR-079",
+        "parent": "SR-053",
+        "qa": "qa-retry",
+        "targeted_result": "failed",
+        "qa_note": "未通过：背景变浅米色且主体位置基本保留，但两个裤腿内部区域和马甲内部像素大量改变；左裤腿18000像素仅39不变，右裤腿14850仅22不变。严格仅背景且保护服装条件不成立，不补拍。",
+        "output_sha256": "6b71a585c274102b3a3cc453b846d0528e0623ca61bcca5e10d51d1fbc6c78ce",
+        "pixels": [
+          1024,
+          1536
+        ]
+      },
+      {
+        "request_id": "SR-080",
+        "parent": "SR-006",
+        "qa": "qa-retry",
+        "targeted_result": "failed",
+        "qa_note": "暖灰背景目标已改善，但头眼转向画面右侧，未保持原冻结的近镜头视线，也不同于旧版SR054；不构成控制条件保持的新旧整体改善证明。不补拍。",
+        "output_sha256": "5d556f6bea2163da86616c6bf9d89048f0283beb687860a66d672d1712320ff9",
+        "pixels": [
+          1024,
+          1536
+        ]
+      },
+      {
+        "request_id": "SR-081",
+        "parent": "SR-019",
+        "qa": "qa-user-review",
+        "targeted_result": "targeted-pass-human-review-pending",
+        "qa_note": "定向通过：庭院软散射日光、鞋底羽化接触影，无原硬直射光斑；主要人物、酒红毛绒镶边大衣、静止姿态保持，与SR056相比柔光轴改善。微细扣件和严格同脸待人工，不能据单次补拍宣称新版整体优于旧版。",
+        "output_sha256": "60dc4bf7aa516ad9bece8b09cfb7b159a58a137c4d6a0f74a05c5ffb1b432dd5",
+        "pixels": [
+          1024,
+          1536
+        ]
+      }
+    ],
+    "not_run": [
+      "D07",
+      "D08",
+      "D10",
+      "SR-052"
+    ],
+    "native_root_operated_not_fresh_web_or_isolated_dialogue": true,
+    "all_acceptance_passed": false,
+    "installed": false,
+    "published": false,
+    "unused_slot_not_repurposed": true,
+    "private_result": "final-authorized-batch/result.json"
+  },
+  "updated_at": "2026-10-19T15:50:59.789119+00:00"
 }

@@ -3147,13 +3147,13 @@
       "identity_fixture_id": "designated-real-adult",
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "deferred-user-real-input",
+      "execution_status": "deferred-user-hold",
       "attempts": 0,
       "depends_on": [
         "SR-021"
       ],
       "blockers": [
-        "deferred-user-real-input"
+        "deferred-user-hold"
       ],
       "canvas": {
         "ratio": "2:3",
@@ -3526,7 +3526,7 @@
       "evidence": "../2026-10-19-development-closeout.md#成人六张续生实际结果"
     }
   ],
-  "updated_at": "2026-10-19T09:43:18.619391+00:00",
+  "updated_at": "2026-10-19T15:50:59.789119+00:00",
   "visual_plan_commit": "f531e1a18947ced0901a54b9d872709e089677fa",
   "authorized_crop_retry_followup": {
     "at": "2026-10-19T07:40:34.441610+00:00",
@@ -3558,5 +3558,43 @@
     ],
     "result": "两张均qa-retry，结构化修改承接实际跑通，严格画面目标未全部达成",
     "evidence": "../2026-10-19-development-closeout.md#两次追加重试实际结果"
+  },
+  "final_authorized_closeout_followup": {
+    "status": "execution-complete-acceptance-not-passed",
+    "completed_at_utc": "2026-10-19T15:49:18.070782+00:00",
+    "source_runtime_commit": "043740c",
+    "native_calls": 17,
+    "authorized_additional_ceiling": 18,
+    "conservative_cumulative_budget": 80,
+    "ceiling": 81,
+    "reused_preview": {
+      "original": "SR-047",
+      "accepted_replacement": "SR-057",
+      "new_calls": 0
+    },
+    "targeted_pass_human_review_pending": 10,
+    "failed": 7,
+    "not_run": [
+      "D07",
+      "D08",
+      "D10",
+      "SR-052"
+    ],
+    "native_root_operated_not_fresh_web_or_isolated_dialogue": true,
+    "all_acceptance_passed": false,
+    "installed": false,
+    "published": false,
+    "unused_slot_not_repurposed": true,
+    "private_result": "final-authorized-batch/result.json",
+    "failed_requests": [
+      "SR-073",
+      "SR-075",
+      "SR-076",
+      "SR-077",
+      "SR-078",
+      "SR-079",
+      "SR-080"
+    ],
+    "request_results_ref": "live-results.json#final_authorized_closeout_followup.requests"
   }
 }

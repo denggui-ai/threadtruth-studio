@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "status": "executed-with-open-findings",
-  "updated_at": "2026-10-19T09:43:18.619391+00:00",
+  "updated_at": "2026-10-19T15:50:59.789119+00:00",
   "note": "Fresh isolated Codex subagent actions and answers were retained; root operator performed authorized image calls. Model conversation execution does not imply visual acceptance. No authentic thread ID is retained in these artifacts; case/agent names are not substituted. Latest D04 followup is root-coordinated continuation, not another fresh isolated dialogue pass.",
   "counts": {
     "all_planned_cases": 15,
@@ -338,7 +338,7 @@
         "SR-024"
       ],
       "user_brief": "指定已授权成年人单张；未给实际文件时blocked-input。",
-      "status": "deferred-real-person-not-executed",
+      "status": "deferred-user-hold",
       "actual_thread_id": null,
       "evidence_ref": "live-results.json#D07",
       "review": {
@@ -375,7 +375,7 @@
         "SR-021"
       ],
       "user_brief": "指定成年真人首个SKU，实际接受后建立人物资料包。",
-      "status": "deferred-real-person-not-executed",
+      "status": "deferred-user-hold",
       "actual_thread_id": null,
       "evidence_ref": "live-results.json#D08",
       "review": {
@@ -470,7 +470,7 @@
         "SR-052"
       ],
       "user_brief": "全新对话从本轮指定成年真人资料包恢复身份，换第二个SKU。",
-      "status": "deferred-real-person-not-executed",
+      "status": "deferred-user-hold",
       "actual_thread_id": null,
       "evidence_ref": "live-results.json#D10",
       "review": {
@@ -645,5 +645,43 @@
         "separate_validation_not_counted_here": []
       }
     }
-  ]
+  ],
+  "final_authorized_closeout_followup": {
+    "status": "execution-complete-acceptance-not-passed",
+    "completed_at_utc": "2026-10-19T15:49:18.070782+00:00",
+    "source_runtime_commit": "043740c",
+    "native_calls": 17,
+    "authorized_additional_ceiling": 18,
+    "conservative_cumulative_budget": 80,
+    "ceiling": 81,
+    "reused_preview": {
+      "original": "SR-047",
+      "accepted_replacement": "SR-057",
+      "new_calls": 0
+    },
+    "targeted_pass_human_review_pending": 10,
+    "failed": 7,
+    "not_run": [
+      "D07",
+      "D08",
+      "D10",
+      "SR-052"
+    ],
+    "native_root_operated_not_fresh_web_or_isolated_dialogue": true,
+    "all_acceptance_passed": false,
+    "installed": false,
+    "published": false,
+    "unused_slot_not_repurposed": true,
+    "private_result": "final-authorized-batch/result.json",
+    "failed_requests": [
+      "SR-073",
+      "SR-075",
+      "SR-076",
+      "SR-077",
+      "SR-078",
+      "SR-079",
+      "SR-080"
+    ],
+    "request_results_ref": "live-results.json#final_authorized_closeout_followup.requests"
+  }
 }
