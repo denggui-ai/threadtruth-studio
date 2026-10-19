@@ -4,6 +4,12 @@ Updated 2026-10-07. The current release target is the [beta.12 prerelease](https
 
 更新于2026-10-07。当前发行目标为[beta.12预发布版](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.12)。下表仅说明已记录环境与任务的验证范围，不承诺所有环境兼容。
 
+## Current source candidate / 当前源码候选
+
+The 2026-10-18 studio redesign has 36 DRAFT execution entries. Required visual and end-to-end acceptance remains incomplete; three paired samples do not demonstrate overall improvement, the child set retains garment/framing failures, and adult web delivery and cross-product reuse are unfinished. A later adult direction preview was accepted after an explicitly authorized local composite; this is not an accepted independent portrait. The candidate is not installed or publicly released. Detailed sanitized development records stay in the source repository under `docs/verification/2026-10-18-studio-redesign/`; they are not part of the offline plugin package.
+
+2026-10-18工作室改版包含36个DRAFT执行入口，必要实图与端到端验收尚未完成。三组配对未证明整体改善，童装组商品/景别失败保留，成人网页成片与跨商品复用未完成。后续成人预览经明确授权的局部拼接后获用户方向接受，不等于已接受独立首张人物。候选未安装或公开发布。详细脱敏开发记录留在源码的`docs/verification/2026-10-18-studio-redesign/`，不随离线插件打包。
+
 | Surface or task / 环境或任务 | Evidence / 证据 | Boundary / 边界 |
 |---|---|---|
 | beta.12 runtime / 运行文件 | Same 45 runtime files as the installed compact source; 331 integrated repository tests and hosted CI passed / 与已安装简化版45运行文件一致，331项整合测试及远端CI通过 | No new provider call, fresh-host discovery or general fidelity claim / 无新生图，不证明新宿主发现或通用保真 |

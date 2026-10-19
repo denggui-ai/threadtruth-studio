@@ -102,7 +102,7 @@ Show only source-supported front/front-side construction; do not invent or expos
 逐张定向后，下面的共用说明只作为自然衔接原则，不能拿它代替本轮head/gaze。真人身份沿用改用已核对覆盖内的real_face_plan，不同时注入相冲突的自由头向或“必须越肩回看”。旧冻结任务按原提示词恢复，不追溯补写新字段。
 
 ```
-Head/gaze guidance: follow each shot's reviewed head orientation and eye gaze, connecting the head and neck naturally to that body action. Preserve the current model's locked expression and grooming; use only allowed changes. Identity references and accepted group anchors identify the person, not a head/gaze template to repeat. Preserve garment visibility without adding props or forcing neck rotation.
+Head/gaze guidance: follow each shot's reviewed head orientation and eye gaze when provided, connecting the head and neck naturally to that body action. Without declared per-shot directions, retain natural variation with no fixed left/right direction or eye-contact quota; explicit user-fixed directions still take priority. Preserve the current model's locked expression and grooming; use only allowed changes. Identity references and accepted group anchors identify the person, not a head/gaze template to repeat. Preserve garment visibility without adding props or forcing neck rotation.
 ```
 
 §1a 的输出形态覆盖优先于本节:不露脸时用原有遮脸/切头说明替换头部表及共用说明;平铺、挂拍、人台跳过本节。不因回眸要求露脸,不把非人像拉回真人。

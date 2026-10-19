@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — development completion regressions, 2026-10-19
+
+- Restore the conditional natural head/gaze default for preparation paths without declared per-shot directions. Explicit shot choices and user-fixed directions remain authoritative; real-face coverage keeps its separate branch. Current full-suite evidence exposed the missing fallback; existing frozen tasks are not rewritten. Extend RC-11/main228 for this boundary.
+- Repair three offline-package links by routing the public entrypoints to the shipped compatibility summary. Keep detailed development evidence in source instead of expanding the runtime archive or linking to unpublished web pages.
+- Carry an explicitly authorized local preview correction into normal delivery: compose one existing donor rectangle, preserve the original provider image/review, verify all reconstructed pixels, and require fresh visual QA. The operation makes no generation call and leaves consumed attempts unchanged; any earlier donor-generation cost stays separately charged. Keep a reviewed local shot-plan override as derived provenance and inherit it at delivery without rewriting the generation prompt. Add pixel/budget/lineage/CLI/boundary regressions and RC-12/main229.
+- The initial current-version run executed 594 tests with two failures; targeted fixes and subsequent results are recorded separately. These source fixes do not establish image fidelity or authorize installation/publication.
+
 ## Unreleased — reviewed per-shot AI head and gaze, 2026-10-19
 
 - Trace the repeated adult/child head directions to preparation: retained requests had distinct body/framing rows but only general natural-variation guidance for head and eyes. No specific per-shot head/gaze was lost by export; reference-pose influence remains a visual hypothesis.

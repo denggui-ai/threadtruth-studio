@@ -191,7 +191,7 @@ def preview_candidate(data, row, *, model=None, shot_plan=None, prompt=None, gar
                 raise ValueError('Additional garment reference duplicates frozen inventory')
             hashes.add(ref['sha256']);additions.append(dict(path=str(path),sha256=ref['sha256']))
             inventory.append(dict(sha256=ref['sha256'],role='garment-source'))
-    planned=shot_plan if shot_plan is not None else data.get('shot_plan')
+    planned=shot_plan if shot_plan is not None else effective_shot_plan(data)
     face_plan=copy.deepcopy(data.get('real_face_plan'))
     if face_plan is not None and planned is not None:
         # Only garment selection and the declared sixth route may change here.
@@ -711,6 +711,98 @@ def check_preview_origin(root,data):
             raise ValueError('Invalid preview provenance or cumulative request count')
 
 
+def effective_shot_plan(data):
+    edits=data['looks'][0].get('local_edits',[]) if is_preview(data) else []
+    return edits[-1]['shot_plan'] if edits else data.get('shot_plan')
+
+
+def composite_pixels(base_path,donor_path,rectangle):
+    from PIL import Image
+    size=png_size(base_path)
+    if png_size(donor_path)!=size:raise ValueError('Local preview donor must have the original canvas; no resizing')
+    if (not isinstance(rectangle,list) or len(rectangle)!=4 or any(type(v) is not int for v in rectangle)
+            or not 0<=rectangle[0]<rectangle[2]<=size[0] or not 0<=rectangle[1]<rectangle[3]<=size[1]):
+        raise ValueError('Declare one nonempty integer rectangle inside the original preview')
+    with Image.open(base_path) as source,Image.open(donor_path) as donor:
+        if source.mode not in ('RGB','RGBA'):raise ValueError('Local preview composition requires RGB/RGBA originals')
+        result=source.copy();result.paste(donor.convert(source.mode).crop(rectangle),rectangle[:2])
+        return result
+
+
+def check_local_edits(root,data,row):
+    if 'local_edits' not in row:return
+    edits=row['local_edits']
+    if not is_preview(data) or not isinstance(edits,list) or not edits:
+        raise ValueError('Local image revisions belong to an existing preview only')
+    previous=None
+    for edit in edits:
+        if (set(edit)!={'base_output','donor','output','rectangle','shot_plan','prior_review','note','at','generation_calls','sha256'}
+                or object_hash({k:v for k,v in edit.items() if k!='sha256'})!=edit['sha256']
+                or type(edit['generation_calls']) is not int or edit['generation_calls']!=0
+                or not edit['note'].strip() or not edit['at'].strip()
+                or (previous is not None and edit['base_output']!=previous)):
+            raise ValueError('Local preview revision changed or broke its original-image chain')
+        for key in ('base_output','donor','output'):
+            artifact=edit[key];file=safe_file(root,artifact['file'])
+            if digest(file)!=artifact['sha256'] or png_size(file)!=artifact['dimensions']:
+                raise ValueError('Frozen local preview source or result changed')
+        review=edit['prior_review']
+        if review.get('state') not in ('accepted','rejected') or review.get('qa') not in ('qa-pass','qa-user-review','qa-retry') or not review.get('qa_note','').strip():
+            raise ValueError('Local preview correction must preserve its prior visual review')
+        planned=edit['shot_plan']
+        if planned is not None:
+            shot_helper().validate(planned,data['references'],context=data['context'],count=6,
+                identity=data['identity'],real_face_plan=row.get('real_face_plan',data.get('real_face_plan')),
+                model_source=(row.get('model',data['model']) or {}).get('source_type'))
+        expected=composite_pixels(safe_file(root,edit['base_output']['file']),safe_file(root,edit['donor']['file']),edit['rectangle'])
+        from PIL import Image
+        with Image.open(safe_file(root,edit['output']['file'])) as actual:
+            if actual.mode!=expected.mode or actual.tobytes()!=expected.tobytes():
+                raise ValueError('Local preview result changed protected pixels or does not match its donor rectangle')
+        previous=edit['output']
+    if row.get('output')!=previous:raise ValueError('Current preview does not bind its latest local correction')
+
+
+def compose_preview(root,data,row,**kw):
+    root=Path(root).resolve()
+    note=kw.get('note','').strip()
+    if (data['schema_version']!=2 or not is_preview(data) or row is None or row['number']!=1
+            or row['state'] not in ('accepted','rejected') or data.get('preview_revision') or not note
+            or kw.get('expected_output_sha256')!=row['output']['sha256']):
+        raise ValueError('Compose only an exact reviewed, open preview with explicit local-edit scope')
+    donor=Path(kw['file']);donor_hash=digest(donor)
+    if donor_hash!=kw.get('expected_donor_sha256'):raise ValueError('Local preview donor changed')
+    planned=copy.deepcopy(kw.get('shot_plan',effective_shot_plan(data)))
+    if planned is None and effective_shot_plan(data) is not None:
+        raise ValueError('Local composition cannot discard the current reviewed shot plan')
+    if planned is not None:
+        shot_helper().validate(planned,data['references'],context=data['context'],count=6,
+            identity=data['identity'],real_face_plan=data.get('real_face_plan'),model_source=(data['model'] or {}).get('source_type'))
+        original=effective_shot_plan(data)
+        if original and any(planned[k]!=original[k] for k in ('version','sku','route','coverage')):
+            raise ValueError('Local composition retains the same SKU and original garment coverage')
+    result=composite_pixels(safe_file(root,row['output']['file']),donor,kw.get('rectangle'))
+    sequence=len(row.get('local_edits',[]))+1
+    name=f"look-1-attempt-{row.get('attempt_number',1)}-local-{sequence}"
+    source=safe_file(root,'local-edits/'+name+'-donor.png');out=safe_file(root,'outputs/'+name+'.png')
+    source.parent.mkdir(exist_ok=True);out.parent.mkdir(exist_ok=True)
+    # Exclusive files preserve the actual provider result, every donor and each local revision.
+    with source.open('xb') as f:f.write(donor.read_bytes())
+    if digest(source)!=donor_hash:raise ValueError('Local preview donor changed while retaining it')
+    with out.open('xb') as f:result.save(f,format='PNG',icc_profile=result.info.get('icc_profile'))
+    artifact=dict(file=str(out.relative_to(root)),sha256=digest(out),dimensions=png_size(out))
+    edit=dict(base_output=copy.deepcopy(row['output']),
+        donor=dict(file=str(source.relative_to(root)),sha256=donor_hash,dimensions=png_size(source)),
+        output=artifact,rectangle=kw['rectangle'],shot_plan=planned,
+        prior_review={k:copy.deepcopy(row[k]) for k in ('state','qa','qa_note','qa_history') if k in row},
+        note=note,at=stamp(),generation_calls=0)
+    edit['sha256']=object_hash(edit)
+    row.setdefault('local_edits',[]).append(edit)
+    row.update(state='returned',output=artifact)
+    for key in ('qa','qa_note','qa_history'):row.pop(key,None)
+    check_local_edits(root,data,row)
+
+
 def check_evidence(root,data):
     prompt_contract(data)
     check_shot_plan(data)
@@ -741,6 +833,7 @@ def check_evidence(root,data):
     for row in evidence_rows(data):
         if 'web_execution' in row:
             web_execution_helper().check_retained(root,row)
+        check_local_edits(root,data,row)
         if hashlib.sha256(row['prompt'].encode()).hexdigest()!=row['prompt_sha256']:
             raise ValueError('Frozen prompt changed')
         photography_helper().apply(row['prompt'], data['context'].get('photography_targets') if data['schema_version']==2 else None)
@@ -857,6 +950,8 @@ def update(root,event,**kw):
             d.setdefault('preview_revision_history',[]).append(dict(copy.deepcopy(proposal),
                 disposition='cancelled',disposition_note=note,disposition_at=stamp()))
             d.pop('preview_revision')
+        elif event=='compose-preview':
+            compose_preview(root,d,row,**kw)
         elif event=='finish-preview':
             decision=kw.get('decision');note=kw.get('note','').strip()
             if not is_preview(d) or n is not None or not note or decision not in ('stop','direction-confirmed'):
@@ -1019,6 +1114,8 @@ def update(root,event,**kw):
                 raise ValueError('Preview correction limit reached: three additional requests maximum')
             # One explicit grant replaces one rejected/reconciled failed attempt, never resets the task.
             proposal=d.get('preview_revision') if is_preview(d) else None
+            if is_preview(d) and not proposal and effective_shot_plan(d)!=d.get('shot_plan'):
+                raise ValueError('Retain the locally corrected shot plan through a reviewed preview revision before retry')
             note=kw.get('note','').strip();approval=kw.get('approval_id','').strip()
             prompt=kw.get('prompt',proposal['candidate']['prompt'] if proposal else '')
             if proposal:
@@ -1305,7 +1402,7 @@ def create_from_preview(root, preview_root, spec, *, note):
         prompts=spec.get('prompts')
         requested=len(prompts) if prompts is not None else spec.get('count',1)
         if type(requested) is not int or requested not in (1,6):raise ValueError('Prepare one or six delivery images')
-        planned=copy.deepcopy(d.get('shot_plan'))
+        planned=copy.deepcopy(effective_shot_plan(d))
         if planned is not None:
             if selected is not None and not {r['sha256'] for r in planned['coverage']}<=set(selected):
                 raise ValueError('Garment selection cannot drop frozen shot coverage; prepare an explicit plan revision first')
@@ -1352,7 +1449,7 @@ def export_model(root, destination, name, *, include_accepted=False, accepted_sc
 
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('command',choices=['init','status','export','export-web-execution','authorize','mode','reserve','bind','unknown','failed','returned','accept','reject','audit-reject','review-output','revise-pending','retry-authorize','confirm-model','reject-model','continue-authorize','export-model','enable-failure-recovery','reconcile-failure','finish-preview','prepare-delivery','revise-preview','cancel-preview-revision']);p.add_argument('--task',type=Path,required=True);p.add_argument('--spec',type=Path);p.add_argument('--destination',type=Path);p.add_argument('--preview-task',type=Path);p.add_argument('--decision',choices=['stop','direction-confirmed']);p.add_argument('--name');p.add_argument('--look',type=int);p.add_argument('--note');p.add_argument('--limit',type=int);p.add_argument('--mode',choices=['manual','automatic']);p.add_argument('--ready',action='store_true');p.add_argument('--refs',nargs='*');p.add_argument('--conversation');p.add_argument('--tab');p.add_argument('--file',type=Path);p.add_argument('--failure-receipt',type=Path);p.add_argument('--reason');p.add_argument('--request-check-completed',action='store_true');p.add_argument('--qa',choices=['qa-pass','qa-user-review','qa-retry']);p.add_argument('--execution-manifest',type=Path);p.add_argument('--expected-submission-sha256');p.add_argument('--expected-output-sha256');p.add_argument('--expected-prompt-sha256');p.add_argument('--expected-plan-sha256');p.add_argument('--expected-candidate-sha256');p.add_argument('--expected-attempt',type=int);p.add_argument('--approval-id');p.add_argument('--prompt-file',type=Path);p.add_argument('--model-spec',type=Path);p.add_argument('--include-accepted-reference',action='store_true');p.add_argument('--accepted-scope',choices=['face','full']);a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('command',choices=['init','status','export','export-web-execution','authorize','mode','reserve','bind','unknown','failed','returned','accept','reject','audit-reject','review-output','revise-pending','retry-authorize','confirm-model','reject-model','continue-authorize','export-model','enable-failure-recovery','reconcile-failure','finish-preview','prepare-delivery','revise-preview','cancel-preview-revision','compose-preview']);p.add_argument('--task',type=Path,required=True);p.add_argument('--spec',type=Path);p.add_argument('--destination',type=Path);p.add_argument('--preview-task',type=Path);p.add_argument('--decision',choices=['stop','direction-confirmed']);p.add_argument('--name');p.add_argument('--look',type=int);p.add_argument('--note');p.add_argument('--limit',type=int);p.add_argument('--mode',choices=['manual','automatic']);p.add_argument('--ready',action='store_true');p.add_argument('--refs',nargs='*');p.add_argument('--conversation');p.add_argument('--tab');p.add_argument('--file',type=Path);p.add_argument('--failure-receipt',type=Path);p.add_argument('--reason');p.add_argument('--request-check-completed',action='store_true');p.add_argument('--qa',choices=['qa-pass','qa-user-review','qa-retry']);p.add_argument('--execution-manifest',type=Path);p.add_argument('--expected-submission-sha256');p.add_argument('--expected-output-sha256');p.add_argument('--expected-donor-sha256');p.add_argument('--rectangle',nargs=4,type=int);p.add_argument('--expected-prompt-sha256');p.add_argument('--expected-plan-sha256');p.add_argument('--expected-candidate-sha256');p.add_argument('--expected-attempt',type=int);p.add_argument('--approval-id');p.add_argument('--prompt-file',type=Path);p.add_argument('--model-spec',type=Path);p.add_argument('--include-accepted-reference',action='store_true');p.add_argument('--accepted-scope',choices=['face','full']);a=p.parse_args()
     try:
         if a.command!='export-model' and (a.include_accepted_reference or a.accepted_scope is not None):
             raise ValueError('Accepted-reference options are only for export-model')
@@ -1376,6 +1473,10 @@ def main():
                 revision=json.loads(a.spec.read_text(encoding='utf-8'))
                 if not isinstance(revision,dict) or set(revision)-{'model','shot_plan','visual_plan','prompt','garment_references'}:raise ValueError('Preview revision spec contains only model, shot_plan, visual_plan, prompt and garment_references')
                 args.update(revision)
+            if a.command=='compose-preview' and a.spec:
+                local=json.loads(a.spec.read_text(encoding='utf-8'))
+                if not isinstance(local,dict) or set(local)!={'shot_plan'}:raise ValueError('Local composition spec contains only the reviewed shot_plan')
+                args.update(local)
             if a.command=='continue-authorize':
                 spec=json.loads(a.spec.read_text(encoding='utf-8'));args.update(context=spec['context'],prompts=spec.get('prompts'))
                 if 'real_face_looks' in spec:args['real_face_looks']=spec['real_face_looks']
