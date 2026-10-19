@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "status": "executed-with-open-findings",
-  "updated_at": "2026-10-19T05:08:26.926434+00:00",
+  "updated_at": "2026-10-19T07:40:34.441610+00:00",
   "note": "Fresh isolated Codex subagent actions and answers were retained; root operator performed authorized image calls. Model conversation execution does not imply visual acceptance. No authentic thread ID is retained in these artifacts; case/agent names are not substituted. Latest D04 followup is root-coordinated continuation, not another fresh isolated dialogue pass.",
   "counts": {
     "all_planned_cases": 15,
@@ -175,9 +175,14 @@
           5
         ],
         "commercial_ready": false,
-        "summary": "3/5构图偏离；头向出现近镜头、右看和下视变化，不能由此宣称整组通过。"
+        "summary": "六张已返回；3/5各追加一次结构化构图重试，画面局部收近但严格髋部/膝下边界仍未达成，两张维持qa-retry。",
+        "retained_independent_attempts": 8,
+        "latest_retries": [
+          "SR-063",
+          "SR-064"
+        ]
       },
-      "blocking_reason": "成人组仍有3/5构图失败；原60次预算达到上限，跨商品与其他失败/延期项未完成。",
+      "blocking_reason": "第3/5构图仍失败；用户追加2次后的62次总上限已用完。其他原失败/跨商品/延期真人缺证未关闭。",
       "related_requests": {
         "actually_executed_independents": [
           "SR-018",
@@ -199,6 +204,10 @@
         ],
         "uncertain_auto_retry": [
           "SR-058"
+        ],
+        "actually_executed_crop_retries": [
+          "SR-063",
+          "SR-064"
         ]
       },
       "historical_before_accepted_composite_followup": {

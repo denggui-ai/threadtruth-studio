@@ -282,19 +282,21 @@
     }
   ],
   "budget": {
-    "hard_ceiling": 60,
+    "hard_ceiling": 62,
     "planned_primary_calls": 56,
     "conditional_reserve_calls": 4,
-    "actual_image_calls": 58,
+    "actual_image_calls": 60,
     "formula": "36 direction singles + 10 remaining set images + 4 preview grids + 2 cross-SKU + 1 edit + 3 baseline controls = 56; 4 conditional reserve = 60",
     "counting_rule": "Count every actual generation/edit dispatch, including failed, timed-out and rejected attempts. Unknown results stay charged; recover the same request before deciding any retry. One six-cell grid is one call and zero independent final images.",
-    "confirmed_dispatches": 58,
-    "historical_reserved_attempts": 59,
+    "confirmed_dispatches": 60,
+    "historical_reserved_attempts": 61,
     "uncertain_additional_calls": 1,
-    "conservative_used": 60,
+    "conservative_used": 62,
     "conditional_reserve_remaining": 0,
     "remote_web_tool_call_count": "unverified",
-    "accounting_note": "原60上限已达到：58次确认发送、1次发出前失败预留、1次额外不确定调用。用户分别授权后续SR061/SR062及本组，不清零原失败，也不自动补图。远端内部工具次数仍unverified。"
+    "accounting_note": "原60次之外用户明确追加2次，仅重试第3/5张一次。新旧结果全部保留；60次确认发送+1次发出前失败预留+1次额外不确定=62。额度已用完，无自动追加，远端内部工具次数仍unverified。",
+    "original_hard_ceiling": 60,
+    "explicit_extension_calls": 2
   },
   "coverage_contract": {
     "directions": 36,
@@ -3503,6 +3505,37 @@
       "evidence": "../2026-10-19-development-closeout.md#成人六张续生实际结果"
     }
   ],
-  "updated_at": "2026-10-19T05:08:26.926434+00:00",
-  "visual_plan_commit": "f531e1a18947ced0901a54b9d872709e089677fa"
+  "updated_at": "2026-10-19T07:40:34.441610+00:00",
+  "visual_plan_commit": "f531e1a18947ced0901a54b9d872709e089677fa",
+  "authorized_crop_retry_followup": {
+    "at": "2026-10-19T07:40:34.441610+00:00",
+    "user_scope": "允许追加2次，仅重试第3、5张",
+    "runtime_commit": "043740c",
+    "requests": [
+      {
+        "request_id": "SR-063",
+        "look": 3,
+        "sha256": "94b008928b4be293dcbd6f92224b568dc85a14612c1b799b95b294e6dd806d01",
+        "pixels": [
+          1024,
+          1536
+        ],
+        "qa": "qa-retry",
+        "note": "qa-retry：相比SR043取景收近、完整下摆/靴子不再入镜、闭襟无原下部黑色内层，坐姿/右向视线/双手在腿上成立。但约定头到髋部，实际下缘仍延至上腿，背景也见地面，未严格达到本次收至髋部的候选边界。主要商品保持；细扣/衣料与严格同脸待人工，不将局部改善记作全部通过。保留原两版，不再重试。"
+      },
+      {
+        "request_id": "SR-064",
+        "look": 5,
+        "sha256": "357e45a4ff952c47cd688e5637246922c3c2a977a4c38755229d9e3062bf3cd4",
+        "pixels": [
+          1024,
+          1536
+        ],
+        "qa": "qa-retry",
+        "note": "qa-retry：相比SR045不再见靴子，取景略近，但宽下摆毛绒边仍大段进入画面并被下缘截断，未满足候选中下摆留在画外的膝下边界；躯干前倾仍弱，低头下视不能替代前倾。双手衣外、闭襟、双圆扣及主要酒红/棕色商品特征保留。记录局部改善，不判构图通过；旧图/新图保留，不再重试。"
+      }
+    ],
+    "result": "两张均qa-retry，结构化修改承接实际跑通，严格画面目标未全部达成",
+    "evidence": "../2026-10-19-development-closeout.md#两次追加重试实际结果"
+  }
 }

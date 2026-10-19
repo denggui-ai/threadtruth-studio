@@ -2565,5 +2565,23 @@
       5
     ],
     "installation_allowed": false
+  },
+  "latest_crop_retry_followup": {
+    "captured_at_utc": "2026-10-19T07:40:34.441610+00:00",
+    "runtime_commit": "043740c",
+    "ref": "../2026-10-19-development-closeout.md#两次追加重试实际结果",
+    "note": "原60槽与较早统计保持历史快照；以下为用户另外授权2次后的最新累计。",
+    "confirmed_dispatched": 60,
+    "historical_reserved": 61,
+    "uncertain_additional": 1,
+    "conservative_used": 62,
+    "ceiling": 62,
+    "retained_originals": 60,
+    "retry_request_ids": [
+      "SR-063",
+      "SR-064"
+    ],
+    "qa": "qa-retry",
+    "installation_allowed": false
   }
 }
