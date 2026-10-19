@@ -412,7 +412,7 @@
         "SR-051"
       ],
       "user_brief": "全新对话仅从已接受资料包恢复成人AI身份，换第二个SKU。",
-      "status": "prepared-local-not-executed-new-dialogue",
+      "status": "root-operated-one-image-returned-human-review-pending",
       "actual_thread_id": null,
       "evidence_ref": "live-results.json#D09",
       "review": {
@@ -426,7 +426,7 @@
         "qa": null,
         "summary": "SR-051未发出，无D09独立图。"
       },
-      "blocking_reason": "首张人物确认与资料包缺口已解除；本地请求已准备。原62次已用完，尚未获本案例新增实图授权；新对话及图片结果未验证。",
+      "blocking_reason": "本例图已返回，人物/商品细节待人工确认；不证明通用跨SKU或独立新对话行为通过。",
       "related_requests": {
         "planned": [
           "SR-051"
@@ -446,6 +446,19 @@
         "new_task_authorized": false,
         "remaining_blocker": "No new image authority beyond exhausted62 ceiling",
         "ref": "../2026-10-19-development-closeout.md#跨商品准备与剩余工作优先级"
+      },
+      "actual_image_followup": {
+        "request_id": "SR-051",
+        "calls": 1,
+        "qa": "qa-user-review",
+        "pixels": [
+          1024,
+          1536
+        ],
+        "commercial_ready": false,
+        "route": "chatgpt_web",
+        "operator": "root",
+        "no_additional_fresh_dialogue_pass_claimed": true
       }
     },
     {

@@ -282,21 +282,21 @@
     }
   ],
   "budget": {
-    "hard_ceiling": 62,
+    "hard_ceiling": 63,
     "planned_primary_calls": 56,
     "conditional_reserve_calls": 4,
-    "actual_image_calls": 60,
+    "actual_image_calls": 61,
     "formula": "36 direction singles + 10 remaining set images + 4 preview grids + 2 cross-SKU + 1 edit + 3 baseline controls = 56; 4 conditional reserve = 60",
     "counting_rule": "Count every actual generation/edit dispatch, including failed, timed-out and rejected attempts. Unknown results stay charged; recover the same request before deciding any retry. One six-cell grid is one call and zero independent final images.",
-    "confirmed_dispatches": 60,
-    "historical_reserved_attempts": 61,
+    "confirmed_dispatches": 61,
+    "historical_reserved_attempts": 62,
     "uncertain_additional_calls": 1,
-    "conservative_used": 62,
+    "conservative_used": 63,
     "conditional_reserve_remaining": 0,
     "remote_web_tool_call_count": "unverified",
-    "accounting_note": "原60次之外用户明确追加2次，仅重试第3/5张一次。新旧结果全部保留；60次确认发送+1次发出前失败预留+1次额外不确定=62。额度已用完，无自动追加，远端内部工具次数仍unverified。",
+    "accounting_note": "用户在额外1次SR051上下文明确继续执行，63总上限；61确认发送+1发出前失败预留+1额外不确定=63。仅本单张，未续生。",
     "original_hard_ceiling": 60,
-    "explicit_extension_calls": 2
+    "explicit_extension_calls": 3
   },
   "coverage_contract": {
     "directions": 36,
@@ -3091,27 +3091,28 @@
       "identity_fixture_id": "ai-adult-public",
       "delivery": "single-image",
       "planned_calls": 1,
-      "execution_status": "prepared-zero-attempts-awaiting-new-generation-authorization",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [
         "SR-018"
       ],
-      "blockers": [
-        "global62-budget-exhausted-no-new-generation-authorization"
-      ],
+      "blockers": [],
       "canvas": {
         "ratio": "2:3",
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "user_request_zh": "在全新对话中读取已验收成人AI人物资料包，为第二个SKU白马甲生成一张通勤图；沿用身份，不把第一个SKU大衣的材质、领口、扣件带过来。",
       "identity_package_origin": "SR-018",
-      "confirmed_dispatches": 0,
+      "confirmed_dispatches": 1,
       "uncertain_additional_call": false,
       "actual_result_ref": "live-results.json#SR-051",
-      "qa": "not-run-no-output",
+      "qa": "qa-user-review",
       "historical_dependency_before_preparation": {
         "execution_status": "blocked-by-unaccepted-D04-adult-first-image-and-package",
         "blockers": [
@@ -3130,7 +3131,8 @@
         },
         "evidence": "../2026-10-19-development-closeout.md#跨商品准备与剩余工作优先级",
         "limits": "原人物依据已穿白马甲，本例不能隔离人物包贡献或证明通用换款稳定。"
-      }
+      },
+      "actual_output_sha256": "929b0375ad29f2d2d9ff5b522016df7a9d5a48381725c8593045a4b9b2dcae8a"
     },
     {
       "request_id": "SR-052",
