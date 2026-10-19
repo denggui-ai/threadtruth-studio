@@ -2547,5 +2547,23 @@
     "source_scope": "root-current-conversation; not fresh isolated dialogue",
     "qa": "qa-retry",
     "evidence_ref": "image-edit-followup.md"
+  },
+  "latest_adult_six_followup": {
+    "captured_at_utc": "2026-10-19T05:08:26.926434+00:00",
+    "ref": "../2026-10-19-development-closeout.md#成人六张续生实际结果",
+    "note": "上方原统计保留其历史快照；以下为后续最新累计，不改写旧图结论。",
+    "confirmed_dispatched": 58,
+    "historical_reserved": 59,
+    "uncertain_additional": 1,
+    "conservative_used": 60,
+    "ceiling": 60,
+    "retained_originals": 58,
+    "adult_independents": 6,
+    "adult_group_qa": "qa-retry",
+    "adult_failed_looks": [
+      3,
+      5
+    ],
+    "installation_allowed": false
   }
 }

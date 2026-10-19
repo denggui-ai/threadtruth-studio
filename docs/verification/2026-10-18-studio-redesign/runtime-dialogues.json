@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "status": "executed-with-open-findings",
-  "updated_at": "2026-10-18T23:52:19.523424+00:00",
-  "note": "Fresh isolated Codex subagent actions and answers were retained; root operator performed authorized image calls. Model conversation execution does not imply visual acceptance. No authentic thread ID is retained in these artifacts; case/agent names are not substituted.",
+  "updated_at": "2026-10-19T05:08:26.926434+00:00",
+  "note": "Fresh isolated Codex subagent actions and answers were retained; root operator performed authorized image calls. Model conversation execution does not imply visual acceptance. No authentic thread ID is retained in these artifacts; case/agent names are not substituted. Latest D04 followup is root-coordinated continuation, not another fresh isolated dialogue pass.",
   "counts": {
     "all_planned_cases": 15,
     "original_cases": 12,
@@ -150,27 +150,36 @@
         "SR-046"
       ],
       "user_brief": "成年人AI、只有衣服正面，预览修订一次，接受首图后完成含替代镜头的六图。",
-      "status": "executed-preview-rejected-dependencies-blocked",
+      "status": "executed-six-returned-group-visual-failed",
       "actual_thread_id": null,
       "evidence_ref": "live-results.json#D04",
       "review": {
         "status": "executed-preview-rejected-dependencies-blocked",
-        "summary": "早期actions/answer只记录准备；最终actual-status/final-actions记录实际预览、发出前失败及修订，不能沿用早期0调用为最终状态。"
+        "summary": "早期actions/answer只记录准备；最终actual-status/final-actions记录实际预览、发出前失败及修订，不能沿用早期0调用为最终状态。",
+        "scope": "Historical initial fresh-dialogue review; current root continuation is separately recorded below."
       },
-      "actual_scope": "成年已有AI人物、仅衣服正面资料的网页预览与多次修订；后续独立六张未启动。",
+      "actual_scope": "保留旧预览失败；用户追加授权修改与局部合成后接受方向，再明确接受独立首张人物，串行完成其余5张。",
       "actual_executed": true,
       "image_result": {
-        "status": "preview-rejected",
+        "status": "six-returned-group-qa-retry",
         "qa": "qa-retry",
-        "preview_images": 3,
-        "independent_images": 0,
-        "summary": "SR-060部分修复成立，但第1格躯干回转仍不足、第1–5格右向离镜视线重复；方向和独立首张人物均未接受。"
+        "independent_images": 6,
+        "technical_user_review": [
+          1,
+          2,
+          4,
+          6
+        ],
+        "technical_retry": [
+          3,
+          5
+        ],
+        "commercial_ready": false,
+        "summary": "3/5构图偏离；头向出现近镜头、右看和下视变化，不能由此宣称整组通过。"
       },
-      "blocking_reason": "失败预览未得到合格方向及独立首图人物确认，阻断SR-018/SR-042–046及D09复用。",
+      "blocking_reason": "成人组仍有3/5构图失败；原60次预算达到上限，跨商品与其他失败/延期项未完成。",
       "related_requests": {
-        "planned": [
-          "SR-048",
-          "SR-049",
+        "actually_executed_independents": [
           "SR-018",
           "SR-042",
           "SR-043",
@@ -178,27 +187,65 @@
           "SR-045",
           "SR-046"
         ],
-        "actually_executed_for_this_case": [
+        "retained_original_and_followup_previews": [
           "SR-048",
           "SR-059",
-          "SR-060"
+          "SR-060",
+          "SR-061",
+          "SR-062"
         ],
-        "not_executed_for_this_case": [
-          "SR-018",
-          "SR-042",
-          "SR-043",
-          "SR-044",
-          "SR-045",
-          "SR-046"
-        ],
-        "separate_validation_not_counted_here": [],
         "failed_before_send": [
           "SR-049"
         ],
         "uncertain_auto_retry": [
           "SR-058"
         ]
-      }
+      },
+      "historical_before_accepted_composite_followup": {
+        "status": "executed-preview-rejected-dependencies-blocked",
+        "actual_scope": "成年已有AI人物、仅衣服正面资料的网页预览与多次修订；后续独立六张未启动。",
+        "image_result": {
+          "status": "preview-rejected",
+          "qa": "qa-retry",
+          "preview_images": 3,
+          "independent_images": 0,
+          "summary": "SR-060部分修复成立，但第1格躯干回转仍不足、第1–5格右向离镜视线重复；方向和独立首张人物均未接受。"
+        },
+        "blocking_reason": "失败预览未得到合格方向及独立首图人物确认，阻断SR-018/SR-042–046及D09复用。",
+        "related_requests": {
+          "planned": [
+            "SR-048",
+            "SR-049",
+            "SR-018",
+            "SR-042",
+            "SR-043",
+            "SR-044",
+            "SR-045",
+            "SR-046"
+          ],
+          "actually_executed_for_this_case": [
+            "SR-048",
+            "SR-059",
+            "SR-060"
+          ],
+          "not_executed_for_this_case": [
+            "SR-018",
+            "SR-042",
+            "SR-043",
+            "SR-044",
+            "SR-045",
+            "SR-046"
+          ],
+          "separate_validation_not_counted_here": [],
+          "failed_before_send": [
+            "SR-049"
+          ],
+          "uncertain_auto_retry": [
+            "SR-058"
+          ]
+        }
+      },
+      "followup_ref": "../2026-10-19-development-closeout.md#成人六张续生实际结果"
     },
     {
       "dialogue_id": "D05",

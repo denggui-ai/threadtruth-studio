@@ -285,16 +285,16 @@
     "hard_ceiling": 60,
     "planned_primary_calls": 56,
     "conditional_reserve_calls": 4,
-    "actual_image_calls": 50,
+    "actual_image_calls": 58,
     "formula": "36 direction singles + 10 remaining set images + 4 preview grids + 2 cross-SKU + 1 edit + 3 baseline controls = 56; 4 conditional reserve = 60",
     "counting_rule": "Count every actual generation/edit dispatch, including failed, timed-out and rejected attempts. Unknown results stay charged; recover the same request before deciding any retry. One six-cell grid is one call and zero independent final images.",
-    "confirmed_dispatches": 50,
-    "historical_reserved_attempts": 51,
+    "confirmed_dispatches": 58,
+    "historical_reserved_attempts": 59,
     "uncertain_additional_calls": 1,
-    "conservative_used": 52,
+    "conservative_used": 60,
     "conditional_reserve_remaining": 0,
     "remote_web_tool_call_count": "unverified",
-    "accounting_note": "Confirmed operator dispatches exclude SR-049, which failed before Send. Its reserved slot remains charged; SR-058 holds one possible automatic web call. The 60 ceiling was not exhausted; unavailable dependencies are not reassigned to unplanned retries."
+    "accounting_note": "原60上限已达到：58次确认发送、1次发出前失败预留、1次额外不确定调用。用户分别授权后续SR061/SR062及本组，不清零原失败，也不自动补图。远端内部工具次数仍unverified。"
   },
   "coverage_contract": {
     "directions": 36,
@@ -1338,20 +1338,21 @@
       "identity_fixture_id": "ai-adult-public",
       "delivery": "six-image-set-first",
       "planned_calls": 1,
-      "execution_status": "blocked-by-D04-failed-preview",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [
         "SR-049"
       ],
-      "blockers": [
-        "blocked-by-D04-failed-preview"
-      ],
+      "blockers": [],
       "canvas": {
         "ratio": "2:3",
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "direction_label": "女性通勤",
       "scene_brief": "清楚呈现衣服的现代办公楼廊道",
@@ -1373,10 +1374,26 @@
       ],
       "group_id": "web-adult-six",
       "group_position": 1,
-      "confirmed_dispatches": 0,
+      "confirmed_dispatches": 1,
       "uncertain_additional_call": false,
-      "actual_result_ref": "live-results.json#SR-018",
-      "qa": "not-run-no-output"
+      "actual_result_ref": "../2026-10-19-development-closeout.md#成人六张续生实际结果",
+      "qa": "qa-user-review",
+      "historical_before_accepted_composite_followup": {
+        "execution_status": "blocked-by-D04-failed-preview",
+        "qa": "not-run-no-output",
+        "attempts": 0,
+        "blockers": [
+          "blocked-by-D04-failed-preview"
+        ]
+      },
+      "actual_execution": {
+        "runtime_commit": "b5b938d",
+        "origin": "user-accepted-local-composite-direction",
+        "plan_sha256": "82447235476f1355f2be9d664ec352e3876f3569a9275ce53f0f92dba32b8c94",
+        "output_sha256": "f8ccbf191ee86af8fb4f10a89d5c0e6fb8f2316f0e8cf5627c00211043ef5247",
+        "review": "Actual original1024x1536 independent full-body image reviewed: torso turn, hands outside, closed front, major burgundy/trim/clasp facts and office lighting hold. Fine hardware/precise fit and actual independent AI person remain user-review. No human model confirmation yet; wait before looks2-6.",
+        "note": "Original planned pose/brief above is historical; actual executed Shot is the later user-confirmed frozen plan."
+      }
     },
     {
       "request_id": "SR-019",
@@ -2594,20 +2611,21 @@
       "identity_fixture_id": "ai-adult-public",
       "delivery": "six-image-set-continuation",
       "planned_calls": 1,
-      "execution_status": "blocked-by-D04-failed-preview",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [
         "SR-018"
       ],
-      "blockers": [
-        "blocked-by-D04-failed-preview"
-      ],
+      "blockers": [],
       "canvas": {
         "ratio": "2:3",
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "group_id": "web-adult-six",
       "group_position": 2,
@@ -2620,10 +2638,26 @@
       },
       "scene_brief": "清楚呈现衣服的现代办公楼廊道",
       "user_request_zh": "继续已验收的同一模特同一服饰六图组，第2张；服装与身份绑定保持，头向和视线遵守本张pose，不重复整组六次同一头向。只生成一张独立成片。",
-      "confirmed_dispatches": 0,
+      "confirmed_dispatches": 1,
       "uncertain_additional_call": false,
-      "actual_result_ref": "live-results.json#SR-042",
-      "qa": "not-run-no-output"
+      "actual_result_ref": "../2026-10-19-development-closeout.md#成人六张续生实际结果",
+      "qa": "qa-user-review",
+      "historical_before_accepted_composite_followup": {
+        "execution_status": "blocked-by-D04-failed-preview",
+        "qa": "not-run-no-output",
+        "attempts": 0,
+        "blockers": [
+          "blocked-by-D04-failed-preview"
+        ]
+      },
+      "actual_execution": {
+        "runtime_commit": "b5b938d",
+        "origin": "user-accepted-local-composite-direction",
+        "plan_sha256": "82447235476f1355f2be9d664ec352e3876f3569a9275ce53f0f92dba32b8c94",
+        "output_sha256": "c1afd6a8eed542cd6df7f80fceeb571fca95a2b46eeea062cbf154005710c667",
+        "review": "原图1024x1536，可信肩背靠墙与脚部支撑；双手衣外、闭襟及成对扣保留；头近正面看镜头，略侧倾。脸与首张视觉相近。扣件微细、面料及衣长比例待人工比对，不是image-ready。",
+        "note": "Original planned pose/brief above is historical; actual executed Shot is the later user-confirmed frozen plan."
+      }
     },
     {
       "request_id": "SR-043",
@@ -2638,21 +2672,22 @@
       "identity_fixture_id": "ai-adult-public",
       "delivery": "six-image-set-continuation",
       "planned_calls": 1,
-      "execution_status": "blocked-by-D04-failed-preview",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [
         "SR-018",
         "SR-042"
       ],
-      "blockers": [
-        "blocked-by-D04-failed-preview"
-      ],
+      "blockers": [],
       "canvas": {
         "ratio": "2:3",
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "group_id": "web-adult-six",
       "group_position": 3,
@@ -2665,10 +2700,26 @@
       },
       "scene_brief": "清楚呈现衣服的现代办公楼廊道",
       "user_request_zh": "继续已验收的同一模特同一服饰六图组，第3张；服装与身份绑定保持，头向和视线遵守本张pose，不重复整组六次同一头向。只生成一张独立成片。",
-      "confirmed_dispatches": 0,
+      "confirmed_dispatches": 1,
       "uncertain_additional_call": false,
-      "actual_result_ref": "live-results.json#SR-043",
-      "qa": "not-run-no-output"
+      "actual_result_ref": "../2026-10-19-development-closeout.md#成人六张续生实际结果",
+      "qa": "qa-retry",
+      "historical_before_accepted_composite_followup": {
+        "execution_status": "blocked-by-D04-failed-preview",
+        "qa": "not-run-no-output",
+        "attempts": 0,
+        "blockers": [
+          "blocked-by-D04-failed-preview"
+        ]
+      },
+      "actual_execution": {
+        "runtime_commit": "b5b938d",
+        "origin": "user-accepted-local-composite-direction",
+        "plan_sha256": "82447235476f1355f2be9d664ec352e3876f3569a9275ce53f0f92dba32b8c94",
+        "output_sha256": "9e30250c0ed823105e9329d43d804f5c33e8e86502a8930f361948d20216c55f",
+        "review": "qa-retry：要求头到髋部半身且不显示完整下摆/腿鞋，实际扩大到下摆及腿/靴局部；下部前襟打开可见黑色内层。坐姿与右看实现，不能覆盖景别及闭襟失败。保留原图，不自动重试。",
+        "note": "Original planned pose/brief above is historical; actual executed Shot is the later user-confirmed frozen plan."
+      }
     },
     {
       "request_id": "SR-044",
@@ -2683,21 +2734,22 @@
       "identity_fixture_id": "ai-adult-public",
       "delivery": "six-image-set-continuation",
       "planned_calls": 1,
-      "execution_status": "blocked-by-D04-failed-preview",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [
         "SR-018",
         "SR-043"
       ],
-      "blockers": [
-        "blocked-by-D04-failed-preview"
-      ],
+      "blockers": [],
       "canvas": {
         "ratio": "2:3",
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "group_id": "web-adult-six",
       "group_position": 4,
@@ -2710,10 +2762,26 @@
       },
       "scene_brief": "清楚呈现衣服的现代办公楼廊道",
       "user_request_zh": "继续已验收的同一模特同一服饰六图组，第4张；服装与身份绑定保持，头向和视线遵守本张pose，不重复整组六次同一头向。只生成一张独立成片。",
-      "confirmed_dispatches": 0,
+      "confirmed_dispatches": 1,
       "uncertain_additional_call": false,
-      "actual_result_ref": "live-results.json#SR-044",
-      "qa": "not-run-no-output"
+      "actual_result_ref": "../2026-10-19-development-closeout.md#成人六张续生实际结果",
+      "qa": "qa-user-review",
+      "historical_before_accepted_composite_followup": {
+        "execution_status": "blocked-by-D04-failed-preview",
+        "qa": "not-run-no-output",
+        "attempts": 0,
+        "blockers": [
+          "blocked-by-D04-failed-preview"
+        ]
+      },
+      "actual_execution": {
+        "runtime_commit": "b5b938d",
+        "origin": "user-accepted-local-composite-direction",
+        "plan_sha256": "82447235476f1355f2be9d664ec352e3876f3569a9275ce53f0f92dba32b8c94",
+        "output_sha256": "cd55038e2468cc0c6722732b664e7d801e2b90039b1de378f5d91a736e8b1607",
+        "review": "1024x1536独立全身；前后脚错开与手臂摆动形成轻步，双脚在框内；双手衣外、闭襟、双圆扣、酒红绒面与棕色镶领袖摆保留。脸近正面略向画面右、视线略越镜头。扣件精细纹样、衣长精确比例及严格同脸需人工核对，不是image-ready。",
+        "note": "Original planned pose/brief above is historical; actual executed Shot is the later user-confirmed frozen plan."
+      }
     },
     {
       "request_id": "SR-045",
@@ -2728,21 +2796,22 @@
       "identity_fixture_id": "ai-adult-public",
       "delivery": "six-image-set-continuation",
       "planned_calls": 1,
-      "execution_status": "blocked-by-D04-failed-preview",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [
         "SR-018",
         "SR-044"
       ],
-      "blockers": [
-        "blocked-by-D04-failed-preview"
-      ],
+      "blockers": [],
       "canvas": {
         "ratio": "2:3",
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "group_id": "web-adult-six",
       "group_position": 5,
@@ -2755,10 +2824,26 @@
       },
       "scene_brief": "清楚呈现衣服的现代办公楼廊道",
       "user_request_zh": "继续已验收的同一模特同一服饰六图组，第5张；服装与身份绑定保持，头向和视线遵守本张pose，不重复整组六次同一头向。只生成一张独立成片。",
-      "confirmed_dispatches": 0,
+      "confirmed_dispatches": 1,
       "uncertain_additional_call": false,
-      "actual_result_ref": "live-results.json#SR-045",
-      "qa": "not-run-no-output"
+      "actual_result_ref": "../2026-10-19-development-closeout.md#成人六张续生实际结果",
+      "qa": "qa-retry",
+      "historical_before_accepted_composite_followup": {
+        "execution_status": "blocked-by-D04-failed-preview",
+        "qa": "not-run-no-output",
+        "attempts": 0,
+        "blockers": [
+          "blocked-by-D04-failed-preview"
+        ]
+      },
+      "actual_execution": {
+        "runtime_commit": "b5b938d",
+        "origin": "user-accepted-local-composite-direction",
+        "plan_sha256": "82447235476f1355f2be9d664ec352e3876f3569a9275ce53f0f92dba32b8c94",
+        "output_sha256": "312966224854e27ea6e0854969c36e60ce139c4c6a4e64a55a4fe71e30f43ca7",
+        "review": "qa-retry：明确膝上景别且不得为显示下摆/腿鞋/地面扩大画面，实际显示完整宽下摆、靴局部及地面；上身前倾较弱，不能据低头代替身体前倾。下视、双手衣外与闭襟实现，仍不关闭构图失败。原图保留，不自动重试。",
+        "note": "Original planned pose/brief above is historical; actual executed Shot is the later user-confirmed frozen plan."
+      }
     },
     {
       "request_id": "SR-046",
@@ -2773,21 +2858,22 @@
       "identity_fixture_id": "ai-adult-public",
       "delivery": "six-image-set-continuation",
       "planned_calls": 1,
-      "execution_status": "blocked-by-D04-failed-preview",
-      "attempts": 0,
+      "execution_status": "returned",
+      "attempts": 1,
       "depends_on": [
         "SR-018",
         "SR-045"
       ],
-      "blockers": [
-        "blocked-by-D04-failed-preview"
-      ],
+      "blockers": [],
       "canvas": {
         "ratio": "2:3",
         "orientation": "portrait",
         "requested_pixels": null,
         "native_reference_limit": 5,
-        "actual_pixels": null
+        "actual_pixels": [
+          1024,
+          1536
+        ]
       },
       "group_id": "web-adult-six",
       "group_position": 6,
@@ -2800,10 +2886,26 @@
       },
       "scene_brief": "清楚呈现衣服的现代办公楼廊道",
       "user_request_zh": "继续已验收的同一模特同一服饰六图组，第6张；服装与身份绑定保持，头向和视线遵守本张pose，不重复整组六次同一头向。只生成一张独立成片。 本件只有正面，使用已接受的正面领口搭扣细节替代未知背面；不生成背面。",
-      "confirmed_dispatches": 0,
+      "confirmed_dispatches": 1,
       "uncertain_additional_call": false,
-      "actual_result_ref": "live-results.json#SR-046",
-      "qa": "not-run-no-output"
+      "actual_result_ref": "../2026-10-19-development-closeout.md#成人六张续生实际结果",
+      "qa": "qa-user-review",
+      "historical_before_accepted_composite_followup": {
+        "execution_status": "blocked-by-D04-failed-preview",
+        "qa": "not-run-no-output",
+        "attempts": 0,
+        "blockers": [
+          "blocked-by-D04-failed-preview"
+        ]
+      },
+      "actual_execution": {
+        "runtime_commit": "b5b938d",
+        "origin": "user-accepted-local-composite-direction",
+        "plan_sha256": "82447235476f1355f2be9d664ec352e3876f3569a9275ce53f0f92dba32b8c94",
+        "output_sha256": "d52de8e640913a11a52992231b0a011db66e438bfe36dce57708ed910b539be7",
+        "review": "1024x1536独立完整全身，正面自然站姿，双脚落地与安全边距；双手衣外、闭襟，深酒红绒面、棕色卷毛镶领门襟袖口宽下摆、双圆扣保留。中性近正面头颈并看近镜头。精细金属构造、面料及精确版型/长度、严格同脸需人工核对；不是image-ready。",
+        "note": "Original planned pose/brief above is historical; actual executed Shot is the later user-confirmed frozen plan."
+      }
     },
     {
       "request_id": "SR-047",
@@ -3393,8 +3495,14 @@
       "date": "2026-10-19",
       "reason": "User selected completion of AI tests first, with real adult testing deferred.",
       "effect": "SR-021 and SR-024 retain their style-image slots using the existing public AI identity. These provide no real-adult evidence. SR-052 real-adult cross-SKU stays deferred."
+    },
+    {
+      "at": "2026-10-19T05:08:26.926434+00:00",
+      "scope": "SR018及SR042–046实际六张续生",
+      "result": "首张人物获明确接受后完成剩5张；3/5构图失败，其余4待人工商品细节核对。SR061/062追加预览/编辑留痕，60/60封顶。",
+      "evidence": "../2026-10-19-development-closeout.md#成人六张续生实际结果"
     }
   ],
-  "updated_at": "2026-10-18T23:52:19.523424+00:00",
+  "updated_at": "2026-10-19T05:08:26.926434+00:00",
   "visual_plan_commit": "f531e1a18947ced0901a54b9d872709e089677fa"
 }
