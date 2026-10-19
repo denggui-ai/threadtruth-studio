@@ -167,6 +167,38 @@ def prompt_check(prompt,context,model=None,shot_plan=None,number=1,real_face_pla
         visual_helper().check_prompt(prompt,visual_plan,look,managed_blocks=blocks)
 
 
+def delivery_retry_candidate(data,row,*,shot_plan=None,visual_plan=None,prompt=None):
+    """Clarify one rejected non-anchor arrangement without replacing shared plans."""
+    if (data['schema_version']!=2 or is_preview(data) or row is None
+            or row['number']==1 or row['state']!='rejected'
+            or any(x['state'] in ('reserved','unknown') for x in data['looks'])):
+        raise ValueError('Revise only a rejected non-anchor delivery with no unresolved request')
+    number=row['number'];index=number-1
+    current_shot=data.get('shot_plan');current_visual=data.get('visual_plan')
+    if current_shot is None or current_visual is None:
+        raise ValueError('Structured delivery retry requires existing shot and visual plans')
+    shot=copy.deepcopy(current_shot if shot_plan is None else shot_plan)
+    visual=copy.deepcopy(current_visual if visual_plan is None else visual_plan)
+    shot_helper().validate(shot,data['references'],context=data['context'],
+        count=face_plan_count(data['context'],len(data['looks'])),identity=data['identity'],
+        real_face_plan=data.get('real_face_plan'),model_source=(data.get('model') or {}).get('source_type'))
+    visual_helper().validate(visual,data['references'],context=data['context'],
+        count=face_plan_count(data['context'],len(data['looks'])),identity=data['identity'])
+    allowed_shot=copy.deepcopy(current_shot)
+    if 'arrangement' in shot['looks'][index]:
+        allowed_shot['looks'][index]['arrangement']=shot['looks'][index]['arrangement']
+    else:allowed_shot['looks'][index].pop('arrangement',None)
+    allowed_visual=copy.deepcopy(current_visual)
+    allowed_visual['shots'][index]['composition']=visual['shots'][index]['composition']
+    if shot!=allowed_shot or visual!=allowed_visual:
+        raise ValueError('Delivery retry changes only this rejected arrangement/composition; keep masters, framing, sources, head/gaze and other shots')
+    if shot==current_shot and visual==current_visual:
+        raise ValueError('Structured delivery retry requires an actual local plan change')
+    compiled=visual_helper().compile_prompt(visual,number) if prompt is None else prompt
+    prompt_check(compiled,data['context'],data.get('model'),shot,number,data.get('real_face_plan'),visual)
+    return dict(shot_plan=shot,visual_plan=visual,prompt=compiled)
+
+
 def preview_candidate(data, row, *, model=None, shot_plan=None, prompt=None, garment_references=None, real_face_plan=None, visual_plan=None, check_sources=True):
     changed=models.validate_model(model if model is not None else data['model'],allow_child=True) if data['identity'] else None
     if changed is not None and (any(changed[k]!=data['model'][k] for k in ('source_type','scope','subject'))
@@ -1114,10 +1146,14 @@ def update(root,event,**kw):
                 raise ValueError('Preview correction limit reached: three additional requests maximum')
             # One explicit grant replaces one rejected/reconciled failed attempt, never resets the task.
             proposal=d.get('preview_revision') if is_preview(d) else None
+            delivery_revision=None
+            if not is_preview(d) and (kw.get('shot_plan') is not None or kw.get('visual_plan') is not None):
+                delivery_revision=delivery_retry_candidate(d,row,shot_plan=kw.get('shot_plan'),
+                    visual_plan=kw.get('visual_plan'),prompt=kw.get('prompt'))
             if is_preview(d) and not proposal and effective_shot_plan(d)!=d.get('shot_plan'):
                 raise ValueError('Retain the locally corrected shot plan through a reviewed preview revision before retry')
             note=kw.get('note','').strip();approval=kw.get('approval_id','').strip()
-            prompt=kw.get('prompt',proposal['candidate']['prompt'] if proposal else '')
+            prompt=delivery_revision['prompt'] if delivery_revision else kw.get('prompt',proposal['candidate']['prompt'] if proposal else '')
             if proposal:
                 for key in ('model','shot_plan','visual_plan','prompt','garment_references'):
                     if key in kw and kw[key]!=proposal['candidate'].get(key):
@@ -1161,6 +1197,13 @@ def update(root,event,**kw):
                     d.update(real_face_plan=copy.deepcopy(candidate['real_face_plan']),real_face_plan_sha256=object_hash(candidate['real_face_plan']))
                 old['preview_revision']=copy.deepcopy(proposal)
                 d.pop('preview_revision')
+            elif delivery_revision:
+                for field in ('shot_plan','visual_plan'):
+                    previous=d[field];changed=delivery_revision[field]
+                    if changed!=previous:
+                        d.setdefault(field+'_history',[]).append(dict(plan=copy.deepcopy(previous),sha256=object_hash(previous),note=note))
+                        d.update({field:copy.deepcopy(changed),field+'_sha256':object_hash(changed)})
+                d['plan_version']=d.get('plan_version',0)+1
             elif kw.get('shot_plan') is not None or kw.get('visual_plan') is not None:
                 raise ValueError('Change shot/visual plans through a reviewed preview revision')
             if kw.get('model') is not None and not proposal:
@@ -1472,6 +1515,11 @@ def main():
             if a.command=='revise-preview' and a.spec:
                 revision=json.loads(a.spec.read_text(encoding='utf-8'))
                 if not isinstance(revision,dict) or set(revision)-{'model','shot_plan','visual_plan','prompt','garment_references'}:raise ValueError('Preview revision spec contains only model, shot_plan, visual_plan, prompt and garment_references')
+                args.update(revision)
+            if a.command=='retry-authorize' and a.spec:
+                revision=json.loads(a.spec.read_text(encoding='utf-8'))
+                if not isinstance(revision,dict) or not revision or set(revision)-{'shot_plan','visual_plan','prompt'}:
+                    raise ValueError('Delivery retry spec contains only shot_plan, visual_plan and optional compiled prompt')
                 args.update(revision)
             if a.command=='compose-preview' and a.spec:
                 local=json.loads(a.spec.read_text(encoding='utf-8'))

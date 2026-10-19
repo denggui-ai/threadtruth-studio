@@ -162,6 +162,19 @@
         "未知请求、已关闭预览、失配哈希/画布/矩形及被篡改证据应阻止操作或后续承接；不为本地合成新建任务清零次数"
       ],
       "ref": "preview-ledger.md §用户已授权的本地单格拼接; scripts/web-task.py"
+    },
+    {
+      "id": "RC-13",
+      "category": "rejected_delivery_structured_retry",
+      "prompt": "同一成人六张组已完成，首张人物已确认，第3/5景别失败。采用结构化visual_plan与shot_plan；现在只准备第3张更明确的取景安排，不生图。原60次预算已用完。",
+      "expected_output": "只准备失败张的结构化最小候选，保留原任务和所有失败/预算；没有新增授权就不激活或发送。",
+      "expectations": [
+        "先核实际请求，正确景别已发送不能说导出漏传；画外脚底目标或参考取景影响只能作为假设",
+        "只改被拒收非首张的arrangement和composition；master/framing/head/gaze、商品依据、共享摄影、首张及其他张保持",
+        "纯候选校验不改任务、不预留、不生成；额外明确1次授权后原任务retry-authorize --spec，旧计划/原图/QA/人物确认和累计次数保留",
+        "已有未决请求、首张/已接受图、过期attempt/fingerprint、其他张或共享事实变化被拒绝；不复制任务清零60次，不把源码通过当实图通过"
+      ],
+      "ref": "chatgpt-web.md §Explicit one-image retry; scripts/web-task.py"
     }
   ]
 }

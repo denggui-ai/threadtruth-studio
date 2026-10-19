@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased — rejected delivery plan correction, 2026-10-19
+
+- Permit the existing one-image retry to adopt a reviewed structured correction of a rejected non-anchor delivery: only that look's arrangement/composition changes. Compile the matching prompt, preserve body/framing/head/gaze and shared facts, archive prior plans and failed output/QA, and append one explicit grant without resetting attempts or the first-image confirmation. Both native and web handoffs use the same path; stale fingerprints and out-of-scope changes remain blocked. Add four lifecycle/CLI regressions and RC-13/main230.
+- Actual adult outputs 3/5 contained the correct framing instructions but failed the planned crop. This change repairs preparation of a structured retry, not the images themselves; reference/camera-distance influence remains a hypothesis. The original 60-call budget remains exhausted, with zero new image calls, installation or publication.
+
 ## Unreleased — development completion regressions, 2026-10-19
 
 - Restore the conditional natural head/gaze default for preparation paths without declared per-shot directions. Explicit shot choices and user-fixed directions remain authoritative; real-face coverage keeps its separate branch. Current full-suite evidence exposed the missing fallback; existing frozen tasks are not rewritten. Extend RC-11/main228 for this boundary.

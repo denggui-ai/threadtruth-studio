@@ -327,6 +327,91 @@ class VisualPlanTests(unittest.TestCase):
         raw,_=self.exported_prompt();self.assertIn(frozen,raw);self.assertNotIn('[Task visual plan]',raw)
         self.assertEqual(d['prompt_contract_version'],1)
 
+    def rejected_delivery(self,route='codex_native'):
+        shot=self.shot_plan();shot.update(preservation='adapted',adaptation_note='Synthetic reviewed shot arrangements')
+        self.create(self.plan(6),route=route,shot_plan=shot)
+        task.update(self.job,'authorize',limit=6,note='Synthetic six-image authority')
+        for n in range(1,7):
+            d=task.read(self.job)
+            task.update(self.job,'reserve',look=n,ready=True,refs=task.reference_hashes(self.job,n),
+                expected_plan_sha256=task.plan_fingerprint(d),expected_prompt_sha256=d['looks'][n-1]['prompt_sha256'],
+                **({'conversation':'https://chatgpt.com/c/synthetic-case'} if route=='chatgpt_web' else {}))
+            task.update(self.job,'returned',look=n,file=self.image('output-'+str(n),(n*30,40,80)))
+            task.update(self.job,'reject' if n in (3,5) else 'accept',look=n,
+                qa='qa-pass',note='Synthetic actual output review')
+            if n==1:task.update(self.job,'confirm-model',look=1,note='Synthetic human accepts first person')
+        return task.read(self.job)
+
+    def crop_revision(self,d,n=3):
+        shot=copy.deepcopy(d['shot_plan']);shot['looks'][n-1]['arrangement']='Retain the seated support and crop at the hips; lower coat remains beyond the picture edge.'
+        visual=copy.deepcopy(d['visual_plan']);visual['shots'][n-1]['composition']='Shared floor and contact targets apply only to the current visible crop; do not widen the camera distance.'
+        return dict(shot_plan=shot,visual_plan=visual)
+
+    def test_rejected_delivery_plan_retry_preserves_other_outputs_and_paid_history(self):
+        for route in ('codex_native','chatgpt_web'):
+            with self.subTest(route=route):
+                self.job=self.root/route;before=self.rejected_delivery(route);revision=self.crop_revision(before)
+                original={n:task.handoff_prompt(before,before['looks'][n-1],task.references(self.job,before,n)) for n in range(1,7)}
+                after=task.update(self.job,'retry-authorize',look=3,expected_attempt=1,approval_id='synthetic-retry-3',
+                    note='Synthetic one additional request, not live authority',**revision)
+                self.assertEqual(after['attempts'],6);self.assertEqual(after['authorization'],before['authorization'])
+                self.assertEqual(after['model_confirmation'],before['model_confirmation'])
+                self.assertEqual(after['model'],before['model']);self.assertEqual(after['references'],before['references'])
+                self.assertEqual(after['looks'][2]['history'][0]['output'],before['looks'][2]['output'])
+                self.assertEqual(after['looks'][2]['history'][0]['qa'],'qa-retry')
+                self.assertEqual(after['looks'][2]['attempt_number'],2)
+                self.assertEqual(len(after['retry_authorizations']),1)
+                for n in (1,2,4,5,6):
+                    self.assertEqual(after['looks'][n-1],before['looks'][n-1])
+                    self.assertEqual(task.handoff_prompt(after,after['looks'][n-1],task.references(self.job,after,n)),original[n])
+                task.export(self.job)
+                folder=task.handoff_directory(self.job,after,after['looks'][2]);prompt=(folder/'prompt.txt').read_text()
+                self.assertIn('crop at the hips',prompt);self.assertIn('do not widen the camera distance',prompt)
+                self.assertNotEqual(task.plan_fingerprint(after),task.plan_fingerprint(before))
+                with self.assertRaises(ValueError):
+                    task.update(self.job,'reserve',look=3,ready=True,refs=task.reference_hashes(self.job,3),expected_plan_sha256=task.plan_fingerprint(before))
+                self.assertEqual(task.read(self.job)['attempts'],6)
+                if route=='chatgpt_web':
+                    receipt=task.export_web_execution(self.job,3)
+                    self.assertIn(prompt,Path(receipt['submission_file']).read_text())
+
+    def test_delivery_retry_rejects_changes_outside_the_failed_arrangement_atomically(self):
+        before=self.rejected_delivery();saved=(self.job/'task.json').read_bytes()
+        for kind in ('other-shot','first-shot','shared-scene','framing','garment-reference','gaze','extra-look-field'):
+            with self.subTest(kind=kind):
+                revision=self.crop_revision(before)
+                if kind=='other-shot':revision['shot_plan']['looks'][4]['arrangement']='Different pose'
+                elif kind=='first-shot':revision['visual_plan']['shots'][0]['composition']='Different first image'
+                elif kind=='shared-scene':revision['visual_plan']['photography']['scene']='Different room'
+                elif kind=='framing':revision['shot_plan']['looks'][2]['framing']='full-body'
+                elif kind=='garment-reference':revision['shot_plan']['looks'][2]['reference_sha256s']=[]
+                elif kind=='gaze':revision['shot_plan']['looks'][2].update(head='Turn away',gaze='Far away')
+                else:revision['visual_plan']['shots'][2]['unreviewed']='extra'
+                with self.assertRaises(ValueError):
+                    task.update(self.job,'retry-authorize',look=3,expected_attempt=1,approval_id='bad-'+kind,note='Synthetic rejected proposal',**revision)
+                self.assertEqual((self.job/'task.json').read_bytes(),saved)
+
+    def test_delivery_plan_retry_requires_exact_failed_output_and_no_unresolved_request(self):
+        before=self.rejected_delivery();revision=self.crop_revision(before)
+        for n,attempt in ((1,1),(2,1),(3,2)):
+            with self.subTest(look=n,attempt=attempt):
+                with self.assertRaises(ValueError):
+                    task.update(self.job,'retry-authorize',look=n,expected_attempt=attempt,approval_id='bad',note='Synthetic',**revision)
+        task.update(self.job,'retry-authorize',look=5,expected_attempt=1,approval_id='retry-5',note='Synthetic one request',
+                    prompt=before['looks'][4]['prompt'])
+        self.reserve(5)
+        with self.assertRaises(ValueError):
+            task.update(self.job,'retry-authorize',look=3,expected_attempt=1,approval_id='retry-3',note='Synthetic',**revision)
+
+    def test_cli_can_compile_rejected_delivery_revision_from_structured_spec(self):
+        before=self.rejected_delivery();revision=self.crop_revision(before)
+        path=self.root/'retry-spec.json';path.write_text(json.dumps(revision))
+        result=subprocess.run([sys.executable,str(ROOT/'skills/threadtruth-studio/scripts/web-task.py'),'retry-authorize',
+            '--task',str(self.job),'--look','3','--spec',str(path),'--expected-attempt','1',
+            '--approval-id','synthetic-cli','--note','Synthetic one-request approval'],capture_output=True,text=True)
+        self.assertEqual(result.returncode,0,result.stderr)
+        self.assertEqual(task.read(self.job)['looks'][2]['attempt_number'],2)
+
     def test_cli_accepts_plan_without_free_prompt_and_manifest_contract(self):
         spec=dict(references=[str(self.front)],size=[60,40],context=self.context,model=self.model,visual_plan=self.plan(),shot_plan=self.shot_plan(1))
         path=self.root/'spec.json';path.write_text(json.dumps(spec))
