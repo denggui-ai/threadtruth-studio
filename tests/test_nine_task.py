@@ -122,6 +122,31 @@ class NineTaskTests(unittest.TestCase):
         self.assertIn('do not copy its pose, hands, or support', prompt)
         self.assertIn('both hands visibly outside pockets', prompt)
 
+    def test_new_identity_scope_and_anchor_pose_are_versioned(self):
+        model = dict(source_type='new', scope='full', subject='adult female model',
+                     locked=['adult'], adjustable=[], consent_note='')
+        refs = [dict(path=self.front, role='garment-source')]
+        plan = self.plan()
+        for shot in plan['looks']:
+            shot.pop('pose_reference', None)
+            shot.pop('aesthetic_reference_sha256s', None)
+        self.create(plan=plan, refs=refs, model=model)
+        data = task.read(self.job)
+        first = task.handoff_prompt(data, data['looks'][0], task.references(self.job, data, 1))
+        self.assertIn('create a new fictional person distinct', first)
+        self.assertNotIn('Identity scope: preserve visible face', first)
+        task.update(self.job, 'authorize', limit=9, note='Synthetic authorization.')
+        self.finish_one()
+        data = task.read(self.job)
+        later = task.handoff_prompt(data, data['looks'][1], task.references(self.job, data, 2))
+        self.assertIn('preserve the accepted first-image identity', later)
+        self.assertIn('do not copy its pose, hands, support or framing', later)
+        legacy = dict(data)
+        legacy.pop('identity_instruction_version')
+        old = task.handoff_prompt(legacy, legacy['looks'][1], task.references(self.job, data, 2))
+        self.assertIn('Identity scope: preserve visible face', old)
+        self.assertNotIn('do not copy its pose, hands, support or framing', old)
+
     def test_two_routes_export_identical_nine_plan_first_prompt(self):
         prompts = []
         for route in ('codex_native', 'chatgpt_web'):

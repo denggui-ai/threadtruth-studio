@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased — v2 identity instruction isolation, 2026-10-29
+
+- New v2 tasks compile new-person identity instructions separately from a later accepted first-image identity anchor; the latter is explicitly not a pose, hand or support reference. Previously frozen tasks retain their original rendering. Prompt compliance is not proof of image improvement.
+
 ## Unreleased — source-person and pose-anchor preparation, 2026-10-29
 
 - After two preview and ten independent sample calls, clarify new-AI garment-source identity separation and per-shot identity-anchor pose separation in the existing garment description and shot plan. Make hand placement explicit when pocket avoidance is required; preserve user-requested pocket poses. No frozen tasks are rewritten; no image generation or installation. These soft instructions are unverified visually and do not prove the cause of repetition.

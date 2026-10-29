@@ -144,6 +144,7 @@ def plan_fingerprint(data):
     frozen=dict(version=data.get('plan_version',0),context=data.get('context'),
                 model=data.get('model'),shot_plan=data.get('shot_plan'))
     if 'visual_plan' in data:frozen['visual_plan']=data['visual_plan']
+    if 'identity_instruction_version' in data:frozen['identity_instruction_version']=data['identity_instruction_version']
     return object_hash(frozen)
 
 
@@ -674,6 +675,8 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
             data.update(shot_plan=shot_plan,shot_plan_sha256=object_hash(shot_plan),plan_version=0)
         if visual_plan is not None:
             data.update(visual_plan=visual_plan,visual_plan_sha256=object_hash(visual_plan),plan_version=0,prompt_contract_version=2)
+        if schema_version==2 and v2(shot_plan) and identity:
+            data['identity_instruction_version']=1
         save(root,data);return data
     except Exception:
         shutil.rmtree(root)
@@ -1505,6 +1508,24 @@ def handoff_prompt(d,row,refs):
             prompt+=f"\nPreview cell {number}:\nShot identity: {shot['shot_id']}.\nCell reference images: "+selected+'. Use only these references for this cell, retaining each declared role; do not borrow another cell\'s product or aesthetic input.'
     if d['schema_version']==2 and d['model'] and prompt_contract(d,row)>=1:
         prompt=models.apply_conditions(prompt,d['model'],allow_child=True)
+    if d.get('identity_instruction_version') == 1 and d.get('model'):
+        anchor = any(r['role'] == 'identity-only' for r in refs)
+        if d['model']['source_type'] == 'new':
+            original = ('Identity scope: face-only reference; do not infer its unseen body; use declared body presentation.'
+                        if d['model']['scope'] == 'face' else
+                        'Identity scope: preserve visible face, apparent age, skin tone and body proportions.')
+            if anchor:
+                scope = 'Identity scope: preserve the accepted first-image identity; do not copy its pose, hands, support, clothing or background. Execute the current shot plan.'
+            else:
+                scope = 'Identity scope: create a new fictional person distinct from any person in garment-source images; use those images only for garment facts. Do not copy their face, hair, expression or identity.'
+            prompt = prompt.replace(original, scope, 1)
+            if not d['model']['locked']:
+                prompt = prompt.replace('Fixed model conditions: follow declared identity references',
+                                        'Fixed model conditions: follow declared casting requirements', 1)
+        if anchor:
+            prompt += '\nUse the first-image anchor only for identity; do not copy its pose, hands, support or framing. Follow this shot’s body action and hand positions.\n'
+        elif any(r['role'] == 'identity-reference' for r in refs):
+            prompt += '\nUse identity references only for the declared person; do not copy their pose, hands, support or framing. Follow this shot’s body action and hand positions.\n'
     if 'shot_plan' in d:
         shot_look=None if is_preview(d) else n
         if prompt_contract(d,row)==0:
