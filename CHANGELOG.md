@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased — garment-driven preparation clarification, 2026-10-29
+
+- Clarify source-image verification of locked outfit details, purposeful accessory placement, natural garment deformation, per-shot reasons and out-of-frame head/gaze for detail crops. This is preparation guidance, not evidence of image improvement; historical tasks remain unchanged.
+
 ## Unreleased — v2 identity instruction isolation, 2026-10-29
 
 - New v2 tasks compile new-person identity instructions separately from a later accepted first-image identity anchor; the latter is explicitly not a pose, hand or support reference. Previously frozen tasks retain their original rendering. Prompt compliance is not proof of image improvement.
