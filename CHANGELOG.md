@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased — source-person and pose-anchor preparation, 2026-10-29
+
+- After two preview and ten independent sample calls, clarify new-AI garment-source identity separation and per-shot identity-anchor pose separation in the existing garment description and shot plan. Make hand placement explicit when pocket avoidance is required; preserve user-requested pocket poses. No frozen tasks are rewritten; no image generation or installation. These soft instructions are unverified visually and do not prove the cause of repetition.
+
+
 ## Unreleased — garment-driven nine-shot planning, 2026-10-29
 
 - New human/faceless series default to nine garment- and purpose-driven presentations; retain explicit single/six requests, classic six-pose plans, nonportrait six compositions and historical task contracts. Add stable shot identity and separate standalone selections from a series-first trial; do not infer continuation from a local look-1 filename.

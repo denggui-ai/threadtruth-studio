@@ -108,6 +108,20 @@ class NineTaskTests(unittest.TestCase):
             self.finish_one(n, reject=reject_seven and n == 7)
         return task.read(self.job)
 
+    def test_new_casting_and_anchor_pose_instructions_reach_frozen_handoff(self):
+        plan = self.plan()
+        plan['looks'][2]['body_action'] = ('Retain anchor identity but do not copy its pose, hands, or support; '
+                                           'stand with both hands visibly outside pockets.')
+        visual = self.visual(plan)
+        visual['garment']['description'] += ' Use garment facts only; do not copy the person face, hair or expression.'
+        data = task.create(self.job, self.refs(), None, [60, 40], model=self.model,
+                           context=self.context, route='codex_native', shot_plan=plan, visual_plan=visual)
+        prompt = task.handoff_prompt(data, data['looks'][2], task.selected_references(
+            data['references'], data['context'], data['shot_plan'], None, 3))
+        self.assertIn('do not copy the person face, hair or expression', prompt)
+        self.assertIn('do not copy its pose, hands, or support', prompt)
+        self.assertIn('both hands visibly outside pockets', prompt)
+
     def test_two_routes_export_identical_nine_plan_first_prompt(self):
         prompts = []
         for route in ('codex_native', 'chatgpt_web'):
