@@ -22,6 +22,26 @@ PREFIX = (
     'explicit user request before any further image tool call.\n\n'
 ).encode('utf-8') + BEGIN
 SUFFIX = END + b'End the turn after the first result, failure or uncertainty. No automatic correction or retry.\n'
+# V2 changes only the panel-neutral execution explanation. Never rewrite PREFIX:
+# historical v1 packages bind it byte-for-byte, independently of newer plans.
+PREFIX_V2 = PREFIX.replace(
+    b'A six-panel direction preview is one image made in that one call.',
+    b'A multi-panel direction preview, including a nine-panel 3x3 preview, is one image made in that one call.')
+
+
+def version(data):
+    plan=data.get('shot_plan')
+    return 2 if isinstance(plan,dict) and plan.get('version')==2 else 1
+
+
+def folder_name(data):
+    return 'web-execution-v'+str(version(data))
+
+
+def prefix(envelope_version):
+    if type(envelope_version) is not int or envelope_version not in (1,2):
+        raise ValueError('Unsupported web execution envelope version')
+    return PREFIX_V2 if envelope_version==2 else PREFIX
 
 
 def sha(raw):
@@ -62,15 +82,16 @@ def material(root,data,row,out,refs,prompt,manifest):
         item=artifact(root,out/f'{i:02d}-{ref["role"]}{Path(ref["file"]).suffix}')
         if item['sha256']!=ref['sha256']:raise ValueError('Exported web attachment changed')
         attachments.append(item)
-    folder=out/'web-execution-v1'
+    envelope_version=version(data);envelope_prefix=prefix(envelope_version)
+    folder=out/folder_name(data)
     if folder.is_symlink():raise ValueError('Execution package must not be a symlink')
-    message=PREFIX+canonical+SUFFIX
-    metadata=dict(schema_version=1,route='chatgpt_web',image_tool_call_limit=1,
+    message=envelope_prefix+canonical+SUFFIX
+    metadata=dict(schema_version=envelope_version,route='chatgpt_web',image_tool_call_limit=1,
         task_created_at=data['created_at'],look=row['number'],attempt_number=row.get('attempt_number',1),
         plan_revision=row.get('plan_revision',0),current_plan_sha256=(manifest or {}).get('current_plan_sha256'),
         frozen_prompt_sha256=row['prompt_sha256'],canonical_prompt=prompt_record,
         canonical_manifest=manifest_record,attachments=attachments,
-        envelope_sha256=sha(PREFIX+SUFFIX),
+        envelope_sha256=sha(envelope_prefix+SUFFIX),
         submission=dict(file=str((folder/'submission.txt').relative_to(root)),sha256=sha(message)))
     return folder,message,metadata
 
@@ -118,12 +139,12 @@ def check_retained(root,row):
     raw=safe(root,record['file']).read_bytes()
     if sha(raw)!=record['sha256']:raise ValueError('Retained web execution manifest changed')
     meta=json.loads(raw)
-    if (type(meta.get('schema_version')) is not int or meta['schema_version']!=1
-            or meta.get('route')!='chatgpt_web' or type(meta.get('image_tool_call_limit')) is not int
+    envelope_prefix=prefix(meta.get('schema_version'))
+    if (meta.get('route')!='chatgpt_web' or type(meta.get('image_tool_call_limit')) is not int
             or meta['image_tool_call_limit']!=1 or meta.get('look')!=row['number']
             or meta.get('attempt_number')!=row.get('attempt_number',1)
             or meta.get('frozen_prompt_sha256')!=row['prompt_sha256']
-            or meta.get('envelope_sha256')!=sha(PREFIX+SUFFIX)):
+            or meta.get('envelope_sha256')!=sha(envelope_prefix+SUFFIX)):
         raise ValueError('Retained web execution no longer binds this attempt')
     records=[meta['canonical_prompt'],meta['submission']]+meta['attachments']
     if meta['canonical_manifest'] is not None:records.append(meta['canonical_manifest'])
@@ -131,6 +152,6 @@ def check_retained(root,row):
         if sha(safe(root,item['file']).read_bytes())!=item['sha256']:
             raise ValueError('Retained web execution artifact changed')
     canonical=safe(root,meta['canonical_prompt']['file']).read_bytes()
-    if (safe(root,meta['submission']['file']).read_bytes()!=PREFIX+canonical+SUFFIX
+    if (safe(root,meta['submission']['file']).read_bytes()!=envelope_prefix+canonical+SUFFIX
             or [item['sha256'] for item in meta['attachments']]!=row['reference_hashes']):
         raise ValueError('Retained web submission or ordered attachments changed')

@@ -158,7 +158,7 @@ def prepare(spec, root=ROOT):
     in the task ledger. This local preparation does not grant or consume a call.
     """
     allowed = {'entry_id', 'garment', 'inventory', 'count', 'first_pose', 'objective', 'output_form',
-               'output_medium', 'supporting', 'fusion_note', 'overrides', 'culture_profile'}
+               'output_medium', 'supporting', 'fusion_note', 'overrides', 'culture_profile', 'shot_plan'}
     if not isinstance(spec, dict) or set(spec) - allowed:
         raise ValueError('Unknown visual preparation fields')
     primary = card(spec['entry_id'], root)
@@ -174,9 +174,14 @@ def prepare(spec, root=ROOT):
     if not isinstance(supporting_ids, list):
         raise ValueError('Supporting entries must be an explicit list')
     supporting = [component(card(entry_id, root)) for entry_id in supporting_ids]
-    count = spec.get('count', 1)
     output_form = spec.get('output_form', 'human')
-    pose = spec.get('first_pose', 1)
+    shot_plan = spec.get('shot_plan')
+    bindings = _visual().shot_bindings(shot_plan) if shot_plan is not None else None
+    count = spec.get('count', len(bindings) if bindings is not None else
+                     (9 if output_form in ('human', 'faceless') else 1))
+    pose = spec.get('first_pose', bindings[0]['slot'] if bindings else 1)
+    if bindings is not None and (count != len(bindings) or pose != bindings[0]['slot']):
+        raise ValueError('Count and first_pose cannot remap the reviewed active shot selection')
     photography = copy.deepcopy(primary['photography'])
     art = copy.deepcopy(primary['art'])
     overrides = spec.get('overrides', {})
@@ -187,12 +192,18 @@ def prepare(spec, root=ROOT):
             if not isinstance(overrides[key], dict) or set(overrides[key]) - set(baseline):
                 raise ValueError('Unknown ' + key + ' override')
             baseline.update(copy.deepcopy(overrides[key]))
-    if type(count) is not int or count not in (1, 6):
-        raise ValueError('Prepare one independent image or six preview/delivery presentations')
-    shots = [dict(slot=i, pose=i if count == 6 else pose,
-                  **{key: photography[key] for key in ('scene', 'lighting', 'composition')})
-             for i in range(1, count + 1)]
-    plan = dict(version=1, objective=objective, output_medium=medium, output_form=output_form,
+    if type(count) is not int or count not in (1, 6, 9):
+        raise ValueError('Prepare one independent image or six/nine preview/delivery presentations')
+    version = 2 if bindings is not None or count == 9 else 1
+    if version == 2:
+        bindings = bindings or [dict(slot=i, shot_id='shot-' + str(i)) for i in range(1, count + 1)]
+        shots = [dict(binding, **{key: photography[key] for key in ('scene', 'lighting', 'composition')})
+                 for binding in bindings]
+    else:
+        shots = [dict(slot=i, pose=i if count == 6 else pose,
+                      **{key: photography[key] for key in ('scene', 'lighting', 'composition')})
+                 for i in range(1, count + 1)]
+    plan = dict(version=version, objective=objective, output_medium=medium, output_form=output_form,
                 style=dict(primary=component(primary), supporting=supporting,
                            fusion_note=spec.get('fusion_note', '')),
                 garment=copy.deepcopy(spec['garment']),
@@ -206,7 +217,7 @@ def prepare(spec, root=ROOT):
         plan['culture_profile'] = component(primary['culture_profile'])
     return _visual().validate(plan, spec['inventory'],
                               context=dict(style=spec['entry_id'], first_pose=pose, output_form=output_form),
-                              count=count, identity=output_form in ('human', 'faceless'))
+                              count=count, identity=output_form in ('human', 'faceless'), shot_plan=shot_plan)
 
 
 def main(argv=None):

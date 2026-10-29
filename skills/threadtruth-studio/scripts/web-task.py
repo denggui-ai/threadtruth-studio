@@ -48,6 +48,70 @@ def photography_helper():
 _shot_plans = None
 _visual_plans = None
 _web_execution = None
+_pose_catalog = None
+
+
+def pose_helper():
+    global _pose_catalog
+    if _pose_catalog is None:
+        spec=importlib.util.spec_from_file_location('task_pose_catalog',Path(__file__).with_name('pose_catalog.py'))
+        _pose_catalog=importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(_pose_catalog)
+    return _pose_catalog
+
+
+def v2(plan):
+    return isinstance(plan,dict) and plan.get('version')==2
+
+
+def selected_references(inventory,context,shot_plan,face_plan,look):
+    """One ordered selection used by preparation, revisions and both exporters."""
+    preview=context.get('purpose')=='preview-grid'
+    if face_plan is not None:
+        cells=face_plan['looks'] if preview else [face_plan['looks'][look-1]]
+        ids=list(dict.fromkeys(h for cell in cells for h in cell['reference_sha256s']))
+        by_hash={r['sha256']:r for r in inventory}
+        rows=([r for r in inventory if r['sha256'] in ids] if preview
+              else [by_hash[h] for h in ids])
+    else:
+        rows=list(inventory)
+    if v2(shot_plan):
+        cells=shot_helper().active_looks(shot_plan) if preview else [shot_helper().shot_at(shot_plan,look)]
+        garments={h for cell in cells for h in cell['reference_sha256s']}
+        aesthetics={h for cell in cells for h in cell.get('aesthetic_reference_sha256s',[])}
+        poses=shot_helper().pose_selected(shot_plan,look,preview)
+        selected=garments|aesthetics|poses
+        # Face plans own original identity selection. Optional art/pose inputs
+        # are selected by the same shot contract, never leaked across shots.
+        rows=[r for r in rows if r['role'] in ('identity-reference','model-supplement') or r['sha256'] in selected]
+        present={r['sha256'] for r in rows}
+        rows += [r for r in inventory if r['sha256'] in selected-present]
+    elif shot_plan is not None and face_plan is None:
+        ids=shot_helper().selected(shot_plan,look,preview)
+        rows=[r for r in rows if r['role']!='garment-source' or r['sha256'] in ids]
+    return rows
+
+
+def preflight_references(inventory,context,shot_plan,face_plan,count,identity,route):
+    for number in range(1,count+1):
+        rows=selected_references(inventory,context,shot_plan,face_plan,number)
+        native_reference_check(rows,route,extra_anchor=int(identity and count>1 and number>1))
+
+
+def preflight_series(inventory,context,plan,face_plan,identity,route):
+    """Check known future requirements before charging for a preview or trial."""
+    if not v2(plan) or plan['series_role']=='standalone':return
+    full=copy.deepcopy(plan)
+    full.update(series_role='series',selected_shot_ids=[s['shot_id'] for s in full['looks']])
+    future_face=face_plan
+    if face_plan is not None and len(face_plan['looks'])==1:
+        # Only a lower bound is known for future real-face selections. Never
+        # invent their face coverage/identity approval; continuation checks them.
+        primary=face_plan['primary_identity_sha256']
+        future_face=copy.deepcopy(face_plan)
+        future_face['looks']=[face_plan['looks'][0]]+[
+            dict(reference_sha256s=[primary]+s['reference_sha256s']) for s in full['looks'][1:]]
+    preflight_references(inventory,dict(context,purpose='delivery'),full,future_face,len(full['looks']),identity,route)
 
 
 def web_execution_helper():
@@ -110,14 +174,15 @@ def check_shot_plan(data):
     if data['schema_version']!=2 or object_hash(data['shot_plan'])!=data.get('shot_plan_sha256'):
         raise ValueError('Frozen shot plan changed')
     shot_helper().validate(data['shot_plan'],data['references'],context=data['context'],
-        count=face_plan_count(data['context'],len(data['looks'])),identity=data['identity'],real_face_plan=data.get('real_face_plan'),
+        count=face_plan_count(data['context'],len(data['looks']),data.get('shot_plan')),identity=data['identity'],real_face_plan=data.get('real_face_plan'),
         strict_references=prompt_contract(data)>=1,model_source=(data.get('model') or {}).get('source_type'))
     history=data.get('shot_plan_history',[])
     if not isinstance(history,list):raise ValueError('Invalid shot plan history')
     for prior in history:
         if (not isinstance(prior,dict) or set(prior)!={'plan','sha256','note'}
                 or object_hash(prior['plan'])!=prior['sha256'] or not prior['note'].strip()
-                or prior['plan']['looks'][0]!=data['shot_plan']['looks'][0]):
+                or (not (v2(data['shot_plan']) and data['shot_plan']['series_role']=='standalone')
+                    and prior['plan']['looks'][0]!=data['shot_plan']['looks'][0])):
             raise ValueError('Historical first-shot plan changed')
 
 
@@ -131,14 +196,15 @@ def check_visual_plan(data):
             or object_hash(data['visual_plan'])!=data.get('visual_plan_sha256')):
         raise ValueError('Frozen visual plan or prompt contract changed')
     visual_helper().validate(data['visual_plan'],data['references'],context=data['context'],
-        count=face_plan_count(data['context'],len(data['looks'])),identity=data['identity'])
+        count=face_plan_count(data['context'],len(data['looks']),data.get('shot_plan')),identity=data['identity'],shot_plan=data.get('shot_plan'))
     history=data.get('visual_plan_history',[])
     if not isinstance(history,list):raise ValueError('Invalid visual plan history')
     for prior in history:
         if (not isinstance(prior,dict) or set(prior)!={'plan','sha256','note'}
                 or object_hash(prior['plan'])!=prior['sha256'] or not prior['note'].strip()
                 or any(prior['plan'][k]!=data['visual_plan'][k] for k in prior['plan'] if k!='shots')
-                or prior['plan']['shots'][0]!=data['visual_plan']['shots'][0]):
+                or (not (v2(data.get('shot_plan')) and data['shot_plan']['series_role']=='standalone')
+                    and prior['plan']['shots'][0]!=data['visual_plan']['shots'][0])):
             raise ValueError('Historical approved visual plan changed')
 
 
@@ -169,21 +235,57 @@ def prompt_check(prompt,context,model=None,shot_plan=None,number=1,real_face_pla
 
 def delivery_retry_candidate(data,row,*,shot_plan=None,visual_plan=None,prompt=None):
     """Clarify one rejected non-anchor arrangement without replacing shared plans."""
+    standalone=(v2(data.get('shot_plan')) and data['shot_plan']['series_role']=='standalone'
+                and len(data['looks'])==1 and not data.get('model_confirmation'))
     if (data['schema_version']!=2 or is_preview(data) or row is None
-            or row['number']==1 or row['state']!='rejected'
+            or (row['number']==1 and not standalone) or row['state']!='rejected'
             or any(x['state'] in ('reserved','unknown') for x in data['looks'])):
         raise ValueError('Revise only a rejected non-anchor delivery with no unresolved request')
     number=row['number'];index=number-1
     current_shot=data.get('shot_plan');current_visual=data.get('visual_plan')
     if current_shot is None or current_visual is None:
         raise ValueError('Structured delivery retry requires existing shot and visual plans')
+    if v2(current_shot):
+        shot=copy.deepcopy(current_shot if shot_plan is None else shot_plan)
+        visual=copy.deepcopy(current_visual if visual_plan is None else visual_plan)
+        target=shot_helper().shot_at(current_shot,number)
+        replacement=shot_helper().shot_at(shot,number)
+        allowed=copy.deepcopy(current_shot)
+        if any(replacement[k]!=target[k] for k in ('slot','shot_id')):
+            raise ValueError('A retry retains the stable shot identity')
+        allowed['looks'][target['slot']-1]=copy.deepcopy(replacement)
+        allowed_visual=copy.deepcopy(current_visual)
+        allowed_visual['shots'][index]=copy.deepcopy(visual['shots'][index])
+        if shot!=allowed or visual!=allowed_visual:
+            raise ValueError('Revise only the rejected shot, retaining all shared conditions and other shots')
+        if shot==current_shot and visual==current_visual:
+            raise ValueError('Structured retry requires an actual local plan change')
+        face=copy.deepcopy(data.get('real_face_plan'))
+        if face is not None:
+            face=shot_helper().sync_real_face_plan(shot,face)
+            garments={r['sha256'] for r in data['references'] if r['role']=='garment-source'}
+            cell=face['looks'][index]
+            cell['reference_sha256s']=[h for h in cell['reference_sha256s'] if h not in garments]+replacement['reference_sha256s']
+            real_face_helper().validate(face,data['references'],schema_version=2,identity=data['identity'],
+                model=data['model'],context=data['context'],count=len(data['looks']),route=data['route'],
+                strict_looks=(number,),shot_plan=shot)
+        shot_helper().validate(shot,data['references'],context=data['context'],count=len(data['looks']),
+            identity=data['identity'],real_face_plan=face,model_source=data['model']['source_type'])
+        visual_helper().validate(visual,data['references'],context=data['context'],count=len(data['looks']),
+            identity=data['identity'],shot_plan=shot)
+        preflight_references(data['references'],data['context'],shot,face,len(data['looks']),data['identity'],data['route'])
+        compiled=visual_helper().compile_prompt(visual,number) if prompt is None else prompt
+        prompt_check(compiled,data['context'],data['model'],shot,number,face,visual)
+        result=dict(shot_plan=shot,visual_plan=visual,prompt=compiled)
+        if face is not None:result['real_face_plan']=face
+        return result
     shot=copy.deepcopy(current_shot if shot_plan is None else shot_plan)
     visual=copy.deepcopy(current_visual if visual_plan is None else visual_plan)
     shot_helper().validate(shot,data['references'],context=data['context'],
-        count=face_plan_count(data['context'],len(data['looks'])),identity=data['identity'],
+        count=face_plan_count(data['context'],len(data['looks']),data.get('shot_plan')),identity=data['identity'],
         real_face_plan=data.get('real_face_plan'),model_source=(data.get('model') or {}).get('source_type'))
     visual_helper().validate(visual,data['references'],context=data['context'],
-        count=face_plan_count(data['context'],len(data['looks'])),identity=data['identity'])
+        count=face_plan_count(data['context'],len(data['looks']),data.get('shot_plan')),identity=data['identity'],shot_plan=data.get('shot_plan'))
     allowed_shot=copy.deepcopy(current_shot)
     if 'arrangement' in shot['looks'][index]:
         allowed_shot['looks'][index]['arrangement']=shot['looks'][index]['arrangement']
@@ -216,6 +318,7 @@ def preview_candidate(data, row, *, model=None, shot_plan=None, prompt=None, gar
                     or any(c not in '0123456789abcdef' for c in ref['sha256'])):
                 raise ValueError('Additional garment originals need an image path and SHA256')
             path=Path(ref['path']).resolve() if check_sources else Path(ref['path'])
+            pose_helper().check_source(dict(path=str(path),role='garment-source'))
             if check_sources:
                 models.validate_image(path)
                 if digest(path)!=ref['sha256']:raise ValueError('Additional garment reference changed')
@@ -225,7 +328,14 @@ def preview_candidate(data, row, *, model=None, shot_plan=None, prompt=None, gar
             inventory.append(dict(sha256=ref['sha256'],role='garment-source'))
     planned=shot_plan if shot_plan is not None else effective_shot_plan(data)
     face_plan=copy.deepcopy(data.get('real_face_plan'))
-    if face_plan is not None and planned is not None:
+    if face_plan is not None and v2(planned):
+        face_plan=shot_helper().sync_real_face_plan(planned,face_plan)
+        garments={r['sha256'] for r in inventory if r['role']=='garment-source'}
+        for shot,cell in zip(shot_helper().active_looks(planned),face_plan['looks']):
+            cell['reference_sha256s']=[h for h in cell['reference_sha256s'] if h not in garments]+shot['reference_sha256s']
+        real_face_helper().validate(face_plan,inventory,schema_version=2,identity=data['identity'],model=changed,
+            context=data['context'],count=face_plan_count(data['context'],1,planned),route=data['route'],shot_plan=planned)
+    elif face_plan is not None and planned is not None:
         # Only garment selection and the declared sixth route may change here.
         # Original real coverage, identity and all other body/head/gaze values stay frozen.
         garment_hashes={r['sha256'] for r in inventory if r['role']=='garment-source'}
@@ -245,24 +355,20 @@ def preview_candidate(data, row, *, model=None, shot_plan=None, prompt=None, gar
     if real_face_plan is not None and real_face_plan!=face_plan:
         raise ValueError('Preview garment/styling revision cannot change original real face coverage or identity')
     if planned is not None:
-        planned=shot_helper().validate(planned,inventory,context=data['context'],count=6,
+        planned=shot_helper().validate(planned,inventory,context=data['context'],count=face_plan_count(data['context'],1,planned),
                                       identity=data['identity'],real_face_plan=face_plan,
                                       model_source=(changed or {}).get('source_type'))
     visual=visual_plan if visual_plan is not None else data.get('visual_plan')
     if visual is not None:
-        visual=visual_helper().validate(visual,inventory,context=data['context'],count=6,identity=data['identity'])
+        visual=visual_helper().validate(visual,inventory,context=data['context'],count=face_plan_count(data['context'],1,planned),identity=data['identity'],shot_plan=planned)
         if prompt is None:prompt=visual_helper().compile_prompt(visual)
     if not isinstance(prompt,str) or not prompt.strip():raise ValueError('Provide a complete revised preview prompt')
     photography_helper().apply(prompt,data['context'].get('photography_targets'))
     if changed is not None:models.apply_conditions(prompt,changed,allow_child=True)
     if planned is not None:
         shot_helper().apply(prompt,planned,real_face_plan=face_plan)
-        chosen=shot_helper().selected(planned,1,True)
-        actual=[r for r in inventory if r['role']!='garment-source' or r['sha256'] in chosen]
-        if face_plan:
-            face_selected={h for cell in face_plan['looks'] for h in cell['reference_sha256s']}
-            actual=[r for r in inventory if r['sha256'] in face_selected]
-        native_reference_check(actual,data['route'])
+        preflight_references(inventory,data['context'],planned,face_plan,1,data['identity'],data['route'])
+        preflight_series(inventory,data['context'],planned,face_plan,data['identity'],data['route'])
     prompt_check(prompt,data['context'],changed,planned,1,face_plan,visual)
     result=dict(model=changed,shot_plan=planned,prompt=prompt)
     if visual is not None:result['visual_plan']=visual
@@ -275,6 +381,7 @@ ROLE_TEXT = {
     'garment-source': 'garment source; authoritative product facts',
     'identity-reference': 'original model identity; ignore clothing, accessories, pose, backdrop and lighting',
     'aesthetic-reference': 'aesthetic only; do not copy identity or clothing',
+    'pose-reference': 'body relationships only; never copy identity, body proportions, clothing, skin, line-art style or infer product/real-face evidence',
     'edit-target': 'image to correct; supplies only the explicitly retained layout, pose and scene, not an accepted identity or authoritative garment facts; correct failed traits from the original identity and garment sources',
     'identity-only': 'current outfit accepted first-image identity; never override original identity or garment sources',
 }
@@ -289,11 +396,12 @@ def is_preview(data):
     return data.get('schema_version') == 2 and data.get('context', {}).get('purpose') == 'preview-grid'
 
 
-def face_plan_count(context, count):
-    return 6 if (context or {}).get('purpose') == 'preview-grid' else count
+def face_plan_count(context, count, shot_plan=None):
+    if (context or {}).get('purpose') != 'preview-grid':return count
+    return len(shot_helper().active_looks(shot_plan)) if v2(shot_plan) else 6
 
 
-def context_check(context, size):
+def context_check(context, size, shot_plan=None):
     required = {'outfit', 'style', 'mode', 'output_form', 'size', 'first_pose'}
     if not isinstance(context, dict) or set(context) - {'purpose', 'pose_description', 'photography_targets', 'canvas_policy'} != required:
         raise ValueError('Declare outfit, style, mode, output_form, size and first_pose for the frozen task context')
@@ -302,7 +410,7 @@ def context_check(context, size):
     if context['first_pose'] == 'custom':
         if not isinstance(context.get('pose_description'), str) or not context['pose_description'].strip():
             raise ValueError('A custom single-image presentation requires the explicit user pose/framing description')
-    elif type(context['first_pose']) is not int or context['first_pose'] not in range(1,7):
+    elif type(context['first_pose']) is not int or context['first_pose'] not in range(1,10 if v2(shot_plan) else 7):
         raise ValueError('Declare the actual first pose number or custom presentation')
     elif 'pose_description' in context:
         raise ValueError('pose_description is only for a custom body-action category; keep numbered-master framing/support/gaze choices in the frozen prompt')
@@ -318,11 +426,13 @@ def context_check(context, size):
     return result
 
 
-def presentation_check(context, refs, count, identity, model):
+def presentation_check(context, refs, count, identity, model, shot_plan=None):
     if context.get('purpose') == 'preview-grid' and (count != 1 or context['first_pose'] != 1):
         raise ValueError('A preview-grid is one six-panel request with master numbering starting at 1')
     if context['first_pose'] == 'custom' and count != 1:
         raise ValueError('A custom presentation is a single-image task, not a default six-pose set')
+    if count==9 and not v2(shot_plan):raise ValueError('Nine-image delivery requires a reviewed v2 shot plan')
+    if any(r['role']=='pose-reference' for r in refs) and not v2(shot_plan):raise ValueError('Pose references require a v2 shot plan')
     targets = sum(r['role'] == 'edit-target' for r in refs)
     if context.get('purpose') == 'correction-edit':
         if (count != 1 or not identity or not model or model['source_type'] not in ('ai', 'real')
@@ -462,21 +572,22 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
         if schema_version!=2:raise ValueError('Visual plans require schema 2')
         if prompts is None:
             requested=count if count is not None else (1 if (context or {}).get('purpose')=='preview-grid' else len(visual_plan.get('shots',[])))
-            if type(requested) is not int or requested not in (1,6):raise ValueError('Compile one or six visual prompts')
+            if type(requested) is not int or requested not in (1,6,9):raise ValueError('Compile one, six or nine visual prompts')
             prompts=[visual_helper().compile_prompt(visual_plan,None if (context or {}).get('purpose')=='preview-grid' else n) for n in range(1,requested+1)]
-    if count is not None and (type(count) is not int or count not in (1,6) or prompts is None or count!=len(prompts)):
+    if count is not None and (type(count) is not int or count not in (1,6,9) or prompts is None or count!=len(prompts)):
         raise ValueError('Declared count must match the actual prompts')
     if not isinstance(prompts,(list,tuple)):raise ValueError('Provide frozen prompts, or a visual plan for compilation')
-    if len(prompts) not in (1,6) or not all(isinstance(p,str) and p.strip() for p in prompts):
-        raise ValueError('Provide exactly one or six nonempty frozen prompts')
+    if len(prompts) not in (1,6,9) or not all(isinstance(p,str) and p.strip() for p in prompts):
+        raise ValueError('Provide exactly one, six or nine nonempty frozen prompts')
     if not refs or len(size)!=2 or any(type(v)!=int or v<=0 for v in size):
         raise ValueError('Real garment references and positive exact dimensions required')
     if route not in ('chatgpt_web','codex_native'):raise ValueError('Unsupported native route')
     if schema_version==1:
+        if len(prompts) not in (1,6):raise ValueError('Legacy tasks retain one or six images')
         if model is not None or context is not None or route!='chatgpt_web':raise ValueError('Legacy task interface is unchanged')
         items=[dict(path=p,role='garment-source') for p in refs]
     else:
-        context=context_check(context,size)
+        context=context_check(context,size,shot_plan)
         if 'photography_targets' in context:photography_helper().strict_check(context['photography_targets'])
         if context.get('purpose')=='model-check' and (not identity or len(prompts)!=1):
             raise ValueError('model-check is a single portrait diagnostic, not a six-pose delivery')
@@ -487,15 +598,19 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
         for i,item in enumerate(items):
             if item.get('role')=='model-supplement':
                 items[i]=dict(models.validate_supplement({k:v for k,v in item.items() if k!='role'}),role='model-supplement')
+            elif item.get('role')=='pose-reference':
+                if set(item)-{'sha256'}!={'path','role','pose_source'}:raise ValueError('Pose reference needs a path and reviewed source')
+                pose_helper().check_source(item)
             elif set(item)!={'path','role'} or item['role'] not in ('garment-source','identity-reference','aesthetic-reference','edit-target'):
                 raise ValueError('Declare an explicit reference role')
+        for item in items:pose_helper().check_source(item)
         if not any(x['role']=='garment-source' for x in items):raise ValueError('A model/photo/card is not a garment source')
         has_identity=any(x['role']=='identity-reference' for x in items)
         if any(x['role']=='model-supplement' for x in items) and not has_identity:
             raise ValueError('An accepted supplement requires the original identity reference')
         if not identity and any(x['role']!='garment-source' for x in items):raise ValueError('Non-portrait task cannot carry person references')
         if identity and (has_identity != (model['source_type'] in ('ai','real'))):raise ValueError('Existing models need original identity references; new models do not copy identity')
-        presentation_check(context, items, len(prompts), identity, model)
+        presentation_check(context, items, len(prompts), identity, model, shot_plan)
     for prompt in prompts:
         photography_helper().apply(prompt, context.get('photography_targets') if schema_version==2 else None)
     sources=[Path(x['path']).resolve() for x in items]
@@ -506,35 +621,31 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
         identities=[digest(p) for p,item in zip(sources,items) if item['role'] in ('identity-reference','model-supplement')]
         if len(identities)!=len(set(identities)):
             raise ValueError('Deduplicate identical identity references before task initialization and prompt numbering')
-    inventory=[dict(sha256=digest(p),role=item['role']) for p,item in zip(sources,items)]
+    inventory=[dict(sha256=digest(p),role=item['role'],**({'pose_source':copy.deepcopy(item['pose_source'])} if 'pose_source' in item else {})) for p,item in zip(sources,items)]
+    for item,row in zip(items,inventory):
+        if 'sha256' in item and item['sha256']!=row['sha256']:raise ValueError('Reference hash changed before import')
+    if v2(shot_plan) and real_face_plan is not None:
+        real_face_plan=shot_helper().sync_real_face_plan(shot_plan,real_face_plan)
     if visual_plan is not None:
         visual_plan=visual_helper().validate(visual_plan,inventory,context=context,
-            count=face_plan_count(context,len(prompts)),identity=identity)
+            count=face_plan_count(context,len(prompts),shot_plan),identity=identity,shot_plan=shot_plan)
     if schema_version==2 and context.get('purpose')=='preview-grid' and identity and model['source_type']=='real' and real_face_plan is None:
         raise ValueError('A real-person preview requires six declared cell plans and original view coverage')
     if real_face_plan is not None:
-        plan_count=face_plan_count(context,len(prompts))
+        plan_count=face_plan_count(context,len(prompts),shot_plan)
         real_face_plan=real_face_helper().validate(real_face_plan,inventory,schema_version=schema_version,identity=identity,
-            model=model,context=context,count=plan_count,route=route,strict_looks=range(1,plan_count+1))
+            model=model,context=context,count=plan_count,route=route,strict_looks=range(1,plan_count+1),shot_plan=shot_plan)
         if context.get('purpose')=='preview-grid':
-            selected={h for look in real_face_plan['looks'] for h in look['reference_sha256s']}
-            native_reference_check([r for r in inventory if r['sha256'] in selected],route)
+            native_reference_check(selected_references(inventory,context,shot_plan,real_face_plan,1),route)
     elif shot_plan is None:
         native_reference_check(items,route,extra_anchor=int(identity and len(prompts)==6))
     if shot_plan is not None:
         if schema_version!=2:raise ValueError('Shot plans require schema 2')
         shot_plan=shot_helper().validate(shot_plan,inventory,context=context,
-            count=face_plan_count(context,len(prompts)),identity=identity,real_face_plan=real_face_plan,
+            count=face_plan_count(context,len(prompts),shot_plan),identity=identity,real_face_plan=real_face_plan,
             model_source=(model or {}).get('source_type'))
-        for number,prompt in enumerate(prompts,1):
-            chosen=shot_helper().selected(shot_plan,number,context.get('purpose')=='preview-grid')
-            actual=[r for r in inventory if r['role']!='garment-source' or r['sha256'] in chosen]
-            if real_face_plan is not None:
-                face_rows=real_face_plan['looks'] if context.get('purpose')=='preview-grid' else [real_face_plan['looks'][number-1]]
-                face_selected={h for cell in face_rows for h in cell['reference_sha256s']}
-                actual=[r for r in inventory if r['sha256'] in face_selected]
-            native_reference_check(actual,route,extra_anchor=int(identity and len(prompts)==6 and number>1))
-            shot_helper().apply(prompt,shot_plan,None if context.get('purpose')=='preview-grid' else number,real_face_plan)
+        preflight_references(inventory,context,shot_plan,real_face_plan,len(prompts),identity,route)
+        preflight_series(inventory,context,shot_plan,real_face_plan,identity,route)
     if schema_version==2:
         for number,prompt in enumerate(prompts,1):prompt_check(prompt,context,model,shot_plan,number,real_face_plan,visual_plan)
     root.mkdir(parents=True,exist_ok=False)
@@ -544,6 +655,7 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
             out=root/'references'/f'{i:02d}{p.suffix.lower()}';shutil.copyfile(p,out)
             models.validate_image(out)
             frozen.append({'file':str(out.relative_to(root)),'sha256':digest(out),'role':item['role']})
+            if 'pose_source' in item:frozen[-1]['pose_source']=copy.deepcopy(item['pose_source'])
             if item['role']=='model-supplement':
                 if frozen[-1]['sha256']!=item['sha256']:raise ValueError('Accepted supplement changed during snapshot')
                 frozen[-1].update(scope=item['scope'],confirmation_note=item['confirmation_note'])
@@ -556,7 +668,7 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
                         references_sha256=object_hash(frozen),failure_recovery_version=1,prompt_contract_version=1)
         if real_face_plan is not None:
             real_face_plan=real_face_helper().validate(real_face_plan,frozen,schema_version=schema_version,identity=identity,
-                model=model,context=context,count=plan_count,route=route,strict_looks=range(1,plan_count+1))
+                model=model,context=context,count=plan_count,route=route,strict_looks=range(1,plan_count+1),shot_plan=shot_plan)
             data.update(real_face_plan=real_face_plan,real_face_plan_sha256=object_hash(real_face_plan))
         if shot_plan is not None:
             data.update(shot_plan=shot_plan,shot_plan_sha256=object_hash(shot_plan),plan_version=0)
@@ -574,15 +686,7 @@ def references(root,data,look):
     if not 1<=look<=len(data['looks']):raise ValueError('Unknown look number')
     row=data['looks'][look-1]
     if hashlib.sha256(row['prompt'].encode()).hexdigest()!=row['prompt_sha256']:raise ValueError('Frozen prompt changed')
-    if is_preview(data) and 'real_face_plan' in data:
-        selected={h for cell in data['real_face_plan']['looks'] for h in cell['reference_sha256s']}
-        rows=[r for r in data['references'] if r['sha256'] in selected]
-    else:
-        rows=(real_face_helper().selected(data['real_face_plan'],data['references'],look)
-              if 'real_face_plan' in data else list(data['references']))
-    if 'shot_plan' in data and 'real_face_plan' not in data:
-        selected=shot_helper().selected(data['shot_plan'],look,is_preview(data))
-        rows=[r for r in rows if r['role']!='garment-source' or r['sha256'] in selected]
+    rows=selected_references(data['references'],data.get('context',{}),data.get('shot_plan'),data.get('real_face_plan'),look)
     if data['schema_version']==2 and data['identity'] and look>1 and not data['model_confirmation']:
         raise ValueError('First-image model has not been confirmed by the user')
     if data['identity'] and look>1:
@@ -688,7 +792,7 @@ def check_real_face_plan(root,data):
             or object_hash(data['context'])!=data['context_sha256']):
         raise ValueError('Frozen real-person source/context changed')
     real_face_helper().validate(data['real_face_plan'],data['references'],schema_version=data['schema_version'],
-        identity=data['identity'],model=data['model'],context=data['context'],count=face_plan_count(data['context'],len(data['looks'])),route=data['route'])
+        identity=data['identity'],model=data['model'],context=data['context'],count=face_plan_count(data['context'],len(data['looks']),data.get('shot_plan')),route=data['route'],shot_plan=data.get('shot_plan'))
     history=data.get('real_face_plan_history',[])
     if (not isinstance(history,list) or len(history)>1
             or (bool(data.get('continuation_authorization')) and len(history)!=1)):
@@ -697,10 +801,11 @@ def check_real_face_plan(root,data):
         if (not isinstance(prior,dict) or set(prior)!={'plan','sha256','note','at'}
                 or not real_face_helper().text(prior['note']) or not real_face_helper().text(prior['at'])
                 or object_hash(prior['plan'])!=prior['sha256']
-                or len(data['looks'])!=6 or not data.get('continuation_authorization')):
+                or len(data['looks']) not in (6,9) or not data.get('continuation_authorization')):
             raise ValueError('Frozen real face plan history changed')
         real_face_helper().validate(prior['plan'],data['references'],schema_version=2,identity=data['identity'],
-            model=data['model'],context=data['context'],count=1,route=data['route'])
+            model=data['model'],context=data['context'],count=1,route=data['route'],
+            shot_plan=shot_helper().subset(data['shot_plan'],1,series_role='series-first') if v2(data.get('shot_plan')) else None)
         current=data['real_face_plan']
         if (prior['plan']['primary_identity_sha256']!=current['primary_identity_sha256']
                 or prior['plan']['coverage']!=current['coverage']
@@ -715,8 +820,10 @@ def check_real_face_plan(root,data):
 def check_reference_metadata(root,data):
     check_real_face_plan(root,data)
     if data['schema_version']!=2:return
+    pose_helper().check_inventory(data['references'])
     supplements=[r for r in data['references'] if r['role']=='model-supplement']
-    if supplements and 'references_sha256' not in data:
+    poses=[r for r in data['references'] if r['role']=='pose-reference']
+    if (supplements or poses or v2(data.get('shot_plan'))) and 'references_sha256' not in data:
         raise ValueError('Supplemental reference acceptance requires its frozen metadata hash')
     if 'references_sha256' in data and object_hash(data['references'])!=data['references_sha256']:
         raise ValueError('Frozen reference roles/acceptance changed')
@@ -783,7 +890,7 @@ def check_local_edits(root,data,row):
             raise ValueError('Local preview correction must preserve its prior visual review')
         planned=edit['shot_plan']
         if planned is not None:
-            shot_helper().validate(planned,data['references'],context=data['context'],count=6,
+            shot_helper().validate(planned,data['references'],context=data['context'],count=face_plan_count(data['context'],1,planned),
                 identity=data['identity'],real_face_plan=row.get('real_face_plan',data.get('real_face_plan')),
                 model_source=(row.get('model',data['model']) or {}).get('source_type'))
         expected=composite_pixels(safe_file(root,edit['base_output']['file']),safe_file(root,edit['donor']['file']),edit['rectangle'])
@@ -808,11 +915,13 @@ def compose_preview(root,data,row,**kw):
     if planned is None and effective_shot_plan(data) is not None:
         raise ValueError('Local composition cannot discard the current reviewed shot plan')
     if planned is not None:
-        shot_helper().validate(planned,data['references'],context=data['context'],count=6,
+        shot_helper().validate(planned,data['references'],context=data['context'],count=face_plan_count(data['context'],1,planned),
             identity=data['identity'],real_face_plan=data.get('real_face_plan'),model_source=(data['model'] or {}).get('source_type'))
         original=effective_shot_plan(data)
         if original and any(planned[k]!=original[k] for k in ('version','sku','route','coverage')):
             raise ValueError('Local composition retains the same SKU and original garment coverage')
+        preflight_references(data['references'],data['context'],planned,data.get('real_face_plan'),1,data['identity'],data['route'])
+        preflight_series(data['references'],data['context'],planned,data.get('real_face_plan'),data['identity'],data['route'])
     result=composite_pixels(safe_file(root,row['output']['file']),donor,kw.get('rectangle'))
     sequence=len(row.get('local_edits',[]))+1
     name=f"look-1-attempt-{row.get('attempt_number',1)}-local-{sequence}"
@@ -845,9 +954,9 @@ def check_evidence(root,data):
     if data['schema_version']==2:
         if object_hash(data['context'])!=data['context_sha256'] or object_hash(data['model'])!=data['model_sha256']:
             raise ValueError('Frozen context/model changed')
-        context_check(data['context'],data['size'])
+        context_check(data['context'],data['size'],data.get('shot_plan'))
         if data['identity']:models.validate_model(data['model'],allow_child=True)
-        presentation_check(data['context'], data['references'], len(data['looks']), data['identity'], data['model'])
+        presentation_check(data['context'], data['references'], len(data['looks']), data['identity'], data['model'],data.get('shot_plan'))
         if is_preview(data) and (data.get('model_confirmation') or len(data.get('retry_authorizations',[]))>3):
             raise ValueError('A preview cannot confirm identity or exceed three correction requests')
     if 'plan_version' in data and (type(data['plan_version']) is not int or data['plan_version']<0):
@@ -906,7 +1015,7 @@ def check_evidence(root,data):
         if 'visual_plan' in row:
             if contract!=2:raise ValueError('Historical visual plan requires its original contract 2')
             visual_helper().validate(row['visual_plan'],data['references'],context=data['context'],
-                count=len(row['visual_plan']['shots']),identity=data['identity'])
+                count=len(row['visual_plan']['shots']),identity=data['identity'],shot_plan=row.get('shot_plan'))
         if 'model' in row and object_hash(row['model'])!=row['model_sha256']:raise ValueError('Historical model conditions changed')
         if 'output' in row and digest(safe_file(root,row['output']['file']))!=row['output']['sha256']:
             raise ValueError('Previously imported output changed')
@@ -946,6 +1055,56 @@ def safe_file(root,relative):
     if path.is_absolute() or '..' in path.parts or not resolved.is_relative_to(root.resolve()):
         raise ValueError('Task file escapes private directory')
     return resolved
+
+
+def continue_v2(data,kw):
+    """Continue a declared series-first trial; never expand an arbitrary single."""
+    prior=data['shot_plan'];note=kw.get('note','').strip();approval=kw.get('approval_id','').strip()
+    if (prior['series_role']!='series-first' or len(data['looks'])!=1
+            or data['looks'][0]['state']!='accepted' or not data['authorization']
+            or data['context'].get('purpose','delivery')!='delivery'):
+        raise ValueError('Continue only an accepted explicitly declared series-first trial')
+    if data['identity'] and not data['model_confirmation']:raise ValueError('Confirm the actual first-image model before continuation')
+    if kw.get('context')!=data['context'] or not note or not approval:
+        raise ValueError('Continuation retains context and requires explicit remaining-image approval')
+    if data.get('continuation_authorization') or any(g['approval_id']==approval for g in data.get('retry_authorizations',[])):
+        raise ValueError('Continuation approval already used')
+    full=copy.deepcopy(prior);full['selected_shot_ids']=[s['shot_id'] for s in full['looks']];full['series_role']='series'
+    if kw.get('shot_plan') is not None and kw['shot_plan']!=full:
+        raise ValueError('Continue the complete frozen series without re-planning its shots')
+    count=len(full['looks']);face=copy.deepcopy(data.get('real_face_plan'))
+    if face is not None:
+        extra=kw.get('real_face_looks')
+        if not isinstance(extra,list) or len(extra)!=count-1:raise ValueError('Declare every remaining real-face look')
+        face['looks'].extend(copy.deepcopy(extra));face=shot_helper().sync_real_face_plan(full,face)
+        real_face_helper().validate(face,data['references'],schema_version=2,identity=data['identity'],model=data['model'],
+            context=data['context'],count=count,route=data['route'],strict_looks=range(2,count+1),shot_plan=full)
+    elif kw.get('real_face_looks') is not None:raise ValueError('Cannot retrofit real identity coverage during continuation')
+    shot_helper().validate(full,data['references'],context=data['context'],count=count,identity=data['identity'],
+        real_face_plan=face,model_source=data['model']['source_type'])
+    visual=None;prompts=kw.get('prompts')
+    if 'visual_plan' in data:
+        visual=visual_helper().validate(kw.get('visual_plan'),data['references'],context=data['context'],count=count,
+            identity=data['identity'],shot_plan=full)
+        old=data['visual_plan']
+        if any(visual[k]!=old[k] for k in old if k!='shots') or visual['shots'][0]!=old['shots'][0]:
+            raise ValueError('Continuation keeps shared photography and the accepted first shot')
+        if prompts is None:prompts=[visual_helper().compile_prompt(visual,n) for n in range(2,count+1)]
+    elif kw.get('visual_plan') is not None:raise ValueError('Do not retrofit a visual plan onto the accepted first image')
+    if not isinstance(prompts,list) or len(prompts)!=count-1 or any(not isinstance(p,str) or not p.strip() for p in prompts):
+        raise ValueError('Provide exactly the remaining series prompts')
+    preflight_references(data['references'],data['context'],full,face,count,data['identity'],data['route'])
+    for number,prompt in enumerate(prompts,2):prompt_check(prompt,data['context'],data['model'],full,number,face,visual)
+    data.setdefault('shot_plan_history',[]).append(dict(plan=copy.deepcopy(prior),sha256=object_hash(prior),note=note))
+    data.update(shot_plan=full,shot_plan_sha256=object_hash(full),plan_version=data.get('plan_version',0)+1)
+    if face is not None:
+        data['real_face_plan_history']=[dict(plan=copy.deepcopy(data['real_face_plan']),sha256=data['real_face_plan_sha256'],note=note,at=stamp())]
+        data.update(real_face_plan=face,real_face_plan_sha256=object_hash(face))
+    if visual is not None:
+        data.setdefault('visual_plan_history',[]).append(dict(plan=copy.deepcopy(data['visual_plan']),sha256=data['visual_plan_sha256'],note=note))
+        data.update(visual_plan=visual,visual_plan_sha256=object_hash(visual))
+    data['continuation_authorization']=dict(approval_id=approval,additional_requests=count-1,note=note,at=stamp())
+    data['looks'].extend(dict(number=n,prompt=p,prompt_sha256=hashlib.sha256(p.encode()).hexdigest(),state='pending') for n,p in enumerate(prompts,2))
 
 
 def update(root,event,**kw):
@@ -1021,6 +1180,8 @@ def update(root,event,**kw):
                 raise ValueError('Confirm only a QA-accepted first image with actual human visual approval')
             if d['model_confirmation']:raise ValueError('Model confirmation already recorded')
             d['model_confirmation']={'note':note,'output_sha256':row['output']['sha256'],'at':stamp()}
+        elif event=='continue-authorize' and v2(d.get('shot_plan')):
+            continue_v2(d,kw)
         elif event=='continue-authorize':
             note=kw.get('note','').strip();approval=kw.get('approval_id','').strip();prompts=kw.get('prompts')
             if d['schema_version']!=2 or len(d['looks'])!=1 or d['looks'][0]['state']!='accepted' or not d['authorization']:
@@ -1198,6 +1359,9 @@ def update(root,event,**kw):
                 old['preview_revision']=copy.deepcopy(proposal)
                 d.pop('preview_revision')
             elif delivery_revision:
+                if 'real_face_plan' in delivery_revision:
+                    old.update(real_face_plan=copy.deepcopy(d['real_face_plan']),real_face_plan_sha256=d['real_face_plan_sha256'])
+                    d.update(real_face_plan=copy.deepcopy(delivery_revision['real_face_plan']),real_face_plan_sha256=object_hash(delivery_revision['real_face_plan']))
                 for field in ('shot_plan','visual_plan'):
                     previous=d[field];changed=delivery_revision[field]
                     if changed!=previous:
@@ -1249,7 +1413,7 @@ def update(root,event,**kw):
                     kw['execution_manifest'],kw.get('expected_submission_sha256'))
             elif kw.get('expected_submission_sha256') is not None:
                 raise ValueError('Expected submission hash requires the web execution manifest')
-            elif d['route']=='chatgpt_web' and (handoff_directory(root,d,row)/'web-execution-v1').exists():
+            elif d['route']=='chatgpt_web' and (handoff_directory(root,d,row)/web_execution_helper().folder_name(d)).exists():
                 raise ValueError('Prepared web execution requires its manifest and submission hash binding')
             row.update(state='reserved',conversation=url,tab=kw.get('tab'),submitted_at=stamp(),reference_hashes=expected)
             if execution is not None:row['web_execution']=execution
@@ -1318,7 +1482,7 @@ def handoff_prompt(d,row,refs):
     if d['schema_version']==2 and d['context'].get('purpose')=='correction-edit':
         instruction.append('Operation: correct the declared edit target using the original person and garment sources; '
                            'retain only the requested picture elements. Native editing is soft conditioning, not pixel protection or guaranteed facial fidelity.')
-    form=('One six-panel direction preview, not standalone delivery. Include the small single-line label '
+    form=('One '+('nine-panel 3x3' if v2(d.get('shot_plan')) and face_plan_count(d['context'],1,d['shot_plan'])==9 else 'six-panel')+' direction preview, not standalone delivery. Include the small single-line label '
           '方向预览·非成片 / PREVIEW ONLY — NOT FINAL.' if is_preview(d) else 'One standalone image.')
     prompt='Only use built-in image generation, no other plugins. '+form+'\n'+'\n'.join(instruction)+'\n'+canvas_instruction(d)+'\n'+row['prompt']
     if 'real_face_plan' in d:
@@ -1327,8 +1491,18 @@ def handoff_prompt(d,row,refs):
             prompt+='\n'+(f'Preview cell {number}:\n' if is_preview(d) else '')+'\n'.join(real_face_helper().prompt_lines(cell))
             if is_preview(d):
                 positions={r['sha256']:i for i,r in enumerate(refs,1)}
-                selected=', '.join(f'Image {positions[h]}' for h in cell['reference_sha256s'])
+                hashes=cell['reference_sha256s']
+                if v2(d.get('shot_plan')):
+                    per_cell=selected_references(d['references'],dict(d['context'],purpose='delivery'),d['shot_plan'],d['real_face_plan'],number)
+                    hashes=[r['sha256'] for r in per_cell]
+                selected=', '.join(f'Image {positions[h]}' for h in hashes if h in positions)
                 prompt+='\nCell reference images: '+selected+'. Use only these references for this cell, retaining their declared garment/identity roles; do not mix product facts from other cells. Selection note: '+cell['selection_note']
+    elif is_preview(d) and v2(d.get('shot_plan')):
+        positions={r['sha256']:i for i,r in enumerate(refs,1)}
+        for number,shot in enumerate(shot_helper().active_looks(d['shot_plan']),1):
+            cell_refs=selected_references(d['references'],dict(d['context'],purpose='delivery'),d['shot_plan'],None,number)
+            selected=', '.join(f"Image {positions[r['sha256']]}" for r in cell_refs if r['sha256'] in positions)
+            prompt+=f"\nPreview cell {number}:\nShot identity: {shot['shot_id']}.\nCell reference images: "+selected+'. Use only these references for this cell, retaining each declared role; do not borrow another cell\'s product or aesthetic input.'
     if d['schema_version']==2 and d['model'] and prompt_contract(d,row)>=1:
         prompt=models.apply_conditions(prompt,d['model'],allow_child=True)
     if 'shot_plan' in d:
@@ -1355,6 +1529,9 @@ def handoff_manifest(d,row,refs,prompt):
     if 'shot_plan' in d:
         manifest.update(shot_plan=d['shot_plan'],shot_plan_sha256=d['shot_plan_sha256'],
             omitted_reference_sha256s=[r['sha256'] for r in d['references'] if r['sha256'] not in {x['sha256'] for x in refs}])
+        if v2(d['shot_plan']):
+            shots=shot_helper().active_looks(d['shot_plan']) if is_preview(d) else [shot_helper().shot_at(d['shot_plan'],n)]
+            manifest['shot_bindings']=[dict(shot_id=s['shot_id'],slot=s['slot'],decision_sha256=object_hash(s)) for s in shots]
     if 'real_face_plan' in d:
         manifest.update(real_face_plan=copy.deepcopy(d['real_face_plan']),
             real_face_plan_sha256=d['real_face_plan_sha256'])
@@ -1364,6 +1541,9 @@ def handoff_manifest(d,row,refs,prompt):
         else:
             manifest['real_face_look']=copy.deepcopy(d['real_face_plan']['looks'][n-1])
             chosen=set(manifest['real_face_look']['reference_sha256s'])
+        manifest['omitted_reference_sha256s']=[r['sha256'] for r in d['references'] if r['sha256'] not in chosen]
+    if v2(d.get('shot_plan')):
+        chosen={r['sha256'] for r in refs}
         manifest['omitted_reference_sha256s']=[r['sha256'] for r in d['references'] if r['sha256'] not in chosen]
     return manifest
 
@@ -1421,7 +1601,7 @@ def create_from_preview(root, preview_root, spec, *, note):
         if (not is_preview(d) or not d.get('preview_decision') or d.get('delivery_task')
                 or d['looks'][0]['state']!='accepted' or d.get('preview_revision') or not isinstance(note,str) or not note.strip()):
             raise ValueError('Prepare delivery only from a closed, reviewed preview with an actual user request and no prior delivery link')
-        if not isinstance(spec,dict) or set(spec)-{'context','size','prompts','count','real_face_plan','garment_sha256s'}:
+        if not isinstance(spec,dict) or set(spec)-{'context','size','prompts','count','real_face_plan','garment_sha256s','series_role'}:
             raise ValueError('Delivery spec contains only context, size, prompts, optional real_face_plan and garment selection')
         context=spec['context']
         garments={r['sha256'] for r in d['references'] if r['role']=='garment-source'}
@@ -1433,7 +1613,7 @@ def create_from_preview(root, preview_root, spec, *, note):
                 context.get(k)!=d['context'][k] for k in ('style','mode','output_form')) or (
                 context.get('outfit')!=d['context']['outfit'] and (selected is None or set(selected)==garments)):
             raise ValueError('A preview handoff retains outfit, style, mode and output form; changes are a separate task')
-        if 'real_face_plan' in d:
+        if 'real_face_plan' in d and not v2(d.get('shot_plan')):
             planned=spec.get('real_face_plan',{})
             if any(planned.get(k)!=d['real_face_plan'][k] for k in ('coverage','primary_identity_sha256')):
                 raise ValueError('Keep original reviewed real coverage; preview faces supply no new authentic view')
@@ -1443,20 +1623,35 @@ def create_from_preview(root, preview_root, spec, *, note):
         for ref in refs:
             if ref['role']!='model-supplement':ref.pop('sha256')
         prompts=spec.get('prompts')
-        requested=len(prompts) if prompts is not None else spec.get('count',1)
-        if type(requested) is not int or requested not in (1,6):raise ValueError('Prepare one or six delivery images')
+        requested=len(prompts) if prompts is not None else spec.get('count',shot_helper().logical_count(effective_shot_plan(d)) if v2(effective_shot_plan(d)) else 1)
+        if type(requested) is not int or requested not in (1,6,9):raise ValueError('Prepare one, six or nine delivery images')
         planned=copy.deepcopy(effective_shot_plan(d))
         if planned is not None:
             if selected is not None and not {r['sha256'] for r in planned['coverage']}<=set(selected):
                 raise ValueError('Garment selection cannot drop frozen shot coverage; prepare an explicit plan revision first')
-            if requested==1:
+            if v2(planned):
+                if requested==1:
+                    number=context.get('first_pose')
+                    if type(number) is not int or not 1<=number<=len(planned['looks']):raise ValueError('Select an original logical shot')
+                    planned=shot_helper().subset(planned,number,series_role=spec.get('series_role','standalone'))
+                elif requested!=shot_helper().logical_count(planned) or spec.get('series_role','series')!='series':
+                    raise ValueError('A series delivery retains the complete preview plan')
+            elif requested==1:
                 if type(context.get('first_pose')) is not int or context['first_pose'] not in range(1,7):raise ValueError('Select a numbered shot for a planned single delivery')
                 planned['looks']=[planned['looks'][context['first_pose']-1]]
         visual=copy.deepcopy(d.get('visual_plan'))
-        if visual is not None and requested==1:visual=visual_helper().subset(visual,context.get('first_pose'))
+        if visual is not None and v2(planned):visual=visual_helper().bind_shots(visual,planned)
+        elif visual is not None and requested==1:visual=visual_helper().subset(visual,context.get('first_pose'))
+        face=spec.get('real_face_plan')
+        if v2(planned) and 'real_face_plan' in d:
+            expected_face=copy.deepcopy(d['real_face_plan'])
+            expected_face['looks']=[copy.deepcopy(d['real_face_plan']['looks'][s['slot']-1]) for s in shot_helper().active_looks(planned)]
+            if face is not None and face!=expected_face:
+                raise ValueError('Delivery retains the reviewed real-person cell plan; revise the preview explicitly first')
+            face=expected_face
         child=create(root,refs,prompts,spec['size'],d['identity'],model=d['model'],
-                     context=context,route=d['route'],real_face_plan=spec.get('real_face_plan'),shot_plan=planned,
-                     visual_plan=visual,count=spec.get('count'))
+                     context=context,route=d['route'],real_face_plan=face,shot_plan=planned,
+                     visual_plan=visual,count=requested)
         try:
             provenance=root/'provenance';provenance.mkdir()
             snapshot=provenance/'preview-task.json'

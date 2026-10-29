@@ -1,6 +1,6 @@
 {
   "skill_name": "threadtruth-studio",
-  "note": "Source-side no-image regression definitions for existing common flows, updated 2026-10-17 to restore style selection → six-panel preview → direction confirmation → six independent images while preserving explicit single-image requests. These are not executed model evaluations or visual-quality results; existing helper tests cover accounting and progression.",
+  "note": "Source-side no-image definitions updated 2026-10-29: new human/faceless default nine; explicit single/six, classic six and frozen legacy contracts remain. Not executed model or image evidence.",
   "evals": [
     {
       "id": "CF-01",
@@ -39,18 +39,18 @@
       "prompt": "先做一张人物近景诊断，之后能直接算六张的第一张吗？只说明，不生图。",
       "expectations": [
         "说明model-check为独立诊断，不能转成正式look-1，即使编号1且人物满意",
-        "custom、修正编辑和其它母版单张同样不承诺直接+5；正式delivery母版1满足前提才可续",
+        "v2 standalone、custom、修正编辑不能隐式续组；series-first须完整计划和真正首张；旧v1仍仅母版1可续五",
         "不因续组限制拒绝用户原本的独立诊断需求"
       ]
     },
     {
       "id": "CF-05",
-      "category": "default_style_preview_six_flow",
+      "category": "default_style_preview_nine_flow",
       "prompt": "我给了清晰服饰图和已授权的人物参考，没有指定风格或张数。请按裁光默认流程给我下一步，先不要生图。",
       "expectations": [
-        "简述服饰事实，给主推、两个备选与完整24风格目录，各风格一次，允许自由选任一主风格",
-        "当前停在风格选择，默认后续为六宫格方向预览、确认方向、六张独立图；不建议先测一张、不默认隐藏目录",
-        "入口未选默认Codex，不增加人物问卷或必答入口选择；仅有流程需求不视为预览或六次成片授权",
+        "简述服饰事实，给主推、两个备选与完整36风格目录，各风格一次，允许自由选任一主风格",
+        "当前停在风格选择，默认后续为服饰驱动九格方向预览、确认方向、九张独立图；不建议先测一张、不默认隐藏目录",
+        "入口未选默认Codex，不增加人物问卷或必答入口选择；仅有流程需求不视为预览或九次成片授权",
         "当前不调用任何生图；已有明确风格时不重复铺目录"
       ]
     },
@@ -78,10 +78,10 @@
       "category": "preview_direction_not_generation_authority",
       "prompt": "用户只说预览方向可以了；没有给独立生成张数和授权。",
       "expectations": [
-        "方向确认不等于六次独立生成授权，不直接调工具",
-        "默认承接六张独立图，说明并确认缺失的六次成片授权，不重新问1张还是6张；已经授权则沿用",
-        "预览确认不能代替实际独立首张的技术QA和人物确认；后五张在首张确认前仍锁定",
-        "用户明确只要1张、只看预览或停止时尊重其选择，不强迫六张、不新增调用"
+        "方向确认不等于九次独立生成授权，不直接调工具",
+        "默认承接九张独立图，说明并确认缺失的九次成片授权，不重新问1张还是9张；已经授权则沿用",
+        "预览确认不能代替实际独立首张的技术QA和人物确认；其余八张在首张确认前仍锁定",
+        "用户明确只要1张、只看预览或停止时尊重其选择，不强迫九张、不新增调用"
       ]
     }
   ]

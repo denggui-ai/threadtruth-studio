@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased — garment-driven nine-shot planning, 2026-10-29
+
+- New human/faceless series default to nine garment- and purpose-driven presentations; retain explicit single/six requests, classic six-pose plans, nonportrait six compositions and historical task contracts. Add stable shot identity and separate standalone selections from a series-first trial; do not infer continuation from a local look-1 filename.
+- Add optional per-shot pose references and source-neutral catalogue preparation; keep the reviewed ai-pose-gallery snapshot research-only and outside executable attachments/runtime distribution. Product and original identity evidence remain required; the gallery cannot supply unknown garment or real-face facts.
+- Reuse the existing recognition, shot/visual/real-face plans, freezing, serial ledger, recovery, authorization and QA. Nine-grid preview and nine independent images have separate request grants. Preserve prior outputs and consumed attempts through changes and retries.
+- Add source-side no-image planning scenarios and targeted regressions. Planning validity, actual request transmission and image improvement are separate conclusions. Final targeted runtime regressions (256) and package/UI checks (29) pass. The initial 654-test run had 26 missing-dependency failures/errors; affected suites passed separately using existing dependencies. Source checks and the bounded no-image planning probe are recorded in `docs/verification/2026-10-29-nine-shot-planning.md`. No image generation, local installation, publication or visual-improvement claim is included.
+
+
 ## Unreleased — rejected delivery plan correction, 2026-10-19
 
 - Permit the existing one-image retry to adopt a reviewed structured correction of a rejected non-anchor delivery: only that look's arrangement/composition changes. Compile the matching prompt, preserve body/framing/head/gaze and shared facts, archive prior plans and failed output/QA, and append one explicit grant without resetting attempts or the first-image confirmation. Both native and web handoffs use the same path; stale fingerprints and out-of-scope changes remain blocked. Add four lifecycle/CLI regressions and RC-13/main230.

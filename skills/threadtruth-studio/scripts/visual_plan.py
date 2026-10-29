@@ -16,6 +16,8 @@ OUTPUT_FORMS = ('human', 'faceless', 'flat-lay', 'hanger', 'mannequin')
 FIELDS = {'version', 'objective', 'output_medium', 'output_form', 'style', 'garment', 'styling',
           'photography', 'art', 'negatives', 'shots'}
 RESERVED = re.compile(r'\[(?:/?Task |/?Current model)|^\s*(?:POSE|Shot)\s+[1-6]\s*:', re.I)
+V2_RESERVED = re.compile(r'^\s*(?:POSE|Shot)\s+[7-9]\s*:', re.I)
+V2_BODY = re.compile(r'\b(?:body (?:action|pose|orientation)|hand (?:position|placement))\b', re.I)
 # Known bypasses of the existing identity/framing contracts; this is not a prose
 # classifier. Semantic/source review remains necessary for natural-language facts.
 OWNED = re.compile(r'\b(?:gaze|eyeline|off[- ](?:lens|camera|frame)|head (?:turn|direction|view)|near[- ]front'
@@ -27,19 +29,20 @@ def object_hash(value):
     return hashlib.sha256(json.dumps(value, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
 
 
-def _line(value, label, *, empty=False, owned=False):
+def _line(value, label, *, empty=False, owned=False, v2=False):
     if (not isinstance(value, str) or (not empty and not value.strip()) or len(value) > 1200
-            or any(ord(c) < 32 or ord(c) == 127 for c in value) or RESERVED.search(value)):
+            or any(ord(c) < 32 or ord(c) == 127 for c in value) or RESERVED.search(value)
+            or (v2 and V2_RESERVED.search(value))):
         raise ValueError(label + ' must be a short single-line visual statement without managed markers')
-    if owned and OWNED.search(value):
+    if owned and (OWNED.search(value) or (v2 and V2_BODY.search(value))):
         raise ValueError(label + ' cannot override identity, head/gaze or shot framing')
 
 
-def _lines(value, label, *, required=False, owned=False):
+def _lines(value, label, *, required=False, owned=False, v2=False):
     if not isinstance(value, list) or len(value) > 24 or (required and not value):
         raise ValueError(label + ' must be a list of visual statements')
     for item in value:
-        _line(item, label, owned=owned)
+        _line(item, label, owned=owned, v2=v2)
 
 
 def _component(value):
@@ -65,11 +68,38 @@ def _component(value):
         raise ValueError('Visual component version conflicts with its frozen snapshot')
 
 
-def validate(plan, inventory, *, context, count, identity=True):
+def shot_bindings(shot_plan):
+    """Read stable active bindings; garment/body validation stays in shot_plan."""
+    if not isinstance(shot_plan, dict) or shot_plan.get('version') != 2:
+        raise ValueError('Stable visual bindings require a version-2 shot plan')
+    looks = shot_plan.get('looks')
+    selected = shot_plan.get('selected_shot_ids')
+    if not isinstance(looks, list) or len(looks) not in (1, 6, 9):
+        raise ValueError('A shot plan retains its complete logical series')
+    bindings = []
+    for slot, shot in enumerate(looks, 1):
+        if (not isinstance(shot, dict) or shot.get('slot') != slot or type(shot.get('slot')) is not int
+                or not isinstance(shot.get('shot_id'), str)
+                or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]{0,79}', shot['shot_id'])):
+            raise ValueError('A shot binding needs its stable slot and shot_id')
+        bindings.append(dict(slot=slot, shot_id=shot['shot_id']))
+    ids = [shot['shot_id'] for shot in bindings]
+    if (len(set(ids)) != len(ids) or not isinstance(selected, list)
+            or len(selected) not in (1, len(ids))
+            or any(not isinstance(identifier, str) or identifier not in ids for identifier in selected)
+            or len(set(selected)) != len(selected)
+            or (len(selected) > 1 and selected != ids)):
+        raise ValueError('Active shots select one source shot or the ordered complete series')
+    by_id = {shot['shot_id']: shot for shot in bindings}
+    return [copy.deepcopy(by_id[identifier]) for identifier in selected]
+
+
+def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
     """Validate resolved visual fields against original garment hashes and context."""
     if (not isinstance(plan, dict) or set(plan) - {'culture_profile'} != FIELDS
-            or type(plan['version']) is not int or plan['version'] != 1):
-        raise ValueError('Visual plan requires the complete version-1 structured fields')
+            or type(plan['version']) is not int or plan['version'] not in (1, 2)):
+        raise ValueError('Visual plan requires complete version-1 or version-2 structured fields')
+    v2 = plan['version'] == 2
     if plan['objective'] not in OBJECTIVES or plan['output_medium'] not in MEDIA:
         raise ValueError('Unknown visual objective or output medium')
     if plan['output_form'] not in OUTPUT_FORMS or plan['output_form'] != context['output_form']:
@@ -90,7 +120,7 @@ def validate(plan, inventory, *, context, count, identity=True):
         if component['id'] in ids:
             raise ValueError('Visual style components must be distinct')
         ids.add(component['id'])
-    _line(style['fusion_note'], 'Fusion approval note', empty=not style['supporting'],owned=True)
+    _line(style['fusion_note'], 'Fusion approval note', empty=not style['supporting'],owned=True,v2=v2)
     if not style['supporting'] and style['fusion_note']:
         raise ValueError('A fusion note requires explicitly selected supporting styles')
     if 'culture_profile' in plan:
@@ -98,8 +128,8 @@ def validate(plan, inventory, *, context, count, identity=True):
     garment = plan['garment']
     if not isinstance(garment, dict) or set(garment) != {'description', 'keep', 'source_sha256s'}:
         raise ValueError('Garment facts require description, keep and original source_sha256s')
-    _line(garment['description'], 'Source-backed garment description')
-    _lines(garment['keep'], 'Source-backed garment preservation', required=True)
+    _line(garment['description'], 'Source-backed garment description', v2=v2)
+    _lines(garment['keep'], 'Source-backed garment preservation', required=True, v2=v2)
     if not isinstance(inventory,list) or not inventory or any(not isinstance(r,dict) for r in inventory):
         raise ValueError('Visual preparation needs an explicit source inventory')
     originals = {r['sha256'] for r in inventory if r.get('role') == 'garment-source'}
@@ -109,31 +139,56 @@ def validate(plan, inventory, *, context, count, identity=True):
     if (not isinstance(hashes, list) or not hashes or any(not isinstance(h, str) or h not in originals for h in hashes)
             or len(set(hashes)) != len(hashes)):
         raise ValueError('Visual garment facts must bind distinct original garment hashes')
-    _lines(plan['styling'], 'Allowed styling', owned=True)
+    _lines(plan['styling'], 'Allowed styling', owned=True, v2=v2)
     photography = plan['photography']
     if not isinstance(photography, dict) or set(photography) != {'scene', 'lighting', 'composition', 'palette'}:
         raise ValueError('Visual photography requires scene, lighting, composition and palette')
     for key, value in photography.items():
-        _line(value, 'Visual ' + key, owned=True)
+        _line(value, 'Visual ' + key, owned=True, v2=v2)
     art = plan['art']
     if not isinstance(art, dict) or set(art) != {'direction', 'techniques', 'limits'}:
         raise ValueError('Art expression requires direction, techniques and limits')
-    _line(art['direction'], 'Art direction', owned=True)
-    _lines(art['techniques'], 'Art techniques', owned=True)
-    _lines(art['limits'], 'Art limits', required=True, owned=True)
-    _lines(plan['negatives'], 'Visual exclusions', owned=True)
-    if type(count) is not int or count not in (1, 6) or not isinstance(plan['shots'], list) or len(plan['shots']) != count:
-        raise ValueError('Visual shot count must match the task or six preview cells')
-    if count==6 and context['first_pose']!=1:
+    _line(art['direction'], 'Art direction', owned=True, v2=v2)
+    _lines(art['techniques'], 'Art techniques', owned=True, v2=v2)
+    _lines(art['limits'], 'Art limits', required=True, owned=True, v2=v2)
+    _lines(plan['negatives'], 'Visual exclusions', owned=True, v2=v2)
+    allowed_counts = (1, 6) if plan['version'] == 1 else (1, 6, 9)
+    if type(count) is not int or count not in allowed_counts or not isinstance(plan['shots'], list) or len(plan['shots']) != count:
+        raise ValueError('Visual shot count must match the task or declared preview cells')
+    if plan['version'] == 1 and count==6 and context['first_pose']!=1:
         raise ValueError('Six visual presentations start from the actual first numbered presentation')
+    if plan['version'] == 2 and not identity:
+        raise ValueError('Version-2 garment-driven slots apply to human/faceless presentations')
+    if plan['version'] == 2 and count > 1 and context['first_pose'] != 1:
+        raise ValueError('A complete visual series starts with its stable first source slot')
+    seen_ids = set()
     for i, shot in enumerate(plan['shots'], 1):
-        pose = i if count == 6 else context['first_pose']
-        if (not isinstance(shot, dict) or set(shot) != {'slot', 'pose', 'scene', 'lighting', 'composition'}
-                or type(shot['slot']) is not int or shot['slot'] != i
-                or shot['pose'] != pose or type(shot['pose']) is not type(pose)):
-            raise ValueError('Visual shots preserve actual numbered/custom presentation and consecutive slots')
+        if plan['version'] == 1:
+            pose = i if count == 6 else context['first_pose']
+            if (not isinstance(shot, dict) or set(shot) != {'slot', 'pose', 'scene', 'lighting', 'composition'}
+                    or type(shot['slot']) is not int or shot['slot'] != i
+                    or shot['pose'] != pose or type(shot['pose']) is not type(pose)):
+                raise ValueError('Visual shots preserve actual numbered/custom presentation and consecutive slots')
+        else:
+            slot = i if count > 1 else context['first_pose']
+            if (not isinstance(shot, dict) or set(shot) != {'slot', 'shot_id', 'scene', 'lighting', 'composition'}
+                    or type(shot['slot']) is not int or shot['slot'] != slot or slot not in range(1, 10)
+                    or not isinstance(shot['shot_id'], str)
+                    or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]{0,79}', shot['shot_id'])
+                    or shot['shot_id'] in seen_ids):
+                raise ValueError('Visual v2 shots preserve stable source slots and distinct shot_id values')
+            seen_ids.add(shot['shot_id'])
         for key in ('scene', 'lighting', 'composition'):
-            _line(shot[key], 'Per-shot ' + key, owned=True)
+            _line(shot[key], 'Per-shot ' + key, owned=True, v2=v2)
+    if shot_plan is not None:
+        if not isinstance(shot_plan, dict) or shot_plan.get('version') not in (1, 2):
+            raise ValueError('Visual binding requires a supported shot-plan version')
+        if shot_plan['version'] != plan['version']:
+            raise ValueError('Visual and garment shot-plan versions must agree')
+    if shot_plan is not None and shot_plan['version'] == 2:
+        if (
+                [dict(slot=s['slot'], shot_id=s['shot_id']) for s in plan['shots']] != shot_bindings(shot_plan)):
+            raise ValueError('Visual and garment shot plans must bind the same active shot IDs and source slots')
     return copy.deepcopy(plan)
 
 
@@ -167,7 +222,9 @@ def render(plan, look=None):
     rows += ['Art limit: ' + item for item in plan['art']['limits']]
     cells = plan['shots'] if look is None else [plan['shots'][look - 1]]
     for shot in cells:
-        rows += [f"Visual slot {shot['slot']} (presentation {shot['pose']}):",
+        heading = (f"Visual slot {shot['slot']} (shot {shot['shot_id']}):" if plan['version'] == 2
+                   else f"Visual slot {shot['slot']} (presentation {shot['pose']}):")
+        rows += [heading,
                  'Scene: ' + shot['scene'], 'Lighting: ' + shot['lighting'],
                  'Composition: ' + shot['composition']]
     rows += ['Exclude: ' + item for item in plan['negatives']]
@@ -203,11 +260,33 @@ def check_prompt(prompt, plan, look=None, *, managed_blocks=()):
 
 
 def subset(plan, pose):
-    """Freeze one actual presentation from an accepted preview's six cells."""
+    """Select a presentation without changing a v2 source slot or stable ID."""
     result = copy.deepcopy(plan)
-    selected = [shot for shot in result['shots'] if shot['pose'] == pose]
+    if plan['version'] == 2:
+        selected = [shot for shot in result['shots'] if shot['slot'] == pose or shot['shot_id'] == pose]
+    else:
+        selected = [shot for shot in result['shots'] if shot['pose'] == pose]
     if len(selected) != 1:
         raise ValueError('Select one actual preview presentation')
-    selected[0]['slot'] = 1
+    if plan['version'] == 1:
+        selected[0]['slot'] = 1
     result['shots'] = selected
+    return result
+
+
+def bind_shots(plan, shot_plan):
+    """Select already frozen photography by stable shot ID; never invent slots."""
+    if plan.get('version') != 2:
+        raise ValueError('Stable shot binding requires a version-2 visual plan')
+    bindings = shot_bindings(shot_plan)
+    by_id = {shot['shot_id']: shot for shot in plan['shots']}
+    if len(by_id) != len(plan['shots']):
+        raise ValueError('Duplicate visual shot IDs')
+    result = copy.deepcopy(plan)
+    result['shots'] = []
+    for binding in bindings:
+        shot = by_id.get(binding['shot_id'])
+        if shot is None or shot['slot'] != binding['slot']:
+            raise ValueError('No frozen photography exists for the selected source shot')
+        result['shots'].append(copy.deepcopy(shot))
     return result

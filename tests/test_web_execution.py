@@ -217,4 +217,51 @@ class WebExecutionTests(unittest.TestCase):
         self.assertEqual(json.loads(result.stdout)['attempts'],1)
 
 
+class WebExecutionV2Tests(unittest.TestCase):
+    def test_nine_preview_envelope_reserves_and_retains_history_without_rebuilding(self):
+        from tests import test_nine_task as fixtures
+        case=fixtures.NineTaskTests();case.setUp();self.addCleanup(case.doCleanups)
+        backend=fixtures.task
+        data=case.create(preview=True,route='chatgpt_web')
+        backend.export(case.job)
+        packet=backend.export_web_execution(case.job,1)
+        helper=backend.web_execution_helper()
+        meta=json.loads(Path(packet['execution_manifest']).read_bytes())
+        submission=Path(packet['submission_file']).read_bytes()
+        self.assertEqual(meta['schema_version'],2)
+        self.assertEqual(Path(packet['execution_manifest']).parent.name,'web-execution-v2')
+        self.assertIn(b'A multi-panel direction preview',submission)
+        self.assertIn(b'One nine-panel 3x3 direction preview',submission)
+        self.assertNotIn(b'A six-panel direction preview',submission)
+        self.assertEqual(meta['image_tool_call_limit'],1)
+        canonical=(case.job/meta['canonical_prompt']['file']).read_bytes()
+        self.assertEqual(submission,helper.PREFIX_V2+canonical+helper.SUFFIX)
+        retained={key:Path(packet[key]).read_bytes() for key in ('execution_manifest','submission_file')}
+        backend.update(case.job,'authorize',limit=1,note='Synthetic one-preview request authority.')
+        args=dict(look=1,ready=True,refs=backend.reference_hashes(case.job,1),
+                  conversation='https://chatgpt.com/c/synthetic-nine-envelope',
+                  expected_plan_sha256=backend.plan_fingerprint(data),
+                  expected_prompt_sha256=data['looks'][0]['prompt_sha256'])
+        with self.assertRaisesRegex(ValueError,'requires its manifest and submission hash binding'):
+            backend.update(case.job,'reserve',**args)
+        data=backend.update(case.job,'reserve',**args,execution_manifest=packet['execution_manifest'],
+                            expected_submission_sha256=packet['submission_sha256'])
+        self.assertEqual(data['attempts'],1)
+        backend.update(case.job,'returned',look=1,file=case.image('envelope-result','gray'))
+        backend.update(case.job,'reject',look=1,note='Synthetic rejected preview, no visual assertion.')
+        data=backend.update(case.job,'retry-authorize',look=1,expected_attempt=1,approval_id='nine-envelope-retry',
+            note='Synthetic explicit second request authority.',prompt=data['looks'][0]['prompt'])
+        historical=data['looks'][0]['history'][0]
+        helper.check_retained(case.job,historical)
+        backend.check_evidence(case.job,data)
+        for key,raw in retained.items():self.assertEqual(Path(packet[key]).read_bytes(),raw)
+        self.assertNotIn('web_execution',data['looks'][0])
+        self.assertEqual(data['looks'][0]['attempt_number'],2)
+        self.assertEqual(data['attempts'],1)
+        backend.export(case.job)
+        next_packet=backend.export_web_execution(case.job,1)
+        self.assertNotEqual(next_packet['execution_manifest'],packet['execution_manifest'])
+        helper.check_retained(case.job,historical)
+
+
 if __name__=='__main__':unittest.main()
