@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "guochao-street",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "name": "国潮街头 / Guochao Street",
   "entry_type": "legacy-style",
   "aliases": [
@@ -103,5 +103,6 @@
     "红砖街区立面"
   ],
   "default_objective": "styled-editorial",
+  "persona": "self-assured street attitude, relaxed confidence, energetic composure",
   "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。self-assured street attitude, relaxed confidence, energetic composure"
 }

@@ -420,5 +420,78 @@ class VisualPlanTests(unittest.TestCase):
         self.assertEqual(json.loads(result.stdout)['prompt_contract_version'],2)
         raw,manifest=self.exported_prompt();self.assertEqual(manifest['prompt_contract_version'],2)
 
+    PERSONA='calm, detached, quietly confident; restrained editorial attitude'
+
+    def persona_plan(self,**changes):
+        plan=self.plan();plan.update(persona=self.PERSONA,
+            persona_model_sha256=task.object_hash(task.models.validate_model(self.model,allow_child=True)))
+        plan.update(changes);return plan
+
+    def validate(self,plan,form='human'):
+        return task.visual_helper().validate(plan,[dict(role='garment-source',sha256=task.digest(self.front))],
+            context=dict(self.context,output_form=form),count=len(plan['shots']),identity=form in ('human','faceless'))
+
+    def test_persona_renders_one_line_after_art_limits(self):
+        plan=self.validate(self.persona_plan());rows=task.visual_helper().render(plan).split('\n')
+        line='Style persona (yields to the declared model conditions): '+self.PERSONA
+        self.assertEqual(rows.count(line),1)
+        last_limit=max(i for i,row in enumerate(rows) if row.startswith('Art limit: '))
+        self.assertEqual(rows.index(line),last_limit+1)
+        self.assertNotIn(plan['persona_model_sha256'],'\n'.join(rows))
+        self.assertEqual(task.visual_helper().compile_prompt(plan,1).count(line),1)
+
+    def test_plan_without_persona_renders_golden_bytes_from_17db89b(self):
+        # Hashes taken on 17db89b before any persona code existed (outputs/caiguang-wp5-persona-20261030/golden-render-17db89b.json).
+        helper=task.visual_helper();sha=lambda text:hashlib.sha256(text.encode()).hexdigest()
+        self.assertEqual(sha(helper.render(self.plan(1))),'ecaaf249e0ac611bdc31fd7df1cb97331ca59786185f87970521d82583408c3c')
+        self.assertEqual(sha(helper.render(self.plan(6))),'04c445906fc3ef03990b60376ae4308111a241ea646858f816a2a7cce743d05e')
+        self.assertEqual(sha(helper.compile_prompt(self.plan(1),1)),'3b81e7cce0eb407a17629139c07ca7cb8045944644a3d7050fe9d3ffc5183bd7')
+        self.assertNotIn('Style persona',helper.render(self.validate(self.plan())))
+
+    def test_persona_rejects_owned_words_empty_text_nonhuman_and_missing_model_hash(self):
+        self.validate(self.persona_plan())
+        for text in ('full-body relaxed attitude','direct gaze at the lens, calm','','   ',7):
+            with self.subTest(text=text),self.assertRaises(ValueError):
+                self.validate(self.persona_plan(persona=text))
+        with self.assertRaises(ValueError):
+            self.validate(self.persona_plan(),form='faceless')
+        plan=self.persona_plan();del plan['persona_model_sha256']
+        with self.assertRaises(ValueError):self.validate(plan)
+        plan=self.persona_plan();del plan['persona']
+        with self.assertRaises(ValueError):self.validate(plan)
+        for bad in ('abc','A'*64,None):
+            with self.subTest(sha=bad),self.assertRaises(ValueError):
+                self.validate(self.persona_plan(persona_model_sha256=bad))
+
+    def test_create_rejects_persona_plan_prepared_for_a_different_model(self):
+        plan=self.persona_plan()
+        self.model=dict(self.model,locked=['mature adult','short bob'])
+        with self.assertRaisesRegex(ValueError,'different model'):self.create(plan)
+        self.assertFalse((self.job/'task.json').exists())
+        self.model=dict(self.model,locked=['mature adult','tied-back hair'])
+        d=self.create(self.persona_plan())
+        self.assertEqual(d['visual_plan']['persona'],self.PERSONA)
+        self.assertIn('Style persona (yields to the declared model conditions): '+self.PERSONA,d['looks'][0]['prompt'])
+
+    def test_legacy_task_without_persona_exports_unchanged_after_upgrade(self):
+        # Same fixture path as the WP-1 compile_head smoke; eb0cea4c... was recorded from 17db89b, before persona existed.
+        spec=importlib.util.spec_from_file_location('legacy_library',ROOT/'skills/threadtruth-studio/scripts/visual_library.py')
+        library=importlib.util.module_from_spec(spec);spec.loader.exec_module(library)
+        source=ROOT/'docs/demo/preview-sources/beige-blazer-denim-outfit/source.jpg';h=task.digest(source)
+        garment=dict(description='Beige single-breasted blazer worn open over a white top with mid-blue straight denim; engineering fixture.',
+                     keep=['Keep blazer colour, lapel shape, button count and denim wash unchanged.'],source_sha256s=[h])
+        plan=library.prepare(dict(entry_id='korean-cold-editorial',garment=garment,inventory=[dict(role='garment-source',sha256=h)],
+                                  count=1,first_pose=1,output_medium='photography',output_form='human'))
+        self.assertNotIn('persona',plan)
+        coverage=[dict(sha256=h,views=['front','front-side'],usable=True,same_sku=True,note='fixture front image')]
+        shot=task.shot_helper().default_plan('wp1-fixture',coverage);shot['looks']=shot['looks'][:1]
+        context=dict(outfit='wp1-fixture',style='korean-cold-editorial',mode='C',output_form='human',size=[1024,1536],first_pose=1)
+        model=dict(source_type='new',scope='full',subject='adult female model',locked=[],adjustable=[],consent_note='')
+        task.create(self.job,[source],None,[1024,1536],True,model=model,context=context,visual_plan=plan,shot_plan=shot,count=1)
+        task.export(self.job)
+        request=json.loads(sorted(self.job.glob('handoff/look-1-v*/request.json'))[-1].read_text())
+        self.assertEqual(hashlib.sha256(request['prompt'].encode()).hexdigest(),
+                         'eb0cea4cf5a7fd912c0bada7745781d8b66ed4aa871aeae14f68e6e42df589f5')
+
 
 if __name__=='__main__':unittest.main()

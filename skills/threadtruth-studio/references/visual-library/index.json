@@ -32,7 +32,7 @@
   "entries": [
     {
       "id": "american-street",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "name": "美式街头 / American Street",
       "entry_type": "legacy-style",
       "aliases": [
@@ -54,7 +54,7 @@
     },
     {
       "id": "athleisure",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "name": "运动休闲 / Athleisure",
       "entry_type": "legacy-style",
       "aliases": [
@@ -77,7 +77,7 @@
     },
     {
       "id": "balletcore",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "name": "芭蕾柔美 / Balletcore",
       "entry_type": "legacy-style",
       "aliases": [
@@ -100,7 +100,7 @@
     },
     {
       "id": "british-heritage",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "name": "英伦传承 / British Heritage",
       "entry_type": "legacy-style",
       "aliases": [
@@ -123,7 +123,7 @@
     },
     {
       "id": "cityboy",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "name": "都市宽松男装 / Cityboy",
       "entry_type": "legacy-style",
       "aliases": [
@@ -147,7 +147,7 @@
     },
     {
       "id": "clean-fit",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "name": "极简基础 / Clean Fit",
       "entry_type": "legacy-style",
       "aliases": [
@@ -170,7 +170,7 @@
     },
     {
       "id": "coquette-ladylike",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "name": "甜美名媛 / Coquette Ladylike",
       "entry_type": "legacy-style",
       "aliases": [
@@ -193,7 +193,7 @@
     },
     {
       "id": "ecommerce-studio",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "name": "电商棚拍 / E-commerce Studio",
       "entry_type": "legacy-style",
       "aliases": [
@@ -216,7 +216,7 @@
     },
     {
       "id": "french-effortless",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "name": "法式松弛 / French Effortless",
       "entry_type": "legacy-style",
       "aliases": [
@@ -239,7 +239,7 @@
     },
     {
       "id": "gorpcore",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "name": "山系机能 / Gorpcore",
       "entry_type": "legacy-style",
       "aliases": [
@@ -262,7 +262,7 @@
     },
     {
       "id": "guochao-street",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "name": "国潮街头 / Guochao Street",
       "entry_type": "legacy-style",
       "aliases": [
@@ -285,7 +285,7 @@
     },
     {
       "id": "italian-luxe",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "name": "意式奢华 / Italian Luxe",
       "entry_type": "legacy-style",
       "aliases": [
@@ -308,7 +308,7 @@
     },
     {
       "id": "japanese-lifestyle",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "name": "日系生活感 / Japanese Lifestyle",
       "entry_type": "legacy-style",
       "aliases": [
@@ -332,7 +332,7 @@
     },
     {
       "id": "korean-cold-editorial",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "name": "韩系冷感杂志风 / Korean Cold Editorial",
       "entry_type": "legacy-style",
       "aliases": [
@@ -359,7 +359,7 @@
     },
     {
       "id": "korean-menswear",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "name": "韩式男装 / Korean Menswear",
       "entry_type": "legacy-style",
       "aliases": [
@@ -382,7 +382,7 @@
     },
     {
       "id": "neo-chinese",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "name": "新中式 / Neo Chinese",
       "entry_type": "legacy-style",
       "aliases": [
@@ -405,7 +405,7 @@
     },
     {
       "id": "nordic-minimal",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "name": "北欧极简 / Nordic Minimal",
       "entry_type": "legacy-style",
       "aliases": [
@@ -428,7 +428,7 @@
     },
     {
       "id": "office-commute-women",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "name": "职场通勤女装 / Office Commute Women",
       "entry_type": "legacy-style",
       "aliases": [
@@ -451,7 +451,7 @@
     },
     {
       "id": "old-money",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "name": "老钱风 / Old Money",
       "entry_type": "legacy-style",
       "aliases": [
@@ -474,7 +474,7 @@
     },
     {
       "id": "preppy",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "name": "美式学院 / Preppy",
       "entry_type": "legacy-style",
       "aliases": [
@@ -497,7 +497,7 @@
     },
     {
       "id": "quiet-luxury",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "name": "静奢风 / Quiet Luxury",
       "entry_type": "legacy-style",
       "aliases": [
@@ -519,7 +519,7 @@
     },
     {
       "id": "resort-vacation",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "name": "度假 / Resort Vacation",
       "entry_type": "legacy-style",
       "aliases": [
@@ -542,7 +542,7 @@
     },
     {
       "id": "workwear-vintage",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "name": "复古工装 / Workwear Vintage",
       "entry_type": "legacy-style",
       "aliases": [
@@ -565,7 +565,7 @@
     },
     {
       "id": "y2k-millennium",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "name": "千禧 Y2K / Y2K Millennium",
       "entry_type": "legacy-style",
       "aliases": [

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "coquette-ladylike",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "name": "甜美名媛 / Coquette Ladylike",
   "entry_type": "legacy-style",
   "aliases": [
@@ -103,5 +103,6 @@
     "复古镜前一角"
   ],
   "default_objective": "styled-editorial",
+  "persona": "gentle polished confidence, graceful composure, refined charm",
   "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。gentle polished confidence, graceful composure, refined charm"
 }

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "american-street",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "name": "美式街头 / American Street",
   "entry_type": "legacy-style",
   "aliases": [
@@ -103,5 +103,6 @@
     "黄昏霓虹街道"
   ],
   "default_objective": "styled-editorial",
+  "persona": "relaxed cool attitude, casual confidence, candid street energy, no stiffness",
   "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。relaxed cool attitude, casual confidence, candid street energy, no stiffness"
 }

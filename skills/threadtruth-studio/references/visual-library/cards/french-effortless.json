@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "french-effortless",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "name": "法式松弛 / French Effortless",
   "entry_type": "legacy-style",
   "aliases": [
@@ -105,5 +105,6 @@
     "林荫道清晨"
   ],
   "default_objective": "styled-editorial",
+  "persona": "relaxed natural expression, soft confidence, effortless undone attitude, no aegyo",
   "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。relaxed natural expression, soft confidence, effortless undone attitude, no aegyo"
 }

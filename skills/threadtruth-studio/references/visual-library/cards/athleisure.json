@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "athleisure",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "name": "运动休闲 / Athleisure",
   "entry_type": "legacy-style",
   "aliases": [
@@ -103,5 +103,6 @@
     "loft 训练角落"
   ],
   "default_objective": "styled-editorial",
+  "persona": "energetic relaxed expression, healthy easygoing confidence, active composed attitude",
   "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。energetic relaxed expression, healthy easygoing confidence, active composed attitude"
 }

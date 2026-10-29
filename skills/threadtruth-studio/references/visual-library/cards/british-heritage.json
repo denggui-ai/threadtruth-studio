@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "british-heritage",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "name": "英伦传承 / British Heritage",
   "entry_type": "legacy-style",
   "aliases": [
@@ -103,5 +103,6 @@
     "秋冬街角石板路"
   ],
   "default_objective": "styled-editorial",
+  "persona": "reserved confidence, poised refinement, quiet heritage attitude",
   "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。reserved confidence, poised refinement, quiet heritage attitude"
 }

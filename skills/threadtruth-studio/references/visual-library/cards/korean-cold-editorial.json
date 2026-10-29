@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "korean-cold-editorial",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "name": "韩系冷感杂志风 / Korean Cold Editorial",
   "entry_type": "legacy-style",
   "aliases": [
@@ -109,5 +109,6 @@
     "酒店走廊 / 电梯厅"
   ],
   "default_objective": "styled-editorial",
+  "persona": "calm, detached, quietly confident; restrained editorial attitude; no aegyo, no influencer mugging",
   "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。calm, detached, quietly confident; restrained editorial attitude; no aegyo, no influencer mugging 可选 calm detached expression、subtle melancholy；不得覆盖用户已确认的笑容或神态。"
 }

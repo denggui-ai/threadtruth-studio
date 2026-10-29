@@ -236,6 +236,27 @@ class StylePersonaTests(unittest.TestCase):
                         self.assertIn('Lighting/background palette: ' + preview['visual']['lighting'], actual)
                         self.assertIn('natural fuller body proportions', actual)
 
+    def test_resolve_persona_new_adult_keeps_full_text(self):
+        persona = 'relaxed face, friendly expression, quiet confidence, heavy makeup, young look, calm composure'
+        self.assertEqual(self.m.resolve_persona(self.model(), persona), persona)
+
+    def test_resolve_persona_real_locked_strips_expression_axes(self):
+        persona = 'relaxed face, friendly expression, quiet confidence, heavy makeup, young look, calm composure'
+        locked = self.model('real', locked=['same expression', 'same face'])
+        self.assertEqual(self.m.resolve_persona(locked, persona), 'relaxed face, quiet confidence, calm composure')
+        identity_only = self.model('real', locked=['same face'])
+        actual = self.m.resolve_persona(identity_only, persona)
+        self.assertNotIn('heavy makeup', actual)
+        self.assertNotIn('young look', actual)
+        self.assertIn('friendly expression', actual)
+
+    def test_resolve_persona_child_returns_empty_without_raising(self):
+        persona = 'relaxed face, friendly expression, quiet confidence'
+        child = self.model(subject='child model')
+        self.assertEqual(self.m.resolve_persona(child, persona), '')
+        self.assertEqual(self.m.resolve_persona(self.model(), '   '), '')
+        self.assertEqual(self.m.resolve_persona(self.model(), None), '')
+
 
 if __name__ == '__main__':
     unittest.main()

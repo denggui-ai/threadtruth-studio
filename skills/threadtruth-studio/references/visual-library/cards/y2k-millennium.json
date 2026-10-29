@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "y2k-millennium",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "name": "千禧 Y2K / Y2K Millennium",
   "entry_type": "legacy-style",
   "aliases": [
@@ -103,5 +103,6 @@
     "旧唱片店门口"
   ],
   "default_objective": "styled-editorial",
+  "persona": "confident playful attitude, sharp pop energy, controlled editorial edge",
   "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。confident playful attitude, sharp pop energy, controlled editorial edge"
 }

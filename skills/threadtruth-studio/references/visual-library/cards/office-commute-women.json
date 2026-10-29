@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "office-commute-women",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "name": "职场通勤女装 / Office Commute Women",
   "entry_type": "legacy-style",
   "aliases": [
@@ -103,5 +103,6 @@
     "玻璃幕墙建筑前"
   ],
   "default_objective": "styled-editorial",
+  "persona": "composed professional confidence, calm focus, approachable poise",
   "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。composed professional confidence, calm focus, approachable poise"
 }

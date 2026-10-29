@@ -183,6 +183,48 @@ class VisualLibraryCatalogTests(unittest.TestCase):
                 after = json.dumps(self.library.card(identifier), ensure_ascii=False, sort_keys=True)
                 self.assertEqual(before, after)
 
+    def human_model(self, **changes):
+        model = dict(source_type='new', scope='full', subject='adult female model',
+                     locked=['mature adult'], adjustable=[], consent_note='')
+        model.update(changes)
+        return model
+
+    def test_prepare_with_model_freezes_filtered_persona_and_model_hash(self):
+        visual = self.library._visual()
+        models = self.library._models()
+        for identifier in sorted(slug for slug, card in self.cards.items() if card.get('persona')):
+            model = self.human_model()
+            plan = self.library.prepare(self.spec(identifier, model=model))
+            with self.subTest(entry=identifier):
+                self.assertEqual(plan['persona'], self.cards[identifier]['persona'])
+                self.assertEqual(plan['persona_model_sha256'], visual.object_hash(models.validate_model(model)))
+                rows = visual.render(plan, 1).split('\n')
+                last_limit = max(i for i, row in enumerate(rows) if row.startswith('Art limit: '))
+                self.assertEqual(rows[last_limit + 1],
+                                 'Style persona (yields to the declared model conditions): ' + plan['persona'])
+        locked = self.human_model(source_type='real', locked=['same face', 'same expression'],
+                                  consent_note='Express likeness permission')
+        plan = self.library.prepare(self.spec('american-street', model=locked))
+        self.assertEqual(plan['persona'], models.resolve_persona(locked, self.cards['american-street']['persona']))
+        legacy_new = {slug for slug in self.cards if slug in NEW_ENTRIES}
+        self.assertFalse(any(self.cards[slug].get('persona') for slug in legacy_new))
+        self.assertEqual(len([c for c in self.cards.values() if c.get('persona')]), 24)
+
+    def test_prepare_without_model_or_nonhuman_omits_persona(self):
+        plan = self.library.prepare(self.spec('korean-cold-editorial'))
+        self.assertNotIn('persona', plan)
+        self.assertNotIn('persona_model_sha256', plan)
+        for form in ('faceless', 'flat-lay', 'hanger', 'mannequin'):
+            with self.subTest(form=form):
+                plan = self.library.prepare(self.spec('korean-cold-editorial', model=self.human_model(), output_form=form))
+                self.assertNotIn('persona', plan)
+                self.assertNotIn('persona_model_sha256', plan)
+        child = self.human_model(subject='child model')
+        self.assertNotIn('persona', self.library.prepare(self.spec('korean-cold-editorial', model=child)))
+        with self.assertRaises(ValueError):
+            self.library.prepare(self.spec('korean-cold-editorial', model=dict(self.human_model(), subject='unknown')))
+        self.assertNotIn('persona', self.library.prepare(self.spec('hanfu-form-specific', model=self.human_model())))
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "ecommerce-studio",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "name": "电商棚拍 / E-commerce Studio",
   "entry_type": "legacy-style",
   "aliases": [
@@ -107,5 +107,6 @@
     "same studio with a plain light-gray wall panel, visible floor and clear space for a back-turn pose"
   ],
   "default_objective": "product-display",
+  "persona": "neutral approachable expression, relaxed composure, composed catalog attitude",
   "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。neutral approachable expression, relaxed composure, composed catalog attitude"
 }

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "cityboy",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "name": "都市宽松男装 / Cityboy",
   "entry_type": "legacy-style",
   "aliases": [
@@ -104,5 +104,6 @@
     "公园长椅旁"
   ],
   "default_objective": "styled-editorial",
+  "persona": "relaxed composed attitude, quiet city confidence, easygoing poise",
   "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。relaxed composed attitude, quiet city confidence, easygoing poise"
 }

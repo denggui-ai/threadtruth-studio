@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "japanese-lifestyle",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "name": "日系生活感 / Japanese Lifestyle",
   "entry_type": "legacy-style",
   "aliases": [
@@ -109,5 +109,6 @@
     "米色亚麻背景自然光棚拍"
   ],
   "default_objective": "styled-editorial",
+  "persona": "gentle natural ease, soft everyday calm, unguarded relaxed warmth, quiet understated presence, no posed glamour",
   "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。gentle natural ease, soft everyday calm, unguarded relaxed warmth, quiet understated presence, no posed glamour"
 }

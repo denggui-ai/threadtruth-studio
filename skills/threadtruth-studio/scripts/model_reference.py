@@ -237,6 +237,16 @@ def resolve_mood(model, mood):
     return _filter_style_text(model, mood) or 'retain the selected photographic atmosphere'
 
 
+def resolve_persona(model, persona):
+    """Style persona yields to declared person conditions; '' when nothing survives or for child models."""
+    if not isinstance(persona, str) or not persona.strip():
+        return ''
+    model = validate_model(model, allow_child=True)
+    if model['subject'] == 'child model':
+        return ''
+    return _filter_style_text(model, persona) or ''
+
+
 def _filter_style_text(model, text):
     """Filter frozen pack clauses; do not infer arbitrary natural-language conflicts.
 

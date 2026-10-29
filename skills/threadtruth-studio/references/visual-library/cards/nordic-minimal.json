@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "nordic-minimal",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "name": "北欧极简 / Nordic Minimal",
   "entry_type": "legacy-style",
   "aliases": [
@@ -103,5 +103,6 @@
     "空旷画廊墙面"
   ],
   "default_objective": "styled-editorial",
+  "persona": "calm reserved expression, composed stillness, quiet confidence",
   "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。calm reserved expression, composed stillness, quiet confidence"
 }

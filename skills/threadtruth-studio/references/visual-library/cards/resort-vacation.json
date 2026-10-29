@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "resort-vacation",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "name": "度假 / Resort Vacation",
   "entry_type": "legacy-style",
   "aliases": [
@@ -103,5 +103,6 @@
     "泳池边浅色墙面"
   ],
   "default_objective": "styled-editorial",
+  "persona": "relaxed confident ease, serene holiday mood, natural composure",
   "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。relaxed confident ease, serene holiday mood, natural composure"
 }

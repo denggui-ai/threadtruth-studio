@@ -96,7 +96,7 @@ def shot_bindings(shot_plan):
 
 def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
     """Validate resolved visual fields against original garment hashes and context."""
-    if (not isinstance(plan, dict) or set(plan) - {'culture_profile'} != FIELDS
+    if (not isinstance(plan, dict) or set(plan) - {'culture_profile', 'persona', 'persona_model_sha256'} != FIELDS
             or type(plan['version']) is not int or plan['version'] not in (1, 2)):
         raise ValueError('Visual plan requires complete version-1 or version-2 structured fields')
     v2 = plan['version'] == 2
@@ -125,6 +125,16 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
         raise ValueError('A fusion note requires explicitly selected supporting styles')
     if 'culture_profile' in plan:
         _component(plan['culture_profile'])
+    if ('persona' in plan) != ('persona_model_sha256' in plan):
+        raise ValueError('Style persona and its resolving model hash are frozen together')
+    if 'persona' in plan:
+        if not isinstance(plan['persona'], str) or not plan['persona'].strip():
+            raise ValueError('Style persona must be a non-empty statement or omitted')
+        if plan['output_form'] != 'human':
+            raise ValueError('Style persona applies only to human presentations')
+        if not isinstance(plan['persona_model_sha256'], str) or not re.fullmatch(r'[a-f0-9]{64}', plan['persona_model_sha256']):
+            raise ValueError('Style persona requires the exact resolving model hash')
+        _line(plan['persona'], 'Style persona', owned=True, v2=v2)
     garment = plan['garment']
     if not isinstance(garment, dict) or set(garment) != {'description', 'keep', 'source_sha256s'}:
         raise ValueError('Garment facts require description, keep and original source_sha256s')
@@ -220,6 +230,8 @@ def render(plan, look=None):
     rows += ['Art direction: ' + plan['art']['direction']]
     rows += ['Art technique: ' + item for item in plan['art']['techniques']]
     rows += ['Art limit: ' + item for item in plan['art']['limits']]
+    if plan.get('persona'):
+        rows.append('Style persona (yields to the declared model conditions): ' + plan['persona'])
     cells = plan['shots'] if look is None else [plan['shots'][look - 1]]
     for shot in cells:
         heading = (f"Visual slot {shot['slot']} (shot {shot['shot_id']}):" if plan['version'] == 2

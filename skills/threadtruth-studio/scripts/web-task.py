@@ -215,6 +215,8 @@ def prompt_check(prompt,context,model=None,shot_plan=None,number=1,real_face_pla
     if shot_plan is not None:
         shot_helper().apply(prompt,shot_plan,None if context.get('purpose')=='preview-grid' else number,real_face_plan)
     if visual_plan is not None:
+        if visual_plan.get('persona') and (model is None or object_hash(model)!=visual_plan.get('persona_model_sha256')):
+            raise ValueError('Visual persona was resolved against a different model; prepare the plan again')
         look=None if context.get('purpose')=='preview-grid' else number
         if (visual_plan['output_form'] in ('human','faceless') and context['first_pose']!='custom'
                 and context.get('purpose') not in ('model-check','correction-edit') and shot_plan is None):

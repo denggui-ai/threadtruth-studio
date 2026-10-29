@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "preppy",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "name": "美式学院 / Preppy",
   "entry_type": "legacy-style",
   "aliases": [
@@ -103,5 +103,6 @@
     "干净砖墙立面"
   ],
   "default_objective": "styled-editorial",
+  "persona": "composed bright confidence, polished ease, understated campus poise",
   "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。composed bright confidence, polished ease, understated campus poise"
 }

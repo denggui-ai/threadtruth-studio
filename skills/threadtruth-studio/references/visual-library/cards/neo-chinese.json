@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "neo-chinese",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "name": "新中式 / Neo Chinese",
   "entry_type": "legacy-style",
   "aliases": [
@@ -103,5 +103,6 @@
     "极简水墨背景墙"
   ],
   "default_objective": "styled-editorial",
+  "persona": "composed refined presence, calm confidence, understated elegance",
   "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。composed refined presence, calm confidence, understated elegance"
 }

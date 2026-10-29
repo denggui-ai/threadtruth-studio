@@ -21,6 +21,13 @@ def _visual():
     return module
 
 
+def _models():
+    spec = importlib.util.spec_from_file_location('library_model_reference', Path(__file__).with_name('model_reference.py'))
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 def _read(root, relative):
     if (not isinstance(relative, str) or not relative or Path(relative).is_absolute()
             or '..' in Path(relative).parts):
@@ -158,10 +165,11 @@ def prepare(spec, root=ROOT):
     in the task ledger. This local preparation does not grant or consume a call.
     """
     allowed = {'entry_id', 'garment', 'inventory', 'count', 'first_pose', 'objective', 'output_form',
-               'output_medium', 'supporting', 'fusion_note', 'overrides', 'culture_profile', 'shot_plan'}
+               'output_medium', 'supporting', 'fusion_note', 'overrides', 'culture_profile', 'shot_plan', 'model'}
     if not isinstance(spec, dict) or set(spec) - allowed:
         raise ValueError('Unknown visual preparation fields')
     primary = card(spec['entry_id'], root)
+    model = _models().validate_model(spec['model'], allow_child=True) if spec.get('model') is not None else None
     objective = spec.get('objective', primary.get('default_objective',
                          'product-display' if spec['entry_id'] == 'ecommerce-studio' else 'styled-editorial'))
     support = primary.get('purpose_support', [])
@@ -215,6 +223,12 @@ def prepare(spec, root=ROOT):
         plan['culture_profile'] = component(spec['culture_profile'])
     elif primary.get('culture_profile'):
         plan['culture_profile'] = component(primary['culture_profile'])
+    persona = primary.get('persona')
+    if model is not None and output_form == 'human' and isinstance(persona, str) and persona.strip():
+        resolved = _models().resolve_persona(model, persona)
+        if resolved:
+            plan['persona'] = resolved
+            plan['persona_model_sha256'] = _visual().object_hash(model)
     return _visual().validate(plan, spec['inventory'],
                               context=dict(style=spec['entry_id'], first_pose=pose, output_form=output_form),
                               count=count, identity=output_form in ('human', 'faceless'), shot_plan=shot_plan)
