@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased — style persona injection, 2026-10-30
+
+- feat: inject card persona into visual plan (filtered by model conditions); document mode-to-shots mapping. The 24 legacy cards gain a short English `persona` (version 0.1.1; `persona_guidance` unchanged). `prepare` freezes it with the resolving model hash only for human output with a declared non-child model; `web-task` rejects a persona plan whose model changed. Plans without persona and frozen tasks render byte-identically. 12 new entries have no persona. Not visual evidence of image improvement.
+
 ## Unreleased — garment-driven preparation clarification, 2026-10-29
 
 - Clarify source-image verification of locked outfit details, purposeful accessory placement, natural garment deformation, per-shot reasons and out-of-frame head/gaze for detail crops. This is preparation guidance, not evidence of image improvement; historical tasks remain unchanged.
