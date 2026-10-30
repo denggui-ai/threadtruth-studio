@@ -1,7 +1,7 @@
 # 裁光 · Codex 服饰 AI 插件 / Caiguang — Installation
 
 
-> **本页用于 beta.15 预发布版 / This page covers the beta.15 prerelease.** 首次使用可配合 [beta.15 试用指南 / trial guide](BETA12-TRYOUT.md)。旧版使用对应归档内指南，不要混用版本、命令和校验文件。
+> **本页用于 beta.15 预发布版 / This page covers the beta.15 prerelease.** 首次使用可配合随包附带的[离线使用指南 / offline user guide](../USER-GUIDE.html)；[beta.12 试用指南](BETA12-TRYOUT.md)为历史版本记录。旧版使用对应归档内指南，不要混用版本、命令和校验文件。
 
 [English](#english) | [简体中文](#简体中文)
 
@@ -215,13 +215,13 @@ codex plugin list --marketplace personal --json
 请用 $threadtruth-studio 识别并推荐风格，不要生图
 ```
 
-预期返回可见服饰事实、主推与两个备选，以及完整24风格目录；等待你选风格，不应生成图片。默认后续为授权六宫格预览、确认方向、授权六张独立图；主动单张分支保留。
+预期返回可见服饰事实、主推与两个备选，以及完整 36 入口目录；等待你选方向，不应生成图片。默认后续为授权 1 次九格方向预览、确认方向、授权 9 次生成九张独立图；明确六张、经典六姿势或非人像为 6 张，单张为 1 张。
 
 首次使用成功应同时满足：已安装项处于启用状态，新任务能调用 `$threadtruth-studio`，并返回素材核对与具体方案。成功或失败均可提交[安装反馈表](https://github.com/denggui-ai/threadtruth-studio/issues/new?template=installation-feedback.yml)，填写实际安装版本；若尚未安装成功，填写 not installed 和尝试安装的版本。不要在公开 Issue 中附私图、凭据或完整日志。
 
 ### 4. 准备素材并开始生成
 
-最低一张清晰、有权使用的真实服饰图可开始识别；正面、背面与细节图更利于确认服饰事实。先看[素材指南](INPUT-GUIDE.md)，确认识别与风格后，默认先预览再六张；也可主动使用[单张测试、单件六图或套装六图指令](CAPABILITIES.md#first-generation)。生成指令会使用账号额度，首次识别本身不授权生图。
+最低一张清晰、有权使用的真实服饰图可开始识别；正面、背面与细节图更利于确认服饰事实。先看[素材指南](INPUT-GUIDE.md)，确认识别与方向后，默认先预览再九张；也可主动使用[单张测试或整组生成指令](CAPABILITIES.md#first-generation)。生成指令会使用账号额度，首次识别本身不授权生图。
 
 ### 安装排查
 

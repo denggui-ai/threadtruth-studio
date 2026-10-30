@@ -1,49 +1,49 @@
 # 裁光 · Caiguang
 
-**2026-10-18源码候选：视觉验收未通过。** 原24方向＋12新执行入口服务商品展示、穿搭编辑与艺术广告，36入口均保持DRAFT。源码检查已过，实图与端到端验收未全通过；三组配对样本未证明整体改善，童装六张整组未通过，网页六张与复用流程尚未完成，真人案例延期。候选未安装，公开下载和下方历史图库保留原发布范围。[当前验证范围与限制](docs/COMPATIBILITY.md#current-source-candidate--当前源码候选) · [当前源码能力](docs/CAPABILITIES.md)。
+**2026-10-30 beta.15 状态：36 个视觉入口已随预发布版发布，实图验证仍少。** 24 个原风格入口加 12 个新执行入口（商品展示／穿搭编辑／艺术广告）全部进入 beta.15，默认流程改为服饰驱动的九张编排；36 张入口卡的状态仍为 draft。实图证据目前只有一次真实 Codex 会话（牛仔套装，九格预览与首张成片经账本落地，提示词零手写），36 个入口尚未逐个跑图验证。下方历史图库保留原发布范围。[验证范围与限制](docs/COMPATIBILITY.md#current-source-candidate--当前源码候选) · [当前能力](docs/CAPABILITIES.md)。
 
 **AI Fashion Studio · 服饰 AI 影棚**
 
-**当前预发布版：beta.15。** 服饰驱动的九张编排、36 个带 persona 与色彩规则的视觉入口、生图前必经账本脚本、模型能据以自纠的校验报错。在 Codex 中显示为“裁光 · Caiguang”，调用名仍为 `$threadtruth-studio`。请使用[对应版本的试用指南](docs/BETA12-TRYOUT.md)；新环境实测和稳定版验收仍待完成，旧版资产保持不变。
+**当前预发布版：beta.15。** 服饰驱动的九张编排、36 个带 persona 与色彩规则的视觉入口、生图前必经账本脚本、模型能据以自纠的校验报错。在 Codex 中显示为“裁光 · Caiguang”，调用名仍为 `$threadtruth-studio`。请使用[随包离线使用指南](USER-GUIDE.html)；新环境实测和稳定版验收仍待完成，旧版资产保持不变。
 
 [![裁光 · Caiguang — AI Fashion Studio。米色套装参考图与 AI 生成效果。](https://denggui-ai.github.io/threadtruth-studio/assets/brand/og-home.png)](https://denggui-ai.github.io/threadtruth-studio/)
 
-**单件或整套服饰，生成六姿势 AI 模特图，24 种风格可选。**<br>Turn a garment or coordinated outfit into six-pose AI model portraits. Choose from 24 styles.
+**单件或整套服饰，按服饰编排九张 AI 模特图，36 个视觉入口可选。**<br>Turn a garment or coordinated outfit into a garment-driven set of nine AI model portraits. Choose from 36 visual entries.
 
-**[下载裁光插件 · Download Caiguang](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.15)**　·　**[开始安装 · Install](docs/INSTALL.md#简体中文)**　·　**[查看成片 · See results](https://denggui-ai.github.io/threadtruth-studio/#reviewed-cases)**　·　**[探索 24 风格 · Explore styles](https://denggui-ai.github.io/threadtruth-studio/#style-highlights)**
+**[下载裁光插件 · Download Caiguang](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.15)**　·　**[开始安装 · Install](docs/INSTALL.md#简体中文)**　·　**[查看成片 · See results](https://denggui-ai.github.io/threadtruth-studio/#reviewed-cases)**　·　**[探索风格 · Explore styles](https://denggui-ai.github.io/threadtruth-studio/#style-highlights)**
 
 [English guide](README.md) · [中文说明](README.zh-CN.md) · [产品首页 / Website](https://denggui-ai.github.io/threadtruth-studio/) · [能力清单与拓扑 / Capability topology](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md) · [当前能力状态 / Capability status](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/CAPABILITY-STATUS.md)
 
 
-[![裁光架构与关键流程](https://raw.githubusercontent.com/denggui-ai/threadtruth-studio/main/docs/assets/architecture-overview.png)](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md)
+[![裁光架构与关键流程](https://raw.githubusercontent.com/denggui-ai/threadtruth-studio/main/docs/assets/architecture-overview.svg)](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md)
 
 
-[日系家居完整流程教程](docs/JAPANESE-HOME-TUTORIAL.md)：素材、首张确认、六张独立图与真实问题复盘；注明公开安装版与开发修复的区别。
+[日系家居完整流程教程](docs/JAPANESE-HOME-TUTORIAL.md)（六图时期教程）：素材、首张确认、六张独立图与真实问题复盘；注明公开安装版与开发修复的区别。
 
 ## 单件和套装，都能拍一组
 
-上传一件服饰或一套完整搭配，选择 24 种风格中的一个主风格，生成默认六姿势的**六张独立图片**。首张验收后继续，其余图片沿用人物参考以保持组内一致；不保证复刻上传照片中的真人。24 风格可选不代表一次生成 24 组。
+上传一件服饰或一套完整搭配，从 36 个视觉入口中选一个主方向（24 个风格入口加 12 个执行入口），默认按这件服饰该展示什么编排**九张独立图片**，每张有明确的展示目的。先出一张标注"非成片"的九格方向预览，确认方向后再按授权逐张生成；首张验收并确认人物后，其余八张沿用人物参考保持组内一致；不保证复刻上传照片中的真人。明确要求六张、经典六姿势或单张时按要求执行；36 入口可选不代表一次生成 36 组。
 
-正面及前侧清楚但缺背面资料时，第六张明示改为正面自然站姿，前五姿势保留，仍为六张独立图；要求准确背部结构时须补实拍。
+缺背面资料时，不编排背身展示，用前面、前侧与局部安排并说明限制；要求准确背部结构时须补实拍。
 
-[素材怎么准备](docs/INPUT-GUIDE.md) · [六姿势与生成指令](docs/CAPABILITIES.md#six-poses) · [单件 24 风格预览](docs/demo/style-previews/white-vest-24-v1/) · [套装 24 风格预览](docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/)
+[素材怎么准备](docs/INPUT-GUIDE.md) · [九张编排与生成指令](docs/CAPABILITIES.md) · [单件 24 风格预览（历史）](docs/demo/style-previews/white-vest-24-v1/) · [套装 24 风格预览（历史）](docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/)
 
-以上两套是历史方向预览，每个风格一张六宫格，均不是六张独立成片。现新增 [六组六图穿搭案例](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html)：红花裙、浅绿衬衫家居搭配，拼色 T 恤的两种风格，外部 Codex 用户的黑色外套搭配，以及同款通勤窗光案例，共 36 张独立 AI 图。各组验收范围分别披露。
+以上两套是六图时期的历史方向预览，每个风格一张六宫格，均不是独立成片。[六组穿搭案例](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html)（红花裙、浅绿衬衫家居搭配，拼色 T 恤的两种风格，外部 Codex 用户的黑色外套搭配，以及同款通勤窗光案例，共 36 张独立 AI 图）均在六图流程下完成，各组验收范围分别披露；九张流程的公开案例待入口巡检后补充。
 
 ## 为什么选择裁光
 
 **让真实服饰，成为每一次创作的依据。**
 
-- **细节有依据，成片可对照。** 先读颜色、结构与搭配，再对照源图逐张确认，让你知道该看哪些细节。[查看六姿势成片](https://denggui-ai.github.io/threadtruth-studio/#reviewed-cases)。
-- **一套服饰，探索多种方向。** 从电商棚拍到品牌大片，在 24 种风格中寻找适合这套服饰的表达。[看同套服饰的三种风格](https://denggui-ai.github.io/threadtruth-studio/#outfit)。
-- **先看方向，再出六张。** 默认先选风格，授权六宫格方向预览，确认方向后再做六张独立图；主动要求单张时只做单张。[先做一次识别](#三步开始)。
+- **细节有依据，成片可对照。** 先读颜色、结构与搭配，再对照源图逐张确认，让你知道该看哪些细节。[查看已验收成片](https://denggui-ai.github.io/threadtruth-studio/#reviewed-cases)。
+- **一套服饰，探索多种方向。** 从电商棚拍到品牌大片，在 36 个视觉入口中寻找适合这套服饰的表达。[看同套服饰的三种风格](https://denggui-ai.github.io/threadtruth-studio/#outfit)。
+- **先看方向，再出九张。** 默认先选方向，授权一张九格方向预览，确认方向后再做九张独立图；明确要求六张或单张时按要求执行。[先做一次识别](#三步开始)。
 
 ## 你可以用它做什么
 
 - **识别服饰。** 从单件、套装或多角度照片读取可见细节。
-- **选择方向。** 查看推荐，或从完整 24 风格中自主选择。
+- **选择方向。** 查看推荐，或从完整 36 个视觉入口中自主选择；入口之外另有 207 条知识记录（来源目录、国内市场表达、中国文化服饰），供模型在方向两可时查阅，不作为独立入口。
 - **设置拍摄。** 选择棚拍、场景或混合，以及输出形式和画幅；其他输出形式的公开验证有限。
-- **选择产物。** 单张测试、标注为非成片的方向预览、六张独立图，或仅输出提示词。
+- **选择产物。** 单张测试、标注为非成片的九格方向预览、九张独立图（或明确要求的六张），或仅输出提示词。
 - **选择入口。** 默认在 Codex 生成，也可请求 ChatGPT 网页转交；自动执行依赖宿主浏览器工具。
 - **检查与修正。** 对照源图、检查尺寸，按需要明确授权单张重试。
 
@@ -63,7 +63,7 @@
 请用 $threadtruth-studio 识别并推荐风格，不要生图
 ```
 
-预期返回可见服饰事实、主推与两个备选，以及完整24风格目录供你自由选择。这一步**不授权生图**。选好风格后，默认先授权1次六宫格方向预览，确认方向后再按6次授权生成六张独立图；实际首张通过检查并确认人物后才继续其余五张。主动要求单张时跳过默认预览，只按1次授权生成单张。
+预期返回可见服饰事实、主推与两个备选，以及完整 36 入口目录供你自由选择。这一步**不授权生图**。选好方向后，默认先授权 1 次九格方向预览，确认方向后再按 9 次授权生成九张独立图；实际首张通过检查并确认人物后才继续其余八张。主动要求单张时跳过默认预览，只按 1 次授权生成单张。生图前技能必须先经账本脚本记录授权与每次调用。
 
 没有返回识别结果时，先看[安装排查](docs/INSTALL.md#安装排查)。安装成功或失败都可通过[安装反馈表](https://github.com/denggui-ai/threadtruth-studio/issues/new?template=installation-feedback.yml)简短反馈。
 

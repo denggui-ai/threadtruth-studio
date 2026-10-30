@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="2400" height="1900" viewBox="0 0 2400 1900" role="img" aria-labelledby="title desc">
 <title id="title">ThreadTruth Studio 裁光：底层逻辑与关键流程</title>
-<desc id="desc">七个分区展示用户入口、由 Codex Agent 执行的 Skill 核心、两个可选生图入口、交付、私人数据、本地及人工质量控制和八条用户旅程。按2026-10-08当前源码；真人来源按真实覆盖规划脸向，AI保持原流程，逐张选择最多五参考；实现不等于全面验证，公开beta.12下载包仍为旧发行内容。</desc>
+<desc id="desc">七个分区展示用户入口、由 Codex Agent 执行的 Skill 核心、两个可选生图入口、交付、私人数据、本地及人工质量控制和八条用户旅程。按2026-10-30 beta.15：默认按服饰编排九张、先出1张九格方向预览；真人来源按真实覆盖规划脸向，AI保持原流程，逐张选择最多五参考；生图前必经账本脚本；实现不等于全面验证，36张入口卡仍为draft。</desc>
 <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#244c73"/></marker></defs>
 <style>text{font-family:"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",Arial,sans-serif;fill:#17334e} .title{font-weight:700} .muted{fill:#496177}</style>
 <rect width="2400" height="1900" fill="#f7fafc"/>
 <text x="40" y="65" font-size="53" data-maxwidth="2320" class="title">ThreadTruth Studio | 裁光</text>
-<text x="40" y="110" font-size="30" data-maxwidth="2320" class="title">底层逻辑与关键流程  ·  当前源码 2026-10-08</text>
+<text x="40" y="110" font-size="30" data-maxwidth="2320" class="title">底层逻辑与关键流程  ·  beta.15 · 2026-10-30</text>
 <text x="40" y="147" font-size="23" data-maxwidth="2320" class="">真实服饰事实 → 受约束的拍摄方案 → 逐张生成与验收 → 对应规格交付</text>
 <rect x="1350" y="28" width="1010" height="125" rx="12" fill="#eaf3fb" stroke="#d9e4ec"/>
 <text x="1375" y="72" font-size="26" data-maxwidth="985" class="title">商品真实</text>
@@ -31,7 +31,7 @@
 <text x="78" y="596" font-size="25" data-maxwidth="324" class="title" style="fill:#087d64">不同意图，不同出口</text>
 <text x="78" y="634" font-size="21" data-maxwidth="324" class="">咨询、识别、推荐：不生图</text>
 <text x="78" y="666" font-size="21" data-maxwidth="324" class="">只要提示词：不生图</text>
-<text x="78" y="698" font-size="21" data-maxwidth="324" class="">先测一张 / 六张独立图</text>
+<text x="78" y="698" font-size="21" data-maxwidth="324" class="">先测一张 / 九张独立图</text>
 <text x="78" y="730" font-size="21" data-maxwidth="324" class="">改已有图 / 新品沿用人物</text>
 <text x="78" y="762" font-size="21" data-maxwidth="324" class="">隐式发现尚未全面验证</text>
 <rect x="510" y="180" width="890" height="640" rx="12" fill="#eaf3fb" stroke="#176bb0"/>
@@ -57,7 +57,7 @@
 <text x="1126" y="498" font-size="20" data-maxwidth="234" class="">当前商品始终是事实源</text>
 <rect x="532" y="553" width="540" height="134" rx="12" fill="#fff" stroke="#d9e4ec"/>
 <text x="550" y="587" font-size="25" data-maxwidth="504" class="title" style="fill:#176bb0">拍摄规划与风格选择</text>
-<text x="550" y="625" font-size="21" data-maxwidth="504" class="">style-router.md · 24 风格包</text>
+<text x="550" y="625" font-size="21" data-maxwidth="504" class="">visual-library · 36 视觉入口</text>
 <text x="550" y="652" font-size="21" data-maxwidth="504" class="">modes-scenes.md · 棚拍 / 场景 / 混合</text>
 <text x="550" y="679" font-size="21" data-maxwidth="504" class="">真人 / 不露脸 / 平铺 / 挂拍 / 人台</text>
 <rect x="1090" y="553" width="288" height="134" rx="12" fill="#fff" stroke="#d9e4ec"/>
@@ -67,21 +67,21 @@
 <text x="1108" y="679" font-size="20" data-maxwidth="252" class="">不进入生成提示词</text>
 <rect x="532" y="704" width="846" height="91" rx="12" fill="#dcecf9" stroke="#d9e4ec"/>
 <text x="550" y="731" font-size="18" data-maxwidth="810" class="title">真人：正脸 → 正面/近正面；多角度 → 实际清晰覆盖。AI / new 保持原流程。</text>
-<text x="550" y="758" font-size="18" data-maxwidth="810" class="title">有衣背无真人回眸 → 背部不露脸；无衣背 → 第六张正面站姿替代。</text>
+<text x="550" y="758" font-size="18" data-maxwidth="810" class="title">经典六姿势：有衣背缺回眸 → 背部不露脸；无衣背 → 第六张正面站姿。九张：缺衣背不排背身。</text>
 <text x="550" y="785" font-size="18" data-maxwidth="810" class="title">身体 / 头向 / 视线分开；每张参考 ≤5；库存留全；AI补充不扩真人角度。</text>
 <rect x="1450" y="180" width="380" height="640" rx="12" fill="#f2edfb" stroke="#6540a2"/>
 <text x="1472" y="223" font-size="29" data-maxwidth="336" class="title" style="fill:#6540a2">3. 生图执行 · 可选入口</text>
 <rect x="1470" y="245" width="340" height="221" rx="12" fill="#fff" stroke="#d9e4ec"/>
 <text x="1488" y="279" font-size="25" data-maxwidth="304" class="title" style="fill:#6540a2">Codex 原生 · 默认</text>
 <text x="1488" y="317" font-size="22" data-maxwidth="304" class="">宿主内置 image_gen</text>
-<text x="1488" y="353" font-size="22" data-maxwidth="304" class="">单张 / 六图 / 方向预览</text>
+<text x="1488" y="353" font-size="22" data-maxwidth="304" class="">单张 / 九张 / 方向预览</text>
 <text x="1488" y="389" font-size="22" data-maxwidth="304" class="">图片额度与授权分别核对</text>
 <text x="1488" y="425" font-size="22" data-maxwidth="304" class="">不外接第三方 API</text>
 <rect x="1470" y="483" width="340" height="237" rx="12" fill="#fff" stroke="#d9e4ec"/>
 <text x="1488" y="517" font-size="25" data-maxwidth="304" class="title" style="fill:#6540a2">ChatGPT 网页 · 显式选择</text>
 <text x="1488" y="555" font-size="21" data-maxwidth="304" class="">宿主浏览器或人工转交</text>
 <text x="1488" y="587" font-size="21" data-maxwidth="304" class="">上传与提交需适用授权</text>
-<text x="1488" y="619" font-size="21" data-maxwidth="304" class="">现有适配：单张 / 六张</text>
+<text x="1488" y="619" font-size="21" data-maxwidth="304" class="">适配记录：单张/六张（历史）</text>
 <text x="1488" y="651" font-size="21" data-maxwidth="304" class="">网页预览未列为已适配</text>
 <text x="1488" y="683" font-size="21" data-maxwidth="304" class="">不会自动切换入口兜底</text>
 <text x="1470" y="773" font-size="22" data-maxwidth="890" class="title">返回原文件，再进入逐张 QA</text>
@@ -90,9 +90,9 @@
 <rect x="1902" y="245" width="436" height="211" rx="12" fill="#fff" stroke="#d9e4ec"/>
 <text x="1920" y="279" font-size="25" data-maxwidth="400" class="title" style="fill:#087d64">按所选规格交付</text>
 <text x="1920" y="317" font-size="22" data-maxwidth="400" class="">仅提示词：文字，0 次生图</text>
-<text x="1920" y="353" font-size="22" data-maxwidth="400" class="">方向预览：1 张六宫格，非成片</text>
+<text x="1920" y="353" font-size="22" data-maxwidth="400" class="">方向预览：1 张九格，非成片</text>
 <text x="1920" y="389" font-size="22" data-maxwidth="400" class="">单张测试：1 张，满意后收尾</text>
-<text x="1920" y="425" font-size="22" data-maxwidth="400" class="">整组：6 张独立图，串行生成</text>
+<text x="1920" y="425" font-size="22" data-maxwidth="400" class="">整组：默认 9 张独立图，串行</text>
 <rect x="1902" y="475" width="436" height="195" rx="12" fill="#fff" stroke="#d9e4ec"/>
 <text x="1920" y="509" font-size="25" data-maxwidth="400" class="title" style="fill:#087d64">三个判断，分别成立</text>
 <text x="1920" y="547" font-size="21" data-maxwidth="400" class="">技术 QA：能否继续生成</text>
@@ -106,7 +106,7 @@
 <text x="1920" y="833" font-size="22" data-maxwidth="400" class="">商品 / 人物 / 动作视觉 QA 通过</text>
 <text x="1920" y="869" font-size="22" data-maxwidth="400" class="">应有图片完整，硬失败已关闭</text>
 <text x="1920" y="905" font-size="22" data-maxwidth="400" class="">用户源图核对与 AI 标识义务完成</text>
-<text x="1920" y="941" font-size="22" data-maxwidth="400" class="">预览和单张不冒充六张整组</text>
+<text x="1920" y="941" font-size="22" data-maxwidth="400" class="">预览和单张不冒充整组</text>
 <rect x="1902" y="1010" width="436" height="190" rx="12" fill="#fff" stroke="#d9e4ec"/>
 <text x="1920" y="1044" font-size="25" data-maxwidth="400" class="title" style="fill:#087d64">用于图片素材交付</text>
 <text x="1920" y="1082" font-size="21" data-maxwidth="400" class="">电商主图 / 社媒封面 / 详情素材</text>
@@ -246,10 +246,10 @@
 <text x="947" y="1673" font-size="17" data-maxwidth="224" class="">满意即完成单张</text>
 <text x="938" y="1738" font-size="17" data-maxwidth="242" class="title" style="fill:#a63363">失败暂停；重试需授权</text>
 <rect x="1212" y="1346" width="270" height="420" rx="12" fill="#fff" stroke="#e7cbd8"/>
-<text x="1226" y="1380" font-size="24" data-maxwidth="1134" class="title" style="fill:#a63363">E. 六张独立图</text>
+<text x="1226" y="1380" font-size="24" data-maxwidth="1134" class="title" style="fill:#a63363">E. 整组独立图</text>
 <text x="1226" y="1412" font-size="18" data-maxwidth="1134" class="">动作 1 · 串行</text>
 <rect x="1226" y="1435" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
-<text x="1235" y="1461" font-size="17" data-maxwidth="224" class="">确认方案与最多六次授权</text>
+<text x="1235" y="1461" font-size="17" data-maxwidth="224" class="">确认方案与N次授权</text>
 <polyline points="1347,1473 1347,1486" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
 <rect x="1226" y="1488" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
 <text x="1235" y="1514" font-size="17" data-maxwidth="224" class="">首张：尺寸 + 视觉 QA</text>
@@ -261,7 +261,7 @@
 <text x="1235" y="1620" font-size="17" data-maxwidth="224" class="">按剩余额度逐张检查续生</text>
 <polyline points="1347,1632 1347,1645" fill="none" stroke="#244c73" stroke-width="3" marker-end="url(#arrow)"/>
 <rect x="1226" y="1647" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
-<text x="1235" y="1673" font-size="17" data-maxwidth="224" class="">六张齐后核整组放行</text>
+<text x="1235" y="1673" font-size="17" data-maxwidth="224" class="">整组齐后核放行</text>
 <text x="1226" y="1738" font-size="17" data-maxwidth="242" class="title" style="fill:#a63363">首张 / 画布失败即停</text>
 <rect x="1500" y="1346" width="270" height="420" rx="12" fill="#fff" stroke="#e7cbd8"/>
 <text x="1514" y="1380" font-size="24" data-maxwidth="846" class="title" style="fill:#a63363">F. 修改已有图</text>
@@ -315,6 +315,6 @@
 <rect x="2090" y="1647" width="242" height="38" rx="6" fill="#f0f6fb" stroke="#d4e3ee"/>
 <text x="2099" y="1673" font-size="17" data-maxwidth="224" class="">获新授权后才新增重试</text>
 <text x="2090" y="1738" font-size="17" data-maxwidth="242" class="title" style="fill:#a63363">保留历史与已用次数</text>
-<text x="40" y="1834" font-size="24" data-maxwidth="2320" class="title">验证边界：近正面两种坐姿已获接受；不代表严格锁脸、完整六张、多角度、跨商品或全风格稳定。商品细节仍须逐图核对。</text>
-<text x="40" y="1873" font-size="22" data-maxwidth="2320" class="">当前源码 · 2026-10-08；公开 beta.12 ZIP 保留原发行内容   |   能力盘点：docs/CAPABILITY-STATUS.md   |   github.com/denggui-ai/threadtruth-studio</text>
+<text x="40" y="1834" font-size="24" data-maxwidth="2320" class="title">验证边界：beta.15 实图仅一次真实会话（九格预览 + 首张成片）；36 入口未逐个跑图；近正面两种坐姿接受不代表严格锁脸、完整整组、多角度或跨商品稳定。商品细节仍须逐图核对。</text>
+<text x="40" y="1873" font-size="22" data-maxwidth="2320" class="">beta.15 · 2026-10-30   |   能力盘点：docs/CAPABILITY-STATUS.md   |   github.com/denggui-ai/threadtruth-studio</text>
 </svg>

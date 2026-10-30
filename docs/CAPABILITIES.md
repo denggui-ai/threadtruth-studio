@@ -1,14 +1,14 @@
 # 裁光能力与用法 / Capabilities & usage
 
-## 2026-10-18源码候选：完整服饰视觉工作室
+## 2026-10-30 beta.15：完整服饰视觉工作室
 
-本轮在源码层接通素材识别、人物选择与复用、视觉方向、拍摄方案、双路线生成和验收修改的规划、编译与任务记录。支持商品展示、穿搭编辑、艺术广告三种用途；目标交付为完整独立图片。保留原24方向并增加12个执行入口，实际目录见[36入口索引](../skills/threadtruth-studio/references/visual-library/index.json)；36入口均保持DRAFT。知识目录中的风格记录不是同数量的出图方案或已验证样片。
+beta.15 预发布版包含素材识别、人物选择与复用、视觉方向、拍摄方案、双路线生成和验收修改的规划、编译与任务记录。支持商品展示、穿搭编辑、艺术广告三种用途；目标交付为完整独立图片。36 个视觉入口由 24 个原风格入口与 12 个新执行入口组成，实际目录见[36入口索引](../skills/threadtruth-studio/references/visual-library/index.json)；36 张入口卡的 status 仍为 draft。入口之外另有 207 条知识记录（来源目录 132、国内市场表达 46、中国文化服饰 20），供模型在方向两可时查阅，不是入口，也不是同数量的出图方案或已验证样片。
 
-新增入口：美式复古日常、哥特服饰摄影、浪漫波西米亚、未来人工光摄影、汉服指定形制、旗袍都市人像、林芝工布服饰、婚纱空灵、Lolita层次、服饰插画、Art Deco图形布景、超现实空间广告。文化入口仅按具体参考和本次实测范围声明能力；不代表整个文化体系。
+新增入口：美式复古日常、哥特服饰摄影、浪漫波西米亚、未来人工光摄影、汉服指定形制、旗袍都市人像、林芝工布服饰、婚纱空灵、Lolita层次、服饰插画、Art Deco图形布景、超现实空间广告。文化入口仅按具体参考声明能力，尚无实图验证；不代表整个文化体系。
 
-本轮方案在准备时冻结，原生、网页、预览修订、单张/六张承接和提示词导出共用；旧任务继续使用原冻结内容。多个方向可分别比较或按已明确主辅融合；色彩、场景与风格不机械互斥。仅提示词不调用生图，上传和风格选择不产生调用授权。
+方案在准备时冻结，原生、网页、预览修订、单张／整组承接和提示词导出共用；旧任务继续使用原冻结内容。多个方向可分别比较或按已明确主辅融合；色彩、场景与风格不机械互斥。仅提示词不调用生图，上传和风格选择不产生调用授权；生图前技能必须先经账本脚本记录本任务授权与每次调用。
 
-**状态：源码检查已过，实图与端到端验收未全通过，候选未安装。** 三组旧新版配对样本未证明整体改善；D03童装六张整组未通过，D04网页六张独立图及跨商品复用链尚未完成，真人案例延期。实际结论与未完成范围见[当前验证边界](COMPATIBILITY.md#current-source-candidate--当前源码候选)。下面历史案例保留原范围；候选代码和执行卡存在不代表画面已提升。准备机制见[视觉方案](../skills/threadtruth-studio/references/visual-plan.md)，公开发布版及线上图库尚未随本轮更新。
+**状态：beta.15 已随预发布版发布，实图验证仍少。** 默认流程改为服饰驱动的九张编排：先 1 张标注"非成片"的 3×3 九格方向预览，确认方向后按授权逐张生成九张独立图；明确要求六张、经典六姿势或非人像时为 6 张，主动单张为 1 张。实图证据目前只有一次真实 Codex 会话（牛仔套装，九格预览与首张成片经账本落地，提示词零手写）；36 个入口尚未逐个跑图验证，36 张入口卡 status 仍为 draft。2026-10-18 改版候选期的配对样本与失败记录保留原结论，见[验证边界](COMPATIBILITY.md#current-source-candidate--当前源码候选)。下面历史案例保留原范围；执行卡存在不代表画面已提升。准备机制见[视觉方案](../skills/threadtruth-studio/references/visual-plan.md)；线上图库仍是六图时期历史案例。
 
 ## 历史增量：2026-10-17预览修订与双路由
 
@@ -17,23 +17,23 @@
 
 [用户架构总图（GitHub在线）](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md) · [当前能力盘点：实现、验证与缺口](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/CAPABILITY-STATUS.md)
 
-从真实服饰照片开始，先识别、选方向，再决定是否生成。本文说明**当前源码**的工作流与条件，含显式单张呈现、真人参考朝向规划及逐张选图。beta.14恢复默认选风格、六宫格预览、方向确认、六张独立图，保留主动单张；请使用匹配版本的公开安装包。本机版本须按安装记录核对；不承诺所有功能组合都已实测。
+从真实服饰照片开始，先识别、选方向，再决定是否生成。本文说明 **beta.15** 的工作流与条件，含显式单张呈现、真人参考朝向规划及逐张选图。默认流程为选风格、1 张九格方向预览（非成片）、确认方向、按服饰编排的九张独立图；保留主动单张、明确六张与经典六姿势。请使用匹配版本的公开安装包。本机版本须按安装记录核对；不承诺所有功能组合都已实测。
 
-Start with real garment photos, identify the source and choose a direction before generating. This guide describes the **current source** workflow, including explicit single-image composition, real-person view coverage and per-image reference selection. Beta.14 restores style selection, a six-panel direction preview, direction confirmation and six independent images, while preserving explicit single-image requests. Use the matching release package. Check installation records for the active local version. Not every combination has been tested.
+Start with real garment photos, identify the source and choose a direction before generating. This guide describes the **beta.15** workflow, including explicit single-image composition, real-person view coverage and per-image reference selection. The default flow is style selection, one labeled nine-panel direction preview, direction confirmation and nine garment-driven independent images; explicit single-image, six-image and classic six-pose requests are preserved. Use the matching release package. Check installation records for the active local version. Not every combination has been tested.
 
-[开始安装 / Install](INSTALL.md) · [产品首页 / Website](https://denggui-ai.github.io/threadtruth-studio/) · [24 风格样例 / Style examples](https://denggui-ai.github.io/threadtruth-studio/#style-highlights) · [兼容性 / Compatibility](COMPATIBILITY.md)
+[开始安装 / Install](INSTALL.md) · [产品首页 / Website](https://denggui-ai.github.io/threadtruth-studio/) · [24 风格样例（历史） / Style examples (historical)](https://denggui-ai.github.io/threadtruth-studio/#style-highlights) · [兼容性 / Compatibility](COMPATIBILITY.md)
 
-默认选风格（主推、两个备选与完整36执行入口目录）→ 授权六宫格方向预览 → 确认方向 → 按授权生成六张独立图。实际首张仍须人物确认；已有授权沿用。用户主动要求单张则走单张，验收后结束，不强制预览或扩组。模特参考包与受限局部换装见[模特复用](MODEL-REUSE.md)。
+默认选风格（主推、两个备选与完整36个视觉入口目录）→ 授权 1 张九格方向预览（标注非成片）→ 确认方向 → 按授权生成按服饰编排的九张独立图。实际首张仍须人物确认，确认后其余八张沿用人物参考；已有授权沿用。明确要求六张或经典六姿势时按 6 张执行；用户主动要求单张则走单张，验收后结束，不强制预览或扩组。模特参考包与受限局部换装见[模特复用](MODEL-REUSE.md)。
 
-## 单件、套装与六姿势 / Garments, outfits and six poses
+## 单件、套装与九张编排 / Garments, outfits and nine-shot planning
 
-单件服饰和完整套装都可以生成 AI 模特上身展示。两者均可从36执行入口中选择主方向，按默认身体动作规划六张独立图片；沿用真人面部时还须按实际参考覆盖安排脸向，不承诺严格身份复制或尺码合体仿真。套装同时关注单品、层次、比例及鞋包配饰。单件上装所需的补全搭配应在方案中确认，不当作源图事实。
+单件服饰和完整套装都可以生成 AI 模特上身展示。两者均可从36个视觉入口中选择主方向，默认按这件服饰该展示什么编排九张独立图片；沿用真人面部时还须按实际参考覆盖安排脸向，不承诺严格身份复制或尺码合体仿真。套装同时关注单品、层次、比例及鞋包配饰。单件上装所需的补全搭配应在方案中确认，不当作源图事实。
 
-Both a single garment and a coordinated outfit can become AI model portraits in one of 36 execution entries. A full set contains six independent images; real-person face reuse additionally follows the supplied view coverage, without a promise of exact identity copying or fit simulation. Outfits preserve the identified items, layers, proportions and accessories. Complementary styling for a single top is confirmed in the plan, not treated as source evidence.
+Both a single garment and a coordinated outfit can become AI model portraits in one of 36 visual entries. A default set contains nine garment-driven independent images; real-person face reuse additionally follows the supplied view coverage, without a promise of exact identity copying or fit simulation. Outfits preserve the identified items, layers, proportions and accessories. Complementary styling for a single top is confirmed in the plan, not treated as source evidence.
 
 <a id="six-poses"></a>
 
-| 默认姿势 / Default pose | 英文 / English |
+| 经典六姿势 / Classic six poses | 英文 / English |
 |---|---|
 | 1. 侧身回转站姿 | Side-turn standing |
 | 2. 侧身倚靠墙面 | Side-leaning against a wall |
@@ -42,13 +42,13 @@ Both a single garment and a coordinated outfit can become AI model portraits in 
 | 5. 微前倾俯身 | Slight forward lean |
 | 6. 背身回眸 | Back-turn glance |
 
-姿势是默认人像方案，实际构图还需结合素材、服饰与所选模式确认。平铺、挂拍、人台使用对应非人像构图，不把六个真人姿势直接套用过去。首张验收后作为后续人物参考，并逐张检查服饰、人物一致性与画幅。
+此表是明确要求六张或经典六姿势时使用的经典人像方案；默认九张不套用此表，而是按服饰与用途逐张编排。实际构图还需结合素材、服饰与所选模式确认。平铺、挂拍、人台使用对应的六构图非人像方案，不把六个真人姿势直接套用过去。首张验收后作为后续人物参考，并逐张检查服饰、人物一致性与画幅。
 
-These are default portrait poses, subject to source coverage, garment and mode constraints. Flat-lay, hanger and mannequin outputs use their own compositions. The accepted first portrait anchors later identity references; each image still needs review.
+This table is the classic portrait plan, used when six images or the classic six poses are explicitly requested; the default nine-shot set is planned per garment and use instead. Actual composition still depends on source coverage, garment and mode. Flat-lay, hanger and mannequin outputs use their own six nonportrait compositions. The accepted first portrait anchors later identity references; each image still needs review.
 
-缺背面分支：正面/前侧清楚时，仅明示替代第六张为正面自然站姿，前五保留；六张必须动作可区分，不能只换背景或裁切。明确要求原六姿势或背部结构时仍须补实拍。非人像背面构图不套用此真人例外。
+经典六姿势方案中的缺背面分支：正面/前侧清楚时，仅明示替代第六张为正面自然站姿，前五保留；六张必须动作可区分，不能只换背景或裁切。明确要求原六姿势或背部结构时仍须补实拍。非人像背面构图不套用此真人例外。默认九张方案缺背面时不编排背身，用前面、前侧与局部安排并说明限制；要准确背部结构须补实拍。
 
-With sufficient front/front-side coverage but no rear source, disclose only slot 6 as stationary frontal standing. Keep slots 1–5 and six distinct actions. Explicit original-pose/rear-detail demands and nonportrait rear compositions still require rear material.
+In the classic six-pose plan, with sufficient front/front-side coverage but no rear source, disclose only slot 6 as stationary frontal standing. Keep slots 1–5 and six distinct actions. Explicit original-pose/rear-detail demands and nonportrait rear compositions still require rear material. In the default nine-shot plan, a missing rear means no back-view shot: the set uses front, front-side and detail arrangements and states the limit; accurate rear construction still requires a real rear photo.
 
 ### 人物来源决定脸部方向 / Identity source determines face direction
 
@@ -60,22 +60,22 @@ Use the declared identity source, not the presence or appearance of an uploaded 
 |---|---|
 | 沿用真人，只提供正面 / Real person, front only | 露脸默认正面或近正面，身体动作保持差异。 / Keep visible faces front or near-front while varying body actions. |
 | 沿用真人，有清晰多角度 / Real person, clear multiple views | 只用实际覆盖方向，不推导另一侧或未知侧脸。 / Use only supported directions; do not infer an unseen side. |
-| 上传已有AI模特，或推荐新AI模特 / Existing or new AI model | 保留原六姿势、头向变化、首张确认和复用流程，继续一致性QA。 / Keep the existing pose, head-direction, first-image acceptance and reuse flow, including identity QA. |
+| 上传已有AI模特，或推荐新AI模特 / Existing or new AI model | 经典六姿势方案保留原六姿势与头向变化，默认九张按服饰编排；两者均保留首张确认和复用流程，继续一致性QA。 / The classic six-pose plan keeps its poses and head-direction changes; the default nine-shot set is planned per garment. Both keep first-image acceptance, reuse and identity QA. |
 | 图片仅借鉴风格或姿势 / Aesthetic or pose reference only | 不触发真人身份朝向限制。 / Does not activate real-person identity direction limits. |
 
-真人原图加上已接受的生成补充图仍属于真人路径；补充图只补充已接受表现，不能认证真实未知角度。商品背面也需单独核对：有真实衣服背面却缺真人回眸依据时，第六张保留背部展示、明示取消露脸回眸；缺衣服背面则仍采用上方正面站姿替代。用户指定未知方向、原六姿势或六张都露脸时，先说明对应编号冲突，选择补真实图或修改该编号。
+真人原图加上已接受的生成补充图仍属于真人路径；补充图只补充已接受表现，不能认证真实未知角度。商品背面也需单独核对。经典六姿势方案中：有真实衣服背面却缺真人回眸依据时，第六张保留背部展示、明示取消露脸回眸；缺衣服背面则仍采用上方正面站姿替代。默认九张方案缺衣服背面时不编排背身。用户指定未知方向、原六姿势或整组都露脸时，先说明对应编号冲突，选择补真实图或修改该编号。
 
-A real-person package stays real after accepted generated supplements are added; supplements do not certify unseen real views. Garment rear coverage is separate. If a real garment rear is supplied but the person's glance view is missing, retain the rear display with the face hidden and disclose the change. Without garment rear evidence, use the frontal slot-6 substitute above. Resolve explicit unsupported direction or all-face demands before generating.
+A real-person package stays real after accepted generated supplements are added; supplements do not certify unseen real views. Garment rear coverage is separate. In the classic six-pose plan, if a real garment rear is supplied but the person's glance view is missing, retain the rear display with the face hidden and disclose the change; without garment rear evidence, use the frontal slot-6 substitute above. In the default nine-shot plan, a missing garment rear means no back-view shot. Resolve explicit unsupported direction or all-face demands before generating.
 
 每次原生请求最多5张参考，后续首张锚点也计入。真人多角度的完整库存可超过5张，逐张选择合适商品源、真人原图及已接受补充，保留顺序与选择记录；不能静默裁掉原始身份或关键商品视图。仅提供脸照不证明该人的身体。降低角度风险不等于严格锁脸。
 
 Each native request allows at most five references, including the accepted first-image anchor when required. A real-person inventory may contain more than five files; select and record an appropriate subset per image without silently dropping original identity or essential garment evidence. A face photo does not establish the person's body. Limiting unsupported directions does not guarantee exact identity preservation.
 
-明确要求的单张动作、景别或鞋履按确认方案执行，不为凑默认六姿势改成站姿或强加鞋子。编辑已有图时，待改图是编辑目标，真人原图仍是身份依据；不能用失败成图替换原人物。
+明确要求的单张动作、景别或鞋履按确认方案执行，不为凑默认整组编排改成站姿或强加鞋子。编辑已有图时，待改图是编辑目标，真人原图仍是身份依据；不能用失败成图替换原人物。
 
 An explicitly requested single-image pose, framing or footwear follows the confirmed plan. For edits, the target image is an edit target while the original identity reference remains the identity source; a rejected result must not replace it.
 
-[准备素材 / Photo guide](INPUT-GUIDE.md) · [单件 24 风格预览 / Garment previews](demo/style-previews/white-vest-24-v1/) · [套装 24 风格预览 / Outfit previews](demo/style-previews/beige-blazer-denim-outfit-24-v1/)
+[准备素材 / Photo guide](INPUT-GUIDE.md) · [单件 24 风格预览（历史） / Garment previews (historical)](demo/style-previews/white-vest-24-v1/) · [套装 24 风格预览（历史） / Outfit previews (historical)](demo/style-previews/beige-blazer-denim-outfit-24-v1/)
 
 两套历史预览均为每风格一张六宫格，不是独立成片。分发包内保留白马甲六图历史案例；线上另有[六组六图案例](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html)，含外部试用套装，各组保留来源与验收范围。 / Both historical collections contain one six-panel sheet per style, not independent finals. The bundle retains the historical white-vest case; six reviewed groups, including an external outfit trial, are available online with their own source and review scope.
 
@@ -93,9 +93,9 @@ After enabling the Plugin, upload a clear, authorized garment or coordinated-out
 Use $threadtruth-studio to identify this garment and recommend styles. Do not generate images.
 ```
 
-预期得到：素材核对、主推与两个备选及完整36执行入口目录。默认下一阶段是六宫格方向预览，确认方向后六张独立图；人物因子按需。看不清的细节应标为不确定或请求补图；不会因为上传照片就自动消耗生图额度。
+预期得到：素材核对、主推与两个备选及完整36个视觉入口目录。默认下一阶段是 1 张标注非成片的九格方向预览，确认方向后九张独立图；人物因子按需。看不清的细节应标为不确定或请求补图；不会因为上传照片就自动消耗生图额度。
 
-Expect source checks, a primary recommendation, two alternatives and all 36 execution entries. The default next stages are a six-panel direction preview, direction confirmation and six independent images; model factors remain optional. Unclear details require uncertainty notes or better photos. Uploading a photo alone does not authorize image generation.
+Expect source checks, a primary recommendation, two alternatives and all 36 visual entries. The default next stages are one labeled nine-panel direction preview, direction confirmation and nine independent images; model factors remain optional. Unclear details require uncertainty notes or better photos. Uploading a photo alone does not authorize image generation.
 
 ## 六组能力 / Six capability groups
 
@@ -106,10 +106,10 @@ Expect source checks, a primary recommendation, two alternatives and all 36 exec
 | 能力 / Capability | 输入与结果 / Input → output | 当前实现与条件 / Implementation & conditions | 已有证据与边界 / Evidence & limits |
 |---|---|---|---|
 | **识别服饰 / Identify garments** | 单件、完整套装或同件多角度照片 → 颜色、结构、廓形及配饰的识别卡。 / Garment, outfit or multi-view photos → a card of visible colors, construction, silhouette and accessories. | 指令已定义；需要清晰真实照片。不同套装逐套处理，不自动混搭。 / Workflow defined; clear real photos required. Separate outfits are handled separately. | 有公开单件与套装样例；不是所有服饰类别的识别准确率评测。 / Public garment and outfit examples exist; no accuracy benchmark across all categories. |
-| **选择风格 / Choose a style** | 识别卡与偏好 → 主推、备选和36执行入口自由选择。 / Source card and preferences → recommendations and a choice of all 36 execution entries. | 指令已定义；风格推荐不授权生图。已明确选定风格时不重复要求选菜单。 / Workflow defined; a recommendation is not generation approval. | 公开配对图库有 24 风格、48 张结果；不是当前版本 24 套六图流程的验证。 / 24 styles and 48 paired results, not 24 verified six-image beta.11 workflows. |
+| **选择风格 / Choose a style** | 识别卡与偏好 → 主推、备选和36执行入口自由选择。 / Source card and preferences → recommendations and a choice of all 36 execution entries. | 指令已定义；风格推荐不授权生图。已明确选定风格时不重复要求选菜单。 / Workflow defined; a recommendation is not generation approval. | 公开配对图库有 24 风格、48 张结果（六图时期历史）；不是当前 36 个入口的逐个跑图验证。 / 24 styles and 48 paired results from the six-image era; not an entry-by-entry run of the current 36 entries. |
 | **设置拍摄 / Set the shoot** | 风格、场景、输出形式、用途或比例 → 一组拍摄方案。 / Style, setting, presentation and ratio → a shoot plan. | 棚拍、场景、混合及五种输出形式均有指令；实际生图依赖宿主能力。 / Studio, location, hybrid and five presentation forms are defined; generation depends on the host. | 公开案例以服饰人像为主；不露脸、平铺、挂拍、人台没有本页可引用的逐形式完整公开验证。 / Public evidence focuses on portraits; this guide has no complete public validation per alternate form. |
-| **选择产物 / Choose an output** | 已确认方案 → 单张测试、方向预览、六张独立成片或六条提示词。 / Confirmed plan → one test, a direction preview, six independent images or six prompts. | 四种动作已定义；生图另需明确授权及账号额度。 / Four actions defined; images require explicit approval and account quota. | 有历史预览、包内白马甲六图和线上六组案例；提示词输出不证明实际生成效果。 / Historical previews, the bundled white-vest set and six online reviewed groups exist; prompts alone do not prove image quality. |
-| **选择入口 / Choose a route** | 同一方案 → Codex 原生生图，或 ChatGPT 网页转交包。 / The same plan → Codex generation or a ChatGPT web handoff. | 默认 Codex；网页为显式选择。网页自动执行需宿主浏览器工具；可转手动流程。 / Codex by default; web is opt-in. Automation needs host browser tools; a manual path is documented. | 维护者 macOS 已完成网页六张流程；非维护者新机器与真人手动易用性未验证。 / A six-image web run is recorded on the maintainer's Mac; fresh-host and human manual usability remain unverified. |
+| **选择产物 / Choose an output** | 已确认方案 → 单张测试、九格方向预览、九张独立成片（或明确要求的六张）或本轮编号提示词。 / Confirmed plan → one test, a nine-panel direction preview, nine independent images (or an explicit six) or this round's numbered prompts. | 四种动作已定义；生图另需明确授权及账号额度，并先经账本脚本记录。 / Four actions defined; images require explicit approval, account quota and ledger records. | 有历史预览、包内白马甲六图和线上六组案例（均为六图时期）；九张流程实图仅一次真实会话的九格预览与首张成片；提示词输出不证明实际生成效果。 / Historical previews, the bundled white-vest set and six online reviewed groups are six-image-era evidence; the nine-shot flow has one real session's nine-panel preview and first image; prompts alone do not prove image quality. |
+| **选择入口 / Choose a route** | 同一方案 → Codex 原生生图，或 ChatGPT 网页转交包。 / The same plan → Codex generation or a ChatGPT web handoff. | 默认 Codex；网页为显式选择。网页自动执行需宿主浏览器工具；可转手动流程。 / Codex by default; web is opt-in. Automation needs host browser tools; a manual path is documented. | 维护者 macOS 已完成网页六张流程（六图时期）；非维护者新机器与真人手动易用性未验证。 / A six-image web run is recorded on the maintainer's Mac (six-image era); fresh-host and human manual usability remain unverified. |
 | **检查与修正 / Review & retry** | 源图、生成原文件与反馈 → 逐张问题记录、尺寸核对和授权后的单张重试。 / Sources, original outputs and feedback → per-image review, dimension checks and an authorized retry. | 有 QA 指令；网页助手校验尺寸、重复文件、顺序与请求记录。失败不会自动获得重试权限。 / QA instructions and web-helper size, duplicate, sequencing and request checks. Failures do not grant retry permission. | 本地助手有回归测试；视觉判断仍需对照源图及人工确认，不能保证小字、Logo 或合体效果。 / Helper regression tests exist; visual quality still requires source comparison and human review. |
 
 对应规则与证据：[识别规则](../skills/threadtruth-studio/references/recognition.md)、[风格路由](../skills/threadtruth-studio/references/style-router.md)、[公开图库](https://denggui-ai.github.io/threadtruth-studio/compare.html)、[完整案例](demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)、[版本与环境记录](COMPATIBILITY.md)、[网页助手测试（在线源码，需联网）](https://github.com/denggui-ai/threadtruth-studio/blob/main/tests/test_web_task.py)。测试源码不包含在插件 ZIP 内。 / Test source is online and is not included in the plugin ZIP.
@@ -136,14 +136,14 @@ Use cases can guide canvas and composition; see the linked mode/canvas reference
 
 | 动作 / Action | 得到什么 / Result | 生图调用 / Image-generation calls |
 |---|---|---|
-| 0 方向预览 / Direction preview | 一张带“非成片”标记的六宫格。 / One six-panel sheet labeled as a preview. | 1 次；使用所选账号额度。 / One; uses the chosen account's quota. |
-| 1 独立成片 / Independent set | 同一套服饰的六张独立图片；首张检查后再逐张继续。 / Six separate images of one outfit, proceeding after first-image review. | 初始最多 6 次串行调用；失败会停止，可能无法一次完成六张。 / Up to six initial sequential calls; failure can stop the set before completion. |
+| 0 方向预览 / Direction preview | 一张带“非成片”标记的方向预览：默认 3×3 九格；明确六张、经典六姿势或非人像为六格。 / One labeled preview sheet: nine panels by default, six for explicit six-image, classic six-pose or nonportrait plans. | 1 次；使用所选账号额度。 / One; uses the chosen account's quota. |
+| 1 独立成片 / Independent set | 同一套服饰的 N 张独立图片（默认 9；明确六张、经典六姿势或非人像为 6）；首张检查并确认人物后，其余 N−1 张沿用人物参考逐张继续。 / N separate images of one outfit (nine by default; six for explicit six-image, classic six-pose or nonportrait plans), continuing after first-image review and model confirmation, with the remaining N−1 reusing its identity reference. | 初始最多 N 次串行调用；失败会停止，可能无法一次完成整组。 / Up to N initial sequential calls; failure can stop the set before completion. |
 | 2 单张测试 / Single test | 一张独立测试图。 / One independent test image. | 1 次。 / One. |
-| 3 仅提示词 / Prompts only | 六条编号提示词与通用负面词。 / Six numbered prompts and shared negative instructions. | 0 次生图；不输出图片。 / No image-generation call; no images. |
+| 3 仅提示词 / Prompts only | 本轮 N 条编号提示词（默认九条）与通用负面词。 / This round's N numbered prompts (nine by default) and shared negative instructions. | 0 次生图；不输出图片。 / No image-generation call; no images. |
 
-预览不能裁切或放大后冒充独立成片；确认预览不自动授权六张生成。重试需明确授权并保留已用次数；多个套装逐套确认。完整交付仍需人工对照源图验收。
+预览不能裁切或放大后冒充独立成片；确认预览不自动授权整组生成。重试需明确授权并保留已用次数；多个套装逐套确认。完整交付仍需人工对照源图验收。
 
-A preview cannot be cropped or upscaled into independent finals. Accepting it does not automatically authorize six images. Retries need explicit approval with used attempts retained. Handle multiple outfits separately and review outputs against the sources.
+A preview cannot be cropped or upscaled into independent finals. Accepting it does not automatically authorize the full set. Retries need explicit approval with used attempts retained. Handle multiple outfits separately and review outputs against the sources.
 
 <a id="first-generation"></a>
 
@@ -166,11 +166,11 @@ Choose ecommerce-studio, studio mode B, a human model and a 1:1 canvas. Confirm 
 **只要提示词 / Prompts only**
 
 ```text
-沿用已确认的风格与方案，只输出六条编号提示词和通用负面词，不要生图。
+沿用已确认的风格与方案，只输出本轮编号提示词（默认九条）和通用负面词，不要生图。
 ```
 
 ```text
-Use the confirmed style and plan. Return six numbered prompts and shared negative instructions only. Do not generate images.
+Use the confirmed style and plan. Return this round's numbered prompts (nine by default) and shared negative instructions only. Do not generate images.
 ```
 
 **先测一张 / Generate one test — 会使用生图额度 / uses image quota**
@@ -183,24 +183,24 @@ Use the confirmed style and plan. Return six numbered prompts and shared negativ
 Using the confirmed plan, I authorize one test image in Codex. Check the garment and dimensions. Do not retry automatically or generate more images.
 ```
 
-**单件六图 / Six images of one garment — 使用生图额度 / uses image quota**
+**单件九张 / Nine images of one garment — 使用生图额度 / uses image quota**（要经典六姿势：把指令里的“按服饰编排生成九张”换成“按经典六姿势生成六张”，“其余八张”换成“其余五张” / For the classic six poses, replace “nine garment-driven independent images” with “six independent images in the classic six poses” and “remaining eight” with “remaining five”）
 
 ```text
-按已确认的单件服饰、主风格和方案，授权在 Codex 按默认六姿势生成六张独立图片。首张验收通过后再继续，整组人物和画幅保持一致；失败暂停，不自动重试。
+按已确认的单件服饰、主风格和方案，授权在 Codex 按服饰编排生成九张独立图片。首张验收并确认人物后再继续，其余八张沿用首张人物参考，整组画幅保持一致；失败暂停，不自动重试。
 ```
 
 ```text
-Using the confirmed garment, main style and plan, I authorize six independent images in Codex with the default six poses. Review the first image before continuing; keep model identity and canvas consistent. Stop on failure; no automatic retries.
+Using the confirmed garment, main style and plan, I authorize nine garment-driven independent images in Codex. Review the first image and confirm the model before continuing; the remaining eight reuse its identity reference and keep the canvas consistent. Stop on failure; no automatic retries.
 ```
 
-**套装六图 / Six images of a coordinated outfit — 使用生图额度 / uses image quota**
+**套装九张 / Nine images of a coordinated outfit — 使用生图额度 / uses image quota**（要经典六姿势：替换方式同上 / For the classic six poses, apply the same replacement as above）
 
 ```text
-按已确认的整套服饰、主风格和方案，授权在 Codex 按默认六姿势生成六张独立图片，保留已确认的单品、层次和鞋包配饰。首张验收通过后再继续，人物和画幅保持一致；失败暂停，不自动重试。
+按已确认的整套服饰、主风格和方案，授权在 Codex 按服饰编排生成九张独立图片，保留已确认的单品、层次和鞋包配饰。首张验收并确认人物后再继续，其余八张沿用首张人物参考，画幅保持一致；失败暂停，不自动重试。
 ```
 
 ```text
-Using the confirmed coordinated outfit, main style and plan, I authorize six independent images in Codex with the default six poses. Preserve the confirmed items, layers and accessories. Review the first image before continuing, keep identity and canvas consistent, and stop on failure without automatic retries.
+Using the confirmed coordinated outfit, main style and plan, I authorize nine garment-driven independent images in Codex. Preserve the confirmed items, layers and accessories. Review the first image and confirm the model before continuing; the remaining eight reuse its identity reference and keep the canvas consistent. Stop on failure without automatic retries.
 ```
 
 **准备网页转交 / Prepare a web handoff — 此步不上传 / no upload yet**
@@ -219,8 +219,8 @@ See the web tutorial for upload approval, manual steps, browser requirements and
 
 ## 如何理解“已验证” / Read the evidence correctly
 
-- **公开案例 / Public cases：** 24 风格配对样例、历史方向预览和已复核六图案例各有范围。它们不等于当前源码全风格、全形式、全环境验证；本轮真人近正面两种坐姿已获整体接受，仍不证明严格锁脸、完整六张、多角度或跨商品稳定。 / Paired samples, historical previews and reviewed six-image cases have separate scopes; they do not validate every current-source combination. Two accepted near-front sitting images support only that case, not exact identity, a complete six-image set, multiple real views or cross-product stability.
-- **工具测试 / Helper tests：** 可证明测试覆盖的顺序、次数、文件和尺寸检查行为；不能代替生成图片的视觉验收。当前源码391项通过；27项真人规划新增回归及源侧场景均按各自范围记录。 / Tests establish covered helper behavior, not the visual quality of generated images.
+- **公开案例 / Public cases：** 24 风格配对样例、历史方向预览和已复核六图案例（均为六图时期）各有范围，不等于 beta.15 全入口、全形式、全环境验证。beta.15 九张流程的实图证据只有一次真实 Codex 会话（九格预览与首张成片，提示词零手写），36 个入口未逐个跑图验证。2026-10-08 真人近正面两种坐姿已获整体接受，仍不证明严格锁脸、完整整组、多角度或跨商品稳定。 / Paired samples, historical previews and reviewed six-image cases (all six-image era) have separate scopes and do not validate every beta.15 entry, form or environment. Live evidence for the nine-shot flow is one real Codex session (nine-panel preview and first image, zero hand-written prompts); the 36 entries have not been run one by one. The two accepted near-front sitting images (2026-10-08) support only that case, not exact identity, a complete set, multiple real views or cross-product stability.
+- **工具测试 / Helper tests：** 可证明测试覆盖的顺序、次数、文件和尺寸检查行为；不能代替生成图片的视觉验收。2026-10-08 记录时源码391项通过；27项真人规划新增回归及源侧场景均按各自范围记录。 / Tests establish covered helper behavior, not the visual quality of generated images.
 - **环境实测 / Environment runs：** 当前公开记录以维护者 macOS 为主。其他系统、新用户安装和人工手动易用性仍需各自验证。 / Published records focus on the maintainer's Mac. Other systems, fresh-user installation and manual usability need their own evidence.
 
 这里的“试穿”指 AI 模特上身展示；不承诺指定真人身份换装、尺码/合体仿真、非服饰商品生成或无人值守商业交付工具。商品照片用于读取服饰；明确身份参考可沿用可见人物条件，但不承诺严格复刻真人身份。样例有各自媒体条款，公开可见不等于可任意商用。详见 [README 限制](../README.zh-CN.md#适用范围与限制) 与[媒体条款](demo/RIGHTS.md)。
