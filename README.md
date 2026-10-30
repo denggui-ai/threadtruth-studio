@@ -4,7 +4,7 @@
 
 **AI Fashion Studio · 服饰 AI 影棚**
 
-**Current prerelease: beta.15.** Garment-driven nine-shot planning, 36 visual entries with persona and palette rules, mandatory ledger scripts before any generation, and validation errors the assistant can act on. It displays “裁光 · Caiguang” in Codex and keeps `$threadtruth-studio`. Use the [version-matched trial guide](docs/BETA12-TRYOUT.md). Fresh-host testing and stable-release acceptance remain pending; older release assets stay unchanged.
+**Current prerelease: beta.15.** Garment-driven nine-shot planning, 36 visual entries with persona and palette rules, mandatory ledger scripts before any generation, and validation errors the assistant can act on. It displays “裁光 · Caiguang” in Codex and keeps `$threadtruth-studio`. Use the [bundled offline user guide](USER-GUIDE.html). Fresh-host testing and stable-release acceptance remain pending; older release assets stay unchanged.
 
 [![裁光 · Caiguang — AI Fashion Studio。米色套装参考图与 AI 生成效果。](https://denggui-ai.github.io/threadtruth-studio/assets/brand/og-home.png)](https://denggui-ai.github.io/threadtruth-studio/)
 
@@ -17,7 +17,7 @@
 When clear front and front-side photos are available but the back is missing, no back-view shot is planned; the set uses front, front-side and detail arrangements and states the limit. Accurate rear construction still requires a real rear photo.
 
 
-[![Caiguang architecture and key workflows](https://raw.githubusercontent.com/denggui-ai/threadtruth-studio/main/docs/assets/architecture-overview.png)](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md)
+[![Caiguang architecture and key workflows](https://raw.githubusercontent.com/denggui-ai/threadtruth-studio/main/docs/assets/architecture-overview.svg)](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md)
 
 
 [Japanese-home workflow tutorial (中文)](docs/JAPANESE-HOME-TUTORIAL.md) (six-image era): materials, first-image approval, six standalone images and an honest case review. The tutorial identifies released and development behavior separately.

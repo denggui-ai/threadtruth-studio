@@ -4,7 +4,7 @@
 
 **AI Fashion Studio · 服饰 AI 影棚**
 
-**当前预发布版：beta.15。** 服饰驱动的九张编排、36 个带 persona 与色彩规则的视觉入口、生图前必经账本脚本、模型能据以自纠的校验报错。在 Codex 中显示为“裁光 · Caiguang”，调用名仍为 `$threadtruth-studio`。请使用[对应版本的试用指南](docs/BETA12-TRYOUT.md)；新环境实测和稳定版验收仍待完成，旧版资产保持不变。
+**当前预发布版：beta.15。** 服饰驱动的九张编排、36 个带 persona 与色彩规则的视觉入口、生图前必经账本脚本、模型能据以自纠的校验报错。在 Codex 中显示为“裁光 · Caiguang”，调用名仍为 `$threadtruth-studio`。请使用[随包离线使用指南](USER-GUIDE.html)；新环境实测和稳定版验收仍待完成，旧版资产保持不变。
 
 [![裁光 · Caiguang — AI Fashion Studio。米色套装参考图与 AI 生成效果。](https://denggui-ai.github.io/threadtruth-studio/assets/brand/og-home.png)](https://denggui-ai.github.io/threadtruth-studio/)
 
@@ -15,7 +15,7 @@
 [English guide](README.md) · [中文说明](README.zh-CN.md) · [产品首页 / Website](https://denggui-ai.github.io/threadtruth-studio/) · [能力清单与拓扑 / Capability topology](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md) · [当前能力状态 / Capability status](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/CAPABILITY-STATUS.md)
 
 
-[![裁光架构与关键流程](https://raw.githubusercontent.com/denggui-ai/threadtruth-studio/main/docs/assets/architecture-overview.png)](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md)
+[![裁光架构与关键流程](https://raw.githubusercontent.com/denggui-ai/threadtruth-studio/main/docs/assets/architecture-overview.svg)](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md)
 
 
 [日系家居完整流程教程](docs/JAPANESE-HOME-TUTORIAL.md)（六图时期教程）：素材、首张确认、六张独立图与真实问题复盘；注明公开安装版与开发修复的区别。

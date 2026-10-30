@@ -1,5 +1,6 @@
 # 裁光 / Caiguang beta.12 试用指南
 
+> 本页为 beta.12 的历史试用指南，保留作记录；beta.15 请以 [INSTALL.md](INSTALL.md) 与随包 USER-GUIDE.html 为准。
 
 **状态：beta.12 预发布试用。** 从 [beta.12 Release](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.12) 取得 `threadtruth-studio-1.0.0-beta.12.zip` 与同名 `.sha256` 文件。不要把 beta.9 的校验文件用于 beta.12，也不要改 ZIP 名称来升级。新环境安装和桌面显示尚未由非维护者验证。
 
