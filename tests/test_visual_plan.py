@@ -474,7 +474,7 @@ class VisualPlanTests(unittest.TestCase):
         self.assertIn('Style persona (yields to the declared model conditions): '+self.PERSONA,d['looks'][0]['prompt'])
 
     def test_legacy_task_without_persona_exports_unchanged_after_upgrade(self):
-        # Same fixture path as the WP-1 compile_head smoke; eb0cea4c... was recorded from 17db89b, before persona existed.
+        # Same fixture path as the WP-1 compile_head smoke. eb0cea4c... was recorded from 17db89b (card 0.1.1); 8947e0db... re-pinned after WP-4d changed only the card palette sentence (card 0.1.2).
         spec=importlib.util.spec_from_file_location('legacy_library',ROOT/'skills/threadtruth-studio/scripts/visual_library.py')
         library=importlib.util.module_from_spec(spec);spec.loader.exec_module(library)
         source=ROOT/'docs/demo/preview-sources/beige-blazer-denim-outfit/source.jpg';h=task.digest(source)
@@ -491,7 +491,7 @@ class VisualPlanTests(unittest.TestCase):
         task.export(self.job)
         request=json.loads(sorted(self.job.glob('handoff/look-1-v*/request.json'))[-1].read_text())
         self.assertEqual(hashlib.sha256(request['prompt'].encode()).hexdigest(),
-                         'eb0cea4cf5a7fd912c0bada7745781d8b66ed4aa871aeae14f68e6e42df589f5')
+                         '8947e0db9ec29f0ced7c9d62b026adf5f3c2cf34e45bfd99229512e1cf8cf649')
 
 
 if __name__=='__main__':unittest.main()
