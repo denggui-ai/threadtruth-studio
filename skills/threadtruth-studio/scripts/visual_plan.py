@@ -29,6 +29,15 @@ def object_hash(value):
     return hashlib.sha256(json.dumps(value, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
 
 
+def _got(value):
+    """Describe an offending value briefly for validation messages (type or short repr)."""
+    if value is None or isinstance(value,(bool,int,float)):return repr(value)
+    if isinstance(value,str):return repr(value) if len(value)<=40 else repr(value[:37]+'...')
+    name=type(value).__name__
+    try:return f'{name} of {len(value)}'
+    except TypeError:return name
+
+
 def _line(value, label, *, empty=False, owned=False, v2=False):
     if (not isinstance(value, str) or (not empty and not value.strip()) or len(value) > 1200
             or any(ord(c) < 32 or ord(c) == 127 for c in value) or RESERVED.search(value)
@@ -181,12 +190,25 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
                 raise ValueError('Visual shots preserve actual numbered/custom presentation and consecutive slots')
         else:
             slot = i if count > 1 else context['first_pose']
-            if (not isinstance(shot, dict) or set(shot) != {'slot', 'shot_id', 'scene', 'lighting', 'composition'}
-                    or type(shot['slot']) is not int or shot['slot'] != slot or slot not in range(1, 10)
-                    or not isinstance(shot['shot_id'], str)
-                    or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]{0,79}', shot['shot_id'])
-                    or shot['shot_id'] in seen_ids):
-                raise ValueError('Visual v2 shots preserve stable source slots and distinct shot_id values')
+            path = f'visual_plan.shots[{i - 1}]'
+            required_shot = {'slot', 'shot_id', 'scene', 'lighting', 'composition'}
+            hint = ('; every element needs exactly slot, shot_id, scene, lighting, composition. '
+                    'visual_library prepare overrides.shots replaces ALL generated shots, so either omit overrides.shots '
+                    'or give the complete list copied from a prepare run without it')
+            if not isinstance(shot, dict):
+                raise ValueError(path + ' must be an object (Visual v2 shots preserve stable source slots and distinct shot_id values); got '
+                                 + _got(shot) + hint)
+            if set(shot) != required_shot:
+                raise ValueError(path + ' has the wrong keys (Visual v2 shots preserve stable source slots and distinct shot_id values); missing: '
+                                 + (', '.join(sorted(required_shot - set(shot))) or 'none') + '; unexpected: '
+                                 + (', '.join(sorted(set(shot) - required_shot)) or 'none') + hint)
+            if type(shot['slot']) is not int or shot['slot'] != slot or slot not in range(1, 10):
+                raise ValueError(path + '.slot must be ' + _got(slot) + ' (stable source slot in shot_plan order); got ' + _got(shot['slot']))
+            if not isinstance(shot['shot_id'], str) or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]{0,79}', shot['shot_id']):
+                raise ValueError(path + '.shot_id must be 1-80 letters, digits, "_", "." or "-" starting with a letter or digit; got '
+                                 + _got(shot['shot_id']))
+            if shot['shot_id'] in seen_ids:
+                raise ValueError(path + '.shot_id must be distinct; got duplicate ' + _got(shot['shot_id']))
             seen_ids.add(shot['shot_id'])
         for key in ('scene', 'lighting', 'composition'):
             _line(shot[key], 'Per-shot ' + key, owned=True, v2=v2)
@@ -196,9 +218,14 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
         if shot_plan['version'] != plan['version']:
             raise ValueError('Visual and garment shot-plan versions must agree')
     if shot_plan is not None and shot_plan['version'] == 2:
-        if (
-                [dict(slot=s['slot'], shot_id=s['shot_id']) for s in plan['shots']] != shot_bindings(shot_plan)):
-            raise ValueError('Visual and garment shot plans must bind the same active shot IDs and source slots')
+        actual = [dict(slot=s['slot'], shot_id=s['shot_id']) for s in plan['shots']]
+        expected = shot_bindings(shot_plan)
+        if actual != expected:
+            at = next((k for k, (a, e) in enumerate(zip(actual, expected)) if a != e), min(len(actual), len(expected)))
+            raise ValueError('visual_plan.shots[' + str(at) + '] must bind shot_plan selected shot '
+                             + (json.dumps(expected[at], sort_keys=True) if at < len(expected) else 'none (too many shots)')
+                             + ' (Visual and garment shot plans must bind the same active shot IDs and source slots); got '
+                             + (json.dumps(actual[at], sort_keys=True) if at < len(actual) else 'none (missing shot)'))
     return copy.deepcopy(plan)
 
 

@@ -135,5 +135,105 @@ class ValidationMessageTests(unittest.TestCase):
         self.assertIn(f"e.g. --output '{spaced / 'visual_plan-2.json'}'", fourth.stderr)
 
 
+def _load(name, filename):
+    spec = importlib.util.spec_from_file_location(name, SCRIPTS / filename)
+    module = importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
+    return module
+
+
+class VisualPlanMessageTests(unittest.TestCase):
+    """WP-16 C1: hand-written overrides must fail with a path, the missing keys and a repair hint."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.library = _load('wp16_visual_library', 'visual_library.py')
+        from tests.test_runtime_quickstart import v2_plan
+        cls.v2_plan = staticmethod(v2_plan)
+
+    def spec(self, **overrides):
+        h = 'c' * 64
+        data = dict(entry_id='french-effortless', garment=dict(description='Synthetic red garment.', keep=['red'], source_sha256s=[h]),
+                    inventory=[dict(role='garment-source', sha256=h)],
+                    model=dict(source_type='new', scope='full', subject='adult female model', locked=[], adjustable=[], consent_note=''),
+                    output_form='human', shot_plan=self.v2_plan(h))
+        if overrides:
+            data['overrides'] = overrides
+        return data
+
+    def full_shots(self):
+        return copy.deepcopy(self.library.prepare(self.spec())['shots'])
+
+    def test_overrides_shots_partial_names_path_missing_keys_and_full_list_hint(self):
+        partial = [dict(slot=i, scene='x') for i in range(1, 10)]
+        with self.assertRaises(ValueError) as caught:
+            self.library.prepare(self.spec(shots=partial))
+        message = str(caught.exception)
+        for text in ('visual_plan.shots[0]', 'missing: composition, lighting, shot_id', 'overrides.shots replaces ALL generated shots',
+                     'Visual v2 shots preserve stable source slots'):
+            self.assertIn(text, message)
+
+    def test_overrides_shot_id_mismatch_names_expected_binding(self):
+        shots = self.full_shots()
+        shots[0]['shot_id'] = 'shot-1'
+        with self.assertRaises(ValueError) as caught:
+            self.library.prepare(self.spec(shots=shots))
+        message = str(caught.exception)
+        for text in ('visual_plan.shots[0]', '"shot_id": "qs-1"', '"shot_id": "shot-1"'):
+            self.assertIn(text, message)
+
+    def test_unknown_photography_override_lists_allowed_keys(self):
+        with self.assertRaises(ValueError) as caught:
+            self.library.prepare(self.spec(photography={'mood': 'x'}))
+        message = str(caught.exception)
+        self.assertIn('unexpected: mood', message)
+        self.assertIn('composition, lighting, palette, scene', message)
+
+    def test_complete_overrides_shots_still_prepare(self):
+        plan = self.library.prepare(self.spec(shots=self.full_shots()))
+        self.assertEqual([s['shot_id'] for s in plan['shots']], ['qs-' + str(i) for i in range(1, 10)])
+
+
+class RetryAuthorizeMessageTests(unittest.TestCase):
+    """WP-16 C1: retry-authorize must say which flag is missing and what the current attempt is."""
+
+    def setUp(self):
+        from tests.test_nine_task import NineTaskTests
+        self.nt = NineTaskTests('create')
+        self.nt.setUp()
+        self.addCleanup(self.nt.doCleanups)
+        self.task = sys.modules[NineTaskTests.__module__].task
+
+    def rejected_delivery(self):
+        self.nt.create()
+        self.task.update(self.nt.job, 'authorize', limit=9, note='Synthetic nine request authority.')
+        self.nt.finish_one(1, reject=True)
+
+    def test_retry_authorize_without_ids_lists_flags(self):
+        self.rejected_delivery()
+        with self.assertRaises(ValueError) as caught:
+            self.task.update(self.nt.job, 'retry-authorize', look=1, expected_attempt=1)
+        message = str(caught.exception)
+        for text in ('--note', '--approval-id', '--prompt-file', '--expected-attempt 1'):
+            self.assertIn(text, message)
+
+    def test_preview_retry_without_prompt_points_to_revise_preview(self):
+        self.nt.create(preview=True)
+        self.task.update(self.nt.job, 'authorize', limit=1, note='Synthetic preview request authority.')
+        self.nt.finish_one(1, reject=True)
+        sha = self.task.read(self.nt.job)['looks'][0]['output']['sha256']
+        with self.assertRaises(ValueError) as caught:
+            self.task.update(self.nt.job, 'retry-authorize', look=1, expected_attempt=1,
+                             note='Synthetic user grant.', approval_id='synthetic-retry-1')
+        message = str(caught.exception)
+        self.assertIn('revise-preview', message)
+        self.assertIn(sha, message)
+
+    def test_retry_wrong_attempt_says_expected_value(self):
+        self.rejected_delivery()
+        with self.assertRaises(ValueError) as caught:
+            self.task.update(self.nt.job, 'retry-authorize', look=1, expected_attempt=5)
+        self.assertIn('--expected-attempt 1; got 5', str(caught.exception))
+
+
 if __name__ == '__main__':
     unittest.main()

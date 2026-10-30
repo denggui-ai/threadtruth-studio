@@ -200,7 +200,9 @@ def prepare(spec, root=ROOT):
     for key, baseline in [('photography', photography), ('art', art)]:
         if key in overrides:
             if not isinstance(overrides[key], dict) or set(overrides[key]) - set(baseline):
-                raise ValueError('Unknown ' + key + ' override')
+                unknown = sorted(set(overrides[key]) - set(baseline)) if isinstance(overrides[key], dict) else []
+                raise ValueError('Unknown ' + key + ' override: overrides.' + key + ' must be an object using only '
+                                 + ', '.join(sorted(baseline)) + '; unexpected: ' + (', '.join(unknown) or 'not an object'))
             baseline.update(copy.deepcopy(overrides[key]))
     if type(count) is not int or count not in (1, 6, 9):
         raise ValueError('Prepare one independent image or six/nine preview/delivery presentations')

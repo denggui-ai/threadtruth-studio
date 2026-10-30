@@ -1364,10 +1364,24 @@ def update(root,event,**kw):
             grants=d.get('retry_authorizations',[])
             failed_ready=(row is not None and row['state']=='failed' and failure_recovery(d) and row.get('failure_reconciliation'))
             if row is None or (row['state']!='rejected' and not failed_ready and not (proposal and row['state']=='accepted')) or not d['authorization']:
-                raise ValueError('Retry only a visually rejected result or a reconciled failure with retained evidence; recover unknown requests first')
+                raise ValueError('Retry only a visually rejected result or a reconciled failure with retained evidence; recover unknown requests first; got '
+                                 +('no --look' if row is None else 'look '+str(n)+' state '+repr(row['state']))
+                                 +('' if d['authorization'] else ', task has no authorize record'))
             attempt=row.get('attempt_number',1)
-            if type(kw.get('expected_attempt'))!=int or kw['expected_attempt']!=attempt:raise ValueError('Approval must target the current rejected/failed attempt')
-            if not note or not approval or not isinstance(prompt,str) or not prompt.strip():raise ValueError('Explicit retry approval, unique approval ID and corrected prompt required')
+            if type(kw.get('expected_attempt'))!=int or kw['expected_attempt']!=attempt:
+                raise ValueError('Approval must target the current rejected/failed attempt: pass --expected-attempt '+str(attempt)+'; got '+repr(kw.get('expected_attempt')))
+            if not note or not approval or not isinstance(prompt,str) or not prompt.strip():
+                missing=[]
+                if not note:missing.append('--note "<the user\'s own words granting this one extra request>"')
+                if not approval:missing.append('--approval-id <a new ID you choose, unique within this task, e.g. retry-look'+str(n)+'-attempt'+str(attempt+1)+'>')
+                if not isinstance(prompt,str) or not prompt.strip():
+                    missing.append('a corrected prompt: first run revise-preview --task <task> --look '+str(n)
+                        +' --expected-output-sha256 '+row.get('output',{}).get('sha256','<current output sha256>')
+                        +' --spec revision.json --note "<user feedback>" (revision.json holds the complete new "prompt"), then repeat this command'
+                        if is_preview(d) else '--prompt-file <file holding the complete corrected prompt>')
+                raise ValueError('Explicit retry approval, unique approval ID and corrected prompt required; missing: '+'; '.join(missing)
+                    +'. Full form: retry-authorize --task <task> --look '+str(n)+' --expected-attempt '+str(attempt)
+                    +' --approval-id <unique ID> --note "<user words>"'+('' if is_preview(d) else ' --prompt-file <file>'))
             photography_helper().apply(prompt,d['context'].get('photography_targets') if d['schema_version']==2 else None)
             if any(g['approval_id']==approval for g in grants) or d.get('continuation_authorization',{}).get('approval_id')==approval:raise ValueError('Retry approval already used')
             if (d['schema_version']==1 or n==1) and any(x['state']!='pending' for x in d['looks'][n:]):raise ValueError('Cannot replace an anchor with existing downstream work')
