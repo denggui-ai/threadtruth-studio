@@ -1402,6 +1402,13 @@ def update(root,event,**kw):
                 previous=d['visual_plan']
                 d.setdefault('visual_plan_history',[]).append(dict(plan=copy.deepcopy(previous),sha256=object_hash(previous),note=note))
                 d.update(visual_plan=persona_rebind,visual_plan_sha256=object_hash(persona_rebind),plan_version=d.get('plan_version',0)+1)
+                # Looks 2..n are unsubmitted drafts (the anchor guard above rejects downstream work); swap their frozen visual block in place.
+                for other in d['looks'][1:]:
+                    stale=visual_helper().render(previous,other['number']);fresh=visual_helper().render(persona_rebind,other['number'])
+                    if stale==fresh:continue
+                    if other['state']!='pending' or other['prompt'].count(stale)!=1:
+                        raise ValueError('Pending downstream prompts must carry exactly one frozen visual block to rebind the persona')
+                    other['prompt']=other['prompt'].replace(stale,fresh,1);other['prompt_sha256']=hashlib.sha256(other['prompt'].encode()).hexdigest()
             elif kw.get('shot_plan') is not None or kw.get('visual_plan') is not None:
                 raise ValueError('Change shot/visual plans through a reviewed preview revision')
             if kw.get('model') is not None and not proposal:

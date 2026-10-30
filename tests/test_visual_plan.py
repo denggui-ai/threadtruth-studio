@@ -551,5 +551,31 @@ class VisualPlanTests(unittest.TestCase):
         d=self.create(self.plan())
         self.assertNotIn('Style persona',d['looks'][0]['prompt'])
 
+    def test_persona_rebind_rerenders_pending_downstream_looks(self):
+        # codex-review a6d2ecf major: a six-look task rebinding a changed or dropped persona left looks 2-6 with the old frozen block.
+        for new_persona in ('serene, grounded presence',None):
+            with self.subTest(new_persona=new_persona):
+                self.job=self.root/('rebind-'+('text' if new_persona else 'drop'))
+                plan=self.plan(6);plan.update(persona=self.PERSONA,persona_model_sha256=task.object_hash(task.models.validate_model(self.model,allow_child=True)))
+                self.create(plan);task.update(self.job,'authorize',limit=6,note='Six');self.accept()
+                task.update(self.job,'reject-model',look=1,note='Change casting conditions')
+                changed=task.models.validate_model(dict(self.model,locked=['mature adult','short bob']),allow_child=True)
+                rebound=copy.deepcopy(plan)
+                if new_persona:rebound.update(persona=new_persona,persona_model_sha256=task.object_hash(changed))
+                else:rebound.pop('persona');rebound.pop('persona_model_sha256')
+                before=task.read(self.job)
+                d=task.update(self.job,'retry-authorize',look=1,expected_attempt=1,approval_id='retry',note='Approved revised casting retry',model=changed,visual_plan=rebound)
+                self.assertEqual(d['plan_version'],before.get('plan_version',0)+1)
+                old_line='Style persona (yields to the declared model conditions): '+self.PERSONA
+                for row in d['looks']:
+                    self.assertNotIn(old_line,row['prompt'])
+                    if new_persona:self.assertIn('Style persona (yields to the declared model conditions): '+new_persona,row['prompt'])
+                    else:self.assertNotIn('Style persona',row['prompt'])
+                    self.assertEqual(row['prompt_sha256'],hashlib.sha256(row['prompt'].encode()).hexdigest())
+                for row in d['looks'][1:]:
+                    self.assertEqual(row['state'],'pending');self.assertEqual(row.get('plan_revision',0),0);self.assertNotIn('prompt_history',row)
+                    self.assertEqual(row['prompt'],task.visual_helper().compile_prompt(rebound,row['number']))
+                task.check_evidence(self.job,d);task.export(self.job);self.reserve()
+
 
 if __name__=='__main__':unittest.main()
