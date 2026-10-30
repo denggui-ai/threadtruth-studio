@@ -1,5 +1,7 @@
 # Changelog
 
+- docs(router): single tops/skirts default to scene/mixed (C/D), studio B only on explicit conditions; bound cultural/complex-garment entries match by recognized garment (WP-18/19).
+
 ## 1.0.0-beta.16 — repairable validation errors, garment fit facts, record-only headroom, 2026-10-30
 
 Cuts the three WP-16 runtime fixes and the batch-1 card evidence that landed on `main` after beta.15 (PRs #48, #49). The entries below are the detailed records.
