@@ -473,8 +473,9 @@ class VisualPlanTests(unittest.TestCase):
         self.assertEqual(d['visual_plan']['persona'],self.PERSONA)
         self.assertIn('Style persona (yields to the declared model conditions): '+self.PERSONA,d['looks'][0]['prompt'])
 
-    def test_legacy_task_without_persona_exports_unchanged_after_upgrade(self):
-        # Same fixture path as the WP-1 compile_head smoke. eb0cea4c... was recorded from 17db89b (card 0.1.1); 8947e0db... re-pinned after WP-4d changed only the card palette sentence (card 0.1.2).
+    def test_legacy_task_without_persona_exports_card_palette_and_no_persona_line(self):
+        # Same fixture path as the WP-1 compile_head smoke. Until WP-4e this pinned the whole prompt sha256 (eb0cea4c... at 17db89b, 8947e0db... after WP-4d),
+        # so every card wording edit broke it. Byte-level golden for a card-free plan stays in test_plan_without_persona_renders_golden_bytes_from_17db89b.
         spec=importlib.util.spec_from_file_location('legacy_library',ROOT/'skills/threadtruth-studio/scripts/visual_library.py')
         library=importlib.util.module_from_spec(spec);spec.loader.exec_module(library)
         source=ROOT/'docs/demo/preview-sources/beige-blazer-denim-outfit/source.jpg';h=task.digest(source)
@@ -490,8 +491,12 @@ class VisualPlanTests(unittest.TestCase):
         task.create(self.job,[source],None,[1024,1536],True,model=model,context=context,visual_plan=plan,shot_plan=shot,count=1)
         task.export(self.job)
         request=json.loads(sorted(self.job.glob('handoff/look-1-v*/request.json'))[-1].read_text())
-        self.assertEqual(hashlib.sha256(request['prompt'].encode()).hexdigest(),
-                         '8947e0db9ec29f0ced7c9d62b026adf5f3c2cf34e45bfd99229512e1cf8cf649')
+        prompt=request['prompt'];rows=prompt.split('\n')
+        card=json.loads((ROOT/'skills/threadtruth-studio/references/visual-library/cards/korean-cold-editorial.json').read_text())
+        self.assertEqual([row for row in rows if row.startswith('Shared palette: ')],['Shared palette: '+card['photography']['palette']])
+        self.assertNotIn('Style persona',prompt)
+        self.assertNotIn(card['persona'],prompt)
+        self.assertIn(garment['description'],prompt)
 
 
 if __name__=='__main__':unittest.main()
