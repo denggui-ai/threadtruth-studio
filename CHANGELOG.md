@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased
+## 1.0.0-beta.16 — repairable validation errors, garment fit facts, record-only headroom, 2026-10-30
+
+Cuts the three WP-16 runtime fixes and the batch-1 card evidence that landed on `main` after beta.15 (PRs #48, #49). The entries below are the detailed records.
 
 ### WP-16 C1: hand-written overrides and retry-authorize now fail with repairable messages, 2026-10-30
 

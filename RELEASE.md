@@ -1,6 +1,10 @@
 # Release Readiness
 
-## Current release — beta.15 (GitHub prerelease)
+## Current release — beta.16 (GitHub prerelease)
+
+Version `1.0.0-beta.16` publishes `main` after PRs #48 and #49: validation errors for hand-written `overrides.shots` and `retry-authorize` now name the JSON path, the missing keys and the repair; `visual_plan.garment` accepts optional `hem_state` and `silhouette` facts rendered as fixed geometric sentences (prompt bytes unchanged when absent); delivery `accept` records a head-top margin measurement without changing QA; four entry cards (korean-cold-editorial, retro-americana, garment-illustration, art-deco-set) carry an owner-accepted nine-panel direction preview as `direction-accepted`. Evidence: one real Codex session on this source produced the ecommerce-studio nine-panel preview through the ledger after a single self-correction (record: `korea/outputs/caiguang-wp14-ecommerce-r2-20261030`, outside this repository). No fresh-host installation test was repeated. Download [v1.0.0-beta.16](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.16) and its SHA-256 sidecar.
+
+## Historical release — beta.15 (GitHub prerelease)
 
 Version `1.0.0-beta.15` publishes the garment-driven source that has accumulated on `main` since beta.14: 36 visual entries with persona and palette rules, nine-shot version-2 planning with breathing-room framing by default, the mandatory ledger scripts before any generation, field-named validation errors and the self-correction rule. It is cut from `main` after PRs #40–#45 passed CI. One real multi-turn Codex session on this source produced the labeled nine-panel preview and the first delivery image entirely through the ledger (record: `korea/outputs/caiguang-wp8-mainline-walkthrough-20261030`, outside this repository). User-facing documents keep their beta.14 wording where it describes the earlier six-image default; the runtime default is now the nine-shot series. No fresh-host installation test was repeated for this cut. Download [v1.0.0-beta.15](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.15) and its SHA-256 sidecar.
 
