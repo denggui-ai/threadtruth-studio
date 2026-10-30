@@ -29,7 +29,7 @@ description: "服饰人像；首句随用户语言只核对素材，不预告交
 4. **不经账本脚本，绝不生图。** 本条约束每一次原生／网页**生图请求**；只要提示词（动作 3）、缺图准备和纯文字咨询不建账本也不生图，不受本条限制。生图请求只有两条记录路径，各走各的脚本，路径之外一律禁止：
    - **① 人物／不露脸／非人像的预览与成片（原生或网页）**：`scripts/visual_library.py prepare` 冻结方案，`scripts/web-task.py init` 建任务，`authorize` 记一次本轮授权；每次调用前 `reserve` 成功、调用后立即 `returned` 导入；QA 与人物确认只用 `accept`/`reject`/`confirm-model` 记录。原生路线只提交 `export` 产出的 `handoff/look-N-vK/prompt.txt` 原文与 `request.json` 顺序的附件；网页路线在同一账本上再用 `export-web-execution` 产出 `submission.txt` 信封并按 [chatgpt-web.md](references/chatgpt-web.md) 提交。
    - **② 固定姿势换装**：按 [fixed-pose-wardrobe.md](references/fixed-pose-wardrobe.md) 用 `wardrobe-edit.cjs prepare/preflight/apply` 冻结提示词、附件与调用记录，不走 ①。
-   禁止为生图请求手写提示词、禁止把生成文件 `cp` 改名当记录、禁止凭对话记忆计数授权。脚本报错分两类：报错指向你自己写的 JSON 字段（形如 `shot_plan.looks[0].must_show must be …; got …`）时，按报错改正输入后重跑同一命令，不必问用户；账本、授权、次数、哈希或文件冲突类报错才把错误原样告诉用户并停下。任何情况下不得绕过脚本、不得改脚本、不得手写提示词。① 的命令序列与 JSON 骨架见 [运行时速查](references/runtime-quickstart.md)。
+   禁止为生图请求手写提示词、禁止把生成文件 `cp` 改名当记录、禁止凭对话记忆计数授权。脚本报错分三类：(a) 报错指向你自己写的 JSON 字段（形如 `shot_plan.looks[0].must_show must be …; got …`）——改正该字段后重跑，不必问用户；字段属于 shot_plan 时必须先重新 `prepare --output` 到新文件名再 `init`（visual_plan 里冻结着旧计划）；同一任务最多自改 3 次，超过即停下告诉用户。(b) 输出文件已存在——按报错给出的新文件名重跑。(c) 账本、授权、次数、哈希不一致，以及任何未列出的报错——原样告诉用户并停下。任何情况下不得绕过脚本、不得改脚本、不得手写提示词。① 的命令序列与 JSON 骨架见 [运行时速查](references/runtime-quickstart.md)。
 
 **其余红线:**
 - **上传 ≠ 同意生图。** 仅当①已识别真实服饰 ②已完成识别+风格路由 ③用户明确生成意图,三者同时满足才生图。只上传未表态 → 简述服饰事实，展示风格选择，不生图。
