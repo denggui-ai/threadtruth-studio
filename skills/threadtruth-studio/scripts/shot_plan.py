@@ -8,6 +8,18 @@ BEGIN='[Task shot plan]'
 END='[/Task shot plan]'
 MASTERS=['SIDE_TURN_STANDING','SIDE_LEANING_WALL','UPRIGHT_SEATED','FRONT_LIGHT_STEP','SLIGHT_FORWARD_LEAN','BACK_TURN_GLANCE']
 FRAMINGS=['full-body','full-body','half-body','full-body','knee-up','full-body']
+# WP-6b: breathing room. Rendered only when the plan carries framing_guidance=1 (new plans); frozen legacy plans keep their bytes.
+FRAMING_GUIDANCE={
+    'full-body':'Wide full-length shot from farther back: leave about one and a half head-heights of empty space above the hair and about one head-height of floor below the shoes, so the figure fills roughly three quarters of the frame height and never touches the top or bottom edge.',
+    'knee-up':'Head to just below the knees, with about one head-height of empty space above the hair; the head never touches the top edge.',
+    'half-body':'Head to waist or hips, with about one head-height of empty space above the hair; the head never touches the top edge.',
+}
+
+
+def framing_line(plan,framing):
+    text='Framing: '+framing+'.'
+    if plan.get('framing_guidance')==1 and framing in FRAMING_GUIDANCE:text+=' '+FRAMING_GUIDANCE[framing]
+    return text
 RELATIONS=[
     'Standing side turn with a natural shoulder/hip relationship and relaxed weight; not a frontal stand with only the head turned.',
     'Side leaning against a wall with credible contact and relaxed weight-bearing.',
@@ -33,7 +45,7 @@ def default_plan(sku,coverage):
         refs=[r['sha256'] for r in coverage if r.get('usable') is True and r.get('same_sku') is True and set(views)<=set(r.get('views',[]))]
         looks.append(dict(pose=n,master='FRONT_RELAXED_STANDING' if n==6 and not back else master,
             framing=FRAMINGS[n-1],garment_views=views,reference_sha256s=refs))
-    return dict(version=1,sku=sku,route='A' if back else 'B',preservation='classic',adaptation_note='',coverage=copy.deepcopy(coverage),looks=looks)
+    return dict(version=1,sku=sku,route='A' if back else 'B',preservation='classic',adaptation_note='',coverage=copy.deepcopy(coverage),looks=looks,framing_guidance=1)
 
 
 def validate(plan,inventory,*,context,count,identity=True,real_face_plan=None,strict_references=True,model_source=None):
@@ -41,8 +53,9 @@ def validate(plan,inventory,*,context,count,identity=True,real_face_plan=None,st
         return _validate_v2(plan,inventory,context=context,count=count,identity=identity,
                             real_face_plan=real_face_plan,strict_references=strict_references,model_source=model_source)
     fields={'version','sku','route','preservation','adaptation_note','coverage','looks'}
-    if not isinstance(plan,dict) or set(plan)!=fields or type(plan['version']) is not int or plan['version']!=1:
+    if not isinstance(plan,dict) or set(plan)-{'framing_guidance'}!=fields or type(plan['version']) is not int or plan['version']!=1:
         raise ValueError('Shot plan requires version=1, sku, route, preservation, adaptation_note, coverage and looks')
+    _check_framing_guidance(plan)
     if not identity or context.get('first_pose')=='custom' or context.get('purpose') in ('model-check','correction-edit'):
         raise ValueError('Shot plan applies to numbered human delivery or preview, not custom/diagnostic/non-human tasks')
     if not line(plan['sku']) or plan['route'] not in ('A','B') or plan['preservation'] not in ('classic','adapted'):
@@ -119,7 +132,7 @@ def render(plan,look=None,real_face_plan=None):
     if look is not None:cells=[cells[look-1]]
     for i,shot in cells:
         n=shot['pose'];relation=FRONT_RELATION if shot['master']=='FRONT_RELAXED_STANDING' else RELATIONS[n-1]
-        rows.extend([f"Shot {n}: {shot['master']}. Framing: {shot['framing']}.",
+        rows.extend([f"Shot {n}: {shot['master']}. {framing_line(plan,shot['framing'])}",
                      shot.get('arrangement',relation),
                      'Supported garment views: '+', '.join(shot['garment_views'])+'.'])
         if 'head' in shot:
@@ -164,6 +177,11 @@ def apply(prompt,plan,look=None,real_face_plan=None,*,strict=True):
     if (strict or is_v2(plan)) and re.search(pattern,outside,re.I|re.M):
         raise ValueError('Remove legacy POSE/Shot blocks from prose; numbered arrangements come only from the current shot_plan')
     return prompt if marked else prompt.rstrip()+'\n'+canonical+'\n'
+
+
+def _check_framing_guidance(plan):
+    if 'framing_guidance' in plan and (type(plan['framing_guidance']) is not int or plan['framing_guidance']!=1):
+        raise ValueError('framing_guidance must be 1 when present')
 
 
 def is_v2(plan):
@@ -245,8 +263,9 @@ def _pose_helper():
 
 def _validate_v2(plan,inventory,*,context,count,identity,real_face_plan,strict_references,model_source):
     required={'version','sku','route','coverage','looks','selected_shot_ids','series_role'}
-    if set(plan)!=required or not _v2_line(plan['sku']) or plan['route'] not in ('A','B'):
+    if set(plan)-{'framing_guidance'}!=required or not _v2_line(plan['sku']) or plan['route'] not in ('A','B'):
         raise ValueError('Version-2 shot plan requires SKU, route, original coverage, complete looks, selected shot IDs and series role')
+    _check_framing_guidance(plan)
     if (not identity or context.get('output_form') not in ('human','faceless')
             or context.get('first_pose')=='custom' or context.get('purpose') in ('model-check','correction-edit')):
         raise ValueError('Version-2 shot planning applies to human/faceless delivery and preview')
@@ -344,7 +363,7 @@ def _render_v2(plan,look,real_face_plan):
           'Logical series: '+str(logical_count(plan))+'.']
     cells=active_looks(plan) if look is None else [shot_at(plan,look)]
     for shot in cells:
-        rows.extend([f"Shot {shot['slot']}: {shot['shot_id']}. Framing: {shot['framing']}.",
+        rows.extend([f"Shot {shot['slot']}: {shot['shot_id']}. {framing_line(plan,shot['framing'])}",
                      'Display purpose: '+shot['display_goal'], 'Must show: '+', '.join(shot['must_show'])+'.',
                      'Selection reason: '+shot['reason'], body_text(shot),
                      'Supported garment views: '+', '.join(shot['garment_views'])+'.'])

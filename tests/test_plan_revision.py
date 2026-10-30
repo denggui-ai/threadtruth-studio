@@ -165,7 +165,7 @@ class PlanRevisionTests(unittest.TestCase):
 
     def test_legacy_body_only_shot_render_keeps_its_bytes(self):
         coverage=[dict(sha256='a'*64,views=['front'],usable=True,same_sku=True,note='Synthetic coverage')]
-        legacy=task.shot_helper().default_plan('sku',coverage)
+        legacy=task.shot_helper().default_plan('sku',coverage);legacy.pop('framing_guidance')  # frozen pre-WP-6b plans carry no flag
         self.assertEqual(hashlib.sha256(task.shot_helper().render(legacy).encode()).hexdigest(),
                          '1cd0a0d4741f3353429d723c7bd589e9f7fbdf8126cc48e4238430d5faa4fdf2')
 

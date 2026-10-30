@@ -159,6 +159,41 @@ class PosePlanV2Tests(unittest.TestCase):
         self.assertIn('Shot 1: SIDE_TURN_STANDING. Framing: full-body.', shot.render(plan))
         self.assertIn('Shot 6: BACK_TURN_GLANCE.', shot.render(plan))
 
+    def test_default_plan_carries_framing_guidance_and_renders_breathing_room(self):
+        plan = shot.default_plan('legacy', sample_plan()['coverage'])
+        self.assertEqual(plan['framing_guidance'], 1)
+        rows = shot.render(plan).split('\n')
+        self.assertIn('Shot 1: SIDE_TURN_STANDING. Framing: full-body. ' + shot.FRAMING_GUIDANCE['full-body'], rows)
+        self.assertIn('Shot 3: UPRIGHT_SEATED. Framing: half-body. ' + shot.FRAMING_GUIDANCE['half-body'], rows)
+        self.assertIn('Shot 5: SLIGHT_FORWARD_LEAN. Framing: knee-up. ' + shot.FRAMING_GUIDANCE['knee-up'], rows)
+        self.assertEqual(sum('head-height' in r for r in rows), 6)
+
+    def test_plan_without_framing_guidance_renders_legacy_framing_line(self):
+        plan = shot.default_plan('legacy', sample_plan()['coverage'])
+        del plan['framing_guidance']
+        rows = shot.render(plan).split('\n')
+        self.assertIn('Shot 1: SIDE_TURN_STANDING. Framing: full-body.', rows)
+        self.assertFalse(any('head-height' in r for r in rows))
+
+    def test_framing_guidance_must_be_one_when_present(self):
+        context = dict(first_pose=1, output_form='human', purpose='delivery')
+        plan = shot.default_plan('legacy', sample_plan()['coverage'])
+        shot.validate(plan, inventory(), context=context, count=6)
+        for bad in (0, 2, '1', True, None):
+            with self.subTest(bad=bad), self.assertRaisesRegex(ValueError, 'framing_guidance'):
+                shot.validate(dict(plan, framing_guidance=bad), inventory(), context=context, count=6)
+        v2 = sample_plan()
+        with self.assertRaisesRegex(ValueError, 'framing_guidance'):
+            self.validate(dict(v2, framing_guidance=2))
+
+    def test_v2_plan_with_framing_guidance_validates_and_renders_it(self):
+        plan = dict(sample_plan(), framing_guidance=1)
+        self.validate(plan)
+        rows = shot.render(plan).split('\n')
+        self.assertIn('Shot 1: garment-shot-1. Framing: full-body. ' + shot.FRAMING_GUIDANCE['full-body'], rows)
+        self.assertEqual(sum('head-height' in r for r in rows), 9)
+        self.assertNotIn('head-height', shot.render(sample_plan()))
+
 
 if __name__ == '__main__':
     unittest.main()
