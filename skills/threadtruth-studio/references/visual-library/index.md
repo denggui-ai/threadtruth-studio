@@ -44,6 +44,6 @@
 - `art.direction` 写审美意图，`techniques` 写所选媒介技法，`limits` 写本方案仍须遵守的商品和人物边界。`persona_guidance` 仅供本次允许调整的人物条件参考，不直接覆盖已确认笑容或妆发。
 - `scene_options` 是空间候选，不是动作安排。具体景别、头眼、动作和来源覆盖进入当前逐张计划；不能用场景顺序偷换六张动作。
 - `bases` 表示可借鉴的原方案，不表示自动载入并叠加全部旧提示词。`prompt_fragment` 是阅读辅助，实际输出来自冻结后解析的方案。
-- `status=draft`、`evidence.visual_status=unverified` 表示仍需该范围的实图验证。仅填写结构、编译成功、存在旧样片或单个新样片，都不能自动升级为整个方向通过。
+- `status=draft`、`evidence.visual_status=unverified` 表示仍需该范围的实图验证。仅填写结构、编译成功、存在旧样片或单个新样片，都不能自动升级为整个方向通过。`evidence.visual_status=direction-accepted` 表示仅有九格方向预览经 Owner 接受方向（`records` 记图路径与哈希），成片仍未验证，仍不等于整个方向通过。
 
 实际图像、验收与失败证据由任务保存；共享卡片不包含私人原图、客户原文或完整日志。新版本不追溯修改已有任务的卡片快照与哈希。

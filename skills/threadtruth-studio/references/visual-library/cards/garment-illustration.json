@@ -91,9 +91,22 @@
     "交付说明标明艺术表现；笔触不能被宣称为真实绣线/织纹或商品实拍。"
   ],
   "evidence": {
-    "visual_status": "unverified",
-    "records": [],
-    "scope": "当前修订尚无实图验收；既有历史记录保留，不自动扩展其接受范围。"
+    "visual_status": "direction-accepted",
+    "records": [
+      {
+        "date": "2026-10-30",
+        "kind": "nine-shot-direction-preview",
+        "result": "direction-accepted",
+        "decided_by": "Owner",
+        "image": "outputs/caiguang-wp14-entry-sweep-20261030/wp14-garment-illustration/preview/outputs/look-1.png",
+        "image_sha256": "2e8c5b788b8b830a372035e2c21bf8ecf65fe07a9b9b731444abc0efa8c4c83b",
+        "source_sha256": "0d97ff34acbc8b14e7cbd2f8983312e99777ece7b7cc4517a29ec2749cbf91b4",
+        "skill_commit": "6b7cd5b",
+        "reviewers": "Fable 自读 + DeepSeek flash 封闭题盲审（outputs/caiguang-wp14-entry-sweep-20261030/deepseek-blind-review-batch1.md）",
+        "note": "WP-14 批 1，1 件商品（牛仔套装）1 张九格方向预览；塞腰/阔腿/按扣/头顶留白记提示词层问题，不计入入口判定；成片未验。"
+      }
+    ],
+    "scope": "2026-10-30 一张九格方向预览经 Owner 接受方向（仅 1 件商品）；成片未验，不扩展为整个方向通过。"
   },
   "default_objective": "art-campaign",
   "scene_options": [

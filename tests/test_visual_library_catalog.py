@@ -22,6 +22,10 @@ def read(path):
 
 
 class VisualLibraryCatalogTests(unittest.TestCase):
+    DIRECTION_ACCEPTED = {'korean-cold-editorial', 'retro-americana', 'garment-illustration', 'art-deco-set'}
+    RECORD_KEYS = ('date', 'kind', 'result', 'decided_by', 'image', 'image_sha256',
+                   'source_sha256', 'skill_commit', 'reviewers', 'note')
+
     @classmethod
     def setUpClass(cls):
         spec = importlib.util.spec_from_file_location('catalog_library', SKILL / 'scripts/visual_library.py')
@@ -176,8 +180,18 @@ class VisualLibraryCatalogTests(unittest.TestCase):
         for identifier, card in self.cards.items():
             with self.subTest(entry=identifier):
                 self.assertEqual(card['status'], 'draft')
-                self.assertEqual(card['evidence']['visual_status'], 'unverified')
-                self.assertEqual(card['evidence']['records'], [])
+                evidence = card['evidence']
+                if identifier in self.DIRECTION_ACCEPTED:
+                    self.assertEqual(evidence['visual_status'], 'direction-accepted')
+                    self.assertEqual(len(evidence['records']), 1)
+                    record = evidence['records'][0]
+                    self.assertEqual(tuple(record), self.RECORD_KEYS)
+                    self.assertEqual(record['result'], 'direction-accepted')
+                    self.assertRegex(record['image_sha256'], r'^[0-9a-f]{64}$')
+                    self.assertRegex(record['source_sha256'], r'^[0-9a-f]{64}$')
+                else:
+                    self.assertEqual(evidence['visual_status'], 'unverified')
+                    self.assertEqual(evidence['records'], [])
                 before = json.dumps(card, ensure_ascii=False, sort_keys=True)
                 self.library.prepare(self.spec(identifier))
                 after = json.dumps(self.library.card(identifier), ensure_ascii=False, sort_keys=True)
