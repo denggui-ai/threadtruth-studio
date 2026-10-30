@@ -125,6 +125,14 @@ class ValidationMessageTests(unittest.TestCase):
         self.assertEqual(third.returncode, 2)
         self.assertIn(f'e.g. --output {root / "visual_plan-3.json"}', third.stderr)
         self.assertFalse((root / 'visual_plan-3.json').exists())
+        # Paths with spaces are quoted so the suggestion can be pasted into a shell as-is.
+        spaced = root / 'my plans'; spaced.mkdir()
+        out2 = spaced / 'visual_plan.json'
+        cmd2 = cmd[:-1] + [str(out2)]
+        self.assertEqual(subprocess.run(cmd2, cwd=root, capture_output=True, text=True).returncode, 0)
+        fourth = subprocess.run(cmd2, cwd=root, capture_output=True, text=True)
+        self.assertEqual(fourth.returncode, 2)
+        self.assertIn(f"e.g. --output '{spaced / 'visual_plan-2.json'}'", fourth.stderr)
 
 
 if __name__ == '__main__':

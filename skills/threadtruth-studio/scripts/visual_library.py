@@ -7,6 +7,7 @@ import itertools
 import json
 from pathlib import Path
 import re
+import shlex
 import sys
 import unicodedata
 
@@ -269,8 +270,8 @@ def main(argv=None):
                 with args.output.open('x', encoding='utf-8') as handle:
                     handle.write(json.dumps(result, ensure_ascii=False, indent=2) + '\n')
             except FileExistsError:
-                raise ValueError(f'--output {args.output} already exists and frozen plans are never overwritten; '
-                                 f'write to a new path instead, e.g. --output {_free_path(args.output)}') from None
+                raise ValueError(f'--output {shlex.quote(str(args.output))} already exists and frozen plans are never overwritten; '
+                                 f'write to a new path instead, e.g. --output {shlex.quote(str(_free_path(args.output)))}') from None
             result = dict(status='prepared', path=str(args.output.resolve()),
                           visual_plan_sha256=_visual().object_hash(result), image_calls=0)
         print(json.dumps(result, ensure_ascii=False, indent=2))
