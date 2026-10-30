@@ -261,102 +261,176 @@ def _pose_helper():
     return helper
 
 
+def _got(value):
+    """Describe an offending value briefly for validation messages (type or short repr)."""
+    if value is None or isinstance(value,(bool,int,float)):return repr(value)
+    if isinstance(value,str):return repr(value) if len(value)<=40 else repr(value[:37]+'...')
+    name=type(value).__name__
+    try:return f'{name} of {len(value)}'
+    except TypeError:return name
+
+
+def _check_views(path,views):
+    if not isinstance(views,list) or not views:
+        raise ValueError(path+' must be a nonempty list drawn from front, front-side, back, detail; got '+_got(views))
+    bad=[v for v in views if not isinstance(v,str) or v not in VIEWS]
+    if bad:raise ValueError(path+' must only contain front, front-side, back, detail; got '+_got(bad[0]))
+    if len(views)!=len(set(views)):raise ValueError(path+' must not repeat a view; got '+_got(views))
+
+
 def _validate_v2(plan,inventory,*,context,count,identity,real_face_plan,strict_references,model_source):
     required={'version','sku','route','coverage','looks','selected_shot_ids','series_role'}
-    if set(plan)-{'framing_guidance'}!=required or not _v2_line(plan['sku']) or plan['route'] not in ('A','B'):
-        raise ValueError('Version-2 shot plan requires SKU, route, original coverage, complete looks, selected shot IDs and series role')
+    keys=set(plan)-{'framing_guidance'}
+    if keys!=required:
+        raise ValueError('shot_plan must have exactly the keys '+', '.join(sorted(required))+' (optional: framing_guidance); missing: '
+                         +(', '.join(sorted(required-keys)) or 'none')+'; unexpected: '+(', '.join(sorted(keys-required)) or 'none'))
+    if not _v2_line(plan['sku']):raise ValueError('shot_plan.sku must be a nonempty single line; got '+_got(plan['sku']))
+    if plan['route'] not in ('A','B'):raise ValueError('shot_plan.route must be "A" or "B"; got '+_got(plan['route']))
     _check_framing_guidance(plan)
     if (not identity or context.get('output_form') not in ('human','faceless')
             or context.get('first_pose')=='custom' or context.get('purpose') in ('model-check','correction-edit')):
-        raise ValueError('Version-2 shot planning applies to human/faceless delivery and preview')
-    if type(count) is not int or count not in (1,6,9):raise ValueError('One, six or nine active shots required')
+        raise ValueError('Version-2 shot planning applies to human/faceless delivery and preview only; got identity='+_got(identity)
+                         +', output_form='+_got(context.get('output_form'))+', first_pose='+_got(context.get('first_pose'))
+                         +', purpose='+_got(context.get('purpose')))
+    if type(count) is not int or count not in (1,6,9):raise ValueError('count must be 1, 6 or 9 active shots; got '+_got(count))
     if not isinstance(inventory,list) or any(not isinstance(r,dict) or not isinstance(r.get('sha256'),str)
             or not re.fullmatch(r'[0-9a-f]{64}',r['sha256']) or not isinstance(r.get('role'),str) for r in inventory):
-        raise ValueError('Reference inventory requires original hashes and roles')
+        raise ValueError('references must be a list of {sha256: 64 lowercase hex chars, role: string}; got '+_got(inventory))
     by_hash={r['sha256']:r for r in inventory}
-    if len(by_hash)!=len(inventory):raise ValueError('Reference hashes and roles must be unambiguous')
+    if len(by_hash)!=len(inventory):
+        raise ValueError('references must not repeat a sha256; got '+str(len(inventory)-len(by_hash))+' duplicate(s)')
     catalog=_pose_helper()
     catalog.check_inventory(inventory)
     garments={h for h,r in by_hash.items() if r['role']=='garment-source'}
     coverage=plan['coverage'];seen=set();usable={}
-    if not isinstance(coverage,list) or not coverage:raise ValueError('Review original garment coverage first')
-    for ref in coverage:
-        if (not isinstance(ref,dict) or set(ref)!={'sha256','views','usable','same_sku','note'}
-                or not isinstance(ref['sha256'],str) or ref['sha256'] not in garments or ref['sha256'] in seen
-                or type(ref['usable']) is not bool or type(ref['same_sku']) is not bool
-                or not _v2_line(ref['note']) or not isinstance(ref['views'],list) or not ref['views']
-                or any(not isinstance(v,str) or v not in VIEWS for v in ref['views'])
-                or len(ref['views'])!=len(set(ref['views']))):
-            raise ValueError('Garment coverage binds distinct original hashes, reviewed views, usability and same-SKU evidence')
+    if not isinstance(coverage,list) or not coverage:
+        raise ValueError('shot_plan.coverage must be a nonempty list of reviewed garment-source entries; got '+_got(coverage))
+    for i,ref in enumerate(coverage):
+        path=f'shot_plan.coverage[{i}]'
+        if not isinstance(ref,dict):raise ValueError(path+' must be an object; got '+_got(ref))
+        if set(ref)!={'sha256','views','usable','same_sku','note'}:
+            raise ValueError(path+' must have exactly the keys note, same_sku, sha256, usable, views; got '+(', '.join(sorted(ref)) or 'none'))
+        if not isinstance(ref['sha256'],str) or ref['sha256'] not in garments:
+            raise ValueError(path+'.sha256 must be the sha256 of a garment-source reference; got '+_got(ref['sha256']))
+        if ref['sha256'] in seen:raise ValueError(path+'.sha256 repeats an earlier coverage entry: '+ref['sha256'])
+        if type(ref['usable']) is not bool:raise ValueError(path+'.usable must be true or false; got '+_got(ref['usable']))
+        if type(ref['same_sku']) is not bool:raise ValueError(path+'.same_sku must be true or false; got '+_got(ref['same_sku']))
+        if not _v2_line(ref['note']):raise ValueError(path+'.note must be a nonempty single line of review notes; got '+_got(ref['note']))
+        _check_views(path+'.views',ref['views'])
         seen.add(ref['sha256'])
         if ref['usable'] and ref['same_sku']:usable[ref['sha256']]=set(ref['views'])
     supported=set().union(*usable.values()) if usable else set()
-    if 'front' not in supported:raise ValueError('A usable same-SKU front is required')
-    if plan['route']!=('A' if 'back' in supported else 'B'):raise ValueError('Garment route must match original back coverage')
+    if 'front' not in supported:
+        raise ValueError('shot_plan.coverage must include a usable same_sku entry whose views contain "front"; usable views: '
+                         +(', '.join(sorted(supported)) or 'none'))
+    expected_route='A' if 'back' in supported else 'B'
+    if plan['route']!=expected_route:
+        raise ValueError(f'shot_plan.route must be "{expected_route}" because usable same_sku back coverage is '
+                         +('present' if 'back' in supported else 'absent')+'; got '+_got(plan['route']))
     looks=plan['looks']
-    if not isinstance(looks,list) or len(looks) not in (1,6,9):raise ValueError('Keep the complete one, six or nine logical shots')
+    if not isinstance(looks,list) or len(looks) not in (1,6,9):
+        raise ValueError('shot_plan.looks must be a list of 1, 6 or 9 logical shots; got '+_got(looks))
     fields={'slot','shot_id','display_goal','must_show','reason','body_action','hands','support','framing','garment_views','reference_sha256s'}
     optional={'head','gaze','pose_reference','aesthetic_reference_sha256s'}
     ids=[]
     head_gaze=any(isinstance(s,dict) and ('head' in s or 'gaze' in s) for s in looks)
     if head_gaze and (model_source not in ('ai','new') or real_face_plan is not None or context.get('output_form')!='human'):
-        raise ValueError('AI/new visible portraits own shot head/gaze; real faces use reviewed real_face_plan')
+        raise ValueError('looks[*].head/gaze are only for AI/new visible portraits; real faces use the reviewed real_face_plan; got model_source='
+                         +_got(model_source)+', output_form='+_got(context.get('output_form')))
     for slot,shot in enumerate(looks,1):
-        if not isinstance(shot,dict) or set(shot)-optional!=fields or type(shot['slot']) is not int or shot['slot']!=slot:
-            raise ValueError('Logical slots must be complete and ordered, independently of body actions')
-        if (not isinstance(shot['shot_id'],str) or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_-]{0,79}',shot['shot_id'])
-                or shot['shot_id'] in ids):raise ValueError('Each logical shot needs a unique stable shot_id')
+        path=f'shot_plan.looks[{slot-1}]'
+        if not isinstance(shot,dict):raise ValueError(path+' must be an object; got '+_got(shot))
+        keys=set(shot)-optional
+        if keys!=fields:
+            raise ValueError(path+' must have exactly the keys '+', '.join(sorted(fields))+' (optional: '+', '.join(sorted(optional))
+                             +'); missing: '+(', '.join(sorted(fields-keys)) or 'none')+'; unexpected: '+(', '.join(sorted(keys-fields)) or 'none'))
+        if type(shot['slot']) is not int or shot['slot']!=slot:
+            raise ValueError(path+f'.slot must be {slot} (logical slots stay complete and ordered); got '+_got(shot['slot']))
+        if not isinstance(shot['shot_id'],str) or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_-]{0,79}',shot['shot_id']):
+            raise ValueError(path+'.shot_id must be 1-80 letters, digits, "_" or "-" starting with a letter or digit; got '+_got(shot['shot_id']))
+        if shot['shot_id'] in ids:raise ValueError(path+'.shot_id must be unique; "'+shot['shot_id']+'" is already used by an earlier shot')
         ids.append(shot['shot_id'])
-        if any(not _v2_line(shot[k]) for k in ('display_goal','reason','body_action','hands','support')):
-            raise ValueError('Every shot needs reviewed display purpose, reason and actual body/hand/support relationships')
-        if len(body_text(shot))>1000:raise ValueError('Combined body, hands and support must fit the real-face body contract')
-        if (not isinstance(shot['must_show'],list) or not shot['must_show']
-                or any(not _v2_line(v) for v in shot['must_show']) or len(shot['must_show'])!=len(set(shot['must_show']))):
-            raise ValueError('Declare distinct visible garment features for the shot purpose')
-        if shot['framing'] not in ('full-body','half-body','knee-up','detail'):raise ValueError('Unknown shot framing')
-        if head_gaze and (not _v2_line(shot.get('head')) or not _v2_line(shot.get('gaze'))):
-            raise ValueError('Declare both head orientation and eye gaze for every AI/new shot')
-        refs=shot['reference_sha256s'];views=shot['garment_views']
-        if (not isinstance(refs,list) or not refs or any(not isinstance(h,str) or h not in usable for h in refs)
-                or len(refs)!=len(set(refs)) or not isinstance(views,list) or not views
-                or any(not isinstance(v,str) or v not in VIEWS for v in views) or len(views)!=len(set(views))):
-            raise ValueError('Every shot needs usable same-SKU garment references and declared coverage')
+        for k in ('display_goal','reason','body_action','hands','support'):
+            if not _v2_line(shot[k]):raise ValueError(path+'.'+k+' must be a nonempty single line without POSE/Shot headers; got '+_got(shot[k]))
+        if len(body_text(shot))>1000:
+            raise ValueError(path+'.body_action + hands + support must total at most 1000 characters; got '+str(len(body_text(shot))))
+        must=shot['must_show']
+        if not isinstance(must,list) or not must:
+            raise ValueError(path+'.must_show must be a nonempty list of distinct strings, e.g. ["collar", "hem"]; got '+_got(must))
+        bad=[v for v in must if not _v2_line(v)]
+        if bad:raise ValueError(path+'.must_show items must be nonempty single lines; got '+_got(bad[0]))
+        if len(must)!=len(set(must)):raise ValueError(path+'.must_show must not repeat an item; got '+_got(must))
+        if shot['framing'] not in ('full-body','half-body','knee-up','detail'):
+            raise ValueError(path+'.framing must be one of full-body, half-body, knee-up, detail; got '+_got(shot['framing']))
+        if head_gaze:
+            for k in ('head','gaze'):
+                if not _v2_line(shot.get(k)):
+                    raise ValueError(path+'.'+k+' must be a nonempty single line on every shot once any shot declares head/gaze; got '+_got(shot.get(k)))
+        refs=shot['reference_sha256s']
+        if not isinstance(refs,list) or not refs:
+            raise ValueError(path+'.reference_sha256s must be a nonempty list of usable same_sku garment-source hashes; got '+_got(refs))
+        for h in refs:
+            if not isinstance(h,str) or h not in usable:
+                raise ValueError(path+'.reference_sha256s must only name usable same_sku coverage hashes; got '+_got(h)
+                                 +'; usable: '+(', '.join(sorted(usable)) or 'none'))
+        if len(refs)!=len(set(refs)):raise ValueError(path+'.reference_sha256s must not repeat a hash; got '+_got(refs))
+        views=shot['garment_views']
+        _check_views(path+'.garment_views',views)
         selected_views=set().union(*(usable[h] for h in refs))
-        if not set(views)<=selected_views:raise ValueError('Shot garment views require selected original garment coverage')
+        if not set(views)<=selected_views:
+            raise ValueError(path+'.garment_views must be covered by its reference_sha256s coverage; not covered: '
+                             +', '.join(sorted(set(views)-selected_views))+' (covered: '+(', '.join(sorted(selected_views)) or 'none')+')')
         if 'pose_reference' in shot:
             ref=shot['pose_reference']
             if (not isinstance(ref,dict) or set(ref)!={'sha256','reason'} or not _v2_line(ref['reason'])
                     or not isinstance(ref['sha256'],str) or ref['sha256'] not in by_hash
                     or by_hash[ref['sha256']]['role']!='pose-reference'):
-                raise ValueError('A shot may select one reviewed pose-reference inventory hash with its reason')
+                raise ValueError(path+'.pose_reference must be {sha256: <one pose-reference inventory hash>, reason: <single line>}; got '+_got(ref))
             catalog.validate_reference(by_hash[ref['sha256']])
         aesthetic=shot.get('aesthetic_reference_sha256s',[])
         if (not isinstance(aesthetic,list) or any(not isinstance(h,str) or h not in by_hash or by_hash[h]['role']!='aesthetic-reference' for h in aesthetic)
-                or len(aesthetic)!=len(set(aesthetic))):raise ValueError('Aesthetic selection binds distinct aesthetic-reference hashes only')
+                or len(aesthetic)!=len(set(aesthetic))):
+            raise ValueError(path+'.aesthetic_reference_sha256s must be a list of distinct aesthetic-reference hashes; got '+_got(aesthetic))
     selected_ids=plan['selected_shot_ids']
-    if (not isinstance(selected_ids,list) or len(selected_ids)!=count or any(not isinstance(s,str) or s not in ids for s in selected_ids)
-            or len(selected_ids)!=len(set(selected_ids))):raise ValueError('Selected shot identities must match the active execution count')
+    if not isinstance(selected_ids,list) or any(not isinstance(s,str) for s in selected_ids):
+        raise ValueError('shot_plan.selected_shot_ids must be a list of shot_id strings; got '+_got(selected_ids))
+    if len(selected_ids)!=count:
+        raise ValueError(f'shot_plan.selected_shot_ids must have exactly {count} entries (the active execution count); got {len(selected_ids)}')
+    unknown=[s for s in selected_ids if s not in ids]
+    if unknown:raise ValueError('shot_plan.selected_shot_ids must only name looks[*].shot_id values; unknown: '+', '.join(unknown))
+    if len(selected_ids)!=len(set(selected_ids)):
+        raise ValueError('shot_plan.selected_shot_ids must not repeat a shot_id; got '+_got(selected_ids))
     role=plan['series_role']
     if role=='series':
-        if len(looks) not in (6,9) or selected_ids!=ids:raise ValueError('Series execution selects every logical shot in order')
+        if len(looks) not in (6,9) or selected_ids!=ids:
+            raise ValueError('series_role "series" requires a complete six/nine plan with selected_shot_ids equal to every looks[*].shot_id in order; got '
+                             +str(len(looks))+' looks, selected '+_got(selected_ids))
     elif role=='standalone':
-        if len(selected_ids)!=1:raise ValueError('Standalone execution selects exactly one shot')
+        if len(selected_ids)!=1:raise ValueError('series_role "standalone" requires exactly one selected_shot_id; got '+str(len(selected_ids)))
     elif role=='series-first':
-        if len(looks) not in (6,9) or selected_ids!=ids[:1]:raise ValueError('Series-first selects the actual first shot of a complete six/nine plan')
-    else:raise ValueError('Declare standalone, series-first or series execution')
+        if len(looks) not in (6,9) or selected_ids!=ids[:1]:
+            raise ValueError('series_role "series-first" requires a complete six/nine plan with selected_shot_ids equal to the actual first shot_id only; got '
+                             +str(len(looks))+' looks, selected '+_got(selected_ids))
+    else:raise ValueError('shot_plan.series_role must be "standalone", "series-first" or "series"; got '+_got(role))
     active=active_looks(plan)
-    if context.get('first_pose')!=active[0]['slot']:raise ValueError('Task first slot must match its selected source shot')
-    if context.get('purpose')=='preview-grid' and role!='series':raise ValueError('Preview must show the complete frozen series')
+    if context.get('first_pose')!=active[0]['slot']:
+        raise ValueError(f'context.first_pose must equal the first selected shot slot {active[0]["slot"]}; got '+_got(context.get('first_pose')))
+    if context.get('purpose')=='preview-grid' and role!='series':
+        raise ValueError('Preview must show the complete frozen series: series_role must be "series" when purpose is preview-grid; got '+_got(role))
     if real_face_plan is not None:
-        if len(real_face_plan.get('looks',[]))!=count:raise ValueError('Real face plan must align with active shot identities')
-        for shot,face in zip(active,real_face_plan['looks']):
-            if face.get('body_action')!=body_text(shot):raise ValueError('Real face body action must mirror the frozen shot body/hand/support plan')
+        if len(real_face_plan.get('looks',[]))!=count:
+            raise ValueError(f'real_face_plan.looks must have exactly {count} entries matching the active shots; got '+str(len(real_face_plan.get('looks',[]))))
+        for i,(shot,face) in enumerate(zip(active,real_face_plan['looks'])):
+            if face.get('body_action')!=body_text(shot):
+                raise ValueError(f'real_face_plan.looks[{i}].body_action must mirror the frozen shot body/hand/support text (Real face body action must mirror the shot plan); got '+_got(face.get('body_action')))
             face_refs=set(face['reference_sha256s'])
-            if not set(shot['reference_sha256s'])<=face_refs:raise ValueError('Real face selections must retain this shot garment references')
+            if not set(shot['reference_sha256s'])<=face_refs:
+                raise ValueError(f'real_face_plan.looks[{i}].reference_sha256s must retain this shot garment references; missing: '
+                                 +', '.join(sorted(set(shot['reference_sha256s'])-face_refs)))
             if strict_references and not face_refs.intersection(garments)<=set(usable):
-                raise ValueError('Every real-selected garment needs usable same-SKU coverage')
+                raise ValueError(f'real_face_plan.looks[{i}].reference_sha256s garments must all have usable same-SKU coverage; not usable: '
+                                 +', '.join(sorted(face_refs.intersection(garments)-set(usable))))
     return copy.deepcopy(plan)
-
 
 def _render_v2(plan,look,real_face_plan):
     rows=[BEGIN,'Garment route: '+plan['route']+'; garment-driven shot plan v2.',

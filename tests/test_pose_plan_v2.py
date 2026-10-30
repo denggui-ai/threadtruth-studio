@@ -100,7 +100,7 @@ class PosePlanV2Tests(unittest.TestCase):
         self.assertEqual(shot.aesthetic_selected(plan, 5), {art})
         self.assertEqual(shot.aesthetic_selected(plan, 1, preview=True), {art})
         plan['looks'][4]['aesthetic_reference_sha256s'] = [FRONT]
-        with self.assertRaisesRegex(ValueError, 'Aesthetic'):
+        with self.assertRaisesRegex(ValueError, 'aesthetic_reference_sha256s'):
             self.validate(plan, refs=refs)
 
     def test_research_only_pose_is_rejected_even_with_source_disguised_as_authorized(self):

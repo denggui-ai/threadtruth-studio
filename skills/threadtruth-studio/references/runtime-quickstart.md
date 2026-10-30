@@ -24,7 +24,7 @@ python3 "$SKILL/scripts/visual_library.py" prepare --spec prepare.json --output 
  "shot_plan": <shot_plan.json 全文>}
 ```
 
-`model.source_type`：`new` 新 AI 人物、`ai` 沿用已确认 AI 人物、`real` 真人；`subject` 用 `adult female model` / `adult male model` / `child model`。输出的 `visual_plan.json` 含 9 个 `shots` 和可选 `persona`，不要手改。
+`model.source_type`：`new` 新 AI 人物、`ai` 沿用已确认 AI 人物、`real` 真人；`subject` 用 `adult female model` / `adult male model` / `child model`。输出的 `visual_plan.json` 含 9 个 `shots` 和可选 `persona`，不要手改。`--output` 指向已有文件会被拒绝（冻结方案不覆盖），报错里给出可用的新文件名，换名重跑即可。
 
 ## 1. 预览任务（动作 0，1 次调用）
 
