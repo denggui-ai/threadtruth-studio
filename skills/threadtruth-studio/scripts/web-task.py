@@ -1371,17 +1371,17 @@ def update(root,event,**kw):
             if type(kw.get('expected_attempt'))!=int or kw['expected_attempt']!=attempt:
                 raise ValueError('Approval must target the current rejected/failed attempt: pass --expected-attempt '+str(attempt)+'; got '+repr(kw.get('expected_attempt')))
             if not note or not approval or not isinstance(prompt,str) or not prompt.strip():
-                missing=[]
+                missing=[];via_revise=is_preview(d) and row['state'] in ('accepted','rejected')
                 if not note:missing.append('--note "<the user\'s own words granting this one extra request>"')
                 if not approval:missing.append('--approval-id <a new ID you choose, unique within this task, e.g. retry-look'+str(n)+'-attempt'+str(attempt+1)+'>')
                 if not isinstance(prompt,str) or not prompt.strip():
                     missing.append('a corrected prompt: first run revise-preview --task <task> --look '+str(n)
                         +' --expected-output-sha256 '+row.get('output',{}).get('sha256','<current output sha256>')
                         +' --spec revision.json --note "<user feedback>" (revision.json holds the complete new "prompt"), then repeat this command'
-                        if is_preview(d) else '--prompt-file <file holding the complete corrected prompt>')
+                        if via_revise else '--prompt-file <file holding the complete corrected prompt>')
                 raise ValueError('Explicit retry approval, unique approval ID and corrected prompt required; missing: '+'; '.join(missing)
                     +'. Full form: retry-authorize --task <task> --look '+str(n)+' --expected-attempt '+str(attempt)
-                    +' --approval-id <unique ID> --note "<user words>"'+('' if is_preview(d) else ' --prompt-file <file>'))
+                    +' --approval-id <unique ID> --note "<user words>"'+('' if via_revise else ' --prompt-file <file>'))
             photography_helper().apply(prompt,d['context'].get('photography_targets') if d['schema_version']==2 else None)
             if any(g['approval_id']==approval for g in grants) or d.get('continuation_authorization',{}).get('approval_id')==approval:raise ValueError('Retry approval already used')
             if (d['schema_version']==1 or n==1) and any(x['state']!='pending' for x in d['looks'][n:]):raise ValueError('Cannot replace an anchor with existing downstream work')

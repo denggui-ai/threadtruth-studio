@@ -4,7 +4,7 @@ Session-d of the WP-8a walk-through produced zero images because the assistant c
 `Declare distinct visible garment features for the shot purpose` or `[Errno 17] File exists`.
 Every case here is a plan the runtime already rejected before WP-12; only the wording is new.
 """
-import copy, hashlib, importlib.util, json, re, subprocess, sys, tempfile, unittest
+import copy, hashlib, importlib.util, json, re, subprocess, sys, tempfile, unittest, unittest.mock
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -227,6 +227,25 @@ class RetryAuthorizeMessageTests(unittest.TestCase):
         message = str(caught.exception)
         self.assertIn('revise-preview', message)
         self.assertIn(sha, message)
+
+    def test_failed_preview_retry_without_prompt_points_to_prompt_file(self):
+        # revise-preview only accepts accepted/rejected rows, so a reconciled failed preview must be told --prompt-file.
+        self.nt.create(preview=True)
+        self.task.update(self.nt.job, 'authorize', limit=1, note='Synthetic preview request authority.')
+        self.nt.reserve(1)
+        data = self.task.read(self.nt.job)
+        row = data['looks'][0]
+        row.update(state='failed', failure_reconciliation=dict(synthetic=True))
+        with unittest.mock.patch.object(self.task, 'failure_recovery', return_value=True), \
+                unittest.mock.patch.object(self.task, 'check_evidence'), \
+                unittest.mock.patch.object(self.task, 'read', return_value=data), \
+                unittest.mock.patch.object(self.task, 'write', create=True):
+            with self.assertRaises(ValueError) as caught:
+                self.task.update(self.nt.job, 'retry-authorize', look=1, expected_attempt=1,
+                                 note='Synthetic user grant.', approval_id='synthetic-retry-1')
+        message = str(caught.exception)
+        self.assertIn('--prompt-file', message)
+        self.assertNotIn('revise-preview', message)
 
     def test_retry_wrong_attempt_says_expected_value(self):
         self.rejected_delivery()
