@@ -47,7 +47,7 @@ class RuntimeQuickstartTests(unittest.TestCase):
                       body_action='Stand naturally, action ' + str(i), hands='Hands relaxed', support='Both feet grounded', framing='full-body',
                       garment_views=['front'], reference_sha256s=[h], head='natural', gaze='soft') for i in range(1, 10)]
         shot_plan = dict(version=2, sku='qs-sku', route='B', coverage=[dict(sha256=h, views=['front'], usable=True, same_sku=True, note='Synthetic front')],
-                         looks=looks, selected_shot_ids=[l['shot_id'] for l in looks], series_role='series', framing_guidance=1)
+                         looks=looks, selected_shot_ids=[l['shot_id'] for l in looks], series_role='series')   # no framing_guidance: init must default it
         prep = dict(entry_id='french-effortless', garment=dict(description='Synthetic red garment.', keep=['red'], source_sha256s=[h]),
                     inventory=[dict(role='garment-source', sha256=h)], model=MODEL, output_form='human', shot_plan=shot_plan)
         (root / 'prepare.json').write_text(json.dumps(prep))
@@ -84,6 +84,8 @@ class RuntimeQuickstartTests(unittest.TestCase):
         self.assertEqual([Path(p).name for p in request['referenced_image_paths']], ['01-garment-source.png', '02-identity-only.png'])
         status = self.cli('web-task.py', 'status', '--task', delivery, cwd=root)
         self.assertEqual(status['attempts'], 2); self.assertTrue(status['model_confirmation'])
+        self.assertEqual(status['shot_plan']['framing_guidance'], 1)
+        self.assertEqual(json.loads((preview / 'task.json').read_text())['shot_plan']['framing_guidance'], 1)
         self.assertEqual([l['state'] for l in status['looks']][:3], ['accepted', 'accepted', 'pending'])
 
 
