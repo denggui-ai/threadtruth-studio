@@ -1,6 +1,10 @@
 # Release Readiness
 
-## Current release — beta.14 (GitHub prerelease)
+## Current release — beta.15 (GitHub prerelease)
+
+Version `1.0.0-beta.15` publishes the garment-driven source that has accumulated on `main` since beta.14: 36 visual entries with persona and palette rules, nine-shot version-2 planning with breathing-room framing by default, the mandatory ledger scripts before any generation, field-named validation errors and the self-correction rule. It is cut from `main` after PRs #40–#45 passed CI. One real multi-turn Codex session on this source produced the labeled nine-panel preview and the first delivery image entirely through the ledger (record: `korea/outputs/caiguang-wp8-mainline-walkthrough-20261030`, outside this repository). User-facing documents keep their beta.14 wording where it describes the earlier six-image default; the runtime default is now the nine-shot series. No fresh-host installation test was repeated for this cut. Download [v1.0.0-beta.15](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.15) and its SHA-256 sidecar.
+
+## Historical release — beta.14 (GitHub prerelease)
 
 Version `1.0.0-beta.14` restores the owner-selected default: choose a style, authorize a labeled six-panel preview, confirm the direction, then generate six independent images. Explicit single-image requests, preview-only stopping and existing authorization/QA gates remain. It synchronizes the already-installed runtime changes with the public source; no new generation feature or image call is added. PR #39 passed the existing CI and was merged. Local activation, 50-file runtime parity, the 285-file archive and backup checks are recorded in [verification](docs/verification/2026-10-17-default-flow-restore.md). Download [v1.0.0-beta.14](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.14) and its SHA-256 sidecar. Previous releases remain unchanged.
 
