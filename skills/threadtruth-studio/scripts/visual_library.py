@@ -234,6 +234,15 @@ def prepare(spec, root=ROOT):
                               count=count, identity=output_form in ('human', 'faceless'), shot_plan=shot_plan)
 
 
+def _free_path(path):
+    """First sibling like name-2.json that does not exist yet, offered when --output is taken."""
+    for n in range(2, 10000):
+        candidate = path.with_name(f'{path.stem}-{n}{path.suffix}')
+        if not candidate.exists():
+            return candidate
+    return path.with_name(f'{path.stem}-{n}{path.suffix}')
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest='command', required=True)
@@ -256,8 +265,12 @@ def main(argv=None):
         else:
             result = prepare(json.loads(args.spec.read_text(encoding='utf-8')))
             # Never overwrite another frozen plan as a side effect of preparation.
-            with args.output.open('x', encoding='utf-8') as handle:
-                handle.write(json.dumps(result, ensure_ascii=False, indent=2) + '\n')
+            try:
+                with args.output.open('x', encoding='utf-8') as handle:
+                    handle.write(json.dumps(result, ensure_ascii=False, indent=2) + '\n')
+            except FileExistsError:
+                raise ValueError(f'--output {args.output} already exists and frozen plans are never overwritten; '
+                                 f'write to a new path instead, e.g. --output {_free_path(args.output)}') from None
             result = dict(status='prepared', path=str(args.output.resolve()),
                           visual_plan_sha256=_visual().object_hash(result), image_calls=0)
         print(json.dumps(result, ensure_ascii=False, indent=2))
