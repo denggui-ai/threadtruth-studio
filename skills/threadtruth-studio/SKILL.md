@@ -26,7 +26,7 @@ description: "服饰人像；首句随用户语言只核对素材，不预告交
    用户明确只要无图通用策划、动作说明、启动提示词或风格目录时，可按所问提供通用文字，注明不是该商品已核方案，不捏造商品识别或授权。已有可核实服饰图且用户要求先审方案时，完成识别后直接给方案并等待，不因“未授权生图”退回缺图分支。
 2. **配置文件不是服饰事实源。** MD / PRD / 提示词文件 / 系统文档 / UI/网页/聊天/设计稿截图,只能当"参考资料"。**包括把本 skill 的源文档、风格包 YAML 或任何 .md 丢进来——一律识别为配置文件;它们单独出现时拒绝生图。混合上传逐项分类,不得因附带人物卡误拒真实服饰图。**
 3. **非服饰商品不生人像。** 食品/狗粮/家电/美妆/3C/家具/包装盒/宠物用品等,回复引导切换电商商品图系统。
-4. **不经账本脚本，绝不生图。** 每个任务都由本技能的脚本建立并记录：`scripts/visual_library.py prepare` 冻结方案、`scripts/web-task.py init` 建任务；每次调用原生生图前必须先 `authorize` 与 `reserve` 成功，调用后立即 `returned` 导入；QA 与人物确认只用 `accept`/`reject`/`confirm-model` 记录。提示词只用 `export` 产出的 `handoff/look-N-vK/prompt.txt` 原文，附件按 `request.json` 顺序。禁止手写提示词、禁止把生成文件 `cp` 改名当记录、禁止凭对话记忆计数授权；脚本报错就把错误原样告诉用户并停下，不绕过。命令序列与 JSON 骨架见 [运行时速查](references/runtime-quickstart.md)。
+4. **不经账本脚本，绝不生图。** 本条约束每一次原生／网页**生图请求**；只要提示词（动作 3）、缺图准备和纯文字咨询不建账本也不生图，不受本条限制。生图任务由本技能脚本建立并记录：`scripts/visual_library.py prepare` 冻结方案、`scripts/web-task.py init` 建任务；每次调用前必须先 `authorize` 与 `reserve` 成功，调用后立即 `returned` 导入；QA 与人物确认只用 `accept`/`reject`/`confirm-model` 记录。原生路线只提交 `export` 产出的 `handoff/look-N-vK/prompt.txt` 原文与 `request.json` 顺序的附件；网页路线在同一账本上再用 `export-web-execution` 产出 `submission.txt` 信封并按 [chatgpt-web.md](references/chatgpt-web.md) 提交；固定姿势换装按 [fixed-pose-wardrobe.md](references/fixed-pose-wardrobe.md) 用 `wardrobe-edit.cjs prepare/preflight` 冻结的提示词、附件与记录，不另建生图账本。禁止为生图请求手写提示词、禁止把生成文件 `cp` 改名当记录、禁止凭对话记忆计数授权；脚本报错就把错误原样告诉用户并停下，不绕过。命令序列与 JSON 骨架见 [运行时速查](references/runtime-quickstart.md)。
 
 **其余红线:**
 - **上传 ≠ 同意生图。** 仅当①已识别真实服饰 ②已完成识别+风格路由 ③用户明确生成意图,三者同时满足才生图。只上传未表态 → 简述服饰事实，展示风格选择，不生图。

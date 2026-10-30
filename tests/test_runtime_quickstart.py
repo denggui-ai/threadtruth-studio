@@ -8,7 +8,8 @@ ROOT = Path(__file__).resolve().parents[1]
 SKILL = ROOT / 'skills/threadtruth-studio'
 SCRIPTS = SKILL / 'scripts'
 QUICKSTART = SKILL / 'references/runtime-quickstart.md'
-SIZE = [60, 40]
+SIZE = [2, 3]   # ratio-first: the first returned image fixes the pixel baseline
+PIX = (40, 60)
 MODEL = dict(source_type='new', scope='full', subject='adult female model', locked=[], adjustable=[], consent_note='')
 
 
@@ -25,6 +26,7 @@ class RuntimeQuickstartTests(unittest.TestCase):
         self.assertTrue(all(p >= 0 for p in positions), positions)
         self.assertEqual(positions, sorted(positions), 'quickstart commands must appear in execution order')
         self.assertNotIn('/Users/', text)
+        self.assertIn('ratio-first', text)
 
     def cli(self, script, *args, cwd):
         result = subprocess.run([sys.executable, str(SCRIPTS / script)] + [str(a) for a in args], cwd=cwd, capture_output=True, text=True)
@@ -32,7 +34,7 @@ class RuntimeQuickstartTests(unittest.TestCase):
         return json.loads(result.stdout) if result.stdout.strip().startswith('{') else result.stdout
 
     def synth(self, root, name, color):
-        path = root / name; Image.new('RGB', tuple(SIZE), color).save(path); return path
+        path = root / name; Image.new('RGB', PIX, color).save(path); return path
 
     def handoff(self, task, look):
         folder = sorted((task / 'handoff').glob(f'look-{look}-v*'))[-1]
@@ -51,7 +53,7 @@ class RuntimeQuickstartTests(unittest.TestCase):
         (root / 'prepare.json').write_text(json.dumps(prep))
         self.cli('visual_library.py', 'prepare', '--spec', root / 'prepare.json', '--output', root / 'visual_plan.json', cwd=root)
         visual = json.loads((root / 'visual_plan.json').read_text()); self.assertEqual(len(visual['shots']), 9)
-        ctx = dict(outfit='qs-sku', style='french-effortless', mode='C', output_form='human', size=SIZE, first_pose=1)
+        ctx = dict(outfit='qs-sku', style='french-effortless', mode='C', output_form='human', size=SIZE, first_pose=1, canvas_policy='ratio-first')
         (root / 'init-preview.json').write_text(json.dumps(dict(references=[dict(path=str(src), role='garment-source')], size=SIZE, route='codex_native',
                                                                 model=MODEL, context=dict(ctx, purpose='preview-grid'), shot_plan=shot_plan, visual_plan=visual)))
         preview = root / 'preview'

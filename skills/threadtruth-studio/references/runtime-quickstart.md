@@ -1,6 +1,6 @@
 # 运行时速查：默认原生路线的命令序列
 
-本页是 SKILL.md 第 0 节"不经账本脚本，绝不生图"的执行清单。`$SKILL` 指 SKILL.md 所在目录；所有命令在用户工作区目录里运行，任务目录也建在工作区里。脚本只操作本地文件，不生成图片，也不证明用户给了授权。任何一步报错：把错误原样告诉用户并停下，不要绕过、不要手写等价物。
+本页是 SKILL.md 第 0 节"不经账本脚本，绝不生图"的执行清单，只覆盖**原生路线的生图任务**：网页路线在 `export` 之后改用 `export-web-execution` 与 [chatgpt-web.md](chatgpt-web.md) 的信封提交；固定姿势换装走 [fixed-pose-wardrobe.md](fixed-pose-wardrobe.md) 的专用工具；只要提示词（动作 3）不建任务、不生图。`$SKILL` 指 SKILL.md 所在目录；所有命令在用户工作区目录里运行，任务目录也建在工作区里。脚本只操作本地文件，不生成图片，也不证明用户给了授权。任何一步报错：把错误原样告诉用户并停下，不要绕过、不要手写等价物。
 
 ## 0. 识别后、生图前（0 次调用）
 
@@ -38,11 +38,13 @@ python3 "$SKILL/scripts/web-task.py" export --task preview
 
 ```json
 {"references": [{"path": "<商品图路径>", "role": "garment-source"}],
- "size": [1024, 1536], "route": "codex_native",
+ "size": [2, 3], "route": "codex_native",
  "model": <同 prepare.json 的 model>,
- "context": {"outfit": "<SKU 标签>", "style": "<入口ID>", "mode": "C", "output_form": "human", "size": [1024, 1536], "first_pose": 1, "purpose": "preview-grid"},
+ "context": {"outfit": "<SKU 标签>", "style": "<入口ID>", "mode": "C", "output_form": "human", "size": [2, 3], "first_pose": 1, "purpose": "preview-grid", "canvas_policy": "ratio-first"},
  "shot_plan": <shot_plan.json 全文>, "visual_plan": <visual_plan.json 全文>}
 ```
+
+`size` 与 `context.size` 写目标**比例**（默认 2:3）并用 `canvas_policy: ratio-first`，首张返回图确定像素基线，之后同比例的其他像素会被拒收；只有用户给了精确像素才写像素并去掉 `canvas_policy`（按 [modes-scenes.md](modes-scenes.md)）。
 
 `export` 生成 `preview/handoff/look-1-vK/`：`prompt.txt`（唯一允许发给生图的提示词，带九格标记与留白句）、`request.json`（`referenced_image_paths` 的顺序就是附件顺序）、`manifest.json`（`reference_hashes`、`current_plan_sha256`）。然后：
 
@@ -65,7 +67,7 @@ python3 "$SKILL/scripts/web-task.py" prepare-delivery --task delivery --preview-
 python3 "$SKILL/scripts/web-task.py" authorize --task delivery --limit <本次授权次数> --note "<用户原话>"
 ```
 
-`delivery.json` 骨架：`{"context": {<同预览 context，但 "purpose": "delivery">}, "size": [1024, 1536], "count": 9, "series_role": "series"}`。`--limit` 填用户本次明确的成片次数（1…N）。**一个任务只能 `authorize` 一次，当前版本没有追加次数的命令**（`continue-authorize` 只用于经典 v1 单张续五和 v2 series-first 续组，`retry-authorize` 只补被拒单张）。用户先批部分、用完再批时：如实告诉用户这组已记录的次数已用完、追加授权要等运行时补上追加命令（已记 backlog），不要重建任务、不要凭记忆多生成。
+`delivery.json` 骨架：`{"context": {<同预览 context，但 "purpose": "delivery">}, "size": [2, 3], "count": 9, "series_role": "series"}`。`--limit` 填用户本次明确的成片次数（1…N）。**一个任务只能 `authorize` 一次，当前版本没有追加次数的命令**（`continue-authorize` 只用于经典 v1 单张续五和 v2 series-first 续组，`retry-authorize` 只补被拒单张）。用户先批部分、用完再批时：如实告诉用户这组已记录的次数已用完、追加授权要等运行时补上追加命令（已记 backlog），不要重建任务、不要凭记忆多生成。
 
 每张（look = 1…N）固定四步，串行：
 
