@@ -1,5 +1,22 @@
 # Changelog
 
+## Unreleased
+
+### WP-16 C1: hand-written overrides and retry-authorize now fail with repairable messages, 2026-10-30
+
+- `visual_plan.py`: the version-2 `shots` check is split per item and reports `visual_plan.shots[i]`, missing/unexpected keys, a hint that `overrides.shots` replaces all generated shots, and the first shot binding that differs from the shot plan (expected vs actual). The original sentences are kept inside the new messages.
+- `visual_library.py prepare`: `Unknown photography/art override` now lists the unexpected keys and the allowed keys.
+- `web-task.py retry-authorize`: refusals name the current look state, the `--expected-attempt` value, and the missing `--note` / `--approval-id` / corrected prompt (preview: the `revise-preview` route). No ledger format or QA behavior changes.
+
+### WP-16 C2: top hem state and trouser silhouette as fixed garment facts, 2026-10-30
+
+- `visual_plan.garment` accepts two optional keys: `hem_state` (`untucked` / `tucked` / `half-tucked`) and `silhouette` (`straight-leg` / `wide-leg` / `tapered-leg` / `flared-leg`). `render()` expands each present key into one fixed geometric sentence after the garment lines; with both keys absent the prompt bytes are unchanged. Other values fail with the path, the allowed values and the offending value.
+- `recognition.md`, `runtime-quickstart.md` and `visual-plan.md` tell the assistant when to set them and to omit them when the source is unclear. Only the visual-plan route is covered; hand-written legacy prompts are not.
+
+### WP-16 C3: head-top margin is measured and recorded at delivery accept, 2026-10-30
+
+- `web-task.py accept` on a delivery version-2 human look with a person framing writes `row.headroom` (`status` plus `ratio` when measured, `reason` when uncertain, `unavailable` when Pillow is missing). It is record-only: no threshold, and `state`, `qa` and `qa_note` are unchanged. The background is taken per row from the left and right edges; busy edges, tiny images and subject-less images are `uncertain`, and a measurement error is recorded as `error` without blocking accept. Previews, `reject` and `review-output` are not measured. Thresholds wait for real batch data.
+
 ## 1.0.0-beta.15 — garment-driven nine-shot planning, runtime ledger gate, readable validation, 2026-10-30
 
 Cuts every change below since beta.14 (2026-10-17). In short: 36 visual entries with per-card persona and palette rules; garment-driven version-2 shot plans (nine logical shots, source-backed routes, per-shot head/gaze, breathing-room framing on by default); the ledger scripts are mandatory before any generation (`web-task.py` records authorization, reserve, returned, QA and model confirmation); validation errors name the JSON path, expected shape and offending value, and the assistant fixes its own input instead of stopping; real-face, model-reuse and fixed-pose wardrobe paths keep their contracts. A real multi-turn Codex session on this source produced the labeled nine-panel preview and the first delivery image through the ledger with zero hand-written prompts. The sections below are the detailed entries, kept in their original order (newest first).

@@ -15,6 +15,18 @@ MEDIA = ('photography', 'illustration', 'mixed-media')
 OUTPUT_FORMS = ('human', 'faceless', 'flat-lay', 'hanger', 'mannequin')
 FIELDS = {'version', 'objective', 'output_medium', 'output_form', 'style', 'garment', 'styling',
           'photography', 'art', 'negatives', 'shots'}
+# WP-16 (FINDINGS G): optional source-backed fit facts, rendered as fixed geometric sentences.
+HEM_STATES = {
+    'untucked': 'Top hem: worn untucked; the whole hem of the top hangs outside the waistband, over the bottom garment, in every presentation. Never tuck it in, not even partly.',
+    'tucked': 'Top hem: fully tucked into the waistband all the way around, with the waistband visible, in every presentation.',
+    'half-tucked': 'Top hem: partly tucked; one part of the hem (usually the centre front) is tucked into the waistband while the rest hangs outside, the same way in every presentation.',
+}
+SILHOUETTES = {
+    'straight-leg': 'Trouser silhouette, straight-leg: each leg falls in a straight vertical line from the thigh to the hem; the hem opening is about as wide as the knee; the leg does not flare, balloon or widen toward the floor and is not a wide-leg shape.',
+    'wide-leg': 'Trouser silhouette, wide-leg: each leg is loose and wide from the hip all the way down; the hem opening is at least as wide as the knee and never narrower, whether the leg keeps the same width or widens toward the hem.',
+    'tapered-leg': 'Trouser silhouette, tapered: each leg narrows steadily from the thigh to the hem; the hem opening is narrower than the knee.',
+    'flared-leg': 'Trouser silhouette, flared: each leg stays close from the thigh to the knee, then widens from the knee to a hem opening clearly wider than the knee.',
+}
 RESERVED = re.compile(r'\[(?:/?Task |/?Current model)|^\s*(?:POSE|Shot)\s+[1-6]\s*:', re.I)
 V2_RESERVED = re.compile(r'^\s*(?:POSE|Shot)\s+[7-9]\s*:', re.I)
 V2_BODY = re.compile(r'\b(?:body (?:action|pose|orientation)|hand (?:position|placement))\b', re.I)
@@ -27,6 +39,15 @@ OWNED = re.compile(r'\b(?:gaze|eyeline|off[- ](?:lens|camera|frame)|head (?:turn
 
 def object_hash(value):
     return hashlib.sha256(json.dumps(value, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
+
+
+def _got(value):
+    """Describe an offending value briefly for validation messages (type or short repr)."""
+    if value is None or isinstance(value,(bool,int,float)):return repr(value)
+    if isinstance(value,str):return repr(value) if len(value)<=40 else repr(value[:37]+'...')
+    name=type(value).__name__
+    try:return f'{name} of {len(value)}'
+    except TypeError:return name
 
 
 def _line(value, label, *, empty=False, owned=False, v2=False):
@@ -136,10 +157,17 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
             raise ValueError('Style persona requires the exact resolving model hash')
         _line(plan['persona'], 'Style persona', owned=True, v2=v2)
     garment = plan['garment']
-    if not isinstance(garment, dict) or set(garment) != {'description', 'keep', 'source_sha256s'}:
-        raise ValueError('Garment facts require description, keep and original source_sha256s')
+    if not isinstance(garment, dict) or set(garment) - {'hem_state', 'silhouette'} != {'description', 'keep', 'source_sha256s'}:
+        raise ValueError('Garment facts require description, keep and original source_sha256s (optional: hem_state, silhouette); got '
+                         + _got(garment))
     _line(garment['description'], 'Source-backed garment description', v2=v2)
     _lines(garment['keep'], 'Source-backed garment preservation', required=True, v2=v2)
+    if 'hem_state' in garment and (not isinstance(garment['hem_state'], str) or garment['hem_state'] not in HEM_STATES):
+        raise ValueError('visual_plan.garment.hem_state must be one of ' + ', '.join(HEM_STATES)
+                         + ' (omit it when the source does not show it); got ' + _got(garment['hem_state']))
+    if 'silhouette' in garment and (not isinstance(garment['silhouette'], str) or garment['silhouette'] not in SILHOUETTES):
+        raise ValueError('visual_plan.garment.silhouette must be one of ' + ', '.join(SILHOUETTES)
+                         + ' (omit it when the source does not show it); got ' + _got(garment['silhouette']))
     if not isinstance(inventory,list) or not inventory or any(not isinstance(r,dict) for r in inventory):
         raise ValueError('Visual preparation needs an explicit source inventory')
     originals = {r['sha256'] for r in inventory if r.get('role') == 'garment-source'}
@@ -181,12 +209,25 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
                 raise ValueError('Visual shots preserve actual numbered/custom presentation and consecutive slots')
         else:
             slot = i if count > 1 else context['first_pose']
-            if (not isinstance(shot, dict) or set(shot) != {'slot', 'shot_id', 'scene', 'lighting', 'composition'}
-                    or type(shot['slot']) is not int or shot['slot'] != slot or slot not in range(1, 10)
-                    or not isinstance(shot['shot_id'], str)
-                    or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]{0,79}', shot['shot_id'])
-                    or shot['shot_id'] in seen_ids):
-                raise ValueError('Visual v2 shots preserve stable source slots and distinct shot_id values')
+            path = f'visual_plan.shots[{i - 1}]'
+            required_shot = {'slot', 'shot_id', 'scene', 'lighting', 'composition'}
+            hint = ('; every element needs exactly slot, shot_id, scene, lighting, composition. '
+                    'visual_library prepare overrides.shots replaces ALL generated shots, so either omit overrides.shots '
+                    'or give the complete list copied from a prepare run without it')
+            if not isinstance(shot, dict):
+                raise ValueError(path + ' must be an object (Visual v2 shots preserve stable source slots and distinct shot_id values); got '
+                                 + _got(shot) + hint)
+            if set(shot) != required_shot:
+                raise ValueError(path + ' has the wrong keys (Visual v2 shots preserve stable source slots and distinct shot_id values); missing: '
+                                 + (', '.join(sorted(required_shot - set(shot))) or 'none') + '; unexpected: '
+                                 + (', '.join(sorted(set(shot) - required_shot)) or 'none') + hint)
+            if type(shot['slot']) is not int or shot['slot'] != slot or slot not in range(1, 10):
+                raise ValueError(path + '.slot must be ' + _got(slot) + ' (stable source slot in shot_plan order); got ' + _got(shot['slot']))
+            if not isinstance(shot['shot_id'], str) or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]{0,79}', shot['shot_id']):
+                raise ValueError(path + '.shot_id must be 1-80 letters, digits, "_", "." or "-" starting with a letter or digit; got '
+                                 + _got(shot['shot_id']))
+            if shot['shot_id'] in seen_ids:
+                raise ValueError(path + '.shot_id must be distinct; got duplicate ' + _got(shot['shot_id']))
             seen_ids.add(shot['shot_id'])
         for key in ('scene', 'lighting', 'composition'):
             _line(shot[key], 'Per-shot ' + key, owned=True, v2=v2)
@@ -196,9 +237,14 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
         if shot_plan['version'] != plan['version']:
             raise ValueError('Visual and garment shot-plan versions must agree')
     if shot_plan is not None and shot_plan['version'] == 2:
-        if (
-                [dict(slot=s['slot'], shot_id=s['shot_id']) for s in plan['shots']] != shot_bindings(shot_plan)):
-            raise ValueError('Visual and garment shot plans must bind the same active shot IDs and source slots')
+        actual = [dict(slot=s['slot'], shot_id=s['shot_id']) for s in plan['shots']]
+        expected = shot_bindings(shot_plan)
+        if actual != expected:
+            at = next((k for k, (a, e) in enumerate(zip(actual, expected)) if a != e), min(len(actual), len(expected)))
+            raise ValueError('visual_plan.shots[' + str(at) + '] must bind shot_plan selected shot '
+                             + (json.dumps(expected[at], sort_keys=True) if at < len(expected) else 'none (too many shots)')
+                             + ' (Visual and garment shot plans must bind the same active shot IDs and source slots); got '
+                             + (json.dumps(actual[at], sort_keys=True) if at < len(actual) else 'none (missing shot)'))
     return copy.deepcopy(plan)
 
 
@@ -213,6 +259,10 @@ def render(plan, look=None):
             'Primary style: ' + style['primary']['id'] + '.',
             'Source-backed garment: ' + plan['garment']['description'],
             'Preserve original garment facts: ' + '; '.join(plan['garment']['keep']) + '.']
+    if 'hem_state' in plan['garment']:
+        rows.append(HEM_STATES[plan['garment']['hem_state']])
+    if 'silhouette' in plan['garment']:
+        rows.append(SILHOUETTES[plan['garment']['silhouette']])
     if plan['output_form']=='faceless':
         rows.append('Keep the face outside the image or fully obscured; preserve supported body proportions and garment details. Do not introduce a visible face.')
     elif plan['output_form'] in ('flat-lay','hanger','mannequin'):

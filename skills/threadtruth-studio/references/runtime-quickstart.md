@@ -24,6 +24,8 @@ python3 "$SKILL/scripts/visual_library.py" prepare --spec prepare.json --output 
  "shot_plan": <shot_plan.json 全文>}
 ```
 
+`garment` 可选两键：源图能确定上衣外穿／塞腰／半塞时加 `"hem_state": "untucked" | "tucked" | "half-tucked"`；裤型能确定时加 `"silhouette": "straight-leg" | "wide-leg" | "tapered-leg" | "flared-leg"`。看不清就省略，不要写 unknown。
+
 `model.source_type`：`new` 新 AI 人物、`ai` 沿用已确认 AI 人物、`real` 真人；`subject` 用 `adult female model` / `adult male model` / `child model`。输出的 `visual_plan.json` 含 9 个 `shots` 和可选 `persona`，不要手改。`--output` 指向已有文件会被拒绝（冻结方案不覆盖），报错里给出可用的新文件名，换名重跑即可。
 
 ## 1. 预览任务（动作 0，1 次调用）
@@ -78,7 +80,7 @@ python3 "$SKILL/scripts/web-task.py" export --task delivery            # 读 del
 python3 "$SKILL/scripts/web-task.py" reserve --task delivery --look <N> --ready --refs <manifest.reference_hashes> --expected-plan-sha256 <manifest.current_plan_sha256>
 <原生生图：prompt.txt 原文 + request.json 顺序的附件>
 python3 "$SKILL/scripts/web-task.py" returned --task delivery --look <N> --file <生成的 PNG>
-python3 "$SKILL/scripts/web-task.py" accept --task delivery --look <N> --qa <qa-pass|qa-user-review> --note "<核对结论>"   # 失败：reject --qa qa-retry
+python3 "$SKILL/scripts/web-task.py" accept --task delivery --look <N> --qa <qa-pass|qa-user-review> --note "<核对结论>"   # 失败：reject --qa qa-retry；成片 accept 会把头顶留白测量值写入账本（只记录，不改 QA 结论）
 ```
 
 首张（look 1）技术评定后必须问用户人物是否可用，确认后记录：

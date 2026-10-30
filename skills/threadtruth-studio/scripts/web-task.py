@@ -525,6 +525,36 @@ def png_size(path):
     return [w,h]
 
 
+# WP-16 (FINDINGS I): record-only headroom measurement for delivery images. Only rows whose left and
+# right edges are plain background are measured; busy edges, tiny images or no detectable subject are
+# 'uncertain'. Never changes QA.
+def headroom_check(path):
+    try:
+        from PIL import Image
+    except ImportError:
+        return {'status':'unavailable'}
+    with Image.open(path) as source:image=source.convert('RGB')
+    width,height=image.size;scan_h=max(1,round(height*256/width))
+    if scan_h<8:return {'status':'uncertain','reason':'too-small'}
+    small=image.resize((256,scan_h));px=small.load()
+    patch_w=max(2,256//10);need=max(1,int(128*0.03))
+    for y in range(scan_h):
+        edge=[px[x,y] for x in list(range(patch_w))+list(range(256-patch_w,256))]
+        mean=tuple(sum(c[i] for c in edge)/len(edge) for i in range(3))
+        if max(max(abs(c[i]-mean[i]) for i in range(3)) for c in edge)>30:
+            return {'status':'uncertain','reason':'busy-edges'}
+        if sum(max(abs(px[x,y][i]-mean[i]) for i in range(3))>40 for x in range(64,192))>=need:
+            return {'status':'measured','ratio':round(y/scan_h,4)}
+    return {'status':'uncertain','reason':'no-subject-row'}
+
+def headroom_applies(data,row):
+    """Delivery v2 human looks with a person framing; previews, detail shots and other purposes are not measured."""
+    if (data['schema_version']!=2 or is_preview(data) or data['context'].get('purpose','delivery')!='delivery'
+            or not v2(data.get('shot_plan')) or (data.get('visual_plan') or {}).get('output_form','human')!='human'):
+        return False
+    return shot_helper().shot_at(data['shot_plan'],row['number'])['framing'] in ('full-body','knee-up','half-body')
+
+
 def stamp():
     return datetime.now(timezone.utc).isoformat()
 
@@ -1364,10 +1394,24 @@ def update(root,event,**kw):
             grants=d.get('retry_authorizations',[])
             failed_ready=(row is not None and row['state']=='failed' and failure_recovery(d) and row.get('failure_reconciliation'))
             if row is None or (row['state']!='rejected' and not failed_ready and not (proposal and row['state']=='accepted')) or not d['authorization']:
-                raise ValueError('Retry only a visually rejected result or a reconciled failure with retained evidence; recover unknown requests first')
+                raise ValueError('Retry only a visually rejected result or a reconciled failure with retained evidence; recover unknown requests first; got '
+                                 +('no --look' if row is None else 'look '+str(n)+' state '+repr(row['state']))
+                                 +('' if d['authorization'] else ', task has no authorize record'))
             attempt=row.get('attempt_number',1)
-            if type(kw.get('expected_attempt'))!=int or kw['expected_attempt']!=attempt:raise ValueError('Approval must target the current rejected/failed attempt')
-            if not note or not approval or not isinstance(prompt,str) or not prompt.strip():raise ValueError('Explicit retry approval, unique approval ID and corrected prompt required')
+            if type(kw.get('expected_attempt'))!=int or kw['expected_attempt']!=attempt:
+                raise ValueError('Approval must target the current rejected/failed attempt: pass --expected-attempt '+str(attempt)+'; got '+repr(kw.get('expected_attempt')))
+            if not note or not approval or not isinstance(prompt,str) or not prompt.strip():
+                missing=[];via_revise=is_preview(d) and row['state'] in ('accepted','rejected')
+                if not note:missing.append('--note "<the user\'s own words granting this one extra request>"')
+                if not approval:missing.append('--approval-id <a new ID you choose, unique within this task, e.g. retry-look'+str(n)+'-attempt'+str(attempt+1)+'>')
+                if not isinstance(prompt,str) or not prompt.strip():
+                    missing.append('a corrected prompt: first run revise-preview --task <task> --look '+str(n)
+                        +' --expected-output-sha256 '+row.get('output',{}).get('sha256','<current output sha256>')
+                        +' --spec revision.json --note "<user feedback>" (revision.json holds the complete new "prompt"), then repeat this command'
+                        if via_revise else '--prompt-file <file holding the complete corrected prompt>')
+                raise ValueError('Explicit retry approval, unique approval ID and corrected prompt required; missing: '+'; '.join(missing)
+                    +'. Full form: retry-authorize --task <task> --look '+str(n)+' --expected-attempt '+str(attempt)
+                    +' --approval-id <unique ID> --note "<user words>"'+('' if via_revise else ' --prompt-file <file>'))
             photography_helper().apply(prompt,d['context'].get('photography_targets') if d['schema_version']==2 else None)
             if any(g['approval_id']==approval for g in grants) or d.get('continuation_authorization',{}).get('approval_id')==approval:raise ValueError('Retry approval already used')
             if (d['schema_version']==1 or n==1) and any(x['state']!='pending' for x in d['looks'][n:]):raise ValueError('Cannot replace an anchor with existing downstream work')
@@ -1504,6 +1548,10 @@ def update(root,event,**kw):
             if row is None or row['state']!='returned':raise ValueError('No downloaded result for visual QA')
             if kw.get('qa') not in ('qa-pass','qa-user-review') or not kw.get('note','').strip():raise ValueError('Record actual visual QA and anchor suitability')
             if digest(root/row['output']['file'])!=row['output']['sha256']:raise ValueError('Output changed since import')
+            # Record-only (WP-16): the measurement never changes state, qa or qa_note.
+            if headroom_applies(d,row):
+                try:row['headroom']=headroom_check(root/row['output']['file'])
+                except Exception as exc:row['headroom']={'status':'error','reason':type(exc).__name__}
             row.update(state='accepted',qa=kw['qa'],qa_note=kw['note'])
         else:raise ValueError('Unknown event')
         d['complete']=(bool(d.get('preview_decision')) if is_preview(d) else
