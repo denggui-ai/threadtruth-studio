@@ -18,7 +18,7 @@ FRAMING_GUIDANCE={
 
 def framing_line(plan,framing):
     text='Framing: '+framing+'.'
-    if plan.get('framing_guidance')==1 and framing in FRAMING_GUIDANCE:text+=' '+FRAMING_GUIDANCE[framing]
+    if type(plan.get('framing_guidance')) is int and plan['framing_guidance']==1 and framing in FRAMING_GUIDANCE:text+=' '+FRAMING_GUIDANCE[framing]
     return text
 RELATIONS=[
     'Standing side turn with a natural shoulder/hip relationship and relaxed weight; not a frontal stand with only the head turned.',

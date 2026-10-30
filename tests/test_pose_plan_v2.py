@@ -174,6 +174,8 @@ class PosePlanV2Tests(unittest.TestCase):
         rows = shot.render(plan).split('\n')
         self.assertIn('Shot 1: SIDE_TURN_STANDING. Framing: full-body.', rows)
         self.assertFalse(any('head-height' in r for r in rows))
+        for loose in (True, 1.0):  # renderer must not accept bool/float even when called without validate()
+            self.assertNotIn('head-height', shot.render(dict(plan, framing_guidance=loose)))
 
     def test_framing_guidance_must_be_one_when_present(self):
         context = dict(first_pose=1, output_form='human', purpose='delivery')

@@ -6,6 +6,7 @@
 - fix: korean-cold-editorial card 0.1.2 states a cool-dominant palette with warm cream/golden casts excluded from the environment (garment colour untouched). WP-4b sampled 4/4 warm cream environments under the 0.1.1 wording that listed cool and warm tones side by side; WP-4c and the 0.1.2 regression reproduced cool environments 8/8 with garment facts and persona unchanged. The legacy no-persona export test re-pins its prompt hash.
 - docs: visual-library index documents the palette sentence convention for photography cards (dominant colours + excluded casts + garment exception + fixed closing sentence), backed by WP-4b/4c/4d/4f samples. No card changed.
 - feat(shot-plan): new shot plans carry `framing_guidance: 1`; the per-shot `Framing:` line then states breathing room (wide full-length shot, about 1.5 head-heights above the hair and one head-height below the shoes, figure about three quarters of the frame height; knee-up/half-body keep one head-height above the hair). Frozen plans without the flag render byte-identical. Motivation: 20/20 recent images had <=5% headroom and one cropped head; task-level targets (WP-6a) only reached 7-9%.
+- fix(visual-library): korean-cold-editorial 0.1.3 palette says "neutral white balance" instead of "neutral, slightly cool" after two samples crossed frame R-B -7 (WP-4d fixture-2 -7.4, WP-6b red-fg-1 -9.7); framing_line now requires an int flag even when called without validate().
 
 ## Unreleased — garment-driven preparation clarification, 2026-10-29
 
