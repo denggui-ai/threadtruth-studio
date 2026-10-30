@@ -11,6 +11,6 @@ node docs/architecture/render_overview.cjs
 cdp-bridge.sh --stop
 ```
 
-PNG导出需开发环境已有Playwright（必要时设置`NODE_PATH`）及支持中文的系统字体，不是用户运行插件的依赖。只连接9344专用Chrome，新建页面并在完成后关闭，不读取其他页面或登录资料。字体不同可能改变字宽；越界时先修图源，再重新生成。
+PNG导出需开发环境已有Playwright（必要时设置`NODE_PATH`）及支持中文的系统字体，不是用户运行插件的依赖。只连接9344专用Chrome，新建页面并在完成后关闭，不读取其他页面或登录资料。字体不同可能改变字宽；越界时先修图源，再重新生成。PNG 导出为可选步骤，无 Playwright 时跳过；此时只提交脚本与SVG，并在ARCHITECTURE.md注明PNG未更新。
 
-检查生成前后的SVG是否一致，目测PNG的分区/连线/文字，核对[能力状态](../CAPABILITY-STATUS.md)及链接，再同时提交脚本、SVG和PNG。图不使用生图模型绘制或识别文字，不引入用户私人素材。
+检查生成前后的SVG是否一致，目测PNG的分区/连线/文字，核对[能力状态](../CAPABILITY-STATUS.md)及链接，再提交脚本与SVG（导出了PNG时一并提交）。图不使用生图模型绘制或识别文字，不引入用户私人素材。

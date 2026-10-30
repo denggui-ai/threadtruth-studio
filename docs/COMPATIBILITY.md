@@ -1,14 +1,14 @@
 # Compatibility / 兼容性
 
-Updated 2026-10-07. The current release target is the [beta.12 prerelease](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.12). Verification below is scoped to the recorded environment and task; it is not a general compatibility guarantee.
+Updated 2026-10-30. The current release target is the [beta.15 prerelease](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.15). Rows below keep the scope of the environment and task they record; they are not a general compatibility guarantee.
 
-更新于2026-10-07。当前发行目标为[beta.12预发布版](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.12)。下表仅说明已记录环境与任务的验证范围，不承诺所有环境兼容。
+更新于2026-10-30。当前发行目标为[beta.15预发布版](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.15)。下表各行保留所记录环境与任务的验证范围，不承诺所有环境兼容。
 
 ## Current source candidate / 当前源码候选
 
-The 2026-10-18 studio redesign has 36 DRAFT execution entries. Required visual and end-to-end acceptance remains incomplete; three paired samples do not demonstrate overall improvement, the child set retains garment/framing failures, and adult web delivery and cross-product reuse are unfinished. A later adult direction preview was accepted after an explicitly authorized local composite; this is not an accepted independent portrait. The candidate is not installed or publicly released. Detailed sanitized development records stay in the source repository under `docs/verification/2026-10-18-studio-redesign/`; they are not part of the offline plugin package.
+beta.15 (2026-10-30) ships the 36 visual entries (24 original style entries plus 12 execution entries) in the prerelease; all 36 entry cards remain `draft`. The default flow is garment-driven nine-shot planning with one labeled nine-panel direction preview first, and the ledger scripts must record authorization and every call before any generation. The only live evidence is one real Codex session (denim set) that produced the labeled nine-panel preview and the first delivery image through the ledger with zero hand-written prompts; the 36 entries have not been run one by one. Records from the 2026-10-18 candidate stage keep their original findings (three paired samples did not demonstrate overall improvement; the child set retained garment/framing failures; adult web delivery and cross-product reuse were unfinished). Detailed sanitized development records stay in the source repository under `docs/verification/2026-10-18-studio-redesign/`; they are not part of the offline plugin package.
 
-2026-10-18工作室改版包含36个DRAFT执行入口，必要实图与端到端验收尚未完成。三组配对未证明整体改善，童装组商品/景别失败保留，成人网页成片与跨商品复用未完成。后续成人预览经明确授权的局部拼接后获用户方向接受，不等于已接受独立首张人物。候选未安装或公开发布。详细脱敏开发记录留在源码的`docs/verification/2026-10-18-studio-redesign/`，不随离线插件打包。
+beta.15（2026-10-30）预发布版包含36个视觉入口（24个原风格入口加12个执行入口），36张入口卡status仍为draft。默认流程为服饰驱动的九张编排，先出1张标注非成片的九格方向预览；生图前必须先经账本脚本记录授权与每次调用。实图证据只有一次真实Codex会话（牛仔套装，九格预览与首张成片经账本落地，提示词零手写），36个入口尚未逐个跑图验证。2026-10-18改版候选期记录保留原结论（三组配对未证明整体改善，童装组商品/景别失败保留，成人网页成片与跨商品复用未完成）。详细脱敏开发记录留在源码的`docs/verification/2026-10-18-studio-redesign/`，不随离线插件打包。
 
 | Surface or task / 环境或任务 | Evidence / 证据 | Boundary / 边界 |
 |---|---|---|
