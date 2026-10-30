@@ -215,7 +215,7 @@ codex plugin list --marketplace personal --json
 请用 $threadtruth-studio 识别并推荐风格，不要生图
 ```
 
-预期返回可见服饰事实、主推与两个备选，以及完整 36 入口目录；等待你选方向，不应生成图片。默认后续为授权 1 次九格方向预览、确认方向、授权 9 次生成九张独立图；明确要求六张或单张时按要求执行。
+预期返回可见服饰事实、主推与两个备选，以及完整 36 入口目录；等待你选方向，不应生成图片。默认后续为授权 1 次九格方向预览、确认方向、授权 9 次生成九张独立图；明确六张、经典六姿势或非人像为 6 张，单张为 1 张。
 
 首次使用成功应同时满足：已安装项处于启用状态，新任务能调用 `$threadtruth-studio`，并返回素材核对与具体方案。成功或失败均可提交[安装反馈表](https://github.com/denggui-ai/threadtruth-studio/issues/new?template=installation-feedback.yml)，填写实际安装版本；若尚未安装成功，填写 not installed 和尝试安装的版本。不要在公开 Issue 中附私图、凭据或完整日志。
 

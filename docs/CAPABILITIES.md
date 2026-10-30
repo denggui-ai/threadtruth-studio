@@ -4,7 +4,7 @@
 
 beta.15 预发布版包含素材识别、人物选择与复用、视觉方向、拍摄方案、双路线生成和验收修改的规划、编译与任务记录。支持商品展示、穿搭编辑、艺术广告三种用途；目标交付为完整独立图片。36 个视觉入口由 24 个原风格入口与 12 个新执行入口组成，实际目录见[36入口索引](../skills/threadtruth-studio/references/visual-library/index.json)；36 张入口卡的 status 仍为 draft。入口之外另有 207 条知识记录（来源目录 132、国内市场表达 46、中国文化服饰 20），供模型在方向两可时查阅，不是入口，也不是同数量的出图方案或已验证样片。
 
-新增入口：美式复古日常、哥特服饰摄影、浪漫波西米亚、未来人工光摄影、汉服指定形制、旗袍都市人像、林芝工布服饰、婚纱空灵、Lolita层次、服饰插画、Art Deco图形布景、超现实空间广告。文化入口仅按具体参考和本次实测范围声明能力；不代表整个文化体系。
+新增入口：美式复古日常、哥特服饰摄影、浪漫波西米亚、未来人工光摄影、汉服指定形制、旗袍都市人像、林芝工布服饰、婚纱空灵、Lolita层次、服饰插画、Art Deco图形布景、超现实空间广告。文化入口仅按具体参考声明能力，尚无实图验证；不代表整个文化体系。
 
 方案在准备时冻结，原生、网页、预览修订、单张／整组承接和提示词导出共用；旧任务继续使用原冻结内容。多个方向可分别比较或按已明确主辅融合；色彩、场景与风格不机械互斥。仅提示词不调用生图，上传和风格选择不产生调用授权；生图前技能必须先经账本脚本记录本任务授权与每次调用。
 
@@ -137,7 +137,7 @@ Use cases can guide canvas and composition; see the linked mode/canvas reference
 | 动作 / Action | 得到什么 / Result | 生图调用 / Image-generation calls |
 |---|---|---|
 | 0 方向预览 / Direction preview | 一张带“非成片”标记的方向预览：默认 3×3 九格；明确六张、经典六姿势或非人像为六格。 / One labeled preview sheet: nine panels by default, six for explicit six-image, classic six-pose or nonportrait plans. | 1 次；使用所选账号额度。 / One; uses the chosen account's quota. |
-| 1 独立成片 / Independent set | 同一套服饰的 N 张独立图片（默认 9；明确六张、经典六姿势或非人像为 6）；首张检查并确认人物后，其余 N−1 张沿用人物参考逐张继续。 / N separate images of one outfit (nine by default; six for explicit six-image, classic six-pose or nonportrait plans), continuing after first-image review and model confirmation. | 初始最多 N 次串行调用；失败会停止，可能无法一次完成整组。 / Up to N initial sequential calls; failure can stop the set before completion. |
+| 1 独立成片 / Independent set | 同一套服饰的 N 张独立图片（默认 9；明确六张、经典六姿势或非人像为 6）；首张检查并确认人物后，其余 N−1 张沿用人物参考逐张继续。 / N separate images of one outfit (nine by default; six for explicit six-image, classic six-pose or nonportrait plans), continuing after first-image review and model confirmation, with the remaining N−1 reusing its identity reference. | 初始最多 N 次串行调用；失败会停止，可能无法一次完成整组。 / Up to N initial sequential calls; failure can stop the set before completion. |
 | 2 单张测试 / Single test | 一张独立测试图。 / One independent test image. | 1 次。 / One. |
 | 3 仅提示词 / Prompts only | 本轮 N 条编号提示词（默认九条）与通用负面词。 / This round's N numbered prompts (nine by default) and shared negative instructions. | 0 次生图；不输出图片。 / No image-generation call; no images. |
 
