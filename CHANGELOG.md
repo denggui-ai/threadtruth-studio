@@ -1,6 +1,10 @@
 # Changelog
 
-## Unreleased — style persona injection, 2026-10-30
+## 1.0.0-beta.15 — garment-driven nine-shot planning, runtime ledger gate, readable validation, 2026-10-30
+
+Cuts every change below since beta.14 (2026-10-17). In short: 36 visual entries with per-card persona and palette rules; garment-driven version-2 shot plans (nine logical shots, source-backed routes, per-shot head/gaze, breathing-room framing on by default); the ledger scripts are mandatory before any generation (`web-task.py` records authorization, reserve, returned, QA and model confirmation); validation errors name the JSON path, expected shape and offending value, and the assistant fixes its own input instead of stopping; real-face, model-reuse and fixed-pose wardrobe paths keep their contracts. A real multi-turn Codex session on this source produced the labeled nine-panel preview and the first delivery image through the ledger with zero hand-written prompts. The sections below are the detailed entries, kept in their original order (newest first).
+
+### style persona injection, 2026-10-30
 
 - feat: inject card persona into visual plan (filtered by model conditions); document mode-to-shots mapping. The 24 legacy cards gain a short English `persona` (version 0.1.1; `persona_guidance` unchanged). `prepare` freezes it with the resolving model hash only for human output with a declared non-child model; `web-task` rejects a persona plan whose model changed. Plans without persona and frozen tasks render byte-identically. 12 new entries have no persona. Not visual evidence of image improvement.
 - fix: korean-cold-editorial card 0.1.2 states a cool-dominant palette with warm cream/golden casts excluded from the environment (garment colour untouched). WP-4b sampled 4/4 warm cream environments under the 0.1.1 wording that listed cool and warm tones side by side; WP-4c and the 0.1.2 regression reproduced cool environments 8/8 with garment facts and persona unchanged. The legacy no-persona export test re-pins its prompt hash.
@@ -14,20 +18,20 @@
 - fix(shot-plan): every version-2 shot-plan validation error now names the JSON path, the expected shape and the offending value (for example `shot_plan.looks[0].must_show must be a nonempty list of distinct strings, e.g. ["collar", "hem"]; got 'collar, hem'`); compound checks are split so one message reports one field. `visual_library.py prepare` rejects an existing `--output` with the reason and a free sibling path instead of a bare `[Errno 17] File exists`. The WP-10a re-run (session-d) stalled on exactly these two messages with zero images; accepted/rejected plans are unchanged. codex-review round 1: the suggested free path skips dangling symlinks and no longer stops at -9999; round 2: both paths in the message are shell-quoted.
 - docs(skill): baseline 4 distinguishes input-validation errors (fix the JSON and re-run) from ledger/authorization errors (report and stop); session-f stalled on a readable must_show error because the old sentence said stop on any script error.
 
-## Unreleased — garment-driven preparation clarification, 2026-10-29
+### garment-driven preparation clarification, 2026-10-29
 
 - Clarify source-image verification of locked outfit details, purposeful accessory placement, natural garment deformation, per-shot reasons and out-of-frame head/gaze for detail crops. This is preparation guidance, not evidence of image improvement; historical tasks remain unchanged.
 
-## Unreleased — v2 identity instruction isolation, 2026-10-29
+### v2 identity instruction isolation, 2026-10-29
 
 - New v2 tasks compile new-person identity instructions separately from a later accepted first-image identity anchor; the latter is explicitly not a pose, hand or support reference. Previously frozen tasks retain their original rendering. Prompt compliance is not proof of image improvement.
 
-## Unreleased — source-person and pose-anchor preparation, 2026-10-29
+### source-person and pose-anchor preparation, 2026-10-29
 
 - After two preview and ten independent sample calls, clarify new-AI garment-source identity separation and per-shot identity-anchor pose separation in the existing garment description and shot plan. Make hand placement explicit when pocket avoidance is required; preserve user-requested pocket poses. No frozen tasks are rewritten; no image generation or installation. These soft instructions are unverified visually and do not prove the cause of repetition.
 
 
-## Unreleased — garment-driven nine-shot planning, 2026-10-29
+### garment-driven nine-shot planning, 2026-10-29
 
 - New human/faceless series default to nine garment- and purpose-driven presentations; retain explicit single/six requests, classic six-pose plans, nonportrait six compositions and historical task contracts. Add stable shot identity and separate standalone selections from a series-first trial; do not infer continuation from a local look-1 filename.
 - Add optional per-shot pose references and source-neutral catalogue preparation; keep the reviewed ai-pose-gallery snapshot research-only and outside executable attachments/runtime distribution. Product and original identity evidence remain required; the gallery cannot supply unknown garment or real-face facts.
@@ -35,32 +39,32 @@
 - Add source-side no-image planning scenarios and targeted regressions. Planning validity, actual request transmission and image improvement are separate conclusions. Final targeted runtime regressions (256) and package/UI checks (29) pass. The initial 654-test run had 26 missing-dependency failures/errors; affected suites passed separately using existing dependencies. Source checks and the bounded no-image planning probe are recorded in `docs/verification/2026-10-29-nine-shot-planning.md`. No image generation, local installation, publication or visual-improvement claim is included.
 
 
-## Unreleased — rejected delivery plan correction, 2026-10-19
+### rejected delivery plan correction, 2026-10-19
 
 - Permit the existing one-image retry to adopt a reviewed structured correction of a rejected non-anchor delivery: only that look's arrangement/composition changes. Compile the matching prompt, preserve body/framing/head/gaze and shared facts, archive prior plans and failed output/QA, and append one explicit grant without resetting attempts or the first-image confirmation. Both native and web handoffs use the same path; stale fingerprints and out-of-scope changes remain blocked. Add four lifecycle/CLI regressions and RC-13/main230.
 - Actual adult outputs 3/5 contained the correct framing instructions but failed the planned crop. This change repairs preparation of a structured retry, not the images themselves; reference/camera-distance influence remains a hypothesis. The original 60-call budget remains exhausted, with zero new image calls, installation or publication.
 
-## Unreleased — development completion regressions, 2026-10-19
+### development completion regressions, 2026-10-19
 
 - Restore the conditional natural head/gaze default for preparation paths without declared per-shot directions. Explicit shot choices and user-fixed directions remain authoritative; real-face coverage keeps its separate branch. Current full-suite evidence exposed the missing fallback; existing frozen tasks are not rewritten. Extend RC-11/main228 for this boundary.
 - Repair three offline-package links by routing the public entrypoints to the shipped compatibility summary. Keep detailed development evidence in source instead of expanding the runtime archive or linking to unpublished web pages.
 - Carry an explicitly authorized local preview correction into normal delivery: compose one existing donor rectangle, preserve the original provider image/review, verify all reconstructed pixels, and require fresh visual QA. The operation makes no generation call and leaves consumed attempts unchanged; any earlier donor-generation cost stays separately charged. Keep a reviewed local shot-plan override as derived provenance and inherit it at delivery without rewriting the generation prompt. Add pixel/budget/lineage/CLI/boundary regressions and RC-12/main229.
 - The initial current-version run executed 594 tests with two failures; targeted fixes and subsequent results are recorded separately. These source fixes do not establish image fidelity or authorize installation/publication.
 
-## Unreleased — reviewed per-shot AI head and gaze, 2026-10-19
+### reviewed per-shot AI head and gaze, 2026-10-19
 
 - Trace the repeated adult/child head directions to preparation: retained requests had distinct body/framing rows but only general natural-variation guidance for head and eyes. No specific per-shot head/gaze was lost by export; reference-pose influence remains a visual hypothesis.
 - Add paired optional `head`/`gaze` to existing shot-plan looks for visible AI/new portraits. A plan that uses them must review every look; both routes render them in the same frozen Shot block, including preview revisions and delivery inheritance. Old body-only plans keep their bytes. Real faces retain their existing coverage plan, and faceless/nonportrait tasks cannot inject these fields.
 - Require concrete series preparation and plan-versus-image QA; preserve user-fixed directions, expressions, body masters, framing and existing retry limits. Add seven deterministic regressions and source cases RC-10/11 with main IDs 227/228. Source transmission checks do not prove natural variation in images; no new image, installation or release is included.
 
-## Unreleased — visual-studio validation outcome, 2026-10-19
+### visual-studio validation outcome, 2026-10-19
 
 - Source and deterministic checks passed; visual and end-to-end acceptance did not all pass. All 36 execution entries remain DRAFT. Three old/new paired samples do not establish overall improvement.
 - Retain the failed D03 child six-image review and the failed D04 web preview. The latter blocks its six independent images and cross-product reuse workflow; returned previews do not count as those deliveries. Real-person cases remain deferred.
 - Keep the `f531e1a` visual-plan baseline separate from the `f5519a8` web execution envelope fix. Each submitted request retains its own frozen canonical prompt and provenance; envelope bindings neither rewrite those art requests nor authenticate remote image-call counts.
 - The candidate is not installed or publicly released. Current summaries link to the [actual results and remaining limits](docs/verification/2026-10-18-studio-redesign/live-results.md); historical entries and galleries retain their original scope.
 
-## Unreleased — explicit one-call web execution envelope, 2026-10-19
+### explicit one-call web execution envelope, 2026-10-19
 
 - A live web preview returned an image and announced an unsolicited correction after one Send. Stopping the page did not establish whether another image tool call had started. Keep that incident separate from local reservation counts and visual QA.
 - Add explicit `export-web-execution` for the current pending handoff. Immutable submission/metadata sidecars bind the unchanged canonical prompt, manifest, ordered attachments and look/attempt/plan; the receiving turn may invoke an image generation/edit tool at most once and must return or stop on success, failure or uncertainty. QA returns to the caller without autonomous refinements or retries.
@@ -68,7 +72,7 @@
 - Add targeted artifact/CLI/tamper/stale-plan/legacy/history regressions and source-side web execution scenarios. No image call, installation, publication or claim of live receiver compliance is included in this source fix.
 - Scoped validation, independent review and the structural check passed using existing host dependencies; the initial missing-PyYAML attempt is retained in `docs/verification/2026-10-19-web-execution-envelope.md`.
 
-## Unreleased — complete visual-studio candidate, 2026-10-18
+### complete visual-studio candidate, 2026-10-18
 
 - Owner-approved redesign: source identification, people/reuse, visual selection, complete planning, dual-route output and review/correction/delivery; product-display, styled-editorial and art-campaign purposes, independent images only.
 - Add frozen visual_plan v1 and prompt contract 2, shared validation/compilation and portable visual-library preparation. Propagate through preview revisions, accepted delivery selection, continuation, export and recovery; original model/shot/real-face ownership and old contract 0/1 bytes remain. Numbered human/faceless v2 tasks require an actual shot plan.
@@ -78,14 +82,14 @@
 - Add runtime, library, routing and full-journey regression coverage; validation work is ongoing. Real image requests are capped at 60 with original material rights and per-dimension review; code checks do not prove improved images. No public release or push is authorized.
 
 
-## Unreleased — WP2-A / F02 photography-target checks, 2026-10-18
+### WP2-A / F02 photography-target checks, 2026-10-18
 
 - Reproduce three leaked directives: Chinese whole-group full-body framing, frontal camera gaze and English `Every head faces camera`. The proposed `identical head direction` example was already rejected. Also reproduce an adjacent false positive for the legitimate `Camera at approximately eye level` phrase.
 - Extend only the existing new-preparation lexical check for explicit Chinese framing/camera-gaze and English head-facing-camera phrases; allow spaced as well as hyphenated eye-level placement. Reject the field with the existing per-shot-plan/framing guidance, without rewriting requests or adding confirmation steps. This remains bounded lexical validation, not arbitrary semantic conflict detection.
 - Keep validate/render/apply and all frozen-task recovery/export rules unchanged. No pose, style, person/product/reference, canvas, ledger or runtime prompt-format changes. Add five deterministic test methods and extend RF-12/main 201; no new framework or broad keyword list.
 - Verification: 25 photography-target tests and 73 related tests pass; 36 old/new synthetic exports are byte-identical and six old-helper frozen tasks recover byte-identically. See docs/verification/2026-10-18-wp2a-f02.md. Source fix only: no image call, installation, push, PR, release or visual-improvement claim.
 
-## Unreleased — missing-photo planning boundary, 2026-10-17
+### missing-photo planning boundary, 2026-10-17
 
 - Incident: an isolated, image-free startup expanded model styling and six garment-specific shot plans instead of stopping for the minimum original photos. No generation occurred. This is an observed instruction-following/routing ambiguity, not evidence of a ledger bug.
 - Clarify the existing SKILL.md missing-photo stop and flow-gates.md planning prerequisite: retain stated preferences briefly, but a conditional request to review a real product first does not authorize completing its missing-photo plan, even when labelled provisional. Do not infer rear availability from an empty attachment set.
@@ -93,7 +97,7 @@
 - Add source regression cases 221–223 for detailed missing-photo requests, real-photo review and the generic-text exception. Fresh-process and local-install verification are recorded in docs/verification/2026-10-17-input-gate-boundary.md; no images or publication are authorized.
 
 
-## Unreleased — close reverse-audit R01–R05, 2026-10-17
+### close reverse-audit R01–R05, 2026-10-17
 
 - R01: add hash-bound `cancel-preview-revision` to archive an unexecuted proposal without changing its original output, QA, model, authorization or attempts. Cancelling does not accept a rejected image or grant another call.
 - R02: separate candidate metadata integrity from external proposal-file availability. Proposal creation/adoption validate file bytes; cancellation, replacement and stop remain possible after an unadopted file expires. Frozen source/output hashes and current request gates remain enforced.
@@ -103,7 +107,7 @@
 - Add source-side recovery regressions and PV-13–17/main IDs 216–220. Validation, earlier failures and targeted re-review are recorded in `docs/verification/2026-10-17-revision-recovery.md`; no image call, installation, publication or visual maturity promotion is included.
 
 
-## Unreleased — preview plan revision and source-backed garment routes, 2026-10-17
+### preview plan revision and source-backed garment routes, 2026-10-17
 
 - Repair accepted/rejected preview styling revisions without inventing a technical rejection: `revise-preview` stages a hash-bound candidate, and the existing one-call retry authorization adopts it atomically with model/shot/history retained. Direction confirmation and delivery preparation cannot accept an unrendered candidate; closed/unknown previews and the initial-plus-three-corrections limit remain protected.
 - Add optional version-1 `shot_plan` for numbered human tasks: same-SKU usable front/rear declarations, actual selected garment references, classic relations/framing or explicitly recorded adaptation, shared preview/delivery rendering, versioned manifests and stale-plan submission checks. Front-facing mothers require supported front/front-side input. Later original garment additions preserve attempts; real face coverage/identity remain frozen, with rear route changes hiding unsupported sixth-cell faces. Single-to-six continuation checks actual per-shot attachments plus the anchor.
