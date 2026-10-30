@@ -3,6 +3,7 @@
 ## Unreleased — style persona injection, 2026-10-30
 
 - feat: inject card persona into visual plan (filtered by model conditions); document mode-to-shots mapping. The 24 legacy cards gain a short English `persona` (version 0.1.1; `persona_guidance` unchanged). `prepare` freezes it with the resolving model hash only for human output with a declared non-child model; `web-task` rejects a persona plan whose model changed. Plans without persona and frozen tasks render byte-identically. 12 new entries have no persona. Not visual evidence of image improvement.
+- fix: korean-cold-editorial card 0.1.2 states a cool-dominant palette with warm cream/golden casts excluded from the environment (garment colour untouched). WP-4b sampled 4/4 warm cream environments under the 0.1.1 wording that listed cool and warm tones side by side; WP-4c and the 0.1.2 regression reproduced cool environments 8/8 with garment facts and persona unchanged. The legacy no-persona export test re-pins its prompt hash.
 
 ## Unreleased — garment-driven preparation clarification, 2026-10-29
 
