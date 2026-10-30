@@ -119,6 +119,12 @@ class ValidationMessageTests(unittest.TestCase):
         self.assertNotIn('Errno 17', second.stderr)
         self.assertEqual(out.read_bytes(), before)
         self.assertFalse((root / 'visual_plan-2.json').exists())
+        # A dangling symlink at -2 is not free either: open('x') would still fail there, so offer -3.
+        (root / 'visual_plan-2.json').symlink_to(root / 'missing-target.json')
+        third = subprocess.run(cmd, cwd=root, capture_output=True, text=True)
+        self.assertEqual(third.returncode, 2)
+        self.assertIn(f'e.g. --output {root / "visual_plan-3.json"}', third.stderr)
+        self.assertFalse((root / 'visual_plan-3.json').exists())
 
 
 if __name__ == '__main__':

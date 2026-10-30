@@ -3,6 +3,7 @@
 import argparse
 import copy
 import importlib.util
+import itertools
 import json
 from pathlib import Path
 import re
@@ -235,12 +236,11 @@ def prepare(spec, root=ROOT):
 
 
 def _free_path(path):
-    """First sibling like name-2.json that does not exist yet, offered when --output is taken."""
-    for n in range(2, 10000):
+    """First sibling like name-2.json that is neither a file nor a (possibly dangling) symlink, offered when --output is taken."""
+    for n in itertools.count(2):
         candidate = path.with_name(f'{path.stem}-{n}{path.suffix}')
-        if not candidate.exists():
+        if not candidate.exists() and not candidate.is_symlink():
             return candidate
-    return path.with_name(f'{path.stem}-{n}{path.suffix}')
 
 
 def main(argv=None):
