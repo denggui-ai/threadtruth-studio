@@ -38,7 +38,23 @@ class HeadroomMeasureTests(unittest.TestCase):
         noise = Image.new('RGB', (60, 40))
         noise.putdata([tuple(random.randrange(256) for _ in range(3)) for _ in range(60 * 40)])
         noise.save(self.dir / 'noise.png')
-        self.assertEqual(self.task.headroom_check(self.dir / 'noise.png'), {'status': 'uncertain', 'reason': 'busy-top-corners'})
+        self.assertEqual(self.task.headroom_check(self.dir / 'noise.png'), {'status': 'uncertain', 'reason': 'busy-edges'})
+
+    def test_vertical_gradient_background_is_measured_against_its_own_row(self):
+        image = Image.new('RGB', (300, 400))
+        draw = ImageDraw.Draw(image)
+        for y in range(400):
+            v = round(250 - 130 * y / 399)
+            draw.line([(0, y), (299, y)], fill=(v, v, v))
+        draw.rectangle([120, 200, 180, 399], fill=(20, 20, 30))
+        image.save(self.dir / 'gradient.png')
+        result = self.task.headroom_check(self.dir / 'gradient.png')
+        self.assertEqual(result['status'], 'measured')
+        self.assertTrue(0.45 <= result['ratio'] <= 0.55, result)
+
+    def test_tiny_wide_image_is_too_small(self):
+        Image.new('RGB', (1000, 2), GRAY).save(self.dir / 'wide.png')
+        self.assertEqual(self.task.headroom_check(self.dir / 'wide.png'), {'status': 'uncertain', 'reason': 'too-small'})
 
     def test_missing_pillow_is_unavailable(self):
         path = figure(self.dir / 'a.png', 1)
@@ -82,6 +98,10 @@ class HeadroomLedgerTests(unittest.TestCase):
 
     def test_plain_background_is_recorded_as_uncertain(self):
         self.assertEqual(self.accept(None)['headroom']['status'], 'uncertain')
+
+    def test_measurement_error_is_recorded_and_accept_still_succeeds(self):
+        with unittest.mock.patch.object(self.task, 'headroom_check', side_effect=IndexError('boom')):
+            self.assertEqual(self.accept(1)['headroom'], {'status': 'error', 'reason': 'IndexError'})
 
     def test_missing_pillow_records_unavailable_and_still_accepts(self):
         self.assertEqual(self.accept(1, patch={'PIL': None})['headroom'], {'status': 'unavailable'})

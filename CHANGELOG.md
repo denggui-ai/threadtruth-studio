@@ -15,7 +15,7 @@
 
 ### WP-16 C3: head-top margin is measured and recorded at delivery accept, 2026-10-30
 
-- `web-task.py accept` on a delivery version-2 human look with a person framing writes `row.headroom` (`status` plus `ratio` when measured, `reason` when uncertain, `unavailable` when Pillow is missing). It is record-only: no threshold, and `state`, `qa` and `qa_note` are unchanged. Only a plain top background is measured; busy or subject-less tops are `uncertain`. Previews, `reject` and `review-output` are not measured. Thresholds wait for real batch data.
+- `web-task.py accept` on a delivery version-2 human look with a person framing writes `row.headroom` (`status` plus `ratio` when measured, `reason` when uncertain, `unavailable` when Pillow is missing). It is record-only: no threshold, and `state`, `qa` and `qa_note` are unchanged. The background is taken per row from the left and right edges; busy edges, tiny images and subject-less images are `uncertain`, and a measurement error is recorded as `error` without blocking accept. Previews, `reject` and `review-output` are not measured. Thresholds wait for real batch data.
 
 ## 1.0.0-beta.15 — garment-driven nine-shot planning, runtime ledger gate, readable validation, 2026-10-30
 
