@@ -1,6 +1,6 @@
 # 裁光 · Caiguang
 
-**2026-10-18 source candidate — visual acceptance not passed:** the studio redesign retains 24 directions and adds 12 execution entries for product display, styled editorials and art campaigns. All 36 entries remain DRAFT. Source checks passed; visual and end-to-end acceptance did not all pass. Three paired samples do not establish overall improvement; the child six-image set failed, and the web six-image and reuse workflows are unfinished. Real-person cases are deferred. The candidate is not installed; public downloads and historical galleries below retain their original scope. [Current verification limits](docs/COMPATIBILITY.md#current-source-candidate--当前源码候选) · [Source capabilities](docs/CAPABILITIES.md).
+**2026-10-30 beta.15 status — 36 visual entries shipped, visual evidence still thin:** the 24 original style entries plus 12 new execution entries (product display, styled editorials, art campaigns) are all in the beta.15 prerelease, and the default flow is now garment-driven nine-shot planning; all 36 entry cards remain `draft`. The only live evidence so far is one real Codex session (denim set) that produced the labeled nine-panel preview and the first delivery image through the ledger with zero hand-written prompts; the 36 entries have not been run one by one. Historical galleries below retain their original scope. [Verification limits](docs/COMPATIBILITY.md#current-source-candidate--当前源码候选) · [Current capabilities](docs/CAPABILITIES.md).
 
 **AI Fashion Studio · 服饰 AI 影棚**
 
@@ -8,42 +8,42 @@
 
 [![裁光 · Caiguang — AI Fashion Studio。米色套装参考图与 AI 生成效果。](https://denggui-ai.github.io/threadtruth-studio/assets/brand/og-home.png)](https://denggui-ai.github.io/threadtruth-studio/)
 
-**单件或整套服饰，生成六姿势 AI 模特图，24 种风格可选。**<br>Turn a garment or coordinated outfit into six-pose AI model portraits. Choose from 24 styles.
+**单件或整套服饰，按服饰编排九张 AI 模特图，36 个视觉入口可选。**<br>Turn a garment or coordinated outfit into a garment-driven set of nine AI model portraits. Choose from 36 visual entries.
 
-**[下载裁光插件 · Download Caiguang](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.15)**　·　**[开始安装 · Install](docs/INSTALL.md#english)**　·　**[查看成片 · See results](https://denggui-ai.github.io/threadtruth-studio/#reviewed-cases)**　·　**[探索 24 风格 · Explore styles](https://denggui-ai.github.io/threadtruth-studio/#style-highlights)**
+**[下载裁光插件 · Download Caiguang](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.15)**　·　**[开始安装 · Install](docs/INSTALL.md#english)**　·　**[查看成片 · See results](https://denggui-ai.github.io/threadtruth-studio/#reviewed-cases)**　·　**[探索风格 · Explore styles](https://denggui-ai.github.io/threadtruth-studio/#style-highlights)**
 
 [English guide](README.md) · [中文说明](README.zh-CN.md) · [产品首页 / Website](https://denggui-ai.github.io/threadtruth-studio/) · [能力清单与拓扑 / Capability topology](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md) · [当前能力状态 / Capability status](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/CAPABILITY-STATUS.md)
 
-When clear front/front-side photos are available but the back is missing, slot 6 is disclosed as stationary frontal standing; slots 1–5 remain, with six independent images. Accurate rear construction still requires a real rear photo.
+When clear front and front-side photos are available but the back is missing, no back-view shot is planned; the set uses front, front-side and detail arrangements and states the limit. Accurate rear construction still requires a real rear photo.
 
 
 [![Caiguang architecture and key workflows](https://raw.githubusercontent.com/denggui-ai/threadtruth-studio/main/docs/assets/architecture-overview.png)](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md)
 
 
-[Japanese-home workflow tutorial (中文)](docs/JAPANESE-HOME-TUTORIAL.md): materials, first-image approval, six standalone images and an honest case review. The tutorial identifies released and development behavior separately.
+[Japanese-home workflow tutorial (中文)](docs/JAPANESE-HOME-TUTORIAL.md) (six-image era): materials, first-image approval, six standalone images and an honest case review. The tutorial identifies released and development behavior separately.
 
-## One garment or a complete outfit, six poses
+## One garment or a complete outfit, nine garment-driven shots
 
-Upload a garment or coordinated outfit, choose **one of 24 styles**, and create **six independent AI model portraits** using the default pose set. Review the first image before continuing; later images use its identity reference for consistency within the set. This does not promise to reproduce a person in your input photo. A choice of 24 styles does not mean 24 sets in one request.
+Upload a garment or coordinated outfit, choose **one of 36 visual entries** (24 style entries plus 12 execution entries), and let the plan lay out **nine independent AI model portraits** around what this garment needs to show, each with a stated purpose. A labeled nine-panel direction preview comes first; after you confirm the direction, images are generated one by one within the authorized count. Review and confirm the first image before the remaining eight, which reuse its identity reference for consistency within the set. This does not promise to reproduce a person in your input photo. Explicit requests for six images, the classic six poses or a single image are honored as asked; a choice of 36 entries does not mean 36 sets in one request.
 
-[Prepare your photos](docs/INPUT-GUIDE.md) · [Six poses and generation prompts](docs/CAPABILITIES.md#six-poses) · [Garment: 24 previews](docs/demo/style-previews/white-vest-24-v1/) · [Outfit: 24 previews](docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/)
+[Prepare your photos](docs/INPUT-GUIDE.md) · [Nine-shot planning and generation prompts](docs/CAPABILITIES.md) · [Garment: 24 previews (historical)](docs/demo/style-previews/white-vest-24-v1/) · [Outfit: 24 previews (historical)](docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/)
 
-Both collections are historical direction previews: one six-panel sheet per style, not independent finals. [Six six-image styling cases](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html) show 36 separate AI images: a floral dress, a sage-shirt home outfit, two styles of a contrast-trim T-shirt, an external Codex user’s black-jacket outfit, and our same-input Office Commute set. Each set discloses its review scope.
+Both collections are historical direction previews from the six-image era: one six-panel sheet per style, not independent finals. The [six styling cases](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html) (a floral dress, a sage-shirt home outfit, two styles of a contrast-trim T-shirt, an external Codex user’s black-jacket outfit, and our same-input Office Commute set; 36 separate AI images) were all produced under the six-image flow, each with its own disclosed review scope. Public nine-shot cases will follow the entry-by-entry sweep.
 
 ## Why create with Caiguang?
 
 **Keep your real garment at the heart of every creative decision.**
 
-- **Garment details you can review.** Review color, construction and styling before generation, then compare each result with your source photos. [See the six-pose cases](https://denggui-ai.github.io/threadtruth-studio/#reviewed-cases).
-- **Explore more looks for one outfit.** Find a direction across 24 styles, from ecommerce studio to fashion editorial. [See one outfit in three styles](https://denggui-ai.github.io/threadtruth-studio/#outfit).
-- **Preview the direction, then create six images.** Choose a style, approve a six-panel direction preview, confirm it, then create six independent images. Request one image explicitly to use the single-image branch. [Start with recognition](https://denggui-ai.github.io/threadtruth-studio/#begin).
+- **Garment details you can review.** Review color, construction and styling before generation, then compare each result with your source photos. [See the reviewed cases](https://denggui-ai.github.io/threadtruth-studio/#reviewed-cases).
+- **Explore more looks for one outfit.** Find a direction across 36 visual entries, from ecommerce studio to fashion editorial. [See one outfit in three styles](https://denggui-ai.github.io/threadtruth-studio/#outfit).
+- **Preview the direction, then create nine images.** Choose a direction, approve one nine-panel direction preview, confirm it, then create nine independent images. Explicit requests for six or a single image are honored as asked. [Start with recognition](https://denggui-ai.github.io/threadtruth-studio/#begin).
 
 ## What you can do
 
 - **Identify the garment.** Read visible details from a single item, an outfit or multiple views.
-- **Choose a direction.** Get recommendations or choose freely from all 24 styles.
+- **Choose a direction.** Get recommendations or choose freely from all 36 visual entries; 207 knowledge records (source catalog, Chinese-market phrasing, Chinese cultural dress) sit beside the entries for the assistant to consult when a direction is ambiguous. They are not entries themselves.
 - **Set the shoot.** Choose studio, location or hybrid, plus presentation and canvas. Alternate forms have limited public validation.
-- **Choose the output.** Request one test, a labeled direction preview, six independent images, or prompts only.
+- **Choose the output.** Request one test, a labeled nine-panel direction preview, nine independent images (or an explicit six), or prompts only.
 - **Choose the route.** Use Codex by default or request a ChatGPT web handoff; automation needs host browser tools.
 - **Review and refine.** Compare with the source, check dimensions, and authorize a specific retry when needed.
 
@@ -63,7 +63,7 @@ Install **裁光 · Caiguang** in **Codex**. The beta.15 prerelease displays **�
 Use $threadtruth-studio to identify this garment and recommend styles. Do not generate images.
 ```
 
-Expect visible garment facts, a primary recommendation, two alternatives and all 24 styles. This step does **not** authorize generation. By default, choose a style, approve one six-panel direction preview, confirm the direction, then authorize six independent images. Review the actual first portrait before the remaining five. Explicitly request a single image to skip the default preview and use a one-call trial. Each generation uses the selected account's image quota.
+Expect visible garment facts, a primary recommendation, two alternatives and the full catalog of 36 entries. This step does **not** authorize generation. By default, choose a direction, approve one nine-panel direction preview, confirm the direction, then authorize nine independent images. Review the actual first portrait before the remaining eight. Explicitly request a single image to skip the default preview and use a one-call trial. The ledger scripts record the authorization and every call before any image is generated. Each generation uses the selected account's image quota.
 
 If recognition does not appear, follow [installation troubleshooting](docs/INSTALL.md#troubleshooting). Share a brief success or failure through the [installation feedback form](https://github.com/denggui-ai/threadtruth-studio/issues/new?template=installation-feedback.yml).
 
