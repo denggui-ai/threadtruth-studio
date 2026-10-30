@@ -26,10 +26,11 @@
 - 主色:
 - 辅色:
 - 材质:
-- 版型:
+- 版型:<裤装可明确判为直筒/阔腿/锥形/喇叭时,准备视觉方案在 garment.silhouette 写 straight-leg / wide-leg / tapered-leg / flared-leg,提示词会展开为几何描述;看不清不写>
 - 长度:
 - 领型 / 袖型 / 肩线:
 - 下摆 / 裤脚 / 裙摆:
+- 上衣下摆状态:外穿 / 塞腰 / 半塞 / 未知(只按源图可见判断;确定时在 garment.hem_state 写 untucked / tucked / half-tucked,未知不写,不按风格或姿势猜)
 - 纽扣 / 拉链 / 口袋:
 - 图案 / logo / 文字:
 - 鞋 / 包 / 配饰:

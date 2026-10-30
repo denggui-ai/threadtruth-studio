@@ -15,6 +15,18 @@ MEDIA = ('photography', 'illustration', 'mixed-media')
 OUTPUT_FORMS = ('human', 'faceless', 'flat-lay', 'hanger', 'mannequin')
 FIELDS = {'version', 'objective', 'output_medium', 'output_form', 'style', 'garment', 'styling',
           'photography', 'art', 'negatives', 'shots'}
+# WP-16 (FINDINGS G): optional source-backed fit facts, rendered as fixed geometric sentences.
+HEM_STATES = {
+    'untucked': 'Top hem: worn untucked; the whole hem of the top hangs outside the waistband, over the bottom garment, in every presentation. Never tuck it in, not even partly.',
+    'tucked': 'Top hem: fully tucked into the waistband all the way around, with the waistband visible, in every presentation.',
+    'half-tucked': 'Top hem: front-tucked only; the centre front of the hem is tucked into the waistband while the sides and back hang outside, the same way in every presentation.',
+}
+SILHOUETTES = {
+    'straight-leg': 'Trouser silhouette, straight-leg: each leg falls in a straight vertical line from the thigh to the hem; the hem opening is about as wide as the knee; the leg does not flare, balloon or widen toward the floor and is not a wide-leg shape.',
+    'wide-leg': 'Trouser silhouette, wide-leg: each leg is loose from the hip down and the hem opening is clearly wider than the knee.',
+    'tapered-leg': 'Trouser silhouette, tapered: each leg narrows steadily from the thigh to the hem; the hem opening is narrower than the knee.',
+    'flared-leg': 'Trouser silhouette, flared: each leg stays close from the thigh to the knee, then widens from the knee to a hem opening clearly wider than the knee.',
+}
 RESERVED = re.compile(r'\[(?:/?Task |/?Current model)|^\s*(?:POSE|Shot)\s+[1-6]\s*:', re.I)
 V2_RESERVED = re.compile(r'^\s*(?:POSE|Shot)\s+[7-9]\s*:', re.I)
 V2_BODY = re.compile(r'\b(?:body (?:action|pose|orientation)|hand (?:position|placement))\b', re.I)
@@ -145,10 +157,17 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
             raise ValueError('Style persona requires the exact resolving model hash')
         _line(plan['persona'], 'Style persona', owned=True, v2=v2)
     garment = plan['garment']
-    if not isinstance(garment, dict) or set(garment) != {'description', 'keep', 'source_sha256s'}:
-        raise ValueError('Garment facts require description, keep and original source_sha256s')
+    if not isinstance(garment, dict) or set(garment) - {'hem_state', 'silhouette'} != {'description', 'keep', 'source_sha256s'}:
+        raise ValueError('Garment facts require description, keep and original source_sha256s (optional: hem_state, silhouette); got '
+                         + _got(garment))
     _line(garment['description'], 'Source-backed garment description', v2=v2)
     _lines(garment['keep'], 'Source-backed garment preservation', required=True, v2=v2)
+    if 'hem_state' in garment and (not isinstance(garment['hem_state'], str) or garment['hem_state'] not in HEM_STATES):
+        raise ValueError('visual_plan.garment.hem_state must be one of ' + ', '.join(HEM_STATES)
+                         + ' (omit it when the source does not show it); got ' + _got(garment['hem_state']))
+    if 'silhouette' in garment and (not isinstance(garment['silhouette'], str) or garment['silhouette'] not in SILHOUETTES):
+        raise ValueError('visual_plan.garment.silhouette must be one of ' + ', '.join(SILHOUETTES)
+                         + ' (omit it when the source does not show it); got ' + _got(garment['silhouette']))
     if not isinstance(inventory,list) or not inventory or any(not isinstance(r,dict) for r in inventory):
         raise ValueError('Visual preparation needs an explicit source inventory')
     originals = {r['sha256'] for r in inventory if r.get('role') == 'garment-source'}
@@ -240,6 +259,10 @@ def render(plan, look=None):
             'Primary style: ' + style['primary']['id'] + '.',
             'Source-backed garment: ' + plan['garment']['description'],
             'Preserve original garment facts: ' + '; '.join(plan['garment']['keep']) + '.']
+    if 'hem_state' in plan['garment']:
+        rows.append(HEM_STATES[plan['garment']['hem_state']])
+    if 'silhouette' in plan['garment']:
+        rows.append(SILHOUETTES[plan['garment']['silhouette']])
     if plan['output_form']=='faceless':
         rows.append('Keep the face outside the image or fully obscured; preserve supported body proportions and garment details. Do not introduce a visible face.')
     elif plan['output_form'] in ('flat-lay','hanger','mannequin'):

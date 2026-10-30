@@ -24,6 +24,8 @@ python3 "$SKILL/scripts/visual_library.py" prepare --spec prepare.json --output 
  "shot_plan": <shot_plan.json 全文>}
 ```
 
+`garment` 可选两键：源图能确定上衣外穿／塞腰／半塞时加 `"hem_state": "untucked" | "tucked" | "half-tucked"`；裤型能确定时加 `"silhouette": "straight-leg" | "wide-leg" | "tapered-leg" | "flared-leg"`。看不清就省略，不要写 unknown。
+
 `model.source_type`：`new` 新 AI 人物、`ai` 沿用已确认 AI 人物、`real` 真人；`subject` 用 `adult female model` / `adult male model` / `child model`。输出的 `visual_plan.json` 含 9 个 `shots` 和可选 `persona`，不要手改。`--output` 指向已有文件会被拒绝（冻结方案不覆盖），报错里给出可用的新文件名，换名重跑即可。
 
 ## 1. 预览任务（动作 0，1 次调用）
