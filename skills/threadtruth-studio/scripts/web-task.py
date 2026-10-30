@@ -1357,6 +1357,7 @@ def update(root,event,**kw):
             elif persona_rebind is not None:prompt=kw.get('prompt') or visual_helper().compile_prompt(persona_rebind,1)
             else:prompt=kw.get('prompt',proposal['candidate']['prompt'] if proposal else '')
             if proposal:
+                if kw.get('shot_plan') is not None:kw['shot_plan']=inherit_framing_flag(kw['shot_plan'],proposal['candidate'].get('shot_plan'))
                 for key in ('model','shot_plan','visual_plan','prompt','garment_references'):
                     if key in kw and kw[key]!=proposal['candidate'].get(key):
                         raise ValueError('Retry must use the reviewed preview revision candidate')
