@@ -34,6 +34,8 @@ python3 "$SKILL/scripts/web-task.py" authorize --task preview --limit 1 --note "
 python3 "$SKILL/scripts/web-task.py" export --task preview
 ```
 
+> `init` 报 `shot_plan.<路径> must be <形状>; got <值>` 时是你的 JSON 写错了：按路径改 `shot_plan.json`（如 `must_show` 必须是字符串列表），重新 `prepare --output` 到新文件名，再 `init`。只有账本/授权/次数类报错才停下问用户。
+
 `init-preview.json` 骨架：
 
 ```json
