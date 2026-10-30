@@ -203,7 +203,7 @@ def check_visual_plan(data):
     for prior in history:
         if (not isinstance(prior,dict) or set(prior)!={'plan','sha256','note'}
                 or object_hash(prior['plan'])!=prior['sha256'] or not prior['note'].strip()
-                or any(prior['plan'][k]!=data['visual_plan'][k] for k in prior['plan'] if k!='shots')
+                or any(prior['plan'][k]!=data['visual_plan'].get(k) for k in prior['plan'] if k not in ('shots','persona','persona_model_sha256'))
                 or (not (v2(data.get('shot_plan')) and data['shot_plan']['series_role']=='standalone')
                     and prior['plan']['shots'][0]!=data['visual_plan']['shots'][0])):
             raise ValueError('Historical approved visual plan changed')
@@ -215,6 +215,8 @@ def prompt_check(prompt,context,model=None,shot_plan=None,number=1,real_face_pla
     if shot_plan is not None:
         shot_helper().apply(prompt,shot_plan,None if context.get('purpose')=='preview-grid' else number,real_face_plan)
     if visual_plan is not None:
+        if visual_plan.get('persona') and model is not None and model.get('subject')=='child model':
+            raise ValueError('Visual persona is not injected for child models; prepare the plan without a persona')
         if visual_plan.get('persona') and (model is None or object_hash(model)!=visual_plan.get('persona_model_sha256')):
             raise ValueError('Visual persona was resolved against a different model; prepare the plan again')
         look=None if context.get('purpose')=='preview-grid' else number
@@ -302,6 +304,23 @@ def delivery_retry_candidate(data,row,*,shot_plan=None,visual_plan=None,prompt=N
     compiled=visual_helper().compile_prompt(visual,number) if prompt is None else prompt
     prompt_check(compiled,data['context'],data.get('model'),shot,number,data.get('real_face_plan'),visual)
     return dict(shot_plan=shot,visual_plan=visual,prompt=compiled)
+
+
+def persona_rebind_candidate(data,row,visual_plan,model):
+    """Rebind a frozen persona to a revised, still unconfirmed first model; nothing else in the visual plan may change."""
+    current=data.get('visual_plan')
+    if (data['schema_version']!=2 or is_preview(data) or row is None or row['number']!=1
+            or current is None or not current.get('persona') or not isinstance(visual_plan,dict)):
+        raise ValueError('Persona rebinding applies only to the rejected first look of a structured delivery whose plan carries a persona')
+    strip=lambda plan:{k:v for k,v in plan.items() if k not in ('persona','persona_model_sha256')}
+    bound=visual_plan.get('persona')
+    if (strip(visual_plan)!=strip(current)
+            or (bound and visual_plan.get('persona_model_sha256')!=object_hash(model))
+            or (not bound and ('persona' in visual_plan or 'persona_model_sha256' in visual_plan))):
+        raise ValueError('Persona rebinding changes only the persona resolved against the revised model')
+    visual_helper().validate(visual_plan,data['references'],context=data['context'],
+        count=face_plan_count(data['context'],len(data['looks']),data.get('shot_plan')),identity=data['identity'],shot_plan=data.get('shot_plan'))
+    return copy.deepcopy(visual_plan)
 
 
 def preview_candidate(data, row, *, model=None, shot_plan=None, prompt=None, garment_references=None, real_face_plan=None, visual_plan=None, check_sources=True):
@@ -1236,8 +1255,9 @@ def update(root,event,**kw):
                     identity=d['identity'],real_face_plan=continuation_plan,
                     model_source=(d.get('model') or {}).get('source_type'))
                 prior=d['shot_plan']
-                if any(full[k]!=prior[k] for k in ('sku','coverage','route','preservation','adaptation_note')) or full['looks'][0]!=prior['looks'][0]:
-                    raise ValueError('Continuation cannot replace the approved first shot or original garment coverage')
+                if (any(full[k]!=prior[k] for k in ('sku','coverage','route','preservation','adaptation_note')) or full['looks'][0]!=prior['looks'][0]
+                        or full.get('framing_guidance')!=prior.get('framing_guidance')):
+                    raise ValueError('Continuation cannot replace the approved first shot, original garment coverage or framing guidance')
                 for i,prompt in enumerate(prompts,2):
                     prompt_check(prompt,d['context'],d['model'],full,i,continuation_plan)
                     chosen=shot_helper().selected(full,i)
@@ -1312,14 +1332,19 @@ def update(root,event,**kw):
                 raise ValueError('Preview correction limit reached: three additional requests maximum')
             # One explicit grant replaces one rejected/reconciled failed attempt, never resets the task.
             proposal=d.get('preview_revision') if is_preview(d) else None
-            delivery_revision=None
-            if not is_preview(d) and (kw.get('shot_plan') is not None or kw.get('visual_plan') is not None):
+            delivery_revision=None;persona_rebind=None
+            if (not is_preview(d) and kw.get('model') is not None and kw.get('visual_plan') is not None and kw.get('shot_plan') is None
+                    and n==1 and (d.get('visual_plan') or {}).get('persona')):
+                persona_rebind=persona_rebind_candidate(d,row,kw['visual_plan'],models.validate_model(kw['model'],allow_child=True))
+            elif not is_preview(d) and (kw.get('shot_plan') is not None or kw.get('visual_plan') is not None):
                 delivery_revision=delivery_retry_candidate(d,row,shot_plan=kw.get('shot_plan'),
                     visual_plan=kw.get('visual_plan'),prompt=kw.get('prompt'))
             if is_preview(d) and not proposal and effective_shot_plan(d)!=d.get('shot_plan'):
                 raise ValueError('Retain the locally corrected shot plan through a reviewed preview revision before retry')
             note=kw.get('note','').strip();approval=kw.get('approval_id','').strip()
-            prompt=delivery_revision['prompt'] if delivery_revision else kw.get('prompt',proposal['candidate']['prompt'] if proposal else '')
+            if delivery_revision:prompt=delivery_revision['prompt']
+            elif persona_rebind is not None:prompt=kw.get('prompt') or visual_helper().compile_prompt(persona_rebind,1)
+            else:prompt=kw.get('prompt',proposal['candidate']['prompt'] if proposal else '')
             if proposal:
                 for key in ('model','shot_plan','visual_plan','prompt','garment_references'):
                     if key in kw and kw[key]!=proposal['candidate'].get(key):
@@ -1373,6 +1398,10 @@ def update(root,event,**kw):
                         d.setdefault(field+'_history',[]).append(dict(plan=copy.deepcopy(previous),sha256=object_hash(previous),note=note))
                         d.update({field:copy.deepcopy(changed),field+'_sha256':object_hash(changed)})
                 d['plan_version']=d.get('plan_version',0)+1
+            elif persona_rebind is not None:
+                previous=d['visual_plan']
+                d.setdefault('visual_plan_history',[]).append(dict(plan=copy.deepcopy(previous),sha256=object_hash(previous),note=note))
+                d.update(visual_plan=persona_rebind,visual_plan_sha256=object_hash(persona_rebind),plan_version=d.get('plan_version',0)+1)
             elif kw.get('shot_plan') is not None or kw.get('visual_plan') is not None:
                 raise ValueError('Change shot/visual plans through a reviewed preview revision')
             if kw.get('model') is not None and not proposal:

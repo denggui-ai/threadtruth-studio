@@ -498,5 +498,58 @@ class VisualPlanTests(unittest.TestCase):
         self.assertNotIn(card['persona'],prompt)
         self.assertIn(garment['description'],prompt)
 
+    def test_continuation_cannot_toggle_framing_guidance_behind_the_frozen_first_shot(self):
+        # codex-review f70dd13 major: a v1 continuation could add framing_guidance while look 1 kept its legacy frozen block,
+        # after which every check failed with a frozen-block conflict.
+        for legacy in (True,False):
+            with self.subTest(legacy_first_shot=legacy):
+                self.job=self.root/('continuation-'+str(legacy))
+                full=self.shot_plan()
+                if legacy:full.pop('framing_guidance')
+                single=copy.deepcopy(full);single['looks']=single['looks'][:1]
+                self.create(self.plan(),shot_plan=single)
+                task.update(self.job,'authorize',limit=1,note='One trial');self.accept()
+                task.update(self.job,'confirm-model',look=1,note='Person accepted')
+                toggled=copy.deepcopy(full)
+                if legacy:toggled['framing_guidance']=1
+                else:toggled.pop('framing_guidance')
+                with self.assertRaisesRegex(ValueError,'framing guidance'):
+                    task.update(self.job,'continue-authorize',approval_id='five',note='Continue',context=self.context,shot_plan=toggled,visual_plan=self.plan(6))
+                after=task.update(self.job,'continue-authorize',approval_id='five',note='Continue',context=self.context,shot_plan=full,visual_plan=self.plan(6))
+                self.assertEqual(len(after['looks']),6)
+                task.check_evidence(self.job,task.read(self.job));task.export(self.job)
+
+    def test_rejected_first_model_retry_rebinds_persona_without_other_plan_changes(self):
+        # codex-review f70dd13 major: after reject-model the stale persona hash blocked every retry path.
+        plan=self.persona_plan();self.create(plan)
+        task.update(self.job,'authorize',limit=1,note='One trial');self.accept()
+        task.update(self.job,'reject-model',look=1,note='Change casting conditions')
+        changed=task.models.validate_model(dict(self.model,locked=['mature adult','short bob']),allow_child=True)
+        rebound=copy.deepcopy(plan);rebound['persona_model_sha256']=task.object_hash(changed)
+        args=dict(look=1,expected_attempt=1,approval_id='retry',note='Approved revised casting retry',model=changed)
+        with self.assertRaisesRegex(ValueError,'different model'):
+            task.update(self.job,'retry-authorize',**args,prompt=task.visual_helper().compile_prompt(plan,1))
+        tampered=copy.deepcopy(rebound);tampered['photography']['scene']='Somewhere else'
+        with self.assertRaisesRegex(ValueError,'only the persona'):
+            task.update(self.job,'retry-authorize',**args,visual_plan=tampered)
+        with self.assertRaisesRegex(ValueError,'only the persona'):
+            task.update(self.job,'retry-authorize',**args,visual_plan=copy.deepcopy(plan))
+        d=task.update(self.job,'retry-authorize',**args,visual_plan=rebound)
+        self.assertEqual(d['model'],changed)
+        self.assertEqual(d['visual_plan'],rebound);self.assertEqual(d['visual_plan_sha256'],task.object_hash(rebound))
+        self.assertEqual(d['visual_plan_history'][-1]['plan'],plan)
+        self.assertEqual(d['looks'][0]['state'],'pending');self.assertEqual(d['looks'][0]['attempt_number'],2)
+        self.assertEqual(d['looks'][0]['history'][-1]['visual_plan'],plan)
+        self.assertIn('Style persona (yields to the declared model conditions): '+self.PERSONA,d['looks'][0]['prompt'])
+        task.check_evidence(self.job,d);self.reserve()
+
+    def test_create_rejects_persona_plan_for_a_child_model(self):
+        # codex-review f70dd13 minor: visual_library.prepare drops personas for children; direct structured creation only checked the hash.
+        self.model=dict(self.model,subject='child model',locked=['age-appropriate modest presentation'])
+        with self.assertRaisesRegex(ValueError,'child'):self.create(self.persona_plan())
+        self.assertFalse((self.job/'task.json').exists())
+        d=self.create(self.plan())
+        self.assertNotIn('Style persona',d['looks'][0]['prompt'])
+
 
 if __name__=='__main__':unittest.main()
