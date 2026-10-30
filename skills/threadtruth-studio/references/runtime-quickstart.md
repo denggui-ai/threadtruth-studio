@@ -65,7 +65,7 @@ python3 "$SKILL/scripts/web-task.py" prepare-delivery --task delivery --preview-
 python3 "$SKILL/scripts/web-task.py" authorize --task delivery --limit <本次授权次数> --note "<用户原话>"
 ```
 
-`delivery.json` 骨架：`{"context": {<同预览 context，但 "purpose": "delivery">}, "size": [1024, 1536], "count": 9, "series_role": "series"}`。用户先批部分次数时 `--limit` 照实填，后续用 `continue-authorize` 追加，不要重新 `authorize`。
+`delivery.json` 骨架：`{"context": {<同预览 context，但 "purpose": "delivery">}, "size": [1024, 1536], "count": 9, "series_role": "series"}`。`--limit` 填用户本次明确的成片次数（1…N）。**一个任务只能 `authorize` 一次，当前版本没有追加次数的命令**（`continue-authorize` 只用于经典 v1 单张续五和 v2 series-first 续组，`retry-authorize` 只补被拒单张）。用户先批部分、用完再批时：如实告诉用户这组已记录的次数已用完、追加授权要等运行时补上追加命令（已记 backlog），不要重建任务、不要凭记忆多生成。
 
 每张（look = 1…N）固定四步，串行：
 
