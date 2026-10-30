@@ -1,5 +1,5 @@
 """The runtime quickstart must stay executable: drive the documented CLI chain with synthetic images, zero generation."""
-import hashlib, json, re, subprocess, sys, tempfile, unittest
+import copy, hashlib, importlib.util, json, re, subprocess, sys, tempfile, unittest
 from pathlib import Path
 
 from PIL import Image
@@ -11,6 +11,17 @@ QUICKSTART = SKILL / 'references/runtime-quickstart.md'
 SIZE = [2, 3]   # ratio-first: the first returned image fixes the pixel baseline
 PIX = (40, 60)
 MODEL = dict(source_type='new', scope='full', subject='adult female model', locked=[], adjustable=[], consent_note='')
+_SPEC = importlib.util.spec_from_file_location('quickstart_task', SCRIPTS / 'web-task.py')
+task = importlib.util.module_from_spec(_SPEC); _SPEC.loader.exec_module(task)
+
+
+def v2_plan(h, count=9):
+    """Garment-driven plan without framing_guidance: the runtime must default/inherit it."""
+    looks = [dict(slot=i, shot_id='qs-' + str(i), display_goal='Show the set', must_show=['hem'], reason='Front flat-lay supports it.',
+                  body_action='Stand naturally, action ' + str(i), hands='Hands relaxed', support='Both feet grounded', framing='full-body',
+                  garment_views=['front'], reference_sha256s=[h], head='natural', gaze='soft') for i in range(1, count + 1)]
+    return dict(version=2, sku='qs-sku', route='B', coverage=[dict(sha256=h, views=['front'], usable=True, same_sku=True, note='Synthetic front')],
+                looks=looks, selected_shot_ids=[l['shot_id'] for l in looks], series_role='series')
 
 
 class RuntimeQuickstartTests(unittest.TestCase):
@@ -43,11 +54,7 @@ class RuntimeQuickstartTests(unittest.TestCase):
     def test_quickstart_chain_runs_offline_with_synthetic_images(self):
         temp = tempfile.TemporaryDirectory(); self.addCleanup(temp.cleanup); root = Path(temp.name)
         src = self.synth(root, 'product.png', 'red'); h = hashlib.sha256(src.read_bytes()).hexdigest()
-        looks = [dict(slot=i, shot_id='qs-' + str(i), display_goal='Show the set', must_show=['hem'], reason='Front flat-lay supports it.',
-                      body_action='Stand naturally, action ' + str(i), hands='Hands relaxed', support='Both feet grounded', framing='full-body',
-                      garment_views=['front'], reference_sha256s=[h], head='natural', gaze='soft') for i in range(1, 10)]
-        shot_plan = dict(version=2, sku='qs-sku', route='B', coverage=[dict(sha256=h, views=['front'], usable=True, same_sku=True, note='Synthetic front')],
-                         looks=looks, selected_shot_ids=[l['shot_id'] for l in looks], series_role='series', framing_guidance=1)
+        shot_plan = v2_plan(h)   # no framing_guidance: init must default it
         prep = dict(entry_id='french-effortless', garment=dict(description='Synthetic red garment.', keep=['red'], source_sha256s=[h]),
                     inventory=[dict(role='garment-source', sha256=h)], model=MODEL, output_form='human', shot_plan=shot_plan)
         (root / 'prepare.json').write_text(json.dumps(prep))
@@ -84,7 +91,36 @@ class RuntimeQuickstartTests(unittest.TestCase):
         self.assertEqual([Path(p).name for p in request['referenced_image_paths']], ['01-garment-source.png', '02-identity-only.png'])
         status = self.cli('web-task.py', 'status', '--task', delivery, cwd=root)
         self.assertEqual(status['attempts'], 2); self.assertTrue(status['model_confirmation'])
+        self.assertEqual(status['shot_plan']['framing_guidance'], 1)
+        self.assertEqual(json.loads((preview / 'task.json').read_text())['shot_plan']['framing_guidance'], 1)
         self.assertEqual([l['state'] for l in status['looks']][:3], ['accepted', 'accepted', 'pending'])
+
+    def test_preview_revision_and_retry_accept_a_plan_that_omits_the_flag(self):
+        # codex-review of WP-10a: after revise-preview stored a candidate with the inherited flag, retry-authorize re-sent the
+        # same flag-less plan and was rejected as "not the reviewed candidate".
+        temp = tempfile.TemporaryDirectory(); self.addCleanup(temp.cleanup); root = Path(temp.name)
+        src = self.synth(root, 'product.png', 'red'); h = hashlib.sha256(src.read_bytes()).hexdigest(); plan = v2_plan(h)
+        prep = dict(entry_id='french-effortless', garment=dict(description='Synthetic red garment.', keep=['red'], source_sha256s=[h]),
+                    inventory=[dict(role='garment-source', sha256=h)], model=MODEL, output_form='human', shot_plan=plan)
+        (root / 'prepare.json').write_text(json.dumps(prep))
+        self.cli('visual_library.py', 'prepare', '--spec', root / 'prepare.json', '--output', root / 'visual_plan.json', cwd=root)
+        visual = json.loads((root / 'visual_plan.json').read_text())
+        ctx = dict(outfit='qs-sku', style='french-effortless', mode='C', output_form='human', size=SIZE, first_pose=1, canvas_policy='ratio-first', purpose='preview-grid')
+        preview = root / 'preview'
+        d = task.create(preview, [src], None, SIZE, model=MODEL, context=ctx, route='codex_native', shot_plan=plan, visual_plan=visual)
+        self.assertEqual(d['shot_plan']['framing_guidance'], 1)
+        task.update(preview, 'authorize', limit=1, note='one preview')
+        task.update(preview, 'reserve', look=1, ready=True, refs=task.reference_hashes(preview, 1), expected_plan_sha256=task.plan_fingerprint(task.read(preview)))
+        task.update(preview, 'returned', look=1, file=self.synth(root, 'preview.png', 'blue'))
+        task.update(preview, 'accept', look=1, qa='qa-pass', note='grid readable')
+        revised = copy.deepcopy(visual); revised['photography']['scene'] = 'Revised scene'
+        output_sha = task.read(preview)['looks'][0]['output']['sha256']
+        task.update(preview, 'revise-preview', look=1, note='scene change', expected_output_sha256=output_sha, shot_plan=plan, visual_plan=revised)
+        d = task.update(preview, 'retry-authorize', look=1, expected_attempt=1, approval_id='retry-1', note='one more call', shot_plan=plan)
+        self.assertEqual(d['shot_plan']['framing_guidance'], 1); self.assertIn('Revised scene', d['looks'][0]['prompt'])
+        self.cli('web-task.py', 'export', '--task', preview, cwd=root)
+        latest = sorted((preview / 'handoff').glob('look-1-*'))[-1]   # after a retry the folder is look-1-attempt-2-v1
+        self.assertIn('head-height', (latest / 'prompt.txt').read_text())   # the shot block joins the prompt at export
 
 
 if __name__ == '__main__': unittest.main()

@@ -24,7 +24,7 @@
 
 ## 冻结计划与职责
 
-新编排使用 `shot_plan.version=2`。顶层 `sku/route/coverage` 继续绑定同款商品事实；完整 `looks` 保留逻辑系列，每张 `slot` 和 `shot_id` 稳定。`selected_shot_ids` 选择本次执行项，不通过删除其余项或重编号丢失来源。
+新编排使用 `shot_plan.version=2`。顶层 `sku/route/coverage` 继续绑定同款商品事实；完整 `looks` 保留逻辑系列，每张 `slot` 和 `shot_id` 稳定。`selected_shot_ids` 选择本次执行项，不通过删除其余项或重编号丢失来源。新建任务的 v2 计划顶层带 `framing_guidance: 1`（取景留白句由它触发；缺省时 `web-task.py init` 自动补上，后续续图／重试／预览修订再传计划时省略该键也沿用冻结值；旧冻结任务不变）。
 
 每项保存 `display_goal`、`must_show`、`reason`、`body_action`、`hands`、`support`、`framing`、`garment_views` 和商品 `reference_sha256s`；细节景别只在用途允许时使用。露脸 AI/new 逐张提供成对 `head/gaze`，真人仍按 `real_face_plan` 的真实覆盖安排；不露脸不添加露脸要求。
 

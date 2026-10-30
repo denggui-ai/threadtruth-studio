@@ -64,6 +64,13 @@ def v2(plan):
     return isinstance(plan,dict) and plan.get('version')==2
 
 
+def inherit_framing_flag(plan,frozen):
+    """WP-10a: a caller-supplied v2 plan that omits framing_guidance keeps the frozen task's flag; explicit values go to validation."""
+    if v2(plan) and v2(frozen) and 'framing_guidance' not in plan and 'framing_guidance' in frozen:
+        return dict(plan,framing_guidance=frozen['framing_guidance'])
+    return plan
+
+
 def selected_references(inventory,context,shot_plan,face_plan,look):
     """One ordered selection used by preparation, revisions and both exporters."""
     preview=context.get('purpose')=='preview-grid'
@@ -251,7 +258,7 @@ def delivery_retry_candidate(data,row,*,shot_plan=None,visual_plan=None,prompt=N
     if current_shot is None or current_visual is None:
         raise ValueError('Structured delivery retry requires existing shot and visual plans')
     if v2(current_shot):
-        shot=copy.deepcopy(current_shot if shot_plan is None else shot_plan)
+        shot=copy.deepcopy(current_shot if shot_plan is None else inherit_framing_flag(shot_plan,current_shot))
         visual=copy.deepcopy(current_visual if visual_plan is None else visual_plan)
         target=shot_helper().shot_at(current_shot,number)
         replacement=shot_helper().shot_at(shot,number)
@@ -324,6 +331,7 @@ def persona_rebind_candidate(data,row,visual_plan,model):
 
 
 def preview_candidate(data, row, *, model=None, shot_plan=None, prompt=None, garment_references=None, real_face_plan=None, visual_plan=None, check_sources=True):
+    shot_plan=inherit_framing_flag(shot_plan,data.get('shot_plan'))
     changed=models.validate_model(model if model is not None else data['model'],allow_child=True) if data['identity'] else None
     if changed is not None and (any(changed[k]!=data['model'][k] for k in ('source_type','scope','subject'))
             or changed.get('consent_note','')!=data['model'].get('consent_note','')):
@@ -609,6 +617,9 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
         if model is not None or context is not None or route!='chatgpt_web':raise ValueError('Legacy task interface is unchanged')
         items=[dict(path=p,role='garment-source') for p in refs]
     else:
+        # WP-10a: a newly created garment-driven (v2) task gets the breathing-room flag by default. Only create() adds it;
+        # frozen tasks keep their stored bytes, and later calls that omit the flag inherit it (inherit_framing_flag).
+        if v2(shot_plan) and 'framing_guidance' not in shot_plan:shot_plan=dict(shot_plan,framing_guidance=1)
         context=context_check(context,size,shot_plan)
         if 'photography_targets' in context:photography_helper().strict_check(context['photography_targets'])
         if context.get('purpose')=='model-check' and (not identity or len(prompts)!=1):
@@ -935,7 +946,7 @@ def compose_preview(root,data,row,**kw):
         raise ValueError('Compose only an exact reviewed, open preview with explicit local-edit scope')
     donor=Path(kw['file']);donor_hash=digest(donor)
     if donor_hash!=kw.get('expected_donor_sha256'):raise ValueError('Local preview donor changed')
-    planned=copy.deepcopy(kw.get('shot_plan',effective_shot_plan(data)))
+    planned=copy.deepcopy(inherit_framing_flag(kw.get('shot_plan',effective_shot_plan(data)),effective_shot_plan(data)))
     if planned is None and effective_shot_plan(data) is not None:
         raise ValueError('Local composition cannot discard the current reviewed shot plan')
     if planned is not None:
@@ -1094,7 +1105,7 @@ def continue_v2(data,kw):
     if data.get('continuation_authorization') or any(g['approval_id']==approval for g in data.get('retry_authorizations',[])):
         raise ValueError('Continuation approval already used')
     full=copy.deepcopy(prior);full['selected_shot_ids']=[s['shot_id'] for s in full['looks']];full['series_role']='series'
-    if kw.get('shot_plan') is not None and kw['shot_plan']!=full:
+    if kw.get('shot_plan') is not None and inherit_framing_flag(kw['shot_plan'],prior)!=full:
         raise ValueError('Continue the complete frozen series without re-planning its shots')
     count=len(full['looks']);face=copy.deepcopy(data.get('real_face_plan'))
     if face is not None:
@@ -1346,6 +1357,7 @@ def update(root,event,**kw):
             elif persona_rebind is not None:prompt=kw.get('prompt') or visual_helper().compile_prompt(persona_rebind,1)
             else:prompt=kw.get('prompt',proposal['candidate']['prompt'] if proposal else '')
             if proposal:
+                if kw.get('shot_plan') is not None:kw['shot_plan']=inherit_framing_flag(kw['shot_plan'],proposal['candidate'].get('shot_plan'))
                 for key in ('model','shot_plan','visual_plan','prompt','garment_references'):
                     if key in kw and kw[key]!=proposal['candidate'].get(key):
                         raise ValueError('Retry must use the reviewed preview revision candidate')

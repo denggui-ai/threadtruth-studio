@@ -76,7 +76,7 @@ python3 scripts/web-task.py compose-preview --task <preview> --look 1 --file <ex
 
 ## 准备与次数
 
-- `init` 的spec沿用原始服饰参考、人物来源及角色字段，`context.purpose="preview-grid"`、`context.first_pose=1`，只放**一条完整预览提示词**，v2默认九格。这里的1是格子编排起点，不是已生成的正式母版1。非人像按六个构图编号编排。
+- `init` 的spec沿用原始服饰参考、人物来源及角色字段，`context.purpose="preview-grid"`、`context.first_pose=1`，只放**一条完整预览提示词**，v2默认九格。这里的1是格子编排起点，不是已生成的正式母版1。非人像按六个构图编号编排。`size` 与 `context.size` 默认写比例 `[2, 3]` 并设 `context.canvas_policy="ratio-first"`（[modes-scenes.md](modes-scenes.md) 的 2:3 竖版默认，首张返回图确定像素基线）；只有用户给了精确像素才写像素并省略 `canvas_policy`。
 - `size`/`context.size`为独立grid画布；精确尺寸用 `canvas_policy="exact"`，仅比例用 `ratio-first`。与后续成片画布独立。
 - 单条请求含本轮六格或九格，`authorize --limit 1`只授权1次；`reserve --look 1`占用1次。`attempts`为本任务已提交数，`total_attempts`含可追溯的上游预览次数。保持现有未决请求、原图、哈希、元数据与失败恢复检查，不因“只是预览”而绕过。
 - `export`导出一个带“方向预览·非成片 / PREVIEW ONLY — NOT FINAL”标记的宫格请求，不加独立成片反拼图前缀。操作者仍需按 `prompt-build.md §4.2` 编排全部计划格，不把任意多图或标记文本存在当作实际视觉验收通过。
