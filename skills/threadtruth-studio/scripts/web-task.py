@@ -525,6 +525,38 @@ def png_size(path):
     return [w,h]
 
 
+# WP-16 (FINDINGS I): record-only headroom measurement for delivery images. Only a plain top
+# background is measured; a busy top or no detectable subject is 'uncertain'. Never changes QA.
+def headroom_check(path):
+    try:
+        from PIL import Image
+    except ImportError:
+        return {'status':'unavailable'}
+    with Image.open(path) as source:image=source.convert('RGB')
+    width,height=image.size;scan_h=max(1,round(height*256/width))
+    small=image.resize((256,scan_h));px=small.load()
+    patch_h=max(2,scan_h//33);patch_w=max(2,256//10);corners=[]
+    for x0 in (0,256-patch_w):
+        cells=[px[x,y] for x in range(x0,x0+patch_w) for y in range(patch_h)]
+        mean=tuple(sum(c[i] for c in cells)/len(cells) for i in range(3))
+        corners.append((mean,max(max(abs(c[i]-mean[i]) for i in range(3)) for c in cells)))
+    (left,left_spread),(right,right_spread)=corners
+    if left_spread>30 or right_spread>30 or max(abs(left[i]-right[i]) for i in range(3))>30:
+        return {'status':'uncertain','reason':'busy-top-corners'}
+    background=tuple((left[i]+right[i])/2 for i in range(3));need=max(1,int(128*0.03))
+    for y in range(scan_h):
+        if sum(max(abs(px[x,y][i]-background[i]) for i in range(3))>40 for x in range(64,192))>=need:
+            return {'status':'measured','ratio':round(y/scan_h,4)}
+    return {'status':'uncertain','reason':'no-subject-row'}
+
+def headroom_applies(data,row):
+    """Delivery v2 human looks with a person framing; previews, detail shots and other purposes are not measured."""
+    if (data['schema_version']!=2 or is_preview(data) or data['context'].get('purpose','delivery')!='delivery'
+            or not v2(data.get('shot_plan')) or (data.get('visual_plan') or {}).get('output_form','human')!='human'):
+        return False
+    return shot_helper().shot_at(data['shot_plan'],row['number'])['framing'] in ('full-body','knee-up','half-body')
+
+
 def stamp():
     return datetime.now(timezone.utc).isoformat()
 
@@ -1518,6 +1550,8 @@ def update(root,event,**kw):
             if row is None or row['state']!='returned':raise ValueError('No downloaded result for visual QA')
             if kw.get('qa') not in ('qa-pass','qa-user-review') or not kw.get('note','').strip():raise ValueError('Record actual visual QA and anchor suitability')
             if digest(root/row['output']['file'])!=row['output']['sha256']:raise ValueError('Output changed since import')
+            # Record-only (WP-16): the measurement never changes state, qa or qa_note.
+            if headroom_applies(d,row):row['headroom']=headroom_check(root/row['output']['file'])
             row.update(state='accepted',qa=kw['qa'],qa_note=kw['note'])
         else:raise ValueError('Unknown event')
         d['complete']=(bool(d.get('preview_decision')) if is_preview(d) else

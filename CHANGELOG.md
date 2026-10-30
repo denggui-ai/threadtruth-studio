@@ -13,6 +13,10 @@
 - `visual_plan.garment` accepts two optional keys: `hem_state` (`untucked` / `tucked` / `half-tucked`) and `silhouette` (`straight-leg` / `wide-leg` / `tapered-leg` / `flared-leg`). `render()` expands each present key into one fixed geometric sentence after the garment lines; with both keys absent the prompt bytes are unchanged. Other values fail with the path, the allowed values and the offending value.
 - `recognition.md`, `runtime-quickstart.md` and `visual-plan.md` tell the assistant when to set them and to omit them when the source is unclear. Only the visual-plan route is covered; hand-written legacy prompts are not.
 
+### WP-16 C3: head-top margin is measured and recorded at delivery accept, 2026-10-30
+
+- `web-task.py accept` on a delivery version-2 human look with a person framing writes `row.headroom` (`status` plus `ratio` when measured, `reason` when uncertain, `unavailable` when Pillow is missing). It is record-only: no threshold, and `state`, `qa` and `qa_note` are unchanged. Only a plain top background is measured; busy or subject-less tops are `uncertain`. Previews, `reject` and `review-output` are not measured. Thresholds wait for real batch data.
+
 ## 1.0.0-beta.15 — garment-driven nine-shot planning, runtime ledger gate, readable validation, 2026-10-30
 
 Cuts every change below since beta.14 (2026-10-17). In short: 36 visual entries with per-card persona and palette rules; garment-driven version-2 shot plans (nine logical shots, source-backed routes, per-shot head/gaze, breathing-room framing on by default); the ledger scripts are mandatory before any generation (`web-task.py` records authorization, reserve, returned, QA and model confirmation); validation errors name the JSON path, expected shape and offending value, and the assistant fixes its own input instead of stopping; real-face, model-reuse and fixed-pose wardrobe paths keep their contracts. A real multi-turn Codex session on this source produced the labeled nine-panel preview and the first delivery image through the ledger with zero hand-written prompts. The sections below are the detailed entries, kept in their original order (newest first).

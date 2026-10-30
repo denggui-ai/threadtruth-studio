@@ -80,7 +80,7 @@ python3 "$SKILL/scripts/web-task.py" export --task delivery            # 读 del
 python3 "$SKILL/scripts/web-task.py" reserve --task delivery --look <N> --ready --refs <manifest.reference_hashes> --expected-plan-sha256 <manifest.current_plan_sha256>
 <原生生图：prompt.txt 原文 + request.json 顺序的附件>
 python3 "$SKILL/scripts/web-task.py" returned --task delivery --look <N> --file <生成的 PNG>
-python3 "$SKILL/scripts/web-task.py" accept --task delivery --look <N> --qa <qa-pass|qa-user-review> --note "<核对结论>"   # 失败：reject --qa qa-retry
+python3 "$SKILL/scripts/web-task.py" accept --task delivery --look <N> --qa <qa-pass|qa-user-review> --note "<核对结论>"   # 失败：reject --qa qa-retry；成片 accept 会把头顶留白测量值写入账本（只记录，不改 QA 结论）
 ```
 
 首张（look 1）技术评定后必须问用户人物是否可用，确认后记录：
