@@ -19,11 +19,11 @@ FIELDS = {'version', 'objective', 'output_medium', 'output_form', 'style', 'garm
 HEM_STATES = {
     'untucked': 'Top hem: worn untucked; the whole hem of the top hangs outside the waistband, over the bottom garment, in every presentation. Never tuck it in, not even partly.',
     'tucked': 'Top hem: fully tucked into the waistband all the way around, with the waistband visible, in every presentation.',
-    'half-tucked': 'Top hem: front-tucked only; the centre front of the hem is tucked into the waistband while the sides and back hang outside, the same way in every presentation.',
+    'half-tucked': 'Top hem: partly tucked; one part of the hem (usually the centre front) is tucked into the waistband while the rest hangs outside, the same way in every presentation.',
 }
 SILHOUETTES = {
     'straight-leg': 'Trouser silhouette, straight-leg: each leg falls in a straight vertical line from the thigh to the hem; the hem opening is about as wide as the knee; the leg does not flare, balloon or widen toward the floor and is not a wide-leg shape.',
-    'wide-leg': 'Trouser silhouette, wide-leg: each leg is loose from the hip down and the hem opening is clearly wider than the knee.',
+    'wide-leg': 'Trouser silhouette, wide-leg: each leg is loose and wide from the hip all the way down; the hem opening is at least as wide as the knee and never narrower, whether the leg keeps the same width or widens toward the hem.',
     'tapered-leg': 'Trouser silhouette, tapered: each leg narrows steadily from the thigh to the hem; the hem opening is narrower than the knee.',
     'flared-leg': 'Trouser silhouette, flared: each leg stays close from the thigh to the knee, then widens from the knee to a hem opening clearly wider than the knee.',
 }
