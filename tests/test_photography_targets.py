@@ -18,6 +18,14 @@ END = '[/Task photography targets]'
 TARGETS = ['Window side light with readable garment folds',
            'A quiet room with depth behind the subject',
            'Seated composition balanced against the furniture']
+F02_INVALID = ['六张均为全身取景', '六张都正脸直视镜头',
+               'Every head faces camera', 'All six shots must use identical head direction',
+               '六张采用半身构图', 'All heads face the camera']
+F02_VALID = ['柔和自然窗光从画面左侧进入', '主体与背景形成清晰的明暗层次',
+             '背景低干扰，保留自然的空间纵深', 'Camera at approximately eye level',
+             'Soft directional light with natural shadow transitions', '保留鞋下自然接触阴影',
+             'Eye-level camera height', 'Soft highlights on the face',
+             'Camera near head height', '保留全身轮廓与背景的明暗分离']
 
 
 def load(name, path):
@@ -296,6 +304,69 @@ class PhotographyTaskTests(unittest.TestCase):
         task.export(self.job)
         self.assertIn('off-lens eyes', (self.job / 'handoff/look-1/prompt.txt').read_text())
 
+    def test_f02_known_directives_reject_new_tasks_on_both_routes_without_writes(self):
+        for route in ('codex_native', 'chatgpt_web'):
+            for index, target in enumerate(F02_INVALID):
+                job = self.root / f'invalid-{route}-{index}'
+                context = dict(self.context, photography_targets=[target, TARGETS[0]])
+                with self.subTest(route=route, target=target), self.assertRaisesRegex(
+                        ValueError, 'scene, light and composition'):
+                    task.create(job, [dict(path=str(self.garment), role='garment-source')],
+                                ['Synthetic test prompt.'], (20, 30), identity=False,
+                                context=context, route=route)
+                self.assertFalse(job.exists())
+
+    def test_f02_legitimate_photography_keeps_exported_text_and_reference_roles(self):
+        helper = task.photography_helper()
+        for route in ('codex_native', 'chatgpt_web'):
+            for index, target in enumerate(F02_VALID):
+                job = self.root / f'valid-{route}-{index}'
+                targets = [target, TARGETS[0]]
+                self.assertEqual(helper.strict_check(targets), targets)
+                context = dict(self.context, photography_targets=targets)
+                raw = 'Synthetic product, person and pose instructions remain unchanged.\n'
+                refs = [dict(path=str(self.garment), role='garment-source'),
+                        dict(path=str(self.face), role='identity-reference')]
+                task.create(job, refs, [raw], (20, 30), model=self.model,
+                            context=context, route=route)
+                before = (job / 'task.json').read_bytes()
+                task.export(job)
+                prompt = (job / 'handoff/look-1/prompt.txt').read_text()
+                self.assertIn(raw, prompt)
+                self.assertIn(block(targets), prompt)
+                self.assertEqual(prompt.count(BEGIN), 1)
+                self.assertLess(prompt.index('Image 1: ' + task.ROLE_TEXT['garment-source']),
+                                prompt.index('Image 2: ' + task.ROLE_TEXT['identity-reference']))
+                if route == 'codex_native':
+                    self.assertEqual(json.loads((job / 'handoff/look-1/request.json').read_text())['prompt'], prompt)
+                else:
+                    self.assertFalse((job / 'handoff/look-1/request.json').exists())
+                self.assertEqual((job / 'task.json').read_bytes(), before)
+
+    def test_f02_frozen_historical_directives_restore_without_strict_revalidation(self):
+        # Build a synthetic historical record through the original structural-only gate.
+        # New preparation must reject it, but read/export/recovery must not migrate it.
+        from unittest.mock import patch
+        helper = task.photography_helper()
+        for route in ('codex_native', 'chatgpt_web'):
+            for index, target in enumerate(F02_INVALID[:3]):
+                job = self.root / f'frozen-{route}-{index}'
+                context = dict(self.context, photography_targets=[target, TARGETS[0]])
+                with patch.object(helper, 'strict_check', helper.validate):
+                    task.create(job, [dict(path=str(self.garment), role='garment-source')],
+                                ['Synthetic historical prompt.\n'], (20, 30), identity=False,
+                                context=context, route=route)
+                before = (job / 'task.json').read_bytes()
+                task.export(job)
+                prompt = (job / 'handoff/look-1/prompt.txt').read_bytes()
+                task.check_evidence(job, task.read(job))
+                task.export(job)
+                self.assertEqual((job / 'task.json').read_bytes(), before)
+                self.assertEqual((job / 'handoff/look-1/prompt.txt').read_bytes(), prompt)
+                self.assertIn(target.encode(), prompt)
+                self.assertEqual(task.read(job)['attempts'], 0)
+                self.assertIsNone(task.read(job)['authorization'])
+
 
 class PhotographyHelperTests(unittest.TestCase):
     @classmethod
@@ -370,6 +441,21 @@ class PhotographyHelperTests(unittest.TestCase):
         raw = (self.root / result['path']).read_text()
         self.assertEqual(raw.count(BEGIN), 1)
         self.assertIn(block(), raw)
+
+    def test_f02_development_preparation_rejects_known_directives(self):
+        for action in (0, 2):
+            for target in F02_INVALID:
+                with self.subTest(action=action, target=target), self.assertRaisesRegex(
+                        ValueError, 'scene, light and composition'):
+                    self.helper('japanese-lifestyle', action, [target, TARGETS[0]])
+
+    def test_f02_development_preparation_preserves_eye_level_and_chinese_light(self):
+        for action in (0, 2):
+            targets = [F02_VALID[0], F02_VALID[3]]
+            result = self.helper('japanese-lifestyle', action, targets)
+            raw = (self.root / result['path']).read_text()
+            self.assertIn(block(targets), raw)
+            self.assertEqual(raw.count(BEGIN), 1)
 
 
 if __name__ == '__main__':

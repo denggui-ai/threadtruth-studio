@@ -40,8 +40,13 @@ def selected(plan, inventory, number):
     return [by_hash[h] for h in plan['looks'][number - 1]['reference_sha256s']]
 
 
-def validate(plan, inventory, *, schema_version, identity, model, context, count, route, strict_looks=()):
-    """strict_looks: 1-based numbers of newly planned looks; frozen looks are never re-judged by newer rules."""
+def validate(plan, inventory, *, schema_version, identity, model, context, count, route, strict_looks=(), shot_plan=None):
+    """Review identity coverage; v2 capacity is checked by the task's actual resolver.
+
+    strict_looks selects newly planned rows, not historical rows. A v2 face list
+    can contain optional candidates omitted by the current shot/preview; its raw
+    length must not substitute for the actual attachment list in web-task.
+    """
     if schema_version != 2 or not identity or not model or model['source_type'] != 'real':
         raise ValueError('real_face_plan applies only to an existing real-person identity task')
     if not isinstance(plan, dict) or set(plan) != {'primary_identity_sha256', 'coverage', 'looks'}:
@@ -69,8 +74,13 @@ def validate(plan, inventory, *, schema_version, identity, model, context, count
             raise ValueError('Declare clear supported views or unknown alone, plus a nonempty review note')
         reviewed[h] = views
     looks = plan['looks']
-    if not isinstance(looks, list) or len(looks) != count or count not in (1, 6):
-        raise ValueError('Provide one real face look per frozen single/six-image prompt')
+    if not isinstance(looks, list) or len(looks) != count or count not in (1, 6, 9):
+        raise ValueError('Provide one real face look per frozen single/six/nine-image prompt')
+    if shot_plan is not None and not isinstance(shot_plan, dict):
+        raise ValueError('Real face binding requires a structured garment shot plan')
+    if (shot_plan is not None and shot_plan.get('version') == 2
+            and len(shot_plan.get('selected_shot_ids', [])) != count):
+        raise ValueError('Real face rows must follow the active garment shot selection')
     for number, look in enumerate(looks, 1):
         if not isinstance(look, dict) or set(look) != LOOK_FIELDS:
             raise ValueError('Each look separates body_action, head_view, gaze, face_visible and reference selection')
@@ -97,7 +107,9 @@ def validate(plan, inventory, *, schema_version, identity, model, context, count
                 and OFF_LENS.search(look['gaze'])):
             raise ValueError('Frontal-only original coverage supports a camera or near-camera gaze; '
                              'directional off-lens eyes turn the head and drift identity')
-        if route == 'codex_native' and len(rows) + int(number > 1 and context.get('purpose') != 'preview-grid') > 5:
+        v2_selection = shot_plan is not None and shot_plan.get('version') == 2
+        if (not v2_selection and route == 'codex_native'
+                and len(rows) + int(number > 1 and context.get('purpose') != 'preview-grid') > 5):
             raise ValueError('Each native image permits five attachments, including the mandatory later first-image anchor; revise the explicit selection without silently dropping inputs')
     return copy.deepcopy(plan)
 

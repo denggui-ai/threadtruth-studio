@@ -251,3 +251,134 @@ class PreviewTaskTests(unittest.TestCase):
         self.assertEqual([r['sha256'] for r in d['references']],[m.digest(second)])
         self.assertEqual(d['context']['outfit'],'selected-second-sku')
         self.assertEqual(d['total_attempts'],1)
+
+
+    def compose(self, donor, rectangle=(0, 0, 20, 20), **extra):
+        d=m.read(self.job)
+        return m.update(self.job, 'compose-preview', look=1, file=donor,
+                        rectangle=list(rectangle), expected_donor_sha256=m.digest(donor),
+                        expected_output_sha256=d['looks'][0]['output']['sha256'],
+                        note='User authorized local panel replacement; donor generation is already counted separately.', **extra)
+
+    def test_local_preview_composite_preserves_other_cells_and_consumed_budget(self):
+        self.returned(accepted=False)
+        m.update(self.job,'reject',look=1,note='First cell body turn is wrong')
+        before=m.read(self.job); original=(self.job/before['looks'][0]['output']['file']).read_bytes()
+        donor=self.image('donor','red')
+        try:d=self.compose(donor)
+        except ValueError as error:self.fail('Cannot retain the authorized local preview correction: '+str(error))
+        result=Image.open(self.job/d['looks'][0]['output']['file']).convert('RGB')
+        for y in range(40):
+            for x in range(60):
+                self.assertEqual(result.getpixel((x,y)), (255,0,0) if x<20 and y<20 else (0,0,255))
+        self.assertEqual((self.job/before['looks'][0]['output']['file']).read_bytes(),original)
+        self.assertEqual(d['attempts'],1);self.assertEqual(d['authorization'],before['authorization'])
+        self.assertEqual(d['looks'][0]['state'],'returned');self.assertNotIn('qa',d['looks'][0])
+        self.assertIsNone(d['model_confirmation']);self.assertFalse(d['complete'])
+        edit=d['looks'][0]['local_edits'][0]
+        self.assertEqual(edit['prior_review']['state'],'rejected')
+        self.assertEqual(edit['generation_calls'],0)
+        donor.write_bytes(b'external donor later removed')
+        m.check_evidence(self.job,m.read(self.job))
+        with self.assertRaises(ValueError):self.finish()
+        m.update(self.job,'accept',look=1,qa='qa-pass',note='Actual corrected preview reviewed')
+        self.finish()
+        child=m.create_from_preview(self.root/'composite-final',self.job,self.delivery_spec(1),note='User asks independent image')
+        self.assertEqual(child['total_attempts'],1);self.assertIsNone(child['authorization'])
+        self.assertEqual(len(child['references']),1)
+        self.assertEqual((self.root/'composite-final/provenance/preview.png').read_bytes(),(self.job/edit['output']['file']).read_bytes())
+
+    def test_local_preview_plan_reaches_delivery_without_rewriting_generation_prompt(self):
+        coverage=[dict(sha256=m.digest(self.ref),views=['front'],usable=True,same_sku=True,note='Synthetic front')]
+        plan=m.shot_helper().default_plan('sku',coverage)
+        m.create(self.job,[self.ref],['Gallery.'],[60,40],context=self.context,shot_plan=plan)
+        m.update(self.job,'authorize',limit=1,note='One preview')
+        m.update(self.job,'reserve',look=1,ready=True,refs=m.reference_hashes(self.job,1),expected_plan_sha256=m.plan_fingerprint(m.read(self.job)))
+        m.update(self.job,'returned',look=1,file=self.image('grid','blue'))
+        m.update(self.job,'reject',look=1,note='Body turn correction requested')
+        original=m.read(self.job);changed=copy.deepcopy(plan)
+        changed.update(preservation='adapted',adaptation_note='User approved first-panel torso correction')
+        changed['looks'][0]['arrangement']='Turn shoulders and hips together toward image-left; near shoulder clear.'
+        try:d=self.compose(self.image('donor','red'),shot_plan=changed)
+        except ValueError as error:self.fail('Cannot preserve the corrected direction plan: '+str(error))
+        self.assertEqual(d['looks'][0]['prompt'],original['looks'][0]['prompt'])
+        self.assertEqual(d['shot_plan'],plan)
+        m.update(self.job,'accept',look=1,qa='qa-pass',note='Review composite against local change and original constraints')
+        self.finish();child=m.create_from_preview(self.root/'final',self.job,self.delivery_spec(1),note='Confirmed corrected direction')
+        self.assertEqual(child['shot_plan']['looks'],changed['looks'][:1])
+        self.assertEqual(child['shot_plan']['preservation'],'adapted')
+        self.assertIsNone(child['model_confirmation'])
+        m.export(self.root/'final')
+        raw=next((self.root/'final/handoff').glob('*/prompt.txt')).read_text()
+        self.assertIn(changed['looks'][0]['arrangement'],raw)
+
+    def test_local_preview_rejects_wrong_hash_canvas_bounds_and_unresolved_states(self):
+        self.returned();donor=self.image('donor','red');before=(self.job/'task.json').read_bytes()
+        cases=[dict(rectangle=[0,0,61,20]),dict(rectangle=[0,0,0,20]),dict(rectangle=[True,0,20,20]),
+               dict(rectangle=[0,0,20.5,20]),dict(expected_output_sha256='0'*64),
+               dict(expected_donor_sha256='0'*64),dict(note='')]
+        d=m.read(self.job)
+        args=dict(look=1,file=donor,rectangle=[0,0,20,20],expected_output_sha256=d['looks'][0]['output']['sha256'],expected_donor_sha256=m.digest(donor),note='User approved')
+        for changes in cases:
+            with self.subTest(changes=changes),self.assertRaises(ValueError):m.update(self.job,'compose-preview',**dict(args,**changes))
+            self.assertEqual((self.job/'task.json').read_bytes(),before)
+        Image.new('RGB',(61,40),'red').save(donor)
+        with self.assertRaises(ValueError):self.compose(donor)
+        self.finish()
+        with self.assertRaises(ValueError):self.compose(donor)
+        other=self.root/'unknown';self.job=other;self.create();m.update(other,'authorize',limit=1,note='One preview');self.reserve()
+        m.update(other,'unknown',look=1)
+        with self.assertRaises(ValueError):m.update(other,'compose-preview',**args)
+
+    def test_local_preview_frozen_sources_and_protected_pixels_detect_tampering(self):
+        self.returned();donor=self.image('donor','red')
+        try:d=self.compose(donor)
+        except ValueError as error:self.fail('Local correction unavailable: '+str(error))
+        edit=d['looks'][0]['local_edits'][0]
+        for key in ('base_output','donor','output'):
+            p=self.job/edit[key]['file'];saved=p.read_bytes();p.write_bytes(b'tampered')
+            with self.assertRaises((ValueError,OSError)):m.check_evidence(self.job,m.read(self.job))
+            p.write_bytes(saved)
+        changed=copy.deepcopy(d);changed['looks'][0]['local_edits'][0]['rectangle']=[0,0,60,40]
+        with self.assertRaises(ValueError):m.check_evidence(self.job,changed)
+        changed=copy.deepcopy(d);changed['looks'][0]['local_edits'][0]['generation_calls']=1
+        with self.assertRaises(ValueError):m.check_evidence(self.job,changed)
+
+
+    def test_local_preview_cli_and_symlink_boundary(self):
+        self.returned();donor=self.image('donor','red');d=m.read(self.job)
+        output=self.root/'outside';output.mkdir();(self.job/'local-edits').symlink_to(output,target_is_directory=True)
+        with self.assertRaises(ValueError):self.compose(donor)
+        self.assertEqual(list(output.iterdir()),[])
+        (self.job/'local-edits').unlink()
+        run=subprocess.run([sys.executable,str(SCRIPT),'compose-preview','--task',str(self.job),'--look','1',
+            '--file',str(donor),'--rectangle','0','0','20','20',
+            '--expected-output-sha256',d['looks'][0]['output']['sha256'],
+            '--expected-donor-sha256',m.digest(donor),'--note','User approved local correction; existing donor already charged.'],capture_output=True,text=True)
+        self.assertEqual(run.returncode,0,run.stderr)
+        state=json.loads(run.stdout)
+        self.assertEqual(state['attempts'],1);self.assertEqual(state['looks'][0]['state'],'returned')
+
+
+    def test_local_plan_survives_later_generated_retry_and_retains_local_history(self):
+        coverage=[dict(sha256=m.digest(self.ref),views=['front'],usable=True,same_sku=True,note='Reviewed synthetic front')]
+        plan=m.shot_helper().default_plan('sku',coverage)
+        m.create(self.job,[self.ref],['Gallery.'],[60,40],context=self.context,shot_plan=plan)
+        m.update(self.job,'authorize',limit=1,note='One preview')
+        m.update(self.job,'reserve',look=1,ready=True,refs=m.reference_hashes(self.job,1),expected_plan_sha256=m.plan_fingerprint(m.read(self.job)))
+        m.update(self.job,'returned',look=1,file=self.image('grid','blue'))
+        m.update(self.job,'accept',look=1,qa='qa-pass',note='Reviewed base')
+        changed=copy.deepcopy(plan);changed.update(preservation='adapted',adaptation_note='User approved first-cell body correction')
+        changed['looks'][0]['arrangement']='Turn the shoulders and hips together toward image-left.'
+        d=self.compose(self.image('donor','red'),shot_plan=changed)
+        m.update(self.job,'reject',look=1,note='A further user-approved scene revision is needed')
+        with self.assertRaises(ValueError):m.update(self.job,'retry-authorize',look=1,expected_attempt=1,approval_id='next',note='New request',prompt='Gallery.')
+        d=m.update(self.job,'revise-preview',look=1,expected_output_sha256=d['looks'][0]['output']['sha256'],prompt='Gallery.',note='User changes the scene; preserve local body correction')
+        self.assertEqual(d['preview_revision']['candidate']['shot_plan'],changed)
+        d=m.update(self.job,'retry-authorize',look=1,expected_attempt=1,approval_id='next',note='User grants one synthetic retry')
+        m.update(self.job,'reserve',look=1,ready=True,refs=m.reference_hashes(self.job,1),expected_plan_sha256=m.plan_fingerprint(d))
+        d=m.update(self.job,'returned',look=1,file=self.image('new-provider-result','green'))
+        m.check_evidence(self.job,d)
+        self.assertEqual(d['attempts'],2)
+        self.assertEqual(d['shot_plan'],changed)
+        self.assertEqual(d['looks'][0]['history'][0]['local_edits'][0]['generation_calls'],0)

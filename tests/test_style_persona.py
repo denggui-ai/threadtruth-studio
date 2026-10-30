@@ -4,6 +4,10 @@ from pathlib import Path
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
+OPERA_MAKEUP_NEGATIVES = {
+    'no opera makeup',
+    'no added opera makeup unless explicitly requested',
+}
 
 
 def load_module(name, path):
@@ -163,7 +167,7 @@ class StylePersonaTests(unittest.TestCase):
                 with self.subTest(pack=slug, source=source):
                     actual, kept = self.m.resolve_style(self.model(source), persona, negatives)
                     self.assertEqual(actual, persona)
-                    expected = [n for n in negatives if not (source != 'new' and n == 'no opera makeup')]
+                    expected = [n for n in negatives if not (source != 'new' and n in OPERA_MAKEUP_NEGATIVES)]
                     self.assertEqual(kept, expected)
 
     def test_all_24_pack_source_and_declared_axis_conditions_matrix(self):
@@ -201,7 +205,7 @@ class StylePersonaTests(unittest.TestCase):
                             self.assertEqual(actual, persona)
                         dropped = expression_negatives if axis == 'expression' else set()
                         if source != 'new' or axis == 'makeup':
-                            dropped = dropped | {'no opera makeup'}
+                            dropped = dropped | OPERA_MAKEUP_NEGATIVES
                         self.assertEqual(kept, [n for n in negatives if n not in dropped])
 
     def test_actual_preview_and_single_prompt_paths_preserve_unconflicted_pack_style(self):
@@ -231,6 +235,27 @@ class StylePersonaTests(unittest.TestCase):
                         self.assertIn('Attitude: ' + persona, actual)
                         self.assertIn('Lighting/background palette: ' + preview['visual']['lighting'], actual)
                         self.assertIn('natural fuller body proportions', actual)
+
+    def test_resolve_persona_new_adult_keeps_full_text(self):
+        persona = 'relaxed face, friendly expression, quiet confidence, heavy makeup, young look, calm composure'
+        self.assertEqual(self.m.resolve_persona(self.model(), persona), persona)
+
+    def test_resolve_persona_real_locked_strips_expression_axes(self):
+        persona = 'relaxed face, friendly expression, quiet confidence, heavy makeup, young look, calm composure'
+        locked = self.model('real', locked=['same expression', 'same face'])
+        self.assertEqual(self.m.resolve_persona(locked, persona), 'relaxed face, quiet confidence, calm composure')
+        identity_only = self.model('real', locked=['same face'])
+        actual = self.m.resolve_persona(identity_only, persona)
+        self.assertNotIn('heavy makeup', actual)
+        self.assertNotIn('young look', actual)
+        self.assertIn('friendly expression', actual)
+
+    def test_resolve_persona_child_returns_empty_without_raising(self):
+        persona = 'relaxed face, friendly expression, quiet confidence'
+        child = self.model(subject='child model')
+        self.assertEqual(self.m.resolve_persona(child, persona), '')
+        self.assertEqual(self.m.resolve_persona(self.model(), '   '), '')
+        self.assertEqual(self.m.resolve_persona(self.model(), None), '')
 
 
 if __name__ == '__main__':

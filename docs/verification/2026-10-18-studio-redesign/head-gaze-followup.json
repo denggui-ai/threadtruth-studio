@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "scope": "One explicit follow-up validation after the original 60-slot plan; original JSON snapshots remain unchanged.",
+  "request_id": "SR-061",
+  "source_commit": "e13e7bf9ee0e799453308aaa1e4ba47f02c21391",
+  "operator_send_count": 1,
+  "original_png_sha256": "294cb95d7cfcbc702840a5c17fc10e4216f5d17bfc0345cfd54b5e5b14115044",
+  "dimensions": [
+    1254,
+    1254
+  ],
+  "qa": "qa-retry",
+  "head_gaze_group_repetition": "resolved-in-this-sample",
+  "open_findings": [
+    "panel1 insufficient readable three-quarter torso/head",
+    "strict identity and garment microdetails remain user-review"
+  ],
+  "cumulative_counts": {
+    "confirmed_dispatched": 51,
+    "historical_reserved": 52,
+    "uncertain_additional": 1,
+    "conservative_used": 53,
+    "ceiling": 60,
+    "retained_files": 51,
+    "qa_grades": {
+      "qa-retry": 18,
+      "qa-user-review": 33
+    }
+  },
+  "original_D04_history_preserved": true,
+  "independent_delivery_unlocked": false,
+  "human_direction_accepted": false,
+  "human_model_accepted": false,
+  "remote_web_tool_call_count": "unverified",
+  "new_generation_calls_download_review_and_documentation": 0,
+  "candidate_updated": false,
+  "live_install_changed": false,
+  "next_draft": "panel1 only; no new task, reservation, freeze or dispatch; panels2-6 byte-equivalent",
+  "evidence_ref": "../2026-10-19-ai-head-gaze-plan.md"
+}

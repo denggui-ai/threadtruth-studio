@@ -159,11 +159,13 @@
       "id": "RF-12",
       "category": "task_targets_scene_light_only",
       "prompt": "只准备不生图：从风格案例提炼任务级摄影目标时，写了“全身端坐构图，双手支撑，近正面脸和离镜眼神保留原表情”。请冻结这些目标。",
-      "expected_output": "目标只保留场景、光线和构图层次，视线/头向/景别移回真人计划与逐张景别。",
+      "expected_output": "拒绝将头向、视线或景别指令冻结进共同摄影目标，说明应使用已有逐张计划/景别位置；不自动改写用户要求。",
       "expectations": [
         "新任务目标不得复述视线、眼睛、头向或全身/半身/knee-up景别；eye-level机位等非人物词可保留",
         "头向与视线只由已核real_face_plan提供，景别由逐张framing提供，避免六张共用目标与母版3/5半身或真人计划冲突",
-        "旧任务已冻结的同类目标照常恢复导出，不据此宣称通过新检查；实际调用为0"
+        "旧任务已冻结的同类目标照常恢复导出，不据此宣称通过新检查；实际调用为0",
+        "WP2-A/F02：新准备拒绝“六张均为全身取景”“六张都正脸直视镜头”“Every head faces camera”；“All six shots must use identical head direction”保持拒绝。只报告字段冲突及已有逐张计划/景别位置，不自动重写用户要求或新增确认步骤。",
+        "合法柔和自然窗光、主体背景明暗分离、空间纵深、鞋下接触阴影及Camera at approximately eye level/eye-level机位继续允许。已合法目标不改最终正文/附件/计划字节，旧冻结目标用原validate恢复；有限词法校验不理解任意自然语言，也不证明视觉改善。"
       ],
       "ref": "model-selection.md §真人参考覆盖与本轮朝向计划; prompt-build.md §摄影目标/--photography-spec; commercial-qa.md 构图与呈现"
     },

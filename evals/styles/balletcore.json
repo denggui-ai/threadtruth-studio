@@ -13,9 +13,9 @@
   },
   {
     "id": "bc-anti-fit-3",
-    "type": "anti-fit",
+    "type": "recommendation-fit",
     "input": "(上传冲锋衣) 芭蕾风",
-    "expect": "冲锋衣 ∈ anti_categories → 提示风格×品类不匹配"
+    "expect": "anti_categories仅提示此商品不属于该方向的默认推荐，不是服种禁令。用户明确借用摄影时保留当前商品，使用该方向的环境、光线与构图；不改商品、不重复索要已有确认。真正缺失的来源/适龄/动作授权仍按核心门禁处理。"
   },
   {
     "id": "bc-pure-data-4",
@@ -25,9 +25,9 @@
   },
   {
     "id": "bc-conflict-hold-5",
-    "type": "style-conflict",
+    "type": "explicit-fusion-resolution",
     "input": "(上传服饰) balletcore 混 gorpcore",
-    "expect": "第0步检测 balletcore↔gorpcore 互斥(router §3)→style-conflict-hold"
+    "expect": "识别为明确融合意图；为主辅方向分配摄影或艺术字段并形成单一方案，不因旧互斥矩阵要求二选一。主次或字段归属确实无法确定时仅澄清该缺项；服装原貌和人物条件不被融合改写，生成仍按实际动作授权。"
   },
   {
     "id": "bc-action-gate-6",
@@ -41,8 +41,27 @@
     "input": "(上传连衣裙) 甜美名媛 coquette",
     "expect": "触发隔离:coquette/甜美名媛→coquette-ladylike,不落 balletcore",
     "assert_triggers": {
-      "coquette-ladylike": {"contains": ["coquette"]},
-      "balletcore": {"contains": ["芭蕾风"], "excludes": ["coquette", "甜美名媛", "千金风"]}
+      "coquette-ladylike": {
+        "contains": [
+          "coquette"
+        ]
+      },
+      "balletcore": {
+        "contains": [
+          "芭蕾风"
+        ],
+        "excludes": [
+          "coquette",
+          "甜美名媛",
+          "千金风"
+        ]
+      }
     }
+  },
+  {
+    "id": "bc-source-stage-10",
+    "type": "source-preservation-regression",
+    "input": "参考是舞台芭蕾裙，用芭蕾柔美，人物比例已锁定",
+    "expect": "保留原有舞台服；优雅来自构图，不拉长身体或覆盖既定动作；不新增舞台服组件。"
   }
 ]

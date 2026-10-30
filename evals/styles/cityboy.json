@@ -13,9 +13,9 @@
   },
   {
     "id": "cb-anti-fit-3",
-    "type": "anti-fit",
+    "type": "recommendation-fit",
     "input": "(上传婚纱) cityboy",
-    "expect": "礼服婚纱 ∈ anti_categories → 提示不匹配,请确认或改推"
+    "expect": "anti_categories仅提示此商品不属于该方向的默认推荐，不是服种禁令。用户明确借用摄影时保留当前商品，使用该方向的环境、光线与构图；不改商品、不重复索要已有确认。真正缺失的来源/适龄/动作授权仍按核心门禁处理。"
   },
   {
     "id": "cb-pure-data-4",
@@ -35,8 +35,21 @@
     "input": "(上传西装) 韩国男装 seoul menswear",
     "expect": "触发隔离:韩国男装/seoul menswear→korean-menswear,不落 cityboy",
     "assert_triggers": {
-      "korean-menswear": {"contains": ["韩国男装"]},
-      "cityboy": {"contains": ["都市男孩"], "excludes": ["韩国男装", "韩式男装", "seoul menswear"]}
+      "korean-menswear": {
+        "contains": [
+          "韩国男装"
+        ]
+      },
+      "cityboy": {
+        "contains": [
+          "都市男孩"
+        ],
+        "excludes": [
+          "韩国男装",
+          "韩式男装",
+          "seoul menswear"
+        ]
+      }
     }
   },
   {
@@ -44,5 +57,11 @@
     "type": "lighting-signature",
     "input": "(上传驼色西装) cityboy,C3",
     "expect": "STYLE_VISUAL 保留柔和城市自然光→侧前方/店窗漫射侧光→柔边阴影→低对比正常曝光;光影只能塑造城市松弛感,不得改驼色、材质、版型或强改宽松"
+  },
+  {
+    "id": "cb-source-suit-10",
+    "type": "source-preservation-regression",
+    "input": "这套正式西装借用cityboy城市摄影",
+    "expect": "正式西装与已有配饰原样保留，城市日常感由空间与构图表达；不默认改宽松廓形。"
   }
 ]

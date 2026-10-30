@@ -1,0 +1,837 @@
+{
+  "schema_version": 1,
+  "version": "0.1.0",
+  "path_base": "skill-root",
+  "scope": "24个兼容入口与12个新增执行入口；不是全球风格总数。",
+  "evidence_policy": "执行方案存在不代表实图通过。知识记录不注册为执行能力，图像结果只按实际验证范围记载。",
+  "navigation": [
+    {
+      "label": "美式",
+      "kind": "ambiguous-region",
+      "choices": [
+        "american-street",
+        "preppy",
+        "retro-americana",
+        "workwear-vintage"
+      ],
+      "instruction": "按用户场景及否定条件解释，不由单词美式自动选街头。"
+    },
+    {
+      "label": "中国文化服饰",
+      "kind": "cultural-navigation",
+      "choices": [
+        "neo-chinese",
+        "guochao-street",
+        "hanfu-form-specific",
+        "qipao-urban",
+        "gongbu-dress"
+      ],
+      "instruction": "区分现代设计、历史服种与地方类型；更多知识记录不代表已完成执行验证。"
+    }
+  ],
+  "entries": [
+    {
+      "id": "american-street",
+      "version": "0.1.1",
+      "name": "美式街头 / American Street",
+      "entry_type": "legacy-style",
+      "aliases": [
+        "美式街头",
+        "街拍",
+        "american street",
+        "vibe 街头",
+        "美式复古街头"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "product-display",
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/american-street.json",
+      "pack_path": "references/styles/american-street.pack.yaml"
+    },
+    {
+      "id": "athleisure",
+      "version": "0.1.1",
+      "name": "运动休闲 / Athleisure",
+      "entry_type": "legacy-style",
+      "aliases": [
+        "运动风",
+        "瑜伽",
+        "athleisure",
+        "运动休闲",
+        "健身穿搭",
+        "sporty chic"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "product-display",
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/athleisure.json",
+      "pack_path": "references/styles/athleisure.pack.yaml"
+    },
+    {
+      "id": "balletcore",
+      "version": "0.1.1",
+      "name": "芭蕾柔美 / Balletcore",
+      "entry_type": "legacy-style",
+      "aliases": [
+        "balletcore",
+        "芭蕾风",
+        "芭蕾柔美",
+        "纱裙轻盈",
+        "ballet mood",
+        "soft ballet"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "product-display",
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/balletcore.json",
+      "pack_path": "references/styles/balletcore.pack.yaml"
+    },
+    {
+      "id": "british-heritage",
+      "version": "0.1.1",
+      "name": "英伦传承 / British Heritage",
+      "entry_type": "legacy-style",
+      "aliases": [
+        "英伦传承",
+        "传统英伦",
+        "british heritage",
+        "heritage tailoring",
+        "tweed country",
+        "英式复古"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "product-display",
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/british-heritage.json",
+      "pack_path": "references/styles/british-heritage.pack.yaml"
+    },
+    {
+      "id": "cityboy",
+      "version": "0.1.1",
+      "name": "都市宽松男装 / Cityboy",
+      "entry_type": "legacy-style",
+      "aliases": [
+        "cityboy",
+        "都市男孩",
+        "宽松男装",
+        "男装通勤",
+        "casual menswear",
+        "city casual",
+        "日系简约男"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "product-display",
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/cityboy.json",
+      "pack_path": "references/styles/cityboy.pack.yaml"
+    },
+    {
+      "id": "clean-fit",
+      "version": "0.1.1",
+      "name": "极简基础 / Clean Fit",
+      "entry_type": "legacy-style",
+      "aliases": [
+        "极简基础",
+        "clean fit",
+        "基础款",
+        "简约基础",
+        "极简版型",
+        "minimal basic"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "product-display",
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/clean-fit.json",
+      "pack_path": "references/styles/clean-fit.pack.yaml"
+    },
+    {
+      "id": "coquette-ladylike",
+      "version": "0.1.1",
+      "name": "甜美名媛 / Coquette Ladylike",
+      "entry_type": "legacy-style",
+      "aliases": [
+        "coquette",
+        "千金风",
+        "甜美名媛",
+        "ladylike coquette",
+        "coquette style",
+        "精致淑女"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "product-display",
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/coquette-ladylike.json",
+      "pack_path": "references/styles/coquette-ladylike.pack.yaml"
+    },
+    {
+      "id": "ecommerce-studio",
+      "version": "0.1.1",
+      "name": "电商棚拍 / E-commerce Studio",
+      "entry_type": "legacy-style",
+      "aliases": [
+        "电商主图",
+        "高转化",
+        "淘宝白底",
+        "棚拍主图",
+        "商品主图人像",
+        "详情页人像"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "product-display",
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/ecommerce-studio.json",
+      "pack_path": "references/styles/ecommerce-studio.pack.yaml"
+    },
+    {
+      "id": "french-effortless",
+      "version": "0.1.1",
+      "name": "法式松弛 / French Effortless",
+      "entry_type": "legacy-style",
+      "aliases": [
+        "法式",
+        "松弛感",
+        "巴黎",
+        "effortless",
+        "French girl",
+        "慵懒法式"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "product-display",
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/french-effortless.json",
+      "pack_path": "references/styles/french-effortless.pack.yaml"
+    },
+    {
+      "id": "gorpcore",
+      "version": "0.1.1",
+      "name": "山系机能 / Gorpcore",
+      "entry_type": "legacy-style",
+      "aliases": [
+        "gorpcore",
+        "山系",
+        "户外机能",
+        "机能户外",
+        "山系机能",
+        "outdoor technical"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "product-display",
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/gorpcore.json",
+      "pack_path": "references/styles/gorpcore.pack.yaml"
+    },
+    {
+      "id": "guochao-street",
+      "version": "0.1.1",
+      "name": "国潮街头 / Guochao Street",
+      "entry_type": "legacy-style",
+      "aliases": [
+        "国潮街头",
+        "街头国风",
+        "guochao street",
+        "国风街头",
+        "潮流国风",
+        "新国潮"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "product-display",
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/guochao-street.json",
+      "pack_path": "references/styles/guochao-street.pack.yaml"
+    },
+    {
+      "id": "italian-luxe",
+      "version": "0.1.1",
+      "name": "意式奢华 / Italian Luxe",
+      "entry_type": "legacy-style",
+      "aliases": [
+        "意式奢华",
+        "意式优雅",
+        "米兰风",
+        "意大利风格",
+        "italian luxe",
+        "italian luxury"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "product-display",
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/italian-luxe.json",
+      "pack_path": "references/styles/italian-luxe.pack.yaml"
+    },
+    {
+      "id": "japanese-lifestyle",
+      "version": "0.1.1",
+      "name": "日系生活感 / Japanese Lifestyle",
+      "entry_type": "legacy-style",
+      "aliases": [
+        "日系",
+        "日系生活",
+        "日杂",
+        "无印感",
+        "无印风",
+        "japanese lifestyle",
+        "muji style"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "product-display",
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/japanese-lifestyle.json",
+      "pack_path": "references/styles/japanese-lifestyle.pack.yaml"
+    },
+    {
+      "id": "korean-cold-editorial",
+      "version": "0.1.3",
+      "name": "韩系冷感杂志风 / Korean Cold Editorial",
+      "entry_type": "legacy-style",
+      "aliases": [
+        "韩系",
+        "韩杂",
+        "韩系杂志风",
+        "韩国杂志",
+        "韩国杂志人像",
+        "W Korea",
+        "Vogue Korea",
+        "性冷淡",
+        "安静奢华",
+        "冷感大片"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "product-display",
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/korean-cold-editorial.json",
+      "pack_path": "references/styles/korean-cold-editorial.pack.yaml"
+    },
+    {
+      "id": "korean-menswear",
+      "version": "0.1.1",
+      "name": "韩式男装 / Korean Menswear",
+      "entry_type": "legacy-style",
+      "aliases": [
+        "korean menswear",
+        "韩国男装",
+        "韩式男装",
+        "冷感男装",
+        "首尔男装",
+        "seoul menswear"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "product-display",
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/korean-menswear.json",
+      "pack_path": "references/styles/korean-menswear.pack.yaml"
+    },
+    {
+      "id": "neo-chinese",
+      "version": "0.1.1",
+      "name": "新中式 / Neo Chinese",
+      "entry_type": "legacy-style",
+      "aliases": [
+        "新中式",
+        "立领盘扣",
+        "neo chinese",
+        "modern chinese",
+        "东方极简",
+        "中式现代"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "product-display",
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/neo-chinese.json",
+      "pack_path": "references/styles/neo-chinese.pack.yaml"
+    },
+    {
+      "id": "nordic-minimal",
+      "version": "0.1.1",
+      "name": "北欧极简 / Nordic Minimal",
+      "entry_type": "legacy-style",
+      "aliases": [
+        "北欧极简",
+        "性冷淡极简",
+        "nordic minimal",
+        "scandi minimal",
+        "斯堪的纳维亚",
+        "冷淡北欧"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "product-display",
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/nordic-minimal.json",
+      "pack_path": "references/styles/nordic-minimal.pack.yaml"
+    },
+    {
+      "id": "office-commute-women",
+      "version": "0.1.1",
+      "name": "职场通勤女装 / Office Commute Women",
+      "entry_type": "legacy-style",
+      "aliases": [
+        "职场通勤",
+        "OL通勤",
+        "商务女装",
+        "office commute",
+        "office lady style",
+        "通勤女装"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "product-display",
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/office-commute-women.json",
+      "pack_path": "references/styles/office-commute-women.pack.yaml"
+    },
+    {
+      "id": "old-money",
+      "version": "0.1.1",
+      "name": "老钱风 / Old Money",
+      "entry_type": "legacy-style",
+      "aliases": [
+        "老钱",
+        "old money",
+        "old-money",
+        "世家",
+        "低调奢华",
+        "名媛世家"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "product-display",
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/old-money.json",
+      "pack_path": "references/styles/old-money.pack.yaml"
+    },
+    {
+      "id": "preppy",
+      "version": "0.1.1",
+      "name": "美式学院 / Preppy",
+      "entry_type": "legacy-style",
+      "aliases": [
+        "preppy",
+        "美式学院",
+        "常春藤风",
+        "ivy style",
+        "校园学院风",
+        "varsity prep"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "product-display",
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/preppy.json",
+      "pack_path": "references/styles/preppy.pack.yaml"
+    },
+    {
+      "id": "quiet-luxury",
+      "version": "0.1.1",
+      "name": "静奢风 / Quiet Luxury",
+      "entry_type": "legacy-style",
+      "aliases": [
+        "quiet luxury",
+        "quiet-luxury",
+        "静奢风",
+        "静奢穿搭",
+        "当代静奢"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "product-display",
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/quiet-luxury.json",
+      "pack_path": "references/styles/quiet-luxury.pack.yaml"
+    },
+    {
+      "id": "resort-vacation",
+      "version": "0.1.1",
+      "name": "度假 / Resort Vacation",
+      "entry_type": "legacy-style",
+      "aliases": [
+        "度假风",
+        "resort",
+        "海岛度假",
+        "沙滩度假",
+        "resort vacation",
+        "假日度假"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "product-display",
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/resort-vacation.json",
+      "pack_path": "references/styles/resort-vacation.pack.yaml"
+    },
+    {
+      "id": "workwear-vintage",
+      "version": "0.1.1",
+      "name": "复古工装 / Workwear Vintage",
+      "entry_type": "legacy-style",
+      "aliases": [
+        "复古工装",
+        "workwear",
+        "工装复古",
+        "heritage workwear",
+        "vintage utility",
+        "rugged workwear"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "product-display",
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/workwear-vintage.json",
+      "pack_path": "references/styles/workwear-vintage.pack.yaml"
+    },
+    {
+      "id": "y2k-millennium",
+      "version": "0.1.1",
+      "name": "千禧 Y2K / Y2K Millennium",
+      "entry_type": "legacy-style",
+      "aliases": [
+        "Y2K",
+        "千禧风",
+        "千禧辣妹",
+        "复古千禧",
+        "y2k millennium",
+        "millennium style"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "product-display",
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/y2k-millennium.json",
+      "pack_path": "references/styles/y2k-millennium.pack.yaml"
+    },
+    {
+      "id": "retro-americana",
+      "version": "0.1.0",
+      "name": "美式复古日常",
+      "entry_type": "shooting-plan",
+      "aliases": [
+        "美式复古日常",
+        "美式复古生活",
+        "复古美式生活",
+        "retro americana",
+        "retro americana lifestyle"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/retro-americana.json"
+    },
+    {
+      "id": "gothic-editorial",
+      "version": "0.1.0",
+      "name": "哥特暗调摄影",
+      "entry_type": "shooting-plan",
+      "aliases": [
+        "哥特暗调摄影",
+        "哥特服饰摄影",
+        "哥特摄影",
+        "gothic editorial",
+        "goth editorial"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/gothic-editorial.json"
+    },
+    {
+      "id": "romantic-bohemian",
+      "version": "0.1.0",
+      "name": "浪漫波西米亚",
+      "entry_type": "shooting-plan",
+      "aliases": [
+        "浪漫波西米亚",
+        "浪漫波西米亚摄影",
+        "romantic bohemian",
+        "boho editorial",
+        "boho摄影"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/romantic-bohemian.json"
+    },
+    {
+      "id": "future-artificial-light",
+      "version": "0.1.0",
+      "name": "未来人工光摄影",
+      "entry_type": "shooting-plan",
+      "aliases": [
+        "未来人工光摄影",
+        "未来人工光",
+        "未来机能摄影",
+        "赛博服饰摄影",
+        "cyberpunk editorial",
+        "future artificial light"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/future-artificial-light.json"
+    },
+    {
+      "id": "hanfu-form-specific",
+      "version": "0.1.0",
+      "name": "汉服指定形制展示",
+      "entry_type": "cultural-garment",
+      "aliases": [
+        "汉服指定形制展示",
+        "汉服形制展示",
+        "汉服摄影",
+        "汉服商品图",
+        "historical hanfu"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "product-display",
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/hanfu-form-specific.json"
+    },
+    {
+      "id": "qipao-urban",
+      "version": "0.1.0",
+      "name": "旗袍都市人像",
+      "entry_type": "cultural-garment",
+      "aliases": [
+        "旗袍都市人像",
+        "旗袍摄影",
+        "旗袍商品图",
+        "qipao urban",
+        "cheongsam portrait"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "product-display",
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/qipao-urban.json"
+    },
+    {
+      "id": "gongbu-dress",
+      "version": "0.1.0",
+      "name": "林芝工布服饰展示",
+      "entry_type": "cultural-garment",
+      "aliases": [
+        "林芝工布服饰展示",
+        "林芝工布服饰",
+        "工布服饰摄影",
+        "工布服饰",
+        "gongbu dress"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "product-display",
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/gongbu-dress.json"
+    },
+    {
+      "id": "bridal-ethereal",
+      "version": "0.1.0",
+      "name": "婚纱空灵",
+      "entry_type": "complex-garment",
+      "aliases": [
+        "婚纱空灵",
+        "婚礼空灵",
+        "婚纱摄影",
+        "bridal ethereal"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "product-display",
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/bridal-ethereal.json"
+    },
+    {
+      "id": "lolita-layered",
+      "version": "0.1.0",
+      "name": "Lolita层次展示",
+      "entry_type": "complex-garment",
+      "aliases": [
+        "Lolita层次展示",
+        "Lolita服饰摄影",
+        "洛丽塔服饰展示",
+        "lolita fashion"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "product-display",
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/lolita-layered.json"
+    },
+    {
+      "id": "garment-illustration",
+      "version": "0.1.0",
+      "name": "服饰插画",
+      "entry_type": "art-output",
+      "aliases": [
+        "服饰插画",
+        "服装插画",
+        "服饰艺术插画",
+        "garment illustration",
+        "fashion illustration"
+      ],
+      "medium": "illustration",
+      "purpose_support": [
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/garment-illustration.json"
+    },
+    {
+      "id": "art-deco-set",
+      "version": "0.1.0",
+      "name": "Art Deco图形布景",
+      "entry_type": "scenography",
+      "aliases": [
+        "Art Deco图形布景",
+        "装饰艺术布景",
+        "art deco set",
+        "art deco glamour"
+      ],
+      "medium": "photography",
+      "purpose_support": [
+        "styled-editorial",
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/art-deco-set.json"
+    },
+    {
+      "id": "surreal-space-ad",
+      "version": "0.1.0",
+      "name": "超现实空间广告",
+      "entry_type": "art-output",
+      "aliases": [
+        "超现实空间广告",
+        "超现实服饰广告",
+        "超现实空间",
+        "surreal space ad",
+        "dreamcore surreal"
+      ],
+      "medium": "mixed-media",
+      "purpose_support": [
+        "art-campaign"
+      ],
+      "status": "draft",
+      "card": "references/visual-library/cards/surreal-space-ad.json"
+    }
+  ],
+  "knowledge_sources": [
+    "references/visual-library/source-catalog.json",
+    "references/visual-library/china-market.json",
+    "references/visual-library/china-culture.json"
+  ],
+  "contract": "references/visual-library/index.md"
+}

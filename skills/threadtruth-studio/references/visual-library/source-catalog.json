@@ -1,0 +1,1739 @@
+{
+  "schema_version": 1,
+  "provenance": {
+    "id": "audit-catalog-v1.1",
+    "title": "CAIGUANG-FULL-CONTEXT-AND-INDEPENDENT-AUDIT-2026-10-18-v1.1.md",
+    "sha256": "e4a71d4ebef7a375b408c0ab7e4b60b5957636813b271269675f412d71ebf59c",
+    "sections": [
+      "§6 已有24",
+      "§10 扩展16",
+      "附录A 补充92"
+    ],
+    "note": "保留原ID、原名与原归类/摘要；其中原审计建议是历史数据，不是本版执行规则。完整原文由来源持有人保存，运行包只含非私密目录行。"
+  },
+  "counts": {
+    "registered_source_rows": 24,
+    "candidate_source_rows": 16,
+    "knowledge_source_rows": 92
+  },
+  "records": [
+    {
+      "id": "R01",
+      "original_name": "韩系冷感杂志风 / Korean Cold Editorial",
+      "original_columns": [
+        "korean-cold-editorial",
+        "冷中性宽软侧光、低饱和、建筑边界与空间分离；原包soft even不应误译为无阴影。",
+        "KEEP；VISUAL VALIDATION REQUIRED（当前六图）"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "korean-cold-editorial"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "R02",
+      "original_name": "北欧极简 / Nordic Minimal",
+      "original_columns": [
+        "nordic-minimal",
+        "冷白窗光、灰白建筑留白与浅软阴影；方向由基准补充，未要求强硬光。",
+        "KEEP；VISUAL VALIDATION REQUIRED（当前六图）"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "nordic-minimal"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "R03",
+      "original_name": "极简基础 / Clean Fit",
+      "original_columns": [
+        "clean-fit",
+        "大面积正侧包裹柔光、低对比高调、浅灰墙地分界。",
+        "KEEP；VISUAL VALIDATION REQUIRED（当前六图）"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "clean-fit"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "R04",
+      "original_name": "静奢风 / Quiet Luxury",
+      "original_columns": [
+        "quiet-luxury",
+        "帘侧光、奶油灰褐浅石、中性柔阴与当代触感。",
+        "KEEP；VISUAL VALIDATION REQUIRED（当前六图）"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "quiet-luxury"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "R05",
+      "original_name": "老钱风 / Old Money",
+      "original_columns": [
+        "old-money",
+        "中性侧窗主光、深木后景、弱暖壁炉点光、古典纵深。",
+        "KEEP；VISUAL VALIDATION REQUIRED（当前六图）"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "old-money"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "R06",
+      "original_name": "英伦传承 / British Heritage",
+      "original_columns": [
+        "british-heritage",
+        "阴天柔光、乡间石墙、橄榄棕与暖灯弱点；影调有层次。",
+        "KEEP；VISUAL VALIDATION REQUIRED（当前六图）"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "british-heritage"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "R07",
+      "original_name": "意式奢华 / Italian Luxe",
+      "original_columns": [
+        "italian-luxe",
+        "暖金自然侧光、暖石回廊与丰富色彩、高光细节和纵深。",
+        "KEEP；VISUAL VALIDATION REQUIRED（当前六图）"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "italian-luxe"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "R08",
+      "original_name": "美式学院 / Preppy",
+      "original_columns": [
+        "preppy",
+        "清爽日间侧前光、柔影、校园石墙/林荫与低饱和点色。",
+        "CATEGORY ADAPTATION；VISUAL VALIDATION REQUIRED（当前六图）"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "preppy"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "R09",
+      "original_name": "日系生活感 / Japanese Lifestyle",
+      "original_columns": [
+        "japanese-lifestyle",
+        "暖白侧窗柔光、原木沙发、生活前中后景与细颗粒。",
+        "KEEP；VISUAL VALIDATION REQUIRED（当前六图）"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "japanese-lifestyle"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "R10",
+      "original_name": "法式松弛 / French Effortless",
+      "original_columns": [
+        "french-effortless",
+        "暖中性侧窗日光、轻颗粒、巴黎居室/石路、温和明暗。",
+        "KEEP；VISUAL VALIDATION REQUIRED（当前六图）"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "french-effortless"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "R11",
+      "original_name": "都市宽松男装 / Cityboy",
+      "original_columns": [
+        "cityboy",
+        "柔城市侧前光、店内稍暗、低对比正常曝光、街咖生活。",
+        "CATEGORY ADAPTATION；VISUAL VALIDATION REQUIRED（当前六图）"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "cityboy"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "R12",
+      "original_name": "芭蕾柔美 / Balletcore",
+      "original_columns": [
+        "balletcore",
+        "粉白雾灰低对比窗光、练功房木地板、轻盈留白。",
+        "REVIEW REQUIRED；VISUAL VALIDATION REQUIRED（当前六图）"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "balletcore"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "R13",
+      "original_name": "甜美名媛 / Coquette Ladylike",
+      "original_columns": [
+        "coquette-ladylike",
+        "奶油粉香槟柔窗光、浅沙龙与精致周边层次。",
+        "REVIEW REQUIRED；VISUAL VALIDATION REQUIRED（当前六图）"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "coquette-ladylike"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "R14",
+      "original_name": "美式街头 / American Street",
+      "original_columns": [
+        "american-street",
+        "城市自然/环境光、暗墙衬主体、低饱和街巷纵深、小色点。",
+        "CATEGORY ADAPTATION；VISUAL VALIDATION REQUIRED（当前六图）"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "american-street"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "R15",
+      "original_name": "国潮街头 / Guochao Street",
+      "original_columns": [
+        "guochao-street",
+        "自然侧光/可选霓虹、黑红水泥灰、现代中式街巷与高对比。",
+        "KEEP；VISUAL VALIDATION REQUIRED（当前六图）"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "guochao-street"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "R16",
+      "original_name": "千禧 Y2K / Y2K Millennium",
+      "original_columns": [
+        "y2k-millennium",
+        "闪光/霓虹补光、银灰粉蓝背景、反光亮点和中高对比。",
+        "KEEP；VISUAL VALIDATION REQUIRED（当前六图）"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "y2k-millennium"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "R17",
+      "original_name": "运动休闲 / Athleisure",
+      "original_columns": [
+        "athleisure",
+        "清爽微冷高明度自然日光、滨江或训练窗景、通透层次。",
+        "CATEGORY ADAPTATION；VISUAL VALIDATION REQUIRED（当前六图）"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "athleisure"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "R18",
+      "original_name": "山系机能 / Gorpcore",
+      "original_columns": [
+        "gorpcore",
+        "冷中性阴天漫射光、岩地/森林前中后景、苔绿石灰土色。",
+        "CATEGORY ADAPTATION；VISUAL VALIDATION REQUIRED（当前六图）"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "gorpcore"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "R19",
+      "original_name": "复古工装 / Workwear Vintage",
+      "original_columns": [
+        "workwear-vintage",
+        "暖灰窗光、低饱和靛蓝铁锈、木金属工坊空间。",
+        "CATEGORY ADAPTATION；VISUAL VALIDATION REQUIRED（当前六图）"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "workwear-vintage"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "R20",
+      "original_name": "韩式男装 / Korean Menswear",
+      "original_columns": [
+        "korean-menswear",
+        "冷灰城市侧上漫射光、窄柔影、黑白灰立面与克制曝光。",
+        "KEEP；VISUAL VALIDATION REQUIRED（当前六图）"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "korean-menswear"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "R21",
+      "original_name": "职场通勤女装 / Office Commute Women",
+      "original_columns": [
+        "office-commute-women",
+        "大堂侧前窗光、标准曝光、中低对比、职业环境低干扰。",
+        "KEEP；VISUAL VALIDATION REQUIRED（当前六图）"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "office-commute-women"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "R22",
+      "original_name": "新中式 / Neo Chinese",
+      "original_columns": [
+        "neo-chinese",
+        "柔侧窗光、茶棕墨色、深木背景疏影与清楚商品轮廓。",
+        "KEEP；VISUAL VALIDATION REQUIRED（当前六图）"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "neo-chinese"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "R23",
+      "original_name": "度假 / Resort Vacation",
+      "original_columns": [
+        "resort-vacation",
+        "明亮海岸侧逆光/叶影、海蓝沙白、空气感高光不过曝。",
+        "CATEGORY ADAPTATION；VISUAL VALIDATION REQUIRED（当前六图）"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "resort-vacation"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "R24",
+      "original_name": "电商棚拍 / E-commerce Studio",
+      "original_columns": [
+        "ecommerce-studio",
+        "左上大柔主光＋右侧约1/3补光、鞋下接触影、白灰背景渐变、六张一致。",
+        "REVIEW REQUIRED；VISUAL VALIDATION REQUIRED（当前六图）"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "ecommerce-studio"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "A01",
+      "original_name": "田园居家 / Cottagecore Home",
+      "original_columns": [
+        "现有风格子方向＋场景预设",
+        "Japanese/French/Workwear已有自然家居；乡村厨房与花园可用场景表达",
+        "围裙/棉麻/家居；不加碎花蕾丝；与日系同商品对比乡村材质/窗光，先验场景需求"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "A02",
+      "original_name": "温馨舒适 / Cozy Hygge",
+      "original_columns": [
+        "场景/摄影预设",
+        "Nordic/Japanese/Quiet Luxury可表达温暖舒适；不是新衣物质感",
+        "针织/家居；不新增毛毯遮商品；验暖灯与窗光同时保原色"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "A03",
+      "original_name": "日系可爱生活 / Kawaii Lifestyle",
+      "original_columns": [
+        "Japanese Lifestyle子方向",
+        "可爱情绪/色点尚不足独立包；区别Coquette成人社交",
+        "成人可爱家居/适龄童装；不幼态性化/加蝴蝶结；验可爱且身体动作仍成立"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "A04",
+      "original_name": "婚礼空灵 / Bridal Ethereal",
+      "original_columns": [
+        "独立风格候选，暂不注册",
+        "当前多包anti婚纱，婚礼空灵白纱光/空间有潜在缺口；先做婚纱profile",
+        "真实婚纱；不改变纱层拖尾；同商品比较既有保守棚拍和新方向，分别验白纱高光/结构/Pose"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "bridal-ethereal"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "A05",
+      "original_name": "晚宴华丽 / Evening Glamour",
+      "original_columns": [
+        "Italian Luxe子方向＋摄影预设",
+        "晚间高光/华丽与意式暖奢可分层，不先注册",
+        "礼服珠饰；不加露肤珠宝；验点光下原色/珠饰/面部自然"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "A06",
+      "original_name": "美式复古生活 / Retro Americana",
+      "original_columns": [
+        "American Street/Workwear子方向＋场景预设",
+        "美式厨房、diner或郊区生活不同于街潮，但可先显式环境与色彩",
+        "围裙/牛仔/休闲；不强街头、不加年代服装；验室内生活区别"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "retro-americana"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "A07",
+      "original_name": "浪漫波西米亚 / Romantic Bohemian",
+      "original_columns": [
+        "独立风格候选，暂不注册",
+        "自由自然、织物空气感/旷野构图比现Resort/French更明确时才成立",
+        "飘逸裙/棉麻；流苏刺绣仅源已有；同商品风/环境与商品廓形各验，不能靠新增流苏区分"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "romantic-bohemian"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "A08",
+      "original_name": "暗黑学院 / Dark Academia",
+      "original_columns": [
+        "British Heritage/Preppy子方向",
+        "深书房与低调学术已覆盖，别把暗改成细节不可见",
+        "针织/西装；不加书/领带/制服；验暗环境仍有商品纹理"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "A09",
+      "original_name": "哥特另类服饰 / Gothic Alternative",
+      "original_columns": [
+        "独立风格候选，暂不注册",
+        "暗建筑、冷光/戏剧明暗与反叛情绪有潜在独立需求，现无正式包",
+        "成人已有哥特类服饰/基础装；不补蕾丝十字装饰；与Y2K/Heritage同商品验证"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "gothic-editorial"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "A10",
+      "original_name": "未来机能视觉 / Futuristic Techwear",
+      "original_columns": [
+        "Gorpcore/Y2K子方向，独立性待证",
+        "技术环境和数码反射可组合，但不能把非注册cyber-tech族当已有包",
+        "功能外套；不新增机能带/装甲/发光服装；验未来环境与真实面料"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "future-artificial-light"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "A11",
+      "original_name": "梦核超现实方案 / Dreamcore Surreal",
+      "original_columns": [
+        "暂不新增正式商品风格",
+        "超现实空间易损支撑/透视/商品可读，与当前保真交付目标张力大",
+        "未来仅明确创意预览；实物结构与摄影自然度不适合共用验收，不自动开放"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "surreal-space-ad"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "A12",
+      "original_name": "装饰艺术华丽方案 / Art Deco Glamour",
+      "original_columns": [
+        "场景预设＋Italian Luxe子方向",
+        "几何装饰/黄铜建筑可以是背景，不足以证明新美学必要",
+        "礼服/西装；不向服装添金线；验背景几何不抢商品"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "art-deco-set"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "A13",
+      "original_name": "胶片摄影 / Analog Film",
+      "original_columns": [
+        "摄影预设",
+        "French/Japanese/Korean已有不同胶片触感；颗粒不是服饰风格",
+        "适用多类；不把漏光/色偏遮纹理；验色彩与细节后才用"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "A14",
+      "original_name": "专业运动动态摄影 / Performance Dynamic",
+      "original_columns": [
+        "摄影/动作预设＋专业品类Profile",
+        "运动动作不是新服装审美；Athleisure视觉可复用",
+        "训练/户外；独立动作能力与安全，不能改六姿势；验肢体支撑与衣物功能部件"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "A15",
+      "original_name": "温馨家庭纪实 / Family Natural",
+      "original_columns": [
+        "品类/主体组合Profile＋场景预设",
+        "亲子多主体改变single model与账本边界，非新增配色包能解决",
+        "成人/儿童衣物与身份分别标注；当前不承诺多主体生成；先定义数量/参考/安全与验收"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "A16",
+      "original_name": "现代职业生活 / Modern Worklife",
+      "original_columns": [
+        "Office/Cityboy子方向＋场景预设",
+        "现代工作节奏已部分覆盖，不需一个新slug解决",
+        "通勤/工服；不加工牌电脑遮商品；验自然行动与职业氛围区别"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K001",
+      "original_name": "极简主义 / Minimalism",
+      "original_columns": [
+        "广义美学参考",
+        "留白、少量元素、有限配色；不等同现有Clean Fit或北欧包"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K002",
+      "original_name": "包豪斯 / Bauhaus",
+      "original_columns": [
+        "平面／空间设计参考",
+        "基础几何、原色与功能性；服装不得因此重设计"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K003",
+      "original_name": "瑞士国际主义 / Swiss Style",
+      "original_columns": [
+        "排版／平面设计参考",
+        "网格、无衬线字与有序布局；不是模特姿势方案"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K004",
+      "original_name": "粗野主义 / Brutalism",
+      "original_columns": [
+        "图形／空间美学参考",
+        "原始结构、强对比、实验大字；建筑与平面用法需分开"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K005",
+      "original_name": "孟菲斯 / Memphis Design",
+      "original_columns": [
+        "图形／布景参考",
+        "趣味几何、撞色、波点与波浪；只作用获准的视觉层"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K006",
+      "original_name": "波普艺术 / Pop Art",
+      "original_columns": [
+        "图形／创意海报参考",
+        "漫画网点、纯色与重复图像；不当作准确商品细节证据"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K007",
+      "original_name": "酸性设计 / Acid Graphics",
+      "original_columns": [
+        "实验图形参考",
+        "荧光色、变形字体与高密度排版；不自动改服装图案"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K008",
+      "original_name": "风格派 / De Stijl",
+      "original_columns": [
+        "图形／空间参考",
+        "原色、黑线与矩形分割；不能与包豪斯作为同义词"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K009",
+      "original_name": "新艺术运动 / Art Nouveau",
+      "original_columns": [
+        "独立美学知识／候选",
+        "植物曲线、有机装饰与复古海报语言；与Art Deco分列"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K010",
+      "original_name": "装饰艺术 / Art Deco",
+      "original_columns": [
+        "独立美学知识／候选",
+        "几何、对称和装饰感；与服饰化Art Deco Glamour有关但不等同"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "art-deco-set"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K011",
+      "original_name": "巴洛克 / Baroque",
+      "original_columns": [
+        "古典戏剧视觉参考",
+        "戏剧明暗、动态与繁复空间；不能增加原衣装饰"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K012",
+      "original_name": "洛可可 / Rococo",
+      "original_columns": [
+        "古典装饰视觉参考",
+        "粉彩、曲线与精巧装饰；不要以甜美为由改衣"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K013",
+      "original_name": "哥特建筑／历史美学 / Gothic",
+      "original_columns": [
+        "历史空间美学参考",
+        "尖拱、彩窗和宗教建筑语汇；与当代哥特服饰不画等号"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "gothic-editorial"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K014",
+      "original_name": "维多利亚视觉 / Victorian",
+      "original_columns": [
+        "年代／装饰参考",
+        "古董、雕花、蕾丝等原讨论元素；服装细节仍以源图为准"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K015",
+      "original_name": "新古典主义 / Neoclassicism",
+      "original_columns": [
+        "古典空间／艺术参考",
+        "古典柱式、雕塑感与均衡；不代表服装会自动变礼服"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K016",
+      "original_name": "世纪中期现代 / Mid-century Modern",
+      "original_columns": [
+        "年代／空间设计参考",
+        "原讨论含焦橙、橄榄绿、木材和简化曲线"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "retro-americana"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K017",
+      "original_name": "70年代复古 / 1970s Retro",
+      "original_columns": [
+        "年代摄影／场景候选",
+        "暖色、复古家居、壁纸与怀旧气氛；保留与50年代的区别"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "retro-americana"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K018",
+      "original_name": "法式复古 / French Vintage",
+      "original_columns": [
+        "年代摄影候选",
+        "前期模板所提的法式怀旧方向；不与French Effortless直接合并"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K019",
+      "original_name": "60年代Mod / Mod",
+      "original_columns": [
+        "服饰年代知识候选",
+        "补入曾遗漏的60年代服饰视觉；细化设计卡需另行研究"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K020",
+      "original_name": "太空时代 / Space Age",
+      "original_columns": [
+        "服饰年代／未来想象候选",
+        "原讨论为几何、白银与太空想象；不等同Y2K或赛博朋克"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K021",
+      "original_name": "侘寂 / Wabi-Sabi",
+      "original_columns": [
+        "生活／空间美学候选",
+        "自然肌理、非对称与时间痕迹；不得让新衣被做旧"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K022",
+      "original_name": "日式北欧融合 / Japandi",
+      "original_columns": [
+        "生活／空间美学候选",
+        "日式与北欧融合的温润木质与克制空间；不是侘寂同义词"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K023",
+      "original_name": "北欧温馨表达 / Scandinavian Hygge",
+      "original_columns": [
+        "复合生活视觉方向",
+        "对话中围裙方案使用的北欧舒适方向；不等同现有冷白北欧包"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K024",
+      "original_name": "禅意 / Zen",
+      "original_columns": [
+        "空间／情绪参考",
+        "克制、留白、静谧；不把它当所有东方文化的通用替代"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K025",
+      "original_name": "有机现代 / Organic Modern",
+      "original_columns": [
+        "生活／空间美学候选",
+        "现代造型、木石肌理、有机曲线；不改变商品材质"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K026",
+      "original_name": "地中海 / Mediterranean",
+      "original_columns": [
+        "地域空间／生活参考",
+        "白墙、拱门、陶砖与海蓝等原讨论元素"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K027",
+      "original_name": "波西米亚 / Bohemian",
+      "original_columns": [
+        "广义美学知识",
+        "编织、自然与自由浪漫；已有商品才表现相关服装元素"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "romantic-bohemian"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K028",
+      "original_name": "都市日常生活 / Urban Lifestyle",
+      "original_columns": [
+        "日常场景／摄影候选",
+        "城市街头与咖啡馆等生活环境；不默认绑定模特性别"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K029",
+      "original_name": "东方极简 / Eastern Minimalism",
+      "original_columns": [
+        "复合空间参考",
+        "当代东方空间与留白；不能自动等同新中式或水墨"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K030",
+      "original_name": "空灵幻想 / Ethereal Aesthetic",
+      "original_columns": [
+        "光影／情绪美学参考",
+        "柔光、薄雾与超凡感；与婚礼空灵不是同义词"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "bridal-ethereal"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K031",
+      "original_name": "梦核 / Dreamcore",
+      "original_columns": [
+        "互联网美学知识／创意候选",
+        "梦境、记忆、熟悉空间的非现实感；与复合Dreamcore Surreal分列"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "surreal-space-ad"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K032",
+      "original_name": "怪核 / Weirdcore",
+      "original_columns": [
+        "互联网创意知识",
+        "异常组合、低清、陌生感；不作为真实商品清晰度规范"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K033",
+      "original_name": "阈限空间 / Liminal Space",
+      "original_columns": [
+        "空间／情绪参考",
+        "空旷过渡空间、空寂与陌生感；非梦核同义词"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "surreal-space-ad"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K034",
+      "original_name": "仙女核 / Fairycore",
+      "original_columns": [
+        "自然奇幻视觉候选",
+        "精灵、森林和微光；不得给实物新增翅膀或装饰"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K035",
+      "original_name": "赛博朋克 / Cyberpunk",
+      "original_columns": [
+        "科幻美学／创意候选",
+        "密集都市、霓虹、雨夜与技术压迫感；保留商品原色与结构"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "future-artificial-light"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K036",
+      "original_name": "太阳朋克 / Solarpunk",
+      "original_columns": [
+        "生态未来视觉候选",
+        "阳光、植物、生态建筑与未来生活；不因背景推断商品环保性能"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K037",
+      "original_name": "合成器浪潮 / Synthwave",
+      "original_columns": [
+        "年代数字美学参考",
+        "复古日落、网格与电子音乐视觉；不是赛博朋克同义词"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K038",
+      "original_name": "蒸汽波 / Vaporwave",
+      "original_columns": [
+        "数字怀旧美学参考",
+        "雕像、旧电脑、粉紫与拼贴；不与蒸汽朋克混淆"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K039",
+      "original_name": "Frutiger Aero / Frutiger Aero",
+      "original_columns": [
+        "数字界面／怀旧视觉参考",
+        "透明、水珠、蓝绿与清澈自然；未核实为裁光方案"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K040",
+      "original_name": "全息未来视觉 / Holographic Futurism",
+      "original_columns": [
+        "光学／数字视觉参考",
+        "虹彩、镭射与折射；服装金属化须有真实商品依据"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "future-artificial-light"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K041",
+      "original_name": "故障艺术 / Glitch Art",
+      "original_columns": [
+        "数字图形／媒介参考",
+        "RGB错位、信号干扰、数字噪声；不破坏需识别的商品细节"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K042",
+      "original_name": "复古未来主义 / Retro-futurism",
+      "original_columns": [
+        "年代未来想象参考",
+        "旧时代想象未来的视觉；区分各年代而非一个固定滤镜"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K043",
+      "original_name": "磁带未来主义 / Cassette Futurism",
+      "original_columns": [
+        "科幻场景参考",
+        "实体按钮、CRT与模拟仪器；不改衣为机能装备"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K044",
+      "original_name": "高幻想 / High Fantasy",
+      "original_columns": [
+        "世界观／概念艺术参考",
+        "魔法王国、史诗城堡与奇幻地景；不是自动服饰生产模式"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K045",
+      "original_name": "暗黑奇幻 / Dark Fantasy",
+      "original_columns": [
+        "世界观／概念艺术参考",
+        "黑暗森林、遗迹与神秘生物；服饰商品仍不可凭空改造"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K046",
+      "original_name": "蒸汽朋克 / Steampunk",
+      "original_columns": [
+        "科幻年代参考",
+        "黄铜、蒸汽机械、维多利亚想象；不增商品齿轮配件"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K047",
+      "original_name": "柴油朋克 / Dieselpunk",
+      "original_columns": [
+        "架空工业参考",
+        "铆钉、机械和工业年代想象；与复古工装不等同"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K048",
+      "original_name": "超现实主义 / Surrealism",
+      "original_columns": [
+        "艺术／创意美学知识",
+        "不可能组合、尺度和空间；创意背景与实物结构验收分开"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "surreal-space-ad"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K049",
+      "original_name": "魔幻现实主义 / Magical Realism",
+      "original_columns": [
+        "叙事创意参考",
+        "现实日常中加入非日常事件；不借此改商品事实"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K050",
+      "original_name": "宇宙恐怖 / Cosmic Horror",
+      "original_columns": [
+        "世界观知识参考",
+        "不可知存在、巨大尺度与压迫感；非当前商业模特默认能力"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K051",
+      "original_name": "生物朋克 / Biopunk",
+      "original_columns": [
+        "科幻知识参考",
+        "生物技术、变异和有机机械；不自动生成活体或变形服装"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K052",
+      "original_name": "印象派 / Impressionism",
+      "original_columns": [
+        "艺术流派／表现参考",
+        "松散笔触、空气感和瞬间光色；不视为商品细节核验图"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K053",
+      "original_name": "表现主义 / Expressionism",
+      "original_columns": [
+        "艺术流派／表现参考",
+        "主观色彩、变形和情绪表达；不强加于商品保真输出"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K054",
+      "original_name": "水彩 / Watercolor",
+      "original_columns": [
+        "绘画媒介",
+        "透明晕染、纸纹与柔边；艺术表现与实物细节证据分开"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "garment-illustration"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K055",
+      "original_name": "油画 / Oil Painting",
+      "original_columns": [
+        "绘画媒介",
+        "油画表现总称；厚涂只是其中一种具体表现"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K056",
+      "original_name": "厚涂油画 / Impasto",
+      "original_columns": [
+        "绘画技法",
+        "厚重颜料与明显肌理；不是衣物真实肌理"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K057",
+      "original_name": "工笔 / Gongbi",
+      "original_columns": [
+        "绘画方法",
+        "精细线描与层层设色；不等同真实刺绣工艺"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "garment-illustration"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K058",
+      "original_name": "水墨 / Ink Wash",
+      "original_columns": [
+        "绘画媒介／表现",
+        "墨色浓淡、晕染、山水留白；与禅意空间非同一层次"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "garment-illustration"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K059",
+      "original_name": "浮世绘 / Ukiyo-e",
+      "original_columns": [
+        "艺术／版画参考",
+        "平面色块、轮廓与版画构图；不泛化为所有日系摄影"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K060",
+      "original_name": "木刻 / Woodcut",
+      "original_columns": [
+        "版画媒介",
+        "刀痕、高对比和印刷纹理；不得作为真实面料纹理证据"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K061",
+      "original_name": "孔版印刷 / Risograph",
+      "original_columns": [
+        "印刷表现",
+        "有限套色、网点、套印错位；适合另行定义的设计输出"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K062",
+      "original_name": "拼贴 / Collage",
+      "original_columns": [
+        "图像组织媒介",
+        "剪纸、旧照片、纹理叠加；不得拼接冒充独立生成成片"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K063",
+      "original_name": "赛璐璐上色 / Cel Shading",
+      "original_columns": [
+        "数字绘画／渲染方法",
+        "清晰轮廓、分区阴影、平涂；非写实商品摄影"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "garment-illustration"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K064",
+      "original_name": "电影感 / Cinematic",
+      "original_columns": [
+        "叙事／摄影表达",
+        "层次、叙事构图和光影；不是自动质量保证词"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K065",
+      "original_name": "黑色电影 / Film Noir",
+      "original_columns": [
+        "电影／摄影表达",
+        "原讨论强调黑白、硬光与悬疑；黑白输出不能核验商品原色"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K066",
+      "original_name": "新黑色电影 / Neo-Noir",
+      "original_columns": [
+        "电影／摄影表达",
+        "对话中与赛博组合的电影氛围；不等同全部Cinematic"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K067",
+      "original_name": "纪实摄影 / Documentary",
+      "original_columns": [
+        "摄影方法",
+        "自然光、非刻意摆拍与生活质感；不取消明确商品展示要求"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K068",
+      "original_name": "时尚编辑摄影 / Editorial Fashion",
+      "original_columns": [
+        "摄影用途／方法",
+        "艺术化人物、造型和叙事；不是独立服装品类"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K069",
+      "original_name": "商业产品摄影 / Product Photography",
+      "original_columns": [
+        "摄影用途／方法",
+        "受控布光、反射与商品展示；与既有电商包有交叉但不等同"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K070",
+      "original_name": "高调摄影 / High-key",
+      "original_columns": [
+        "照明／影调预设",
+        "高亮背景与轻阴影；白色服装需保留可辨结构"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K071",
+      "original_name": "低调摄影 / Low-key",
+      "original_columns": [
+        "照明／影调预设",
+        "暗部占比较高、局部强调；暗不等于细节丢失"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K072",
+      "original_name": "宝丽来／即时成像表达 / Polaroid",
+      "original_columns": [
+        "摄影媒介／外观参考",
+        "即时成像边框、柔焦与怀旧观感；不要求真实胶片来源"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K073",
+      "original_name": "自然光商业摄影 / Natural Light Commercial Photography",
+      "original_columns": [
+        "摄影方法",
+        "以自然窗光或日光规划产品摄影；不与日系生活直接等同"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K074",
+      "original_name": "电影建筑摄影 / Cinematic Architecture",
+      "original_columns": [
+        "跨领域摄影参考",
+        "对话中东方茶室案例的辅助摄影表达；不是服饰专项能力"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K075",
+      "original_name": "黏土3D / Clay 3D",
+      "original_columns": [
+        "数字材料／渲染表现",
+        "圆润、哑光、手作观感；不将真实服装默改黏土"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K076",
+      "original_name": "低多边形 / Low Poly",
+      "original_columns": [
+        "几何／渲染方法",
+        "简化折面、明确多边形；不用于细节保真认证"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K077",
+      "original_name": "等距视角 / Isometric",
+      "original_columns": [
+        "投影／构图方法",
+        "平行投影与结构秩序；不是独立服饰美学"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K078",
+      "original_name": "微缩景观 / Miniature",
+      "original_columns": [
+        "尺度／摄影表现",
+        "模型尺度与浅景深；背景微缩不代表商品尺寸真实"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K079",
+      "original_name": "剪纸层叠 / Paper Cut",
+      "original_columns": [
+        "手工／立体媒介",
+        "层叠纸边与阴影；与图片排版联系表区别"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K080",
+      "original_name": "液态金属 / Liquid Chrome",
+      "original_columns": [
+        "数字材料表现",
+        "镜面反射、流动金属；只能作用获准背景/创意层"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K081",
+      "original_name": "玻璃拟态 / Glassmorphism",
+      "original_columns": [
+        "界面／数字材料语言",
+        "半透明与背景模糊；不是服装透度规则"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K082",
+      "original_name": "新拟态 / Neumorphism",
+      "original_columns": [
+        "界面视觉语言",
+        "柔和阴影与浮雕界面；不把UI审美计成服装风格"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K083",
+      "original_name": "虹彩材质 / Iridescent",
+      "original_columns": [
+        "光学／数字材料表现",
+        "随角度变化的珠光与虹彩观感；不得改商品面料"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K084",
+      "original_name": "西部／牛仔文化视觉 / Western / Cowboy / Ranch",
+      "original_columns": [
+        "文化服饰／场景候选",
+        "前轮补充方向，区别美式街头与泛复古工装；细化需真实需求"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K085",
+      "original_name": "朋克／DIY反叛 / Punk / DIY",
+      "original_columns": [
+        "亚文化服饰／图形候选",
+        "拼贴、反叛与DIY表达；不新增衣物破洞、铆钉或别针"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K086",
+      "original_name": "垃圾摇滚 / Grunge",
+      "original_columns": [
+        "音乐亚文化／摄影参考",
+        "做旧纹理、粗粝氛围、地下音乐语汇；不等同朋克或哥特"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K087",
+      "original_name": "先锋／解构服饰表达 / Avant-garde / Deconstructive Fashion",
+      "original_columns": [
+        "服饰知识／摄影候选",
+        "既有不对称与体积需保护；普通商品不能为先锋而重新剪裁"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K088",
+      "original_name": "Lolita服装文化 / Lolita Fashion",
+      "original_columns": [
+        "服饰文化／结构候选",
+        "保留甜系、哥特等分支关系；不与Kawaii/Coquette或cosplay合并"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [
+        "lolita-layered"
+      ],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K089",
+      "original_name": "柔彩童趣 / Playful Pastel",
+      "original_columns": [
+        "色彩／布景方案候选",
+        "早期全品类方案所提柔和亮色与童趣环境；非童装能力认证"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K090",
+      "original_name": "传统文化视觉方案 / Heritage Cultural",
+      "original_columns": [
+        "需具体化的文化／品类方案",
+        "前期总称，不作为单一民族风；实际文化和穿法需具体依据"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K091",
+      "original_name": "当代端庄表达 / Modest Contemporary",
+      "original_columns": [
+        "服饰表达／展示候选",
+        "前期所提端庄剪裁与现代摄影；不自动增加头巾或外袍"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    },
+    {
+      "id": "K092",
+      "original_name": "健康海岸运动 / Coastal Active",
+      "original_columns": [
+        "场景／摄影／品类方案",
+        "前期泳装防晒服方向；不等同已完成泳装安全与动作验收"
+      ],
+      "record_type": "source-reference",
+      "execution_ids": [],
+      "provenance": "audit-catalog-v1.1",
+      "source_status": "historical-description-not-runtime-policy"
+    }
+  ]
+}

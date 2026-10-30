@@ -1,7 +1,7 @@
 # cityboy — 都市宽松男装风(v1 静态批量;纯视觉轴)。
 name: 都市宽松男装 / Cityboy
 slug: cityboy
-version: 0.1.0
+version: 0.1.1
 maturity: DRAFT
 depends_on_core: ">=1.0"
 
@@ -26,7 +26,7 @@ lighting_palette: 光源=柔和城市自然光;方向=侧前方或店窗漫射�
 pose_masters: inherit
 default_mode: C
 
-negative_delta_add: [no exaggerated streetwear, no idol styling, no sharp formal suit look]
+negative_delta_add: [no added exaggerated streetwear styling beyond the reference, no idol styling, no added formal-suit styling beyond the reference garment]
 safety_delta:
   cannot_relax: true
   extra_constraints: []

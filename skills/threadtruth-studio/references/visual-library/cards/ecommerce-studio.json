@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "id": "ecommerce-studio",
+  "version": "0.1.1",
+  "name": "电商棚拍 / E-commerce Studio",
+  "entry_type": "legacy-style",
+  "aliases": [
+    "电商主图",
+    "高转化",
+    "淘宝白底",
+    "棚拍主图",
+    "商品主图人像",
+    "详情页人像"
+  ],
+  "medium": "photography",
+  "purpose_support": [
+    "product-display",
+    "styled-editorial",
+    "art-campaign"
+  ],
+  "status": "draft",
+  "bases": [
+    "ecommerce-studio"
+  ],
+  "source_ids": [
+    "R24"
+  ],
+  "scope": "左上大柔主光、右侧约三分之一补光、真实原色与清楚商品细节。",
+  "distinctive_features": [
+    "左上大柔主光、右侧约三分之一补光、真实原色与清楚商品细节。",
+    "与艺术化广告的概念表达区分；商品清晰度不是转化率证据。"
+  ],
+  "legacy": {
+    "slug": "ecommerce-studio",
+    "pack_path": "references/styles/ecommerce-studio.pack.yaml",
+    "version": "0.1.1",
+    "sha256": "eeb87f80ce3174b59494e6cc0c252044754d7b95fab3ca5dd39aa1d6b850ba85",
+    "maturity": "DRAFT"
+  },
+  "base_policy": "未选新组件时保留旧配方；明确用途/媒介/逐张计划替换冲突段，不能把本卡与旧pack重复累加。",
+  "input_requirements": [
+    "明确当前商品参考及不可改事实；仅展示有依据的视角。",
+    "人物来源与允许调整项沿用当前人物记录；不得把服装图中的人脸自动当作身份授权。"
+  ],
+  "boundaries": [
+    "风格名是已定义摄影配方，不代表该国家全部审美或人物国籍。",
+    "适用品类/anti_categories是默认推荐线索；用户明确保留商品借用摄影时，按实际结构与适龄边界适配，不改成推荐服种。",
+    "当前修订未获得新实图验收，旧样片的接受只保留原范围。"
+  ],
+  "garment_preservation": [
+    "服装和允许搭配分别记录；原商品的版型、衣长、领袖、开合、层次、颜色、材质、图案、标识及配饰以参考为准。",
+    "配色与艺术语言不得给原商品染色、增删装饰、收腰、加长或改变露肤范围。",
+    "身份、年龄、体型与头眼动作由当前人物条件和逐张计划决定，风格名不决定人物国籍、族群或脸型。",
+    "照片只能证明可见特征；手工、手织、手绣、材质成分等来源声明须另有依据。"
+  ],
+  "planning_requirements": [
+    "场景列表给空间候选，不能由其顺序改变逐张动作。",
+    "单张/系列/独立比较/融合按本次意图，多个名称不自动混在一张图。"
+  ],
+  "photography": {
+    "scene": "seamless light-gray studio where the visible floor meets the backdrop in a soft horizon line",
+    "lighting": "one large soft key light from camera-left, slightly above eye level; soft fill from camera-right at about one third of the key so the shadow side stays readable; gentle shadow transition across the garment so weave and construction stay visible; a soft contact shadow where visible shoes meet the floor, with a faint tonal gradient on the seamless backdrop; highlights hold detail; use the same light direction, softness and ratio across the selected series.",
+    "composition": "商品轮廓、开合与可见细节清楚，环境干扰最少；接触关系服从当前出镜形态。 每张按已确认的逐张计划组织。",
+    "palette": "中性白平衡、真实商品色；背景仅使用白或浅灰。 商品原色与饱和度保持不变。"
+  },
+  "prompt_fragment": "本卡审美意图：商品陈列摄影：真实、清晰、易辨认，以结构与质地的可核对性作为画面重点。 摄影内容只使用本次解析后的 photography 字段；人物气质仅按当前人物条件处理，不另行拼接旧 pack 全文。",
+  "art": {
+    "direction": "商品陈列摄影：真实、清晰、易辨认，以结构与质地的可核对性作为画面重点。",
+    "techniques": [],
+    "limits": [
+      "服装和允许搭配分别记录；原商品的版型、衣长、领袖、开合、层次、颜色、材质、图案、标识及配饰以参考为准。",
+      "配色与艺术语言不得给原商品染色、增删装饰、收腰、加长或改变露肤范围。",
+      "身份、年龄、体型与头眼动作由当前人物条件和逐张计划决定，风格名不决定人物国籍、族群或脸型。",
+      "照片只能证明可见特征；手工、手织、手绣、材质成分等来源声明须另有依据。"
+    ]
+  },
+  "negatives": [
+    "不新增商品参考中没有的服装部件、图案、首饰或品牌标识",
+    "不通过拉长身体、缩腰或改变人物年龄制造风格",
+    "不加入广告标题、价格、促销语、品牌口号或海报版式；商品原有文字标识保留",
+    "no heavy editorial mood",
+    "no flat shadowless lighting",
+    "no dramatic shadows hiding product",
+    "no busy background",
+    "no color cast",
+    "no cold detached expression",
+    "no street vibe"
+  ],
+  "acceptance": [
+    "商品与人物事实分别对照原始参考，不能只拿上一次生成图互相核对。",
+    "独立成图满足本次画幅与逐张计划；联系表或预览不能替代独立图片。",
+    "风格差异来自所选视觉手段，不能以改变商品或身份换取差异。",
+    "与艺术化广告的概念表达区分；商品清晰度不是转化率证据。",
+    "光线、色彩与场景的具体特征可在画面中判断；不以名字或形容词代替验收。"
+  ],
+  "evidence": {
+    "visual_status": "unverified",
+    "records": [],
+    "scope": "当前修订尚无实图验收；既有历史记录保留，不自动扩展其接受范围。"
+  },
+  "scene_options": [
+    "seamless light-gray studio where the visible floor meets the backdrop in a soft horizon line",
+    "same studio with a plain white wall panel for leaning and a faint shoulder contact shadow",
+    "same studio with a low white studio block for seated support and feet grounded on the visible floor",
+    "same studio with a seamless off-white floor and backdrop and a soft horizon line",
+    "same studio with a low light-gray block placed clear of the garment silhouette",
+    "same studio with a plain light-gray wall panel, visible floor and clear space for a back-turn pose"
+  ],
+  "default_objective": "product-display",
+  "persona": "neutral approachable expression, relaxed composure, composed catalog attitude",
+  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。neutral approachable expression, relaxed composure, composed catalog attitude"
+}

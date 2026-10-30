@@ -13,9 +13,9 @@
   },
   {
     "id": "rv-anti-fit-3",
-    "type": "anti-fit",
+    "type": "recommendation-fit",
     "input": "(上传厚重大衣) resort",
-    "expect": "厚重大衣 ∈ anti_categories → 提示不匹配"
+    "expect": "anti_categories仅提示此商品不属于该方向的默认推荐，不是服种禁令。用户明确借用摄影时保留当前商品，使用该方向的环境、光线与构图；不改商品、不重复索要已有确认。真正缺失的来源/适龄/动作授权仍按核心门禁处理。"
   },
   {
     "id": "rv-pure-data-4",
@@ -35,8 +35,21 @@
     "input": "(上传半裙) 精致淑女 coquette",
     "expect": "触发隔离:精致淑女/coquette→coquette-ladylike,不落 resort-vacation",
     "assert_triggers": {
-      "coquette-ladylike": {"contains": ["精致淑女"]},
-      "resort-vacation": {"contains": ["度假风"], "excludes": ["精致淑女", "coquette", "千金风"]}
+      "coquette-ladylike": {
+        "contains": [
+          "精致淑女"
+        ]
+      },
+      "resort-vacation": {
+        "contains": [
+          "度假风"
+        ],
+        "excludes": [
+          "精致淑女",
+          "coquette",
+          "千金风"
+        ]
+      }
     }
   },
   {

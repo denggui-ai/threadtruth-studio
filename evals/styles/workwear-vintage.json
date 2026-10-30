@@ -13,9 +13,9 @@
   },
   {
     "id": "wv-anti-fit-3",
-    "type": "anti-fit",
+    "type": "recommendation-fit",
     "input": "(上传芭蕾纱裙) workwear",
-    "expect": "芭蕾纱裙 ∈ anti_categories → 提示不匹配"
+    "expect": "anti_categories仅提示此商品不属于该方向的默认推荐，不是服种禁令。用户明确借用摄影时保留当前商品，使用该方向的环境、光线与构图；不改商品、不重复索要已有确认。真正缺失的来源/适龄/动作授权仍按核心门禁处理。"
   },
   {
     "id": "wv-pure-data-4",
@@ -25,9 +25,9 @@
   },
   {
     "id": "wv-conflict-hold-5",
-    "type": "style-conflict",
+    "type": "explicit-fusion-resolution",
     "input": "(上传服饰) 复古工装混芭蕾柔美",
-    "expect": "第0步检测 workwear-vintage↔balletcore 互斥(router §3)→style-conflict-hold,不生图"
+    "expect": "识别为明确融合意图；为主辅方向分配摄影或艺术字段并形成单一方案，不因旧互斥矩阵要求二选一。主次或字段归属确实无法确定时仅澄清该缺项；服装原貌和人物条件不被融合改写，生成仍按实际动作授权。"
   },
   {
     "id": "wv-action-gate-6",
@@ -41,8 +41,27 @@
     "input": "(上传冲锋衣) 户外机能山系",
     "expect": "触发隔离:户外机能/山系→gorpcore,不落 workwear-vintage",
     "assert_triggers": {
-      "gorpcore": {"contains": ["户外机能"]},
-      "workwear-vintage": {"contains": ["复古工装"], "excludes": ["户外机能", "山系", "gorpcore"]}
+      "gorpcore": {
+        "contains": [
+          "户外机能"
+        ]
+      },
+      "workwear-vintage": {
+        "contains": [
+          "复古工装"
+        ],
+        "excludes": [
+          "户外机能",
+          "山系",
+          "gorpcore"
+        ]
+      }
     }
+  },
+  {
+    "id": "wv-source-military-10",
+    "type": "source-preservation-regression",
+    "input": "这件本来有军装元素的外套借用复古工装摄影",
+    "expect": "保留商品已有军装部件；只禁止额外军用装备、标识与场景，不凭风格负面词删除实物。"
   }
 ]

@@ -12,7 +12,7 @@ near-miss / trigger-isolation eval 里写结构化 `assert_triggers`,本工具�
   - NFKC + casefold；trigger 内部空白/连字符/下划线可等价,但 ASCII trigger 保留词边界；
   - 同 slug 等价别名折叠；
   - 严格子串命中淘汰短 trigger；
-  - 最终 0/1/≥2 个 slug 分别判 none/route/hold。
+  - 候选进一步按明确否定、比较、主辅与地域歧义判断；有限词法辅助不代替完整语义核对。
   - 可选 `rule_hits` 还会机械断言同 pack `STYLE_EXPLICIT` 只加权一次,
     以及未被显式 trigger 消费的 `USE_ECOM_STUDIO` 用途命中。
 
@@ -94,50 +94,22 @@ def load_landed_packs():
 
 
 def route_query(packs, query):
-    """按 style-router §2 第 0 步返回确定性显式风格路由结果。"""
-    query_text = unicodedata.normalize("NFKC", str(query)).casefold()
-    # 先按 (slug,规范化 trigger,query span) 折叠同包等价别名；同一个短词在
-    # query 的独立位置必须保留，不能因为它也出现在另一处长词内部就被全局淘汰。
-    occurrences = {}
-    for slug, pdata in packs.items():
-        for term in pdata["raw"]:
-            nt = norm(term)
-            pattern = trigger_pattern(term)
-            if not nt or pattern is None:
-                continue
-            for match in pattern.finditer(query_text):
-                pos, end = match.span()
-                occurrences.setdefault(
-                    (slug, nt, pos, end),
-                    {"slug": slug, "term": term, "norm": nt, "start": pos, "end": end},
-                )
+    """Use the same bounded selection/comparison/fusion helper as the runtime.
 
-    matches = list(occurrences.values())
-    # 只有短命中的 query span 被同一位置的更长命中完整覆盖时才淘汰。不同位置
-    # 的显式短词保留，例如“美式和美式学院融合”应留下两个 slug 并进入 hold。
-    surviving_occurrences = [
-        item for item in matches
-        if not any(
-            item["norm"] != other["norm"]
-            and other["start"] <= item["start"]
-            and item["end"] <= other["end"]
-            for other in matches
-        )
-    ]
-    # 同一 slug/规范化 trigger 即使在 query 重复出现，也只记一个显式 hit。
-    longest = {}
-    for item in sorted(
-        surviving_occurrences,
-        key=lambda x: (x["start"], x["end"], x["slug"], x["term"].casefold()),
-    ):
-        longest.setdefault((item["slug"], item["norm"]), item)
-    longest = sorted(
-        longest.values(),
-        key=lambda item: (item["slug"], item["norm"], item["start"], item["term"].casefold()),
-    )
-    slugs = sorted({item["slug"] for item in longest})
-    decision = "none" if not slugs else ("route" if len(slugs) == 1 else "hold")
-    return {"decision": decision, "slugs": slugs, "matches": longest}
+    packs remains the source for legacy trigger ownership/score assertions.
+    Knowledge records are not loaded as execution entries.
+    """
+    import importlib.util
+    from pathlib import Path
+    spec = importlib.util.spec_from_file_location('trigger_visual_library',
+        Path(SKILL_ROOT) / 'scripts' / 'visual_library.py')
+    library = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(library)
+    result = library.route(query, Path(SKILL_ROOT))
+    matches = [dict(slug=item['id'], term=item['term'], norm=norm(item['term']),
+                    start=item['start'], end=item['end']) for item in result['matches']]
+    return dict(decision=result['decision'], slugs=sorted(result['entry_ids']),
+                matches=matches, primary=result.get('primary'), navigation=result.get('navigation', []))
 
 
 def score_rule_hits(packs, query, routed):
@@ -196,13 +168,13 @@ def run_style_route_evals(packs):
             continue
         want_decision = expected.get("decision")
         want_slugs = expected.get("slugs")
-        if want_decision not in {"route", "hold", "none"} or not isinstance(want_slugs, list):
-            hard.append(f"{eid}: expected.decision 必须为 route/hold/none 且 expected.slugs 必须为 list")
+        if want_decision not in {"route", "hold", "none", "compare", "fusion"} or not isinstance(want_slugs, list):
+            hard.append(f"{eid}: expected.decision 必须为 route/hold/none/compare/fusion 且 expected.slugs 必须为 list")
             continue
         expected_slug_count = len(set(str(slug) for slug in want_slugs))
         if ((want_decision == "none" and expected_slug_count != 0)
                 or (want_decision == "route" and expected_slug_count != 1)
-                or (want_decision == "hold" and expected_slug_count < 2)):
+                or (want_decision in {"compare", "fusion"} and expected_slug_count < 2)):
             hard.append(f"{eid}: expected.decision={want_decision} 与 slugs={want_slugs} 数量不一致")
             continue
         got = route_query(packs, query)

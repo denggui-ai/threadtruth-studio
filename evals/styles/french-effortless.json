@@ -13,9 +13,9 @@
   },
   {
     "id": "fr-anti-fit-3",
-    "type": "anti-fit",
+    "type": "recommendation-fit",
     "input": "(上传瑜伽服) 法式松弛",
-    "expect": "瑜伽服 ∈ anti_categories → 提示不匹配,改推 athleisure 或确认"
+    "expect": "anti_categories仅提示此商品不属于该方向的默认推荐，不是服种禁令。用户明确借用摄影时保留当前商品，使用该方向的环境、光线与构图；不改商品、不重复索要已有确认。真正缺失的来源/适龄/动作授权仍按核心门禁处理。"
   },
   {
     "id": "fr-pure-data-4",
@@ -35,8 +35,21 @@
     "input": "(上传针织衫) 无印风日系日常生活感",
     "expect": "🔴触发隔离:『无印风/日系』→japanese-lifestyle;french-effortless 自有『法式/松弛感/巴黎/慵懒法式』属巴黎慵懒,刻意不含『日系/无印风/生活感』,防『松弛日常』泛化把日系误落法式",
     "assert_triggers": {
-      "japanese-lifestyle": {"contains": ["无印风"]},
-      "french-effortless": {"contains": ["法式"], "excludes": ["日系", "无印风", "生活感"]}
+      "japanese-lifestyle": {
+        "contains": [
+          "无印风"
+        ]
+      },
+      "french-effortless": {
+        "contains": [
+          "法式"
+        ],
+        "excludes": [
+          "日系",
+          "无印风",
+          "生活感"
+        ]
+      }
     }
   }
 ]

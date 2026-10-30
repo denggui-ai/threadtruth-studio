@@ -13,9 +13,9 @@
   },
   {
     "id": "cf-anti-fit-3",
-    "type": "anti-fit",
+    "type": "recommendation-fit",
     "input": "(上传婚纱) 极简基础",
-    "expect": "婚纱 ∈ anti_categories → 提示风格×品类不匹配(极简基础不适配婚纱礼服),请确认或改推"
+    "expect": "anti_categories仅提示此商品不属于该方向的默认推荐，不是服种禁令。用户明确借用摄影时保留当前商品，使用该方向的环境、光线与构图；不改商品、不重复索要已有确认。真正缺失的来源/适龄/动作授权仍按核心门禁处理。"
   },
   {
     "id": "cf-pure-data-4",
@@ -35,8 +35,21 @@
     "input": "(上传针织衫) 暖调无印日系生活感",
     "expect": "🔴触发隔离:『无印/日系/生活感』→japanese-lifestyle(暖调自然光无印生活底色);clean-fit 自有『极简基础/极简版型/基础款』属冷调中性极简,刻意不含『日系/无印风』(暖调无印属 japanese)与『性冷淡』(属 korean;完整词『性冷淡极简』属已落地 nordic-minimal);区分冷调极简 vs 暖调无印,不得输出路线图警告",
     "assert_triggers": {
-      "japanese-lifestyle": {"contains": ["日系"]},
-      "clean-fit": {"contains": ["极简基础"], "excludes": ["日系", "无印风", "性冷淡"]}
+      "japanese-lifestyle": {
+        "contains": [
+          "日系"
+        ]
+      },
+      "clean-fit": {
+        "contains": [
+          "极简基础"
+        ],
+        "excludes": [
+          "日系",
+          "无印风",
+          "性冷淡"
+        ]
+      }
     }
   },
   {
@@ -45,7 +58,15 @@
     "input": "(上传针织衫) 想要性冷淡极简那种冷淡感",
     "expect": "🔴触发隔离(近邻命门):完整短语『性冷淡极简』→已落地 nordic-minimal,不落 clean-fit 也不因较短『性冷淡』误落 korean;clean-fit 自有『极简基础/极简版型』,裸『极简』只作 §5 SILH_MINIMAL_CLEAN 评分词;路由不得输出路线图警告",
     "assert_triggers": {
-      "clean-fit": {"contains": ["极简基础"], "excludes": ["极简", "性冷淡极简"]}
+      "clean-fit": {
+        "contains": [
+          "极简基础"
+        ],
+        "excludes": [
+          "极简",
+          "性冷淡极简"
+        ]
+      }
     }
   },
   {

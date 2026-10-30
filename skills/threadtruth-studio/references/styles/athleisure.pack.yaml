@@ -1,7 +1,7 @@
 # athleisure — 运动休闲风(Wave 2 #1;验"加风格=纯数据,零改 core")。
 name: 运动休闲 / Athleisure
 slug: athleisure
-version: 0.1.0
+version: 0.1.1
 maturity: DRAFT
 depends_on_core: ">=1.0"
 
@@ -19,8 +19,8 @@ scenes:
   - 城市晨跑滨江步道
   - 极简健身房落地窗
   - 瑜伽 studio 木地板
-  - 街区咖啡外带快走
-  - 公园草坪拉伸热身
+  - 街区咖啡店外步道
+  - 公园草坪运动空间
   - loft 训练角落
 lighting_palette: 自然日光为主,清爽中性微冷,通透高明度
 pose_masters: inherit

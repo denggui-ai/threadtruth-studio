@@ -1,5 +1,7 @@
 # 裁光 · Caiguang
 
+**2026-10-18 source candidate — visual acceptance not passed:** the studio redesign retains 24 directions and adds 12 execution entries for product display, styled editorials and art campaigns. All 36 entries remain DRAFT. Source checks passed; visual and end-to-end acceptance did not all pass. Three paired samples do not establish overall improvement; the child six-image set failed, and the web six-image and reuse workflows are unfinished. Real-person cases are deferred. The candidate is not installed; public downloads and historical galleries below retain their original scope. [Current verification limits](docs/COMPATIBILITY.md#current-source-candidate--当前源码候选) · [Source capabilities](docs/CAPABILITIES.md).
+
 **AI Fashion Studio · 服饰 AI 影棚**
 
 **Current prerelease: beta.14.** Model-reference reuse and a compact conversation flow are included: one proposal, one confirmation, image-first review and single-image closeout. It displays “裁光 · Caiguang” in Codex and keeps `$threadtruth-studio`. Use the [version-matched trial guide](docs/BETA12-TRYOUT.md). Fresh-host testing and stable-release acceptance remain pending; older release assets stay unchanged.

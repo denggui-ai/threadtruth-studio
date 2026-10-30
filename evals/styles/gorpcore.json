@@ -13,9 +13,9 @@
   },
   {
     "id": "go-anti-fit-3",
-    "type": "anti-fit",
+    "type": "recommendation-fit",
     "input": "(上传纱裙) gorpcore",
-    "expect": "芭蕾纱裙 ∈ anti_categories → 提示不匹配"
+    "expect": "anti_categories仅提示此商品不属于该方向的默认推荐，不是服种禁令。用户明确借用摄影时保留当前商品，使用该方向的环境、光线与构图；不改商品、不重复索要已有确认。真正缺失的来源/适龄/动作授权仍按核心门禁处理。"
   },
   {
     "id": "go-pure-data-4",
@@ -25,9 +25,9 @@
   },
   {
     "id": "go-conflict-hold-5",
-    "type": "style-conflict",
+    "type": "explicit-fusion-resolution",
     "input": "(上传服饰) gorpcore 混芭蕾柔美",
-    "expect": "第0步检测 gorpcore↔balletcore 互斥(router §3)→style-conflict-hold,不生图"
+    "expect": "识别为明确融合意图；为主辅方向分配摄影或艺术字段并形成单一方案，不因旧互斥矩阵要求二选一。主次或字段归属确实无法确定时仅澄清该缺项；服装原貌和人物条件不被融合改写，生成仍按实际动作授权。"
   },
   {
     "id": "go-action-gate-6",
@@ -41,8 +41,21 @@
     "input": "(上传瑜伽套装) 运动休闲 athleisure",
     "expect": "触发隔离:运动休闲/athleisure→athleisure,不落 gorpcore",
     "assert_triggers": {
-      "athleisure": {"contains": ["运动休闲"]},
-      "gorpcore": {"contains": ["山系"], "excludes": ["运动休闲", "athleisure", "瑜伽"]}
+      "athleisure": {
+        "contains": [
+          "运动休闲"
+        ]
+      },
+      "gorpcore": {
+        "contains": [
+          "山系"
+        ],
+        "excludes": [
+          "运动休闲",
+          "athleisure",
+          "瑜伽"
+        ]
+      }
     }
   }
 ]

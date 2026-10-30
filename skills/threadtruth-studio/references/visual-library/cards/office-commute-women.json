@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "id": "office-commute-women",
+  "version": "0.1.1",
+  "name": "职场通勤女装 / Office Commute Women",
+  "entry_type": "legacy-style",
+  "aliases": [
+    "职场通勤",
+    "OL通勤",
+    "商务女装",
+    "office commute",
+    "office lady style",
+    "通勤女装"
+  ],
+  "medium": "photography",
+  "purpose_support": [
+    "product-display",
+    "styled-editorial",
+    "art-campaign"
+  ],
+  "status": "draft",
+  "bases": [
+    "office-commute-women"
+  ],
+  "source_ids": [
+    "R21"
+  ],
+  "scope": "侧前窗光、职业环境与亲和清楚的衣装展示。",
+  "distinctive_features": [
+    "侧前窗光、职业环境与亲和清楚的衣装展示。",
+    "与静奢/普通棚拍区分；借办公氛围时不把已确认礼服替换为职业套装。"
+  ],
+  "legacy": {
+    "slug": "office-commute-women",
+    "pack_path": "references/styles/office-commute-women.pack.yaml",
+    "version": "0.1.1",
+    "sha256": "6f566e729d45be10cc8b43d2ee7fc9ac0845a6f394da5af598535c9aefbd3854",
+    "maturity": "DRAFT"
+  },
+  "base_policy": "未选新组件时保留旧配方；明确用途/媒介/逐张计划替换冲突段，不能把本卡与旧pack重复累加。",
+  "input_requirements": [
+    "明确当前商品参考及不可改事实；仅展示有依据的视角。",
+    "人物来源与允许调整项沿用当前人物记录；不得把服装图中的人脸自动当作身份授权。"
+  ],
+  "boundaries": [
+    "风格名是已定义摄影配方，不代表该国家全部审美或人物国籍。",
+    "适用品类/anti_categories是默认推荐线索；用户明确保留商品借用摄影时，按实际结构与适龄边界适配，不改成推荐服种。",
+    "当前修订未获得新实图验收，旧样片的接受只保留原范围。"
+  ],
+  "garment_preservation": [
+    "服装和允许搭配分别记录；原商品的版型、衣长、领袖、开合、层次、颜色、材质、图案、标识及配饰以参考为准。",
+    "配色与艺术语言不得给原商品染色、增删装饰、收腰、加长或改变露肤范围。",
+    "身份、年龄、体型与头眼动作由当前人物条件和逐张计划决定，风格名不决定人物国籍、族群或脸型。",
+    "照片只能证明可见特征；手工、手织、手绣、材质成分等来源声明须另有依据。"
+  ],
+  "planning_requirements": [
+    "场景列表给空间候选，不能由其顺序改变逐张动作。",
+    "单张/系列/独立比较/融合按本次意图，多个名称不自动混在一张图。"
+  ],
+  "photography": {
+    "scene": "写字楼大堂，业务空间整洁，减少无关标识。",
+    "lighting": "侧前方窗光或已选柔棚光，塑形不过分戏剧化，阴影不遮服装结构，标准曝光。",
+    "composition": "清晰易读的展示关系，环境带有工作日节奏，避免过强道具叙事。 每张按已确认的逐张计划组织。",
+    "palette": "环境采用黑白灰、驼色与海军蓝的清爽组合。 商品原色与饱和度保持不变。"
+  },
+  "prompt_fragment": "本卡审美意图：通勤编辑摄影：实用、利落、亲和的职业气质，保留商品原有正式度与装饰。 摄影内容只使用本次解析后的 photography 字段；人物气质仅按当前人物条件处理，不另行拼接旧 pack 全文。",
+  "art": {
+    "direction": "通勤编辑摄影：实用、利落、亲和的职业气质，保留商品原有正式度与装饰。",
+    "techniques": [],
+    "limits": [
+      "服装和允许搭配分别记录；原商品的版型、衣长、领袖、开合、层次、颜色、材质、图案、标识及配饰以参考为准。",
+      "配色与艺术语言不得给原商品染色、增删装饰、收腰、加长或改变露肤范围。",
+      "身份、年龄、体型与头眼动作由当前人物条件和逐张计划决定，风格名不决定人物国籍、族群或脸型。",
+      "照片只能证明可见特征；手工、手织、手绣、材质成分等来源声明须另有依据。"
+    ]
+  },
+  "negatives": [
+    "不新增商品参考中没有的服装部件、图案、首饰或品牌标识",
+    "不通过拉长身体、缩腰或改变人物年龄制造风格",
+    "不加入广告标题、价格、促销语、品牌口号或海报版式；商品原有文字标识保留",
+    "no nightclub styling",
+    "no added formal-gown styling beyond the reference garment",
+    "no distracting office clutter"
+  ],
+  "acceptance": [
+    "商品与人物事实分别对照原始参考，不能只拿上一次生成图互相核对。",
+    "独立成图满足本次画幅与逐张计划；联系表或预览不能替代独立图片。",
+    "风格差异来自所选视觉手段，不能以改变商品或身份换取差异。",
+    "与静奢/普通棚拍区分；借办公氛围时不把已确认礼服替换为职业套装。",
+    "光线、色彩与场景的具体特征可在画面中判断；不以名字或形容词代替验收。"
+  ],
+  "evidence": {
+    "visual_status": "unverified",
+    "records": [],
+    "scope": "当前修订尚无实图验收；既有历史记录保留，不自动扩展其接受范围。"
+  },
+  "scene_options": [
+    "写字楼大堂",
+    "城市街角斑马线",
+    "办公桌旁自然光",
+    "电梯厅金属墙",
+    "咖啡店外通勤场景",
+    "玻璃幕墙建筑前"
+  ],
+  "default_objective": "styled-editorial",
+  "persona": "composed professional confidence, calm focus, approachable poise",
+  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。composed professional confidence, calm focus, approachable poise"
+}

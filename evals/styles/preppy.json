@@ -13,9 +13,9 @@
   },
   {
     "id": "pp-anti-fit-3",
-    "type": "anti-fit",
+    "type": "recommendation-fit",
     "input": "(上传冲锋衣) 美式学院",
-    "expect": "冲锋衣 ∈ anti_categories → 提示风格×品类不匹配,请确认或改推"
+    "expect": "anti_categories仅提示此商品不属于该方向的默认推荐，不是服种禁令。用户明确借用摄影时保留当前商品，使用该方向的环境、光线与构图；不改商品、不重复索要已有确认。真正缺失的来源/适龄/动作授权仍按核心门禁处理。"
   },
   {
     "id": "pp-pure-data-4",
@@ -25,9 +25,9 @@
   },
   {
     "id": "pp-conflict-hold-5",
-    "type": "style-conflict",
+    "type": "explicit-fusion-resolution",
     "input": "(上传服饰) 美式学院混传统英伦",
-    "expect": "第0步真实命中 preppy 与 british-heritage 两个已落地 pack;虽视觉可融合仍停 style-conflict-hold,请确认主风格/融合主次,不生图"
+    "expect": "识别为明确融合意图；为主辅方向分配摄影或艺术字段并形成单一方案，不因旧互斥矩阵要求二选一。主次或字段归属确实无法确定时仅澄清该缺项；服装原貌和人物条件不被融合改写，生成仍按实际动作授权。"
   },
   {
     "id": "pp-action-gate-6",
@@ -41,18 +41,47 @@
     "input": "(上传大衣) 想要传统英伦的格纹传承感",
     "expect": "触发隔离:传统英伦→british-heritage,不落 preppy;preppy 保留美式学院/常春藤 lane",
     "assert_triggers": {
-      "british-heritage": {"contains": ["传统英伦"]},
-      "preppy": {"contains": ["美式学院"], "excludes": ["传统英伦", "英伦传承", "british heritage"]}
+      "british-heritage": {
+        "contains": [
+          "传统英伦"
+        ]
+      },
+      "preppy": {
+        "contains": [
+          "美式学院"
+        ],
+        "excludes": [
+          "传统英伦",
+          "英伦传承",
+          "british heritage"
+        ]
+      }
     }
   },
   {
     "id": "pp-nearmiss-8",
     "type": "trigger-isolation",
     "input": "(上传卫衣) 美式街头风",
-    "expect": "触发隔离:美式/美式街头→american-street,不因『美式』子串误落 preppy 的『美式学院』",
+    "expect": "触发隔离：美式街头→american-street；裸“美式”保留地域歧义，不自动选街头或学院。",
     "assert_triggers": {
-      "american-street": {"contains": ["美式"]},
-      "preppy": {"contains": ["美式学院"], "excludes": ["美式", "美式街头", "american street"]}
+      "american-street": {
+        "contains": [
+          "美式街头"
+        ],
+        "excludes": [
+          "美式"
+        ]
+      },
+      "preppy": {
+        "contains": [
+          "美式学院"
+        ],
+        "excludes": [
+          "美式",
+          "美式街头",
+          "american street"
+        ]
+      }
     }
   },
   {
@@ -60,5 +89,11 @@
     "type": "lighting-signature",
     "input": "(上传海军蓝针织开衫) preppy,C3",
     "expect": "STYLE_VISUAL 保留清爽日间自然光→窗边/林荫侧前方光→柔和轻层次阴影→中低对比明快曝光;不得借学院感新增衬衫、领带、徽章或层叠"
+  },
+  {
+    "id": "pp-source-uniform-10",
+    "type": "source-preservation-regression",
+    "input": "本商品就是有徽章领带的制服，拍美式学院",
+    "expect": "保留源图制服、徽章和领带；禁新增制服组件不能删去已存在组件；人物年龄按已确认条件。"
   }
 ]

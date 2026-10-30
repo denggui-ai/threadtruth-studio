@@ -25,9 +25,9 @@
   },
   {
     "id": "y2k-conflict-hold-5",
-    "type": "style-conflict",
+    "type": "multi-style-intent",
     "input": "(上传服饰) Y2K 老钱风",
-    "expect": "第0步检测 y2k-millennium↔old-money 互斥(router §3)→style-conflict-hold"
+    "expect": "两个名称同时出现且未说明比较或融合：保留两方向，核对本次意图，不自动混合，也不将审美差异判为不可兼容；未获生成授权时不生图。"
   },
   {
     "id": "y2k-action-gate-6",
@@ -41,8 +41,21 @@
     "input": "(上传大衣) 当代静奢 quiet luxury",
     "expect": "触发隔离:quiet luxury/当代静奢→quiet-luxury,不落 y2k",
     "assert_triggers": {
-      "quiet-luxury": {"contains": ["quiet luxury"]},
-      "y2k-millennium": {"contains": ["Y2K"], "excludes": ["quiet luxury", "当代静奢", "静奢风"]}
+      "quiet-luxury": {
+        "contains": [
+          "quiet luxury"
+        ]
+      },
+      "y2k-millennium": {
+        "contains": [
+          "Y2K"
+        ],
+        "excludes": [
+          "quiet luxury",
+          "当代静奢",
+          "静奢风"
+        ]
+      }
     }
   }
 ]

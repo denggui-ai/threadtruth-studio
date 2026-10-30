@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "id": "quiet-luxury",
+  "version": "0.1.1",
+  "name": "静奢风 / Quiet Luxury",
+  "entry_type": "legacy-style",
+  "aliases": [
+    "quiet luxury",
+    "quiet-luxury",
+    "静奢风",
+    "静奢穿搭",
+    "当代静奢"
+  ],
+  "medium": "photography",
+  "purpose_support": [
+    "product-display",
+    "styled-editorial",
+    "art-campaign"
+  ],
+  "status": "draft",
+  "bases": [
+    "quiet-luxury"
+  ],
+  "source_ids": [
+    "R04"
+  ],
+  "scope": "当代简洁空间、触感光影与材料呈现。",
+  "distinctive_features": [
+    "当代简洁空间、触感光影与材料呈现。",
+    "与老钱的历史传承场景区分；原有logo与华丽织物不能被风格删去。"
+  ],
+  "legacy": {
+    "slug": "quiet-luxury",
+    "pack_path": "references/styles/quiet-luxury.pack.yaml",
+    "version": "0.1.0",
+    "sha256": "0c08a5627faa4a604bbaeebcaf1ef855e2ed906d88c8e1d5e9bd89f5c22984d2",
+    "maturity": "DRAFT"
+  },
+  "base_policy": "未选新组件时保留旧配方；明确用途/媒介/逐张计划替换冲突段，不能把本卡与旧pack重复累加。",
+  "input_requirements": [
+    "明确当前商品参考及不可改事实；仅展示有依据的视角。",
+    "人物来源与允许调整项沿用当前人物记录；不得把服装图中的人脸自动当作身份授权。"
+  ],
+  "boundaries": [
+    "风格名是已定义摄影配方，不代表该国家全部审美或人物国籍。",
+    "适用品类/anti_categories是默认推荐线索；用户明确保留商品借用摄影时，按实际结构与适龄边界适配，不改成推荐服种。",
+    "当前修订未获得新实图验收，旧样片的接受只保留原范围。"
+  ],
+  "garment_preservation": [
+    "服装和允许搭配分别记录；原商品的版型、衣长、领袖、开合、层次、颜色、材质、图案、标识及配饰以参考为准。",
+    "配色与艺术语言不得给原商品染色、增删装饰、收腰、加长或改变露肤范围。",
+    "身份、年龄、体型与头眼动作由当前人物条件和逐张计划决定，风格名不决定人物国籍、族群或脸型。",
+    "照片只能证明可见特征；手工、手织、手绣、材质成分等来源声明须另有依据。"
+  ],
+  "planning_requirements": [
+    "场景列表给空间候选，不能由其顺序改变逐张动作。",
+    "单张/系列/独立比较/融合按本次意图，多个名称不自动混在一张图。"
+  ],
+  "photography": {
+    "scene": "极简当代公寓，空间简洁，已有材料之间形成细微差异。",
+    "lighting": "自然柔光保留实际面料表面与体积；商品没有羊绒、丝或精纺羊毛时，以光线呈现现有材质，不替换面料。",
+    "composition": "材料优先的取景与疏密安排；商品缺少典型静奢特征时，以光线与构图表达 material-first 的细腻感。 每张按已确认的逐张计划组织。",
+    "palette": "环境采用灰米、灰褐、奶油与炭灰的中性大地色。 商品原色与饱和度保持不变。"
+  },
+  "prompt_fragment": "本卡审美意图：静奢编辑摄影：当代、内敛、以材料的可见质感为中心，不靠品牌标识或臆造昂贵材质表达。 摄影内容只使用本次解析后的 photography 字段；人物气质仅按当前人物条件处理，不另行拼接旧 pack 全文。",
+  "art": {
+    "direction": "静奢编辑摄影：当代、内敛、以材料的可见质感为中心，不靠品牌标识或臆造昂贵材质表达。",
+    "techniques": [],
+    "limits": [
+      "服装和允许搭配分别记录；原商品的版型、衣长、领袖、开合、层次、颜色、材质、图案、标识及配饰以参考为准。",
+      "配色与艺术语言不得给原商品染色、增删装饰、收腰、加长或改变露肤范围。",
+      "身份、年龄、体型与头眼动作由当前人物条件和逐张计划决定，风格名不决定人物国籍、族群或脸型。",
+      "照片只能证明可见特征；手工、手织、手绣、材质成分等来源声明须另有依据。"
+    ]
+  },
+  "negatives": [
+    "不新增商品参考中没有的服装部件、图案、首饰或品牌标识",
+    "不通过拉长身体、缩腰或改变人物年龄制造风格",
+    "不加入广告标题、价格、促销语、品牌口号或海报版式；商品原有文字标识保留",
+    "no added or invented visible logos",
+    "no added flashy bling",
+    "no added loud print",
+    "no added streetwear details"
+  ],
+  "acceptance": [
+    "商品与人物事实分别对照原始参考，不能只拿上一次生成图互相核对。",
+    "独立成图满足本次画幅与逐张计划；联系表或预览不能替代独立图片。",
+    "风格差异来自所选视觉手段，不能以改变商品或身份换取差异。",
+    "与老钱的历史传承场景区分；原有logo与华丽织物不能被风格删去。",
+    "光线、色彩与场景的具体特征可在画面中判断；不以名字或形容词代替验收。"
+  ],
+  "evidence": {
+    "visual_status": "unverified",
+    "records": [],
+    "scope": "当前修订尚无实图验收；既有历史记录保留，不自动扩展其接受范围。"
+  },
+  "scene_options": [
+    "极简高级公寓与大面积留白",
+    "当代艺术画廊",
+    "极简高级酒店大堂",
+    "落地窗城市天际线室内",
+    "设计师极简工作室",
+    "中性色调棚拍空间"
+  ],
+  "default_objective": "styled-editorial",
+  "persona": "composed quiet confidence, understated modern poise, effortless refinement, no flashiness",
+  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。composed quiet confidence, understated modern poise, effortless refinement, no flashiness"
+}

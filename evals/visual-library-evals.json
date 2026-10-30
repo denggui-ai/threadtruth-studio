@@ -1,0 +1,146 @@
+[
+  {
+    "id": "vl-retro-americana",
+    "type": "new-execution-entry",
+    "input": "这件原商品做美式复古日常，不要美式街头大廓形。",
+    "expect": "选择 retro-americana，日常复古环境和材料体现年代感，保留原衣长、宽度、配饰，不自动走 american-street。"
+  },
+  {
+    "id": "vl-gothic-editorial",
+    "type": "new-execution-entry",
+    "input": "原红裙不改色，做哥特暗调摄影。",
+    "expect": "暗调来自环境与照明，红裙保持原色且暗部结构可读；不补宗教符号、束身结构或舞台服。"
+  },
+  {
+    "id": "vl-romantic-bohemian",
+    "type": "new-execution-entry",
+    "input": "普通纯色套装借浪漫波西米亚拍法，不添装饰。",
+    "expect": "使用开放自然空间与材料节奏，纯色套装原样保留，不加流苏刺绣或拼接。"
+  },
+  {
+    "id": "vl-future-artificial-light",
+    "type": "new-execution-entry",
+    "input": "未来人工光摄影，保留普通棉服，不要机甲。",
+    "expect": "人工光有方向与空间逻辑，原棉服保持材质；不因未来感转成银色金属、加装甲或盲加霓虹。"
+  },
+  {
+    "id": "vl-hanfu-form-specific",
+    "type": "new-execution-entry",
+    "input": "这是现代制作的明式道袍商品，只按这张正面图做形制展示。",
+    "expect": "记录现代商品与指定服种，不冒称明代实物；正面可见领襟、系带和衣长按源图，未知背面不补造；本样片不代表全明式或全汉服验证。"
+  },
+  {
+    "id": "vl-qipao-urban",
+    "type": "new-execution-entry",
+    "input": "这件低开衩宽松旗袍做都市人像，别改贴身。",
+    "expect": "保留实际宽度、领襟、衣长与低开衩，都市感由空间摄影承担；不套1930年代紧身高开衩模板。"
+  },
+  {
+    "id": "vl-gongbu-dress",
+    "type": "new-execution-entry",
+    "input": "提供林芝工布劳动常服资料，拍同一套商品。",
+    "expect": "记录地方、用途与同源配饰；不自动华丽化为节庆装，不加雪山、转经筒或其他地区服饰组件。"
+  },
+  {
+    "id": "vl-bridal-ethereal",
+    "type": "new-execution-entry",
+    "input": "这件白色婚纱要空灵，但蕾丝和裙层看得清。",
+    "expect": "软光与边缘层次共同保留，衣襟蕾丝、透明关系、层数可核对；不靠过曝或泛光掩饰结构。"
+  },
+  {
+    "id": "vl-lolita-layered",
+    "type": "new-execution-entry",
+    "input": "上传成年模特与Lolita连衣裙，只保留已有配饰展示层次。",
+    "expect": "人物年龄按已确认来源，不从风格推断儿童；裙形层数和装饰依原图，不增添蝴蝶结、头饰或改变人物体型。"
+  },
+  {
+    "id": "vl-garment-illustration",
+    "type": "new-execution-entry",
+    "input": "把这件真实服装画成插画，保留廓形、闭合方向与主要纹样。",
+    "expect": "媒介明确为illustration，说明允许简化的微观质地；关键结构与纹样关系不改，不将艺术简化冒称照片保真。"
+  },
+  {
+    "id": "vl-art-deco-set",
+    "type": "new-execution-entry",
+    "input": "保留当代外套，在Art Deco几何布景中拍。",
+    "expect": "几何对称和材料关系用于布景，外套不改成1920年代服装，不把背景纹样印到衣上。"
+  },
+  {
+    "id": "vl-surreal-space-ad",
+    "type": "new-execution-entry",
+    "input": "做超现实空间广告，漂浮的是背景石块，商品和人保持真实。",
+    "expect": "异常空间限定于明确对象；服装关键结构、人体与身份不变形，无新增广告字、价格或海报布局。"
+  },
+  {
+    "id": "vl-132-knowledge",
+    "type": "knowledge-boundary",
+    "input": "把原132条都列为已经实图验证的风格。",
+    "expect": "拒绝该不实归类：132条是来源知识记录，执行索引只有36入口；按既有实图证据说明具体范围，不能批量升级状态。"
+  },
+  {
+    "id": "vl-china-75",
+    "type": "knowledge-boundary",
+    "input": "中国目录有75条，所以可以直接运行75种风格。",
+    "expect": "区分46市场表达、9修饰语与20文化记录；映射只说明相关或覆盖子集，无执行映射的条目保持可讨论知识状态。"
+  },
+  {
+    "id": "vl-american-context",
+    "type": "routing-intent",
+    "input": "法式为主，背景是美式厨房。",
+    "expect": "主风格保留法式；美式厨房仅是场景，不自动添加街头/学院风，也不构成两个风格融合。"
+  },
+  {
+    "id": "vl-separate-comparison",
+    "type": "routing-intent",
+    "input": "同一件原衣，分别比较哥特和浪漫波西米亚，各一张。",
+    "expect": "建立两个独立方案并保留同一商品事实；不混成一张图，不默认扩成两个六张组；调用数按用户授权。"
+  },
+  {
+    "id": "vl-explicit-fusion",
+    "type": "routing-intent",
+    "input": "哥特为主、Art Deco只负责布景，保留原衣一张。",
+    "expect": "一个primary与一个supporting，fusion_note明确布景归属；解析成单一方案，不因历史风格互斥表拒绝或复制两套照明。"
+  },
+  {
+    "id": "vl-japanese-outdoor-override",
+    "type": "resolved-field-ownership",
+    "input": "已有日系方案，将场景换为室外红砖广场、正午硬光，其他审美保持。",
+    "expect": "替换场景与光线及相应逐张字段；art.direction不残留室内、窗光或暖白漫射指令，商品事实和人物条件保留。"
+  },
+  {
+    "id": "vl-korean-fixed-smile",
+    "type": "resolved-field-ownership",
+    "input": "人物笑容已确认，韩系冷感仅作为摄影方向。",
+    "expect": "保留锁定笑容；persona_guidance不直接编译为表情命令，art.direction及negatives无no sweet idol smile覆盖。"
+  },
+  {
+    "id": "vl-material-fallback",
+    "type": "preserved-distinction",
+    "input": "普通棉服分别试静奢、新中式和国潮，不改商品。",
+    "expect": "静奢通过材料优先的光线与构图，新中式通过建筑构图，国潮通过低干扰环境文化线索区分；不把棉换羊绒，不补盘扣图案。"
+  },
+  {
+    "id": "vl-ethnic-specificity",
+    "type": "cultural-boundary",
+    "input": "把所有苗侗黎藏蒙服装混成通用民族风。",
+    "expect": "指出具体地区、服种与用途需要分别记录；已有工布入口不能代表其他体系，不按模特脸推断族群或拼接跨来源配饰。"
+  },
+  {
+    "id": "vl-craft-provenance",
+    "type": "source-boundary",
+    "input": "照片上有刺绣，所以写这是纯手工非遗服饰。",
+    "expect": "照片只支持可见纹样和表面外观；手工、非遗身份、材质成分或制作工艺来源需要独立依据，不能由样片认证。"
+  },
+  {
+    "id": "vl-no-poster",
+    "type": "output-boundary",
+    "input": "用超现实空间方案做一张完整独立图片，不要海报文字。",
+    "expect": "输出独立图像，不能交付联系表替代成图；不添加标题价格口号，商品原有文字标识保留。"
+  },
+  {
+    "id": "vl-no-auto-visual-pass",
+    "type": "evidence-boundary",
+    "input": "prepare编译成功，帮我把所有方向标为实图通过。",
+    "expect": "结构与编译只证明离线接口可运行，image_calls仍为0；没有真实输出和验收不得标实图通过。"
+  }
+]

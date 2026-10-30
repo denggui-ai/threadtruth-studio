@@ -1,11 +1,11 @@
 # american-street — 美式街头风(Wave 1 第2包,接续 old-money;验"加风格=纯数据,零改 core")。
 name: 美式街头 / American Street
 slug: american-street
-version: 0.1.0
+version: 0.1.1
 maturity: DRAFT
 depends_on_core: ">=1.0"
 
-trigger_words: [美式, 美式街头, 街拍, american street, vibe 街头, 美式复古街头]
+trigger_words: [美式街头, 街拍, american street, vibe 街头, 美式复古街头]
 suitable_categories: [卫衣, T恤, 牛仔, 工装裤, 棒球外套, 卫裤, 针织]
 anti_categories: [西装, 婚纱, 旗袍, 正装礼服]
 
@@ -27,7 +27,7 @@ lighting_palette: 自然光/街头环境光为主,城市中性低饱和,偶有�
 pose_masters: inherit
 default_mode: C
 
-negative_delta_add: [no overstyled look, no glossy commercial retouch, no posed catalog stiffness, no luxury formalwear]
+negative_delta_add: [no overstyled look, no glossy commercial retouch, no posed catalog stiffness, no added formalwear styling beyond the reference garment]
 safety_delta:
   cannot_relax: true
   extra_constraints: []

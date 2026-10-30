@@ -1,7 +1,7 @@
 # guochao-street — 国潮街头风(v1 静态批量;纯视觉轴)。
 name: 国潮街头 / Guochao Street
 slug: guochao-street
-version: 0.1.0
+version: 0.1.1
 maturity: DRAFT
 depends_on_core: ">=1.0"
 
@@ -26,7 +26,7 @@ lighting_palette: 自然光/夜景霓虹,黑红/水泥灰/高饱和点缀,街头
 pose_masters: inherit
 default_mode: C
 
-negative_delta_add: [no historical costume, no ceremonial prop, no overbusy logo wall]
+negative_delta_add: [no invented historical costume elements beyond the reference garment, no added ceremonial props beyond the confirmed references, no overbusy logo wall]
 safety_delta:
   cannot_relax: true
   extra_constraints: []
@@ -34,7 +34,7 @@ safety_delta:
 d0_preview: inherit-core
 d1_final: inherit-core
 d3_prompts: inherit-core
-qa_extra: [是否国潮街头底座到位, 是否避免古装化, 是否服饰仍是主角]
+qa_extra: [是否国潮街头底座到位, 是否未新增古装元素且保留来源已有形制, 是否服饰仍是主角]
 
 samples_required: [preview-grid, look-1..6, README]
 evals: repo://evals/styles/guochao-street.json

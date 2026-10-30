@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "id": "cityboy",
+  "version": "0.1.1",
+  "name": "都市宽松男装 / Cityboy",
+  "entry_type": "legacy-style",
+  "aliases": [
+    "cityboy",
+    "都市男孩",
+    "宽松男装",
+    "男装通勤",
+    "casual menswear",
+    "city casual",
+    "日系简约男"
+  ],
+  "medium": "photography",
+  "purpose_support": [
+    "product-display",
+    "styled-editorial",
+    "art-campaign"
+  ],
+  "status": "draft",
+  "bases": [
+    "cityboy"
+  ],
+  "source_ids": [
+    "R11"
+  ],
+  "scope": "城市日常的开阔构图、咖啡/书店语境及自然比例。",
+  "distinctive_features": [
+    "城市日常的开阔构图、咖啡/书店语境及自然比例。",
+    "与韩式冷感男装的建筑线条和静态杂志感区分，不把实物放大成宽松。"
+  ],
+  "legacy": {
+    "slug": "cityboy",
+    "pack_path": "references/styles/cityboy.pack.yaml",
+    "version": "0.1.1",
+    "sha256": "3b52cc6d38311e8ea8f371170275dfdafc23e2261b92fb639fdeb4305e5949fd",
+    "maturity": "DRAFT"
+  },
+  "base_policy": "未选新组件时保留旧配方；明确用途/媒介/逐张计划替换冲突段，不能把本卡与旧pack重复累加。",
+  "input_requirements": [
+    "明确当前商品参考及不可改事实；仅展示有依据的视角。",
+    "人物来源与允许调整项沿用当前人物记录；不得把服装图中的人脸自动当作身份授权。"
+  ],
+  "boundaries": [
+    "风格名是已定义摄影配方，不代表该国家全部审美或人物国籍。",
+    "适用品类/anti_categories是默认推荐线索；用户明确保留商品借用摄影时，按实际结构与适龄边界适配，不改成推荐服种。",
+    "当前修订未获得新实图验收，旧样片的接受只保留原范围。"
+  ],
+  "garment_preservation": [
+    "服装和允许搭配分别记录；原商品的版型、衣长、领袖、开合、层次、颜色、材质、图案、标识及配饰以参考为准。",
+    "配色与艺术语言不得给原商品染色、增删装饰、收腰、加长或改变露肤范围。",
+    "身份、年龄、体型与头眼动作由当前人物条件和逐张计划决定，风格名不决定人物国籍、族群或脸型。",
+    "照片只能证明可见特征；手工、手织、手绣、材质成分等来源声明须另有依据。"
+  ],
+  "planning_requirements": [
+    "场景列表给空间候选，不能由其顺序改变逐张动作。",
+    "单张/系列/独立比较/融合按本次意图，多个名称不自动混在一张图。"
+  ],
+  "photography": {
+    "scene": "城市咖啡店门口，日常街区与店面形成简洁纵深。",
+    "lighting": "柔和城市自然光从侧前方进入，阴影边缘柔和，低对比正常曝光。",
+    "composition": "开阔而不过度摆布的布局，保留日常物件之间的空间关系，不堆砌道具。 每张按已确认的逐张计划组织。",
+    "palette": "环境使用海军蓝、灰白、卡其、浅棕的低饱和关系。 商品原色与饱和度保持不变。"
+  },
+  "prompt_fragment": "本卡审美意图：Cityboy 日常编辑摄影：自在、克制、平易近人的城市生活感，保留服装原有比例。 摄影内容只使用本次解析后的 photography 字段；人物气质仅按当前人物条件处理，不另行拼接旧 pack 全文。",
+  "art": {
+    "direction": "Cityboy 日常编辑摄影：自在、克制、平易近人的城市生活感，保留服装原有比例。",
+    "techniques": [],
+    "limits": [
+      "服装和允许搭配分别记录；原商品的版型、衣长、领袖、开合、层次、颜色、材质、图案、标识及配饰以参考为准。",
+      "配色与艺术语言不得给原商品染色、增删装饰、收腰、加长或改变露肤范围。",
+      "身份、年龄、体型与头眼动作由当前人物条件和逐张计划决定，风格名不决定人物国籍、族群或脸型。",
+      "照片只能证明可见特征；手工、手织、手绣、材质成分等来源声明须另有依据。"
+    ]
+  },
+  "negatives": [
+    "不新增商品参考中没有的服装部件、图案、首饰或品牌标识",
+    "不通过拉长身体、缩腰或改变人物年龄制造风格",
+    "不加入广告标题、价格、促销语、品牌口号或海报版式；商品原有文字标识保留",
+    "no added exaggerated streetwear styling beyond the reference",
+    "no idol styling",
+    "no added formal-suit styling beyond the reference garment"
+  ],
+  "acceptance": [
+    "商品与人物事实分别对照原始参考，不能只拿上一次生成图互相核对。",
+    "独立成图满足本次画幅与逐张计划；联系表或预览不能替代独立图片。",
+    "风格差异来自所选视觉手段，不能以改变商品或身份换取差异。",
+    "与韩式冷感男装的建筑线条和静态杂志感区分，不把实物放大成宽松。",
+    "光线、色彩与场景的具体特征可在画面中判断；不以名字或形容词代替验收。"
+  ],
+  "evidence": {
+    "visual_status": "unverified",
+    "records": [],
+    "scope": "当前修订尚无实图验收；既有历史记录保留，不自动扩展其接受范围。"
+  },
+  "scene_options": [
+    "城市咖啡店门口",
+    "安静街角斑马线",
+    "公寓楼下水泥墙",
+    "书店橱窗外",
+    "地铁口外自然光",
+    "公园长椅旁"
+  ],
+  "default_objective": "styled-editorial",
+  "persona": "relaxed composed attitude, quiet city confidence, easygoing poise",
+  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。relaxed composed attitude, quiet city confidence, easygoing poise"
+}

@@ -75,6 +75,48 @@ def _cards():
     return module
 
 
+def _visual_library(root):
+    path = child(root, 'skills/threadtruth-studio/scripts/visual_library.py')
+    spec = importlib.util.spec_from_file_location('preview_visual_library', path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def prepare_visual_collection(root, run_id, specs):
+    """New selected-entry collections; legacy 24-sheet evidence stays unchanged.
+
+    This freezes preparation only. Real generation/approval goes through the
+    normal runtime ledger, never through synthetic completion in this manifest.
+    """
+    if not isinstance(run_id, str) or not ID.fullmatch(run_id):
+        raise ValueError('Invalid visual collection id')
+    if not isinstance(specs, list) or not specs:
+        raise ValueError('Provide the selected entries as a nonempty list of preparation specs')
+    ids = [item.get('entry_id') for item in specs if isinstance(item, dict)]
+    if len(ids) != len(specs) or len(set(ids)) != len(ids):
+        raise ValueError('Each selected execution entry must occur once')
+    library = _visual_library(root)
+    visual = library._visual()
+    entries = []
+    for spec in specs:
+        plan = library.prepare(spec, child(root, 'skills/threadtruth-studio'))
+        if len(plan['shots']) != 6:
+            raise ValueError('Direction-preview collections require six planned cells per entry')
+        entries.append(dict(entry_id=spec['entry_id'], visual_plan=plan,
+                            visual_plan_sha256=visual.object_hash(plan),
+                            compiled_visual_prompt=visual.compile_prompt(plan),
+                            status='prepared'))
+    record = dict(schema_version='visual-collection-v1', run_id=run_id,
+                  selected_entry_ids=ids, entries=entries, image_calls=0,
+                  status='prepared', note='Frozen visual preparation only; not generated or visually reviewed.')
+    path = child(root, '.threadtruth/visual-collections/' + run_id + '/plan.json')
+    if path.exists():
+        raise ValueError('Collection already exists; preserve its frozen snapshot and choose a new run id')
+    _atomic_json(path, record)
+    return path
+
+
 def read_json(path):
     value = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(value, dict):
@@ -143,14 +185,23 @@ def _list_field(text, field):
 
 def _visual(text):
     visual = _field(text, "visual_language")
-    clauses = re.split(r"[;,]", visual)
+    # Keep complete conditional fallback sentences before splitting comma lists.
+    # Words such as 'place'/'palace' are not 'lace', and a clause describing
+    # light when a garment feature is absent must not be discarded with it.
+    fallback = re.compile(r"^(?:otherwise\s+(?:express|place)|express\s+).*"
+                          r"\b(?:light|lighting|framing|palette|architecture|composition|environment)\b", re.I)
+    clauses = []
+    for sentence in visual.split(';'):
+        sentence = sentence.strip()
+        clauses.extend([sentence] if fallback.search(sentence) else re.split(r',', sentence))
     excluded = re.compile(
-        r"garment|reference|silhouette|tailor|cashmere|wool|tweed|silk|linen|logo|denim|leather|dress|skirt|ribbon|lace|pleat|uniform|embroid|collar|button|construction|nylon|shirting|knitwear|proportions|layering|metallic accents|cotton|tulle|bows|feminine details|oriental structure",
+        r"\b(?:garments?|reference|silhouettes?|tailor\w*|cashmere|wool|tweed|silk|linen|logos?|denim|leather|dress|skirt|ribbon|lace|pleat\w*|uniform|embroid\w*|collar|buttons?|construction|nylon|shirting|knitwear|proportions|layering|metallic accents|cotton|tulle|bows|feminine details|oriental structure)\b",
         re.I,
     )
     mood = "; ".join(
         clause.strip() for clause in clauses
-        if clause.strip() and not excluded.search(clause) and clause.strip() not in {"do not add", "remove"}
+        if clause.strip() and (fallback.search(clause.strip()) or not excluded.search(clause))
+        and clause.strip() not in {"do not add", "remove"}
     )
     mood = re.sub(r"\bmenswear\b", "urban", mood, flags=re.I)
     return {"mood": mood, "persona": _field(text, "model_persona"), "lighting": _field(text, "lighting_palette")}
@@ -2006,6 +2057,9 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
     commands = parser.add_subparsers(dest="command", required=True)
+    collection = commands.add_parser('visual-collection', help='Freeze selected visual-library previews using the runtime compiler; no generation')
+    collection.add_argument('--run-id', required=True)
+    collection.add_argument('--specs', type=Path, required=True, help='JSON list of visual_library.prepare specs, each with count=6')
     for name in ("prepare", "single-prompt", "register-batch", "ingest", "compose", "audit", "gallery", "approve", "promote"):
         command = commands.add_parser(name)
         command.add_argument("--run-id", required=True)
@@ -2040,7 +2094,10 @@ def main(argv=None):
     if args.command in {"ingest", "compose", "approve"} and not args.style:
         parser.error(f"{args.command} requires --style <registered-slug>")
     try:
-        if args.command == "register-batch":
+        if args.command == 'visual-collection':
+            result = prepare_visual_collection(args.root, args.run_id,
+                                                json.loads(args.specs.read_text(encoding='utf-8')))
+        elif args.command == "register-batch":
             result = register_batch(args.root, args.run_id, read_json(args.manifest))
         elif args.command == "single-prompt":
             custom = read_json(args.model_spec) if args.model_spec else {}

@@ -13,9 +13,9 @@
   },
   {
     "id": "km-anti-fit-3",
-    "type": "anti-fit",
+    "type": "recommendation-fit",
     "input": "(上传冲锋衣) 韩式男装",
-    "expect": "机能冲锋衣 ∈ anti_categories → 提示不匹配"
+    "expect": "anti_categories仅提示此商品不属于该方向的默认推荐，不是服种禁令。用户明确借用摄影时保留当前商品，使用该方向的环境、光线与构图；不改商品、不重复索要已有确认。真正缺失的来源/适龄/动作授权仍按核心门禁处理。"
   },
   {
     "id": "km-pure-data-4",
@@ -35,8 +35,21 @@
     "input": "(上传宽松衬衫) 都市男孩 casual menswear",
     "expect": "触发隔离:都市男孩/casual menswear→cityboy,不落 korean-menswear",
     "assert_triggers": {
-      "cityboy": {"contains": ["都市男孩"]},
-      "korean-menswear": {"contains": ["韩国男装"], "excludes": ["都市男孩", "宽松男装", "casual menswear"]}
+      "cityboy": {
+        "contains": [
+          "都市男孩"
+        ]
+      },
+      "korean-menswear": {
+        "contains": [
+          "韩国男装"
+        ],
+        "excludes": [
+          "都市男孩",
+          "宽松男装",
+          "casual menswear"
+        ]
+      }
     }
   },
   {
@@ -44,5 +57,11 @@
     "type": "lighting-signature",
     "input": "(上传黑色大衣) korean menswear,C3",
     "expect": "STYLE_VISUAL 保留冷灰城市自然光/柔棚光→侧上方/玻璃漫射侧光→窄而柔的线条阴影→中低对比略压高光;不得把阴影误写成新廓形或把黑色大衣改成冷灰色"
+  },
+  {
+    "id": "km-source-street-10",
+    "type": "source-preservation-regression",
+    "input": "原商品就是高彩街头外套，要韩系男装冷灰摄影",
+    "expect": "保留原高彩和街头结构，背景与光线体现克制；no added flashy streetwear不删除已有商品特征。"
   }
 ]

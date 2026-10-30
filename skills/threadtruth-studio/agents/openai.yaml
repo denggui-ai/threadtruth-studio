@@ -1,7 +1,7 @@
 interface:
-  display_name: "裁光 · Caiguang｜服饰 AI 影棚"
-  short_description: "真实单件或完整套装驱动的 24 风格人像与商业 QA"
-  default_prompt: "用 $threadtruth-studio 核对真实服饰与人物参考，让我先选风格，再授权六宫格方向预览；确认方向后按授权生成六张独立图。只有我主动要求单张时走单张分支，不自动生图。"
+  display_name: "裁光 · Caiguang｜服饰视觉工作室"
+  short_description: "真实服饰驱动的36个视觉入口，支持商品展示、穿搭编辑与艺术图像"
+  default_prompt: "用 $threadtruth-studio 核对真实服饰与人物参考，根据服饰、用途和素材覆盖编排姿势，按授权先看九宫格并定向修订；确认方向后按授权制作九张独立图片。沿用我明确的单张、六张或经典模板选择，不自动生图。"
   brand_color: "#1A1A1A"
 policy:
   allow_implicit_invocation: true

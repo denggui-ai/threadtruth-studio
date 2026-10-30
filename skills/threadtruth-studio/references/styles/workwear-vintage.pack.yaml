@@ -1,7 +1,7 @@
 # workwear-vintage — 复古工装风(v1 静态批量;纯视觉轴)。
 name: 复古工装 / Workwear Vintage
 slug: workwear-vintage
-version: 0.1.0
+version: 0.1.1
 maturity: DRAFT
 depends_on_core: ">=1.0"
 
@@ -26,7 +26,7 @@ lighting_palette: 暖灰自然光,靛蓝/棕色/卡其/铁锈色,粗粝低饱和
 pose_masters: inherit
 default_mode: C
 
-negative_delta_add: [no fashion runway gloss, no military costume, no overdirty set]
+negative_delta_add: [no fashion runway gloss, no added military garment details or props beyond the reference, no overdirty set]
 safety_delta:
   cannot_relax: true
   extra_constraints: []
@@ -34,7 +34,7 @@ safety_delta:
 d0_preview: inherit-core
 d1_final: inherit-core
 d3_prompts: inherit-core
-qa_extra: [是否复古工装底座到位, 参考图已有口袋/层次是否保真清楚、未有则不新增, 是否避免军装 cosplay]
+qa_extra: [是否复古工装底座到位, 参考图已有口袋/层次是否保真清楚、未有则不新增, 是否保留原有制服结构且未新增军事部件或道具]
 
 samples_required: [preview-grid, look-1..6, README]
 evals: repo://evals/styles/workwear-vintage.json
