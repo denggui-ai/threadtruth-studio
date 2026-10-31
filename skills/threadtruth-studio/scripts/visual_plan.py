@@ -30,6 +30,7 @@ SILHOUETTES = {
 # WP-21c: visible style commitments, filtered by the variables this task leaves open.
 COMMIT_NEEDS = ('makeup', 'expression', 'body', 'arrangement', 'camera', 'scene', 'lighting')
 COMMIT_OPTIONAL = ('commitments', 'commitments_skipped', 'open_variables')
+TRACE_DECISIONS = ('adopted', 'translated', 'not-applicable')
 SUBSTITUTE_FLAG = 'presentation_2_substituted'  # WP-21d: no same-SKU back source, slot 2 shows a front detail instead
 SUBSTITUTE_LINE = ('Presentation 2 focus: a close front detail of a garment part not shown in presentation 3 '
                    '(neckline, shoulder, cuff or waistband); show only what the front source supports, with no rear or reverse view.')
@@ -174,7 +175,7 @@ def shot_bindings(shot_plan):
 
 def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
     """Validate resolved visual fields against original garment hashes and context."""
-    if (not isinstance(plan, dict) or set(plan) - {'culture_profile', 'persona', 'persona_model_sha256', *COMMIT_OPTIONAL, SUBSTITUTE_FLAG} != FIELDS
+    if (not isinstance(plan, dict) or set(plan) - {'culture_profile', 'persona', 'persona_model_sha256', *COMMIT_OPTIONAL, SUBSTITUTE_FLAG, 'asset_trace'} != FIELDS
             or type(plan['version']) is not int or plan['version'] not in (1, 2)):
         raise ValueError('Visual plan requires complete version-1 or version-2 structured fields')
     v2 = plan['version'] == 2
@@ -214,6 +215,18 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
             raise ValueError('Style persona requires the exact resolving model hash')
         _line(plan['persona'], 'Style persona', owned=True, v2=v2)
     _commitments(plan, v2)
+    if 'asset_trace' in plan:
+        trace = plan['asset_trace']
+        if not isinstance(trace, list) or not trace or len(trace) > 24:
+            raise ValueError('visual_plan.asset_trace must be a nonempty list of {asset, decision, affects, check}; got ' + _got(trace))
+        for index, row in enumerate(trace):
+            path = f'visual_plan.asset_trace[{index}]'
+            if not isinstance(row, dict) or set(row) != {'asset', 'decision', 'affects', 'check'}:
+                raise ValueError(path + ' needs exactly asset, decision, affects, check; got ' + _got(row))
+            if row['decision'] not in TRACE_DECISIONS:
+                raise ValueError(path + '.decision must be one of ' + ', '.join(TRACE_DECISIONS) + '; got ' + _got(row['decision']))
+            for key in ('asset', 'affects', 'check'):
+                _line(row[key], path + '.' + key)
     if SUBSTITUTE_FLAG in plan and (plan[SUBSTITUTE_FLAG] is not True or v2 or count != 6 or plan['output_form'] not in NON_PORTRAIT_FORMS):
         raise ValueError('visual_plan.presentation_2_substituted is true only for six-cell version-1 flat-lay, hanger or mannequin plans')
     garment = plan['garment']

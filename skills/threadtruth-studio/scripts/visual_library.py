@@ -168,6 +168,20 @@ def _look_of(shot_plan, slot):
     return {}
 
 
+CULTURE_ENTRIES = ('qipao-urban', 'hanfu-form-specific')
+CULTURE_CATALOG = 'references/visual-library/china-culture.json'
+
+
+def _check_culture_trace(plan, root):
+    """Cultural entries freeze a culture profile and at least one trace row naming a catalog record."""
+    if not plan.get('culture_profile'):
+        raise ValueError('Cultural entries need a nonempty culture_profile (spec.culture_profile or the card)')
+    known = {record.get('id') for record in _read(root, CULTURE_CATALOG).get('records', [])}
+    if not any(isinstance(row, dict) and row.get('asset') in known for row in plan.get('asset_trace') or []):
+        raise ValueError('Cultural entries need asset_trace with at least one asset naming a ' + CULTURE_CATALOG
+                         + ' record id (' + ', '.join(sorted(known)[:3]) + ', ...)')
+
+
 def open_variables(output_form, model=None):
     """Variables this task leaves to the style: faceless drops makeup/expression, non-portrait forms keep staging only."""
     if output_form in ('flat-lay', 'hanger', 'mannequin'):
@@ -199,7 +213,7 @@ def prepare(spec, root=ROOT):
     in the task ledger. This local preparation does not grant or consume a call.
     """
     allowed = {'entry_id', 'garment', 'inventory', 'count', 'first_pose', 'objective', 'output_form',
-               'output_medium', 'supporting', 'fusion_note', 'overrides', 'culture_profile', 'shot_plan', 'model', 'back_source'}
+               'output_medium', 'supporting', 'fusion_note', 'overrides', 'culture_profile', 'shot_plan', 'model', 'back_source', 'asset_trace'}
     if not isinstance(spec, dict) or set(spec) - allowed:
         raise ValueError('Unknown visual preparation fields')
     primary = card(spec['entry_id'], root)
@@ -273,6 +287,10 @@ def prepare(spec, root=ROOT):
     if output_form in ('flat-lay', 'hanger', 'mannequin') and count == 6 and version == 1 and spec.get('back_source') is not True:
         # No reviewed same-SKU back source: never plan a speculative back view for presentation 2.
         plan['presentation_2_substituted'] = True
+    if spec.get('asset_trace') is not None:
+        plan['asset_trace'] = copy.deepcopy(spec['asset_trace'])
+    if spec['entry_id'] in CULTURE_ENTRIES:
+        _check_culture_trace(plan, root)
     persona = primary.get('persona')
     if model is not None and output_form == 'human' and isinstance(persona, str) and persona.strip():
         resolved = _models().resolve_persona(model, persona)

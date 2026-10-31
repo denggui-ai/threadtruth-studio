@@ -41,6 +41,10 @@ class VisualLibraryCatalogTests(unittest.TestCase):
                                  keep=['Keep the red color, bead count, front closure and actual ornament density.'],
                                  source_sha256s=['a' * 64]),
                     inventory=[dict(role='garment-source', sha256='a' * 64)], count=1, first_pose=3)
+        if entry in ('qipao-urban', 'hanfu-form-specific'):  # WP-21e: cultural entries freeze a profile and a trace
+            spec.update(culture_profile=dict(id=entry + '-test-profile', version=1, form='synthetic form profile'),
+                        asset_trace=[dict(asset='C10' if entry == 'qipao-urban' else 'C05', decision='translated',
+                                          affects='garment.keep', check='closure and collar match the source')])
         spec.update(kwargs)
         return spec
 

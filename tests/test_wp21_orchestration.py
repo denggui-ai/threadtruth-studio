@@ -196,3 +196,30 @@ class MissingBackTests(unittest.TestCase):
             record = task.create(Path(tmp) / 'job', [image], None, [60, 40], False, context=context, visual_plan=plan)
             self.assertIs(record['presentation_2_substituted'], True)
             self.assertIn('front detail', record['looks'][0]['prompt'])
+
+
+class AssetTraceTests(unittest.TestCase):
+    TRACE = [dict(asset='C11', decision='translated', affects='garment.keep and scene',
+                  check='stand collar, side closure and slit match the source photo')]
+
+    def spec(self, **changes):
+        base = dict(entry_id='qipao-urban', inventory=[dict(sha256=FRONT, role='garment-source')],
+                    garment=dict(description='A source-backed qipao.', keep=['Keep the stand collar.'], source_sha256s=[FRONT]),
+                    culture_profile=dict(id='qipao-contemporary-daily', version=1, form='contemporary daily qipao'),
+                    asset_trace=copy.deepcopy(self.TRACE))
+        return dict(base, **changes)
+
+    def test_cultural_entries_need_a_culture_profile_and_an_asset_trace(self):
+        plan = library.prepare(self.spec())
+        self.assertEqual(plan['asset_trace'], self.TRACE)
+        self.assertNotIn('C11', visual_plan.render(plan))  # stored for QA and reports, never rendered
+        for changes in (dict(asset_trace=[]), dict(asset_trace=None), dict(culture_profile=None),
+                        dict(asset_trace=[dict(self.TRACE[0], asset='not-in-catalog')]),
+                        dict(asset_trace=[dict(self.TRACE[0], decision='guessed')])):
+            with self.subTest(changes=changes), self.assertRaises(ValueError):
+                spec = self.spec(**changes)
+                spec = {key: value for key, value in spec.items() if value is not None}
+                library.prepare(spec)
+        # other entries may still skip the trace
+        plain = library.prepare(dict(self.spec(entry_id='nordic-minimal'), asset_trace=None))
+        self.assertNotIn('asset_trace', plain)
