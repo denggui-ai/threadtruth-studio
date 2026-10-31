@@ -27,7 +27,7 @@ def sample_plan(count=9, back=True):
                              note='Synthetic source-backed back panel.'))
     looks = [dict(slot=n, shot_id='garment-shot-' + str(n), display_goal='Show the printed chest and garment length.',
                   must_show=['chest print', 'hem'], reason='Hands clear the source-backed print.',
-                  body_action='Stand with a small weight shift.', hands='Both hands low beside the hips.',
+                  body_action='Stand with a small weight shift, variant ' + str(n) + '.', hands='Both hands low beside the hips.',
                   support='Both feet on the floor.', framing='full-body', garment_views=['front'],
                   reference_sha256s=[FRONT]) for n in range(1, count + 1)]
     return dict(version=2, sku='printed-top', route='A' if back else 'B', coverage=coverage,

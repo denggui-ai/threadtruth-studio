@@ -160,6 +160,14 @@ def route(query, root=ROOT):
     return result
 
 
+def _look_of(shot_plan, slot):
+    """The shot-plan look at a logical slot, or {} without a plan."""
+    for look in (shot_plan or {}).get('looks', []):
+        if look.get('slot') == slot:
+            return look
+    return {}
+
+
 def prepare(spec, root=ROOT):
     """Resolve defaults once; the task subsequently uses only this frozen plan.
 
@@ -209,7 +217,10 @@ def prepare(spec, root=ROOT):
     version = 2 if bindings is not None or count == 9 else 1
     if version == 2:
         bindings = bindings or [dict(slot=i, shot_id='shot-' + str(i)) for i in range(1, count + 1)]
-        shots = [dict(binding, **{key: photography[key] for key in ('scene', 'lighting', 'composition')})
+        # Each look may override scene/lighting/camera; otherwise it inherits the card value.
+        shots = [dict(binding, **{key: _look_of(shot_plan, binding['slot']).get(source) or photography[key]
+                                  for key, source in (('scene', 'scene'), ('lighting', 'lighting'),
+                                                      ('composition', 'camera'))})
                  for binding in bindings]
     else:
         shots = [dict(slot=i, pose=i if count == 6 else pose,

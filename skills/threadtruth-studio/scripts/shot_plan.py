@@ -285,6 +285,9 @@ def _check_views(path,views):
     if len(views)!=len(set(views)):raise ValueError(path+' must not repeat a view; got '+_got(views))
 
 
+BACK_WORDS=re.compile(r'back to (?:the )?camera|over-shoulder|turned away|背对|回头|背影',re.I)
+
+
 def _validate_v2(plan,inventory,*,context,count,identity,real_face_plan,strict_references,model_source):
     required={'version','sku','route','coverage','looks','selected_shot_ids','series_role'}
     keys=set(plan)-{'framing_guidance'}
@@ -338,8 +341,8 @@ def _validate_v2(plan,inventory,*,context,count,identity,real_face_plan,strict_r
     if not isinstance(looks,list) or len(looks) not in (1,6,9):
         raise ValueError('shot_plan.looks must be a list of 1, 6 or 9 logical shots; got '+_got(looks))
     fields={'slot','shot_id','display_goal','must_show','reason','body_action','hands','support','framing','garment_views','reference_sha256s'}
-    optional={'head','gaze','pose_reference','aesthetic_reference_sha256s'}
-    ids=[]
+    optional={'head','gaze','pose_reference','aesthetic_reference_sha256s','scene','lighting','camera'}
+    ids=[];action_keys={}
     head_gaze=any(isinstance(s,dict) and ('head' in s or 'gaze' in s) for s in looks)
     if head_gaze and (model_source not in ('ai','new') or real_face_plan is not None or context.get('output_form')!='human'):
         raise ValueError('looks[*].head/gaze are only for AI/new visible portraits; real faces use the reviewed real_face_plan; got model_source='
@@ -387,6 +390,15 @@ def _validate_v2(plan,inventory,*,context,count,identity,real_face_plan,strict_r
         if not set(views)<=selected_views:
             raise ValueError(path+'.garment_views must be covered by its reference_sha256s coverage; not covered: '
                              +', '.join(sorted(set(views)-selected_views))+' (covered: '+(', '.join(sorted(selected_views)) or 'none')+')')
+        for k in ('scene','lighting','camera'):
+            if k in shot and not _v2_line(shot[k]):
+                raise ValueError(path+'.'+k+' must be a nonempty single line when given (it overrides the style card for this shot); got '+_got(shot[k]))
+        if 'back' not in views and (m:=BACK_WORDS.search(shot['body_action']+' '+(shot.get('head') or ''))):
+            raise ValueError(path+'.body_action/head must not turn away from the camera ("'+m.group(0)+'") when garment_views has no "back"; add back coverage or change the action')
+        key=(shot['framing'],' '.join(shot['body_action'].casefold().split()))
+        if key in action_keys:
+            raise ValueError(path+'.body_action repeats shot_plan.looks['+str(action_keys[key])+'] with the same framing; give each shot a different body action or framing')
+        action_keys[key]=slot-1
         if 'pose_reference' in shot:
             ref=shot['pose_reference']
             if (not isinstance(ref,dict) or set(ref)!={'sha256','reason'} or not _v2_line(ref['reason'])

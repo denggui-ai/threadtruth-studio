@@ -43,3 +43,65 @@ class IdentityLockTests(unittest.TestCase):
         full = model_reference.resolve_persona(dict(plain, styling_lock='full'), persona)
         self.assertNotIn('makeup', full)
         self.assertNotIn('loose hair', full)
+
+
+shot_plan = module('shot_plan')
+library = module('visual_library')
+visual_plan = module('visual_plan')
+FRONT, BACK = 'a' * 64, 'b' * 64
+ACTIONS = ['Stand with a small weight shift.', 'Walk one step toward the camera.', 'Rest one shoulder on a wall.',
+           'Sit upright on a plain stool.', 'Lean slightly forward.', 'Adjust the cuff with one hand.',
+           'Stand tall with arms relaxed.', 'Pause mid-step.', 'Look down at the hem.']
+
+
+def sample_plan(count=9):
+    inventory = [dict(sha256=FRONT, role='garment-source')]
+    coverage = [dict(sha256=FRONT, views=['front', 'front-side', 'detail'], usable=True, same_sku=True,
+                     note='Synthetic front evidence.')]
+    looks = [dict(slot=n, shot_id='shot-' + str(n), display_goal='Show the garment length.', must_show=['hem'],
+                  reason='Hands clear the garment.', body_action=ACTIONS[n - 1], hands='Both hands low.',
+                  support='Both feet on the floor.', framing='full-body', garment_views=['front'],
+                  reference_sha256s=[FRONT]) for n in range(1, count + 1)]
+    plan = dict(version=2, sku='top', route='B', coverage=coverage, looks=looks,
+                selected_shot_ids=[x['shot_id'] for x in looks], series_role='series')
+    return plan, inventory
+
+
+class ShotVarietyTests(unittest.TestCase):
+    def validate(self, plan, inventory):
+        return shot_plan.validate(plan, inventory, context=dict(first_pose=1, output_form='human', purpose='delivery'),
+                                  count=len(plan['selected_shot_ids']), model_source='new')
+
+    def test_back_words_without_back_coverage_and_duplicate_actions_are_rejected(self):
+        plan, inventory = sample_plan()
+        self.validate(plan, inventory)
+        for key, text in (('body_action', 'Stand with the body over-shoulder to the lens.'),
+                          ('body_action', 'Back to camera, then glance away.')):
+            bad, _ = sample_plan()
+            bad['looks'][2][key] = text
+            with self.assertRaisesRegex(ValueError, 'back'):
+                self.validate(bad, inventory)
+        bad, _ = sample_plan()
+        bad['looks'][1]['body_action'] = '  stand with a SMALL weight shift. '
+        with self.assertRaisesRegex(ValueError, 'repeats'):
+            self.validate(bad, inventory)
+        bad, _ = sample_plan()
+        bad['looks'][1]['body_action'] = ACTIONS[0]
+        bad['looks'][1]['framing'] = 'half-body'
+        self.validate(bad, inventory)  # same action in another framing is a different shot
+
+    def test_look_scene_lighting_camera_override_the_card_per_shot(self):
+        plan, inventory = sample_plan()
+        plan['looks'][1]['scene'] = 'A sunlit stairwell with pale plaster walls.'
+        plan['looks'][1]['lighting'] = 'Window light from the left with a dim right side.'
+        plan['looks'][1]['camera'] = 'Eye-level lens with the subject off-centre.'
+        self.validate(plan, inventory)
+        spec = dict(entry_id='nordic-minimal', inventory=inventory, shot_plan=plan,
+                    garment=dict(description='A source-backed top.', keep=['Keep the front.'], source_sha256s=[FRONT]))
+        prepared = library.prepare(spec)
+        scenes = [row for row in visual_plan.render(prepared).split('\n') if row.startswith('Scene: ')]
+        self.assertEqual(len(scenes), 9)
+        self.assertEqual(len(set(scenes)), 2)
+        self.assertIn('Scene: A sunlit stairwell with pale plaster walls.', scenes)
+        self.assertEqual(prepared['shots'][1]['composition'], 'Eye-level lens with the subject off-centre.')
+        self.assertEqual(prepared['shots'][0]['lighting'], prepared['photography']['lighting'])
