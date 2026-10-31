@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "nordic-minimal",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "name": "北欧极简 / Nordic Minimal",
   "entry_type": "legacy-style",
   "aliases": [
@@ -104,5 +104,151 @@
   ],
   "default_objective": "styled-editorial",
   "persona": "calm reserved expression, composed stillness, quiet confidence",
-  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。calm reserved expression, composed stillness, quiet confidence"
+  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。calm reserved expression, composed stillness, quiet confidence",
+  "commitments": [
+    {
+      "id": "nm-cool-daylight",
+      "show": "large cool-white diffused daylight from a big window; soft volume with gentle shadows, never flat dead white",
+      "needs": [
+        "lighting"
+      ],
+      "check": "light clearly comes from a window direction; shadows are soft but present; whites keep texture and are not blown"
+    },
+    {
+      "id": "nm-open-space",
+      "show": "the subject takes a small-to-medium part of the frame inside open architecture; empty wall, floor or window fills at least a third of every cell",
+      "needs": [
+        "camera",
+        "scene"
+      ],
+      "check": "in each cell at least one third of the frame is empty wall, floor or window; the subject does not touch or lean on a wall"
+    },
+    {
+      "id": "nm-pale-materials",
+      "show": "gray-white walls, pale wood and a fog-blue accent; at most one simple object per cell",
+      "needs": [
+        "scene"
+      ],
+      "check": "backdrop reads gray-white with pale wood; no beige or yellow cast; no more than one decor object in a cell"
+    },
+    {
+      "id": "nm-calm-natural-expression",
+      "show": "calm, reserved, natural expression with a relaxed mouth; at ease rather than detached",
+      "needs": [
+        "expression"
+      ],
+      "check": "relaxed closed or slightly parted lips; the face reads calm and at ease; no broad smile and no cold stare"
+    },
+    {
+      "id": "nm-fresh-bare-makeup",
+      "show": "fresh bare-skin makeup: natural matte skin, almost no eye colour, natural lip; hair smooth and simple",
+      "needs": [
+        "makeup"
+      ],
+      "realize": [
+        "hair length stays as the identity reference"
+      ],
+      "check": "skin looks natural and matte without shimmer; no visible eyeshadow colour; lip close to natural; hair smooth"
+    }
+  ],
+  "action_tendency": "Unhurried and at ease in an open bright room: even relaxed weight, everyday gestures, generous distance from walls; never editorial-tense, angular or posed.",
+  "pose_vocabulary": [
+    {
+      "id": "nm-open-stand",
+      "family": "stand",
+      "body": "standing square to camera in the middle of an open room, weight even, shoulders dropped, well away from any wall",
+      "hands": "arms hang loosely with relaxed fingers",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "body centred with empty floor and wall all around; not leaning on anything"
+    },
+    {
+      "id": "nm-stair-pause",
+      "family": "stand",
+      "body": "pausing one step up on a white staircase, one foot on the higher step, body angled three-quarter to camera",
+      "hands": "one hand resting lightly on the rail, the other relaxed",
+      "support": "staircase and rail",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "long skirts that would catch on the step",
+      "check": "feet on two different steps; hand on the rail; body three-quarter"
+    },
+    {
+      "id": "nm-table-sit",
+      "family": "sit",
+      "body": "sitting upright on a simple wooden chair at a pale wood table, body turned three-quarter to camera",
+      "hands": "forearms resting on the tabletop with hands loosely together",
+      "support": "chair and table",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "garments whose key detail sits below the waist where the table hides it",
+      "check": "forearms on the table; the upper garment fully readable above the tabletop"
+    },
+    {
+      "id": "nm-window-mug",
+      "family": "turn",
+      "body": "standing close to a large window, body three-quarter toward it, head turned to look out in soft profile",
+      "hands": "one hand holds a plain ceramic mug at shoulder height to the window side, the other relaxed at the side",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "mug held at shoulder height on the window side, clear of the garment front; face in soft profile toward the light"
+    },
+    {
+      "id": "nm-slow-walk",
+      "family": "walk",
+      "body": "slow relaxed walk across an empty room parallel to the camera, short natural stride",
+      "hands": "arms swinging slightly",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "side-on walk with a small stride and open space ahead of the body"
+    },
+    {
+      "id": "nm-bench-sit",
+      "family": "sit",
+      "body": "sitting on a low wooden bench, back upright, legs extended forward and crossed at the ankles",
+      "hands": "hands resting on the bench beside the hips",
+      "support": "low bench",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "very long coats that would pool on the floor",
+      "check": "low seat, legs extended and crossed at the ankles, hands beside the hips"
+    },
+    {
+      "id": "nm-walk-away",
+      "family": "walk",
+      "body": "walking away from camera toward a bright window or down a white corridor, mid-stride",
+      "hands": "arms relaxed at the sides",
+      "support": "floor",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back fully readable; mid-stride; open space around the figure"
+    },
+    {
+      "id": "nm-cuff-adjust",
+      "family": "close",
+      "body": "half-body, relaxed straight posture, looking slightly down",
+      "hands": "one hand gently adjusting the opposite cuff, sleeve edge or hem edge",
+      "support": "floor",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "garments with no cuff, sleeve or hem edge in reach",
+      "check": "one hand at an edge of the garment; gaze down; garment front still readable"
+    }
+  ]
 }

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "gothic-editorial",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "name": "哥特暗调摄影",
   "entry_type": "shooting-plan",
   "aliases": [
@@ -92,5 +92,155 @@
   "default_objective": "styled-editorial",
   "scene_options": [
     "深石墙、简化竖向门廊或暗色棚景；建筑可带暗黑浪漫气氛，但不要求教堂或宗教符号。"
+  ],
+  "commitments": [
+    {
+      "id": "ge-narrow-side-key",
+      "show": "a narrow side key light falling off fast into deep shadow; a weak fill keeps dark fabric texture readable",
+      "needs": [
+        "lighting"
+      ],
+      "check": "one side lit and the other in deep shadow; dark fabric still shows seams and texture, never a flat silhouette"
+    },
+    {
+      "id": "ge-controlled-rim",
+      "show": "a small controlled rim light outlining the shoulders and hair; it may be cool violet or deep blue at the edge only",
+      "needs": [
+        "lighting"
+      ],
+      "check": "a rim is visible on the silhouette edge; coloured light stays on edges and background; garment colours unchanged"
+    },
+    {
+      "id": "ge-dark-vertical-space",
+      "show": "dark stone vertical architecture (arches, columns, tall doorways) with asymmetric dark negative space",
+      "needs": [
+        "scene",
+        "camera"
+      ],
+      "realize": [
+        "no crosses, pointed church arches, stained glass or other religious motifs"
+      ],
+      "check": "vertical stone structure in most cells; subject off-centre with dark negative space; no religious objects"
+    },
+    {
+      "id": "ge-solemn-expression",
+      "show": "solemn, still, slightly haunting expression with lowered lids and closed lips",
+      "needs": [
+        "expression"
+      ],
+      "check": "no smile in any cell; eyes still and intense or lids lowered"
+    },
+    {
+      "id": "ge-dark-romantic-makeup",
+      "show": "pale matte skin, smoky plum or taupe eyes and a deep wine lip",
+      "needs": [
+        "makeup"
+      ],
+      "realize": [
+        "hair length stays as the identity reference",
+        "no black lipstick or face paint"
+      ],
+      "check": "skin matte and pale-toned within the identity skin tone; smoky plum or taupe eyes; deep wine lip; nothing black on the lips"
+    }
+  ],
+  "action_tendency": "Slow, solemn and elongated: still verticals, long extended hands, heads bowed or turned into shadow; never cheerful, bouncy or casual.",
+  "pose_vocabulary": [
+    {
+      "id": "ge-pillar-stand",
+      "family": "stand",
+      "body": "standing tall beside a stone column facing camera, chin lowered, gaze up from under the brow",
+      "hands": "one hand resting flat on the column at shoulder height, the other hanging long",
+      "support": "stone column",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "strong vertical line; hand flat on the stone; lowered chin"
+    },
+    {
+      "id": "ge-shadow-turn",
+      "family": "turn",
+      "body": "body three-quarter away into the shadow side, face turned back toward the key light in near profile",
+      "hands": "arms long at the sides",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "garments whose key detail only exists on the front centre",
+      "check": "half the body falls into shadow while the face is lit; the shadow side still shows fabric texture"
+    },
+    {
+      "id": "ge-doorway-frame",
+      "family": "stand",
+      "body": "standing in a plain rectangular stone doorway, the figure filling most of the frame height, weight on one leg",
+      "hands": "hands loosely joined low in front",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "rectangular secular doorway frames the figure; no pointed arch or stained glass; garment large enough to read"
+    },
+    {
+      "id": "ge-throne-sit",
+      "family": "sit",
+      "body": "seated upright on a high-backed dark wooden chair, legs crossed at the knee, regal posture",
+      "hands": "forearms along the armrests, fingers draped over the ends",
+      "support": "high-backed chair",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "very short hemlines",
+      "check": "regal upright seat; hands draped on the armrests"
+    },
+    {
+      "id": "ge-hand-near-face",
+      "family": "close",
+      "body": "half-body, head bowed slightly, eyes lowered or closed",
+      "hands": "one hand raised beside the face with long fingers softly curled, not touching the garment",
+      "support": "floor",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "none",
+      "check": "elongated hand beside the face; neckline still visible"
+    },
+    {
+      "id": "ge-stair-descend",
+      "family": "walk",
+      "body": "slowly descending a dark stone staircase, one foot on the lower step, body upright",
+      "hands": "one hand trailing along the stone rail",
+      "support": "stone stairs and rail",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "a descending step in progress; hand on the rail"
+    },
+    {
+      "id": "ge-back-to-light",
+      "family": "turn",
+      "body": "back to camera before a dark stone wall, the side key light raking across the back, head turned to profile",
+      "hands": "arms long at the sides",
+      "support": "floor",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back details readable under the side light, never a silhouette; face in profile"
+    },
+    {
+      "id": "ge-wall-rest",
+      "family": "lean",
+      "body": "one shoulder and the temple resting against a dark stone wall, eyes closed, body three-quarter",
+      "hands": "one hand flat against the wall at hip height",
+      "support": "stone wall",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "head and shoulder touching the wall; eyes closed; garment side readable"
+    }
   ]
 }
