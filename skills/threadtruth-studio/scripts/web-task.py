@@ -649,7 +649,7 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
     else:
         # WP-10a: a newly created garment-driven (v2) task gets the breathing-room flag by default. Only create() adds it;
         # frozen tasks keep their stored bytes, and later calls that omit the flag inherit it (inherit_framing_flag).
-        if v2(shot_plan) and 'framing_guidance' not in shot_plan:shot_plan=dict(shot_plan,framing_guidance=1)
+        if v2(shot_plan) and 'framing_guidance' not in shot_plan:shot_plan=dict(shot_plan,framing_guidance=2)
         context=context_check(context,size,shot_plan)
         if 'photography_targets' in context:photography_helper().strict_check(context['photography_targets'])
         if context.get('purpose')=='model-check' and (not identity or len(prompts)!=1):

@@ -161,12 +161,23 @@ class PosePlanV2Tests(unittest.TestCase):
 
     def test_default_plan_carries_framing_guidance_and_renders_breathing_room(self):
         plan = shot.default_plan('legacy', sample_plan()['coverage'])
-        self.assertEqual(plan['framing_guidance'], 1)
+        self.assertEqual(plan['framing_guidance'], 2)
         rows = shot.render(plan).split('\n')
-        self.assertIn('Shot 1: SIDE_TURN_STANDING. Framing: full-body. ' + shot.FRAMING_GUIDANCE['full-body'], rows)
-        self.assertIn('Shot 3: UPRIGHT_SEATED. Framing: half-body. ' + shot.FRAMING_GUIDANCE['half-body'], rows)
-        self.assertIn('Shot 5: SLIGHT_FORWARD_LEAN. Framing: knee-up. ' + shot.FRAMING_GUIDANCE['knee-up'], rows)
-        self.assertEqual(sum('head-height' in r for r in rows), 6)
+        self.assertIn('Shot 1: SIDE_TURN_STANDING. Framing: full-body. ' + shot.FRAMING_GUIDANCE_V2['full-body'], rows)
+        self.assertIn('Shot 3: UPRIGHT_SEATED. Framing: half-body. ' + shot.FRAMING_GUIDANCE_V2['half-body'], rows)
+        self.assertIn('Shot 5: SLIGHT_FORWARD_LEAN. Framing: knee-up. ' + shot.FRAMING_GUIDANCE_V2['knee-up'], rows)
+        self.assertEqual(sum('Hair top at about y=' in r for r in rows), 6)
+        self.assertFalse(any('head-height' in r for r in rows))
+
+    def test_framing_guidance_one_renders_legacy_wording_two_renders_numeric(self):
+        plan = shot.default_plan('legacy', sample_plan()['coverage'])
+        old = shot.render(dict(plan, framing_guidance=1)).split('\n')
+        new = shot.render(dict(plan, framing_guidance=2)).split('\n')
+        self.assertIn('Shot 1: SIDE_TURN_STANDING. Framing: full-body. ' + shot.FRAMING_GUIDANCE['full-body'], old)
+        self.assertEqual(sum('head-height' in r for r in old), 6)
+        self.assertFalse(any('Hair top at about y=' in r for r in old))
+        self.assertEqual(sum('Hair top at about y=' in r for r in new), 6)
+        self.assertFalse(any('head-height' in r for r in new))
 
     def test_plan_without_framing_guidance_renders_legacy_framing_line(self):
         plan = shot.default_plan('legacy', sample_plan()['coverage'])
@@ -177,16 +188,17 @@ class PosePlanV2Tests(unittest.TestCase):
         for loose in (True, 1.0):  # renderer must not accept bool/float even when called without validate()
             self.assertNotIn('head-height', shot.render(dict(plan, framing_guidance=loose)))
 
-    def test_framing_guidance_must_be_one_when_present(self):
+    def test_framing_guidance_must_be_one_or_two_when_present(self):
         context = dict(first_pose=1, output_form='human', purpose='delivery')
         plan = shot.default_plan('legacy', sample_plan()['coverage'])
         shot.validate(plan, inventory(), context=context, count=6)
-        for bad in (0, 2, '1', True, None):
+        shot.validate(dict(plan, framing_guidance=1), inventory(), context=context, count=6)
+        for bad in (0, 3, '1', True, None):
             with self.subTest(bad=bad), self.assertRaisesRegex(ValueError, 'framing_guidance'):
                 shot.validate(dict(plan, framing_guidance=bad), inventory(), context=context, count=6)
         v2 = sample_plan()
         with self.assertRaisesRegex(ValueError, 'framing_guidance'):
-            self.validate(dict(v2, framing_guidance=2))
+            self.validate(dict(v2, framing_guidance=3))
 
     def test_v2_plan_with_framing_guidance_validates_and_renders_it(self):
         plan = dict(sample_plan(), framing_guidance=1)
