@@ -1,5 +1,6 @@
 # Changelog
 
+- feat(wp21f): korean-cold-editorial and french-effortless carry `pose_vocabulary` + `action_tendency`; shot-plan looks may name a `pose_id` (checked with `variety_checks: 1`: id in the vocabulary, entry views covered, at least 5 of 6/9 looks); commitments are skipped only for locked/fixed appearance axes, no longer for adjustable ones.
 - feat(wp21e): `visual_plan.asset_trace` (stored for QA, never rendered); `visual_library prepare` requires a nonempty `culture_profile` and a trace row naming a `china-culture.json` record for qipao-urban and hanfu-form-specific.
 - feat(wp21d): six-cell flat-lay/hanger/mannequin plans without a same-SKU back source freeze `presentation_2_substituted` (slot 2 becomes a front detail, never a guessed back or 45° view) and the task record notes it; SKILL.md shortcut text now says single non-portrait defaults to 1 without a shot plan.
 - feat(wp21c): style cards carry visible `commitments` (korean-cold-editorial, french-effortless full; ecommerce-studio, qipao-urban, garment-illustration partial) filtered into `visual_plan` by the variables the task opens (`open_variables`, `commitments_skipped`); Korean card drops the product-specific warm-color sentence and the catalog-look exclusion yields to product-display.

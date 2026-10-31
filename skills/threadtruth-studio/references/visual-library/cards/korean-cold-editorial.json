@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "korean-cold-editorial",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "name": "韩系冷感杂志风 / Korean Cold Editorial",
   "entry_type": "legacy-style",
   "aliases": [
@@ -175,6 +175,106 @@
         "lighting"
       ],
       "check": "backdrop looks cool gray or white, not beige or yellow; skin tone is not grayed"
+    }
+  ],
+  "action_tendency": "Still, contained, architectural: small weight shifts, long vertical lines, hands quiet or occupied with one precise gesture; never bouncy or posed-cute.",
+  "pose_vocabulary": [
+    {
+      "id": "kc-wall-stand",
+      "family": "lean",
+      "body": "shoulder blades lightly against a wall, body straight, one foot crossed flat behind the other ankle",
+      "hands": "both arms hang close to the body",
+      "support": "wall and floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "long full skirts that would bunch against the wall",
+      "check": "spine stays vertical; legs read as one long line"
+    },
+    {
+      "id": "kc-off-axis-stand",
+      "family": "stand",
+      "body": "standing with the torso turned 45° away from camera while the head turns back to near-profile",
+      "hands": "one hand rests on the opposite forearm at waist height",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "garments whose key detail sits on the side turned away",
+      "check": "torso and head point in clearly different directions"
+    },
+    {
+      "id": "kc-edge-sit",
+      "family": "sit",
+      "body": "sitting on the edge of a low ledge or step, knees together and angled to one side, back upright",
+      "hands": "hands stacked loosely on one knee",
+      "support": "ledge",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "short hemlines that would ride up",
+      "check": "knees angled, back straight, hands on knee"
+    },
+    {
+      "id": "kc-collar-hold",
+      "family": "close",
+      "body": "half-body, chin slightly lowered",
+      "hands": "one hand holds the collar or neckline edge closed at the throat",
+      "support": "floor",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "garments without a collar or neckline edge to hold",
+      "check": "a single hand at the neckline; the other out of frame"
+    },
+    {
+      "id": "kc-pause-step",
+      "family": "walk",
+      "body": "caught mid-pause after a step, rear heel lifted, weight forward, arms still",
+      "hands": "arms nearly still at the sides",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "heel lifted, arms not swinging"
+    },
+    {
+      "id": "kc-window-profile",
+      "family": "turn",
+      "body": "standing in clean profile facing a window or wall edge, shoulders relaxed",
+      "hands": "hands loosely joined low in front",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "details that only exist on the front center",
+      "check": "full profile silhouette against the background"
+    },
+    {
+      "id": "kc-back-turn",
+      "family": "turn",
+      "body": "back to camera, head turned to a clean profile over the shoulder",
+      "hands": "arms relaxed",
+      "support": "floor",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back fully shown, face only in profile"
+    },
+    {
+      "id": "kc-seated-lean",
+      "family": "sit",
+      "body": "seated on a stool, forearm on the thigh, upper body leaning slightly forward",
+      "hands": "one forearm on thigh, other hand resting on the stool edge",
+      "support": "stool",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "garments whose front length would fold heavily",
+      "check": "forward lean visible, front length still readable"
     }
   ]
 }

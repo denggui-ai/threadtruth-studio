@@ -374,3 +374,72 @@ class ContractTests(unittest.TestCase):
 
 def plan_model(model):
     return dict(model, styling_lock='identity')
+
+
+class PoseVocabularyTests(unittest.TestCase):
+    """WP-21f: style pose vocabulary on korean-cold-editorial / french-effortless."""
+    def vocab(self, entry='korean-cold-editorial'):
+        return library.card(entry)['pose_vocabulary']
+
+    def validate(self, plan, inventory, vocab):
+        return shot_plan.validate(plan, inventory, context=dict(first_pose=1, output_form='human', purpose='delivery'),
+                                  count=len(plan['selected_shot_ids']), model_source='new', pose_vocabulary=vocab)
+
+    def with_poses(self, ids, count=9, checks=True):
+        plan, inventory = sample_plan(count, checks)
+        for look, pose_id in zip(plan['looks'], ids):
+            look['pose_id'] = pose_id
+        return plan, inventory
+
+    FRONT_IDS = ['kc-wall-stand', 'kc-edge-sit', 'kc-pause-step', 'kc-seated-lean', 'kc-wall-stand']
+
+    def test_unknown_pose_id_is_rejected_and_lists_the_available_ids(self):
+        plan, inventory = self.with_poses(self.FRONT_IDS)
+        self.validate(plan, inventory, self.vocab())
+        plan['looks'][0]['pose_id'] = 'kc-not-a-pose'
+        with self.assertRaisesRegex(ValueError, 'pose_id.*kc-wall-stand'):
+            self.validate(plan, inventory, self.vocab())
+
+    def test_nine_looks_need_five_pose_ids(self):
+        inventory = sample_plan()[1]
+        four, _ = self.with_poses(self.FRONT_IDS[:4])
+        with self.assertRaisesRegex(ValueError, 'at least 5.*kc-wall-stand'):
+            self.validate(four, inventory, self.vocab())
+        five, _ = self.with_poses(self.FRONT_IDS)
+        self.validate(five, inventory, self.vocab())
+
+    def test_entry_views_must_be_covered_by_the_look(self):
+        plan, inventory = self.with_poses(self.FRONT_IDS)
+        plan['looks'][0]['pose_id'] = 'kc-back-turn'  # needs "back"; the look shows only "front"
+        with self.assertRaisesRegex(ValueError, 'lacks: back'):
+            self.validate(plan, inventory, self.vocab())
+
+    def test_cards_without_a_vocabulary_are_not_checked(self):
+        self.assertNotIn('pose_vocabulary', library.card('bridal-ethereal'))
+        plan, inventory = self.with_poses(['whatever'] * 2)
+        self.validate(plan, inventory, None)
+        plan, inventory = sample_plan()
+        self.validate(plan, inventory, library.card('bridal-ethereal').get('pose_vocabulary'))
+
+    def test_plans_without_variety_checks_skip_the_pose_checks(self):
+        plan, inventory = self.with_poses(['kc-not-a-pose'], checks=False)
+        self.validate(plan, inventory, self.vocab())
+
+    def test_card_vocabularies_are_valid_and_adjustable_styling_does_not_skip_commitments(self):
+        for entry in ('korean-cold-editorial', 'french-effortless'):
+            visual_plan.check_pose_vocabulary(self.vocab(entry), library.card(entry)['action_tendency'])
+        bad = copy.deepcopy(self.vocab())
+        bad[1]['id'] = bad[0]['id']
+        with self.assertRaisesRegex(ValueError, 'repeats'):
+            visual_plan.check_pose_vocabulary(bad)
+        bad = copy.deepcopy(self.vocab())
+        bad[0]['views'] = ['sideways']
+        with self.assertRaisesRegex(ValueError, 'views'):
+            visual_plan.check_pose_vocabulary(bad)
+        make = CommitmentTests().plan
+        model = dict(source_type='ai', scope='full', subject='adult female model',
+                     locked=['apparent age around 40'], adjustable=['faint smile', 'soft makeup'], consent_note='')
+        plan = make(model=model)
+        self.assertEqual(plan['commitments_skipped'], [])
+        locked = dict(model, locked=['smiling expression'], adjustable=[])
+        self.assertEqual([r['id'] for r in make(model=locked)['commitments_skipped']], ['kc-detached-expression'])

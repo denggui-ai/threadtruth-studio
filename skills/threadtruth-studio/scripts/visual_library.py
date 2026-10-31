@@ -30,6 +30,13 @@ def _models():
     return module
 
 
+def _shots():
+    spec = importlib.util.spec_from_file_location('library_shot_plan', Path(__file__).with_name('shot_plan.py'))
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 def _read(root, relative):
     if (not isinstance(relative, str) or not relative or Path(relative).is_absolute()
             or '..' in Path(relative).parts):
@@ -290,7 +297,9 @@ def prepare(spec, root=ROOT):
         opened = open_variables(output_form, model)
         declared = set()
         if model is not None:
-            axes = _models().declared_axes(model)
+            # Only locked values and fixed factors count; adjustable styling (e.g. a faint smile) leaves the commitment on.
+            fixed = dict(model, adjustable=[], factors=[f for f in model.get('factors', []) if f.get('status') in ('fixed', 'target')])
+            axes = _models().declared_axes(fixed)
             if 'expression' in axes:
                 declared.add('expression')
             if axes & {'makeup', 'hair'}:
@@ -310,6 +319,9 @@ def prepare(spec, root=ROOT):
         if resolved:
             plan['persona'] = resolved
             plan['persona_model_sha256'] = _visual().object_hash(model)
+    if (isinstance(shot_plan, dict) and shot_plan.get('variety_checks') == 1 and output_form in ('human', 'faceless')
+            and primary.get('pose_vocabulary')):
+        _shots().check_poses(shot_plan, primary['pose_vocabulary'])
     return _visual().validate(plan, spec['inventory'],
                               context=dict(style=spec['entry_id'], first_pose=pose, output_form=output_form),
                               count=count, identity=output_form in ('human', 'faceless'), shot_plan=shot_plan)

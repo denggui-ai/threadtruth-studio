@@ -140,6 +140,12 @@ def visual_helper():
         spec.loader.exec_module(_visual_plans)
     return _visual_plans
 
+def style_poses(visual):
+    """The frozen primary style card's pose_vocabulary, or None (no plan, or a card without one)."""
+    try:return visual['style']['primary']['snapshot'].get('pose_vocabulary') or None
+    except (KeyError,TypeError,AttributeError):return None
+
+
 def shot_helper():
     global _shot_plans
     if _shot_plans is None:
@@ -185,7 +191,8 @@ def check_shot_plan(data):
         raise ValueError('Frozen shot plan changed')
     shot_helper().validate(data['shot_plan'],data['references'],context=data['context'],
         count=face_plan_count(data['context'],len(data['looks']),data.get('shot_plan')),identity=data['identity'],real_face_plan=data.get('real_face_plan'),
-        strict_references=prompt_contract(data)>=1,model_source=(data.get('model') or {}).get('source_type'))
+        strict_references=prompt_contract(data)>=1,model_source=(data.get('model') or {}).get('source_type'),
+        pose_vocabulary=style_poses(data.get('visual_plan')))
     history=data.get('shot_plan_history',[])
     if not isinstance(history,list):raise ValueError('Invalid shot plan history')
     for prior in history:
@@ -284,7 +291,7 @@ def delivery_retry_candidate(data,row,*,shot_plan=None,visual_plan=None,prompt=N
                 model=data['model'],context=data['context'],count=len(data['looks']),route=data['route'],
                 strict_looks=(number,),shot_plan=shot)
         shot_helper().validate(shot,data['references'],context=data['context'],count=len(data['looks']),
-            identity=data['identity'],real_face_plan=face,model_source=data['model']['source_type'])
+            identity=data['identity'],real_face_plan=face,model_source=data['model']['source_type'],pose_vocabulary=style_poses(visual))
         visual_helper().validate(visual,data['references'],context=data['context'],count=len(data['looks']),
             identity=data['identity'],shot_plan=shot)
         preflight_references(data['references'],data['context'],shot,face,len(data['looks']),data['identity'],data['route'])
@@ -297,7 +304,8 @@ def delivery_retry_candidate(data,row,*,shot_plan=None,visual_plan=None,prompt=N
     visual=copy.deepcopy(current_visual if visual_plan is None else visual_plan)
     shot_helper().validate(shot,data['references'],context=data['context'],
         count=face_plan_count(data['context'],len(data['looks']),data.get('shot_plan')),identity=data['identity'],
-        real_face_plan=data.get('real_face_plan'),model_source=(data.get('model') or {}).get('source_type'))
+        real_face_plan=data.get('real_face_plan'),model_source=(data.get('model') or {}).get('source_type'),
+        pose_vocabulary=style_poses(visual))
     visual_helper().validate(visual,data['references'],context=data['context'],
         count=face_plan_count(data['context'],len(data['looks']),data.get('shot_plan')),identity=data['identity'],shot_plan=data.get('shot_plan'))
     allowed_shot=copy.deepcopy(current_shot)
@@ -389,7 +397,8 @@ def preview_candidate(data, row, *, model=None, shot_plan=None, prompt=None, gar
     if planned is not None:
         planned=shot_helper().validate(planned,inventory,context=data['context'],count=face_plan_count(data['context'],1,planned),
                                       identity=data['identity'],real_face_plan=face_plan,
-                                      model_source=(changed or {}).get('source_type'))
+                                      model_source=(changed or {}).get('source_type'),
+                                      pose_vocabulary=style_poses(visual_plan if visual_plan is not None else data.get('visual_plan')))
     visual=visual_plan if visual_plan is not None else data.get('visual_plan')
     if visual is not None:
         visual=visual_helper().validate(visual,inventory,context=data['context'],count=face_plan_count(data['context'],1,planned),identity=data['identity'],shot_plan=planned)
@@ -709,7 +718,7 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
         if schema_version!=2:raise ValueError('Shot plans require schema 2')
         shot_plan=shot_helper().validate(shot_plan,inventory,context=context,
             count=face_plan_count(context,len(prompts),shot_plan),identity=identity,real_face_plan=real_face_plan,
-            model_source=(model or {}).get('source_type'))
+            model_source=(model or {}).get('source_type'),pose_vocabulary=style_poses(visual_plan))
         preflight_references(inventory,context,shot_plan,real_face_plan,len(prompts),identity,route)
         preflight_series(inventory,context,shot_plan,real_face_plan,identity,route)
     if schema_version==2:

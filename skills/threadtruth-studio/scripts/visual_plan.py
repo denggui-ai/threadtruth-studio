@@ -77,6 +77,36 @@ def _lines(value, label, *, required=False, owned=False, v2=False):
         _line(item, label, owned=owned, v2=v2)
 
 
+POSE_FIELDS = ('id', 'family', 'body', 'hands', 'support', 'views', 'avoid_when', 'check')
+POSE_FAMILIES = ('stand', 'walk', 'sit', 'lean', 'turn', 'close')
+POSE_VIEWS = ('front', 'front-side', 'back', 'detail')
+
+
+def check_pose_vocabulary(vocabulary, tendency=None):
+    """A card's pose_vocabulary: complete entries, unique ids, views from the supported garment views."""
+    if not isinstance(vocabulary, list) or not vocabulary:
+        raise ValueError('pose_vocabulary must be a nonempty list of pose entries')
+    seen = set()
+    for index, entry in enumerate(vocabulary):
+        path = f'pose_vocabulary[{index}]'
+        if not isinstance(entry, dict) or set(entry) != set(POSE_FIELDS):
+            raise ValueError(path + ' needs exactly ' + ', '.join(POSE_FIELDS))
+        for key in POSE_FIELDS:
+            if key != 'views' and (not isinstance(entry[key], str) or not entry[key].strip() or '\n' in entry[key]):
+                raise ValueError(path + '.' + key + ' must be a nonempty single line')
+        if entry['family'] not in POSE_FAMILIES:
+            raise ValueError(path + '.family must be one of ' + ', '.join(POSE_FAMILIES))
+        views = entry['views']
+        if (not isinstance(views, list) or not views or len(views) != len(set(views))
+                or any(v not in POSE_VIEWS for v in views)):
+            raise ValueError(path + '.views must be distinct values from ' + ', '.join(POSE_VIEWS))
+        if entry['id'] in seen:
+            raise ValueError(path + '.id repeats an earlier pose id: ' + entry['id'])
+        seen.add(entry['id'])
+    if tendency is not None and (not isinstance(tendency, str) or not tendency.strip()):
+        raise ValueError('action_tendency must be a nonempty line when given')
+
+
 def _component(value):
     if not isinstance(value, dict) or set(value) != {'id', 'version', 'sha256', 'snapshot'}:
         raise ValueError('A visual component freezes id, version, sha256 and snapshot')
@@ -94,6 +124,8 @@ def _component(value):
         raise ValueError('Component snapshot must be finite JSON data') from error
     if len(encoded) > 100000 or object_hash(value['snapshot']) != value['sha256']:
         raise ValueError('Frozen visual component hash does not match its snapshot')
+    if 'pose_vocabulary' in value['snapshot']:
+        check_pose_vocabulary(value['snapshot']['pose_vocabulary'], value['snapshot'].get('action_tendency'))
     if value['snapshot'].get('id', value['id']) != value['id']:
         raise ValueError('Visual component id conflicts with its frozen snapshot')
     if value['snapshot'].get('version',value['version']) != value['version']:
