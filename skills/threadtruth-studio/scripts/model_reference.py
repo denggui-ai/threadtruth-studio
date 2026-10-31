@@ -193,7 +193,7 @@ def prompt_lines(model, *, allow_child=False):
             'Model references never supply clothing, accessories, pose, backdrop or lighting. '
             'User model conditions override conflicting style personas; never infer nationality or measured fit.',
             *(['Retain reference hair and makeup unless the declared model conditions explicitly change them.']
-              if existing and model.get('styling_lock') == 'full' else
+              if existing and model.get('styling_lock', 'full') == 'full' else
               ['Identity references fix face structure, apparent age, skin tone'
                + (' and body proportions' if model['scope'] == 'full' else '')
                + '; hair, makeup and expression follow the selected style plan.']
@@ -228,6 +228,27 @@ def apply_conditions(prompt, model, *, allow_child=False):
     return canonical+'\n'+prompt
 
 
+STYLE_AXES = {
+    'expression': r'\b(expression|smil\w*|melancholy|detached|aegyo|mugging|frown\w*)\b|表情|微笑|笑容',
+    'presentation': r'\b(influencer|idol)\b',
+    'hair': r'\b(hair|hairstyle)\b|发型|髮型|头发',
+    'makeup': r'\b(makeup|make-up|lips|lipstick)\b|妆|唇',
+    'face': r'\b(face|facial)\b|五官|脸|面部',
+    'age': r'\b(young|youthful|mature|age|aged)\b|年龄|年齡',
+    'body': r'\b(physique|slim|slender|curvy|fuller|muscular)\b|\bbody (shape|proportions|type|build|size)\b|\bsame body\b|身形|身材|体型',
+    'gender': r'\b(female|male|feminine|masculine|girlish|boyish)\b|性别',
+    'skin': r'\bskin (tone|color|colour)\b|肤色',
+}
+
+
+def declared_axes(model):
+    """Axes the model explicitly declares in locked/adjustable/factors (expression, hair, makeup ...)."""
+    model = validate_model(model, allow_child=True)
+    declared = ' '.join(model['locked'] + model['adjustable'] + [model['subject']] +
+                        [f['name'] + ' ' + f['value'] for f in model.get('factors', []) if f['status'] != 'unknown'])
+    return {name for name, pattern in STYLE_AXES.items() if re.search(pattern, declared, re.I)}
+
+
 def resolve_style(model, persona, negatives):
     """Declared person axes yield without replacing the pack's unaffected attitude."""
     model = validate_model(model)
@@ -260,17 +281,7 @@ def _filter_style_text(model, text):
     does not request idol/influencer presentation. Ambiguous mixed photography
     clauses require review rather than silently losing photographic direction.
     """
-    axes = {
-        'expression': r'\b(expression|smil\w*|melancholy|detached|aegyo|mugging|frown\w*)\b|表情|微笑|笑容',
-        'presentation': r'\b(influencer|idol)\b',
-        'hair': r'\b(hair|hairstyle)\b|发型|髮型|头发',
-        'makeup': r'\b(makeup|make-up|lips|lipstick)\b|妆|唇',
-        'face': r'\b(face|facial)\b|五官|脸|面部',
-        'age': r'\b(young|youthful|mature|age|aged)\b|年龄|年齡',
-        'body': r'\b(physique|slim|slender|curvy|fuller|muscular)\b|\bbody (shape|proportions|type|build|size)\b|\bsame body\b|身形|身材|体型',
-        'gender': r'\b(female|male|feminine|masculine|girlish|boyish)\b|性别',
-        'skin': r'\bskin (tone|color|colour)\b|肤色',
-    }
+    axes = STYLE_AXES
     conditions = model['locked'] + model['adjustable']
     declared = ' '.join(conditions + [model['subject']] +
                         [f['name'] + ' ' + f['value'] for f in model.get('factors', []) if f['status'] != 'unknown'])
@@ -279,7 +290,7 @@ def _filter_style_text(model, text):
     # hair/makeup. Face-only references cannot supply an unseen body's shape.
     if model['source_type'] in ('ai', 'real'):
         active.update(('face', 'age', 'skin'))
-        if model.get('styling_lock') == 'full':
+        if model.get('styling_lock', 'full') == 'full':  # a missing key is the legacy full lock
             active.update(('hair', 'makeup'))
         if model['scope'] == 'full':
             active.add('body')

@@ -285,18 +285,21 @@ def _check_views(path,views):
     if len(views)!=len(set(views)):raise ValueError(path+' must not repeat a view; got '+_got(views))
 
 
-BACK_WORDS=re.compile(r'back to (?:the )?camera|over-shoulder|turned away|背对|回头|背影',re.I)
+BACK_WORDS=re.compile(r'back to (?:the )?camera|over[- ](?:the[- ])?shoulder|turned away|facing away|walking away|from behind|背对|回头|背影',re.I)
 
 
 def _validate_v2(plan,inventory,*,context,count,identity,real_face_plan,strict_references,model_source):
     required={'version','sku','route','coverage','looks','selected_shot_ids','series_role'}
-    keys=set(plan)-{'framing_guidance'}
+    keys=set(plan)-{'framing_guidance','variety_checks'}
     if keys!=required:
-        raise ValueError('shot_plan must have exactly the keys '+', '.join(sorted(required))+' (optional: framing_guidance); missing: '
+        raise ValueError('shot_plan must have exactly the keys '+', '.join(sorted(required))+' (optional: framing_guidance, variety_checks); missing: '
                          +(', '.join(sorted(required-keys)) or 'none')+'; unexpected: '+(', '.join(sorted(keys-required)) or 'none'))
     if not _v2_line(plan['sku']):raise ValueError('shot_plan.sku must be a nonempty single line; got '+_got(plan['sku']))
     if plan['route'] not in ('A','B'):raise ValueError('shot_plan.route must be "A" or "B"; got '+_got(plan['route']))
     _check_framing_guidance(plan)
+    if 'variety_checks' in plan and (type(plan['variety_checks']) is not int or plan['variety_checks']!=1):
+        raise ValueError('variety_checks must be 1 when present')
+    variety=plan.get('variety_checks')==1
     if (not identity or context.get('output_form') not in ('human','faceless')
             or context.get('first_pose')=='custom' or context.get('purpose') in ('model-check','correction-edit')):
         raise ValueError('Version-2 shot planning applies to human/faceless delivery and preview only; got identity='+_got(identity)
@@ -393,10 +396,10 @@ def _validate_v2(plan,inventory,*,context,count,identity,real_face_plan,strict_r
         for k in ('scene','lighting','camera'):
             if k in shot and not _v2_line(shot[k]):
                 raise ValueError(path+'.'+k+' must be a nonempty single line when given (it overrides the style card for this shot); got '+_got(shot[k]))
-        if 'back' not in views and (m:=BACK_WORDS.search(shot['body_action']+' '+(shot.get('head') or ''))):
+        if variety and 'back' not in views and (m:=BACK_WORDS.search(shot['body_action']+' '+(shot.get('head') or ''))):
             raise ValueError(path+'.body_action/head must not turn away from the camera ("'+m.group(0)+'") when garment_views has no "back"; add back coverage or change the action')
-        key=(shot['framing'],' '.join(shot['body_action'].casefold().split()))
-        if key in action_keys:
+        key=(shot['framing'],' '.join(re.sub(r'[\W_]+',' ',shot['body_action'].casefold()).split()))
+        if variety and key in action_keys:
             raise ValueError(path+'.body_action repeats shot_plan.looks['+str(action_keys[key])+'] with the same framing; give each shot a different body action or framing')
         action_keys[key]=slot-1
         if 'pose_reference' in shot:

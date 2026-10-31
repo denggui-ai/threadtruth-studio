@@ -50,7 +50,7 @@
 
 创建、修订、续图、重试和导出按当前 shot 解析同一实际有序附件列表，不把九张动作图一起发给每次请求。其他审美图通过逐张可选的 `aesthetic_reference_sha256s` 选择，不能默认混入每张；预览按格说明实际 Image N 映射。商品、原始身份与必需首张锚点都不可被姿势图挤占。当前原生实现按五附件预检，其他入口按其实际约束；自动建议图放不下时，在冻结前明确改用文字。用户指定图不能静默丢弃，必要商品／身份不足则停止该准备。
 
-逐格摄影可互异（WP-21b）：每个 look 可选 `scene`、`lighting`、`camera`（各一行），覆盖风格卡的共用值并冻结进 `visual_plan.shots`；缺省沿用卡片。校验只做两条文本层最低防线：①`garment_views` 不含 `back` 时，`body_action`/`head` 不得写背身词（back to camera、over-shoulder、turned away、背对、回头、背影）；②同一计划内不得有两格 `(framing, 规范化 body_action)` 完全相同。它们拦不住同义词和成图后的骨架重复，成图后仍需按图核对。
+逐格摄影可互异（WP-21b；检查只在 shot_plan 顶层带 `variety_checks: 1` 时启用，新建计划须写上，旧冻结计划不追溯）：每个 look 可选 `scene`、`lighting`、`camera`（各一行），覆盖风格卡的共用值并冻结进 `visual_plan.shots`；缺省沿用卡片。校验只做两条文本层最低防线：①`garment_views` 不含 `back` 时，`body_action`/`head` 不得写背身词（back to camera、over the shoulder、turned away、facing away、walking away、from behind、背对、回头、背影）；②同一计划内不得有两格 `(framing, 规范化 body_action，去标点、小写、压缩空白)` 完全相同。它们拦不住同义词和成图后的骨架重复，成图后仍需按图核对。
 
 首版九格预览使用冻结动作文字与必要商品／人物参考，独立图使用本张选定姿势图；不制作九图参考板，不承诺预览与独立图像素一致。用户明确要求预览使用某图片时必须核容量与来源；不能暗中改成文字。
 

@@ -67,7 +67,9 @@ def v2(plan):
 def inherit_framing_flag(plan,frozen):
     """WP-10a: a caller-supplied v2 plan that omits framing_guidance keeps the frozen task's flag; explicit values go to validation."""
     if v2(plan) and v2(frozen) and 'framing_guidance' not in plan and 'framing_guidance' in frozen:
-        return dict(plan,framing_guidance=frozen['framing_guidance'])
+        plan=dict(plan,framing_guidance=frozen['framing_guidance'])
+    if v2(plan) and v2(frozen) and 'variety_checks' not in plan and 'variety_checks' in frozen:
+        plan=dict(plan,variety_checks=frozen['variety_checks'])
     return plan
 
 
@@ -656,6 +658,7 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
             raise ValueError('model-check is a single portrait diagnostic, not a six-pose delivery')
         if identity:
             model=models.validate_model(model or dict(source_type='new',scope='full',subject='adult model',locked=[],adjustable=[],consent_note=''),allow_child=True)
+            if (visual_plan or {}).get('contract')==21 and 'styling_lock' not in model:model=dict(model,styling_lock='identity')  # WP-21: new contract states the lock; frozen models keep theirs
         elif model is not None:raise ValueError('Non-portrait tasks cannot carry a model')
         items=[dict(path=p,role='garment-source') if isinstance(p,(str,Path)) else dict(p) for p in refs]
         for i,item in enumerate(items):

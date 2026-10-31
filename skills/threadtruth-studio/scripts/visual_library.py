@@ -194,12 +194,16 @@ def open_variables(output_form, model=None):
     return names
 
 
-def _split_commitments(items, opened):
-    """(rendered, skipped): a commitment renders only when every variable it needs is open."""
+def _split_commitments(items, opened, declared=()):
+    """(rendered, skipped): a commitment renders only when every variable it needs is open
+    and the model conditions do not already declare that appearance axis."""
     kept, skipped = [], []
     for item in items:
         missing = [name for name in item['needs'] if name not in opened]
-        if missing:
+        blocked = [name for name in item['needs'] if name in declared]
+        if blocked and not missing:
+            skipped.append(dict(id=item['id'], reason='model-condition'))
+        elif missing:
             skipped.append(dict(id=item['id'], reason='needs ' + ', '.join(missing) + ' which this task does not open'))
         else:
             kept.append(copy.deepcopy(item))
@@ -218,6 +222,8 @@ def prepare(spec, root=ROOT):
         raise ValueError('Unknown visual preparation fields')
     primary = card(spec['entry_id'], root)
     model = _models().validate_model(spec['model'], allow_child=True) if spec.get('model') is not None else None
+    if model is not None and 'styling_lock' not in model:
+        model['styling_lock'] = 'identity'  # new plans state the lock explicitly; web-task create applies the same default
     objective = spec.get('objective', primary.get('default_objective',
                          'product-display' if spec['entry_id'] == 'ecommerce-studio' else 'styled-editorial'))
     support = primary.get('purpose_support', [])
@@ -268,7 +274,7 @@ def prepare(spec, root=ROOT):
     if objective == 'product-display' and 'negatives' not in overrides:
         # An editorial-only exclusion must not fight a catalog-style objective.
         negatives = [item for item in negatives if item != 'no e-commerce catalog look']
-    plan = dict(version=version, objective=objective, output_medium=medium, output_form=output_form,
+    plan = dict(contract=_visual().CONTRACT, version=version, objective=objective, output_medium=medium, output_form=output_form,
                 style=dict(primary=component(primary), supporting=supporting,
                            fusion_note=spec.get('fusion_note', '')),
                 garment=copy.deepcopy(spec['garment']),
@@ -282,7 +288,14 @@ def prepare(spec, root=ROOT):
         plan['culture_profile'] = component(primary['culture_profile'])
     if primary.get('commitments') and output_form in ('human', 'faceless', 'flat-lay', 'hanger', 'mannequin'):
         opened = open_variables(output_form, model)
-        plan['commitments'], plan['commitments_skipped'] = _split_commitments(primary['commitments'], opened)
+        declared = set()
+        if model is not None:
+            axes = _models().declared_axes(model)
+            if 'expression' in axes:
+                declared.add('expression')
+            if axes & {'makeup', 'hair'}:
+                declared.add('makeup')
+        plan['commitments'], plan['commitments_skipped'] = _split_commitments(primary['commitments'], opened, declared)
         plan['open_variables'] = opened
     if output_form in ('flat-lay', 'hanger', 'mannequin') and count == 6 and version == 1 and spec.get('back_source') is not True:
         # No reviewed same-SKU back source: never plan a speculative back view for presentation 2.

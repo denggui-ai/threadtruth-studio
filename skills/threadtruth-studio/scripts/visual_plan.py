@@ -30,7 +30,9 @@ SILHOUETTES = {
 # WP-21c: visible style commitments, filtered by the variables this task leaves open.
 COMMIT_NEEDS = ('makeup', 'expression', 'body', 'arrangement', 'camera', 'scene', 'lighting')
 COMMIT_OPTIONAL = ('commitments', 'commitments_skipped', 'open_variables')
+CULTURE_ENTRIES = ('qipao-urban', 'hanfu-form-specific')
 TRACE_DECISIONS = ('adopted', 'translated', 'not-applicable')
+CONTRACT = 21  # WP-21: plans carrying it use the new persona header, commitments and substitution line
 SUBSTITUTE_FLAG = 'presentation_2_substituted'  # WP-21d: no same-SKU back source, slot 2 shows a front detail instead
 SUBSTITUTE_LINE = ('Presentation 2 focus: a close front detail of a garment part not shown in presentation 3 '
                    '(neckline, shoulder, cuff or waistband); show only what the front source supports, with no rear or reverse view.')
@@ -175,7 +177,7 @@ def shot_bindings(shot_plan):
 
 def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
     """Validate resolved visual fields against original garment hashes and context."""
-    if (not isinstance(plan, dict) or set(plan) - {'culture_profile', 'persona', 'persona_model_sha256', *COMMIT_OPTIONAL, SUBSTITUTE_FLAG, 'asset_trace'} != FIELDS
+    if (not isinstance(plan, dict) or set(plan) - {'culture_profile', 'persona', 'persona_model_sha256', *COMMIT_OPTIONAL, SUBSTITUTE_FLAG, 'asset_trace', 'contract'} != FIELDS
             or type(plan['version']) is not int or plan['version'] not in (1, 2)):
         raise ValueError('Visual plan requires complete version-1 or version-2 structured fields')
     v2 = plan['version'] == 2
@@ -214,6 +216,14 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
         if not isinstance(plan['persona_model_sha256'], str) or not re.fullmatch(r'[a-f0-9]{64}', plan['persona_model_sha256']):
             raise ValueError('Style persona requires the exact resolving model hash')
         _line(plan['persona'], 'Style persona', owned=True, v2=v2)
+    new_keys = [key for key in (*COMMIT_OPTIONAL, SUBSTITUTE_FLAG, 'asset_trace') if key in plan]
+    if 'contract' in plan and (type(plan['contract']) is not int or plan['contract'] != CONTRACT):
+        raise ValueError('visual_plan.contract must be ' + str(CONTRACT) + ' when present')
+    if new_keys and plan.get('contract') != CONTRACT:
+        raise ValueError('visual_plan.' + new_keys[0] + ' requires contract ' + str(CONTRACT))
+    if plan.get('contract') == CONTRACT and context['style'] in CULTURE_ENTRIES and (
+            not plan.get('culture_profile') or not plan.get('asset_trace')):
+        raise ValueError('Cultural entries (' + ', '.join(CULTURE_ENTRIES) + ') need a culture_profile and an asset_trace')
     _commitments(plan, v2)
     if 'asset_trace' in plan:
         trace = plan['asset_trace']
@@ -227,8 +237,9 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
                 raise ValueError(path + '.decision must be one of ' + ', '.join(TRACE_DECISIONS) + '; got ' + _got(row['decision']))
             for key in ('asset', 'affects', 'check'):
                 _line(row[key], path + '.' + key)
-    if SUBSTITUTE_FLAG in plan and (plan[SUBSTITUTE_FLAG] is not True or v2 or count != 6 or plan['output_form'] not in NON_PORTRAIT_FORMS):
-        raise ValueError('visual_plan.presentation_2_substituted is true only for six-cell version-1 flat-lay, hanger or mannequin plans')
+    if SUBSTITUTE_FLAG in plan and (plan[SUBSTITUTE_FLAG] is not True or v2 or plan['output_form'] not in NON_PORTRAIT_FORMS
+                                    or not (count == 6 or (count == 1 and plan['shots'] and plan['shots'][0].get('pose') == 2))):
+        raise ValueError('visual_plan.presentation_2_substituted is true only for version-1 flat-lay, hanger or mannequin plans with six cells or a single presentation 2')
     garment = plan['garment']
     if not isinstance(garment, dict) or set(garment) - {'hem_state', 'silhouette'} != {'description', 'keep', 'source_sha256s'}:
         raise ValueError('Garment facts require description, keep and original source_sha256s (optional: hem_state, silhouette); got '
@@ -354,8 +365,9 @@ def render(plan, look=None):
     rows += ['Art technique: ' + item for item in plan['art']['techniques']]
     rows += ['Art limit: ' + item for item in plan['art']['limits']]
     if plan.get('persona'):
-        rows.append('Style persona (expression and styling; identity stays as declared): ' + plan['persona'])
-    if plan.get('commitments'):
+        rows.append(('Style persona (expression and styling; identity stays as declared): ' if plan.get('contract') == CONTRACT
+                     else 'Style persona (yields to the declared model conditions): ') + plan['persona'])
+    if plan.get('contract') == CONTRACT and plan.get('commitments'):
         rows.append('Style commitments (each must be visible in the image):')
         for item in plan['commitments']:
             rows.append('Commitment: ' + item['show'] + ''.join('; ' + step for step in item.get('realize', [])))
@@ -366,7 +378,7 @@ def render(plan, look=None):
         rows += [heading,
                  'Scene: ' + shot['scene'], 'Lighting: ' + shot['lighting'],
                  'Composition: ' + shot['composition']]
-        if plan.get(SUBSTITUTE_FLAG) and plan['version'] == 1 and shot['pose'] == 2:
+        if plan.get('contract') == CONTRACT and plan.get(SUBSTITUTE_FLAG) and plan['version'] == 1 and shot['pose'] == 2:
             rows.append(SUBSTITUTE_LINE)
     rows += ['Exclude: ' + item for item in plan['negatives']]
     rows += ['Garment facts, original identity, real-person view coverage and approved shot framing remain authoritative over visual expression.',
@@ -411,6 +423,8 @@ def subset(plan, pose):
         raise ValueError('Select one actual preview presentation')
     if plan['version'] == 1:
         selected[0]['slot'] = 1
+        if selected[0]['pose'] != 2:
+            result.pop(SUBSTITUTE_FLAG, None)
     result['shots'] = selected
     return result
 
