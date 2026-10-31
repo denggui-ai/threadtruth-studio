@@ -1,6 +1,7 @@
 """WP-21 orchestration: identity-only lock, per-shot variety, commitments, asset trace."""
 import copy
 import importlib.util
+import re
 from pathlib import Path
 import unittest
 
@@ -154,3 +155,44 @@ class CommitmentTests(unittest.TestCase):
         self.assertNotIn('no e-commerce catalog look', self.plan(objective='product-display')['negatives'])
         card = library.card('korean-cold-editorial')
         self.assertNotIn('唯一的暖色', card['photography']['palette'])
+
+
+class MissingBackTests(unittest.TestCase):
+    def spec(self, **changes):
+        base = dict(entry_id='nordic-minimal', output_form='flat-lay', count=6,
+                    inventory=[dict(sha256=FRONT, role='garment-source')],
+                    garment=dict(description='A source-backed coat.', keep=['Keep the buttons.'], source_sha256s=[FRONT]))
+        return dict(base, **changes)
+
+    def test_flat_lay_without_back_source_swaps_slot_two_for_a_front_detail(self):
+        plan = library.prepare(self.spec())
+        self.assertIs(plan['presentation_2_substituted'], True)
+        slot2 = visual_plan.render(plan, 2)
+        self.assertIn('front detail', slot2)
+        self.assertIsNone(re.search(r'\bback\b', slot2.lower()))
+        self.assertNotIn('front detail', visual_plan.render(plan, 3))
+        self.assertIn('front detail', visual_plan.render(plan))  # preview grid shows the same swap
+        with_back = library.prepare(self.spec(back_source=True))
+        self.assertNotIn('presentation_2_substituted', with_back)
+        self.assertNotIn('front detail', visual_plan.render(with_back, 2))
+        single = library.prepare(self.spec(count=1))
+        self.assertNotIn('presentation_2_substituted', single)
+
+    def test_task_record_notes_the_substitution(self):
+        import tempfile
+        from PIL import Image
+        spec = importlib.util.spec_from_file_location('wp21_web_task', SCRIPTS / 'web-task.py')
+        task = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(task)
+        with tempfile.TemporaryDirectory() as tmp:
+            image = Path(tmp) / 'front.png'
+            Image.new('RGB', (60, 40), 'red').save(image)
+            digest = task.digest(image)
+            plan = library.prepare(self.spec(inventory=[dict(sha256=digest, role='garment-source')],
+                                             garment=dict(description='A source-backed coat.', keep=['Keep the buttons.'],
+                                                          source_sha256s=[digest])))
+            context = dict(outfit='coat', style='nordic-minimal', mode='C', output_form='flat-lay', size=[60, 40],
+                           first_pose=1, purpose='preview-grid')
+            record = task.create(Path(tmp) / 'job', [image], None, [60, 40], False, context=context, visual_plan=plan)
+            self.assertIs(record['presentation_2_substituted'], True)
+            self.assertIn('front detail', record['looks'][0]['prompt'])

@@ -199,7 +199,7 @@ def prepare(spec, root=ROOT):
     in the task ledger. This local preparation does not grant or consume a call.
     """
     allowed = {'entry_id', 'garment', 'inventory', 'count', 'first_pose', 'objective', 'output_form',
-               'output_medium', 'supporting', 'fusion_note', 'overrides', 'culture_profile', 'shot_plan', 'model'}
+               'output_medium', 'supporting', 'fusion_note', 'overrides', 'culture_profile', 'shot_plan', 'model', 'back_source'}
     if not isinstance(spec, dict) or set(spec) - allowed:
         raise ValueError('Unknown visual preparation fields')
     primary = card(spec['entry_id'], root)
@@ -270,6 +270,9 @@ def prepare(spec, root=ROOT):
         opened = open_variables(output_form, model)
         plan['commitments'], plan['commitments_skipped'] = _split_commitments(primary['commitments'], opened)
         plan['open_variables'] = opened
+    if output_form in ('flat-lay', 'hanger', 'mannequin') and count == 6 and version == 1 and spec.get('back_source') is not True:
+        # No reviewed same-SKU back source: never plan a speculative back view for presentation 2.
+        plan['presentation_2_substituted'] = True
     persona = primary.get('persona')
     if model is not None and output_form == 'human' and isinstance(persona, str) and persona.strip():
         resolved = _models().resolve_persona(model, persona)

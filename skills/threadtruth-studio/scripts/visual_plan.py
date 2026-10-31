@@ -30,7 +30,11 @@ SILHOUETTES = {
 # WP-21c: visible style commitments, filtered by the variables this task leaves open.
 COMMIT_NEEDS = ('makeup', 'expression', 'body', 'arrangement', 'camera', 'scene', 'lighting')
 COMMIT_OPTIONAL = ('commitments', 'commitments_skipped', 'open_variables')
+SUBSTITUTE_FLAG = 'presentation_2_substituted'  # WP-21d: no same-SKU back source, slot 2 shows a front detail instead
+SUBSTITUTE_LINE = ('Presentation 2 focus: a close front detail of a garment part not shown in presentation 3 '
+                   '(neckline, shoulder, cuff or waistband); show only what the front source supports, with no rear or reverse view.')
 NON_PORTRAIT_OPEN = ('arrangement', 'camera', 'scene', 'lighting')
+NON_PORTRAIT_FORMS = ('flat-lay', 'hanger', 'mannequin')
 RESERVED = re.compile(r'\[(?:/?Task |/?Current model)|^\s*(?:POSE|Shot)\s+[1-6]\s*:', re.I)
 V2_RESERVED = re.compile(r'^\s*(?:POSE|Shot)\s+[7-9]\s*:', re.I)
 V2_BODY = re.compile(r'\b(?:body (?:action|pose|orientation)|hand (?:position|placement))\b', re.I)
@@ -170,7 +174,7 @@ def shot_bindings(shot_plan):
 
 def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
     """Validate resolved visual fields against original garment hashes and context."""
-    if (not isinstance(plan, dict) or set(plan) - {'culture_profile', 'persona', 'persona_model_sha256', *COMMIT_OPTIONAL} != FIELDS
+    if (not isinstance(plan, dict) or set(plan) - {'culture_profile', 'persona', 'persona_model_sha256', *COMMIT_OPTIONAL, SUBSTITUTE_FLAG} != FIELDS
             or type(plan['version']) is not int or plan['version'] not in (1, 2)):
         raise ValueError('Visual plan requires complete version-1 or version-2 structured fields')
     v2 = plan['version'] == 2
@@ -210,6 +214,8 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
             raise ValueError('Style persona requires the exact resolving model hash')
         _line(plan['persona'], 'Style persona', owned=True, v2=v2)
     _commitments(plan, v2)
+    if SUBSTITUTE_FLAG in plan and (plan[SUBSTITUTE_FLAG] is not True or v2 or count != 6 or plan['output_form'] not in NON_PORTRAIT_FORMS):
+        raise ValueError('visual_plan.presentation_2_substituted is true only for six-cell version-1 flat-lay, hanger or mannequin plans')
     garment = plan['garment']
     if not isinstance(garment, dict) or set(garment) - {'hem_state', 'silhouette'} != {'description', 'keep', 'source_sha256s'}:
         raise ValueError('Garment facts require description, keep and original source_sha256s (optional: hem_state, silhouette); got '
@@ -347,6 +353,8 @@ def render(plan, look=None):
         rows += [heading,
                  'Scene: ' + shot['scene'], 'Lighting: ' + shot['lighting'],
                  'Composition: ' + shot['composition']]
+        if plan.get(SUBSTITUTE_FLAG) and plan['version'] == 1 and shot['pose'] == 2:
+            rows.append(SUBSTITUTE_LINE)
     rows += ['Exclude: ' + item for item in plan['negatives']]
     rows += ['Garment facts, original identity, real-person view coverage and approved shot framing remain authoritative over visual expression.',
              'Create image artwork without added branding, poster copy, slogans, captions or extra text layouts. Preserve existing source garment marks and lettering; a direction preview may retain its required preview-only label.', END]

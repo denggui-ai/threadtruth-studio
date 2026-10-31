@@ -735,6 +735,8 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
             data.update(real_face_plan=real_face_plan,real_face_plan_sha256=object_hash(real_face_plan))
         if shot_plan is not None:
             data.update(shot_plan=shot_plan,shot_plan_sha256=object_hash(shot_plan),plan_version=0)
+        if visual_plan is not None and visual_plan.get('presentation_2_substituted'):
+            data['presentation_2_substituted']=True
         if visual_plan is not None:
             data.update(visual_plan=visual_plan,visual_plan_sha256=object_hash(visual_plan),plan_version=0,prompt_contract_version=2)
         if schema_version==2 and v2(shot_plan) and identity:
