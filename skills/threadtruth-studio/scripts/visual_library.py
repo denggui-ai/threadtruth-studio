@@ -30,6 +30,13 @@ def _models():
     return module
 
 
+def _shots():
+    spec = importlib.util.spec_from_file_location('library_shot_plan', Path(__file__).with_name('shot_plan.py'))
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 def _read(root, relative):
     if (not isinstance(relative, str) or not relative or Path(relative).is_absolute()
             or '..' in Path(relative).parts):
@@ -160,6 +167,56 @@ def route(query, root=ROOT):
     return result
 
 
+def _look_of(shot_plan, slot):
+    """The shot-plan look at a logical slot, or {} without a plan."""
+    for look in (shot_plan or {}).get('looks', []):
+        if look.get('slot') == slot:
+            return look
+    return {}
+
+
+CULTURE_ENTRIES = ('qipao-urban', 'hanfu-form-specific')
+CULTURE_CATALOG = 'references/visual-library/china-culture.json'
+
+
+def _check_culture_trace(plan, root):
+    """Cultural entries freeze a culture profile and at least one trace row naming a catalog record."""
+    if not plan.get('culture_profile'):
+        raise ValueError('Cultural entries need a nonempty culture_profile (spec.culture_profile or the card)')
+    known = {record.get('id') for record in _read(root, CULTURE_CATALOG).get('records', [])}
+    if not any(isinstance(row, dict) and row.get('asset') in known for row in plan.get('asset_trace') or []):
+        raise ValueError('Cultural entries need asset_trace with at least one asset naming a ' + CULTURE_CATALOG
+                         + ' record id (' + ', '.join(sorted(known)[:3]) + ', ...)')
+
+
+def open_variables(output_form, model=None):
+    """Variables this task leaves to the style: faceless drops makeup/expression, non-portrait forms keep staging only."""
+    if output_form in ('flat-lay', 'hanger', 'mannequin'):
+        return ['arrangement', 'camera', 'scene', 'lighting']
+    names = ['makeup', 'expression', 'body', 'arrangement', 'camera', 'scene', 'lighting']
+    if output_form == 'faceless':
+        names = [name for name in names if name not in ('makeup', 'expression')]
+    elif model is not None and model.get('styling_lock') == 'full':
+        names.remove('makeup')
+    return names
+
+
+def _split_commitments(items, opened, declared=()):
+    """(rendered, skipped): a commitment renders only when every variable it needs is open
+    and the model conditions do not already declare that appearance axis."""
+    kept, skipped = [], []
+    for item in items:
+        missing = [name for name in item['needs'] if name not in opened]
+        blocked = [name for name in item['needs'] if name in declared]
+        if blocked and not missing:
+            skipped.append(dict(id=item['id'], reason='model-condition'))
+        elif missing:
+            skipped.append(dict(id=item['id'], reason='needs ' + ', '.join(missing) + ' which this task does not open'))
+        else:
+            kept.append(copy.deepcopy(item))
+    return kept, skipped
+
+
 def prepare(spec, root=ROOT):
     """Resolve defaults once; the task subsequently uses only this frozen plan.
 
@@ -167,11 +224,13 @@ def prepare(spec, root=ROOT):
     in the task ledger. This local preparation does not grant or consume a call.
     """
     allowed = {'entry_id', 'garment', 'inventory', 'count', 'first_pose', 'objective', 'output_form',
-               'output_medium', 'supporting', 'fusion_note', 'overrides', 'culture_profile', 'shot_plan', 'model'}
+               'output_medium', 'supporting', 'fusion_note', 'overrides', 'culture_profile', 'shot_plan', 'model', 'back_source', 'asset_trace'}
     if not isinstance(spec, dict) or set(spec) - allowed:
         raise ValueError('Unknown visual preparation fields')
     primary = card(spec['entry_id'], root)
     model = _models().validate_model(spec['model'], allow_child=True) if spec.get('model') is not None else None
+    if model is not None and 'styling_lock' not in model:
+        model['styling_lock'] = 'identity'  # new plans state the lock explicitly; web-task create applies the same default
     objective = spec.get('objective', primary.get('default_objective',
                          'product-display' if spec['entry_id'] == 'ecommerce-studio' else 'styled-editorial'))
     support = primary.get('purpose_support', [])
@@ -209,30 +268,60 @@ def prepare(spec, root=ROOT):
     version = 2 if bindings is not None or count == 9 else 1
     if version == 2:
         bindings = bindings or [dict(slot=i, shot_id='shot-' + str(i)) for i in range(1, count + 1)]
-        shots = [dict(binding, **{key: photography[key] for key in ('scene', 'lighting', 'composition')})
+        # Each look may override scene/lighting/camera; otherwise it inherits the card value.
+        shots = [dict(binding, **{key: _look_of(shot_plan, binding['slot']).get(source) or photography[key]
+                                  for key, source in (('scene', 'scene'), ('lighting', 'lighting'),
+                                                      ('composition', 'camera'))})
                  for binding in bindings]
     else:
         shots = [dict(slot=i, pose=i if count == 6 else pose,
                       **{key: photography[key] for key in ('scene', 'lighting', 'composition')})
                  for i in range(1, count + 1)]
-    plan = dict(version=version, objective=objective, output_medium=medium, output_form=output_form,
+    negatives = copy.deepcopy(overrides.get('negatives', primary.get('negatives', [])))
+    if objective == 'product-display' and 'negatives' not in overrides:
+        # An editorial-only exclusion must not fight a catalog-style objective.
+        negatives = [item for item in negatives if item != 'no e-commerce catalog look']
+    plan = dict(contract=_visual().CONTRACT, version=version, objective=objective, output_medium=medium, output_form=output_form,
                 style=dict(primary=component(primary), supporting=supporting,
                            fusion_note=spec.get('fusion_note', '')),
                 garment=copy.deepcopy(spec['garment']),
                 styling=copy.deepcopy(overrides.get('styling', [])),
                 photography=photography, art=art,
-                negatives=copy.deepcopy(overrides.get('negatives', primary.get('negatives', []))),
+                negatives=negatives,
                 shots=copy.deepcopy(overrides.get('shots', shots)))
     if spec.get('culture_profile') is not None:
         plan['culture_profile'] = component(spec['culture_profile'])
     elif primary.get('culture_profile'):
         plan['culture_profile'] = component(primary['culture_profile'])
+    if primary.get('commitments') and output_form in ('human', 'faceless', 'flat-lay', 'hanger', 'mannequin'):
+        opened = open_variables(output_form, model)
+        declared = set()
+        if model is not None:
+            # Only locked values and fixed factors count; adjustable styling (e.g. a faint smile) leaves the commitment on.
+            fixed = dict(model, adjustable=[], factors=[f for f in model.get('factors', []) if f.get('status') in ('fixed', 'target')])
+            axes = _models().declared_axes(fixed)
+            if 'expression' in axes:
+                declared.add('expression')
+            if axes & {'makeup', 'hair'}:
+                declared.add('makeup')
+        plan['commitments'], plan['commitments_skipped'] = _split_commitments(primary['commitments'], opened, declared)
+        plan['open_variables'] = opened
+    if output_form in ('flat-lay', 'hanger', 'mannequin') and count == 6 and version == 1 and spec.get('back_source') is not True:
+        # No reviewed same-SKU back source: never plan a speculative back view for presentation 2.
+        plan['presentation_2_substituted'] = True
+    if spec.get('asset_trace') is not None:
+        plan['asset_trace'] = copy.deepcopy(spec['asset_trace'])
+    if spec['entry_id'] in CULTURE_ENTRIES:
+        _check_culture_trace(plan, root)
     persona = primary.get('persona')
     if model is not None and output_form == 'human' and isinstance(persona, str) and persona.strip():
         resolved = _models().resolve_persona(model, persona)
         if resolved:
             plan['persona'] = resolved
             plan['persona_model_sha256'] = _visual().object_hash(model)
+    if (isinstance(shot_plan, dict) and shot_plan.get('variety_checks') == 1 and output_form in ('human', 'faceless')
+            and primary.get('pose_vocabulary')):
+        _shots().check_poses(shot_plan, primary['pose_vocabulary'])
     return _visual().validate(plan, spec['inventory'],
                               context=dict(style=spec['entry_id'], first_pose=pose, output_form=output_form),
                               count=count, identity=output_form in ('human', 'faceless'), shot_plan=shot_plan)

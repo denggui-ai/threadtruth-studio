@@ -47,7 +47,12 @@ class VisualLibraryTests(unittest.TestCase):
         cls.library = load('expression_library', 'skills/threadtruth-studio/scripts/visual_library.py')
 
     def spec(self, entry_id):
-        return dict(entry_id=entry_id,
+        culture = {}
+        if entry_id in ('qipao-urban', 'hanfu-form-specific'):  # WP-21e: cultural entries freeze a profile and a trace
+            culture = dict(culture_profile=dict(id=entry_id + '-test-profile', version=1, form='synthetic form profile'),
+                           asset_trace=[dict(asset='C10' if entry_id == 'qipao-urban' else 'C05', decision='translated',
+                                             affects='garment.keep', check='closure and collar match the source')])
+        return dict(entry_id=entry_id, **culture,
                     garment=dict(description='A white sleeveless padded vest from the original image.',
                                  keep=['Preserve the visible hood, front zipper and white shell.'],
                                  source_sha256s=['a' * 64]),

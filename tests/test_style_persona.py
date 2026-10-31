@@ -27,6 +27,8 @@ class StylePersonaTests(unittest.TestCase):
     def model(self, source='new', **changes):
         model = dict(source_type=source, scope='full', subject='adult female model',
                      locked=[], adjustable=[], consent_note='Express likeness permission')
+        if source in ('ai', 'real'):
+            model['styling_lock'] = 'full'  # these tests cover the full hair/makeup lock (WP-21 D1)
         model.update(changes)
         return model
 

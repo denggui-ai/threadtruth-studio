@@ -58,7 +58,7 @@ class ModelReferenceTests(unittest.TestCase):
 
     def test_empty_adjustable_respects_explicit_fixed_styling_targets(self):
         for source_type in ('ai', 'real'):
-            model = self.model(source_type=source_type,
+            model = self.model(source_type=source_type, styling_lock='full',
                                locked=['short black bob hairstyle', 'matte red lipstick'],
                                adjustable=[], consent_note='Declared likeness permission')
             with self.subTest(source_type=source_type):
@@ -293,8 +293,11 @@ class ModelReferenceTests(unittest.TestCase):
         self.assertNotIn('detached expression', actual)
         self.assertEqual(self.m.resolve_mood(model, 'friendly smile, warm light'), 'friendly smile, warm light')
         self.assertEqual(self.m.resolve_mood(self.model(source_type='new', locked=[], adjustable=[]), mood), mood)
-        reused = self.m.resolve_mood(self.model(locked=[], adjustable=['friendly smile']), mood)
+        reused = self.m.resolve_mood(self.model(locked=[], adjustable=['friendly smile'], styling_lock='full'), mood)
         self.assertEqual(reused, 'warm light, film texture')
+        # WP-21 D1: the explicit identity-only lock leaves hair and makeup to the style
+        default = self.m.resolve_mood(self.model(locked=[], adjustable=['friendly smile'], styling_lock='identity'), mood)
+        self.assertEqual(default, 'warm light, film texture, dewy makeup, natural flyaway hair')
 
     def test_unseparable_mixed_conflict_requires_review_without_discarding_photography(self):
         model = self.model(adjustable=['friendly smile'])

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "garment-illustration",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "name": "服饰插画",
   "entry_type": "art-output",
   "aliases": [
@@ -111,5 +111,24 @@
   "default_objective": "art-campaign",
   "scene_options": [
     "简洁色面、纸面留白或与主题相关的绘画空间；独立图片无标题与排版。"
+  ],
+  "commitments": [
+    {
+      "id": "gi-single-light-direction",
+      "show": "shading comes from one consistent direction; lit and shaded planes show the garment layers",
+      "needs": [
+        "lighting"
+      ],
+      "check": "one light side is shared by every cell; shaded areas are drawn as flat tone planes, not photographic gradients"
+    },
+    {
+      "id": "gi-paper-margin",
+      "show": "a warm paper ground with a few color blocks and a generous blank margin around the whole garment; no lettering",
+      "needs": [
+        "scene",
+        "camera"
+      ],
+      "check": "the whole garment sits inside the frame with visible paper margin on every side; no text appears"
+    }
   ]
 }

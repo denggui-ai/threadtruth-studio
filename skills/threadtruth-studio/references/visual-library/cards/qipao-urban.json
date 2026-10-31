@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "qipao-urban",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "name": "旗袍都市人像",
   "entry_type": "cultural-garment",
   "aliases": [
@@ -94,5 +94,35 @@
   "default_objective": "styled-editorial",
   "scene_options": [
     "现代街道、简洁建筑门廊或有明确年代依据的室内；场景与本次年代选择一致。"
+  ],
+  "commitments": [
+    {
+      "id": "qp-side-front-light",
+      "show": "neutral window or city daylight from the front side that shapes the cut; sheen keeps its tonal layers",
+      "needs": [
+        "lighting"
+      ],
+      "realize": [
+        "light comes from the front-left or front-right, not flat from the camera"
+      ],
+      "check": "one side of the dress is slightly brighter than the other; buttons, waist line and hem edge stay readable"
+    },
+    {
+      "id": "qp-urban-geometry",
+      "show": "a modern building doorway whose clean geometric lines echo the garment lines",
+      "needs": [
+        "scene",
+        "camera"
+      ],
+      "check": "straight architectural lines are visible behind the subject; no antique Shanghai props or lanterns"
+    },
+    {
+      "id": "qp-composed-stance",
+      "show": "a composed upright stance with a small turn that shows the true fit at the waist and slit",
+      "needs": [
+        "body"
+      ],
+      "check": "waist, closure and slit remain unobstructed and readable in each cell"
+    }
   ]
 }

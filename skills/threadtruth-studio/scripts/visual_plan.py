@@ -27,6 +27,17 @@ SILHOUETTES = {
     'tapered-leg': 'Trouser silhouette, tapered: each leg narrows steadily from the thigh to the hem; the hem opening is narrower than the knee.',
     'flared-leg': 'Trouser silhouette, flared: each leg stays close from the thigh to the knee, then widens from the knee to a hem opening clearly wider than the knee.',
 }
+# WP-21c: visible style commitments, filtered by the variables this task leaves open.
+COMMIT_NEEDS = ('makeup', 'expression', 'body', 'arrangement', 'camera', 'scene', 'lighting')
+COMMIT_OPTIONAL = ('commitments', 'commitments_skipped', 'open_variables')
+CULTURE_ENTRIES = ('qipao-urban', 'hanfu-form-specific')
+TRACE_DECISIONS = ('adopted', 'translated', 'not-applicable')
+CONTRACT = 21  # WP-21: plans carrying it use the new persona header, commitments and substitution line
+SUBSTITUTE_FLAG = 'presentation_2_substituted'  # WP-21d: no same-SKU back source, slot 2 shows a front detail instead
+SUBSTITUTE_LINE = ('Presentation 2 focus: a close front detail of a garment part not shown in presentation 3 '
+                   '(neckline, shoulder, cuff or waistband); show only what the front source supports, with no rear or reverse view.')
+NON_PORTRAIT_OPEN = ('arrangement', 'camera', 'scene', 'lighting')
+NON_PORTRAIT_FORMS = ('flat-lay', 'hanger', 'mannequin')
 RESERVED = re.compile(r'\[(?:/?Task |/?Current model)|^\s*(?:POSE|Shot)\s+[1-6]\s*:', re.I)
 V2_RESERVED = re.compile(r'^\s*(?:POSE|Shot)\s+[7-9]\s*:', re.I)
 V2_BODY = re.compile(r'\b(?:body (?:action|pose|orientation)|hand (?:position|placement))\b', re.I)
@@ -66,6 +77,36 @@ def _lines(value, label, *, required=False, owned=False, v2=False):
         _line(item, label, owned=owned, v2=v2)
 
 
+POSE_FIELDS = ('id', 'family', 'body', 'hands', 'support', 'views', 'avoid_when', 'check')
+POSE_FAMILIES = ('stand', 'walk', 'sit', 'lean', 'turn', 'close')
+POSE_VIEWS = ('front', 'front-side', 'back', 'detail')
+
+
+def check_pose_vocabulary(vocabulary, tendency=None):
+    """A card's pose_vocabulary: complete entries, unique ids, views from the supported garment views."""
+    if not isinstance(vocabulary, list) or not vocabulary:
+        raise ValueError('pose_vocabulary must be a nonempty list of pose entries')
+    seen = set()
+    for index, entry in enumerate(vocabulary):
+        path = f'pose_vocabulary[{index}]'
+        if not isinstance(entry, dict) or set(entry) != set(POSE_FIELDS):
+            raise ValueError(path + ' needs exactly ' + ', '.join(POSE_FIELDS))
+        for key in POSE_FIELDS:
+            if key != 'views' and (not isinstance(entry[key], str) or not entry[key].strip() or '\n' in entry[key]):
+                raise ValueError(path + '.' + key + ' must be a nonempty single line')
+        if entry['family'] not in POSE_FAMILIES:
+            raise ValueError(path + '.family must be one of ' + ', '.join(POSE_FAMILIES))
+        views = entry['views']
+        if (not isinstance(views, list) or not views or len(views) != len(set(views))
+                or any(v not in POSE_VIEWS for v in views)):
+            raise ValueError(path + '.views must be distinct values from ' + ', '.join(POSE_VIEWS))
+        if entry['id'] in seen:
+            raise ValueError(path + '.id repeats an earlier pose id: ' + entry['id'])
+        seen.add(entry['id'])
+    if tendency is not None and (not isinstance(tendency, str) or not tendency.strip()):
+        raise ValueError('action_tendency must be a nonempty line when given')
+
+
 def _component(value):
     if not isinstance(value, dict) or set(value) != {'id', 'version', 'sha256', 'snapshot'}:
         raise ValueError('A visual component freezes id, version, sha256 and snapshot')
@@ -83,10 +124,61 @@ def _component(value):
         raise ValueError('Component snapshot must be finite JSON data') from error
     if len(encoded) > 100000 or object_hash(value['snapshot']) != value['sha256']:
         raise ValueError('Frozen visual component hash does not match its snapshot')
+    if 'pose_vocabulary' in value['snapshot']:
+        check_pose_vocabulary(value['snapshot']['pose_vocabulary'], value['snapshot'].get('action_tendency'))
     if value['snapshot'].get('id', value['id']) != value['id']:
         raise ValueError('Visual component id conflicts with its frozen snapshot')
     if value['snapshot'].get('version',value['version']) != value['version']:
         raise ValueError('Visual component version conflicts with its frozen snapshot')
+
+
+def _commitments(plan, v2):
+    """Frozen commitments, the skipped ones with reasons, and the open variables travel together."""
+    present = [key for key in COMMIT_OPTIONAL if key in plan]
+    if not present:
+        return
+    if len(present) != len(COMMIT_OPTIONAL):
+        raise ValueError('visual_plan commitments, commitments_skipped and open_variables are frozen together')
+    opened = plan['open_variables']
+    allowed = set(COMMIT_NEEDS) if plan['output_form'] == 'human' else (
+        set(COMMIT_NEEDS) - {'makeup', 'expression'} if plan['output_form'] == 'faceless' else set(NON_PORTRAIT_OPEN))
+    if (not isinstance(opened, list) or not opened or len(set(opened)) != len(opened)
+            or any(not isinstance(item, str) or item not in allowed for item in opened)):
+        raise ValueError('visual_plan.open_variables must be distinct names the output form can open: '
+                         + ', '.join(sorted(allowed)) + '; got ' + _got(opened))
+    rows = plan['commitments']
+    if not isinstance(rows, list) or len(rows) > 8:
+        raise ValueError('visual_plan.commitments must be a list of at most 8 visible commitments')
+    seen = set()
+    for index, row in enumerate(rows):
+        path = f'visual_plan.commitments[{index}]'
+        if not isinstance(row, dict) or not {'id', 'show', 'needs', 'check'} <= set(row) or set(row) - {'id', 'show', 'needs', 'check', 'realize'}:
+            raise ValueError(path + ' needs id, show, needs, check (optional: realize); got ' + _got(row))
+        _line(row['id'], path + '.id')
+        if not re.fullmatch(r'[a-z0-9][a-z0-9-]{0,79}', row['id']) or row['id'] in seen:
+            raise ValueError(path + '.id must be a distinct lowercase slug; got ' + _got(row['id']))
+        seen.add(row['id'])
+        _line(row['show'], path + '.show', owned=True, v2=v2)
+        _line(row['check'], path + '.check', owned=True, v2=v2)
+        if 'realize' in row:
+            _lines(row['realize'], path + '.realize', owned=True, v2=v2)
+        needs = row['needs']
+        if (not isinstance(needs, list) or not needs or len(set(needs)) != len(needs)
+                or any(not isinstance(item, str) or item not in COMMIT_NEEDS for item in needs)):
+            raise ValueError(path + '.needs must be distinct names from ' + ', '.join(COMMIT_NEEDS) + '; got ' + _got(needs))
+        if not set(needs) <= set(opened):
+            raise ValueError(path + '.needs must be open variables of this task (' + ', '.join(opened)
+                             + '); move it to commitments_skipped')
+    skipped = plan['commitments_skipped']
+    if not isinstance(skipped, list) or len(skipped) > 16:
+        raise ValueError('visual_plan.commitments_skipped must be a list of {id, reason}')
+    for index, row in enumerate(skipped):
+        if not isinstance(row, dict) or set(row) != {'id', 'reason'}:
+            raise ValueError(f'visual_plan.commitments_skipped[{index}] needs exactly id and reason; got ' + _got(row))
+        _line(row['id'], 'Skipped commitment id')
+        _line(row['reason'], 'Skipped commitment reason')
+        if row['id'] in seen:
+            raise ValueError('A commitment cannot be both rendered and skipped: ' + row['id'])
 
 
 def shot_bindings(shot_plan):
@@ -117,7 +209,7 @@ def shot_bindings(shot_plan):
 
 def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
     """Validate resolved visual fields against original garment hashes and context."""
-    if (not isinstance(plan, dict) or set(plan) - {'culture_profile', 'persona', 'persona_model_sha256'} != FIELDS
+    if (not isinstance(plan, dict) or set(plan) - {'culture_profile', 'persona', 'persona_model_sha256', *COMMIT_OPTIONAL, SUBSTITUTE_FLAG, 'asset_trace', 'contract'} != FIELDS
             or type(plan['version']) is not int or plan['version'] not in (1, 2)):
         raise ValueError('Visual plan requires complete version-1 or version-2 structured fields')
     v2 = plan['version'] == 2
@@ -156,6 +248,30 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
         if not isinstance(plan['persona_model_sha256'], str) or not re.fullmatch(r'[a-f0-9]{64}', plan['persona_model_sha256']):
             raise ValueError('Style persona requires the exact resolving model hash')
         _line(plan['persona'], 'Style persona', owned=True, v2=v2)
+    new_keys = [key for key in (*COMMIT_OPTIONAL, SUBSTITUTE_FLAG, 'asset_trace') if key in plan]
+    if 'contract' in plan and (type(plan['contract']) is not int or plan['contract'] != CONTRACT):
+        raise ValueError('visual_plan.contract must be ' + str(CONTRACT) + ' when present')
+    if new_keys and plan.get('contract') != CONTRACT:
+        raise ValueError('visual_plan.' + new_keys[0] + ' requires contract ' + str(CONTRACT))
+    if plan.get('contract') == CONTRACT and context['style'] in CULTURE_ENTRIES and (
+            not plan.get('culture_profile') or not plan.get('asset_trace')):
+        raise ValueError('Cultural entries (' + ', '.join(CULTURE_ENTRIES) + ') need a culture_profile and an asset_trace')
+    _commitments(plan, v2)
+    if 'asset_trace' in plan:
+        trace = plan['asset_trace']
+        if not isinstance(trace, list) or not trace or len(trace) > 24:
+            raise ValueError('visual_plan.asset_trace must be a nonempty list of {asset, decision, affects, check}; got ' + _got(trace))
+        for index, row in enumerate(trace):
+            path = f'visual_plan.asset_trace[{index}]'
+            if not isinstance(row, dict) or set(row) != {'asset', 'decision', 'affects', 'check'}:
+                raise ValueError(path + ' needs exactly asset, decision, affects, check; got ' + _got(row))
+            if row['decision'] not in TRACE_DECISIONS:
+                raise ValueError(path + '.decision must be one of ' + ', '.join(TRACE_DECISIONS) + '; got ' + _got(row['decision']))
+            for key in ('asset', 'affects', 'check'):
+                _line(row[key], path + '.' + key)
+    if SUBSTITUTE_FLAG in plan and (plan[SUBSTITUTE_FLAG] is not True or v2 or plan['output_form'] not in NON_PORTRAIT_FORMS
+                                    or not (count == 6 or (count == 1 and plan['shots'] and plan['shots'][0].get('pose') == 2))):
+        raise ValueError('visual_plan.presentation_2_substituted is true only for version-1 flat-lay, hanger or mannequin plans with six cells or a single presentation 2')
     garment = plan['garment']
     if not isinstance(garment, dict) or set(garment) - {'hem_state', 'silhouette'} != {'description', 'keep', 'source_sha256s'}:
         raise ValueError('Garment facts require description, keep and original source_sha256s (optional: hem_state, silhouette); got '
@@ -281,7 +397,12 @@ def render(plan, look=None):
     rows += ['Art technique: ' + item for item in plan['art']['techniques']]
     rows += ['Art limit: ' + item for item in plan['art']['limits']]
     if plan.get('persona'):
-        rows.append('Style persona (yields to the declared model conditions): ' + plan['persona'])
+        rows.append(('Style persona (expression and styling; identity stays as declared): ' if plan.get('contract') == CONTRACT
+                     else 'Style persona (yields to the declared model conditions): ') + plan['persona'])
+    if plan.get('contract') == CONTRACT and plan.get('commitments'):
+        rows.append('Style commitments (each must be visible in the image):')
+        for item in plan['commitments']:
+            rows.append('Commitment: ' + item['show'] + ''.join('; ' + step for step in item.get('realize', [])))
     cells = plan['shots'] if look is None else [plan['shots'][look - 1]]
     for shot in cells:
         heading = (f"Visual slot {shot['slot']} (shot {shot['shot_id']}):" if plan['version'] == 2
@@ -289,6 +410,8 @@ def render(plan, look=None):
         rows += [heading,
                  'Scene: ' + shot['scene'], 'Lighting: ' + shot['lighting'],
                  'Composition: ' + shot['composition']]
+        if plan.get('contract') == CONTRACT and plan.get(SUBSTITUTE_FLAG) and plan['version'] == 1 and shot['pose'] == 2:
+            rows.append(SUBSTITUTE_LINE)
     rows += ['Exclude: ' + item for item in plan['negatives']]
     rows += ['Garment facts, original identity, real-person view coverage and approved shot framing remain authoritative over visual expression.',
              'Create image artwork without added branding, poster copy, slogans, captions or extra text layouts. Preserve existing source garment marks and lettering; a direction preview may retain its required preview-only label.', END]
@@ -332,6 +455,8 @@ def subset(plan, pose):
         raise ValueError('Select one actual preview presentation')
     if plan['version'] == 1:
         selected[0]['slot'] = 1
+        if selected[0]['pose'] != 2:
+            result.pop(SUBSTITUTE_FLAG, None)
     result['shots'] = selected
     return result
 

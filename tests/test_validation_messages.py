@@ -25,7 +25,7 @@ def plan(count=9):
     coverage = [dict(sha256=FRONT, views=['front', 'detail'], usable=True, same_sku=True, note='Synthetic front.'),
                 dict(sha256=BACK, views=['back'], usable=True, same_sku=True, note='Synthetic back.')]
     looks = [dict(slot=n, shot_id='s-' + str(n), display_goal='Show the hem.', must_show=['collar', 'hem'],
-                  reason='Hands clear the print.', body_action='Stand with a small weight shift.',
+                  reason='Hands clear the print.', body_action='Stand with a small weight shift, variant ' + str(n) + '.',
                   hands='Both hands low.', support='Both feet on the floor.', framing='full-body',
                   garment_views=['front'], reference_sha256s=[FRONT]) for n in range(1, count + 1)]
     return dict(version=2, sku='top', route='A', coverage=coverage, looks=looks,

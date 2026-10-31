@@ -55,10 +55,11 @@ def default_plan(sku,coverage):
     return dict(version=1,sku=sku,route='A' if back else 'B',preservation='classic',adaptation_note='',coverage=copy.deepcopy(coverage),looks=looks,framing_guidance=2)
 
 
-def validate(plan,inventory,*,context,count,identity=True,real_face_plan=None,strict_references=True,model_source=None):
+def validate(plan,inventory,*,context,count,identity=True,real_face_plan=None,strict_references=True,model_source=None,pose_vocabulary=None):
     if is_v2(plan):
         return _validate_v2(plan,inventory,context=context,count=count,identity=identity,
-                            real_face_plan=real_face_plan,strict_references=strict_references,model_source=model_source)
+                            real_face_plan=real_face_plan,strict_references=strict_references,model_source=model_source,
+                            pose_vocabulary=pose_vocabulary)
     fields={'version','sku','route','preservation','adaptation_note','coverage','looks'}
     if not isinstance(plan,dict) or set(plan)-{'framing_guidance'}!=fields or type(plan['version']) is not int or plan['version']!=1:
         raise ValueError('Shot plan requires version=1, sku, route, preservation, adaptation_note, coverage and looks')
@@ -285,15 +286,38 @@ def _check_views(path,views):
     if len(views)!=len(set(views)):raise ValueError(path+' must not repeat a view; got '+_got(views))
 
 
-def _validate_v2(plan,inventory,*,context,count,identity,real_face_plan,strict_references,model_source):
+BACK_WORDS=re.compile(r'back to (?:the )?camera|over[- ](?:the[- ])?shoulder|turned away|facing away|walking away|from behind|背对|回头|背影',re.I)
+
+
+def check_poses(plan,vocabulary):
+    """WP-21f: with a style pose vocabulary, pose_id must name an entry whose views the look shows; a six/nine grid uses it on at least five looks."""
+    if not vocabulary:return
+    by_id={e['id']:e for e in vocabulary}
+    looks=plan['looks'];used=0
+    for i,shot in enumerate(looks):
+        if 'pose_id' not in shot:continue
+        entry=by_id.get(shot['pose_id'])
+        if entry is None:
+            raise ValueError(f'shot_plan.looks[{i}].pose_id must be one of the style pose ids: '+', '.join(sorted(by_id))+'; got '+_got(shot['pose_id']))
+        missing=[v for v in entry['views'] if v not in shot['garment_views']]
+        if missing:
+            raise ValueError(f'shot_plan.looks[{i}].pose_id "{entry["id"]}" needs garment_views {", ".join(entry["views"])}; this look lacks: '+', '.join(missing))
+        used+=1
+    if len(looks)>=6 and used<5:
+        raise ValueError(f'shot_plan.looks: at least 5 looks must carry a pose_id from the style pose vocabulary (found {used}); available ids: '+', '.join(sorted(by_id)))
+
+def _validate_v2(plan,inventory,*,context,count,identity,real_face_plan,strict_references,model_source,pose_vocabulary=None):
     required={'version','sku','route','coverage','looks','selected_shot_ids','series_role'}
-    keys=set(plan)-{'framing_guidance'}
+    keys=set(plan)-{'framing_guidance','variety_checks'}
     if keys!=required:
-        raise ValueError('shot_plan must have exactly the keys '+', '.join(sorted(required))+' (optional: framing_guidance); missing: '
+        raise ValueError('shot_plan must have exactly the keys '+', '.join(sorted(required))+' (optional: framing_guidance, variety_checks); missing: '
                          +(', '.join(sorted(required-keys)) or 'none')+'; unexpected: '+(', '.join(sorted(keys-required)) or 'none'))
     if not _v2_line(plan['sku']):raise ValueError('shot_plan.sku must be a nonempty single line; got '+_got(plan['sku']))
     if plan['route'] not in ('A','B'):raise ValueError('shot_plan.route must be "A" or "B"; got '+_got(plan['route']))
     _check_framing_guidance(plan)
+    if 'variety_checks' in plan and (type(plan['variety_checks']) is not int or plan['variety_checks']!=1):
+        raise ValueError('variety_checks must be 1 when present')
+    variety=plan.get('variety_checks')==1
     if (not identity or context.get('output_form') not in ('human','faceless')
             or context.get('first_pose')=='custom' or context.get('purpose') in ('model-check','correction-edit')):
         raise ValueError('Version-2 shot planning applies to human/faceless delivery and preview only; got identity='+_got(identity)
@@ -338,8 +362,8 @@ def _validate_v2(plan,inventory,*,context,count,identity,real_face_plan,strict_r
     if not isinstance(looks,list) or len(looks) not in (1,6,9):
         raise ValueError('shot_plan.looks must be a list of 1, 6 or 9 logical shots; got '+_got(looks))
     fields={'slot','shot_id','display_goal','must_show','reason','body_action','hands','support','framing','garment_views','reference_sha256s'}
-    optional={'head','gaze','pose_reference','aesthetic_reference_sha256s'}
-    ids=[]
+    optional={'head','gaze','pose_reference','aesthetic_reference_sha256s','scene','lighting','camera','pose_id'}
+    ids=[];action_keys={}
     head_gaze=any(isinstance(s,dict) and ('head' in s or 'gaze' in s) for s in looks)
     if head_gaze and (model_source not in ('ai','new') or real_face_plan is not None or context.get('output_form')!='human'):
         raise ValueError('looks[*].head/gaze are only for AI/new visible portraits; real faces use the reviewed real_face_plan; got model_source='
@@ -387,6 +411,17 @@ def _validate_v2(plan,inventory,*,context,count,identity,real_face_plan,strict_r
         if not set(views)<=selected_views:
             raise ValueError(path+'.garment_views must be covered by its reference_sha256s coverage; not covered: '
                              +', '.join(sorted(set(views)-selected_views))+' (covered: '+(', '.join(sorted(selected_views)) or 'none')+')')
+        for k in ('scene','lighting','camera'):
+            if k in shot and not _v2_line(shot[k]):
+                raise ValueError(path+'.'+k+' must be a nonempty single line when given (it overrides the style card for this shot); got '+_got(shot[k]))
+        if variety and 'back' not in views and (m:=BACK_WORDS.search(shot['body_action']+' '+(shot.get('head') or ''))):
+            raise ValueError(path+'.body_action/head must not turn away from the camera ("'+m.group(0)+'") when garment_views has no "back"; add back coverage or change the action')
+        if 'pose_id' in shot and not _v2_line(shot['pose_id']):
+            raise ValueError(path+'.pose_id must be a nonempty single line when given; got '+_got(shot['pose_id']))
+        key=(shot['framing'],' '.join(re.sub(r'[\W_]+',' ',shot['body_action'].casefold()).split()))
+        if variety and key in action_keys:
+            raise ValueError(path+'.body_action repeats shot_plan.looks['+str(action_keys[key])+'] with the same framing; give each shot a different body action or framing')
+        action_keys[key]=slot-1
         if 'pose_reference' in shot:
             ref=shot['pose_reference']
             if (not isinstance(ref,dict) or set(ref)!={'sha256','reason'} or not _v2_line(ref['reason'])
@@ -398,6 +433,7 @@ def _validate_v2(plan,inventory,*,context,count,identity,real_face_plan,strict_r
         if (not isinstance(aesthetic,list) or any(not isinstance(h,str) or h not in by_hash or by_hash[h]['role']!='aesthetic-reference' for h in aesthetic)
                 or len(aesthetic)!=len(set(aesthetic))):
             raise ValueError(path+'.aesthetic_reference_sha256s must be a list of distinct aesthetic-reference hashes; got '+_got(aesthetic))
+    if variety:check_poses(plan,pose_vocabulary)
     selected_ids=plan['selected_shot_ids']
     if not isinstance(selected_ids,list) or any(not isinstance(s,str) for s in selected_ids):
         raise ValueError('shot_plan.selected_shot_ids must be a list of shot_id strings; got '+_got(selected_ids))

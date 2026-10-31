@@ -41,6 +41,10 @@ class VisualLibraryCatalogTests(unittest.TestCase):
                                  keep=['Keep the red color, bead count, front closure and actual ornament density.'],
                                  source_sha256s=['a' * 64]),
                     inventory=[dict(role='garment-source', sha256='a' * 64)], count=1, first_pose=3)
+        if entry in ('qipao-urban', 'hanfu-form-specific'):  # WP-21e: cultural entries freeze a profile and a trace
+            spec.update(culture_profile=dict(id=entry + '-test-profile', version=1, form='synthetic form profile'),
+                        asset_trace=[dict(asset='C10' if entry == 'qipao-urban' else 'C05', decision='translated',
+                                          affects='garment.keep', check='closure and collar match the source')])
         spec.update(kwargs)
         return spec
 
@@ -211,15 +215,15 @@ class VisualLibraryCatalogTests(unittest.TestCase):
             plan = self.library.prepare(self.spec(identifier, model=model))
             with self.subTest(entry=identifier):
                 self.assertEqual(plan['persona'], self.cards[identifier]['persona'])
-                self.assertEqual(plan['persona_model_sha256'], visual.object_hash(models.validate_model(model)))
+                self.assertEqual(plan['persona_model_sha256'], visual.object_hash(dict(models.validate_model(model), styling_lock='identity')))  # prepare states the default lock
                 rows = visual.render(plan, 1).split('\n')
                 last_limit = max(i for i, row in enumerate(rows) if row.startswith('Art limit: '))
                 self.assertEqual(rows[last_limit + 1],
-                                 'Style persona (yields to the declared model conditions): ' + plan['persona'])
+                                 'Style persona (expression and styling; identity stays as declared): ' + plan['persona'])
         locked = self.human_model(source_type='real', locked=['same face', 'same expression'],
                                   consent_note='Express likeness permission')
         plan = self.library.prepare(self.spec('american-street', model=locked))
-        self.assertEqual(plan['persona'], models.resolve_persona(locked, self.cards['american-street']['persona']))
+        self.assertEqual(plan['persona'], models.resolve_persona(dict(locked, styling_lock='identity'), self.cards['american-street']['persona']))
         legacy_new = {slug for slug in self.cards if slug in NEW_ENTRIES}
         self.assertFalse(any(self.cards[slug].get('persona') for slug in legacy_new))
         self.assertEqual(len([c for c in self.cards.values() if c.get('persona')]), 24)

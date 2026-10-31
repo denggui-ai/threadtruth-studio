@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "korean-cold-editorial",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "name": "韩系冷感杂志风 / Korean Cold Editorial",
   "entry_type": "legacy-style",
   "aliases": [
@@ -65,7 +65,7 @@
     "scene": "高级公寓玄关，简洁建筑表面与主体相互分离。",
     "lighting": "柔和均匀但保留方向性的光线；阴影轻柔可读，不将均匀理解为完全无影。",
     "composition": "杂志式精确构图，用主体与建筑线条的距离和疏密制造张力。 每张按已确认的逐张计划组织。",
-    "palette": "环境以冷白与冷灰为主，白平衡中性；墙面、地面与光线不得偏暖米、奶油或金黄，画面中唯一的暖色是商品本身的米色。 商品原色与饱和度保持不变。"
+    "palette": "环境以冷白与冷灰为主，白平衡中性；墙面、地面与光线不得偏暖米、奶油或金黄。 商品原色与饱和度保持不变。"
   },
   "prompt_fragment": "本卡审美意图：韩系冷感杂志编辑摄影：克制、疏离、精致的编辑气氛，强调真实质感和时装画面张力。 摄影内容只使用本次解析后的 photography 字段；人物气质仅按当前人物条件处理，不另行拼接旧 pack 全文。",
   "art": {
@@ -123,5 +123,158 @@
   ],
   "default_objective": "styled-editorial",
   "persona": "calm, detached, quietly confident; restrained editorial attitude; no aegyo, no influencer mugging",
-  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。calm, detached, quietly confident; restrained editorial attitude; no aegyo, no influencer mugging 可选 calm detached expression、subtle melancholy；不得覆盖用户已确认的笑容或神态。"
+  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。calm, detached, quietly confident; restrained editorial attitude; no aegyo, no influencer mugging 可选 calm detached expression、subtle melancholy；不得覆盖用户已确认的笑容或神态。",
+  "commitments": [
+    {
+      "id": "kc-side-light",
+      "show": "wide soft side light with a readable falloff; one side of the garment reads brighter than the other and its volume shows",
+      "needs": [
+        "lighting"
+      ],
+      "realize": [
+        "window or softbox from one side of the frame",
+        "no flat frontal fill"
+      ],
+      "check": "light comes from one side of the frame; the lit half of the garment is clearly brighter than the shaded half (about 2:1) and folds or quilting show volume"
+    },
+    {
+      "id": "kc-negative-space",
+      "show": "precise editorial framing with generous negative space; the subject never touches a backdrop edge",
+      "needs": [
+        "camera"
+      ],
+      "check": "visible empty margin on every side of the subject in each cell; no limb or garment edge cropped by the backdrop edge"
+    },
+    {
+      "id": "kc-detached-expression",
+      "show": "detached, quiet, slightly melancholic expression with no smile",
+      "needs": [
+        "expression"
+      ],
+      "realize": [
+        "eyes soft and unfocused, resting away from the lens in most cells"
+      ],
+      "check": "lips closed and relaxed, no teeth or smile lines; the face reads calm and distant in every cell"
+    },
+    {
+      "id": "kc-dewy-makeup",
+      "show": "dewy translucent base, gray-brown eyeshadow and a muted rose lip; hair softly undone with a few loose strands",
+      "needs": [
+        "makeup"
+      ],
+      "realize": [
+        "hair length stays as the identity reference"
+      ],
+      "check": "skin looks dewy rather than matte; eyeshadow reads gray-brown; lips muted rose; a few loose hair strands visible"
+    },
+    {
+      "id": "kc-cool-white-balance",
+      "show": "cool neutral white balance: the backdrop reads cold white and gray while skin stays natural",
+      "needs": [
+        "scene",
+        "lighting"
+      ],
+      "check": "backdrop looks cool gray or white, not beige or yellow; skin tone is not grayed"
+    }
+  ],
+  "action_tendency": "Still, contained, architectural: small weight shifts, long vertical lines, hands quiet or occupied with one precise gesture; never bouncy or posed-cute.",
+  "pose_vocabulary": [
+    {
+      "id": "kc-wall-stand",
+      "family": "lean",
+      "body": "shoulder blades lightly against a wall, body straight, one foot crossed flat behind the other ankle",
+      "hands": "both arms hang close to the body",
+      "support": "wall and floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "long full skirts that would bunch against the wall",
+      "check": "spine stays vertical; legs read as one long line"
+    },
+    {
+      "id": "kc-off-axis-stand",
+      "family": "stand",
+      "body": "standing with the torso turned 45° away from camera while the head turns back to near-profile",
+      "hands": "one hand rests on the opposite forearm at waist height",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "garments whose key detail sits on the side turned away",
+      "check": "torso and head point in clearly different directions"
+    },
+    {
+      "id": "kc-edge-sit",
+      "family": "sit",
+      "body": "sitting on the edge of a low ledge or step, knees together and angled to one side, back upright",
+      "hands": "hands stacked loosely on one knee",
+      "support": "ledge",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "short hemlines that would ride up",
+      "check": "knees angled, back straight, hands on knee"
+    },
+    {
+      "id": "kc-collar-hold",
+      "family": "close",
+      "body": "half-body, chin slightly lowered",
+      "hands": "one hand holds the collar or neckline edge closed at the throat",
+      "support": "floor",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "garments without a collar or neckline edge to hold",
+      "check": "a single hand at the neckline; the other out of frame"
+    },
+    {
+      "id": "kc-pause-step",
+      "family": "walk",
+      "body": "caught mid-pause after a step, rear heel lifted, weight forward, arms still",
+      "hands": "arms nearly still at the sides",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "heel lifted, arms not swinging"
+    },
+    {
+      "id": "kc-window-profile",
+      "family": "turn",
+      "body": "standing in clean profile facing a window or wall edge, shoulders relaxed",
+      "hands": "hands loosely joined low in front",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "details that only exist on the front center",
+      "check": "full profile silhouette against the background"
+    },
+    {
+      "id": "kc-back-turn",
+      "family": "turn",
+      "body": "back to camera, head turned to a clean profile over the shoulder",
+      "hands": "arms relaxed",
+      "support": "floor",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back fully shown, face only in profile"
+    },
+    {
+      "id": "kc-seated-lean",
+      "family": "sit",
+      "body": "seated on a stool, forearm on the thigh, upper body leaning slightly forward",
+      "hands": "one forearm on thigh, other hand resting on the stool edge",
+      "support": "stool",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "garments whose front length would fold heavily",
+      "check": "forward lean visible, front length still readable"
+    }
+  ]
 }

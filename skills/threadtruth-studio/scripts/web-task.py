@@ -67,7 +67,9 @@ def v2(plan):
 def inherit_framing_flag(plan,frozen):
     """WP-10a: a caller-supplied v2 plan that omits framing_guidance keeps the frozen task's flag; explicit values go to validation."""
     if v2(plan) and v2(frozen) and 'framing_guidance' not in plan and 'framing_guidance' in frozen:
-        return dict(plan,framing_guidance=frozen['framing_guidance'])
+        plan=dict(plan,framing_guidance=frozen['framing_guidance'])
+    if v2(plan) and v2(frozen) and 'variety_checks' not in plan and 'variety_checks' in frozen:
+        plan=dict(plan,variety_checks=frozen['variety_checks'])
     return plan
 
 
@@ -138,6 +140,12 @@ def visual_helper():
         spec.loader.exec_module(_visual_plans)
     return _visual_plans
 
+def style_poses(visual):
+    """The frozen primary style card's pose_vocabulary, or None (no plan, or a card without one)."""
+    try:return visual['style']['primary']['snapshot'].get('pose_vocabulary') or None
+    except (KeyError,TypeError,AttributeError):return None
+
+
 def shot_helper():
     global _shot_plans
     if _shot_plans is None:
@@ -183,7 +191,8 @@ def check_shot_plan(data):
         raise ValueError('Frozen shot plan changed')
     shot_helper().validate(data['shot_plan'],data['references'],context=data['context'],
         count=face_plan_count(data['context'],len(data['looks']),data.get('shot_plan')),identity=data['identity'],real_face_plan=data.get('real_face_plan'),
-        strict_references=prompt_contract(data)>=1,model_source=(data.get('model') or {}).get('source_type'))
+        strict_references=prompt_contract(data)>=1,model_source=(data.get('model') or {}).get('source_type'),
+        pose_vocabulary=style_poses(data.get('visual_plan')))
     history=data.get('shot_plan_history',[])
     if not isinstance(history,list):raise ValueError('Invalid shot plan history')
     for prior in history:
@@ -282,7 +291,7 @@ def delivery_retry_candidate(data,row,*,shot_plan=None,visual_plan=None,prompt=N
                 model=data['model'],context=data['context'],count=len(data['looks']),route=data['route'],
                 strict_looks=(number,),shot_plan=shot)
         shot_helper().validate(shot,data['references'],context=data['context'],count=len(data['looks']),
-            identity=data['identity'],real_face_plan=face,model_source=data['model']['source_type'])
+            identity=data['identity'],real_face_plan=face,model_source=data['model']['source_type'],pose_vocabulary=style_poses(visual))
         visual_helper().validate(visual,data['references'],context=data['context'],count=len(data['looks']),
             identity=data['identity'],shot_plan=shot)
         preflight_references(data['references'],data['context'],shot,face,len(data['looks']),data['identity'],data['route'])
@@ -295,7 +304,8 @@ def delivery_retry_candidate(data,row,*,shot_plan=None,visual_plan=None,prompt=N
     visual=copy.deepcopy(current_visual if visual_plan is None else visual_plan)
     shot_helper().validate(shot,data['references'],context=data['context'],
         count=face_plan_count(data['context'],len(data['looks']),data.get('shot_plan')),identity=data['identity'],
-        real_face_plan=data.get('real_face_plan'),model_source=(data.get('model') or {}).get('source_type'))
+        real_face_plan=data.get('real_face_plan'),model_source=(data.get('model') or {}).get('source_type'),
+        pose_vocabulary=style_poses(visual))
     visual_helper().validate(visual,data['references'],context=data['context'],
         count=face_plan_count(data['context'],len(data['looks']),data.get('shot_plan')),identity=data['identity'],shot_plan=data.get('shot_plan'))
     allowed_shot=copy.deepcopy(current_shot)
@@ -387,7 +397,8 @@ def preview_candidate(data, row, *, model=None, shot_plan=None, prompt=None, gar
     if planned is not None:
         planned=shot_helper().validate(planned,inventory,context=data['context'],count=face_plan_count(data['context'],1,planned),
                                       identity=data['identity'],real_face_plan=face_plan,
-                                      model_source=(changed or {}).get('source_type'))
+                                      model_source=(changed or {}).get('source_type'),
+                                      pose_vocabulary=style_poses(visual_plan if visual_plan is not None else data.get('visual_plan')))
     visual=visual_plan if visual_plan is not None else data.get('visual_plan')
     if visual is not None:
         visual=visual_helper().validate(visual,inventory,context=data['context'],count=face_plan_count(data['context'],1,planned),identity=data['identity'],shot_plan=planned)
@@ -656,6 +667,7 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
             raise ValueError('model-check is a single portrait diagnostic, not a six-pose delivery')
         if identity:
             model=models.validate_model(model or dict(source_type='new',scope='full',subject='adult model',locked=[],adjustable=[],consent_note=''),allow_child=True)
+            if (visual_plan or {}).get('contract')==21 and 'styling_lock' not in model:model=dict(model,styling_lock='identity')  # WP-21: new contract states the lock; frozen models keep theirs
         elif model is not None:raise ValueError('Non-portrait tasks cannot carry a model')
         items=[dict(path=p,role='garment-source') if isinstance(p,(str,Path)) else dict(p) for p in refs]
         for i,item in enumerate(items):
@@ -706,7 +718,7 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
         if schema_version!=2:raise ValueError('Shot plans require schema 2')
         shot_plan=shot_helper().validate(shot_plan,inventory,context=context,
             count=face_plan_count(context,len(prompts),shot_plan),identity=identity,real_face_plan=real_face_plan,
-            model_source=(model or {}).get('source_type'))
+            model_source=(model or {}).get('source_type'),pose_vocabulary=style_poses(visual_plan))
         preflight_references(inventory,context,shot_plan,real_face_plan,len(prompts),identity,route)
         preflight_series(inventory,context,shot_plan,real_face_plan,identity,route)
     if schema_version==2:
@@ -735,6 +747,8 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
             data.update(real_face_plan=real_face_plan,real_face_plan_sha256=object_hash(real_face_plan))
         if shot_plan is not None:
             data.update(shot_plan=shot_plan,shot_plan_sha256=object_hash(shot_plan),plan_version=0)
+        if visual_plan is not None and visual_plan.get('presentation_2_substituted'):
+            data['presentation_2_substituted']=True
         if visual_plan is not None:
             data.update(visual_plan=visual_plan,visual_plan_sha256=object_hash(visual_plan),plan_version=0,prompt_contract_version=2)
         if schema_version==2 and v2(shot_plan) and identity:
@@ -957,7 +971,8 @@ def check_local_edits(root,data,row):
         if planned is not None:
             shot_helper().validate(planned,data['references'],context=data['context'],count=face_plan_count(data['context'],1,planned),
                 identity=data['identity'],real_face_plan=row.get('real_face_plan',data.get('real_face_plan')),
-                model_source=(row.get('model',data['model']) or {}).get('source_type'))
+                model_source=(row.get('model',data['model']) or {}).get('source_type'),
+                pose_vocabulary=style_poses(data.get('visual_plan')))
         expected=composite_pixels(safe_file(root,edit['base_output']['file']),safe_file(root,edit['donor']['file']),edit['rectangle'])
         from PIL import Image
         with Image.open(safe_file(root,edit['output']['file'])) as actual:
@@ -981,7 +996,8 @@ def compose_preview(root,data,row,**kw):
         raise ValueError('Local composition cannot discard the current reviewed shot plan')
     if planned is not None:
         shot_helper().validate(planned,data['references'],context=data['context'],count=face_plan_count(data['context'],1,planned),
-            identity=data['identity'],real_face_plan=data.get('real_face_plan'),model_source=(data['model'] or {}).get('source_type'))
+            identity=data['identity'],real_face_plan=data.get('real_face_plan'),model_source=(data['model'] or {}).get('source_type'),
+            pose_vocabulary=style_poses(data.get('visual_plan')))
         original=effective_shot_plan(data)
         if original and any(planned[k]!=original[k] for k in ('version','sku','route','coverage')):
             raise ValueError('Local composition retains the same SKU and original garment coverage')
@@ -1146,7 +1162,8 @@ def continue_v2(data,kw):
             context=data['context'],count=count,route=data['route'],strict_looks=range(2,count+1),shot_plan=full)
     elif kw.get('real_face_looks') is not None:raise ValueError('Cannot retrofit real identity coverage during continuation')
     shot_helper().validate(full,data['references'],context=data['context'],count=count,identity=data['identity'],
-        real_face_plan=face,model_source=data['model']['source_type'])
+        real_face_plan=face,model_source=data['model']['source_type'],
+        pose_vocabulary=style_poses(kw.get('visual_plan') or data.get('visual_plan')))
     visual=None;prompts=kw.get('prompts')
     if 'visual_plan' in data:
         visual=visual_helper().validate(kw.get('visual_plan'),data['references'],context=data['context'],count=count,
@@ -1294,7 +1311,8 @@ def update(root,event,**kw):
             if 'shot_plan' in d:
                 full=shot_helper().validate(kw.get('shot_plan'),d['references'],context=d['context'],count=6,
                     identity=d['identity'],real_face_plan=continuation_plan,
-                    model_source=(d.get('model') or {}).get('source_type'))
+                    model_source=(d.get('model') or {}).get('source_type'),
+                    pose_vocabulary=style_poses(kw.get('visual_plan') or d.get('visual_plan')))
                 prior=d['shot_plan']
                 if (any(full[k]!=prior[k] for k in ('sku','coverage','route','preservation','adaptation_note')) or full['looks'][0]!=prior['looks'][0]
                         or full.get('framing_guidance')!=prior.get('framing_guidance')):

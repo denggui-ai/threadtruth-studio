@@ -60,7 +60,7 @@ class ModelPromptTests(unittest.TestCase):
         refs = [dict(path='original-person.png', role='identity-reference', sha256='a'*64)]
         for source_type in ('ai', 'real'):
             for scope in ('face', 'full'):
-                model = dict(source_type=source_type, scope=scope, subject='adult female model',
+                model = dict(source_type=source_type, scope=scope, subject='adult female model', styling_lock='full',
                              locked=['retain original identity'], adjustable=['friendly smile'],
                              consent_note='Declared likeness permission' if source_type == 'real' else '')
                 outputs = [

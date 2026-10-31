@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "french-effortless",
-  "version": "0.1.1",
+  "version": "0.1.3",
   "name": "法式松弛 / French Effortless",
   "entry_type": "legacy-style",
   "aliases": [
@@ -106,5 +106,154 @@
   ],
   "default_objective": "styled-editorial",
   "persona": "relaxed natural expression, soft confidence, effortless undone attitude, no aegyo",
-  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。relaxed natural expression, soft confidence, effortless undone attitude, no aegyo"
+  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。relaxed natural expression, soft confidence, effortless undone attitude, no aegyo",
+  "commitments": [
+    {
+      "id": "fr-window-light",
+      "show": "warm soft daylight from a high window on one side, a gentle golden cast on the backdrop only; the garment keeps its true color",
+      "needs": [
+        "lighting"
+      ],
+      "realize": [
+        "window light from one side of the frame",
+        "golden cast stays on the background"
+      ],
+      "check": "light direction reads from one side; the backdrop is warmer than the garment; garment color matches the source"
+    },
+    {
+      "id": "fr-candid-camera",
+      "show": "casual, slightly imperfect candid framing at eye level; small tilts allowed; the subject may sit off-centre",
+      "needs": [
+        "camera"
+      ],
+      "check": "in at least three cells the subject is off-centre or the horizon is slightly tilted; no symmetric catalog framing"
+    },
+    {
+      "id": "fr-amused-expression",
+      "show": "relaxed, amused expression with a faint natural smile or a mid-laugh in some cells; nothing posed",
+      "needs": [
+        "expression"
+      ],
+      "check": "a soft smile or laugh is visible in several cells; no stiff or camera-ready smile in all cells"
+    },
+    {
+      "id": "fr-bare-skin-makeup",
+      "show": "bare-skin minimal makeup with a soft red lip; hair tousled and slightly messy, tucked behind one ear in some cells",
+      "needs": [
+        "makeup"
+      ],
+      "realize": [
+        "hair length stays as the identity reference"
+      ],
+      "check": "skin shows natural texture with little visible base; lips soft red; hair looks loose, not sleek"
+    },
+    {
+      "id": "fr-loose-attitude",
+      "show": "loose, effortless, unbothered body attitude; nothing stiff or symmetrical",
+      "needs": [
+        "body"
+      ],
+      "check": "weight is shifted or the stance is asymmetric in most cells; arms and shoulders look relaxed"
+    }
+  ],
+  "action_tendency": "Loose, unposed, caught-between-moments: asymmetric weight, hands busy with hair or clothing, movement and laughter allowed; nothing stiff or symmetrical.",
+  "pose_vocabulary": [
+    {
+      "id": "fr-hair-tuck",
+      "family": "close",
+      "body": "half-body, head tilted, mid-gesture",
+      "hands": "one hand tucking hair behind an ear, the other relaxed",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "high collars that hide the hand gesture",
+      "check": "hand at the ear, asymmetric shoulders"
+    },
+    {
+      "id": "fr-laugh-turn",
+      "family": "turn",
+      "body": "turning away from camera mid-laugh, shoulders twisting, weight on the back foot",
+      "hands": "one hand near the mouth or chin",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "laughing face partly turned; torso twist visible"
+    },
+    {
+      "id": "fr-sill-perch",
+      "family": "sit",
+      "body": "half-sitting on a windowsill or table edge, one leg straight to the floor, the other bent",
+      "hands": "both hands on the edge beside the hips",
+      "support": "sill or table edge",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "long narrow skirts",
+      "check": "one straight leg, one bent; hands on the edge"
+    },
+    {
+      "id": "fr-walk-out",
+      "family": "walk",
+      "body": "walking out of frame toward one side, mid-stride, looking down",
+      "hands": "one arm swinging, the other holding the garment edge",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "clear stride, body heading out of frame"
+    },
+    {
+      "id": "fr-lean-cross",
+      "family": "lean",
+      "body": "one shoulder on a door frame, ankles loosely crossed, hips shifted",
+      "hands": "one hand in a pocket only if the garment has a real pocket, otherwise thumb at the waistband",
+      "support": "door frame",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "garments without a waist or pocket for the hand",
+      "check": "asymmetric hips, crossed ankles"
+    },
+    {
+      "id": "fr-coat-adjust",
+      "family": "close",
+      "body": "adjusting the garment while looking down, mid-motion",
+      "hands": "both hands at the front edge or zipper, pulling it slightly",
+      "support": "floor",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "fragile or sheer fronts that would distort",
+      "check": "hands on the garment edge, gaze down"
+    },
+    {
+      "id": "fr-over-shoulder",
+      "family": "turn",
+      "body": "back to camera, glancing over the shoulder with a smile",
+      "hands": "arms relaxed",
+      "support": "floor",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back fully shown, smile visible"
+    },
+    {
+      "id": "fr-cafe-sit",
+      "family": "sit",
+      "body": "sitting sideways on a café chair, one arm draped over the backrest, legs crossed",
+      "hands": "one arm on the chair back, other hand on the knee",
+      "support": "chair",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "very short hemlines",
+      "check": "arm over the chair back, crossed legs"
+    }
+  ]
 }
