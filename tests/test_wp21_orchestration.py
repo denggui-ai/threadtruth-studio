@@ -1,4 +1,5 @@
 """WP-21 orchestration: identity-only lock, per-shot variety, commitments, asset trace."""
+import copy
 import importlib.util
 from pathlib import Path
 import unittest
@@ -105,3 +106,51 @@ class ShotVarietyTests(unittest.TestCase):
         self.assertIn('Scene: A sunlit stairwell with pale plaster walls.', scenes)
         self.assertEqual(prepared['shots'][1]['composition'], 'Eye-level lens with the subject off-centre.')
         self.assertEqual(prepared['shots'][0]['lighting'], prepared['photography']['lighting'])
+
+
+class CommitmentTests(unittest.TestCase):
+    def plan(self, entry='korean-cold-editorial', **spec):
+        inventory = [dict(sha256=FRONT, role='garment-source')]
+        base = dict(entry_id=entry, inventory=inventory,
+                    garment=dict(description='A source-backed vest.', keep=['Keep the zipper.'], source_sha256s=[FRONT]))
+        return library.prepare(dict(base, **spec))
+
+    def ids(self, rows):
+        return [row['id'] for row in rows]
+
+    def test_faceless_drops_expression_and_makeup_commitments_into_skipped(self):
+        human = self.plan()
+        self.assertEqual(self.ids(human['commitments']),
+                         ['kc-side-light', 'kc-negative-space', 'kc-detached-expression', 'kc-dewy-makeup', 'kc-cool-white-balance'])
+        self.assertEqual(human['commitments_skipped'], [])
+        faceless = self.plan(output_form='faceless')
+        self.assertEqual(self.ids(faceless['commitments']), ['kc-side-light', 'kc-negative-space', 'kc-cool-white-balance'])
+        self.assertEqual(self.ids(faceless['commitments_skipped']), ['kc-detached-expression', 'kc-dewy-makeup'])
+        text = visual_plan.render(faceless)
+        self.assertIn('wide soft side light', text)
+        self.assertNotIn('detached, quiet', text)
+        self.assertNotIn('gray-brown eyeshadow', text)
+        self.assertIn('detached, quiet', visual_plan.render(human))
+        # a full styling lock keeps the reference makeup, so the makeup commitment is skipped
+        locked = self.plan(model=dict(source_type='ai', scope='full', subject='adult female model',
+                                      locked=['apparent age around 40'], adjustable=[], consent_note='', styling_lock='full'))
+        self.assertEqual(self.ids(locked['commitments_skipped']), ['kc-dewy-makeup'])
+        flat = self.plan(output_form='flat-lay', count=6)
+        self.assertEqual(self.ids(flat['commitments']), ['kc-side-light', 'kc-negative-space', 'kc-cool-white-balance'])
+
+    def test_commitment_validation_and_catalog_negative_follow_the_objective(self):
+        plan = self.plan()
+        bad = copy.deepcopy(plan)
+        bad['commitments'][0]['needs'] = ['gaze']
+        inventory = [dict(sha256=FRONT, role='garment-source')]
+        context = dict(style='korean-cold-editorial', first_pose=1, output_form='human')
+        with self.assertRaises(ValueError):
+            visual_plan.validate(bad, inventory, context=context, count=9)
+        bad = copy.deepcopy(plan)
+        bad['open_variables'] = ['lighting']
+        with self.assertRaises(ValueError):
+            visual_plan.validate(bad, inventory, context=context, count=9)
+        self.assertIn('no e-commerce catalog look', plan['negatives'])
+        self.assertNotIn('no e-commerce catalog look', self.plan(objective='product-display')['negatives'])
+        card = library.card('korean-cold-editorial')
+        self.assertNotIn('唯一的暖色', card['photography']['palette'])

@@ -168,6 +168,30 @@ def _look_of(shot_plan, slot):
     return {}
 
 
+def open_variables(output_form, model=None):
+    """Variables this task leaves to the style: faceless drops makeup/expression, non-portrait forms keep staging only."""
+    if output_form in ('flat-lay', 'hanger', 'mannequin'):
+        return ['arrangement', 'camera', 'scene', 'lighting']
+    names = ['makeup', 'expression', 'body', 'arrangement', 'camera', 'scene', 'lighting']
+    if output_form == 'faceless':
+        names = [name for name in names if name not in ('makeup', 'expression')]
+    elif model is not None and model.get('styling_lock') == 'full':
+        names.remove('makeup')
+    return names
+
+
+def _split_commitments(items, opened):
+    """(rendered, skipped): a commitment renders only when every variable it needs is open."""
+    kept, skipped = [], []
+    for item in items:
+        missing = [name for name in item['needs'] if name not in opened]
+        if missing:
+            skipped.append(dict(id=item['id'], reason='needs ' + ', '.join(missing) + ' which this task does not open'))
+        else:
+            kept.append(copy.deepcopy(item))
+    return kept, skipped
+
+
 def prepare(spec, root=ROOT):
     """Resolve defaults once; the task subsequently uses only this frozen plan.
 
@@ -226,18 +250,26 @@ def prepare(spec, root=ROOT):
         shots = [dict(slot=i, pose=i if count == 6 else pose,
                       **{key: photography[key] for key in ('scene', 'lighting', 'composition')})
                  for i in range(1, count + 1)]
+    negatives = copy.deepcopy(overrides.get('negatives', primary.get('negatives', [])))
+    if objective == 'product-display' and 'negatives' not in overrides:
+        # An editorial-only exclusion must not fight a catalog-style objective.
+        negatives = [item for item in negatives if item != 'no e-commerce catalog look']
     plan = dict(version=version, objective=objective, output_medium=medium, output_form=output_form,
                 style=dict(primary=component(primary), supporting=supporting,
                            fusion_note=spec.get('fusion_note', '')),
                 garment=copy.deepcopy(spec['garment']),
                 styling=copy.deepcopy(overrides.get('styling', [])),
                 photography=photography, art=art,
-                negatives=copy.deepcopy(overrides.get('negatives', primary.get('negatives', []))),
+                negatives=negatives,
                 shots=copy.deepcopy(overrides.get('shots', shots)))
     if spec.get('culture_profile') is not None:
         plan['culture_profile'] = component(spec['culture_profile'])
     elif primary.get('culture_profile'):
         plan['culture_profile'] = component(primary['culture_profile'])
+    if primary.get('commitments') and output_form in ('human', 'faceless', 'flat-lay', 'hanger', 'mannequin'):
+        opened = open_variables(output_form, model)
+        plan['commitments'], plan['commitments_skipped'] = _split_commitments(primary['commitments'], opened)
+        plan['open_variables'] = opened
     persona = primary.get('persona')
     if model is not None and output_form == 'human' and isinstance(persona, str) and persona.strip():
         resolved = _models().resolve_persona(model, persona)

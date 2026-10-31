@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "ecommerce-studio",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "name": "电商棚拍 / E-commerce Studio",
   "entry_type": "legacy-style",
   "aliases": [
@@ -108,5 +108,32 @@
   ],
   "default_objective": "product-display",
   "persona": "neutral approachable expression, relaxed composure, composed catalog attitude",
-  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。neutral approachable expression, relaxed composure, composed catalog attitude"
+  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。neutral approachable expression, relaxed composure, composed catalog attitude",
+  "commitments": [
+    {
+      "id": "ec-key-fill-light",
+      "show": "one large soft key light from camera-left slightly above eye level with soft fill from camera-right at about one third of the key",
+      "needs": [
+        "lighting"
+      ],
+      "check": "the left side of the garment is brighter than the right, the shadow side still shows weave detail, and the direction is the same in every cell"
+    },
+    {
+      "id": "ec-contact-shadow",
+      "show": "a seamless light-gray backdrop with a soft contact shadow where feet or the garment meet the floor",
+      "needs": [
+        "scene",
+        "lighting"
+      ],
+      "check": "a soft shadow is visible under the feet or hem; no hard cast shadow falls on the backdrop"
+    },
+    {
+      "id": "ec-neutral-expression",
+      "show": "neutral, approachable expression with relaxed composure",
+      "needs": [
+        "expression"
+      ],
+      "check": "no broad smile and no frown; the face does not compete with the garment"
+    }
+  ]
 }

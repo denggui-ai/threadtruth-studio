@@ -1,5 +1,6 @@
 # Changelog
 
+- feat(wp21c): style cards carry visible `commitments` (korean-cold-editorial, french-effortless full; ecommerce-studio, qipao-urban, garment-illustration partial) filtered into `visual_plan` by the variables the task opens (`open_variables`, `commitments_skipped`); Korean card drops the product-specific warm-color sentence and the catalog-look exclusion yields to product-display.
 - feat(wp21b): shot-plan looks may override `scene`/`lighting`/`camera` per shot (frozen into `visual_plan.shots`); validation rejects back-facing wording without back coverage and two shots with the same framing and body action.
 - feat(wp21a): existing AI/real identity references now lock only face, apparent age, skin tone (and body proportions for `scope=full`); hair, makeup and expression follow the style plan. `model.styling_lock: full` restores the old hair/makeup retention (default `identity`). Persona header reworded.
 - feat(framing): numeric headroom coordinates as `framing_guidance=2` for new plans; `=1` keeps the legacy head-height wording (WP-20).

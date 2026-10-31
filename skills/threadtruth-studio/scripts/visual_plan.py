@@ -27,6 +27,10 @@ SILHOUETTES = {
     'tapered-leg': 'Trouser silhouette, tapered: each leg narrows steadily from the thigh to the hem; the hem opening is narrower than the knee.',
     'flared-leg': 'Trouser silhouette, flared: each leg stays close from the thigh to the knee, then widens from the knee to a hem opening clearly wider than the knee.',
 }
+# WP-21c: visible style commitments, filtered by the variables this task leaves open.
+COMMIT_NEEDS = ('makeup', 'expression', 'body', 'arrangement', 'camera', 'scene', 'lighting')
+COMMIT_OPTIONAL = ('commitments', 'commitments_skipped', 'open_variables')
+NON_PORTRAIT_OPEN = ('arrangement', 'camera', 'scene', 'lighting')
 RESERVED = re.compile(r'\[(?:/?Task |/?Current model)|^\s*(?:POSE|Shot)\s+[1-6]\s*:', re.I)
 V2_RESERVED = re.compile(r'^\s*(?:POSE|Shot)\s+[7-9]\s*:', re.I)
 V2_BODY = re.compile(r'\b(?:body (?:action|pose|orientation)|hand (?:position|placement))\b', re.I)
@@ -89,6 +93,55 @@ def _component(value):
         raise ValueError('Visual component version conflicts with its frozen snapshot')
 
 
+def _commitments(plan, v2):
+    """Frozen commitments, the skipped ones with reasons, and the open variables travel together."""
+    present = [key for key in COMMIT_OPTIONAL if key in plan]
+    if not present:
+        return
+    if len(present) != len(COMMIT_OPTIONAL):
+        raise ValueError('visual_plan commitments, commitments_skipped and open_variables are frozen together')
+    opened = plan['open_variables']
+    allowed = set(COMMIT_NEEDS) if plan['output_form'] == 'human' else (
+        set(COMMIT_NEEDS) - {'makeup', 'expression'} if plan['output_form'] == 'faceless' else set(NON_PORTRAIT_OPEN))
+    if (not isinstance(opened, list) or not opened or len(set(opened)) != len(opened)
+            or any(not isinstance(item, str) or item not in allowed for item in opened)):
+        raise ValueError('visual_plan.open_variables must be distinct names the output form can open: '
+                         + ', '.join(sorted(allowed)) + '; got ' + _got(opened))
+    rows = plan['commitments']
+    if not isinstance(rows, list) or len(rows) > 8:
+        raise ValueError('visual_plan.commitments must be a list of at most 8 visible commitments')
+    seen = set()
+    for index, row in enumerate(rows):
+        path = f'visual_plan.commitments[{index}]'
+        if not isinstance(row, dict) or not {'id', 'show', 'needs', 'check'} <= set(row) or set(row) - {'id', 'show', 'needs', 'check', 'realize'}:
+            raise ValueError(path + ' needs id, show, needs, check (optional: realize); got ' + _got(row))
+        _line(row['id'], path + '.id')
+        if not re.fullmatch(r'[a-z0-9][a-z0-9-]{0,79}', row['id']) or row['id'] in seen:
+            raise ValueError(path + '.id must be a distinct lowercase slug; got ' + _got(row['id']))
+        seen.add(row['id'])
+        _line(row['show'], path + '.show', owned=True, v2=v2)
+        _line(row['check'], path + '.check', owned=True, v2=v2)
+        if 'realize' in row:
+            _lines(row['realize'], path + '.realize', owned=True, v2=v2)
+        needs = row['needs']
+        if (not isinstance(needs, list) or not needs or len(set(needs)) != len(needs)
+                or any(not isinstance(item, str) or item not in COMMIT_NEEDS for item in needs)):
+            raise ValueError(path + '.needs must be distinct names from ' + ', '.join(COMMIT_NEEDS) + '; got ' + _got(needs))
+        if not set(needs) <= set(opened):
+            raise ValueError(path + '.needs must be open variables of this task (' + ', '.join(opened)
+                             + '); move it to commitments_skipped')
+    skipped = plan['commitments_skipped']
+    if not isinstance(skipped, list) or len(skipped) > 16:
+        raise ValueError('visual_plan.commitments_skipped must be a list of {id, reason}')
+    for index, row in enumerate(skipped):
+        if not isinstance(row, dict) or set(row) != {'id', 'reason'}:
+            raise ValueError(f'visual_plan.commitments_skipped[{index}] needs exactly id and reason; got ' + _got(row))
+        _line(row['id'], 'Skipped commitment id')
+        _line(row['reason'], 'Skipped commitment reason')
+        if row['id'] in seen:
+            raise ValueError('A commitment cannot be both rendered and skipped: ' + row['id'])
+
+
 def shot_bindings(shot_plan):
     """Read stable active bindings; garment/body validation stays in shot_plan."""
     if not isinstance(shot_plan, dict) or shot_plan.get('version') != 2:
@@ -117,7 +170,7 @@ def shot_bindings(shot_plan):
 
 def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
     """Validate resolved visual fields against original garment hashes and context."""
-    if (not isinstance(plan, dict) or set(plan) - {'culture_profile', 'persona', 'persona_model_sha256'} != FIELDS
+    if (not isinstance(plan, dict) or set(plan) - {'culture_profile', 'persona', 'persona_model_sha256', *COMMIT_OPTIONAL} != FIELDS
             or type(plan['version']) is not int or plan['version'] not in (1, 2)):
         raise ValueError('Visual plan requires complete version-1 or version-2 structured fields')
     v2 = plan['version'] == 2
@@ -156,6 +209,7 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
         if not isinstance(plan['persona_model_sha256'], str) or not re.fullmatch(r'[a-f0-9]{64}', plan['persona_model_sha256']):
             raise ValueError('Style persona requires the exact resolving model hash')
         _line(plan['persona'], 'Style persona', owned=True, v2=v2)
+    _commitments(plan, v2)
     garment = plan['garment']
     if not isinstance(garment, dict) or set(garment) - {'hem_state', 'silhouette'} != {'description', 'keep', 'source_sha256s'}:
         raise ValueError('Garment facts require description, keep and original source_sha256s (optional: hem_state, silhouette); got '
@@ -282,6 +336,10 @@ def render(plan, look=None):
     rows += ['Art limit: ' + item for item in plan['art']['limits']]
     if plan.get('persona'):
         rows.append('Style persona (expression and styling; identity stays as declared): ' + plan['persona'])
+    if plan.get('commitments'):
+        rows.append('Style commitments (each must be visible in the image):')
+        for item in plan['commitments']:
+            rows.append('Commitment: ' + item['show'] + ''.join('; ' + step for step in item.get('realize', [])))
     cells = plan['shots'] if look is None else [plan['shots'][look - 1]]
     for shot in cells:
         heading = (f"Visual slot {shot['slot']} (shot {shot['shot_id']}):" if plan['version'] == 2

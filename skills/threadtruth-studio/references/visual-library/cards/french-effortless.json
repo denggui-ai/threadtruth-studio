@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "french-effortless",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "name": "法式松弛 / French Effortless",
   "entry_type": "legacy-style",
   "aliases": [
@@ -106,5 +106,54 @@
   ],
   "default_objective": "styled-editorial",
   "persona": "relaxed natural expression, soft confidence, effortless undone attitude, no aegyo",
-  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。relaxed natural expression, soft confidence, effortless undone attitude, no aegyo"
+  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。relaxed natural expression, soft confidence, effortless undone attitude, no aegyo",
+  "commitments": [
+    {
+      "id": "fr-window-light",
+      "show": "warm soft daylight from a high window on one side, a gentle golden cast on the backdrop only; the garment keeps its true color",
+      "needs": [
+        "lighting"
+      ],
+      "realize": [
+        "window light from one side of the frame",
+        "golden cast stays on the background"
+      ],
+      "check": "light direction reads from one side; the backdrop is warmer than the garment; garment color matches the source"
+    },
+    {
+      "id": "fr-candid-camera",
+      "show": "casual, slightly imperfect candid framing at eye level; small tilts allowed; the subject may sit off-centre",
+      "needs": [
+        "camera"
+      ],
+      "check": "in at least three cells the subject is off-centre or the horizon is slightly tilted; no symmetric catalog framing"
+    },
+    {
+      "id": "fr-amused-expression",
+      "show": "relaxed, amused expression with a faint natural smile or a mid-laugh in some cells; nothing posed",
+      "needs": [
+        "expression"
+      ],
+      "check": "a soft smile or laugh is visible in several cells; no stiff or camera-ready smile in all cells"
+    },
+    {
+      "id": "fr-bare-skin-makeup",
+      "show": "bare-skin minimal makeup with a soft red lip; hair tousled and slightly messy, tucked behind one ear in some cells",
+      "needs": [
+        "makeup"
+      ],
+      "realize": [
+        "hair length stays as the identity reference"
+      ],
+      "check": "skin shows natural texture with little visible base; lips soft red; hair looks loose, not sleek"
+    },
+    {
+      "id": "fr-loose-attitude",
+      "show": "loose, effortless, unbothered body attitude; nothing stiff or symmetrical",
+      "needs": [
+        "body"
+      ],
+      "check": "weight is shifted or the stance is asymmetric in most cells; arms and shoulders look relaxed"
+    }
+  ]
 }
