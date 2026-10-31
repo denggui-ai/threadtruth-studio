@@ -971,7 +971,8 @@ def check_local_edits(root,data,row):
         if planned is not None:
             shot_helper().validate(planned,data['references'],context=data['context'],count=face_plan_count(data['context'],1,planned),
                 identity=data['identity'],real_face_plan=row.get('real_face_plan',data.get('real_face_plan')),
-                model_source=(row.get('model',data['model']) or {}).get('source_type'))
+                model_source=(row.get('model',data['model']) or {}).get('source_type'),
+                pose_vocabulary=style_poses(data.get('visual_plan')))
         expected=composite_pixels(safe_file(root,edit['base_output']['file']),safe_file(root,edit['donor']['file']),edit['rectangle'])
         from PIL import Image
         with Image.open(safe_file(root,edit['output']['file'])) as actual:
@@ -995,7 +996,8 @@ def compose_preview(root,data,row,**kw):
         raise ValueError('Local composition cannot discard the current reviewed shot plan')
     if planned is not None:
         shot_helper().validate(planned,data['references'],context=data['context'],count=face_plan_count(data['context'],1,planned),
-            identity=data['identity'],real_face_plan=data.get('real_face_plan'),model_source=(data['model'] or {}).get('source_type'))
+            identity=data['identity'],real_face_plan=data.get('real_face_plan'),model_source=(data['model'] or {}).get('source_type'),
+            pose_vocabulary=style_poses(data.get('visual_plan')))
         original=effective_shot_plan(data)
         if original and any(planned[k]!=original[k] for k in ('version','sku','route','coverage')):
             raise ValueError('Local composition retains the same SKU and original garment coverage')
@@ -1160,7 +1162,8 @@ def continue_v2(data,kw):
             context=data['context'],count=count,route=data['route'],strict_looks=range(2,count+1),shot_plan=full)
     elif kw.get('real_face_looks') is not None:raise ValueError('Cannot retrofit real identity coverage during continuation')
     shot_helper().validate(full,data['references'],context=data['context'],count=count,identity=data['identity'],
-        real_face_plan=face,model_source=data['model']['source_type'])
+        real_face_plan=face,model_source=data['model']['source_type'],
+        pose_vocabulary=style_poses(kw.get('visual_plan') or data.get('visual_plan')))
     visual=None;prompts=kw.get('prompts')
     if 'visual_plan' in data:
         visual=visual_helper().validate(kw.get('visual_plan'),data['references'],context=data['context'],count=count,
@@ -1308,7 +1311,8 @@ def update(root,event,**kw):
             if 'shot_plan' in d:
                 full=shot_helper().validate(kw.get('shot_plan'),d['references'],context=d['context'],count=6,
                     identity=d['identity'],real_face_plan=continuation_plan,
-                    model_source=(d.get('model') or {}).get('source_type'))
+                    model_source=(d.get('model') or {}).get('source_type'),
+                    pose_vocabulary=style_poses(kw.get('visual_plan') or d.get('visual_plan')))
                 prior=d['shot_plan']
                 if (any(full[k]!=prior[k] for k in ('sku','coverage','route','preservation','adaptation_note')) or full['looks'][0]!=prior['looks'][0]
                         or full.get('framing_guidance')!=prior.get('framing_guidance')):

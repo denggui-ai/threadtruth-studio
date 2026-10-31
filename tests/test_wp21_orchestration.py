@@ -443,3 +443,49 @@ class PoseVocabularyTests(unittest.TestCase):
         self.assertEqual(plan['commitments_skipped'], [])
         locked = dict(model, locked=['smiling expression'], adjustable=[])
         self.assertEqual([r['id'] for r in make(model=locked)['commitments_skipped']], ['kc-detached-expression'])
+
+
+class PoseVocabularyLocalRevisionTests(unittest.TestCase):
+    """compose-preview and check_evidence must keep checking pose_id against the frozen card."""
+    def test_local_revision_cannot_bypass_the_pose_id_check(self):
+        import tempfile
+        from PIL import Image
+        web = module('web-task')
+        temp = tempfile.TemporaryDirectory()
+        self.addCleanup(temp.cleanup)
+        root = Path(temp.name)
+        ref = root / 'product.png'
+        Image.new('RGB', (60, 40), 'red').save(ref)
+        digest = web.digest(ref)
+        plan, _ = sample_plan(6)
+        for look, pose_id in zip(plan['looks'], ['kc-wall-stand', 'kc-edge-sit', 'kc-pause-step', 'kc-seated-lean', 'kc-wall-stand']):
+            look['pose_id'] = pose_id
+        for look in plan['looks']:
+            look['reference_sha256s'] = [digest]
+        plan['coverage'][0]['sha256'] = digest
+        plan['framing_guidance'] = 2
+        inventory = [dict(sha256=digest, role='garment-source')]
+        visual = library.prepare(dict(entry_id='korean-cold-editorial', inventory=inventory, shot_plan=plan,
+                                      garment=dict(description='A source-backed vest.', keep=['Keep the zipper.'], source_sha256s=[digest])))
+        context = dict(outfit='sku', style='korean-cold-editorial', mode='B', output_form='human', size=[60, 40],
+                       first_pose=1, purpose='preview-grid')
+        job = root / 'preview'
+        model = dict(source_type='new', scope='full', subject='adult female model', locked=[], adjustable=[], consent_note='')
+        prompt = '\n'.join([web.models.apply_conditions('', model, allow_child=True).strip(),
+                            web.shot_helper().render(plan, None, None), web.visual_helper().compile_prompt(visual)])
+        web.create(job, [ref], [prompt], [60, 40], context=context, shot_plan=plan, visual_plan=visual, model=model)
+        web.update(job, 'authorize', limit=1, note='One preview')
+        web.update(job, 'reserve', look=1, ready=True, refs=web.reference_hashes(job, 1), expected_plan_sha256=web.plan_fingerprint(web.read(job)))
+        grid = root / 'grid.png'
+        Image.new('RGB', (60, 40), 'blue').save(grid)
+        web.update(job, 'returned', look=1, file=grid)
+        web.update(job, 'reject', look=1, note='Local correction requested')
+        bad = copy.deepcopy(plan)
+        bad['looks'][0]['pose_id'] = 'NONEXISTENT'
+        donor = root / 'donor.png'
+        Image.new('RGB', (60, 40), 'red').save(donor)
+        data = web.read(job)
+        with self.assertRaisesRegex(ValueError, 'pose_id'):
+            web.update(job, 'compose-preview', look=1, file=donor, rectangle=[0, 0, 20, 20], shot_plan=bad,
+                       expected_donor_sha256=web.digest(donor), expected_output_sha256=data['looks'][0]['output']['sha256'],
+                       note='User authorized local panel replacement.')
