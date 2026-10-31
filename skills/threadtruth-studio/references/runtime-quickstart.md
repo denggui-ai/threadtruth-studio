@@ -6,7 +6,7 @@
 
 1. 商品图登记：`references` 每张一个 `{path, role}`，`role` 用 `garment-source`（商品）、`identity-reference`（沿用的真人身份）、`aesthetic-reference`、`pose-reference`。用 `shasum -a 256 <文件>` 取哈希，后面的 `source_sha256s`、`coverage`、`reference_sha256s` 都填它。
 2. 风格入口：`python3 "$SKILL/scripts/visual_library.py" route "<用户说的风格>"` 得到 `entry_ids`；`list` 看全部 36 个入口；`show <entry_id>` 读卡片。推荐理由仍按 style-router。
-3. 逐张编排（新人物／不露脸默认 9 张）：按 [pose-planning.md](pose-planning.md) 写 `shot_plan.json`，`version=2`。顶层：`sku`、`route`（有可用背面图为 `A`，否则 `B`）、`coverage`、`looks`、`selected_shot_ids`、`series_role`（整组 `series`，单张 `standalone`），并带 `framing_guidance: 1`（取景留白句由它触发）。每个 look 必填：`slot`、`shot_id`、`display_goal`、`must_show`、`reason`、`body_action`、`hands`、`support`、`framing`（`full-body`/`knee-up`/`half-body`）、`garment_views`（`front`/`front-side`/`back`/`detail` 的子集）、`reference_sha256s`；露脸 AI 人物另给 `head`、`gaze`。`coverage` 每项：`{sha256, views, usable, same_sku, note}`。
+3. 逐张编排（新人物／不露脸默认 9 张）：按 [pose-planning.md](pose-planning.md) 写 `shot_plan.json`，`version=2`。顶层：`sku`、`route`（有可用背面图为 `A`，否则 `B`）、`coverage`、`looks`、`selected_shot_ids`、`series_role`（整组 `series`，单张 `standalone`），并带 `framing_guidance: 2`（取景留白句由它触发；1 仅为旧冻结计划保留）。每个 look 必填：`slot`、`shot_id`、`display_goal`、`must_show`、`reason`、`body_action`、`hands`、`support`、`framing`（`full-body`/`knee-up`/`half-body`）、`garment_views`（`front`/`front-side`/`back`/`detail` 的子集）、`reference_sha256s`；露脸 AI 人物另给 `head`、`gaze`。`coverage` 每项：`{sha256, views, usable, same_sku, note}`。
 4. 冻结视觉方案：
 
 ```
