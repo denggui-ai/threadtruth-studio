@@ -433,7 +433,7 @@ class VisualPlanTests(unittest.TestCase):
 
     def test_persona_renders_one_line_after_art_limits(self):
         plan=self.validate(self.persona_plan());rows=task.visual_helper().render(plan).split('\n')
-        line='Style persona (yields to the declared model conditions): '+self.PERSONA
+        line='Style persona (expression and styling; identity stays as declared): '+self.PERSONA
         self.assertEqual(rows.count(line),1)
         last_limit=max(i for i,row in enumerate(rows) if row.startswith('Art limit: '))
         self.assertEqual(rows.index(line),last_limit+1)
@@ -471,7 +471,7 @@ class VisualPlanTests(unittest.TestCase):
         self.model=dict(self.model,locked=['mature adult','tied-back hair'])
         d=self.create(self.persona_plan())
         self.assertEqual(d['visual_plan']['persona'],self.PERSONA)
-        self.assertIn('Style persona (yields to the declared model conditions): '+self.PERSONA,d['looks'][0]['prompt'])
+        self.assertIn('Style persona (expression and styling; identity stays as declared): '+self.PERSONA,d['looks'][0]['prompt'])
 
     def test_legacy_task_without_persona_exports_card_palette_and_no_persona_line(self):
         # Same fixture path as the WP-1 compile_head smoke. Until WP-4e this pinned the whole prompt sha256 (eb0cea4c... at 17db89b, 8947e0db... after WP-4d),
@@ -540,7 +540,7 @@ class VisualPlanTests(unittest.TestCase):
         self.assertEqual(d['visual_plan_history'][-1]['plan'],plan)
         self.assertEqual(d['looks'][0]['state'],'pending');self.assertEqual(d['looks'][0]['attempt_number'],2)
         self.assertEqual(d['looks'][0]['history'][-1]['visual_plan'],plan)
-        self.assertIn('Style persona (yields to the declared model conditions): '+self.PERSONA,d['looks'][0]['prompt'])
+        self.assertIn('Style persona (expression and styling; identity stays as declared): '+self.PERSONA,d['looks'][0]['prompt'])
         task.check_evidence(self.job,d);self.reserve()
 
     def test_create_rejects_persona_plan_for_a_child_model(self):
@@ -566,10 +566,10 @@ class VisualPlanTests(unittest.TestCase):
                 before=task.read(self.job)
                 d=task.update(self.job,'retry-authorize',look=1,expected_attempt=1,approval_id='retry',note='Approved revised casting retry',model=changed,visual_plan=rebound)
                 self.assertEqual(d['plan_version'],before.get('plan_version',0)+1)
-                old_line='Style persona (yields to the declared model conditions): '+self.PERSONA
+                old_line='Style persona (expression and styling; identity stays as declared): '+self.PERSONA
                 for row in d['looks']:
                     self.assertNotIn(old_line,row['prompt'])
-                    if new_persona:self.assertIn('Style persona (yields to the declared model conditions): '+new_persona,row['prompt'])
+                    if new_persona:self.assertIn('Style persona (expression and styling; identity stays as declared): '+new_persona,row['prompt'])
                     else:self.assertNotIn('Style persona',row['prompt'])
                     self.assertEqual(row['prompt_sha256'],hashlib.sha256(row['prompt'].encode()).hexdigest())
                 for row in d['looks'][1:]:

@@ -8,7 +8,7 @@ import re
 import shutil
 import warnings
 
-MODEL_KEYS = {'source_type', 'scope', 'subject', 'locked', 'adjustable', 'consent_note', 'factors'}
+MODEL_KEYS = {'source_type', 'scope', 'subject', 'locked', 'adjustable', 'consent_note', 'factors', 'styling_lock'}
 IMAGE_SUFFIXES = {'.png', '.jpg', '.jpeg', '.webp'}
 SUBJECTS = {'adult model', 'adult female model', 'adult male model'}
 
@@ -105,7 +105,7 @@ def supplement_prompt(reference):
 
 def validate_model(model, *, allow_child=False):
     if not isinstance(model, dict) or set(model) - MODEL_KEYS:
-        raise ValueError('Model fields are source_type, scope, subject, locked, adjustable, consent_note and optional factors only')
+        raise ValueError('Model fields are source_type, scope, subject, locked, adjustable, consent_note and optional factors and styling_lock only')
     if model.get('source_type') not in {'new', 'ai', 'real'} or model.get('scope') not in {'face', 'full'}:
         raise ValueError('Declare new/ai/real source and face/full identity scope')
     child = allow_child and model.get('subject') == 'child model'
@@ -116,6 +116,8 @@ def validate_model(model, *, allow_child=False):
     for name in ('locked', 'adjustable'):
         if not isinstance(model.get(name), list) or any(not isinstance(x, str) or not x.strip() for x in model[name]):
             raise ValueError('Provide short nonempty model conditions in lists')
+    if model.get('styling_lock', 'identity') not in ('identity', 'full'):
+        raise ValueError('styling_lock must be "identity" (default) or "full"')
     if not isinstance(model.get('consent_note', ''), str):
         raise ValueError('Consent note must be text')
     if model['source_type'] == 'real' and not model.get('consent_note', '').strip():
@@ -191,6 +193,10 @@ def prompt_lines(model, *, allow_child=False):
             'Model references never supply clothing, accessories, pose, backdrop or lighting. '
             'User model conditions override conflicting style personas; never infer nationality or measured fit.',
             *(['Retain reference hair and makeup unless the declared model conditions explicitly change them.']
+              if existing and model.get('styling_lock') == 'full' else
+              ['Identity references fix face structure, apparent age, skin tone'
+               + (' and body proportions' if model['scope'] == 'full' else '')
+               + '; hair, makeup and expression follow the selected style plan.']
               if existing else [])]
 
 
@@ -272,7 +278,9 @@ def _filter_style_text(model, text):
     # Existing identity references supply known appearance, including default
     # hair/makeup. Face-only references cannot supply an unseen body's shape.
     if model['source_type'] in ('ai', 'real'):
-        active.update(('face', 'age', 'skin', 'hair', 'makeup'))
+        active.update(('face', 'age', 'skin'))
+        if model.get('styling_lock') == 'full':
+            active.update(('hair', 'makeup'))
         if model['scope'] == 'full':
             active.add('body')
     safety = r'sexual|nudity|anatom|deform|extra|missing|child|minor|unsafe'

@@ -215,7 +215,7 @@ class VisualLibraryCatalogTests(unittest.TestCase):
                 rows = visual.render(plan, 1).split('\n')
                 last_limit = max(i for i, row in enumerate(rows) if row.startswith('Art limit: '))
                 self.assertEqual(rows[last_limit + 1],
-                                 'Style persona (yields to the declared model conditions): ' + plan['persona'])
+                                 'Style persona (expression and styling; identity stays as declared): ' + plan['persona'])
         locked = self.human_model(source_type='real', locked=['same face', 'same expression'],
                                   consent_note='Express likeness permission')
         plan = self.library.prepare(self.spec('american-street', model=locked))

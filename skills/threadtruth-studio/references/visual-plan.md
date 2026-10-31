@@ -19,7 +19,7 @@ schema2新任务可携带顶层`visual_plan`及其版本／哈希，启用prompt
 - `garment.description/keep/source_sha256s`（可选`hem_state`、`silhouette`，固定枚举，渲染为几何句）、允许的`styling`；
 - `photography.scene/lighting/composition/palette`、`art.direction/techniques/limits`、限定范围的`negatives`；
 - `shots`按实际slot和稳定shot_id冻结（旧v1按pose）逐张场景、光线及构图；文化服饰可另有冻结的`culture_profile`；
-- `persona`与`persona_model_sha256`（可选，成对冻结）：来自来源卡的`persona`短句，仅在`prepare`收到`model`且`output_form`为human时，经当前人物条件过滤（真人／AI身份锁定时自动剥掉与已锁定的妆发、年龄、表情冲突的分句）后写入，渲染为`Art limit`之后的一行`Style persona (yields to the declared model conditions)`，且不压过人物条件块。门禁：①未传`model`则无此字段，传了`model`则无条件校验；②不露脸、flat-lay、hanger、mannequin不注入；③童装不注入；④冻结时记录所依据人物条件的哈希，`web-task`在创建、修订、续图时核对，人物条件被改动则拒绝，须按新人物条件重新`prepare`（预期行为）。12个新入口默认无`persona`，需要时逐卡显式添加，不自动从`bases`合并。已冻结的旧任务与不含`persona`的方案渲染字节不变。
+- `persona`与`persona_model_sha256`（可选，成对冻结）：来自来源卡的`persona`短句，仅在`prepare`收到`model`且`output_form`为human时，经当前人物条件过滤（真人／AI身份锁定时自动剥掉与已锁定的年龄、表情等冲突的分句；妆发、发型仅在 `styling_lock: full` 或人物卡显式声明时剥掉）后写入，渲染为`Art limit`之后的一行`Style persona (expression and styling; identity stays as declared)`，且不压过人物条件块。门禁：①未传`model`则无此字段，传了`model`则无条件校验；②不露脸、flat-lay、hanger、mannequin不注入；③童装不注入；④冻结时记录所依据人物条件的哈希，`web-task`在创建、修订、续图时核对，人物条件被改动则拒绝，须按新人物条件重新`prepare`（预期行为）。12个新入口默认无`persona`，需要时逐卡显式添加，不自动从`bases`合并。已冻结的旧任务与不含`persona`的方案渲染字节不变。
 
 来源快照哈希证明文本一致，不能证明资料真实或生成效果。私人原图与客户资料只进入私人任务目录，不写回共享风格卡或运行库。
 

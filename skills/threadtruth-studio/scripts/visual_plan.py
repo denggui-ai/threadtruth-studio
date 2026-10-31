@@ -281,7 +281,7 @@ def render(plan, look=None):
     rows += ['Art technique: ' + item for item in plan['art']['techniques']]
     rows += ['Art limit: ' + item for item in plan['art']['limits']]
     if plan.get('persona'):
-        rows.append('Style persona (yields to the declared model conditions): ' + plan['persona'])
+        rows.append('Style persona (expression and styling; identity stays as declared): ' + plan['persona'])
     cells = plan['shots'] if look is None else [plan['shots'][look - 1]]
     for shot in cells:
         heading = (f"Visual slot {shot['slot']} (shot {shot['shot_id']}):" if plan['version'] == 2

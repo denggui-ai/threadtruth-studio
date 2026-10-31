@@ -1,5 +1,6 @@
 # Changelog
 
+- feat(wp21a): existing AI/real identity references now lock only face, apparent age, skin tone (and body proportions for `scope=full`); hair, makeup and expression follow the style plan. `model.styling_lock: full` restores the old hair/makeup retention (default `identity`). Persona header reworded.
 - feat(framing): numeric headroom coordinates as `framing_guidance=2` for new plans; `=1` keeps the legacy head-height wording (WP-20).
 - docs(framing): runtime-quickstart and pose-planning now tell hand-written plans to use `framing_guidance: 2` (WP-20 follow-up; a real session copied the stale `1`).
 - docs(router): single tops/skirts default to scene/mixed (C/D), studio B only on explicit conditions; bound cultural/complex-garment entries match by recognized garment (WP-18/19).
