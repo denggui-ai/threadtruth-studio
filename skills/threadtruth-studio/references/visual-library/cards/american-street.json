@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "american-street",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "name": "美式街头 / American Street",
   "entry_type": "legacy-style",
   "aliases": [
@@ -104,5 +104,147 @@
   ],
   "default_objective": "styled-editorial",
   "persona": "relaxed cool attitude, casual confidence, candid street energy, no stiffness",
-  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。relaxed cool attitude, casual confidence, candid street energy, no stiffness"
+  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。relaxed cool attitude, casual confidence, candid street energy, no stiffness",
+  "commitments": [
+    {
+      "id": "as-natural-street-light",
+      "show": "natural daylight or bright overcast mixed with existing street light; layered but not hard-edged, no added neon",
+      "needs": [
+        "lighting"
+      ],
+      "check": "light looks like real street daylight; shadows moderate; no neon glow unless the user asked for night"
+    },
+    {
+      "id": "as-american-city-cues",
+      "show": "American city cues: subway platform, brownstone stoop, chain-link court fence, roll-up shutters or graffiti walls; any lettering stays unreadable",
+      "needs": [
+        "scene"
+      ],
+      "check": "a recognizable street element is present; graffiti and signs are not readable text"
+    },
+    {
+      "id": "as-candid-frame",
+      "show": "candid, slightly off-centre eye-level framing with street depth behind, as if caught by a friend; no low wide-angle hero shots",
+      "needs": [
+        "camera"
+      ],
+      "check": "eye-level and natural lens; figure off-centre; depth of the street behind"
+    },
+    {
+      "id": "as-casual-cool-expression",
+      "show": "casual cool expression: relaxed, slightly amused, a small smirk or easy half-smile",
+      "needs": [
+        "expression"
+      ],
+      "check": "unforced relaxed face; no posed glamour, no catalog grin"
+    },
+    {
+      "id": "as-natural-defined-makeup",
+      "show": "natural makeup with defined brows and a neutral lip; hair as the identity reference, casual and slightly undone",
+      "needs": [
+        "makeup"
+      ],
+      "check": "brows defined; lip neutral; no glossy commercial finish"
+    }
+  ],
+  "action_tendency": "Casual and unposed in the city: weight off-centre, waiting, leaning, passing by, caught mid-moment; never a wide power stance, never catalog-stiff.",
+  "pose_vocabulary": [
+    {
+      "id": "as-platform-wait",
+      "family": "stand",
+      "body": "waiting on a subway platform, weight on one leg, body three-quarter, looking down the platform",
+      "hands": "arms hanging relaxed at the sides, hands out of the pockets",
+      "support": "ground",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "candid waiting posture; not facing camera square"
+    },
+    {
+      "id": "as-fence-hook",
+      "family": "lean",
+      "body": "leaning one shoulder lightly against a chain-link court fence, body three-quarter, feet staggered",
+      "hands": "the far hand hooked through the fence at hip height, the near arm relaxed",
+      "support": "fence",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "light lean; hand at hip height; fence does not cross in front of the garment"
+    },
+    {
+      "id": "as-stoop-recline",
+      "family": "sit",
+      "body": "sitting on a brownstone stoop, leaning back with the elbows resting on the step behind, legs relaxed down the steps",
+      "hands": "elbows on the step behind, hands loose",
+      "support": "stoop steps",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "short skirts",
+      "check": "leaning back, not forward over the knees; garment front open to the lens"
+    },
+    {
+      "id": "as-passing-stride",
+      "family": "walk",
+      "body": "walking past the camera along a sidewalk, glancing sideways, mid-stride",
+      "hands": "one arm swinging, the other relaxed at the side, hands out of the pockets",
+      "support": "ground",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "candid stride; no props; arms beside the body"
+    },
+    {
+      "id": "as-shutter-lean",
+      "family": "lean",
+      "body": "back resting against a roll-up shutter, one knee slightly bent with the foot flat on the ground, chin up",
+      "hands": "arms hanging relaxed at the sides, hands out of the pockets",
+      "support": "shutter",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "foot on the ground, not on the shutter; relaxed lean"
+    },
+    {
+      "id": "as-graffiti-look-back",
+      "family": "turn",
+      "body": "walking past a graffiti wall and turning back toward camera mid-step",
+      "hands": "one arm swinging slightly, the other relaxed, hands out of the pockets",
+      "support": "ground",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "graffiti unreadable; the turn is mid-step, natural"
+    },
+    {
+      "id": "as-block-walk-away",
+      "family": "walk",
+      "body": "walking away from camera down a city sidewalk or alley, loose stride",
+      "hands": "arms hanging relaxed at the sides, hands out of the pockets",
+      "support": "ground",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back of the garment fully readable"
+    },
+    {
+      "id": "as-candid-half",
+      "family": "close",
+      "body": "half-body, caught mid-moment with the shoulders turned slightly, chin a little down with a small smirk",
+      "hands": "arms hanging relaxed at the sides, hands out of the pockets, below the frame",
+      "support": "ground",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "none",
+      "check": "no hand touches the garment; collar and front details readable"
+    }
+  ]
 }

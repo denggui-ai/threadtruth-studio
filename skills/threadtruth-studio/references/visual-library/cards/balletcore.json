@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "balletcore",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "name": "芭蕾柔美 / Balletcore",
   "entry_type": "legacy-style",
   "aliases": [
@@ -104,5 +104,150 @@
   ],
   "default_objective": "styled-editorial",
   "persona": "graceful calm expression, gentle composure, poised softness",
-  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。graceful calm expression, gentle composure, poised softness"
+  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。graceful calm expression, gentle composure, poised softness",
+  "commitments": [
+    {
+      "id": "bc-airy-soft-light",
+      "show": "soft, low-contrast airy light from large windows or a soft studio source with fine gradual transitions",
+      "needs": [
+        "lighting"
+      ],
+      "check": "very soft shadows; light feels airy; no hard spot, no stage spotlight"
+    },
+    {
+      "id": "bc-practice-studio",
+      "show": "a practice studio: pale wooden floor, a plain barre, pale pink, mist-gray or cream walls, sheer window light; no stage, no theatre seats, no costumes",
+      "needs": [
+        "scene"
+      ],
+      "check": "wooden floor and barre or plain walls present; no stage set or performance costume added"
+    },
+    {
+      "id": "bc-graceful-lines",
+      "show": "graceful posture: long neck, shoulders down, light upright carriage; arm and leg shapes soft, never stretched or acrobatic",
+      "needs": [
+        "body"
+      ],
+      "check": "posture lifted and calm; no split, no high leg, no exaggerated limb length"
+    },
+    {
+      "id": "bc-calm-graceful-expression",
+      "show": "calm, gentle, graceful expression with a soft closed-lip smile or quiet focus",
+      "needs": [
+        "expression"
+      ],
+      "check": "soft calm face; no sultry look, no broad grin"
+    },
+    {
+      "id": "bc-soft-flush-makeup",
+      "show": "soft flushed makeup: luminous skin, rosy flush on the cheeks, a sheer glossy pink lip; hair as the identity reference, smooth",
+      "needs": [
+        "makeup"
+      ],
+      "realize": [
+        "no bun, ribbon or hair ornament added unless already in the identity reference"
+      ],
+      "check": "flush soft pink; lip sheer; no added bun or ribbon"
+    }
+  ],
+  "action_tendency": "Light, lifted and quiet: soft rounded arms, long neck, small poised steps around a practice studio, resting at the barre or on the floor; never acrobatic, sexualized or gym-athletic.",
+  "pose_vocabulary": [
+    {
+      "id": "bc-barre-rest",
+      "family": "stand",
+      "body": "standing beside a plain barre, body three-quarter, heels together with toes softly apart, posture lifted",
+      "hands": "one hand resting lightly on the barre at hip height, the other arm soft and low",
+      "support": "floor and barre",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "barre at hip height beside the body; relaxed small foot shape, not a split or high leg"
+    },
+    {
+      "id": "bc-mirror-turn",
+      "family": "turn",
+      "body": "standing in front of a studio mirror, body angled toward it, face turned back toward camera, neck long",
+      "hands": "arms soft and low at the sides",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "garment front faces the lens, not only seen in the mirror; reflection does not double the figure confusingly"
+    },
+    {
+      "id": "bc-stool-sit",
+      "family": "sit",
+      "body": "sitting upright on a simple wooden stool at the edge of the studio, knees together, one foot resting lightly in front of the other, neck long",
+      "hands": "both hands resting on the stool edge beside the hips",
+      "support": "stool",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "short skirts",
+      "check": "upright lifted seat; knees together; garment front fully visible"
+    },
+    {
+      "id": "bc-bench-shoe",
+      "family": "sit",
+      "body": "sitting on a low studio bench, leaning slightly to one side toward the feet",
+      "hands": "one hand adjusting the strap of a plain flat shoe at the ankle, the other on the bench",
+      "support": "bench",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "garments whose front would fold heavily when leaning",
+      "check": "lean is small; garment front not hidden by the arm"
+    },
+    {
+      "id": "bc-studio-glide",
+      "family": "walk",
+      "body": "a light small step across the studio floor, heel to toe, posture lifted",
+      "hands": "arms soft and slightly open at the sides, wrists relaxed, never in front of the body",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "arms beside the body; step light and small; not a bridal slow walk"
+    },
+    {
+      "id": "bc-window-stand",
+      "family": "stand",
+      "body": "standing upright by a tall studio window with sheer curtains, weight on one leg, shoulders down",
+      "hands": "arms soft and relaxed at the sides",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "soft window light on the figure; calm lifted posture"
+    },
+    {
+      "id": "bc-studio-walk-away",
+      "family": "walk",
+      "body": "walking lightly away from camera across the studio toward a bright window",
+      "hands": "arms soft and low at the sides",
+      "support": "floor",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back of the garment fully readable; light small step"
+    },
+    {
+      "id": "bc-neckline-detail",
+      "family": "close",
+      "body": "half-body, neck long, shoulders down and relaxed, chin slightly lifted",
+      "hands": "arms soft and low, out of frame",
+      "support": "floor",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "none",
+      "check": "neckline and shoulder details fully visible; no hand at the neckline"
+    }
+  ]
 }

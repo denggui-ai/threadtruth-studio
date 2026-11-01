@@ -32,7 +32,7 @@
   "entries": [
     {
       "id": "american-street",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "name": "美式街头 / American Street",
       "entry_type": "legacy-style",
       "aliases": [
@@ -77,7 +77,7 @@
     },
     {
       "id": "balletcore",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "name": "芭蕾柔美 / Balletcore",
       "entry_type": "legacy-style",
       "aliases": [
@@ -359,7 +359,7 @@
     },
     {
       "id": "korean-menswear",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "name": "韩式男装 / Korean Menswear",
       "entry_type": "legacy-style",
       "aliases": [
@@ -474,7 +474,7 @@
     },
     {
       "id": "preppy",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "name": "美式学院 / Preppy",
       "entry_type": "legacy-style",
       "aliases": [
@@ -542,7 +542,7 @@
     },
     {
       "id": "workwear-vintage",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "name": "复古工装 / Workwear Vintage",
       "entry_type": "legacy-style",
       "aliases": [

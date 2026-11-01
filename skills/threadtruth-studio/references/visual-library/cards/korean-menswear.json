@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "korean-menswear",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "name": "韩式男装 / Korean Menswear",
   "entry_type": "legacy-style",
   "aliases": [
@@ -104,5 +104,148 @@
   ],
   "default_objective": "styled-editorial",
   "persona": "calm composed confidence, understated cool attitude, editorial stillness",
-  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。calm composed confidence, understated cool attitude, editorial stillness"
+  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。calm composed confidence, understated cool attitude, editorial stillness",
+  "commitments": [
+    {
+      "id": "km-cool-top-side-light",
+      "show": "large soft cool-gray light from the upper side; narrow soft shadows, mid-low contrast, highlights held down",
+      "needs": [
+        "lighting"
+      ],
+      "check": "soft shadows fall narrow under structure; colour cool-neutral; no warm golden light"
+    },
+    {
+      "id": "km-clean-architecture",
+      "show": "clean cool-gray city architecture: concrete or stone facades, glass, a minimal lobby; few objects and no clutter",
+      "needs": [
+        "scene"
+      ],
+      "check": "clear architectural lines behind; no street clutter, no shop signs, no plants dominating"
+    },
+    {
+      "id": "km-ordered-frame",
+      "show": "an ordered editorial frame aligned to vertical and horizontal architectural lines, the figure placed with clear negative space",
+      "needs": [
+        "camera",
+        "arrangement"
+      ],
+      "check": "verticals stay vertical; the figure sits against a clean line or plane with open space"
+    },
+    {
+      "id": "km-still-composed-expression",
+      "show": "still, composed expression with closed lips; cool and calm, no smile",
+      "needs": [
+        "expression"
+      ],
+      "check": "neutral closed mouth; calm face; no smile, no aegyo, no frown"
+    },
+    {
+      "id": "km-clean-grooming",
+      "show": "clean grooming: smooth even skin, natural brows, no visible colour makeup; hair as the identity reference, neat and smooth",
+      "needs": [
+        "makeup"
+      ],
+      "check": "skin even without shine; no visible eye or lip colour; hair tidy"
+    }
+  ],
+  "action_tendency": "Still and architectural: upright verticals, minimal gestures, weight even or on one leg, pauses rather than movement; never loose, slouched, playful or idol-like.",
+  "pose_vocabulary": [
+    {
+      "id": "km-facade-stand",
+      "family": "stand",
+      "body": "standing upright and still in front of a clean gray facade, weight even, shoulders level",
+      "hands": "arms straight and relaxed at the sides",
+      "support": "ground",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "vertical posture centred on a clean plane; not touching the wall"
+    },
+    {
+      "id": "km-glass-profile",
+      "family": "turn",
+      "body": "standing side-on beside a glass facade, body in profile, face turned toward camera",
+      "hands": "arms relaxed at the sides",
+      "support": "ground",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "clear profile line of the body; glass behind with no distracting reflections"
+    },
+    {
+      "id": "km-lobby-cube-sit",
+      "family": "sit",
+      "body": "seated upright on a low cube bench in a minimal lobby, knees at hip width, feet flat, back straight",
+      "hands": "both hands resting on the bench edge beside the hips",
+      "support": "cube bench",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "short skirts",
+      "check": "upright and still; hands beside the hips, not on the garment; garment front fully visible"
+    },
+    {
+      "id": "km-facade-walk",
+      "family": "walk",
+      "body": "slow straight walk parallel to a long facade, body side-on to camera, measured step",
+      "hands": "arms nearly still at the sides",
+      "support": "ground",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "measured step, arms quiet; the facade line runs straight behind"
+    },
+    {
+      "id": "km-awning-pause",
+      "family": "stand",
+      "body": "standing still under a plain awning at a clean wet street corner, body three-quarter, weight on one leg",
+      "hands": "arms straight and relaxed at the sides",
+      "support": "ground",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "still posture; arms at the sides; nothing in front of the garment"
+    },
+    {
+      "id": "km-column-stand",
+      "family": "stand",
+      "body": "standing beside a square concrete column, body turned three-quarter, one shoulder close to but not touching the column",
+      "hands": "arms relaxed at the sides",
+      "support": "ground",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "column edge as a strong vertical beside the figure; no lean"
+    },
+    {
+      "id": "km-back-still",
+      "family": "stand",
+      "body": "standing still with the back to camera facing a clean gray facade, weight even",
+      "hands": "arms straight and relaxed at the sides",
+      "support": "ground",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back of the garment fully readable; symmetric and still"
+    },
+    {
+      "id": "km-still-half",
+      "family": "close",
+      "body": "half-body, shoulders square, chin level, completely still",
+      "hands": "arms straight at the sides, below the frame",
+      "support": "ground",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "none",
+      "check": "no hand touches the garment; collar, closure and shoulder line readable"
+    }
+  ]
 }
