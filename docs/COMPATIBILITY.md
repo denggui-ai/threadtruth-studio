@@ -1,10 +1,16 @@
 # Compatibility / 兼容性
 
-Updated 2026-10-30. The current release target is the [beta.15 prerelease](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.15). Rows below keep the scope of the environment and task they record; they are not a general compatibility guarantee.
+Updated 2026-11-02. The current local candidate is `1.0.0-beta.16+studio.20261102.569a9b6`, not installed or published. Historical environment and task evidence below stays scoped to its original version.
 
-更新于2026-10-30。当前发行目标为[beta.15预发布版](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.15)。下表各行保留所记录环境与任务的验证范围，不承诺所有环境兼容。
+更新于2026-11-02。本地完整候选的插件与源码物料按[候选指南](STUDIO-CANDIDATE.md)区分；本机仍为14／16候选。本轮未做新机器、新会话、实际安装、回滚或图片验证。
 
 ## Current source candidate / 当前源码候选
+
+运行源码569a9b6包含52／60选姿及知识／风格规则衔接。基础117项、扩库43项、规则衔接24项按各自覆盖复用，集合重叠，不相加为一次全量验收。已有60图页面检查与12＋6个准备／导出合成任务分别保留原结论；本包只检查新归档与物料一致性。
+
+六图对照仍qa-retry，匿名评审没有稳定收益结论；推袖GEO-SLEEVE-01保持open。源码与打包检查不证明人物、商品或摄影效果改善。本候选未替换安装版，也未公开发布。更多使用边界见[选姿说明](POSE-LIBRARY-TRYOUT.md)。
+
+### 历史beta.15基线
 
 beta.15 (2026-10-30) ships the 36 visual entries (24 original style entries plus 12 execution entries) in the prerelease; all 36 entry cards remain `draft`. The default flow is garment-driven nine-shot planning with one labeled nine-panel direction preview first, and the ledger scripts must record authorization and every call before any generation. The only live evidence is one real Codex session (denim set) that produced the labeled nine-panel preview and the first delivery image through the ledger with zero hand-written prompts; the 36 entries have not been run one by one. Records from the 2026-10-18 candidate stage keep their original findings (three paired samples did not demonstrate overall improvement; the child set retained garment/framing failures; adult web delivery and cross-product reuse were unfinished; a later adult direction preview was accepted after an explicitly authorized local composite, which is not an accepted independent portrait). Detailed sanitized development records stay in the source repository under `docs/verification/2026-10-18-studio-redesign/`; they are not part of the offline plugin package.
 

@@ -1,3 +1,5 @@
+> **当前源码的本地完整候选：1.0.0-beta.16+studio.20261102.569a9b6。** 52动作／60视图与知识／风格规则衔接已纳入；未安装、未发布，视觉缺口保留。先看[完整候选指南](docs/STUDIO-CANDIDATE.md)与[离线入口](USER-GUIDE.html)。下文beta.16下载及历史图库保留原发布范围，不代表本候选。 / Local candidate only; historical download links do not identify this archive.
+
 # 裁光 · Caiguang
 
 **2026-10-30 beta.15 status — 36 visual entries shipped, visual evidence still thin:** the 24 original style entries plus 12 new execution entries (product display, styled editorials, art campaigns) are all in the beta.15 prerelease, and the default flow is now garment-driven nine-shot planning; all 36 entry cards remain `draft`. The only live evidence so far is one real Codex session (denim set) that produced the labeled nine-panel preview and the first delivery image through the ledger with zero hand-written prompts; the 36 entries have not been run one by one. Historical galleries below retain their original scope. [Verification limits](docs/COMPATIBILITY.md#current-source-candidate--当前源码候选) · [Current capabilities](docs/CAPABILITIES.md).

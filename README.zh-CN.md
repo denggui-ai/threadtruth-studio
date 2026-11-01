@@ -1,3 +1,5 @@
+> **当前源码的本地完整候选：1.0.0-beta.16+studio.20261102.569a9b6。** 52动作／60视图与知识／风格规则衔接已纳入；未安装、未发布，视觉缺口保留。先看[完整候选指南](docs/STUDIO-CANDIDATE.md)与[离线入口](USER-GUIDE.html)。下文beta.16下载及历史图库保留原发布范围，不代表本候选。 / Local candidate only; historical download links do not identify this archive.
+
 # 裁光 · Caiguang
 
 **2026-10-30 beta.15 状态：36 个视觉入口已随预发布版发布，实图验证仍少。** 24 个原风格入口加 12 个新执行入口（商品展示／穿搭编辑／艺术广告）全部进入 beta.15，默认流程改为服饰驱动的九张编排；36 张入口卡的状态仍为 draft。实图证据目前只有一次真实 Codex 会话（牛仔套装，九格预览与首张成片经账本落地，提示词零手写），36 个入口尚未逐个跑图验证。下方历史图库保留原发布范围。[验证范围与限制](docs/COMPATIBILITY.md#current-source-candidate--当前源码候选) · [当前能力](docs/CAPABILITIES.md)。

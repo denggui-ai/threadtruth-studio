@@ -1,3 +1,5 @@
+> **当前本地完整候选另有文件名与校验清单。** 先读[候选使用与校验说明](STUDIO-CANDIDATE.md)。下文为历史beta.16公开包安装参考，其下载链接不包含本候选；本次仅准备物料，不执行安装。
+
 # 裁光 · Codex 服饰 AI 插件 / Caiguang — Installation
 
 
