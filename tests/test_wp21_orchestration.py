@@ -155,7 +155,7 @@ class ShotVarietyTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'back'):
                 self.validate(bad, inventory)
         bad, _ = sample_plan()
-        bad['variety_checks'] = 2
+        bad['variety_checks'] = 3
         with self.assertRaises(ValueError):
             self.validate(bad, inventory)
 

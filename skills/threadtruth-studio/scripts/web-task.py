@@ -189,6 +189,7 @@ def check_shot_plan(data):
         return
     if data['schema_version']!=2 or object_hash(data['shot_plan'])!=data.get('shot_plan_sha256'):
         raise ValueError('Frozen shot plan changed')
+    shot_helper().pose_library().validate_scope(data['shot_plan'],data.get('model'),data['context'].get('output_form'))
     shot_helper().validate(data['shot_plan'],data['references'],context=data['context'],
         count=face_plan_count(data['context'],len(data['looks']),data.get('shot_plan')),identity=data['identity'],real_face_plan=data.get('real_face_plan'),
         strict_references=prompt_contract(data)>=1,model_source=(data.get('model') or {}).get('source_type'),
@@ -716,6 +717,7 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
         native_reference_check(items,route,extra_anchor=int(identity and len(prompts)==6))
     if shot_plan is not None:
         if schema_version!=2:raise ValueError('Shot plans require schema 2')
+        shot_helper().pose_library().validate_scope(shot_plan,model,context.get('output_form'))
         shot_plan=shot_helper().validate(shot_plan,inventory,context=context,
             count=face_plan_count(context,len(prompts),shot_plan),identity=identity,real_face_plan=real_face_plan,
             model_source=(model or {}).get('source_type'),pose_vocabulary=style_poses(visual_plan))

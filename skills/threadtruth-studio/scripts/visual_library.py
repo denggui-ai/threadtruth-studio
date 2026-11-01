@@ -319,6 +319,11 @@ def prepare(spec, root=ROOT):
         if resolved:
             plan['persona'] = resolved
             plan['persona_model_sha256'] = _visual().object_hash(model)
+    if isinstance(shot_plan, dict) and shot_plan.get('variety_checks') == 2:
+        _shots().pose_library().validate_scope(shot_plan, model, output_form)
+        _shots().validate(shot_plan, spec['inventory'],
+                          context=dict(first_pose=pose, output_form=output_form, purpose='delivery'), count=count,
+                          model_source=(model or {}).get('source_type'), pose_vocabulary=primary.get('pose_vocabulary'))
     if (isinstance(shot_plan, dict) and shot_plan.get('variety_checks') == 1 and output_form in ('human', 'faceless')
             and primary.get('pose_vocabulary')):
         _shots().check_poses(shot_plan, primary['pose_vocabulary'])

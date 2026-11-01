@@ -1,3 +1,11 @@
+# 2026-11-01 · 最小自有动作库接入（候选）
+
+- 接入14动作/16视图及本地选姿复制页，复用来源校验、逐张计划与原账本。
+- 新自由编排使用variety_checks=2，允许旧风格情节与自有动作共存，不再强制五格旧ID；经典与冻结旧计划保持。
+- 冻结动作定义/视图/图像哈希，文字与附图分开；保留商品、身份、五附件和预览文字边界。
+- 新增针对选择、商品覆盖、单格继承和适用范围的定向回归；计划与成片证据另行记录，不据代码通过宣称图片收益。
+- 117项定向回归、结构和选姿页检查通过；6例规划及6张限定POC执行完成，六图均因留白不符为qa-retry。保留候选入口，不默认附图；见[限定记录](docs/verification/2026-11-02-owned-pose-minimal.md)。
+
 # Changelog
 
 - feat(wp21g-b4): quiet-luxury, old-money, italian-luxe, clean-fit and athleisure carry `commitments` (5 each), `action_tendency` and `pose_vocabulary` (8 each, one back entry); scene commitments name concrete places per WP-23.
