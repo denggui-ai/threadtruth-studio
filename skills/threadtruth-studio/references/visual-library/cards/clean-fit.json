@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "clean-fit",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "name": "极简基础 / Clean Fit",
   "entry_type": "legacy-style",
   "aliases": [
@@ -104,5 +104,148 @@
   ],
   "default_objective": "styled-editorial",
   "persona": "calm composed expression, quiet confidence, understated easy attitude",
-  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。calm composed expression, quiet confidence, understated easy attitude"
+  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。calm composed expression, quiet confidence, understated easy attitude",
+  "commitments": [
+    {
+      "id": "cf-even-wrap-light",
+      "show": "large soft light wrapping evenly from the front-side; shallow tidy shadows, low contrast, bright high-key exposure",
+      "needs": [
+        "lighting"
+      ],
+      "check": "shadows shallow but present; whites keep texture; no moody or hard light"
+    },
+    {
+      "id": "cf-everyday-city-place",
+      "show": "a clean everyday city place with a few real objects in cool-neutral low-saturation tones: a room with a floor-to-ceiling window and a simple chair, a pale wooden table with one cup and a few books, a quiet street shop entrance, or an apartment stairwell with a metal handrail; at most one cell uses a plain wall",
+      "needs": [
+        "scene"
+      ],
+      "check": "each cell except at most one reads as a recognisable place with a few real objects; nothing busy; a six or nine grid shows at least three different places; a white or pale garment still separates from the background by tone"
+    },
+    {
+      "id": "cf-clear-geometry",
+      "show": "a clean geometric frame from window frames, a table edge or a stair rail; the figure in natural proportion with tidy edges",
+      "needs": [
+        "camera",
+        "arrangement"
+      ],
+      "check": "verticals straight; edges tidy; no awkward crop; body proportions natural"
+    },
+    {
+      "id": "cf-calm-easy-expression",
+      "show": "calm easy expression with a relaxed mouth; quiet confidence",
+      "needs": [
+        "expression"
+      ],
+      "check": "relaxed face; not blank, no broad smile, no stern look"
+    },
+    {
+      "id": "cf-clean-natural-makeup",
+      "show": "clean natural makeup: fresh even skin, natural brows, a sheer natural lip; hair as the identity reference, neat",
+      "needs": [
+        "makeup"
+      ],
+      "check": "makeup barely visible; skin fresh; hair neat"
+    }
+  ],
+  "action_tendency": "Easy everyday motion in a clean city place: stepping out of a shop, a hand on a stair rail, sitting at a table with a cup; natural proportions and relaxed weight, never stiff or fashion-posed.",
+  "pose_vocabulary": [
+    {
+      "id": "cf-window-stand",
+      "family": "stand",
+      "body": "standing a step in front of a floor-to-ceiling window, a simple chair beside, weight even, shoulders relaxed",
+      "hands": "arms relaxed at the sides, hands out of pockets",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "garment front lit, not silhouetted; not leaning on anything"
+    },
+    {
+      "id": "cf-table-cup-sit",
+      "family": "sit",
+      "body": "sitting at a pale wooden table, body three-quarter to camera, a cup and a few books on the table",
+      "hands": "one hand around the cup on the tabletop, the other resting on the table edge",
+      "support": "chair and table",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "garments whose key detail sits below the waist where the table hides it",
+      "check": "cup stays on the table; upper garment fully readable above the tabletop"
+    },
+    {
+      "id": "cf-shop-exit-step",
+      "family": "walk",
+      "body": "stepping out of a quiet street shop entrance toward camera, short natural stride",
+      "hands": "arms swinging slightly",
+      "support": "ground",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "shop sign unreadable; garment front clear; natural stride"
+    },
+    {
+      "id": "cf-stair-descend",
+      "family": "walk",
+      "body": "walking down an apartment stairwell toward camera, body three-quarter, light even step",
+      "hands": "one hand sliding along the metal handrail, the other relaxed",
+      "support": "stairs and rail",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "long skirts that would catch on the steps",
+      "check": "feet on two different steps; hand on the rail; proportions natural"
+    },
+    {
+      "id": "cf-shopfront-lean",
+      "family": "lean",
+      "body": "one shoulder lightly against the stone pillar beside a quiet shop entrance, body three-quarter, feet staggered",
+      "hands": "both arms relaxed at the sides, hands out of pockets",
+      "support": "pillar",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "only the shoulder touches the pillar; no window reflection crosses the garment"
+    },
+    {
+      "id": "cf-window-turn",
+      "family": "turn",
+      "body": "standing by a floor-to-ceiling window, body turned three-quarter toward the glass, face turned back toward camera",
+      "hands": "arms relaxed at the sides, hands out of pockets",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "garment front faces the lens; light falls evenly on the garment"
+    },
+    {
+      "id": "cf-street-walk-away",
+      "family": "walk",
+      "body": "walking away from camera along a quiet street past shopfronts, relaxed stride",
+      "hands": "arms relaxed at the sides, hands out of pockets",
+      "support": "ground",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back of the garment fully readable; no readable signs"
+    },
+    {
+      "id": "cf-hem-close",
+      "family": "close",
+      "body": "half-body, posture straight, shoulders relaxed",
+      "hands": "arms relaxed at the sides, below the frame; no hand touches the garment",
+      "support": "floor",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "none",
+      "check": "no hand on the garment; construction readable"
+    }
+  ]
 }

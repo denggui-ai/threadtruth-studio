@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "athleisure",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "name": "运动休闲 / Athleisure",
   "entry_type": "legacy-style",
   "aliases": [
@@ -104,5 +104,150 @@
   ],
   "default_objective": "styled-editorial",
   "persona": "energetic relaxed expression, healthy easygoing confidence, active composed attitude",
-  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。energetic relaxed expression, healthy easygoing confidence, active composed attitude"
+  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。energetic relaxed expression, healthy easygoing confidence, active composed attitude",
+  "commitments": [
+    {
+      "id": "al-clear-daylight",
+      "show": "clear bright daylight with a soft direction, slightly cool; shadows keep the garment structure",
+      "needs": [
+        "lighting"
+      ],
+      "check": "bright cool-neutral light; soft shadows that show seams and structure; no evening or glam light"
+    },
+    {
+      "id": "al-active-city-place",
+      "show": "a specific active city place with a few real objects: a riverside running path with a railing and water, a gym with floor-to-ceiling windows and a weight rack, a yoga studio with a pale wooden floor and rolled mats, a café sidewalk with a bench, a tree-lined park path, or a loft training corner with a bench",
+      "needs": [
+        "scene"
+      ],
+      "check": "each cell reads as a recognisable active place and the figure is at rest or walking, not exercising (no stretch, yoga pose, run or equipment use); no brand logos or readable signs; a six or nine grid shows at least three different places; a white or pale garment still separates from the background by tone"
+    },
+    {
+      "id": "al-open-path-frame",
+      "show": "an eye-level frame with clear path or space lines through the scene and room ahead of the figure",
+      "needs": [
+        "camera"
+      ],
+      "check": "a visible path or line through the frame; room in front of the figure"
+    },
+    {
+      "id": "al-easy-healthy-expression",
+      "show": "fresh relaxed expression with an easy natural smile or soft closed lips; healthy and at ease",
+      "needs": [
+        "expression"
+      ],
+      "check": "relaxed face; not strained, not glam, not posed"
+    },
+    {
+      "id": "al-fresh-sporty-makeup",
+      "show": "fresh minimal makeup: natural skin with a healthy glow, natural brows, a tinted lip balm; hair as the identity reference, neat",
+      "needs": [
+        "makeup"
+      ],
+      "realize": [
+        "no headbands, sweatbands, earbuds or sports accessories added"
+      ],
+      "check": "skin natural with a light glow; no heavy makeup"
+    }
+  ],
+  "action_tendency": "Everyday active ease between city and workout: walking with a water bottle, a short pause on a riverside rail, sitting on a bench after a session; light and natural, never a stretch, jump, sprint or pro training move.",
+  "pose_vocabulary": [
+    {
+      "id": "al-riverside-walk",
+      "family": "walk",
+      "body": "easy brisk walk toward camera along a riverside path, railing and water to one side",
+      "hands": "one hand holding a plain water bottle low at the side, the other swinging",
+      "support": "ground",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "bottle below the hip at the side; garment front clear; walking, not running"
+    },
+    {
+      "id": "al-rail-pause",
+      "family": "lean",
+      "body": "pausing at a riverside railing, one forearm resting on the top rail, body three-quarter to camera",
+      "hands": "one forearm on the rail, the other hand relaxed at the side",
+      "support": "railing",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "forearm on the rail; garment front clear of the railing"
+    },
+    {
+      "id": "al-gym-window-stand",
+      "family": "stand",
+      "body": "standing beside the floor-to-ceiling window of a gym, a weight rack soft behind, weight on one leg",
+      "hands": "arms relaxed at the sides, hands out of pockets",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "garment front lit, not silhouetted; standing, no exercise"
+    },
+    {
+      "id": "al-studio-floor-sit",
+      "family": "sit",
+      "body": "sitting cross-legged on the pale wooden floor of a yoga studio, back upright, rolled mats behind",
+      "hands": "hands resting on the knees",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "skirts or dresses",
+      "check": "seated at rest, no stretch; garment front readable"
+    },
+    {
+      "id": "al-cafe-bench-sit",
+      "family": "sit",
+      "body": "sitting on a café sidewalk bench after a run, leaning back slightly, body three-quarter, one ankle crossed over the other",
+      "hands": "one hand holding a takeaway cup on the knee, the other on the bench",
+      "support": "bench",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "garments whose key detail sits on the lap",
+      "check": "cup on the knee, clear of the garment front; relaxed seat"
+    },
+    {
+      "id": "al-park-turn",
+      "family": "turn",
+      "body": "turning back toward camera while walking along a tree-lined park path",
+      "hands": "arms relaxed, one swinging lightly",
+      "support": "ground",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "mid-walk turn; garment front readable; no jumping"
+    },
+    {
+      "id": "al-path-walk-away",
+      "family": "walk",
+      "body": "walking away from camera along a riverside path, relaxed stride",
+      "hands": "arms swinging lightly",
+      "support": "ground",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back of the garment fully readable; path leads away"
+    },
+    {
+      "id": "al-zip-close",
+      "family": "close",
+      "body": "half-body, relaxed shoulders, chin level",
+      "hands": "arms relaxed at the sides, below the frame; no hand touches the garment",
+      "support": "ground",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "none",
+      "check": "no hand on the garment; fabric, zip and seams readable"
+    }
+  ]
 }
