@@ -400,9 +400,11 @@ class PoseVocabularyTests(unittest.TestCase):
         plan, inventory = sample_plan(count, checks)
         for look, pose_id in zip(plan['looks'], ids):
             look['pose_id'] = pose_id
+            if pose_id == 'kc-collar-hold':
+                look['garment_views'] = ['front', 'detail']
         return plan, inventory
 
-    FRONT_IDS = ['kc-wall-stand', 'kc-edge-sit', 'kc-pause-step', 'kc-seated-lean', 'kc-wall-stand']
+    FRONT_IDS = ['kc-wall-stand', 'kc-edge-sit', 'kc-pause-step', 'kc-seated-lean', 'kc-collar-hold']
 
     def test_unknown_pose_id_is_rejected_and_lists_the_available_ids(self):
         plan, inventory = self.with_poses(self.FRONT_IDS)
@@ -432,6 +434,27 @@ class PoseVocabularyTests(unittest.TestCase):
         self.validate(plan, inventory, None)
         plan, inventory = sample_plan()
         self.validate(plan, inventory, library.card(bare).get('pose_vocabulary'))
+
+    def test_a_pose_id_is_used_once_per_plan(self):
+        plan, inventory = self.with_poses(self.FRONT_IDS)
+        plan['looks'][5]['pose_id'] = 'kc-wall-stand'
+        with self.assertRaisesRegex(ValueError, r'looks\[5\]\.pose_id "kc-wall-stand" is already used by looks\[0\]'):
+            self.validate(plan, inventory, self.vocab())
+
+    def test_at_most_one_non_detail_back_look(self):
+        plan, inventory = self.with_poses(self.FRONT_IDS)
+        inventory.append(dict(sha256=BACK, role='garment-source'))
+        plan['coverage'].append(dict(sha256=BACK, views=['back', 'detail'], usable=True, same_sku=True, note='Synthetic back evidence.'))
+        plan['route'] = 'A'
+        for n in (6, 7):
+            plan['looks'][n].update(garment_views=['back'], reference_sha256s=[BACK])
+        with self.assertRaisesRegex(ValueError, r'looks\[7\] is a second non-detail back look \(looks\[6\]'):
+            self.validate(plan, inventory, self.vocab())
+        plan['looks'][7].update(framing='detail', garment_views=['back', 'detail'])
+        self.validate(plan, inventory, self.vocab())
+        self.validate(plan, inventory, None)
+        plan['looks'][7].update(framing='half-body', garment_views=['back'])
+        self.validate(plan, inventory, None)
 
     def test_plans_without_variety_checks_skip_the_pose_checks(self):
         plan, inventory = self.with_poses(['kc-not-a-pose'], checks=False)
@@ -470,8 +493,10 @@ class PoseVocabularyLocalRevisionTests(unittest.TestCase):
         Image.new('RGB', (60, 40), 'red').save(ref)
         digest = web.digest(ref)
         plan, _ = sample_plan(6)
-        for look, pose_id in zip(plan['looks'], ['kc-wall-stand', 'kc-edge-sit', 'kc-pause-step', 'kc-seated-lean', 'kc-wall-stand']):
+        for look, pose_id in zip(plan['looks'], PoseVocabularyTests.FRONT_IDS):
             look['pose_id'] = pose_id
+            if pose_id == 'kc-collar-hold':
+                look['garment_views'] = ['front', 'detail']
         for look in plan['looks']:
             look['reference_sha256s'] = [digest]
         plan['coverage'][0]['sha256'] = digest

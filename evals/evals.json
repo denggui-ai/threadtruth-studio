@@ -3194,6 +3194,18 @@
         "decision 为 hold，不静默替换入口",
         "给出两个选择：换成最接近的通用入口，或照做并标“借氛围”"
       ]
+    },
+    {
+      "id": 247,
+      "category": "pose_vocabulary_variety",
+      "source_eval": "WP-22",
+      "prompt": "用带动作词条的风格入口（如韩式男装）出九格方向预览，商品有同款正背面图。",
+      "expected_output": "shot_plan 每个 pose_id 只出现一次；含背面的非 detail 格最多 1 格，第二个背面视角写成 detail 局部。",
+      "expectations": [
+        "同一 pose_id 不在两格重复",
+        "garment_views 含 back 且 framing 非 detail 的格不超过 1 格",
+        "额外背面视角以 detail 取景出现，不重复全身背面"
+      ]
     }
   ]
 }
