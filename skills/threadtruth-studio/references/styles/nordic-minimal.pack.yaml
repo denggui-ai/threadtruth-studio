@@ -1,7 +1,7 @@
 # nordic-minimal — 北欧极简风(v1 静态批量;纯视觉轴)。
 name: 北欧极简 / Nordic Minimal
 slug: nordic-minimal
-version: 0.1.0
+version: 0.1.1
 maturity: DRAFT
 depends_on_core: ">=1.0"
 
@@ -16,12 +16,12 @@ visual_language: >
 model_persona: calm reserved expression, composed stillness, quiet confidence
 
 scenes:
-  - 北欧白墙公寓
-  - 冷灰水泥空间
-  - 极简木质餐桌旁
-  - 大窗冷调自然光
+  - 北欧白墙客厅（书架、绿植）
+  - 浅木餐桌与吊灯
+  - 大窗边阅读角
   - 白色楼梯转角
-  - 空旷画廊墙面
+  - 阴天湖边木栈道
+  - 安静的设计书店或咖啡馆
 lighting_palette: 冷白自然光,灰白/雾蓝/浅木色,低饱和留白
 pose_masters: inherit
 default_mode: C

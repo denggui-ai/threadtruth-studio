@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "clean-fit",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "name": "极简基础 / Clean Fit",
   "entry_type": "legacy-style",
   "aliases": [
@@ -33,8 +33,8 @@
   "legacy": {
     "slug": "clean-fit",
     "pack_path": "references/styles/clean-fit.pack.yaml",
-    "version": "0.1.0",
-    "sha256": "9d17d3e1e9acd8ce1c59b2f3c869d219108600a3ea7f0471675a297cd9a797c2",
+    "version": "0.1.1",
+    "sha256": "04d0608ddfde30e8dd8a350beec3476a1b685a8a96392dd91b10bc4bc70d5dd0",
     "maturity": "DRAFT"
   },
   "base_policy": "未选新组件时保留旧配方；明确用途/媒介/逐张计划替换冲突段，不能把本卡与旧pack重复累加。",
@@ -58,7 +58,7 @@
     "单张/系列/独立比较/融合按本次意图，多个名称不自动混在一张图。"
   ],
   "photography": {
-    "scene": "极简纯色背景墙，减少无关物件。",
+    "scene": "干净的城市日常地点：落地窗室内、白墙画廊一角、原木桌前或安静街边，物件少而真实。",
     "lighting": "大面积柔光从正侧方均匀包裹，阴影浅而整洁，低对比偏高调。",
     "composition": "几何关系清楚、边界整洁、主体比例自然，避免杂乱叠加。 每张按已确认的逐张计划组织。",
     "palette": "环境为冷中性低饱和色，保留商品自身对比和饱和度。 商品原色与饱和度保持不变。"
@@ -95,12 +95,12 @@
     "scope": "当前修订尚无实图验收；既有历史记录保留，不自动扩展其接受范围。"
   },
   "scene_options": [
-    "极简纯色背景墙",
     "落地窗自然光室内",
-    "水泥灰极简空间",
     "白墙画廊一角",
-    "原木桌前静物感",
-    "街边干净立面"
+    "原木桌前（一只杯子、几本书）",
+    "安静街边店铺门口",
+    "公寓楼梯间与扶手",
+    "极简纯色背景墙（仅用于单格）"
   ],
   "default_objective": "styled-editorial",
   "persona": "calm composed expression, quiet confidence, understated easy attitude",

@@ -1,7 +1,7 @@
 # clean-fit — 极简基础风(Wave 2 #2;验"加风格=纯数据,零改 core")。
 name: 极简基础 / Clean Fit
 slug: clean-fit
-version: 0.1.0
+version: 0.1.1
 maturity: DRAFT
 depends_on_core: ">=1.0"
 
@@ -16,12 +16,12 @@ visual_language: >
 model_persona: calm composed expression, quiet confidence, understated easy attitude
 
 scenes:
-  - 极简纯色背景墙
   - 落地窗自然光室内
-  - 水泥灰极简空间
   - 白墙画廊一角
-  - 原木桌前静物感
-  - 街边干净立面
+  - 原木桌前（一只杯子、几本书）
+  - 安静街边店铺门口
+  - 公寓楼梯间与扶手
+  - 极简纯色背景墙（仅用于单格）
 lighting_palette: 光源=大窗自然光或大面积柔棚光;方向=正侧方均匀包裹光;阴影=浅而整洁、无硬边;对比/曝光=低对比偏高调,冷中性低饱和、干净通透
 pose_masters: inherit
 default_mode: C

@@ -3206,6 +3206,18 @@
         "garment_views 含 back 且 framing 非 detail 的格不超过 1 格",
         "额外背面视角以 detail 取景出现，不重复全身背面"
       ]
+    },
+    {
+      "id": 248,
+      "category": "scene_variety",
+      "source_eval": "WP-23",
+      "prompt": "用韩式男装或北欧极简入口出九格方向预览，商品为白色连帽羽绒马甲。",
+      "expected_output": "shot_plan 至少写出 3 个不同场景，取自卡片 scene_options 的具体地点；画面里是有真实物件和纵深的地点，不是 9 格灰墙或纯色背景。",
+      "expectations": [
+        "looks 的 scene 至少 3 个不同值",
+        "场景为具体地点（美术馆中庭、咖啡店雨棚、公寓客厅等），不是空墙或棚拍底",
+        "极简感来自构图与色调，不靠去掉所有物件"
+      ]
     }
   ]
 }

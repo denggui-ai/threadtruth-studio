@@ -1,7 +1,7 @@
 # korean-menswear — 韩式冷感男装风(v1 静态批量;纯视觉轴)。
 name: 韩式男装 / Korean Menswear
 slug: korean-menswear
-version: 0.1.1
+version: 0.1.2
 maturity: DRAFT
 depends_on_core: ">=1.0"
 
@@ -16,12 +16,12 @@ visual_language: >
 model_persona: calm composed confidence, understated cool attitude, editorial stillness
 
 scenes:
-  - 首尔街头冷灰立面
-  - 现代公寓大堂
-  - 黑白影棚背景
-  - 雨后城市街角
-  - 极简咖啡馆外
-  - 冷调玻璃建筑前
+  - 美术馆混凝土中庭与楼梯
+  - 哑光钢框精品店入口（招牌不可读）
+  - 雨天有顶的混凝土骑楼
+  - 广场宽阔石阶
+  - 磨砂玻璃长窗连廊
+  - 现代公寓大堂与冷灰绿植物
 lighting_palette: 光源=冷灰城市自然光或大面积柔棚光;方向=侧上方或玻璃建筑漫射侧光;阴影=窄而柔、强化线条但不改廓形;对比/曝光=中低对比略压高光,黑白灰/冷米色克制低饱和
 pose_masters: inherit
 default_mode: C

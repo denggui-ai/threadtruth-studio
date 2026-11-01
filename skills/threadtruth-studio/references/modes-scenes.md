@@ -28,8 +28,8 @@ B/C/D只决定棚拍、场景及混合分配；新人物／不露脸的动作与
 
 编译器不消费B/C/D：`web-task.py`只校验模式取值，三种模式的正文字节相同。模式差异由准备者在`visual_library.prepare(spec)`的`overrides.shots`里逐槽写入`scene`，编译器不会自动生成棚拍句或场景句：
 
-- **B 棚拍**：每槽`scene`写棚拍布景句，从来源卡`photography.palette`派生，不加道具、不加服装。
-- **C 场景**：每槽`scene`取卡片`photography.scene`或`scene_options`之一，环境与服装关系按用途写清。
+- **B 棚拍**：每槽`scene`写棚拍布景句，从来源卡`photography.palette`派生，不加道具、不加服装；带动作词条的卡做六／九格时至少写 3 种布景（WP-23）。
+- **C 场景**：每槽`scene`取卡片`photography.scene`或`scene_options`之一，环境与服装关系按用途写清；带动作词条的卡做六／九格时至少用 3 个不同地点（WP-23）。
 - **D 混合**：经典六张前2槽按B、其余按C；v2按shot_plan各张用途分配，用途为细节或结构验证的槽用B，展示氛围的槽用C。
 
 辅卡融合同属准备者职责：`render`只输出`Supporting styles`与`Explicit fusion scope`，配方须由准备者明确替换冲突段后写进`overrides`，不能累加。

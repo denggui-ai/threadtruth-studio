@@ -1,7 +1,7 @@
 # french-effortless — 法式松弛风(第二个 pack,验"加风格=纯数据,零改 core")。
 name: 法式松弛 / French Effortless
 slug: french-effortless
-version: 0.1.0
+version: 0.1.1
 maturity: DRAFT
 depends_on_core: ">=1.0"
 
@@ -18,9 +18,9 @@ model_persona: relaxed natural expression, soft confidence, effortless undone at
 scenes:
   - 巴黎公寓木地板窗边
   - 老城区石板街角
-  - 极简画廊
+  - 街角面包店门口
   - 咖啡馆露台(低干扰)
-  - 米色墙面室内
+  - 老城区河边石栏步道
   - 林荫道清晨
 lighting_palette: 自然光为主,暖中性低饱和,轻胶片颗粒
 pose_masters: inherit

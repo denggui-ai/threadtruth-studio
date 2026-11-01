@@ -291,7 +291,8 @@ BACK_WORDS=re.compile(r'back to (?:the )?camera|over[- ](?:the[- ])?shoulder|tur
 
 def check_poses(plan,vocabulary):
     """WP-21f: with a style pose vocabulary, pose_id must name an entry whose views the look shows; a six/nine grid uses it on at least five looks.
-    WP-22: a pose_id is used once per plan, and at most one non-detail look shows the back."""
+    WP-22: a pose_id is used once per plan, and at most one non-detail look shows the back.
+    WP-23: a six/nine grid names at least three different places across its non-detail looks; looks without a scene share the card default."""
     if not vocabulary:return
     by_id={e['id']:e for e in vocabulary}
     looks=plan['looks'];used=0;first={};back=None
@@ -314,6 +315,11 @@ def check_poses(plan,vocabulary):
         used+=1
     if len(looks)>=6 and used<5:
         raise ValueError(f'shot_plan.looks: at least 5 looks must carry a pose_id from the style pose vocabulary (found {used}); available ids: '+', '.join(sorted(by_id)))
+    if len(looks)>=6:
+        places={' '.join(shot.get('scene','').lower().split()) for shot in looks if shot['framing']!='detail'}
+        if len(places)<3:
+            raise ValueError(f'shot_plan.looks: a six/nine grid must show at least 3 different places (found {len(places)}); '
+                             "give looks their own scene: a different place from the card's scene_options, or in studio mode a different set-up (wall panel, low block, open floor)")
 
 def _validate_v2(plan,inventory,*,context,count,identity,real_face_plan,strict_references,model_source,pose_vocabulary=None):
     required={'version','sku','route','coverage','looks','selected_shot_ids','series_role'}

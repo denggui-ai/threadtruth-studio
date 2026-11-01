@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "french-effortless",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "name": "法式松弛 / French Effortless",
   "entry_type": "legacy-style",
   "aliases": [
@@ -33,8 +33,8 @@
   "legacy": {
     "slug": "french-effortless",
     "pack_path": "references/styles/french-effortless.pack.yaml",
-    "version": "0.1.0",
-    "sha256": "6bc2638ea0c5caf43385e06522e1685fc8c93711257dea804a39f1df12abeaf6",
+    "version": "0.1.1",
+    "sha256": "37059c958b637a784f1392ce82c26bdf8fa6f505cc0026ece08e5be97a1bdae7",
     "maturity": "DRAFT"
   },
   "base_policy": "未选新组件时保留旧配方；明确用途/媒介/逐张计划替换冲突段，不能把本卡与旧pack重复累加。",
@@ -99,9 +99,9 @@
   "scene_options": [
     "巴黎公寓木地板窗边",
     "老城区石板街角",
-    "极简画廊",
+    "街角面包店门口",
     "咖啡馆露台(低干扰)",
-    "米色墙面室内",
+    "老城区河边石栏步道",
     "林荫道清晨"
   ],
   "default_objective": "styled-editorial",
