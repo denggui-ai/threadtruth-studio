@@ -15,6 +15,7 @@ RESEARCH_SOURCE = 'anhao/ai-pose-gallery-zh'
 RESEARCH_MARKERS = ('ai-pose-gallery-zh', 'ai-pose-gallery.pages.dev', 'ai-pose-gallery.anhao.app')
 USAGES = {'owned', 'authorized', 'research-only'}
 SOURCE_FIELDS = {'source_id', 'group_id', 'view', 'usage', 'note'}
+SELECTION_POLICIES = {'user-only'}
 
 
 def _text(value):
@@ -136,6 +137,9 @@ Images are read/hash-checked only when explicitly resolving an execution referen
             raise ValueError('Duplicate source/group/view in catalog')
         seen.add(key)
         _local(base, entry['path'])
+        if 'selection_policy' in entry and (not isinstance(entry['selection_policy'], str)
+                                            or entry['selection_policy'] not in SELECTION_POLICIES):
+            raise ValueError('Unsupported pose selection policy')
         for key in ('occludes', 'suitable_for'):
             if not isinstance(entry.get(key, []), list) or any(not _text(v) for v in entry.get(key, [])):
                 raise ValueError('Catalog occlusion and suitability labels must be text lists')
@@ -158,7 +162,16 @@ def search(catalog, *, query='', source_id=None, group_id=None, view=None):
     return result
 
 
-def reference(catalog, group_id, view):
+def checked_image(catalog, row):
+    """Check the displayed asset without granting permission to attach it."""
+    path = _local(Path(catalog['_base_dir']), row['path'])
+    actual = hashlib.sha256(path.read_bytes()).hexdigest()
+    if not _sha(row.get('sha256')) or actual != row['sha256']:
+        raise ValueError('Reviewed catalog image hash changed or is missing')
+    return path, actual
+
+
+def reference(catalog, group_id, view, *, allow_restricted=False):
     """Resolve a reviewed owned/authorized image into the existing inventory."""
     if catalog['usage'] not in {'owned', 'authorized'} or _known_research(catalog['source_id']):
         raise ValueError('Catalog is research-only; no execution reference can be emitted')
@@ -166,12 +179,11 @@ def reference(catalog, group_id, view):
     if len(rows) != 1:
         raise ValueError('Select one unambiguous source/group/view')
     row = rows[0]
+    if row.get('selection_policy') == 'user-only' and not allow_restricted:
+        raise ValueError('Restricted pose is user-only; explicitly select image mode through pose_library')
     if any(not _text(row.get(k)) for k in ('body_action', 'hands', 'support', 'review_note')):
         raise ValueError('Review the actual view: body, hands, support and review note are required')
-    path = _local(Path(catalog['_base_dir']), row['path'])
-    actual = hashlib.sha256(path.read_bytes()).hexdigest()
-    if not _sha(row.get('sha256')) or actual != row['sha256']:
-        raise ValueError('Reviewed catalog image hash changed or is missing')
+    path, actual = checked_image(catalog, row)
     source = dict(source_id=catalog['source_id'], group_id=group_id, view=view,
                   usage=catalog['usage'], note=catalog['note'] + ' View review: ' + row['review_note'])
     result = dict(path=str(path), sha256=actual, role='pose-reference', pose_source=source)

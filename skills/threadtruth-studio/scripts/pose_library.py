@@ -12,6 +12,8 @@ CATALOG = ROOT / 'references/pose-library/catalog.json'
 DEFINITION_FIELDS = {'source_id', 'usage', 'group_id', 'view', 'title', 'family',
                      'body_action', 'hands', 'support', 'garment_views', 'avoid_when',
                      'review_note', 'sha256'}
+OPTIONAL_DEFINITION_FIELDS = {'selection_policy'}
+FAMILIES = {'stand', 'walk', 'sit', 'lean', 'turn', 'close', 'floor', 'kneel', 'squat', 'lie'}
 
 
 def _catalog():
@@ -25,9 +27,11 @@ def digest(value):
     return hashlib.sha256(json.dumps(value, sort_keys=True, ensure_ascii=False, separators=(',', ':')).encode()).hexdigest()
 
 
-def candidates(*, query='', garment_views=None, catalog_path=CATALOG):
+def candidates(*, query='', garment_views=None, include_restricted=False, catalog_path=CATALOG):
     helper = _catalog()
     rows = helper.search(helper.load(catalog_path), query=query)
+    if not include_restricted:
+        rows = [r for r in rows if 'selection_policy' not in r]
     if garment_views is not None:
         rows = [r for r in rows if set(r['garment_views']) <= set(garment_views)]
     return rows
@@ -36,12 +40,21 @@ def candidates(*, query='', garment_views=None, catalog_path=CATALOG):
 def selection(pose_id, view, *, mode='text', origin='auto', catalog_path=CATALOG):
     helper = _catalog()
     catalog = helper.load(catalog_path)
-    ref = helper.reference(catalog, pose_id, view)
-    entry = helper.search(catalog, group_id=pose_id, view=view)[0]
+    rows = helper.search(catalog, group_id=pose_id, view=view)
+    if len(rows) != 1:
+        raise ValueError('Select one unambiguous source/group/view')
+    entry = rows[0]
     definition = {k: copy.deepcopy(entry[k]) for k in DEFINITION_FIELDS}
+    definition.update({k: copy.deepcopy(entry[k]) for k in OPTIONAL_DEFINITION_FIELDS if k in entry})
     result = dict(version=1, definition=definition, definition_sha256=digest(definition),
                   mode=mode, origin=origin, adaptation_note='')
     _validate_snapshot(result)
+    restricted = definition.get('selection_policy') == 'user-only'
+    if restricted and mode == 'text':
+        helper.checked_image(catalog, entry)
+        ref = None
+    else:
+        ref = helper.reference(catalog, pose_id, view, allow_restricted=restricted and origin == 'user' and mode == 'image')
     return result, ref
 
 
@@ -50,14 +63,15 @@ def _validate_snapshot(value):
     if not isinstance(value, dict) or set(value) != fields or type(value['version']) is not int or value['version'] != 1:
         raise ValueError('pose_selection requires a version-1 frozen definition, hash, mode, origin and adaptation_note')
     definition = value['definition']
-    if (not isinstance(definition, dict) or set(definition) != DEFINITION_FIELDS
+    if (not isinstance(definition, dict) or not DEFINITION_FIELDS <= set(definition)
+            or set(definition) - DEFINITION_FIELDS - OPTIONAL_DEFINITION_FIELDS
             or value['definition_sha256'] != digest(definition)):
         raise ValueError('Frozen pose definition changed')
     helper = _catalog()
     if any(not helper._text(definition[k]) for k in DEFINITION_FIELDS - {'garment_views'}):
         raise ValueError('Pose definition text must be nonempty single lines')
     if (definition['source_id'] != 'threadtruth-owned-poses-v1' or definition['usage'] != 'owned'
-            or not helper._sha(definition['sha256']) or definition['family'] not in {'stand', 'walk', 'sit', 'lean', 'turn', 'close'}):
+            or not helper._sha(definition['sha256']) or definition['family'] not in FAMILIES):
         raise ValueError('Unsupported owned pose definition')
     views = definition['garment_views']
     if (not isinstance(views, list) or not views or any(v not in {'front', 'front-side', 'back', 'detail'} for v in views)
@@ -65,6 +79,12 @@ def _validate_snapshot(value):
         raise ValueError('Pose definition needs distinct required garment views')
     if value['mode'] not in {'text', 'image'} or value['origin'] not in {'auto', 'user'}:
         raise ValueError('Pose selection mode is text/image and origin is auto/user')
+    if 'selection_policy' in definition:
+        if (not isinstance(definition['selection_policy'], str)
+                or definition['selection_policy'] not in helper.SELECTION_POLICIES):
+            raise ValueError('Unsupported pose selection policy')
+        if value['origin'] != 'user':
+            raise ValueError('Restricted pose is user-only; no automatic selection or image attachment')
     note = value['adaptation_note']
     if not isinstance(note, str) or (note and not helper._text(note)) or (note and value['mode'] == 'image'):
         raise ValueError('Only text selection may declare a garment-specific adaptation')
@@ -132,6 +152,7 @@ def main():
     find = sub.add_parser('search')
     find.add_argument('--query', default='')
     find.add_argument('--garment-views', nargs='+')
+    find.add_argument('--include-restricted', action='store_true', help='Inspect restricted entries; selection limits still apply')
     choose = sub.add_parser('apply')
     for key in ('plan', 'shot-id', 'pose-id', 'view', 'output'):
         choose.add_argument('--' + key, required=True)
@@ -139,7 +160,8 @@ def main():
     choose.add_argument('--origin', choices=('auto', 'user'), default='user')
     args = parser.parse_args()
     if args.command == 'search':
-        print(json.dumps(candidates(query=args.query, garment_views=args.garment_views), ensure_ascii=False, indent=2))
+        print(json.dumps(candidates(query=args.query, garment_views=args.garment_views,
+                                    include_restricted=args.include_restricted), ensure_ascii=False, indent=2))
     else:
         plan, ref = apply(json.loads(Path(args.plan).read_text()), args.shot_id, args.pose_id, args.view, mode=args.mode, origin=args.origin)
         with Path(args.output).open('x') as output:

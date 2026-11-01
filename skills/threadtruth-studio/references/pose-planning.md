@@ -17,11 +17,13 @@
 
 ## 可选动作与用户指定
 
-成人女装 AI/new 人物或成人不露脸任务，从 [14动作选姿页](pose-library/index.html)／[目录](pose-library/catalog.json) 与风格情节共同选择候选，按商品目的筛选，不优先复杂动作，不要求用户先选完。当前仅此小库有运行接入；男装、儿童及真人新露脸角度继续原路径，不能外推资产效果。
+成人女装 AI/new 人物或成人不露脸任务，从 [52动作／60视图选姿页](pose-library/index.html)／[目录](pose-library/catalog.json) 与风格情节共同选择候选，按商品目的筛选，不优先新库或复杂动作，不要求用户先选完。原14动作／16视图定义保持；新增地坐、跪姿、蹲姿、侧卧等分类。男装、儿童及真人新露脸角度继续原路径，不能外推资产效果。
 
 用户可直接说动作，也可打开选姿页勾选并复制回聊。说明“你指定几张，其余我安排”；默认先给本次少量适配候选，完整目录按需打开。图号是应用到哪一张，动作 ID 是动作本身；只改第3格就保留其余格与稳定 `shot_id`。选姿页不能直接写入聊天或证明模型已收到图。
 
-`scripts/pose_library.py search --garment-views front` 按所需商品视角过滤；活动余量、道具、遮挡及风格是否适合仍由 Agent 对照实物核对。不要只按标题取图。先查看实际选中视图再决定附图；阴影、留白偏差不带入人体成片。
+`scripts/pose_library.py search --garment-views front` 按所需商品视角过滤，默认不返回受限推袖；明确查阅全目录可加 `--include-restricted`，这不解除选择限制。图片的front/diag/side是观察视图，实际所需商品依据以每条 `garment_views` 为准；侧视沿用现有front-side商品覆盖，不能用单张仅正面依据代替。活动余量、道具、遮挡及风格是否适合仍由 Agent 对照实物核对。不要只按标题取图。先查看实际选中视图再决定附图；阴影、留白偏差不带入人体成片。
+
+既有记录为59图几何可参考（含3图沿用试点判断，未新增独立复核），不代表画风、边距、商品效果或全部规格通过；逐图 `review_note` 与 `avoid_when` 保留限制。推袖 `tt-close-sleeve-push / diag` 固定保留R029/v4，`GEO-SLEEVE-01`仍open：右手接触左前臂中段，但右前臂遮腹。该条 `selection_policy=user-only` 随定义冻结，仅用户明确指定时可用 `origin=user`，默认仍为文字；附图另需明确选择 `mode=image`，不得自动推荐或默认附图。腰腹无遮挡／腰腹卖点展示时不用，说明具体冲突后另选动作，不把文字模式当作遮挡已修复。选姿页会显示限制，复制文字与附图要求都带上遮腹说明；默认来源引用出口拒绝该图，明确附图须经选姿入口。
 
 `scripts/pose_library.py apply --plan shot_plan.json --shot-id <稳定ID> --pose-id <动作ID> --view <视图> --mode text --origin user --output selection.json` 返回更新后的 `shot_plan` 与可选 `reference`。保留本张目的、景别、头眼、商品依据和其他格；将输出写回准备输入，按原流程校验并冻结。`origin` 可为 `auto`，不改变用户已有生成授权。
 
