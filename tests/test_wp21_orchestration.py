@@ -153,7 +153,7 @@ class ShotVarietyTests(unittest.TestCase):
         plan['looks'][1]['lighting'] = 'Window light from the left with a dim right side.'
         plan['looks'][1]['camera'] = 'Eye-level lens with the subject off-centre.'
         self.validate(plan, inventory)
-        spec = dict(entry_id='nordic-minimal', inventory=inventory, shot_plan=plan,
+        spec = dict(entry_id='bridal-ethereal', inventory=inventory, shot_plan=plan,
                     garment=dict(description='A source-backed top.', keep=['Keep the front.'], source_sha256s=[FRONT]))
         prepared = library.prepare(spec)
         scenes = [row for row in visual_plan.render(prepared).split('\n') if row.startswith('Scene: ')]

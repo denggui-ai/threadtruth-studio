@@ -170,7 +170,7 @@
     },
     {
       "id": "coquette-ladylike",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "name": "甜美名媛 / Coquette Ladylike",
       "entry_type": "legacy-style",
       "aliases": [
@@ -262,7 +262,7 @@
     },
     {
       "id": "guochao-street",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "name": "国潮街头 / Guochao Street",
       "entry_type": "legacy-style",
       "aliases": [
@@ -405,7 +405,7 @@
     },
     {
       "id": "nordic-minimal",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "name": "北欧极简 / Nordic Minimal",
       "entry_type": "legacy-style",
       "aliases": [
@@ -428,7 +428,7 @@
     },
     {
       "id": "office-commute-women",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "name": "职场通勤女装 / Office Commute Women",
       "entry_type": "legacy-style",
       "aliases": [
@@ -608,7 +608,7 @@
     },
     {
       "id": "gothic-editorial",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "name": "哥特暗调摄影",
       "entry_type": "shooting-plan",
       "aliases": [

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "office-commute-women",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "name": "职场通勤女装 / Office Commute Women",
   "entry_type": "legacy-style",
   "aliases": [
@@ -104,5 +104,151 @@
   ],
   "default_objective": "styled-editorial",
   "persona": "composed professional confidence, calm focus, approachable poise",
-  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。composed professional confidence, calm focus, approachable poise"
+  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。composed professional confidence, calm focus, approachable poise",
+  "commitments": [
+    {
+      "id": "oc-front-side-light",
+      "show": "clean front-side window or soft studio light at standard exposure; gentle modelling, shadows never hide garment structure",
+      "needs": [
+        "lighting"
+      ],
+      "check": "even, slightly directional light; seams and closures readable; no dramatic contrast"
+    },
+    {
+      "id": "oc-workday-setting",
+      "show": "a real working-day place (office lobby, glass facade, elevator hall, crosswalk or café front), tidy, with black, white and gray plus camel or navy accents",
+      "needs": [
+        "scene"
+      ],
+      "check": "the setting reads as office or commute; no legible signage or logos; environment palette black-white-gray with camel or navy"
+    },
+    {
+      "id": "oc-approachable-expression",
+      "show": "approachable, composed expression with a light natural smile and an open, friendly face",
+      "needs": [
+        "expression"
+      ],
+      "check": "a slight smile and an open, friendly face in most cells; not detached, not laughing"
+    },
+    {
+      "id": "oc-polished-makeup",
+      "show": "neat daytime makeup: even satin base, soft brown eyes, a rosy-nude lip; hair neat and tidy",
+      "needs": [
+        "makeup"
+      ],
+      "realize": [
+        "hair length stays as the identity reference"
+      ],
+      "check": "base even and satin; eyes soft brown; lip rosy-nude; no flyaway hair"
+    },
+    {
+      "id": "oc-in-motion",
+      "show": "a working-day rhythm: at least three cells catch a step, door push or turn in progress, framed at eye level like a candid commute shot",
+      "needs": [
+        "body",
+        "camera"
+      ],
+      "check": "at least three cells show movement in progress; camera at eye level"
+    }
+  ],
+  "action_tendency": "Purposeful working-day rhythm: brisk steps, upright open posture, practical hand tasks with plain unbranded objects; approachable, never cold-detached or runway.",
+  "pose_vocabulary": [
+    {
+      "id": "oc-brisk-walk",
+      "family": "walk",
+      "body": "brisk walk toward camera across a lobby or crosswalk, mid-stride, posture upright",
+      "hands": "one arm swinging naturally, the other holding a plain unbranded paper coffee cup at the side",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "clear stride; cup held at the side, not across the garment"
+    },
+    {
+      "id": "oc-phone-call",
+      "family": "stand",
+      "body": "standing upright mid-call, weight on one leg, head tilted slightly toward the phone",
+      "hands": "one hand holds a plain phone to the ear, the other relaxed at the side",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "phone at the ear; garment front and side pockets clear"
+    },
+    {
+      "id": "oc-desk-perch",
+      "family": "lean",
+      "body": "half-sitting against the edge of a desk, both legs straight and crossed at the ankles",
+      "hands": "both hands resting on the desk edge beside the hips",
+      "support": "desk",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "very short hemlines",
+      "check": "hips against the desk edge, straight legs crossed at the ankles, hands on the edge"
+    },
+    {
+      "id": "oc-door-push",
+      "family": "walk",
+      "body": "stepping through a glass door, body three-quarter to camera, mid-step",
+      "hands": "one hand flat on the glass pushing it open, the other holding a plain folder at the side",
+      "support": "glass door",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "hand on the door, step in progress, body three-quarter"
+    },
+    {
+      "id": "oc-folder-close",
+      "family": "close",
+      "body": "half-body, shoulders square, open friendly face",
+      "hands": "one hand holds a plain folder hanging beside the thigh, the other relaxed",
+      "support": "floor",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "none",
+      "check": "folder hangs beside the thigh; garment front and pockets clear; friendly face"
+    },
+    {
+      "id": "oc-desk-sit",
+      "family": "sit",
+      "body": "seated on an office chair at a desk, turned slightly toward camera, upright",
+      "hands": "one hand on a closed laptop, the other resting on the desk",
+      "support": "office chair and desk",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "garments whose key detail sits below the desk line",
+      "check": "upright seat; desk hides nothing above the waist"
+    },
+    {
+      "id": "oc-walk-away",
+      "family": "walk",
+      "body": "walking away toward an elevator hall, mid-stride, head turned slightly toward one shoulder",
+      "hands": "one hand carrying a plain folder at the side, the other arm relaxed",
+      "support": "floor",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back readable; mid-stride; head turned slightly"
+    },
+    {
+      "id": "oc-turn-greet",
+      "family": "turn",
+      "body": "turning toward camera as if greeting a colleague, shoulders opening, weight moving onto the front foot",
+      "hands": "one hand lifted to shoulder height in a small open wave, the other relaxed at the side",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "shoulders opening toward camera; turn in progress; raised hand clear of the garment front"
+    }
+  ]
 }

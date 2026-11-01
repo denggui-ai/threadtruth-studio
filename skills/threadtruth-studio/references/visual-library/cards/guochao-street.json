@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "guochao-street",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "name": "国潮街头 / Guochao Street",
   "entry_type": "legacy-style",
   "aliases": [
@@ -104,5 +104,152 @@
   ],
   "default_objective": "styled-editorial",
   "persona": "self-assured street attitude, relaxed confidence, energetic composure",
-  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。self-assured street attitude, relaxed confidence, energetic composure"
+  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。self-assured street attitude, relaxed confidence, energetic composure",
+  "commitments": [
+    {
+      "id": "gc-hard-street-light",
+      "show": "directional street daylight with crisp contrast: defined shadows on the ground and walls, while the garment shadow side stays readable",
+      "needs": [
+        "lighting"
+      ],
+      "check": "clear cast shadows in the scene; the shadow side of the garment still shows detail"
+    },
+    {
+      "id": "gc-urban-china-cues",
+      "show": "contemporary Chinese city cues (red brick, concrete footbridge, shopfront street or neon alley) with one red or saturated colour accent in the environment",
+      "needs": [
+        "scene"
+      ],
+      "realize": [
+        "any signage blank or out of focus; no legible text, numbers or logos"
+      ],
+      "check": "at least one recognisable urban cue and one red or saturated environmental accent; no readable text or logos; no colour added to the garment"
+    },
+    {
+      "id": "gc-dynamic-angle",
+      "show": "dynamic street camera: low angles, a slight wide-angle perspective and diagonal lines in several cells",
+      "needs": [
+        "camera"
+      ],
+      "check": "at least three cells shot from below eye level or with clearly diagonal lines; garment proportions not stretched"
+    },
+    {
+      "id": "gc-confident-expression",
+      "show": "self-assured street expression: a bold, knowing look, chin up, a smirk or half-smile allowed",
+      "needs": [
+        "expression"
+      ],
+      "check": "chin up with a bold, knowing look in most cells; no shy or demure looks"
+    },
+    {
+      "id": "gc-sharp-makeup",
+      "show": "clean skin with sharp defined brows or a short winged liner and a red lip; hair styled up or with attitude",
+      "needs": [
+        "makeup"
+      ],
+      "realize": [
+        "hair length stays as the identity reference"
+      ],
+      "check": "defined brows or liner visible; red lip; hair visibly styled"
+    }
+  ],
+  "action_tendency": "Confident street energy: wide grounded stances, low squats, lean-backs and diagonal strides, hands active in pockets or toward the lens; bold and playful, never demure.",
+  "pose_vocabulary": [
+    {
+      "id": "gc-wide-stance",
+      "family": "stand",
+      "body": "feet planted wider than the hips, weight grounded, chin slightly up, shoulders squared to a low camera",
+      "hands": "thumbs hooked in front pockets if the garment has them, otherwise arms loose",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "stance clearly wider than the hips; low camera"
+    },
+    {
+      "id": "gc-street-squat",
+      "family": "sit",
+      "body": "deep street squat, forearms resting on the knees, head up to camera",
+      "hands": "hands loosely clasped between the knees",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "long, padded or stiff garments whose hem or front would crumple or be hidden by the forearms",
+      "check": "deep squat, forearms on the knees, face up to camera"
+    },
+    {
+      "id": "gc-wall-foot-lean",
+      "family": "lean",
+      "body": "leaning back against a brick or graffiti wall with the sole of one foot planted flat on the wall behind",
+      "hands": "hands in pockets if the garment has them, otherwise arms loose at the sides",
+      "support": "wall",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "back on the wall, one sole on the wall, garment front open to camera"
+    },
+    {
+      "id": "gc-lens-reach",
+      "family": "close",
+      "body": "half-body leaning toward a slightly wide lens, playful",
+      "hands": "one hand reaching toward the lens with fingers spread, off to the side of the chest",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "foreshortened hand near the lens; garment front not covered"
+    },
+    {
+      "id": "gc-step-sit",
+      "family": "sit",
+      "body": "sitting on outdoor concrete steps, knees apart, elbows on the knees, leaning forward",
+      "hands": "one hand hanging between the knees, the other loose",
+      "support": "concrete steps",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "very short hemlines",
+      "check": "knees apart, relaxed forward lean, steps visible"
+    },
+    {
+      "id": "gc-diagonal-stride",
+      "family": "walk",
+      "body": "long stride crossing the frame on a diagonal across a footbridge or street, looking past the camera",
+      "hands": "hands in pockets if the garment has them, otherwise arms swinging",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "diagonal movement through the frame; long stride"
+    },
+    {
+      "id": "gc-back-look",
+      "family": "turn",
+      "body": "back to camera, looking back over the shoulder with a confident half-smile, shoulders rolled",
+      "hands": "arms loose at the sides",
+      "support": "floor",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back readable; confident look back over the shoulder"
+    },
+    {
+      "id": "gc-railing-lean",
+      "family": "lean",
+      "body": "leaning forward with the forearms on a metal railing, body angled three-quarter to camera",
+      "hands": "hands loosely clasped over the rail",
+      "support": "metal railing",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "garments whose key front detail would press against the rail",
+      "check": "forearms on the rail; body three-quarter; garment front readable"
+    }
+  ]
 }

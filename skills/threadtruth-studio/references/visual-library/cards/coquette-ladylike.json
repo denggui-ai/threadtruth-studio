@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "coquette-ladylike",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "name": "甜美名媛 / Coquette Ladylike",
   "entry_type": "legacy-style",
   "aliases": [
@@ -104,5 +104,152 @@
   ],
   "default_objective": "styled-editorial",
   "persona": "gentle polished confidence, graceful composure, refined charm",
-  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。gentle polished confidence, graceful composure, refined charm"
+  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。gentle polished confidence, graceful composure, refined charm",
+  "commitments": [
+    {
+      "id": "cq-soft-window-light",
+      "show": "soft front-side window light with a gentle glow; low contrast and creamy highlights; every lace or fine detail stays readable",
+      "needs": [
+        "lighting"
+      ],
+      "check": "shadows very soft and low in contrast; highlights not blown; fine garment detail readable"
+    },
+    {
+      "id": "cq-salon-setting",
+      "show": "a light refined salon: cream or blush panelled walls and one delicate piece per cell (upholstered chair, tea table, vintage mirror or a few flowers), never crowding the garment",
+      "needs": [
+        "scene"
+      ],
+      "check": "panel moulding or delicate furniture visible; at most one prop per cell; nothing overlaps the garment"
+    },
+    {
+      "id": "cq-sweet-expression",
+      "show": "gentle, sweet, socially composed expression: a soft closed-lip smile with bright, warm eyes",
+      "needs": [
+        "expression"
+      ],
+      "check": "a soft closed-lip smile in most cells; eyes bright and warm; no open-mouthed laugh and no cold look"
+    },
+    {
+      "id": "cq-rosy-makeup",
+      "show": "polished soft-pink makeup: rosy blush high on the cheeks, a satin pink lip, defined lashes; hair neatly smoothed or softly waved",
+      "needs": [
+        "makeup"
+      ],
+      "realize": [
+        "hair length stays as the identity reference",
+        "no bows or hair accessories that are not in the references"
+      ],
+      "check": "blush visible on the cheeks; lip pink with a satin sheen; hair smooth or softly waved; no added hair accessory"
+    },
+    {
+      "id": "cq-graceful-body",
+      "show": "graceful, delicate body language: soft curves, small head tilts, light fingertip gestures, knees or ankles kept together",
+      "needs": [
+        "body"
+      ],
+      "check": "in most cells knees or ankles are together and at least one hand makes a light fingertip gesture; no wide stance"
+    }
+  ],
+  "action_tendency": "Graceful and socially poised: soft curves, small head tilts, light fingertip gestures, ankles together or crossed; feminine but never childish or sexualized.",
+  "pose_vocabulary": [
+    {
+      "id": "cq-ankle-cross-stand",
+      "family": "stand",
+      "body": "standing with ankles crossed and knees softly together, weight shifted slightly onto one leg, head tilted a little",
+      "hands": "hands lightly clasped behind the back",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "ankles crossed, knees together, head tilt; garment front fully clear"
+    },
+    {
+      "id": "cq-chair-side-sit",
+      "family": "sit",
+      "body": "sitting sideways on an upholstered salon chair, knees together angled to one side, ankles crossed, back tall with the head tilted toward one shoulder",
+      "hands": "hands folded softly on the lap",
+      "support": "upholstered chair",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "very short hemlines",
+      "check": "knees together and angled, ankles crossed, hands on the lap, head tilt"
+    },
+    {
+      "id": "cq-teacup-hold",
+      "family": "close",
+      "body": "half-body seated at a small tea table, shoulders soft, chin slightly lifted",
+      "hands": "one hand lifts a teacup by the handle off to one side, the other rests by the saucer",
+      "support": "tea table",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "garments whose key front detail sits where the cup would cross",
+      "check": "teacup held to the side; garment front not covered; chin lifted"
+    },
+    {
+      "id": "cq-mirror-touch",
+      "family": "turn",
+      "body": "standing beside a vintage mirror, body angled toward it, face turned back toward camera",
+      "hands": "fingertips of one hand resting lightly on the mirror frame, the other relaxed",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "fingertips on the mirror frame; body toward the mirror, face toward camera"
+    },
+    {
+      "id": "cq-tiptoe-turn",
+      "family": "turn",
+      "body": "a light half-turn on the balls of the feet, one heel lifted, the hem caught in slight motion",
+      "hands": "hands lightly open at the sides",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "structured garments that should not swing",
+      "check": "one heel lifted; small motion in the hem; light open hands"
+    },
+    {
+      "id": "cq-bench-lean",
+      "family": "sit",
+      "body": "sitting on a white garden bench, legs together extended on a diagonal, leaning slightly to one side",
+      "hands": "one hand on the bench behind the hip, the other resting on the knee",
+      "support": "garden bench",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "very short hemlines",
+      "check": "diagonal leg line, lean onto one hand, legs together"
+    },
+    {
+      "id": "cq-back-glance",
+      "family": "turn",
+      "body": "back three-quarter to camera, chin dipped toward the shoulder, eyes lowered demurely, head tilted",
+      "hands": "arms relaxed with fingertips lightly together in front",
+      "support": "floor",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back readable; demure chin-to-shoulder tilt; no laugh"
+    },
+    {
+      "id": "cq-jaw-touch",
+      "family": "close",
+      "body": "half-body, head tilted, eyes lifted to camera",
+      "hands": "fingertips of one hand touching the edge of the jaw, the other out of frame",
+      "support": "floor",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "none",
+      "check": "fingertips at the jaw; head tilt; neckline still visible"
+    }
+  ]
 }
