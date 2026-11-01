@@ -1,5 +1,6 @@
 # Changelog
 
+- feat(wp21g-b3): preppy, workwear-vintage, korean-menswear, balletcore and american-street carry `commitments` (5 each), `action_tendency` and `pose_vocabulary` (8 each, one back entry).
 - feat(wp21g-b2): japanese-lifestyle, british-heritage, retro-americana, cityboy and bridal-ethereal carry `commitments` (5 each), `action_tendency` and `pose_vocabulary` (8 each, one back entry); tests pick a vocabulary-free photography entry instead of naming one.
 - feat(wp21g-b1): nordic-minimal, coquette-ladylike, office-commute-women, guochao-street and gothic-editorial carry `commitments` (5 each), `action_tendency` and `pose_vocabulary` (8 each, one back entry); shot-plan test carrier switched to bridal-ethereal.
 - feat(wp21f): korean-cold-editorial and french-effortless carry `pose_vocabulary` + `action_tendency`; shot-plan looks may name a `pose_id` (checked with `variety_checks: 1`: id in the vocabulary, entry views covered, at least 5 of 6/9 looks); commitments are skipped only for locked/fixed appearance axes, no longer for adjustable ones.
