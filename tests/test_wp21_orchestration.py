@@ -83,6 +83,17 @@ shot_plan = module('shot_plan')
 library = module('visual_library')
 visual_plan = module('visual_plan')
 FRONT, BACK = 'a' * 64, 'b' * 64
+
+
+def bare_photo_entry():
+    """A photography entry that has no pose_vocabulary yet; vocabularies roll out card by card."""
+    for row in library.index()['entries']:
+        card = library.card(row['id'])
+        if card.get('medium') == 'photography' and 'pose_vocabulary' not in card:
+            return row['id']
+    raise unittest.SkipTest('every photography entry now carries a pose_vocabulary')
+
+
 ACTIONS = ['Stand with a small weight shift.', 'Walk one step toward the camera.', 'Rest one shoulder on a wall.',
            'Sit upright on a plain stool.', 'Lean slightly forward.', 'Adjust the cuff with one hand.',
            'Stand tall with arms relaxed.', 'Pause mid-step.', 'Look down at the hem.']
@@ -153,7 +164,7 @@ class ShotVarietyTests(unittest.TestCase):
         plan['looks'][1]['lighting'] = 'Window light from the left with a dim right side.'
         plan['looks'][1]['camera'] = 'Eye-level lens with the subject off-centre.'
         self.validate(plan, inventory)
-        spec = dict(entry_id='bridal-ethereal', inventory=inventory, shot_plan=plan,
+        spec = dict(entry_id=bare_photo_entry(), inventory=inventory, shot_plan=plan,
                     garment=dict(description='A source-backed top.', keep=['Keep the front.'], source_sha256s=[FRONT]))
         prepared = library.prepare(spec)
         scenes = [row for row in visual_plan.render(prepared).split('\n') if row.startswith('Scene: ')]
@@ -415,11 +426,12 @@ class PoseVocabularyTests(unittest.TestCase):
             self.validate(plan, inventory, self.vocab())
 
     def test_cards_without_a_vocabulary_are_not_checked(self):
-        self.assertNotIn('pose_vocabulary', library.card('bridal-ethereal'))
+        bare = bare_photo_entry()
+        self.assertNotIn('pose_vocabulary', library.card(bare))
         plan, inventory = self.with_poses(['whatever'] * 2)
         self.validate(plan, inventory, None)
         plan, inventory = sample_plan()
-        self.validate(plan, inventory, library.card('bridal-ethereal').get('pose_vocabulary'))
+        self.validate(plan, inventory, library.card(bare).get('pose_vocabulary'))
 
     def test_plans_without_variety_checks_skip_the_pose_checks(self):
         plan, inventory = self.with_poses(['kc-not-a-pose'], checks=False)

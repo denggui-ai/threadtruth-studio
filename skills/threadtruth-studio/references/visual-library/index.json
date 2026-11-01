@@ -100,7 +100,7 @@
     },
     {
       "id": "british-heritage",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "name": "英伦传承 / British Heritage",
       "entry_type": "legacy-style",
       "aliases": [
@@ -123,7 +123,7 @@
     },
     {
       "id": "cityboy",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "name": "都市宽松男装 / Cityboy",
       "entry_type": "legacy-style",
       "aliases": [
@@ -308,7 +308,7 @@
     },
     {
       "id": "japanese-lifestyle",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "name": "日系生活感 / Japanese Lifestyle",
       "entry_type": "legacy-style",
       "aliases": [
@@ -588,7 +588,7 @@
     },
     {
       "id": "retro-americana",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "name": "美式复古日常",
       "entry_type": "shooting-plan",
       "aliases": [
@@ -732,7 +732,7 @@
     },
     {
       "id": "bridal-ethereal",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "name": "婚纱空灵",
       "entry_type": "complex-garment",
       "aliases": [
