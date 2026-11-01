@@ -54,7 +54,7 @@
     },
     {
       "id": "athleisure",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "name": "运动休闲 / Athleisure",
       "entry_type": "legacy-style",
       "aliases": [
@@ -147,7 +147,7 @@
     },
     {
       "id": "clean-fit",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "name": "极简基础 / Clean Fit",
       "entry_type": "legacy-style",
       "aliases": [
@@ -285,7 +285,7 @@
     },
     {
       "id": "italian-luxe",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "name": "意式奢华 / Italian Luxe",
       "entry_type": "legacy-style",
       "aliases": [
@@ -451,7 +451,7 @@
     },
     {
       "id": "old-money",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "name": "老钱风 / Old Money",
       "entry_type": "legacy-style",
       "aliases": [
@@ -497,7 +497,7 @@
     },
     {
       "id": "quiet-luxury",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "name": "静奢风 / Quiet Luxury",
       "entry_type": "legacy-style",
       "aliases": [

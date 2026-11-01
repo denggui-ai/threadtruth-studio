@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "old-money",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "name": "老钱风 / Old Money",
   "entry_type": "legacy-style",
   "aliases": [
@@ -105,5 +105,151 @@
   ],
   "default_objective": "styled-editorial",
   "persona": "composed understated confidence, quiet poise, effortless refinement, no flashiness",
-  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。composed understated confidence, quiet poise, effortless refinement, no flashiness"
+  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。composed understated confidence, quiet poise, effortless refinement, no flashiness",
+  "commitments": [
+    {
+      "id": "om-soft-side-daylight",
+      "show": "natural soft side daylight with a gentle classical gradation; warm-neutral colour; lit and shaded sides both keep visible texture",
+      "needs": [
+        "lighting"
+      ],
+      "check": "soft directional light; no flash, no glossy commercial look, no orange cast"
+    },
+    {
+      "id": "om-heritage-leisure-setting",
+      "show": "a heritage leisure place with lived age and warm wood: an equestrian paddock with a white rail fence and stable doors, a wooden sailboat deck or dock, a seaside villa veranda with wicker chairs, a tree-lined estate driveway, a private club hall with tall windows, or an apartment with antique furniture",
+      "needs": [
+        "scene"
+      ],
+      "check": "each cell reads as a recognisable heritage place with a few real objects; no crests, monograms, trophies or readable signage; a six or nine grid shows at least three different places; a white or pale garment still separates from the background by tone"
+    },
+    {
+      "id": "om-lived-asymmetry",
+      "show": "a steady eye-level frame with relaxed lived-in asymmetry and environmental depth behind: a receding driveway, a deck line, a fence line or a run of tall windows",
+      "needs": [
+        "camera",
+        "arrangement"
+      ],
+      "check": "level frame; a receding line behind the figure; not rigidly symmetric"
+    },
+    {
+      "id": "om-easy-composed-expression",
+      "show": "relaxed composed expression, closed lips or a slight easy smile; at ease, never haughty",
+      "needs": [
+        "expression"
+      ],
+      "check": "relaxed face; no broad grin, no smirk, no aloof stare"
+    },
+    {
+      "id": "om-natural-groomed-makeup",
+      "show": "natural groomed makeup: healthy even skin, soft brushed brows, a sheer neutral lip; hair as the identity reference, natural and brushed rather than sleek-glossed",
+      "needs": [
+        "makeup"
+      ],
+      "realize": [
+        "no pearls, jewellery, hair bows or headbands added"
+      ],
+      "check": "makeup reads natural; no shimmer or bold lip; hair natural"
+    }
+  ],
+  "action_tendency": "Easy and unhurried in an inherited leisure life: resting a forearm on a rail, sitting back in an old chair, strolling a dock; relaxed and natural, never stiff, never displaying wealth.",
+  "pose_vocabulary": [
+    {
+      "id": "om-paddock-rail",
+      "family": "lean",
+      "body": "one forearm resting on the top bar of a white paddock rail fence, body three-quarter to camera, weight on the back leg, stable doors in the distance",
+      "hands": "one forearm on the rail, the other hand relaxed at the side",
+      "support": "fence",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "forearm on the rail; garment front clear of the fence"
+    },
+    {
+      "id": "om-driveway-car",
+      "family": "stand",
+      "body": "standing beside a classic car parked on a tree-lined estate driveway, not leaning on it, weight on one leg",
+      "hands": "one hand resting lightly on the top edge of the car door, the other relaxed",
+      "support": "ground",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "car beside the figure, not in front; no badge or plate readable"
+    },
+    {
+      "id": "om-deck-sit",
+      "family": "sit",
+      "body": "sitting on the bench of a wooden sailboat deck, legs crossed at the ankles, body three-quarter to camera, coiled rope beside",
+      "hands": "both hands resting on the bench edge beside the hips",
+      "support": "boat bench",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "garments whose key detail sits on the lap",
+      "check": "hands beside the hips; garment front readable; deck line behind"
+    },
+    {
+      "id": "om-club-hall-stand",
+      "family": "stand",
+      "body": "standing beside a billiard table in a private club hall with tall windows and a long polished wooden floor",
+      "hands": "one hand resting lightly on the wooden rail of the billiard table, the other relaxed at the side",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "table beside the figure, not in front of the garment; window depth behind"
+    },
+    {
+      "id": "om-veranda-wicker-sit",
+      "family": "sit",
+      "body": "sitting back in a white wicker chair on a seaside villa veranda, legs crossed at the knee, posture relaxed but upright",
+      "hands": "one forearm on the armrest, the other hand resting on the thigh beside the knee",
+      "support": "chair",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "garments whose key detail sits on the lap",
+      "check": "relaxed upright seat; hands clear of the garment front"
+    },
+    {
+      "id": "om-sideboard-turn",
+      "family": "turn",
+      "body": "standing by an antique wooden sideboard in a warm-wood apartment, body three-quarter toward it, face turned back toward camera",
+      "hands": "one hand resting lightly on the sideboard top, the other relaxed",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "hand on the sideboard; garment front faces the lens"
+    },
+    {
+      "id": "om-dock-walk-away",
+      "family": "walk",
+      "body": "walking away from camera down a wooden dock toward moored sailboats, unhurried stride",
+      "hands": "arms relaxed at the sides, hands out of pockets",
+      "support": "dock",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back of the garment fully readable; dock line leads away"
+    },
+    {
+      "id": "om-cuff-close",
+      "family": "close",
+      "body": "half-body, relaxed shoulders, chin level, soft side daylight",
+      "hands": "arms relaxed at the sides, below the frame; no hand touches the garment",
+      "support": "ground",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "none",
+      "check": "no hand on the garment; collar and closure readable"
+    }
+  ]
 }

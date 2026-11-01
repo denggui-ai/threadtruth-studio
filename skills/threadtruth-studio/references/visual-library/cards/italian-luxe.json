@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "italian-luxe",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "name": "意式奢华 / Italian Luxe",
   "entry_type": "legacy-style",
   "aliases": [
@@ -104,5 +104,151 @@
   ],
   "default_objective": "styled-editorial",
   "persona": "confident relaxed poise, understated charisma, composed sophistication",
-  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。confident relaxed poise, understated charisma, composed sophistication"
+  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。confident relaxed poise, understated charisma, composed sophistication",
+  "commitments": [
+    {
+      "id": "il-warm-gold-sun",
+      "show": "warm golden natural sunlight with a clear direction; shadows give depth and texture, highlights keep detail, the garment keeps its own sheen",
+      "needs": [
+        "lighting"
+      ],
+      "check": "warm gold light with defined soft shadows; highlights not blown; garment sheen not dulled"
+    },
+    {
+      "id": "il-classical-italian-place",
+      "show": "a specific Italian classical place rich in material: an arched stone cloister with potted lemon trees, a marble foyer with a carved doorway, a Milan apartment with herringbone parquet and warm walls, a narrow Mediterranean stone lane with shutters, a sunset terrace with terracotta pots, or a wall of framed classical oil paintings",
+      "needs": [
+        "scene"
+      ],
+      "check": "each cell reads as a recognisable Italian classical place, rich but ordered; any signs stay unreadable; a six or nine grid shows at least three different places; a white or pale garment still separates from the background by tone"
+    },
+    {
+      "id": "il-architectural-framing",
+      "show": "a rich but ordered frame that uses arches, colonnade depth or a doorway to frame the figure",
+      "needs": [
+        "camera",
+        "arrangement"
+      ],
+      "check": "an architectural frame or receding colonnade is visible around the figure; the frame stays ordered, not cluttered"
+    },
+    {
+      "id": "il-assured-warm-expression",
+      "show": "relaxed confident expression with a slight knowing smile or soft closed lips; warm and assured",
+      "needs": [
+        "expression"
+      ],
+      "check": "warm, assured face; no pout, no cold stare, no broad grin"
+    },
+    {
+      "id": "il-warm-glow-makeup",
+      "show": "warm glowing makeup: luminous skin with a soft warm sheen, warm cheeks, defined brows, a terracotta or rose-brown lip; hair as the identity reference, glossy and full",
+      "needs": [
+        "makeup"
+      ],
+      "realize": [
+        "no jewellery, sunglasses or headscarves added"
+      ],
+      "check": "skin glows warm without heavy contour; lip warm-toned; hair glossy"
+    }
+  ],
+  "action_tendency": "Relaxed and assured in a warm classical place: an easy stride through arcades, a light lean on warm stone, sitting on a terrace balustrade; expansive and confident, never stiff, never costume-like.",
+  "pose_vocabulary": [
+    {
+      "id": "il-cloister-walk",
+      "family": "walk",
+      "body": "walking toward camera through an arched stone cloister, columns receding behind, easy confident stride",
+      "hands": "arms swinging naturally",
+      "support": "ground",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "colonnade depth behind; garment front clear; easy stride"
+    },
+    {
+      "id": "il-column-lean",
+      "family": "lean",
+      "body": "one shoulder resting lightly against a stone column in the cloister, body three-quarter, feet staggered",
+      "hands": "both arms relaxed at the sides, hands out of pockets",
+      "support": "column",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "only the shoulder touches the column; garment front faces the lens"
+    },
+    {
+      "id": "il-balustrade-sit",
+      "family": "sit",
+      "body": "sitting sideways on a stone terrace balustrade at sunset, one foot on the ground, body three-quarter, terracotta pots nearby",
+      "hands": "both hands resting on the balustrade beside the hips",
+      "support": "balustrade",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "garments whose key detail sits on the lap",
+      "check": "hands beside the hips; warm sun on the garment; garment front readable"
+    },
+    {
+      "id": "il-foyer-doorway",
+      "family": "stand",
+      "body": "standing framed in a carved marble doorway of a foyer, weight on one leg, shoulders open",
+      "hands": "arms relaxed at the sides, hands out of pockets",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "doorway frames the figure; not leaning on the frame"
+    },
+    {
+      "id": "il-lane-turn",
+      "family": "turn",
+      "body": "turning back toward camera mid-step in a narrow stone lane with shuttered windows",
+      "hands": "one arm swinging lightly, the other relaxed",
+      "support": "ground",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "mid-step turn; garment front readable; shutters and stone behind"
+    },
+    {
+      "id": "il-apartment-armchair",
+      "family": "sit",
+      "body": "sitting back in an armchair in a Milan apartment with herringbone parquet and warm walls, legs crossed at the knee, posture relaxed but upright",
+      "hands": "forearms resting on the armrests",
+      "support": "armchair",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "garments whose key detail sits on the lap",
+      "check": "hands on the armrests, clear of the garment; room depth behind"
+    },
+    {
+      "id": "il-painting-wall-walk-away",
+      "family": "walk",
+      "body": "walking away from camera along a wall of framed classical oil paintings, slow stride",
+      "hands": "arms relaxed at the sides, hands out of pockets",
+      "support": "floor",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back of the garment fully readable; paintings beside, not behind the garment colour"
+    },
+    {
+      "id": "il-collar-close",
+      "family": "close",
+      "body": "half-body in warm side light, chin slightly raised, shoulders relaxed",
+      "hands": "arms relaxed at the sides, below the frame; no hand touches the garment",
+      "support": "ground",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "none",
+      "check": "no hand on the garment; sheen and texture readable"
+    }
+  ]
 }
