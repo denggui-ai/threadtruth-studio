@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "korean-menswear",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "name": "韩式男装 / Korean Menswear",
   "entry_type": "legacy-style",
   "aliases": [
@@ -33,8 +33,8 @@
   "legacy": {
     "slug": "korean-menswear",
     "pack_path": "references/styles/korean-menswear.pack.yaml",
-    "version": "0.1.1",
-    "sha256": "ff3feec5fab40822850b021e3a2d92478d11b90fee18c494d615ac4498537109",
+    "version": "0.1.2",
+    "sha256": "2798ea523e8d2412c897df7ce81489340f471a37a70379250407a83e0f298acc",
     "maturity": "DRAFT"
   },
   "base_policy": "未选新组件时保留旧配方；明确用途/媒介/逐张计划替换冲突段，不能把本卡与旧pack重复累加。",
@@ -58,7 +58,7 @@
     "单张/系列/独立比较/融合按本次意图，多个名称不自动混在一张图。"
   ],
   "photography": {
-    "scene": "首尔街头冷灰立面，建筑线条清楚且环境干扰少。",
+    "scene": "首尔城市里的具体地点：美术馆混凝土中庭、钢框精品店入口、雨天有顶的混凝土骑楼或广场石阶；抛光混凝土、哑光钢框和冷灰绿植物，有空间纵深。",
     "lighting": "侧上方大面积柔光，窄而柔的阴影强化已有结构；中低对比，稍压高光。",
     "composition": "杂志式清晰布局，依靠已有轮廓与建筑线条的秩序，不拉长身体或衣长。 每张按已确认的逐张计划组织。",
     "palette": "背景为黑白灰及冷米色的低饱和关系。 商品原色与饱和度保持不变。"
@@ -95,12 +95,12 @@
     "scope": "当前修订尚无实图验收；既有历史记录保留，不自动扩展其接受范围。"
   },
   "scene_options": [
-    "首尔街头冷灰立面",
-    "现代公寓大堂",
-    "黑白影棚背景",
-    "雨后城市街角",
-    "极简咖啡馆外",
-    "冷调玻璃建筑前"
+    "美术馆混凝土中庭与楼梯",
+    "哑光钢框精品店入口（招牌不可读）",
+    "雨天有顶的混凝土骑楼",
+    "广场宽阔石阶",
+    "磨砂玻璃长窗连廊",
+    "现代公寓大堂与冷灰绿植物"
   ],
   "default_objective": "styled-editorial",
   "persona": "calm composed confidence, understated cool attitude, editorial stillness",
@@ -116,11 +116,11 @@
     },
     {
       "id": "km-clean-architecture",
-      "show": "clean cool-gray city architecture: concrete or stone facades, glass, a minimal lobby; few objects and no clutter",
+      "show": "a specific Seoul city place built from polished concrete, matte steel frames and cool gray-green planting: a gallery atrium, a steel-framed boutique entrance, a covered concrete arcade on a wet day, wide plaza steps or a frosted-glass corridor; a few real objects and visible depth; never a blank studio wall",
       "needs": [
         "scene"
       ],
-      "check": "clear architectural lines behind; no street clutter, no shop signs, no plants dominating"
+      "check": "each cell reads as a recognisable real place with depth behind the figure; a six or nine grid shows at least three different places; no plain studio backdrop; any signs stay unreadable; a pale garment still separates from the background by tone"
     },
     {
       "id": "km-ordered-frame",
@@ -129,7 +129,7 @@
         "camera",
         "arrangement"
       ],
-      "check": "verticals stay vertical; the figure sits against a clean line or plane with open space"
+      "check": "verticals stay vertical; the figure is placed on a clear architectural line with open space around it"
     },
     {
       "id": "km-still-composed-expression",
@@ -151,33 +151,33 @@
   "action_tendency": "Still and architectural: upright verticals, minimal gestures, weight even or on one leg, pauses rather than movement; never loose, slouched, playful or idol-like.",
   "pose_vocabulary": [
     {
-      "id": "km-facade-stand",
+      "id": "km-atrium-stand",
       "family": "stand",
-      "body": "standing upright and still in front of a clean gray facade, weight even, shoulders level",
+      "body": "standing upright and still in a polished-concrete gallery atrium, a stair and gray-green planting receding behind, weight even, shoulders level",
       "hands": "arms straight and relaxed at the sides",
       "support": "ground",
       "views": [
         "front"
       ],
       "avoid_when": "none",
-      "check": "vertical posture centred on a clean plane; not touching the wall"
+      "check": "vertical posture with the atrium depth behind; not touching anything"
     },
     {
-      "id": "km-glass-profile",
+      "id": "km-entrance-profile",
       "family": "turn",
-      "body": "standing side-on beside a glass facade, body in profile, face turned toward camera",
+      "body": "standing side-on at a steel-framed boutique entrance, body in profile, face turned toward camera",
       "hands": "arms relaxed at the sides",
       "support": "ground",
       "views": [
         "front-side"
       ],
       "avoid_when": "none",
-      "check": "clear profile line of the body; glass behind with no distracting reflections"
+      "check": "clear profile line of the body; no glass reflection crosses the garment"
     },
     {
       "id": "km-lobby-cube-sit",
       "family": "sit",
-      "body": "seated upright on a low cube bench in a minimal lobby, knees at hip width, feet flat, back straight",
+      "body": "seated upright on a low stone bench in an apartment lobby beside a tall plant, knees at hip width, feet flat, back straight",
       "hands": "both hands resting on the bench edge beside the hips",
       "support": "cube bench",
       "views": [
@@ -187,21 +187,21 @@
       "check": "upright and still; hands beside the hips, not on the garment; garment front fully visible"
     },
     {
-      "id": "km-facade-walk",
+      "id": "km-corridor-walk",
       "family": "walk",
-      "body": "slow straight walk parallel to a long facade, body side-on to camera, measured step",
+      "body": "slow straight walk along a frosted-glass corridor, body side-on to camera, measured step",
       "hands": "arms nearly still at the sides",
       "support": "ground",
       "views": [
         "front-side"
       ],
       "avoid_when": "none",
-      "check": "measured step, arms quiet; the facade line runs straight behind"
+      "check": "measured step, arms quiet; the corridor line runs straight behind"
     },
     {
-      "id": "km-awning-pause",
+      "id": "km-arcade-pause",
       "family": "stand",
-      "body": "standing still under a plain awning at a clean wet street corner, body three-quarter, weight on one leg",
+      "body": "standing still under a covered concrete arcade on a wet day, body three-quarter, weight on one leg",
       "hands": "arms straight and relaxed at the sides",
       "support": "ground",
       "views": [
@@ -211,21 +211,21 @@
       "check": "still posture; arms at the sides; nothing in front of the garment"
     },
     {
-      "id": "km-column-stand",
+      "id": "km-plaza-steps",
       "family": "stand",
-      "body": "standing beside a square concrete column, body turned three-quarter, one shoulder close to but not touching the column",
+      "body": "standing on wide stone plaza steps, one foot a step higher, body turned three-quarter, posture upright",
       "hands": "arms relaxed at the sides",
-      "support": "ground",
+      "support": "steps",
       "views": [
         "front-side"
       ],
       "avoid_when": "none",
-      "check": "column edge as a strong vertical beside the figure; no lean"
+      "check": "feet on two different steps; upright with no lean"
     },
     {
       "id": "km-back-still",
       "family": "stand",
-      "body": "standing still with the back to camera facing a clean gray facade, weight even",
+      "body": "standing still with the back to camera at the open doorway of a concrete gallery, weight even",
       "hands": "arms straight and relaxed at the sides",
       "support": "ground",
       "views": [

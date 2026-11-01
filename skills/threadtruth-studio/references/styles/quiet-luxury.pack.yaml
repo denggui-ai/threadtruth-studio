@@ -3,7 +3,7 @@
 #    只用独有词,裸「静奢」排除(它是「安静奢华」子串,会被韩系输入误触)。
 name: 静奢风 / Quiet Luxury
 slug: quiet-luxury
-version: 0.1.0
+version: 0.1.1
 maturity: DRAFT
 depends_on_core: ">=1.0"
 
@@ -20,12 +20,12 @@ visual_language: >
 model_persona: composed quiet confidence, understated modern poise, effortless refinement, no flashiness
 
 scenes:
-  - 极简高级公寓与大面积留白
+  - 当代公寓客厅（羊毛地毯、石材茶几）
   - 当代艺术画廊
-  - 极简高级酒店大堂
+  - 高级酒店大堂休息区
   - 落地窗城市天际线室内
-  - 设计师极简工作室
-  - 中性色调棚拍空间
+  - 设计师工作室面料架旁
+  - 安静的私人图书室
 lighting_palette: 自然光为主,中性大地色低饱和,柔和均匀
 pose_masters: inherit
 default_mode: C

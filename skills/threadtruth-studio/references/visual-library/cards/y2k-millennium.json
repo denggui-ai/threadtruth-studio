@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "y2k-millennium",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "name": "千禧 Y2K / Y2K Millennium",
   "entry_type": "legacy-style",
   "aliases": [
@@ -33,8 +33,8 @@
   "legacy": {
     "slug": "y2k-millennium",
     "pack_path": "references/styles/y2k-millennium.pack.yaml",
-    "version": "0.1.0",
-    "sha256": "425c8c08d1512f0a19a56ea8938f44086770d74bfac82f3dcb6ef8f5a44a6240",
+    "version": "0.1.1",
+    "sha256": "032ae1f2bcfdf755dceba0dba411db7f2e2213a89392f56a801308040aa3b6d2",
     "maturity": "DRAFT"
   },
   "base_policy": "未选新组件时保留旧配方；明确用途/媒介/逐张计划替换冲突段，不能把本卡与旧pack重复累加。",
@@ -98,8 +98,8 @@
     "复古数码影棚",
     "银色金属墙面",
     "夜间便利店外",
-    "霓虹招牌街角",
-    "高闪光白墙棚拍",
+    "霓虹招牌街角（文字不可读）",
+    "游戏厅或大头贴店门口",
     "旧唱片店门口"
   ],
   "default_objective": "styled-editorial",

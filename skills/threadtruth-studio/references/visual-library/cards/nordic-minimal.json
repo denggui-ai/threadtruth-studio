@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "nordic-minimal",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "name": "北欧极简 / Nordic Minimal",
   "entry_type": "legacy-style",
   "aliases": [
@@ -33,8 +33,8 @@
   "legacy": {
     "slug": "nordic-minimal",
     "pack_path": "references/styles/nordic-minimal.pack.yaml",
-    "version": "0.1.0",
-    "sha256": "865a046bb38091cf9d1b69fd1dd81c4836aedb3c18660c4cf4d344b5ed7f6773",
+    "version": "0.1.1",
+    "sha256": "58e20e5777d1dec4d20f068467940a86dd92c3e79072adc7f3c79ac6b55dfeb0",
     "maturity": "DRAFT"
   },
   "base_policy": "未选新组件时保留旧配方；明确用途/媒介/逐张计划替换冲突段，不能把本卡与旧pack重复累加。",
@@ -58,7 +58,7 @@
     "单张/系列/独立比较/融合按本次意图，多个名称不自动混在一张图。"
   ],
   "photography": {
-    "scene": "北欧白墙公寓，少量浅木材料与开阔空间。",
+    "scene": "北欧公寓与安静日常地点：白墙浅木、书架、绿植或羊毛毯，空间开阔但有生活物件。",
     "lighting": "冷白自然漫射光，保持细微体积层次，不做平面死白。",
     "composition": "建筑负空间占有明确比例，边界清晰、物件精简，主体与环境自然分离。 每张按已确认的逐张计划组织。",
     "palette": "环境采用灰白、雾蓝与浅木色的低饱和关系。 商品原色与饱和度保持不变。"
@@ -95,12 +95,12 @@
     "scope": "当前修订尚无实图验收；既有历史记录保留，不自动扩展其接受范围。"
   },
   "scene_options": [
-    "北欧白墙公寓",
-    "冷灰水泥空间",
-    "极简木质餐桌旁",
-    "大窗冷调自然光",
+    "北欧白墙客厅（书架、绿植）",
+    "浅木餐桌与吊灯",
+    "大窗边阅读角",
     "白色楼梯转角",
-    "空旷画廊墙面"
+    "阴天湖边木栈道",
+    "安静的设计书店或咖啡馆"
   ],
   "default_objective": "styled-editorial",
   "persona": "calm reserved expression, composed stillness, quiet confidence",
@@ -116,20 +116,20 @@
     },
     {
       "id": "nm-open-space",
-      "show": "the subject takes a small-to-medium part of the frame inside open architecture; empty wall, floor or window fills at least a third of every cell",
+      "show": "the subject takes a small-to-medium part of the frame inside a bright, airy home or calm public place, with open room around the figure",
       "needs": [
         "camera",
         "scene"
       ],
-      "check": "in each cell at least one third of the frame is empty wall, floor or window; the subject does not touch or lean on a wall"
+      "check": "open space around the subject in each cell; the subject does not touch or lean on a wall"
     },
     {
       "id": "nm-pale-materials",
-      "show": "gray-white walls, pale wood and a fog-blue accent; at most one simple object per cell",
+      "show": "a lived Scandinavian setting: gray-white walls, pale wood, a fog-blue accent and two or three real objects (a bookshelf, a wool throw, a plant, a ceramic lamp or a dining table)",
       "needs": [
         "scene"
       ],
-      "check": "backdrop reads gray-white with pale wood; no beige or yellow cast; no more than one decor object in a cell"
+      "check": "backdrop reads gray-white with pale wood, no beige or yellow cast; each cell shows a few real objects and a recognisable place; a six or nine grid shows at least three different places; a white or pale garment still separates from the walls by tone"
     },
     {
       "id": "nm-calm-natural-expression",
@@ -156,14 +156,14 @@
     {
       "id": "nm-open-stand",
       "family": "stand",
-      "body": "standing square to camera in the middle of an open room, weight even, shoulders dropped, well away from any wall",
+      "body": "standing square to camera in a bright living room, a bookshelf and a plant a few steps behind, weight even, shoulders dropped, well away from any wall",
       "hands": "arms hang loosely with relaxed fingers",
       "support": "floor",
       "views": [
         "front"
       ],
       "avoid_when": "none",
-      "check": "body centred with empty floor and wall all around; not leaning on anything"
+      "check": "body centred with open floor around; room objects stay behind and clear of the garment; not leaning on anything"
     },
     {
       "id": "nm-stair-pause",
@@ -204,7 +204,7 @@
     {
       "id": "nm-slow-walk",
       "family": "walk",
-      "body": "slow relaxed walk across an empty room parallel to the camera, short natural stride",
+      "body": "slow relaxed walk along a wooden lakeside boardwalk or across a bright room, parallel to the camera, short natural stride",
       "hands": "arms swinging slightly",
       "support": "floor",
       "views": [

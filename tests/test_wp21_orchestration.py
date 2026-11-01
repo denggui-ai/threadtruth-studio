@@ -94,6 +94,7 @@ def bare_photo_entry():
     raise unittest.SkipTest('every photography entry now carries a pose_vocabulary')
 
 
+PLACES = ['Gallery atrium with a concrete stair.', 'Cafe awning on a wet street corner.', 'Apartment lobby beside a tall plant.']
 ACTIONS = ['Stand with a small weight shift.', 'Walk one step toward the camera.', 'Rest one shoulder on a wall.',
            'Sit upright on a plain stool.', 'Lean slightly forward.', 'Adjust the cuff with one hand.',
            'Stand tall with arms relaxed.', 'Pause mid-step.', 'Look down at the hem.']
@@ -398,6 +399,8 @@ class PoseVocabularyTests(unittest.TestCase):
 
     def with_poses(self, ids, count=9, checks=True):
         plan, inventory = sample_plan(count, checks)
+        for n, look in enumerate(plan['looks']):
+            look['scene'] = PLACES[n % 3]
         for look, pose_id in zip(plan['looks'], ids):
             look['pose_id'] = pose_id
             if pose_id == 'kc-collar-hold':
@@ -456,6 +459,24 @@ class PoseVocabularyTests(unittest.TestCase):
         plan['looks'][7].update(framing='half-body', garment_views=['back'])
         self.validate(plan, inventory, None)
 
+    def test_a_grid_shows_at_least_three_places(self):
+        plan, inventory = self.with_poses(self.FRONT_IDS)
+        for look in plan['looks']:
+            look['scene'] = PLACES[0] if look['slot'] % 2 else ' gallery  ATRIUM with a concrete stair. '
+        with self.assertRaisesRegex(ValueError, r'at least 3 different places \(found 1\)'):
+            self.validate(plan, inventory, self.vocab())
+        for look in plan['looks'][2:]:
+            del look['scene']
+        with self.assertRaisesRegex(ValueError, r'at least 3 different places \(found 2\)'):
+            self.validate(plan, inventory, self.vocab())
+        plan['looks'][3].update(scene=PLACES[1], framing='detail', garment_views=['front', 'detail'])
+        with self.assertRaisesRegex(ValueError, r'at least 3 different places \(found 2\)'):
+            self.validate(plan, inventory, self.vocab())
+        plan['looks'][3].update(framing='full-body', garment_views=['front'])
+        self.validate(plan, inventory, self.vocab())
+        bare, _ = sample_plan()
+        self.validate(bare, inventory, None)
+
     def test_plans_without_variety_checks_skip_the_pose_checks(self):
         plan, inventory = self.with_poses(['kc-not-a-pose'], checks=False)
         self.validate(plan, inventory, self.vocab())
@@ -493,6 +514,8 @@ class PoseVocabularyLocalRevisionTests(unittest.TestCase):
         Image.new('RGB', (60, 40), 'red').save(ref)
         digest = web.digest(ref)
         plan, _ = sample_plan(6)
+        for n, look in enumerate(plan['looks']):
+            look['scene'] = PLACES[n % 3]
         for look, pose_id in zip(plan['looks'], PoseVocabularyTests.FRONT_IDS):
             look['pose_id'] = pose_id
             if pose_id == 'kc-collar-hold':

@@ -1,5 +1,6 @@
 # Changelog
 
+- feat(wp23): scene wording on korean-menswear, korean-cold-editorial, nordic-minimal (commitments, poses, scene_options), french-effortless, quiet-luxury, clean-fit and y2k-millennium (scene_options, packs re-hashed) names concrete places instead of blank walls; `check_poses` requires at least 3 different scenes in a six/nine grid; card-writing rule in visual-library/index.md.
 - feat(wp22): with a style pose vocabulary, `shot_plan.check_poses` rejects a `pose_id` used twice in one plan and a second non-detail back look; pose-planning doc updated (vocabulary list no longer names two cards); eval 247.
 - feat(wp21g-b3): preppy, workwear-vintage, korean-menswear, balletcore and american-street carry `commitments` (5 each), `action_tendency` and `pose_vocabulary` (8 each, one back entry).
 - feat(wp21g-b2): japanese-lifestyle, british-heritage, retro-americana, cityboy and bridal-ethereal carry `commitments` (5 each), `action_tendency` and `pose_vocabulary` (8 each, one back entry); tests pick a vocabulary-free photography entry instead of naming one.

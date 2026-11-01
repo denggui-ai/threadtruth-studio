@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "quiet-luxury",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "name": "静奢风 / Quiet Luxury",
   "entry_type": "legacy-style",
   "aliases": [
@@ -32,8 +32,8 @@
   "legacy": {
     "slug": "quiet-luxury",
     "pack_path": "references/styles/quiet-luxury.pack.yaml",
-    "version": "0.1.0",
-    "sha256": "0c08a5627faa4a604bbaeebcaf1ef855e2ed906d88c8e1d5e9bd89f5c22984d2",
+    "version": "0.1.1",
+    "sha256": "9a20cb9fb0ee134c95d4e6f5c7605bf76748cbabc747aa7c818c48a5d8b80519",
     "maturity": "DRAFT"
   },
   "base_policy": "未选新组件时保留旧配方；明确用途/媒介/逐张计划替换冲突段，不能把本卡与旧pack重复累加。",
@@ -57,7 +57,7 @@
     "单张/系列/独立比较/融合按本次意图，多个名称不自动混在一张图。"
   ],
   "photography": {
-    "scene": "极简当代公寓，空间简洁，已有材料之间形成细微差异。",
+    "scene": "安静的高级日常地点：当代公寓客厅、画廊、酒店大堂或设计师工作室，有少量考究家具与材质，空间简洁但不空。",
     "lighting": "自然柔光保留实际面料表面与体积；商品没有羊绒、丝或精纺羊毛时，以光线呈现现有材质，不替换面料。",
     "composition": "材料优先的取景与疏密安排；商品缺少典型静奢特征时，以光线与构图表达 material-first 的细腻感。 每张按已确认的逐张计划组织。",
     "palette": "环境采用灰米、灰褐、奶油与炭灰的中性大地色。 商品原色与饱和度保持不变。"
@@ -95,12 +95,12 @@
     "scope": "当前修订尚无实图验收；既有历史记录保留，不自动扩展其接受范围。"
   },
   "scene_options": [
-    "极简高级公寓与大面积留白",
+    "当代公寓客厅（羊毛地毯、石材茶几）",
     "当代艺术画廊",
-    "极简高级酒店大堂",
+    "高级酒店大堂休息区",
     "落地窗城市天际线室内",
-    "设计师极简工作室",
-    "中性色调棚拍空间"
+    "设计师工作室面料架旁",
+    "安静的私人图书室"
   ],
   "default_objective": "styled-editorial",
   "persona": "composed quiet confidence, understated modern poise, effortless refinement, no flashiness",

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "korean-cold-editorial",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "name": "韩系冷感杂志风 / Korean Cold Editorial",
   "entry_type": "legacy-style",
   "aliases": [
@@ -169,12 +169,12 @@
     },
     {
       "id": "kc-cool-white-balance",
-      "show": "cool neutral white balance: the backdrop reads cold white and gray while skin stays natural",
+      "show": "cool neutral white balance in a real place (an apartment entry, a gallery, a café window, a hotel corridor or an early-morning street corner): the place reads cool white and gray with a few real objects, while skin stays natural",
       "needs": [
         "scene",
         "lighting"
       ],
-      "check": "backdrop looks cool gray or white, not beige or yellow; skin tone is not grayed"
+      "check": "backdrop looks cool gray or white, not beige or yellow; skin tone is not grayed; each cell shows a recognisable place rather than a blank wall; a six or nine grid shows at least three different places; a white or pale garment still separates from the backdrop by tone"
     }
   ],
   "action_tendency": "Still, contained, architectural: small weight shifts, long vertical lines, hands quiet or occupied with one precise gesture; never bouncy or posed-cute.",
@@ -182,7 +182,7 @@
     {
       "id": "kc-wall-stand",
       "family": "lean",
-      "body": "shoulder blades lightly against a wall, body straight, one foot crossed flat behind the other ankle",
+      "body": "shoulder blades lightly against the wall of an apartment entry or gallery, body straight, one foot crossed flat behind the other ankle",
       "hands": "both arms hang close to the body",
       "support": "wall and floor",
       "views": [
