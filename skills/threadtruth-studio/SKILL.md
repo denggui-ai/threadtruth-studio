@@ -46,7 +46,7 @@ description: "服饰人像；首句随用户语言只核对素材，不预告交
 - **单张重试不重做整组**(见 `prompt-build.md` §7)。
 - **不自动检索历史图。** 当前对话明确“继续用她”可沿用已确认模特;新对话需重新提供参考包或明确本地位置。新商品服饰事实源独立上传,旧商品不继承。
 
-**视觉文件按需读取：** 先读 `references/style-router.md` 与 `references/visual-library/index.json`，实际定位所选入口的ID和文件映射，再读对应卡片；原24入口同时读取注册pack与适用的摄影基准。不要由用户别名拼文件名，不把截断读取当已核对。只有需要解释、查缺或文化溯源时才读知识目录；每次不加载全库。新任务按 [visual-plan.md](references/visual-plan.md) 冻结本轮方案，旧任务继续读自身冻结记录。
+**视觉文件按需读取：** 先读 `references/style-router.md` 与 `references/visual-library/index.json`，实际定位所选入口的ID和文件映射，再读对应卡片；原24入口同时读取注册pack与适用的摄影基准。不要由用户别名拼文件名，不把截断读取当已核对。解释、查缺、文化溯源或采用具体修饰语时只读对应知识记录，按 [知识转译](references/visual-plan.md#把选中的知识与风格要求写入执行字段) 写入本轮执行字段；来源ID或卡片快照不能代替实际拍法。每次不加载全库。新任务按 [visual-plan.md](references/visual-plan.md) 冻结本轮方案，旧任务继续读自身冻结记录。
 
 ## 1. 系统优先级链
 

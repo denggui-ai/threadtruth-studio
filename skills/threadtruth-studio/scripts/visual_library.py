@@ -254,8 +254,8 @@ def prepare(spec, root=ROOT):
     photography = copy.deepcopy(primary['photography'])
     art = copy.deepcopy(primary['art'])
     overrides = spec.get('overrides', {})
-    if not isinstance(overrides, dict) or set(overrides) - {'photography', 'art', 'styling', 'negatives', 'shots'}:
-        raise ValueError('Resolve changes in photography/art/styling/negatives/shots only')
+    if not isinstance(overrides, dict) or set(overrides) - {'photography', 'art', 'styling', 'negatives', 'shots', 'commitments'}:
+        raise ValueError('Resolve changes in photography/art/styling/negatives/shots/commitments only')
     for key, baseline in [('photography', photography), ('art', art)]:
         if key in overrides:
             if not isinstance(overrides[key], dict) or set(overrides[key]) - set(baseline):
@@ -293,7 +293,18 @@ def prepare(spec, root=ROOT):
         plan['culture_profile'] = component(spec['culture_profile'])
     elif primary.get('culture_profile'):
         plan['culture_profile'] = component(primary['culture_profile'])
-    if primary.get('commitments') and output_form in ('human', 'faceless', 'flat-lay', 'hanger', 'mannequin'):
+    commitments = copy.deepcopy(overrides.get('commitments', primary.get('commitments', [])))
+    if 'commitments' in overrides:
+        # Validate the complete explicit replacement before filtering: even a
+        # row skipped for this output form must have a valid shape and scope.
+        visual = _visual()
+        try:
+            visual._commitments(dict(output_form='human', commitments=commitments,
+                                     commitments_skipped=[], open_variables=list(visual.COMMIT_NEEDS)),
+                                v2=version == 2)
+        except ValueError as error:
+            raise ValueError('overrides.commitments: ' + str(error)) from error
+    if (primary.get('commitments') or 'commitments' in overrides) and output_form in ('human', 'faceless', 'flat-lay', 'hanger', 'mannequin'):
         opened = open_variables(output_form, model)
         declared = set()
         if model is not None:
@@ -304,7 +315,11 @@ def prepare(spec, root=ROOT):
                 declared.add('expression')
             if axes & {'makeup', 'hair'}:
                 declared.add('makeup')
-        plan['commitments'], plan['commitments_skipped'] = _split_commitments(primary['commitments'], opened, declared)
+        plan['commitments'], plan['commitments_skipped'] = _split_commitments(commitments, opened, declared)
+        if 'commitments' in overrides:
+            selected_ids = {item['id'] for item in commitments}
+            plan['commitments_skipped'] += [dict(id=item['id'], reason='explicit-override')
+                                            for item in primary.get('commitments', []) if item['id'] not in selected_ids]
         plan['open_variables'] = opened
     if output_form in ('flat-lay', 'hanger', 'mannequin') and count == 6 and version == 1 and spec.get('back_source') is not True:
         # No reviewed same-SKU back source: never plan a speculative back view for presentation 2.
