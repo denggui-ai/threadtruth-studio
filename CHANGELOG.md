@@ -1,5 +1,6 @@
 # Changelog
 
+- feat(wp22): with a style pose vocabulary, `shot_plan.check_poses` rejects a `pose_id` used twice in one plan and a second non-detail back look; pose-planning doc updated (vocabulary list no longer names two cards); eval 247.
 - feat(wp21g-b3): preppy, workwear-vintage, korean-menswear, balletcore and american-street carry `commitments` (5 each), `action_tendency` and `pose_vocabulary` (8 each, one back entry).
 - feat(wp21g-b2): japanese-lifestyle, british-heritage, retro-americana, cityboy and bridal-ethereal carry `commitments` (5 each), `action_tendency` and `pose_vocabulary` (8 each, one back entry); tests pick a vocabulary-free photography entry instead of naming one.
 - feat(wp21g-b1): nordic-minimal, coquette-ladylike, office-commute-women, guochao-street and gothic-editorial carry `commitments` (5 each), `action_tendency` and `pose_vocabulary` (8 each, one back entry); shot-plan test carrier switched to bridal-ethereal.

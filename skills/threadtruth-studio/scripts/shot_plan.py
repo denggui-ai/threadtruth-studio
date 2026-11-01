@@ -290,15 +290,24 @@ BACK_WORDS=re.compile(r'back to (?:the )?camera|over[- ](?:the[- ])?shoulder|tur
 
 
 def check_poses(plan,vocabulary):
-    """WP-21f: with a style pose vocabulary, pose_id must name an entry whose views the look shows; a six/nine grid uses it on at least five looks."""
+    """WP-21f: with a style pose vocabulary, pose_id must name an entry whose views the look shows; a six/nine grid uses it on at least five looks.
+    WP-22: a pose_id is used once per plan, and at most one non-detail look shows the back."""
     if not vocabulary:return
     by_id={e['id']:e for e in vocabulary}
-    looks=plan['looks'];used=0
+    looks=plan['looks'];used=0;first={};back=None
     for i,shot in enumerate(looks):
+        if 'back' in shot['garment_views'] and shot['framing']!='detail':
+            if back is not None:
+                raise ValueError(f'shot_plan.looks[{i}] is a second non-detail back look (looks[{back}] already shows the back); '
+                                 'make one of them a front or front-side look, or frame the extra back view as detail')
+            back=i
         if 'pose_id' not in shot:continue
         entry=by_id.get(shot['pose_id'])
         if entry is None:
             raise ValueError(f'shot_plan.looks[{i}].pose_id must be one of the style pose ids: '+', '.join(sorted(by_id))+'; got '+_got(shot['pose_id']))
+        if shot['pose_id'] in first:
+            raise ValueError(f'shot_plan.looks[{i}].pose_id "{shot["pose_id"]}" is already used by looks[{first[shot["pose_id"]]}]; use each pose id once per plan')
+        first[shot['pose_id']]=i
         missing=[v for v in entry['views'] if v not in shot['garment_views']]
         if missing:
             raise ValueError(f'shot_plan.looks[{i}].pose_id "{entry["id"]}" needs garment_views {", ".join(entry["views"])}; this look lacks: '+', '.join(missing))
