@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "cityboy",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "name": "都市宽松男装 / Cityboy",
   "entry_type": "legacy-style",
   "aliases": [
@@ -105,5 +105,151 @@
   ],
   "default_objective": "styled-editorial",
   "persona": "relaxed composed attitude, quiet city confidence, easygoing poise",
-  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。relaxed composed attitude, quiet city confidence, easygoing poise"
+  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。relaxed composed attitude, quiet city confidence, easygoing poise",
+  "commitments": [
+    {
+      "id": "cb-soft-city-daylight",
+      "show": "soft city daylight from the front-side, open shade or bright overcast; low contrast at normal exposure",
+      "needs": [
+        "lighting"
+      ],
+      "check": "shadows soft; exposure normal; no hard noon sun, no neon or night light"
+    },
+    {
+      "id": "cb-everyday-city-spot",
+      "show": "an everyday city spot with signs of daily life (café doorway, bookstore window, crosswalk, small plant shop, park bench, parked bicycles) and a little open street depth; no bare geometric facades; any shop signs stay blank or blurred",
+      "needs": [
+        "scene",
+        "camera"
+      ],
+      "check": "the place reads as an ordinary lived-in neighbourhood; some street depth behind; no clean architectural wall as the whole backdrop; no readable text"
+    },
+    {
+      "id": "cb-loose-relaxed-body",
+      "show": "loose relaxed body: weight off-centre, rounded easy shoulders, limbs bent naturally; the garment drapes as cut",
+      "needs": [
+        "body"
+      ],
+      "check": "no stiff square stance; shoulders relaxed; the garment's own volume is not exaggerated"
+    },
+    {
+      "id": "cb-easygoing-expression",
+      "show": "easygoing, approachable expression; a small relaxed smile or neutral ease",
+      "needs": [
+        "expression"
+      ],
+      "check": "face relaxed and friendly; no cold model stare, no idol wink"
+    },
+    {
+      "id": "cb-natural-grooming",
+      "show": "natural grooming: clear real skin, no visible makeup, natural brows; hair natural and slightly loose",
+      "needs": [
+        "makeup"
+      ],
+      "realize": [
+        "hair length stays as the identity reference"
+      ],
+      "check": "no visible makeup colour; skin texture real; hair not sculpted or glossy"
+    }
+  ],
+  "action_tendency": "Loose and easy in the city: off-centre weight, sitting on curbs and benches, browsing, carrying a coffee or a book; never stiff, architectural or catwalk.",
+  "pose_vocabulary": [
+    {
+      "id": "cb-cafe-door-stand",
+      "family": "stand",
+      "body": "standing just outside a café door, weight on one leg, shoulders loose, body three-quarter",
+      "hands": "one hand holding a plain unbranded paper coffee cup low at the side, the other relaxed",
+      "support": "ground",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "cup low and to the side; relaxed off-centre weight"
+    },
+    {
+      "id": "cb-crosswalk-stride",
+      "family": "walk",
+      "body": "crossing a zebra crossing toward camera with an easy loose stride",
+      "hands": "arms swinging naturally",
+      "support": "ground",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "mid-stride; arms loose; garment front clear"
+    },
+    {
+      "id": "cb-curb-sit",
+      "family": "sit",
+      "body": "sitting on a low curb or concrete ledge, legs stretched out loosely in front and crossed at the shins, leaning back",
+      "hands": "both hands planted on the ledge behind the hips",
+      "support": "curb or ledge",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "short skirts, short dresses or shorts",
+      "check": "relaxed leaning-back seat; nothing across the garment front; not a forward elbows-on-knees squat"
+    },
+    {
+      "id": "cb-bookstore-browse",
+      "family": "turn",
+      "body": "standing at a bookstore window or outdoor book rack, body turned toward it, face turned back toward camera",
+      "hands": "one hand holding an open paperback at chest side height away from the garment front, the other relaxed",
+      "support": "ground",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "book held to the side; garment front clear"
+    },
+    {
+      "id": "cb-plant-shop-pause",
+      "family": "stand",
+      "body": "pausing in front of a small plant shop, weight off-centre, bending a little toward potted plants on a low rack, body three-quarter",
+      "hands": "one hand reaching toward a pot on the rack at hip height, the other relaxed",
+      "support": "ground",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "relaxed off-centre weight; the rack stays beside the figure, not in front of the garment"
+    },
+    {
+      "id": "cb-bench-spread",
+      "family": "sit",
+      "body": "sitting on a park bench, leaning back, one ankle resting on the opposite knee",
+      "hands": "one arm resting along the bench back, the other on the thigh",
+      "support": "bench",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "skirts or garments whose hem would be pulled by the crossed leg",
+      "check": "open relaxed seated pose; garment front visible"
+    },
+    {
+      "id": "cb-walk-away-street",
+      "family": "walk",
+      "body": "walking away from camera down a quiet street or past a shopfront, loose stride",
+      "hands": "arms relaxed at the sides",
+      "support": "ground",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back of the garment fully readable"
+    },
+    {
+      "id": "cb-sleeve-push",
+      "family": "close",
+      "body": "half-body, standing loose with the shoulders relaxed",
+      "hands": "one hand pushing the opposite sleeve up a little toward the forearm",
+      "support": "ground",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "short sleeves, sleeveless garments or cuffs that must stay as sold",
+      "check": "sleeve fabric and cuff readable; push is small"
+    }
+  ]
 }
