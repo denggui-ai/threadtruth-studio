@@ -225,6 +225,13 @@ def apply(plan, shot_id, pose_id, view, *, mode='text', origin='auto', catalog_p
     return result, ref if mode == 'image' else None
 
 
+def recommend(spec, shot_id, *, history=None, limit=5, catalog_path=CATALOG):
+    helper = importlib.util.spec_from_file_location('owned_pose_recommend', Path(__file__).with_name('pose_recommend.py'))
+    module = importlib.util.module_from_spec(helper)
+    helper.loader.exec_module(module)
+    return module.recommend(spec, shot_id, history=history, limit=limit, catalog_path=catalog_path)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest='command', required=True)
@@ -232,6 +239,11 @@ def main():
     find.add_argument('--query', default='')
     find.add_argument('--garment-views', nargs='+')
     find.add_argument('--include-restricted', action='store_true', help='Inspect restricted entries; selection limits still apply')
+    rank = sub.add_parser('recommend', help='Read-only goal/history ordering; does not apply or attach a pose')
+    rank.add_argument('--spec', type=Path, required=True, help='Existing visual preparation spec JSON')
+    rank.add_argument('--shot-id', required=True)
+    rank.add_argument('--history', type=Path, help='Optional frozen pose_history JSON or pose_history.py output')
+    rank.add_argument('--limit', type=int, default=5)
     choose = sub.add_parser('apply')
     for key in ('plan', 'shot-id', 'pose-id', 'view', 'output'):
         choose.add_argument('--' + key, required=True)
@@ -241,6 +253,12 @@ def main():
     if args.command == 'search':
         print(json.dumps(candidates(query=args.query, garment_views=args.garment_views,
                                     include_restricted=args.include_restricted), ensure_ascii=False, indent=2))
+    elif args.command == 'recommend':
+        frozen = json.loads(args.history.read_text()) if args.history else None
+        if isinstance(frozen, dict) and 'pose_history' in frozen:
+            frozen = frozen['pose_history']
+        print(json.dumps(recommend(json.loads(args.spec.read_text()), args.shot_id,
+                                   history=frozen, limit=args.limit), ensure_ascii=False, indent=2))
     else:
         plan, ref = apply(json.loads(Path(args.plan).read_text()), args.shot_id, args.pose_id, args.view, mode=args.mode, origin=args.origin)
         with Path(args.output).open('x') as output:
