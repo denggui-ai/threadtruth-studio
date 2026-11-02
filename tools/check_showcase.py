@@ -15,9 +15,11 @@ from zipfile import BadZipFile, ZipFile
 try:
     from . import showcase_assets as assets
     from . import brand_assets as brand
+    from . import showcase_pose_assets as poses
 except ImportError:
     import showcase_assets as assets
     import brand_assets as brand
+    import showcase_pose_assets as poses
 
 
 REVIEWED_CASE_IDS = ("red-floral-french", "green-shirt-home", "trim-tee-american", "trim-tee-japanese", "external-black-leather", "black-jacket-office")
@@ -360,6 +362,9 @@ def validate_showcase(gallery: Path, *, repo_root: Path | None = None, expected_
     if has_brand:
         # Fixed code-owned contract: a manifest cannot authorize extra files.
         allowed_files.update({brand.MANIFEST_PATH, *brand.BRAND_FILES})
+    if (gallery / poses.MANIFEST).exists() or (gallery / "pose-showcase.js").exists():
+        allowed_files.update(poses.allowed_files())
+        findings.extend(poses.validate(gallery, repo_root or poses.ROOT))
     if has_reviewed:
         allowed_files.update(REVIEWED_FILES)
         allowed_files.update(JACKET_STYLE_FILES)
