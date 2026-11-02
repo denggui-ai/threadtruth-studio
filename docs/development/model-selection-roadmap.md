@@ -4,6 +4,9 @@
 
 用户明确授权优化GitHub发布页、更新说明／下载包／展示内容并发布。模式release；运行目标为skills/threadtruth-studio，证据根为本开发仓库，保持运行da7e9a8字节。只更新版本及现有发布／展示内容，复用已验收候选与本机安装；必要包／页面检查及仓库CI后合并、发布并核对线上资产与Pages。guide-required，继续预发布，不升级视觉成熟度。零生图、零新模型评测、不扩展开发；线上说明、包和页面一致后即停止。
 
+
+**已完成（released／GitHub prerelease）：**PR [#60](https://github.com/denggui-ai/threadtruth-studio/pull/60)已合并为b7c82fff1c39cedfddaae410a0650168caee940e；[beta.17](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.17)于2026-11-02公开。801项仓库测试、12组浏览器检查及其余既有CI通过，Pages部署通过；4份实际下载文件与发布材料一致，官网首页／分享卡／字体线上字节一致。插件403文件、166运行文件、52／60图库与965处离线链接已核对。首次CI的4项测试材料／指南问题已fixed，运行功能未改；零生图、零新模型评测，旧视觉缺口保留。私人发布回执在工作台outputs/caiguang-beta17-release-20261102/RESULT.md。本轮结束，不自动扩展开发、重打包或再次安装。
+
 ## 当前安装（2026-11-02，最新完整候选已启用）
 
 按用户授权先备份再安装，现已启用`1.0.0-beta.16+codex.20261102T025127-6fcf0119`，对应运行da7e9a8／物料ecf3e4d。旧源及缓存各355文件与登记已备份核对；新源／缓存403文件一致，166运行文件与候选一致，52／60目录及只读帮助入口可读，官方installed/enabled均true，其他插件保持。私人安装／回滚记录在工作台`outputs/caiguang-studio-local-install-20261102/RESULT.md`。仅做必要安装核对，零生图、零新模型评测，无功能开发或公开发布；旧失败保留。任务已完成，使用新版需新聊天，本轮停止。

@@ -1,4 +1,4 @@
-# beta.17发布准备与必要核对（2026-11-02）
+# beta.17发布与必要核对（2026-11-02）
 
 用户明确授权更新GitHub发布页、下载包和展示内容并公开发布。渠道为GitHub预发布，guide-required；只更新发行元信息、现有文档及展示文字，不新增运行功能。实际上线状态以GitHub Release／Pages回执为准。
 
@@ -22,3 +22,13 @@
 ## 首次托管CI发现与修复
 
 首次PR CI运行41382639088执行801项，2失败／2错误，未通过。两处旧快照测试按本机PNG编码生成素材，Linux压缩字节不同导致冻结哈希失配；改用106字节的既有蓝色色块固定夹具，原JSON与旧请求哈希保持。一个隔离风格集合测试仅复制两份脚本，补齐现已依赖的姿势脚本和两个目录JSON。离线指南恢复仓库约定的installation章节标记。以上仅测试材料和HTML语义标记，不改skills运行字节或画面，不扩大功能范围。四项定向核对全部通过，后续重跑仓库必需CI；最终托管结果以后续回执为准，首次失败保留。
+
+## 发布回执（released／prerelease）
+
+- [PR #60](https://github.com/denggui-ai/threadtruth-studio/pull/60)已合并，标签v1.0.0-beta.17指向b7c82fff1c39cedfddaae410a0650168caee940e。归档源码280e41bd6184f0310ce8c0b765cd791a29b1b2d1与合并提交的tree均为f3d3ac45e046d7c12b8c1e3edd4af99c639dc1ff，运行目录保持da7e9a8。
+- [修复后PR CI](https://github.com/denggui-ai/threadtruth-studio/actions/runs/41383774242)通过：801项仓库测试、12组浏览器检查，以及pack／trigger／JSON／Python／公开历史扫描和allowlist发行构建。首次失败保持原记录，不改写为通过。
+- [GitHub预发布](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.17)于2026-11-02T03:45:14Z公开：插件ZIP及校验文件、release-manifest.json及其校验文件共4项均uploaded。实际下载4项与本地发行物料字节一致，两份shasum命令均OK。
+- 插件ZIP为102982045字节、403文件；SHA256为`b20a8414adf4f526046c06ce2d797c312559ffaf47f330ad350c455abe330ab0`。干净解包、166运行文件、60图哈希、965处离线链接、指南锚点、排除项和安装器只读预检通过。指南标记修正前草稿保留在私人输出目录，不作为最终发布包。
+- [Pages部署](https://github.com/denggui-ai/threadtruth-studio/actions/runs/41384617374)通过；[公开官网](https://denggui-ai.github.io/threadtruth-studio/)首页HTML、分享卡和字体均HTTP 200且与发布提交字节一致。
+
+本记录在公开与下载核验后补入开发分支，不改变已冻结发行包或标签，也不触发新功能／图片／模型验收。主分支推送触发的同tree重复CI为GitHub自动运行，发布门禁依据上方已通过的精确源码PR CI；不把仍运行的检查写成通过。视觉缺证、新机器发现与实际回滚仍未验证，保持预发布。当前授权工作已完成，本地收尾记录后停止。
