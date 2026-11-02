@@ -1958,6 +1958,8 @@ def create_revision(root,look,spec,*,approval_id,note,form_change_note='',identi
     if series_root(root)!=root:raise ValueError('Prepare linked revisions at the original series root')
     with locked(root):
         data=read(root);check_evidence(root,data)
+        if data.get('context', {}).get('purpose') == 'product-edit':
+            raise ValueError('Product edits use retry-authorize on the original slot; generic linked revisions do not retain their product contract')
         if not workflow_helper().enabled(data) or is_preview(data) or not data.get('authorization'):
             raise ValueError('Linked delivery revisions require a confirmed workflow-1 root series')
         workflow_helper().require_confirmation(data,plan_fingerprint(data))

@@ -52,6 +52,8 @@ def validate(edit, inventory, *, output_form):
     if not any(item['kind'] == 'garment' for item in items):
         raise ValueError('This branch serves clothing and its selected outfit accessories, not accessory-only catalogs')
     selected_sources = {h for item in items for h in item['source_sha256s']}
+    if originals != selected_sources:
+        raise ValueError('Keep only selected product sources in the garment-source inventory; remove unselected SKU references before preparation')
     bg = edit['background']
     if (not isinstance(bg, dict) or set(bg) != {'color', 'shadow'}
             or bg['color'] not in ('#FFFFFF', '#F2F2F2') or bg['shadow'] not in ('none', 'soft-contact')):
@@ -92,8 +94,13 @@ def same_contract(before, after):
 def requirements(edit, form):
     """Expectations are frozen with the plan; QA must report each actual result."""
     bg = edit['background']
+    items = '; '.join(i['name'] for i in edit['items'])
+    scope = ('Keep the declared ' + edit['display_mode'] + ' sales items unchanged: ' + items
+             + '; retain all other existing foreground subjects, clothing and accessories from the edit target, without treating them as sale items or adding products.'
+             if edit['operation'] == 'background-cleanup' else
+             'Exactly the declared ' + edit['display_mode'] + ' items: ' + items + '; no additions, omissions or substitutions.')
     result = {
-        'product_scope': 'Exactly the declared ' + edit['display_mode'] + ' items: ' + '; '.join(i['name'] for i in edit['items']) + '; no additions, omissions or substitutions.',
+        'product_scope': scope,
         'background': 'Uniform ' + bg['color'] + ' background; shadow=' + bg['shadow'] + '; verify background pixels outside the declared shadow and subject.',
         'edges': 'No background residue or halos; preserve thin edges, lace, mesh, transparency and original lining.',
         'edit_scope': ('Keep all original subjects, pose, silhouette, visible folds and product details; only replace background.'

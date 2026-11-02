@@ -301,7 +301,9 @@ def prepare(spec, root=ROOT):
                  for i in range(1, count + 1)]
     negatives = copy.deepcopy(overrides.get('negatives', primary.get('negatives', [])))
     if product is not None:
-        negatives = ['No unlisted products, invented design, captions or new marks.', 'No busy background or color cast.']
+        negatives = [('No added products, invented design, captions or new marks.'
+                      if product['operation'] == 'background-cleanup' else
+                      'No unlisted products, invented design, captions or new marks.'), 'No busy background or color cast.']
     if objective == 'product-display' and 'negatives' not in overrides:
         # An editorial-only exclusion must not fight a catalog-style objective.
         negatives = [item for item in negatives if item != 'no e-commerce catalog look']

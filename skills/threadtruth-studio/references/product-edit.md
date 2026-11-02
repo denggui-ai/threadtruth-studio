@@ -15,7 +15,7 @@
 
 明确要单张时直接给简短可执行方案，不要求用户填写字段、遍历风格菜单、选人物或先做宫格。标准商品图复用`ecommerce-studio`、`product-display`和模式B；白底只控制背景，不替用户改呈现。已有尺寸优先；未指定时，Ghost可建议3:4或4:5，白底上架按既有用途规格。画布仍经现有元数据检查，不承诺平台验收。
 
-先确定本次商品范围：单品只保留选定一件，不补成套；整套逐项列出已有服装及需要保留的配饰，不擅增删替换。图里有多SKU、多个颜色或模特自带配饰时，不把全部可见物自动当成销售套装。依据足够就直接采用；仅对影响范围的歧义简短追问。本轮范围是服装及其选定搭配配饰，单独鞋包首饰目录不新增专用流程。
+先确定本次销售商品范围：单品只列选定一件，整套逐项列出销售服装及选定配饰，不把全部可见物自动当成销售套装。重构只保留这份清单，不补成套、不擅增删替换；只清底则保留原图全部前景主体和原有搭配，包括不属于销售清单的裤鞋等，不因单品销售而删掉它们。依据足够就直接采用；仅对多SKU、颜色或销售范围的实际歧义简短追问。本轮范围是服装及其选定搭配配饰，单独鞋包首饰目录不新增专用流程。
 
 ## 素材边界与Ghost标准
 
@@ -49,13 +49,14 @@
 }
 ```
 
-`operation`为`background-cleanup`或`reconstruction`；`source_form`记录目标图实际形态。清底必须保留该形态，去人不能记为清底。`items`的`kind`为`garment/accessory`；single恰好一件服装，outfit至少两项且包含服装。每项哈希必须来自原始商品库存；garment.source_sha256s与所选items来源一致。structure_evidence仅写最终可见内部部位，Ghost至少一项；实际必要部位仍缺证时写入unresolved_parts，prepare将停止，直到补足或明确缩小范围。
+`operation`为`background-cleanup`或`reconstruction`；`source_form`记录目标图实际形态。清底必须保留该形态，去人不能记为清底。`items`的`kind`为`garment/accessory`；single恰好一件销售服装，outfit至少两项且包含服装。每项哈希必须来自原始商品库存；garment.source_sha256s、所选items来源并集及本任务全部garment-source哈希须一致，未选SKU留在任务外，prepare/init会拒绝额外商品源。structure_evidence仅写最终可见内部部位，Ghost至少一项；实际必要部位仍缺证时写入unresolved_parts，prepare将停止，直到补足或明确缩小范围。
 
 prepare spec使用`entry_id: ecommerce-studio`、所选`output_form`、garment、inventory及上述product_edit。不传supporting或overrides，避免卡片承诺反向改变背景/人物。返回的完整visual_plan写入普通init spec：
 
 - `schema_version: 2`、`route: codex_native`、`count: 1`、原有size与canvas_policy。
 - `context.purpose: product-edit`，`first_pose: custom`，`pose_description`说明实际单张展示，outfit/style/mode/output_form/size保持一致。
 - `references`列原始`garment-source`和一个`edit-target`。非人像`identity:false`且无model；只换背景而保留人物时，`identity:true`、已有ai/real的model与原始identity-reference，沿用身份/适龄门禁，不重新选人、不改变头眼与妆发。真人视图约束仍适用。
+- 真人清底的同一原图可同时承担商品、编辑目标及原始身份角色，各角色保留独立记录、不得重复同一角色。`real_face_plan.looks.reference_sha256s`按库存首次出现的顺序完整列出图片哈希，每个哈希仅写一次；身份覆盖仍只认明确的原始身份角色，未知视角不能借商品/目标角色补足。附件上限按实际角色附件数核对，不按去重后的图片数缩减。
 - `visual_plan`是prepare返回的完整对象，不另加自由提示词。product-edit必须保留workflow-1，不能退回旧无目标QA契约或改走网页；原有其他任务的网页路线保持。
 
 命令沿用[runtime-quickstart.md](runtime-quickstart.md)：prepare → init → confirm-plan（或authorize带同一已确认方案）→ authorize 1 → export → 核实际附件/工具 → reserve → 原生图片编辑 → returned → QA。只要方案或提示词时在本地准备/导出后停止。已给的确认和授权直接记录，不反复问；这份文档、上传和方案确认本身都不授予调用次数。原图与目标的角色说明、背景/阴影、内部结构和商品清单随同一冻结请求导出。仍最多5张原生参考，不静默丢弃。
@@ -66,6 +67,6 @@ prepare spec使用`entry_id: ecommerce-studio`、所选`output_form`、garment�
 
 商品/人体残留、清底误改主体、结构、清单、边缘或明确背景要求失败均为qa-retry；缺证为qa-user-review，不能标qa-pass。严格白底要读取原文件并测量远离主体及已允许阴影的背景区域；仅目测很白不能记成像素纯白通过。图像元数据、像素背景、结构目测和用户实物确认是不同证据。没有实图不宣称专业质量已验证。
 
-失败按原账本停止，不自动重复生成。未知请求先恢复；有终态失败时保留回执并reconcile-failure。用户明确授权额外1次后，可在同一槽用`retry-authorize --spec`传完整visual_plan，只新增/修改product_edit.correction（单行具体局部修正），其他事实、目标、背景、图号和商品范围保持。旧图、QA、失败和累计次数均保留；授权ID与当前attempt仍要匹配。纠错注释不能推翻商品契约，也不能把旧失败改成成功。产品单张不会continue-authorize成六张组。
+失败按原账本停止，不自动重复生成。未知请求先恢复；有终态失败时保留回执并reconcile-failure。用户明确授权额外1次后，可在同一槽用`retry-authorize --spec`传完整visual_plan，只新增/修改product_edit.correction（单行具体局部修正），其他事实、目标、背景、图号和商品范围保持。旧图、QA、失败和累计次数均保留；授权ID与当前attempt仍要匹配。商品根任务不走通用`prepare-revision/adopt-revision`，入口拒绝创建会丢失商品契约的子任务；继续使用上述原槽纠错。纠错注释不能推翻商品契约，也不能把旧失败改成成功。产品单张不会continue-authorize成六张组。
 
 真实返回后按上述要求验收，再按既有交付状态交用户确认；用户仅保留一张不等于所有目标满足。当前接入验证仅能证明规则、冻结、导出与账本行为，不能替代原生模型的实图与实物保真验收。
