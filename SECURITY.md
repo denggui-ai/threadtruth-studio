@@ -14,6 +14,6 @@ If GitHub temporarily cannot create a private report, retain it locally and cont
 
 - No API key, token, credential, environment-variable, or hidden-file access.
 - No MCP server, external connector, runtime telemetry, or API/network fallback. Explicitly approved image references and prompts are processed by the host's native image provider; host account policies govern that processing.
-- Native image generation requires explicit user approval and is capped at six calls per request.
+- Native image generation requires explicit user approval for each stage. One outfit set is capped at nine initial calls for the default nine-image set (six for an explicit six-image, classic six-pose or non-portrait set; one for a single image), plus one call for an optional direction preview. Failures and retries never extend the cap automatically; each retry needs separate approval.
 - Ambiguous permission is treated as no permission.
 - Customer content and private evidence are excluded from public source and releases.
