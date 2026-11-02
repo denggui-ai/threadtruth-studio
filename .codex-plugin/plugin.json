@@ -1,6 +1,6 @@
 {
   "name": "threadtruth-studio",
-  "version": "1.0.0-beta.17",
+  "version": "1.0.0-beta.18",
   "description": "Caiguang — AI Fashion Studio for real garment and coordinated-outfit photos",
   "author": {
     "name": "DENGGUI",
@@ -31,7 +31,7 @@
     ],
     "websiteURL": "https://denggui-ai.github.io/threadtruth-studio/",
     "defaultPrompt": [
-      "Use $threadtruth-studio to inspect my real garment photos, let me choose a style, then plan garment-appropriate poses and prepare a nine-panel direction preview before nine independent images. Preserve my explicit single, six-image or classic-six choices. Wait for the applicable generation approval; use the single-image branch only if I ask for it."
+      "Use $threadtruth-studio to inspect my garment and person references and help me prepare a shoot plan. Do not generate images yet."
     ]
   }
 }
