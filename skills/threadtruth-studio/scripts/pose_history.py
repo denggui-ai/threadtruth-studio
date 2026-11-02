@@ -2,6 +2,7 @@
 """Compare selected task records with a new pose plan; no database or image reads."""
 import argparse
 import copy
+from difflib import SequenceMatcher
 import hashlib
 import importlib.util
 import json
@@ -11,6 +12,90 @@ import sys
 import unicodedata
 
 sys.dont_write_bytecode = True
+
+# Frozen history v2 uses this conservative text rule. Keep v1 exact-only.
+# These are word forms, not a semantic model or a pose-family equivalence table.
+WORD_FORMS = {
+    'standing': 'stand', 'stands': 'stand', 'sitting': 'sit', 'seated': 'sit',
+    'walking': 'walk', 'leaning': 'lean', 'kneeling': 'kneel', 'squatting': 'squat',
+    'lying': 'lie', 'turning': 'turn', 'turned': 'turn', 'crossed': 'cross',
+    'crossing': 'cross', 'uncrossed': 'uncross', 'bent': 'bend', 'bending': 'bend',
+    'lifted': 'lift', 'lifting': 'lift', 'raised': 'raise', 'raising': 'raise',
+    'resting': 'rest', 'rests': 'rest', 'planted': 'plant', 'relaxed': 'relax',
+    'relaxing': 'relax', 'hanging': 'hang', 'hangs': 'hang', 'holding': 'hold',
+    'extended': 'extend', 'extending': 'extend', 'folded': 'fold', 'folding': 'fold',
+    'touching': 'touch', 'touches': 'touch', 'supporting': 'support', 'supports': 'support',
+    'hands': 'hand', 'arms': 'arm', 'forearms': 'forearm', 'elbows': 'elbow',
+    'shoulders': 'shoulder', 'hips': 'hip', 'legs': 'leg', 'knees': 'knee',
+    'feet': 'foot', 'toes': 'toe', 'heels': 'heel', 'ankles': 'ankle',
+    'pockets': 'pocket', 'sides': 'side', 'ground': 'floor',
+}
+FILLER = {'a', 'an', 'the', 'and', 'with', 'is', 'are', 'be', 'keep', 'use'}
+# Equality of this ordered subsequence takes precedence over similarity. In
+# particular, preserve negation, limb roles, contacts, load and support objects.
+RELATIONS = set('stand sit walk lean kneel squat lie turn cross uncross bend straight lift raise extend fold high low '
+                'rest plant hang hold touch support left right both one two single double each '
+                'no not never without avoid neither nor or in out inside outside on off above below '
+                'under over behind forward backward away toward apart together between '
+                'hand arm forearm elbow shoulder hip pelvis leg knee foot toe heel ankle '
+                'weight load balance evenly mainly equally pocket waist chest thigh '
+                'floor chair stool bench seat sofa table rail railing wall fence step steps none'.split())
+ACTION_FIELDS = ('body_action', 'hands', 'support')
+MIN_WORDS = {'body_action': 4, 'hands': 2, 'support': 1}
+
+
+def action_features(shot):
+    """Freeze hashed English word sequences, not private action text or live IDs."""
+    result = {}
+    for field in ACTION_FIELDS:
+        value = shot.get(field)
+        if not _line(value):
+            raise ValueError('Near comparison requires body_action, hands and support')
+        value = unicodedata.normalize('NFKC', value).casefold().replace('\u2019', "'")
+        # Unknown languages and short descriptions remain explicitly unscored.
+        if any(c.isalpha() and not c.isascii() for c in value):
+            result[field] = None
+            continue
+        value = re.sub(r"\b(?:don't|doesn't|isn't|aren't|can't|cannot)\b", 'not', value)
+        words = [WORD_FORMS.get(w, w) for w in re.findall(r'[a-z]+|\d+(?:\.\d+)?', value)]
+        words = [w for w in words if w not in FILLER]
+        relations = [w for w in words if w in RELATIONS or w[0].isdigit()]
+        if len(words) < MIN_WORDS[field] or not relations:
+            result[field] = None
+            continue
+        hashed = lambda rows: [hashlib.sha256(w.encode()).hexdigest() for w in rows]
+        result[field] = dict(words=hashed(words), relations=hashed(relations))
+    return result
+
+
+def _validate_features(value):
+    if not isinstance(value, dict) or set(value) != set(ACTION_FIELDS):
+        raise ValueError('Frozen near-pose features require all three action fields')
+    for field, part in value.items():
+        if part is None:
+            continue
+        if (not isinstance(part, dict) or set(part) != {'words', 'relations'}
+                or not isinstance(part['words'], list) or len(part['words']) < MIN_WORDS[field]
+                or not isinstance(part['relations'], list) or not part['relations']
+                or any(not _sha(w) for w in part['words'] + part['relations'])
+                or any(w not in part['words'] for w in part['relations'])):
+            raise ValueError('Invalid frozen near-pose field features')
+
+
+def _near_scores(current, previous):
+    # Caller accounts for unavailable fields separately. All three must meet the
+    # threshold; a long shared description cannot outweigh a changed hand/support.
+    scores = {}
+    for field in ACTION_FIELDS:
+        a, b = current[field], previous[field]
+        if a['relations'] != b['relations']:
+            return None
+        ratio = min(SequenceMatcher(None, a['words'], b['words'], autojunk=False).ratio(),
+                    SequenceMatcher(None, b['words'], a['words'], autojunk=False).ratio())
+        if ratio < .8:
+            return None
+        scores[field] = round(ratio, 3)
+    return scores
 
 
 def _module(name):
@@ -157,9 +242,10 @@ def freeze(tasks):
                     if shot['shot_id'] in ids:
                         entries.append(dict(source=source['id'], shot_id=shot['shot_id'],
                             pose_keys=pose_keys(shot, card), action_sha256=action_hash(shot),
+                            action_features=action_features(shot),
                             plan_sha256=holder['shot_plan_sha256'], output_sha256=output,
                             attempt=attempt.get('attempt_number', 1), state=attempt['state'], purpose=purpose))
-    result = dict(version=1, sources=sources, entries=entries)
+    result = dict(version=2, sources=sources, entries=entries)
     result['sha256'] = digest(result)
     validate(result)
     return result
@@ -167,7 +253,7 @@ def freeze(tasks):
 
 def validate(history):
     if (not isinstance(history, dict) or set(history) != {'version', 'sources', 'entries', 'sha256'}
-            or type(history['version']) is not int or history['version'] != 1
+            or type(history['version']) is not int or history['version'] not in (1, 2)
             or history['sha256'] != digest({k: v for k, v in history.items() if k != 'sha256'})
             or not isinstance(history['sources'], list) or not history['sources']
             or not isinstance(history['entries'], list)):
@@ -183,6 +269,8 @@ def validate(history):
         ids.add(source['id'])
     for entry in history['entries']:
         fields = {'source', 'shot_id', 'pose_keys', 'action_sha256', 'plan_sha256', 'output_sha256', 'attempt', 'state', 'purpose'}
+        if history['version'] == 2:
+            fields.add('action_features')
         if (not isinstance(entry, dict) or set(entry) != fields or entry['source'] not in ids
                 or not _line(entry['shot_id']) or not isinstance(entry['pose_keys'], list)
                 or any(not _line(k) or not k.startswith(('id:', 'owned:')) for k in entry['pose_keys'])
@@ -192,6 +280,8 @@ def validate(history):
                 or entry['state'] not in ('returned', 'accepted', 'rejected')
                 or entry['purpose'] not in ('delivery', 'preview-grid')):
             raise ValueError('Invalid frozen pose history entry')
+        if history['version'] == 2:
+            _validate_features(entry['action_features'])
     return history
 
 
@@ -200,10 +290,12 @@ def compare(history, plan, card=None):
     if not isinstance(plan, dict) or plan.get('version') != 2:
         raise ValueError('Cross-group pose checks require a v2 plan; keep classic tasks unchanged')
     results = []
+    near_checked = near_unavailable = 0
     for shot in plan['looks']:
         if plan['series_role'] == 'standalone' and shot['shot_id'] not in plan['selected_shot_ids']:
             continue
         keys, action = set(pose_keys(shot, card)), action_hash(shot)
+        features = action_features(shot) if history['version'] == 2 else None
         matches = []
         for entry in history['entries']:
             common = keys & set(entry['pose_keys'])
@@ -212,22 +304,41 @@ def compare(history, plan, card=None):
                 basis.append('shared-geometry')
             if action == entry['action_sha256']:
                 basis.append('body-hands-support')
+            scores = None
+            if not basis and features is not None:
+                previous = entry['action_features']
+                if any(features[k] is None or previous[k] is None for k in ACTION_FIELDS):
+                    near_unavailable += 1
+                else:
+                    near_checked += 1
+                    scores = _near_scores(features, previous)
+                    if scores is not None:
+                        basis.append('near-body-hands-support')
             if basis:
-                matches.append(dict(source=entry['source'], shot_id=entry['shot_id'],
-                    attempt=entry['attempt'], state=entry['state'], purpose=entry['purpose'], basis=basis))
+                match = dict(source=entry['source'], shot_id=entry['shot_id'],
+                    attempt=entry['attempt'], state=entry['state'], purpose=entry['purpose'], basis=basis)
+                if scores is not None:
+                    match['field_similarity'] = scores
+                matches.append(match)
         if matches:
             reason = shot.get('pose_reuse_reason', '')
             if 'pose_reuse_reason' in shot and not _line(reason):
                 raise ValueError('pose_reuse_reason must be a nonempty single line')
             results.append(dict(shot_id=shot['shot_id'], matches=matches, reuse_reason=reason))
-    return dict(status='no-comparable-history' if not history['entries'] else
-                ('repeats' if results else 'no-exact-repeat'), sources=copy.deepcopy(history['sources']),
+    report = dict(status='no-comparable-history' if not history['entries'] else
+                ('repeats' if results else 'no-exact-repeat' if history['version'] == 1 else 'no-matched-repeat'),
+                sources=copy.deepcopy(history['sources']),
                 compared_records=len(history['entries']), repeats=results)
+    if history['version'] == 2:
+        report['near_comparison'] = dict(rule='field-text-v1', compared_pairs=near_checked,
+                                        unavailable_pairs=near_unavailable)
+    return report
 
 
 def enforce(history, plan, card=None):
     report = compare(history, plan, card)
-    unresolved = [row['shot_id'] for row in report['repeats'] if not row['reuse_reason'].strip()]
+    unresolved = [row['shot_id'] + (' (near field text)' if any('near-body-hands-support' in m['basis']
+                  for m in row['matches']) else '') for row in report['repeats'] if not row['reuse_reason'].strip()]
     if unresolved:
         raise ValueError('Cross-group pose repeats: ' + ', '.join(unresolved)
                          + '; choose another supported action or give each shot a concrete pose_reuse_reason')

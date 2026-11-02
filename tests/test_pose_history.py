@@ -139,7 +139,7 @@ class PoseHistoryTests(unittest.TestCase):
         report = history.compare(frozen, spec['shot_plan'])
         self.assertEqual(report['repeats'][0]['matches'][0]['basis'], ['body-hands-support'])
         shot['support'] = 'A chair supports the seated pelvis.'
-        self.assertEqual(history.compare(frozen, spec['shot_plan'])['status'], 'no-exact-repeat')
+        self.assertEqual(history.compare(frozen, spec['shot_plan'])['status'], 'no-matched-repeat')
 
     def test_prepare_blocks_unexplained_repeat_and_retains_concrete_reuse_reason(self):
         job = self.prior()
