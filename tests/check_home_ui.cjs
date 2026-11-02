@@ -140,6 +140,9 @@ async function check(name, fn) {
         assert.equal(await p.locator('#language-toggle').isVisible(), false);
         assert.equal(await p.locator('#copy-page-link').isVisible(), false);
         assert.equal(await p.locator('#image-dialog').isVisible(), false);
+        assert.equal(await p.locator('.library-pose:visible').count(), 60);
+        assert.equal(await p.locator('.demo-pose:visible').count(), 3);
+        assert.equal(await p.locator('#pose-family').isVisible(), false);
         assert.ok(/\.png$/.test(await p.locator('.highlight-image').first().getAttribute('href')));
       } finally { await context.close(); }
     });
@@ -148,7 +151,7 @@ async function check(name, fn) {
       try {
         await p.goto(origin + '/?source=readme#old-money');
         await p.waitForURL('**/compare.html?source=readme#old-money');
-        for(const hash of ['complete-case','style-highlights','outfit','begin','shoot-options','capabilities']) {
+        for(const hash of ['complete-case','style-highlights','outfit','begin','shoot-options','capabilities','pose-planner','pose-library']) {
           await p.goto(origin + '/#' + hash);
           assert.equal(new URL(p.url()).pathname, '/');
           assert.equal(await p.locator('#' + hash).count(), 1);
@@ -229,6 +232,63 @@ async function check(name, fn) {
         }
         assert.deepEqual(errors,[]);
       } finally {await p.close();}
+    });
+    await check('pose teaching examples change with goals and selected example history', async () => {
+      const context=await browser.newContext();
+      try {
+        const p=await context.newPage(); await p.goto(origin);
+        const selected=()=>p.locator('.demo-pose:visible').evaluateAll(cards=>cards.map(c=>c.dataset.demoPose));
+        assert.deepEqual(await selected(),['stand-neutral','stand-weight-shift','close-ear-tuck']);
+        await p.locator('#demo-history').check();
+        assert.deepEqual(await selected(),['close-ear-tuck','stand-neutral','stand-weight-shift']);
+        assert.equal(await p.locator('[data-repeat="exact"]:visible').count(),1);
+        assert.equal(await p.locator('[data-repeat="near"]:visible').count(),1);
+        assert.equal(await p.locator('#demo-history-records').isVisible(),true);
+        await p.locator('.goal-choices label').nth(1).click();
+        assert.deepEqual(await selected(),['turn-front-counter','stand-neutral','stand-weight-shift']);
+        assert.equal(await p.locator('.source-frame').getAttribute('data-demo-focus'),'waist');
+        assert.ok((await p.locator('#demo-goal-note').innerText()).includes('受限推袖'));
+        await p.locator('[name="demo-goal"][value="waist"]').focus();
+        await p.keyboard.press('ArrowRight');
+        assert.deepEqual(await selected(),['walk-pause','stand-wide-anchor','stand-neutral']);
+        await p.locator('#language-toggle').click();
+        assert.ok((await p.locator('#demo-result').innerText()).startsWith('Example comparison: 1'));
+        await p.locator('#demo-history').uncheck();
+        assert.deepEqual(await selected(),['walk-pause','stand-neutral','stand-wide-anchor']);
+        assert.equal(await p.locator('#demo-history-records').isVisible(),false);
+      } finally { await context.close(); }
+    });
+    await check('all 60 pose views, filtering, restricted conditions and keyboard lightbox', async () => {
+      const context=await browser.newContext();
+      try {
+        const p=await context.newPage(); await p.goto(origin);
+        assert.equal(await p.locator('.library-pose').count(),60);
+        assert.equal(await p.locator('.library-pose:visible').count(),12);
+        assert.equal(await p.locator('.library-pose').evaluateAll(cards=>new Set(cards.map(c=>c.dataset.group)).size),52);
+        await p.locator('#pose-show-all').click();
+        assert.equal(await p.locator('.library-pose:visible').count(),60);
+        await p.locator('#pose-family').selectOption('lie');
+        assert.equal(await p.locator('.library-pose:visible').count(),2);
+        await p.locator('#pose-view').selectOption('back');
+        assert.equal(await p.locator('#pose-empty').isVisible(),true);
+        await p.locator('#pose-family').selectOption('close');
+        await p.locator('#pose-view').selectOption('all');
+        const restricted=p.locator('[data-group="tt-close-sleeve-push"]');
+        assert.equal(await restricted.isVisible(),true);
+        await restricted.locator('summary').click();
+        assert.ok((await restricted.innerText()).includes('腰腹无遮挡'));
+        const link=restricted.locator('[data-lightbox]');
+        await link.focus(); await p.keyboard.press('Enter');
+        assert.equal(await p.locator('#image-dialog').isVisible(),true);
+        assert.ok((await p.locator('#dialog-image').getAttribute('src')).includes('tt-close-sleeve-push'));
+        await p.keyboard.press('Escape');
+        assert.equal(await link.evaluate(el=>el===document.activeElement),true);
+        await p.locator('#language-toggle').click();
+        assert.equal(await p.locator('#pose-family option:checked').innerText(),'Detail gestures');
+        assert.ok((await restricted.innerText()).includes('right forearm obscures'));
+        await p.emulateMedia({reducedMotion:'reduce'});
+        assert.equal(await p.locator('.focus-marker').evaluate(el=>getComputedStyle(el).transitionDuration),'0s');
+      } finally { await context.close(); }
     });
     await check('responsive Chinese and English layouts, complete images and no page errors', async () => {
       const context=await browser.newContext();

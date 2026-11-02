@@ -7,6 +7,7 @@ on:
       - 'gallery/style24-comparison-20260929/**'
       - 'tools/check_showcase.py'
       - 'tools/showcase_assets.py'
+      - 'tools/showcase_pose_assets.py'
       - 'tools/brand_assets.py'
       - 'tools/brand_cards/**'
       - 'tests/test_showcase.py'

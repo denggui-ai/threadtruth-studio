@@ -25,7 +25,7 @@ except ImportError:
 
 
 MANIFEST_PATH = "brand-assets.json"
-TEXT_FILES = ("index.html", "compare.html", "home.css", "compare.css", "brand.css", "home.js", "compare.js", "prompt-copy.js")
+TEXT_FILES = ("index.html", "compare.html", "home.css", "compare.css", "brand.css", "home.js", "compare.js", "prompt-copy.js", "pose-showcase.css", "pose-showcase.js")
 BASE_TEXT = "裁光 Caiguang AI Fashion Studio 服饰AI影棚 你的衣服。下一组大片。Your garments. A new perspective. 开始使用 Get started 查看24风格 Explore24styles 已复制 复制失败 请手动复制"
 FONT_SPECS = {
     "notosanssc": {"family": "Noto Sans SC", "filename": "NotoSansSC[wght].ttf", "weights": [400, 900],
