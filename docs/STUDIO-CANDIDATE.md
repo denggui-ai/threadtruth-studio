@@ -1,19 +1,19 @@
-# 裁光完整新版候选 · 使用与交付说明
+# 裁光 beta.17 · 使用与交付说明
 
-本地候选版本：**1.0.0-beta.16+studio.20261102.da7e9a8**。运行源码固定于da7e9a8；包含现有36个视觉入口、52动作／60视图选姿库、知识与风格规则衔接，以及后续22卡动作池、跨组精确／近似避重和推荐排序。这里的“完整”指本次源码和物料齐备，不代表全部路线功能或视觉验收完成。本候选未安装、未公开发布。
+版本 **1.0.0-beta.17**，GitHub预发布。运行文件与已在维护者本机安装核对的da7e9a8一致；包含36个视觉入口、52动作／60视图、22卡／176条共享动作、知识与风格规则衔接、跨组精确／近似避重和推荐排序。保持预发布状态，不宣称全面视觉验收或稳定商用。
 
-Local candidate only. The package contains the current runtime and guides; it is not a stable release or a claim of visual acceptance. The development source archive is not an install package.
+## 下载与开始
 
-## 先使用哪些材料
+从[beta.17发布页](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.17)下载：
 
-| 文件或入口 | 用途 |
+| 文件 | 用途 |
 |---|---|
-| `threadtruth-studio-1.0.0-beta.16+studio.20261102.da7e9a8.zip`及同名`.sha256` | 完整插件候选。含安装器、清单、运行技能、60张既有线稿、离线指南和原有历史演示。 |
-| 同批`threadtruth-studio-source-<提交>.zip`及`.sha256` | 固定提交的开发源码与既有证据，供维护者检查。排除本机交接目录及Git内部状态；不能作为安装源。 |
-| 包外`materials.json`、`SHA256SUMS`与`package-checks.json` | 记录源码提交、归档哈希、逐文件清单、检查结果和未执行事项。校验值须来自可信渠道，不单独证明发布者身份。 |
-| [离线指南](../USER-GUIDE.html) · [看图选姿](../skills/threadtruth-studio/references/pose-library/index.html) | 从方案准备开始。浏览、筛选、复制选择都不会发起生图。 |
+| `threadtruth-studio-1.0.0-beta.17.zip` | 完整插件，含安装器、运行技能、60张既有线稿、离线指南与原历史演示。 |
+| `threadtruth-studio-1.0.0-beta.17.zip.sha256` | 对应插件ZIP的SHA256校验值；与ZIP来自同一发布页。 |
+| `release-manifest.json` | 本版的源码来源、运行文件哈希、包信息、验证与限制。 |
+| GitHub自动生成的Source code归档 | 给维护者查看源码和既有验证；不能作为插件安装包。 |
 
-GitHub历史beta.16下载及自动生成的源码ZIP不含本候选增量。不要混用不同包的版本、文件名和校验文件。本机上一候选仍为14动作／16视图；取得新ZIP不等于已经启用。
+安装后从[离线指南](../USER-GUIDE.html)进入[看图选姿](../skills/threadtruth-studio/references/pose-library/index.html)。浏览、筛选和复制选择不会生图。已有版本先备份再替换，新聊天加载；完整步骤见[安装指南](INSTALL.md)。旧版下载和校验文件保留，不混用版本。
 
 ## 本版可以怎样用
 
@@ -49,28 +49,28 @@ GitHub历史beta.16下载及自动生成的源码ZIP不含本候选增量。不�
 
 ## 证据与保留限制
 
-- 复用最小接入、扩库、知识／风格衔接、22卡动作池、跨组精确／近似避重、推荐排序及已有页面检查的分项有效证据。它们有重叠，不能相加成一次全量验收；本包仅新增归档、字节、链接和只读预检证据。
+- 复用最小接入、扩库、知识／风格衔接、22卡动作池、跨组精确／近似避重、推荐排序及已有页面检查的分项有效证据。它们有重叠，不能相加成一次全量验收；本次发布只补必要的包、展示页与线上核对；已有验收按原范围复用。
 - 59图几何可参考，包含3图沿用试点判断；不等于60图或商品效果全部通过。推袖R029/v4仍为`GEO-SLEEVE-01 open`：右前臂遮腹，不能用于腰腹无遮挡目标。默认候选排除、自动选择拒绝；明确指定默认文字，明确附图才返回引用，两种模式均保留限制。
 - 既有六张对照图仍为`qa-retry`：顶部留白不符、包侧别偏差，商品细节与严格同脸未获人工接受。两份匿名评审在手部避挡任务均偏好旧文字，正面展示没有一致赢家；没有稳定增益结论。
 - 36入口不等于36方向均已实图通过；207条知识记录不等于207种执行方案。新库不优先、不默认附图。共享卡片、经典计划和旧冻结任务保留各自契约。
-- 上述四项源码能力已完成；没有跨组历史数据库、新检索服务、图像骨架识别或任意语义姿势理解，这些不作为本次收尾待办。严格真人还原、广泛跨商品稳定性、新机器安装／发现与本候选回滚仍缺证。
+- 上述四项源码能力已完成；没有跨组历史数据库、新检索服务、图像骨架识别或任意语义姿势理解，本版不提供这些能力。严格真人还原、广泛跨商品稳定性、新机器安装／发现与本版回滚仍缺证。
 
-[能力与使用方式](CAPABILITIES.md) · [分项兼容性与历史证据](COMPATIBILITY.md)。历史样片保留原验收范围，不作为本候选全部功能已通过的证明。
+[能力与使用方式](CAPABILITIES.md) · [分项兼容性与历史证据](COMPATIBILITY.md)。历史样片保留原验收范围，不作为本版全部功能已通过的证明。
 
-## 校验与后续安装准备
+## 校验与安装
 
-本工作包不安装。先在存放插件ZIP与校验文件的目录执行：
+在存放插件ZIP与校验文件的目录执行：
 
 ```bash
-shasum -a 256 -c threadtruth-studio-1.0.0-beta.16+studio.20261102.da7e9a8.zip.sha256
-unzip threadtruth-studio-1.0.0-beta.16+studio.20261102.da7e9a8.zip
-cd threadtruth-studio-1.0.0-beta.16+studio.20261102.da7e9a8
+shasum -a 256 -c threadtruth-studio-1.0.0-beta.17.zip.sha256
+unzip threadtruth-studio-1.0.0-beta.17.zip
+cd threadtruth-studio-1.0.0-beta.17
 ```
 
 仅在校验显示`OK`后解压，使用空目录，保留原ZIP与校验文件。插件根目录应同时包含`.codex-plugin/plugin.json`、`install-local.py`、`skills/`及`USER-GUIDE.html`。
 
-以后决定安装时，先检查Python 3与`codex plugin add --help`。已有安装使用`python3 install-local.py --replace`只读预检；实际替换须在获准的安装步骤中使用`--apply --replace`，保留旧源、缓存和登记备份，再执行安装器输出的准确`Next:`命令。首次安装省略`--replace`。当前资料不要求现在执行安装，也没有后台启用操作。
+安装前检查Python 3与`codex plugin add --help`。已有安装使用`python3 install-local.py --replace`只读预检；实际替换须在获准的安装步骤中使用`--apply --replace`，保留旧源、缓存和登记备份，再执行安装器输出的准确`Next:`命令。首次安装省略`--replace`。安装器不会后台启用插件，启用须执行它返回的命令。
 
-替换安装会产生`+codex.*`缓存后缀，须用回执与运行文件哈希对应本候选；升级后在新聊天核对版本，旧聊天不会热更新技能。回滚入口为安装器报告的`source_backup`，按[升级与回滚步骤](INSTALL.md#upgrade-and-rollback)恢复并重新启用；本候选没有新增实际回滚或新机器验证。
+替换安装会产生`+codex.*`缓存后缀，须用回执与运行文件哈希对应本版；升级后在新聊天核对版本，旧聊天不会热更新技能。回滚入口为安装器报告的`source_backup`，按[升级与回滚步骤](INSTALL.md#upgrade-and-rollback)恢复并重新启用；本版没有新增实际回滚或新机器验证。
 
-本包新增生图0、新模型评测0。后续每次生成仍需对应任务的明确授权；物料准备、方案接受和安装成功均不产生生图或发布授权。
+本次发布新增生图0、新模型评测0。后续每次生成仍需对应任务的明确授权；物料准备、方案接受和安装成功均不产生生图或发布授权。
