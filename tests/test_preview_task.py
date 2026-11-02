@@ -35,7 +35,7 @@ class PreviewTaskTests(unittest.TestCase):
 
     def create(self, identity=True, **kw):
         return m.create(self.job, [self.ref], ['Six-panel direction preview'],
-                        [60, 40], identity=identity, context=self.context, **kw)
+                        [60, 40], identity=identity, context=self.context, **kw, workflow_version=0)
 
     def reserve(self):
         return m.update(self.job, 'reserve', look=1, ready=True,
@@ -185,7 +185,7 @@ class PreviewTaskTests(unittest.TestCase):
 
     def test_preview_cannot_have_six_requests_or_custom_body_or_edit_target(self):
         for context,prompts in [(self.context,['grid']*6),(dict(self.context,first_pose='custom',pose_description='custom'),['grid'])]:
-            with self.assertRaises(ValueError):m.create(self.job,[self.ref],prompts,[60,40],context=context)
+            with self.assertRaises(ValueError):m.create(self.job,[self.ref],prompts,[60,40],context=context, workflow_version=0)
 
     def test_cli_preview_finish_and_prepare_delivery(self):
         self.returned();self.finish()
@@ -208,7 +208,7 @@ class PreviewTaskTests(unittest.TestCase):
 
     def test_real_preview_validates_six_cells_and_exports_union_without_anchor(self):
         refs,model,plan=self.real_spec(extra=3)
-        m.create(self.job,refs,['Six-panel grid'],[60,40],model=model,context=self.context,real_face_plan=plan)
+        m.create(self.job,refs,['Six-panel grid'],[60,40],model=model,context=self.context,real_face_plan=plan, workflow_version=0)
         m.export(self.job)
         request=json.loads((self.job/'handoff/look-1/request.json').read_text())
         manifest=json.loads((self.job/'handoff/look-1/manifest.json').read_text())
@@ -222,14 +222,14 @@ class PreviewTaskTests(unittest.TestCase):
 
     def test_real_preview_cannot_hide_union_over_five_or_unsupported_cell_view(self):
         refs,model,plan=self.real_spec(extra=4)
-        with self.assertRaises(ValueError):m.create(self.job,refs,['grid'],[60,40],model=model,context=self.context,real_face_plan=plan)
+        with self.assertRaises(ValueError):m.create(self.job,refs,['grid'],[60,40],model=model,context=self.context,real_face_plan=plan, workflow_version=0)
         refs,model,plan=self.real_spec()
         plan['looks'][5]['head_view']='right-profile'
-        with self.assertRaises(ValueError):m.create(self.job,refs,['grid'],[60,40],model=model,context=self.context,real_face_plan=plan)
+        with self.assertRaises(ValueError):m.create(self.job,refs,['grid'],[60,40],model=model,context=self.context,real_face_plan=plan, workflow_version=0)
 
     def test_transition_preserves_real_originals_but_requires_new_delivery_confirmation(self):
         refs,model,plan=self.real_spec()
-        m.create(self.job,refs,['grid'],[60,40],model=model,context=self.context,real_face_plan=plan)
+        m.create(self.job,refs,['grid'],[60,40],model=model,context=self.context,real_face_plan=plan, workflow_version=0)
         m.update(self.job,'authorize',limit=1,note='One preview');self.reserve()
         m.update(self.job,'returned',look=1,file=self.image('grid','blue'))
         m.update(self.job,'accept',look=1,qa='qa-pass',note='Preview direction review');self.finish()
@@ -241,7 +241,7 @@ class PreviewTaskTests(unittest.TestCase):
 
     def test_multi_outfit_preview_handoff_selects_original_product_sources(self):
         second=self.image('second-product','green')
-        m.create(self.job,[self.ref,second],['Six outfits direction board'],[60,40],context=self.context)
+        m.create(self.job,[self.ref,second],['Six outfits direction board'],[60,40],context=self.context, workflow_version=0)
         m.update(self.job,'authorize',limit=1,note='One multi-outfit preview');self.reserve()
         m.update(self.job,'returned',look=1,file=self.image('grid','blue'))
         m.update(self.job,'accept',look=1,qa='qa-pass',note='Preview reviewed');self.finish()
@@ -291,7 +291,7 @@ class PreviewTaskTests(unittest.TestCase):
     def test_local_preview_plan_reaches_delivery_without_rewriting_generation_prompt(self):
         coverage=[dict(sha256=m.digest(self.ref),views=['front'],usable=True,same_sku=True,note='Synthetic front')]
         plan=m.shot_helper().default_plan('sku',coverage)
-        m.create(self.job,[self.ref],['Gallery.'],[60,40],context=self.context,shot_plan=plan)
+        m.create(self.job,[self.ref],['Gallery.'],[60,40],context=self.context,shot_plan=plan, workflow_version=0)
         m.update(self.job,'authorize',limit=1,note='One preview')
         m.update(self.job,'reserve',look=1,ready=True,refs=m.reference_hashes(self.job,1),expected_plan_sha256=m.plan_fingerprint(m.read(self.job)))
         m.update(self.job,'returned',look=1,file=self.image('grid','blue'))
@@ -363,7 +363,7 @@ class PreviewTaskTests(unittest.TestCase):
     def test_local_plan_survives_later_generated_retry_and_retains_local_history(self):
         coverage=[dict(sha256=m.digest(self.ref),views=['front'],usable=True,same_sku=True,note='Reviewed synthetic front')]
         plan=m.shot_helper().default_plan('sku',coverage)
-        m.create(self.job,[self.ref],['Gallery.'],[60,40],context=self.context,shot_plan=plan)
+        m.create(self.job,[self.ref],['Gallery.'],[60,40],context=self.context,shot_plan=plan, workflow_version=0)
         m.update(self.job,'authorize',limit=1,note='One preview')
         m.update(self.job,'reserve',look=1,ready=True,refs=m.reference_hashes(self.job,1),expected_plan_sha256=m.plan_fingerprint(m.read(self.job)))
         m.update(self.job,'returned',look=1,file=self.image('grid','blue'))

@@ -37,7 +37,7 @@ class ModelTaskTests(unittest.TestCase):
         if model: refs.append(dict(path=str(self.face), role='identity-reference'))
         return m.create(self.job, refs, ['pose '+str(i) for i in range(count)], (20,30),
                         model=self.model if model else dict(self.model, source_type='new'),
-                        context=self.context, route=route)
+                        context=self.context, route=route, workflow_version=0)
 
     def first(self, count=6, route='chatgpt_web'):
         self.create(count, route=route)
@@ -66,7 +66,7 @@ class ModelTaskTests(unittest.TestCase):
         package = self.root/'poses'
         m.models.export_package(package, self.model, [self.face], 'A', 'Qualified use', pose_mothers=[row])
         data = m.create(self.job, [str(self.garment)], ['pose'], (20,30), context=self.context,
-                        route='codex_native', model_package=package)
+                        route='codex_native', model_package=package, workflow_version=0)
         self.assertEqual([r['role'] for r in data['references']], ['garment-source', 'identity-reference'])
         self.assertNotIn(m.digest(mother), [r['sha256'] for r in data['references']])
         self.assertIsNone(data['model_confirmation'])
@@ -76,7 +76,7 @@ class ModelTaskTests(unittest.TestCase):
     def create_supplement(self, count=1, refs=None):
         try:
             return m.create(self.job, refs or self.supplement_refs(), ['pose']*count,
-                            (20,30), model=self.model, context=self.context, route='codex_native')
+                            (20,30), model=self.model, context=self.context, route='codex_native', workflow_version=0)
         except ValueError as error:
             self.fail('Accepted supplement task initialization is missing: ' + str(error))
 
@@ -119,18 +119,18 @@ class ModelTaskTests(unittest.TestCase):
         for changes in [dict(confirmation_note=''), dict(sha256='0'*64), dict(scope='garment')]:
             refs=self.supplement_refs();refs[-1].update(changes)
             with self.subTest(changes=changes),self.assertRaises(ValueError):
-                m.create(self.job,refs,['pose'],(20,30),model=self.model,context=self.context)
+                m.create(self.job,refs,['pose'],(20,30),model=self.model,context=self.context, workflow_version=0)
             self.assertFalse(self.job.exists())
         refs=self.supplement_refs();refs.pop(1)
         with self.assertRaises(ValueError):
-            m.create(self.job,refs,['pose'],(20,30),model=dict(self.model,source_type='new'),context=self.context)
+            m.create(self.job,refs,['pose'],(20,30),model=dict(self.model,source_type='new'),context=self.context, workflow_version=0)
 
     def test_supplement_counts_toward_later_native_attachment_limit(self):
         refs=self.supplement_refs()
         refs.extend(dict(path=str(self.image('detail'+str(i),color)),role='garment-source')
                     for i,color in enumerate(['yellow','orange']))
         with self.assertRaisesRegex(ValueError,'five'):
-            m.create(self.job,refs,['pose']*6,(20,30),model=self.model,context=self.context,route='codex_native')
+            m.create(self.job,refs,['pose']*6,(20,30),model=self.model,context=self.context,route='codex_native', workflow_version=0)
         self.assertFalse(self.job.exists())
 
     def test_model_check_trial_cannot_become_a_production_six_pose_set(self):
@@ -145,7 +145,7 @@ class ModelTaskTests(unittest.TestCase):
         self.assertEqual((self.job/'task.json').read_bytes(),before)
         with self.assertRaisesRegex(ValueError,'model-check'):
             m.create(self.root/'six-check',self.supplement_refs(),['pose']*6,(20,30),
-                     model=self.model,context=self.context)
+                     model=self.model,context=self.context, workflow_version=0)
 
     def test_export_opt_in_carries_accepted_first_as_supplement_not_original(self):
         self.first(count=1,route='codex_native');self.confirm()
@@ -155,7 +155,7 @@ class ModelTaskTests(unittest.TestCase):
         self.assertEqual(card['references'][0]['sha256'],m.digest(self.face))
         self.assertEqual(card['supplements'][0]['sha256'],m.read(self.job)['looks'][0]['output']['sha256'])
         d=m.create(self.root/'next',[str(self.image('new-product','orange'))],['pose'],(20,30),
-                   context=dict(self.context,outfit='new'),model_package=self.root/'package')
+                   context=dict(self.context,outfit='new'),model_package=self.root/'package', workflow_version=0)
         self.assertEqual([r['role'] for r in d['references']],['garment-source','identity-reference','model-supplement'])
         self.assertIsNone(d['model_confirmation'])
 
@@ -192,7 +192,7 @@ class ModelTaskTests(unittest.TestCase):
     def test_duplicate_supplement_original_rejected_before_freeze(self):
         refs=self.supplement_refs();refs[-1].update(path=str(self.face),sha256=m.digest(self.face))
         with self.assertRaises(ValueError):
-            m.create(self.job,refs,['pose'],(20,30),model=self.model,context=self.context)
+            m.create(self.job,refs,['pose'],(20,30),model=self.model,context=self.context, workflow_version=0)
         self.assertFalse(self.job.exists())
 
     def test_supplement_cannot_change_between_acceptance_check_and_snapshot(self):
@@ -204,7 +204,7 @@ class ModelTaskTests(unittest.TestCase):
                 changed.append(True)
             return original_copy(source,destination)
         with patch.object(m.shutil,'copyfile',side_effect=change_before_copy),self.assertRaises(ValueError):
-            m.create(self.job,refs,['pose'],(20,30),model=self.model,context=self.context)
+            m.create(self.job,refs,['pose'],(20,30),model=self.model,context=self.context, workflow_version=0)
         self.assertFalse(self.job.exists())
         self.assertEqual(changed,[True])
 
@@ -267,7 +267,7 @@ class ModelTaskTests(unittest.TestCase):
 
     def test_identity_only_without_garment_or_real_consent_cannot_initialize(self):
         with self.assertRaises(ValueError):
-            m.create(self.job,[dict(path=str(self.face),role='identity-reference')],['pose'],(20,30),model=self.model,context=self.context)
+            m.create(self.job,[dict(path=str(self.face),role='identity-reference')],['pose'],(20,30),model=self.model,context=self.context, workflow_version=0)
         self.model['source_type']='real'
         with self.assertRaises(ValueError):self.create()
         self.assertFalse(self.job.exists())
@@ -289,11 +289,11 @@ class ModelTaskTests(unittest.TestCase):
         self.assertEqual(card['references'][0]['sha256'], m.digest(self.face))
         newer=self.image('new-garment', 'orange')
         job2=self.root/'job2'
-        d=m.create(job2,[str(newer)],['new pose'],(20,30),context=dict(self.context,outfit='sku-b'),model_package=self.root/'package')
+        d=m.create(job2,[str(newer)],['new pose'],(20,30),context=dict(self.context,outfit='sku-b'),model_package=self.root/'package', workflow_version=0)
         self.assertEqual([r['sha256'] for r in d['references']], [m.digest(newer), m.digest(self.face)])
         self.assertIsNone(d['model_confirmation'])
         self.assertNotIn(m.digest(self.garment), [r['sha256'] for r in d['references']])
-        with self.assertRaises(ValueError):m.create(self.root/'bad',[],['x'],(20,30),context=self.context,model_package=self.root/'package')
+        with self.assertRaises(ValueError):m.create(self.root/'bad',[],['x'],(20,30),context=self.context,model_package=self.root/'package', workflow_version=0)
 
     def test_trial_other_than_pose_one_cannot_continue(self):
         self.context['first_pose']=2
@@ -331,10 +331,12 @@ class ModelTaskTests(unittest.TestCase):
         spec=self.root/'spec.json'
         spec.write_text(json.dumps(dict(route='codex_native',references=[dict(path=str(self.garment),role='garment-source'),dict(path=str(self.face),role='identity-reference')],prompts=['pose one'],size=[20,30],model=self.model,context=self.context)))
         cli('init',self.job,'--spec',spec)
-        cli('authorize',self.job,'--limit',1,'--note','Actual explicit first-image authority')
-        cli('reserve',self.job,'--look',1,'--ready','--refs',*m.reference_hashes(self.job,1))
+        decision=self.root/'decision.json';decision.write_text(json.dumps(dict(style=self.context['style'],path='single',image_count=1,note='Synthetic confirmed single-image plan')))
+        cli('authorize',self.job,'--limit',1,'--note','Actual explicit first-image authority','--spec',decision)
+        review=self.root/'review.json';review.write_text(json.dumps({k:dict(expected=m.workflow_helper().goal(m.read(self.job),m.read(self.job)['looks'][0]) if k=='goal' else 'Declared '+k,observed='Synthetic observation',result='met') for k in ('goal','garment','identity','anatomy','photography')}))
+        cli('reserve',self.job,'--look',1,'--ready','--refs',*m.reference_hashes(self.job,1),'--expected-plan-sha256',m.plan_fingerprint(m.read(self.job)))
         cli('returned',self.job,'--look',1,'--file',self.image('cli-first','green'))
-        cli('accept',self.job,'--look',1,'--qa','qa-pass','--note','Technical QA')
+        cli('accept',self.job,'--look',1,'--qa','qa-pass','--note','Technical QA','--review-file',review)
         cli('reject-model',self.job,'--look',1,'--note','User requests medium proportions')
         patch_file=self.root/'patch.txt';patch_file.write_text('pose one with medium proportions')
         model_file=self.root/'model-patch.json'
@@ -342,9 +344,9 @@ class ModelTaskTests(unittest.TestCase):
         model_file.write_text(json.dumps(dict(model=changed)))
         result=cli('retry-authorize',self.job,'--look',1,'--expected-attempt',1,'--approval-id','cli-adjust','--note','Actual one-image retry plus adjustment authority','--prompt-file',patch_file,'--model-spec',model_file)
         self.assertEqual(result['model'],changed)
-        cli('reserve',self.job,'--look',1,'--ready','--refs',*m.reference_hashes(self.job,1))
+        cli('reserve',self.job,'--look',1,'--ready','--refs',*m.reference_hashes(self.job,1),'--expected-plan-sha256',m.plan_fingerprint(m.read(self.job)))
         cli('returned',self.job,'--look',1,'--file',self.image('cli-second','orange'))
-        cli('accept',self.job,'--look',1,'--qa','qa-pass','--note','Technical QA')
+        cli('accept',self.job,'--look',1,'--qa','qa-pass','--note','Technical QA','--review-file',review)
         cli('confirm-model',self.job,'--look',1,'--note','Actual first-image human acceptance')
         package=self.root/'cli-package'
         cli('export-model',self.job,'--destination',package,'--name','A')
@@ -370,14 +372,14 @@ class ModelTaskTests(unittest.TestCase):
               for i,color in enumerate(['red','orange','yellow','purple'])]
         refs.append(dict(path=str(self.face),role='identity-reference'))
         with self.assertRaisesRegex(ValueError,'reference'):
-            m.create(self.job,refs,['pose']*6,(20,30),model=self.model,context=self.context,route='codex_native')
+            m.create(self.job,refs,['pose']*6,(20,30),model=self.model,context=self.context,route='codex_native', workflow_version=0)
         self.assertFalse(self.job.exists())
 
     def test_native_three_garment_views_keep_original_and_current_identity(self):
         refs=[dict(path=str(self.image('view'+str(i),color)),role='garment-source')
               for i,color in enumerate(['red','orange','yellow'])]
         refs.append(dict(path=str(self.face),role='identity-reference'))
-        m.create(self.job,refs,['pose']*6,(20,30),model=self.model,context=self.context,route='codex_native')
+        m.create(self.job,refs,['pose']*6,(20,30),model=self.model,context=self.context,route='codex_native', workflow_version=0)
         m.update(self.job,'authorize',limit=6,note='Approved')
         m.update(self.job,'reserve',look=1,ready=True,refs=m.reference_hashes(self.job,1))
         m.update(self.job,'returned',look=1,file=self.image('first','green'))
@@ -390,7 +392,7 @@ class ModelTaskTests(unittest.TestCase):
         refs=[dict(path=str(self.image('view'+str(i),color)),role='garment-source')
               for i,color in enumerate(['red','orange','yellow','purple'])]
         refs.append(dict(path=str(self.face),role='identity-reference'))
-        m.create(self.job,refs,['pose'],(20,30),model=self.model,context=self.context,route='codex_native')
+        m.create(self.job,refs,['pose'],(20,30),model=self.model,context=self.context,route='codex_native', workflow_version=0)
         m.update(self.job,'authorize',limit=1,note='Approved')
         m.update(self.job,'reserve',look=1,ready=True,refs=m.reference_hashes(self.job,1))
         m.update(self.job,'returned',look=1,file=self.image('first','green'))
@@ -417,7 +419,7 @@ class ModelTaskTests(unittest.TestCase):
     def test_duplicate_identity_requires_normalization_before_freezing(self):
         refs=[dict(path=str(self.garment),role='garment-source')]+[dict(path=str(self.face),role='identity-reference')]*2
         with self.assertRaisesRegex(ValueError,'Deduplicate'):
-            m.create(self.job,refs,['pose']*6,(20,30),model=self.model,context=self.context,route='codex_native')
+            m.create(self.job,refs,['pose']*6,(20,30),model=self.model,context=self.context,route='codex_native', workflow_version=0)
         self.assertFalse(self.job.exists())
 
     def test_late_qa_rejection_preserves_evidence_and_stops_anchor_reuse(self):
@@ -497,7 +499,7 @@ class ModelTaskTests(unittest.TestCase):
     def test_aesthetic_reference_remains_non_identity(self):
         self.model['source_type']='new'
         refs=[dict(path=str(self.garment),role='garment-source'),dict(path=str(self.face),role='aesthetic-reference')]
-        m.create(self.job,refs,['pose'],(20,30),model=self.model,context=self.context)
+        m.create(self.job,refs,['pose'],(20,30),model=self.model,context=self.context, workflow_version=0)
         m.export(self.job)
         prompt=(self.job/'handoff/look-1/prompt.txt').read_text()
         self.assertIn('aesthetic only; do not copy identity',prompt)
@@ -643,7 +645,7 @@ class ModelTaskTests(unittest.TestCase):
         self.assertEqual(m.read(self.job)['looks'][0]['state'],'failed')
 
     def test_legacy_schema1_recovery_interface_is_unchanged(self):
-        m.create(self.job,[self.garment],['pose'],(20,30),schema_version=1)
+        m.create(self.job,[self.garment],['pose'],(20,30),schema_version=1, workflow_version=0)
         m.update(self.job,'authorize',limit=1,note='Synthetic initial grant')
         m.update(self.job,'reserve',look=1,ready=True,refs=m.reference_hashes(self.job,1),conversation='https://chatgpt.com/c/synthetic')
         d=m.update(self.job,'failed',look=1)

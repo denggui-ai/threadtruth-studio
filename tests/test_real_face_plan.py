@@ -76,7 +76,7 @@ class RealFacePlanTests(unittest.TestCase):
                         ['Photograph this garment; conflicting default head turn must yield.'] * count,
                         (20, 30), model=self.model if model is None else model,
                         context=self.context if context is None else context, route='codex_native',
-                        real_face_plan=self.plan(count, extra) if plan is None else plan)
+                        real_face_plan=self.plan(count, extra) if plan is None else plan, workflow_version=0)
 
     def accept_first(self):
         m.update(self.task, 'authorize', limit=1, note='Human explicitly approves a single call')
@@ -189,14 +189,14 @@ class RealFacePlanTests(unittest.TestCase):
             self.assertFalse(self.task.exists())
         with self.assertRaises(ValueError):
             m.create(self.task, self.inventory(), ['x'], (20, 30), identity=False,
-                     context=self.context, route='codex_native', real_face_plan=self.plan())
+                     context=self.context, route='codex_native', real_face_plan=self.plan(), workflow_version=0)
         with self.assertRaises(ValueError):
             m.create(self.task, [str(self.files['garment'])], ['x'], (20, 30), schema_version=1,
-                     real_face_plan=self.plan())
+                     real_face_plan=self.plan(), workflow_version=0)
         self.assertFalse(self.task.exists())
         ai = dict(self.model, source_type='ai', consent_note='')
         data = m.create(self.task, self.inventory(), ['default free head turn'], (20, 30),
-                        model=ai, context=self.context, route='codex_native')
+                        model=ai, context=self.context, route='codex_native', workflow_version=0)
         before = (self.task / 'task.json').read_bytes()
         m.export(self.task)
         self.assertNotIn('real_face_plan', data)
@@ -415,7 +415,7 @@ class RealFacePlanTests(unittest.TestCase):
         m.create(self.task, [dict(path=str(self.files['garment']), role='garment-source')],
                  ['new AI casting with free head direction'], (20, 30),
                  model=dict(self.model, source_type='new', consent_note=''),
-                 context=self.context, route='codex_native')
+                 context=self.context, route='codex_native', workflow_version=0)
         self.accept_first()
         package = self.root / 'new-ai-package'
         m.export_model(self.task, package, 'Accepted new AI model')
@@ -424,7 +424,7 @@ class RealFacePlanTests(unittest.TestCase):
         data = m.create(reused, [dict(path=str(self.files['back']), role='garment-source')],
                         ['free AI head direction ' + str(i) for i in range(6)], (20, 30),
                         context=dict(self.context, outfit='second-knit'), route='codex_native',
-                        model_package=package)
+                        model_package=package, workflow_version=0)
         self.assertEqual(data['model']['source_type'], 'ai')
         self.assertNotIn('real_face_plan', data)
         m.export(reused)
@@ -434,7 +434,7 @@ class RealFacePlanTests(unittest.TestCase):
 
     def test_unplanned_real_task_cannot_be_retrofitted_via_continuation(self):
         m.create(self.task, self.inventory(), ['old real task'], (20, 30),
-                 model=self.model, context=self.context, route='codex_native')
+                 model=self.model, context=self.context, route='codex_native', workflow_version=0)
         self.accept_first()
         before = (self.task / 'task.json').read_bytes()
         with self.assertRaises(ValueError):

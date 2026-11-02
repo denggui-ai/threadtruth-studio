@@ -18,7 +18,7 @@ task = importlib.util.module_from_spec(_SPEC); _SPEC.loader.exec_module(task)
 def v2_plan(h, count=9):
     """Garment-driven plan without framing_guidance: the runtime must default/inherit it."""
     looks = [dict(slot=i, shot_id='qs-' + str(i), display_goal='Show the set', must_show=['hem'], reason='Front flat-lay supports it.',
-                  body_action='Stand naturally, action ' + str(i), hands='Hands relaxed', support='Both feet grounded', framing='full-body',
+                  pose_decision=dict(kind='custom',reason='Retain an unobstructed hem with relaxed hands'), body_action='Stand naturally, action ' + str(i), hands='Hands relaxed', support='Both feet grounded', framing='full-body',
                   garment_views=['front'], reference_sha256s=[h], head='natural', gaze='soft') for i in range(1, count + 1)]
     return dict(version=2, sku='qs-sku', route='B', coverage=[dict(sha256=h, views=['front'], usable=True, same_sku=True, note='Synthetic front')],
                 looks=looks, selected_shot_ids=[l['shot_id'] for l in looks], series_role='series')
@@ -65,27 +65,33 @@ class RuntimeQuickstartTests(unittest.TestCase):
                                                                 model=MODEL, context=dict(ctx, purpose='preview-grid'), shot_plan=shot_plan, visual_plan=visual)))
         preview = root / 'preview'
         self.assertEqual(len(self.cli('web-task.py', 'init', '--task', preview, '--spec', root / 'init-preview.json', cwd=root)['looks']), 1)
-        self.cli('web-task.py', 'authorize', '--task', preview, '--limit', 1, '--note', 'one preview', cwd=root)
+        (root / 'decision.json').write_text(json.dumps(dict(style='french-effortless', path='preview', image_count=1, note='Synthetic confirmed nine-cell direction preview')))
+        self.cli('web-task.py', 'authorize', '--task', preview, '--limit', 1, '--note', 'one preview', '--spec', root / 'decision.json', cwd=root)
+        review={k:dict(expected='Show the set' if k=='goal' else 'Declared '+k,observed='Synthetic observation',result='met') for k in ('goal','garment','identity','anatomy','photography')}
+        (root / 'review.json').write_text(json.dumps(review))
         self.cli('web-task.py', 'export', '--task', preview, cwd=root)
         man, prompt, request, folder = self.handoff(preview, 1)
         self.assertIn('PREVIEW ONLY', prompt); self.assertIn('Hair top at about y=', prompt); self.assertEqual(request['prompt'], prompt)
         self.assertEqual([Path(p).name for p in request['referenced_image_paths']], ['01-garment-source.png'])
         self.cli('web-task.py', 'reserve', '--task', preview, '--look', 1, '--ready', '--refs', *man['reference_hashes'], '--expected-plan-sha256', man['current_plan_sha256'], cwd=root)
         self.cli('web-task.py', 'returned', '--task', preview, '--look', 1, '--file', self.synth(root, 'preview.png', 'blue'), cwd=root)
-        self.cli('web-task.py', 'accept', '--task', preview, '--look', 1, '--qa', 'qa-pass', '--note', 'grid readable', cwd=root)
+        self.cli('web-task.py', 'accept', '--task', preview, '--look', 1, '--qa', 'qa-pass', '--note', 'grid readable', '--review-file', root / 'review.json', cwd=root)
         self.cli('web-task.py', 'finish-preview', '--task', preview, '--decision', 'direction-confirmed', '--note', 'direction ok', cwd=root)
         delivery = root / 'delivery'
         (root / 'delivery.json').write_text(json.dumps(dict(context=dict(ctx, purpose='delivery'), size=SIZE, count=9, series_role='series')))
         d = self.cli('web-task.py', 'prepare-delivery', '--task', delivery, '--preview-task', preview, '--spec', root / 'delivery.json', '--note', 'nine please', cwd=root)
         self.assertEqual(len(d['looks']), 9); self.assertEqual(d['total_attempts'], 1)
-        self.cli('web-task.py', 'authorize', '--task', delivery, '--limit', 2, '--note', 'two for now', cwd=root)
+        (root / 'decision.json').write_text(json.dumps(dict(style='french-effortless',path='after-preview',image_count=9,note='Synthetic confirmation of this nine-image delivery')))
+        self.cli('web-task.py', 'authorize', '--task', delivery, '--limit', 2, '--note', 'two for now', '--spec', root / 'decision.json', cwd=root)
+        review['garment']['result']='unknown'
+        (root / 'review.json').write_text(json.dumps(review))
         for look, color in ((1, 'green'), (2, 'yellow')):
             self.cli('web-task.py', 'export', '--task', delivery, cwd=root)
             man, prompt, request, folder = self.handoff(delivery, look)
             self.assertIn('Hair top at about y=', prompt); self.assertIn(f'Shot {look}: qs-{look}.', prompt)
             self.cli('web-task.py', 'reserve', '--task', delivery, '--look', look, '--ready', '--refs', *man['reference_hashes'], '--expected-plan-sha256', man['current_plan_sha256'], cwd=root)
             self.cli('web-task.py', 'returned', '--task', delivery, '--look', look, '--file', self.synth(root, f'look-{look}.png', color), cwd=root)
-            self.cli('web-task.py', 'accept', '--task', delivery, '--look', look, '--qa', 'qa-user-review', '--note', 'fine details for user', cwd=root)
+            self.cli('web-task.py', 'accept', '--task', delivery, '--look', look, '--qa', 'qa-user-review', '--note', 'fine details for user', '--review-file', root / 'review.json', cwd=root)
             if look == 1:
                 self.cli('web-task.py', 'confirm-model', '--task', delivery, '--look', 1, '--note', 'person ok', cwd=root)
         self.assertEqual([Path(p).name for p in request['referenced_image_paths']], ['01-garment-source.png', '02-identity-only.png'])
@@ -107,7 +113,7 @@ class RuntimeQuickstartTests(unittest.TestCase):
         visual = json.loads((root / 'visual_plan.json').read_text())
         ctx = dict(outfit='qs-sku', style='french-effortless', mode='C', output_form='human', size=SIZE, first_pose=1, canvas_policy='ratio-first', purpose='preview-grid')
         preview = root / 'preview'
-        d = task.create(preview, [src], None, SIZE, model=MODEL, context=ctx, route='codex_native', shot_plan=plan, visual_plan=visual)
+        d = task.create(preview, [src], None, SIZE, model=MODEL, context=ctx, route='codex_native', shot_plan=plan, visual_plan=visual, workflow_version=0)
         self.assertEqual(d['shot_plan']['framing_guidance'], 2)
         task.update(preview, 'authorize', limit=1, note='one preview')
         task.update(preview, 'reserve', look=1, ready=True, refs=task.reference_hashes(preview, 1), expected_plan_sha256=task.plan_fingerprint(task.read(preview)))

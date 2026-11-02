@@ -388,7 +388,7 @@ def _validate_v2(plan,inventory,*,context,count,identity,real_face_plan,strict_r
     if not isinstance(looks,list) or len(looks) not in (1,6,9):
         raise ValueError('shot_plan.looks must be a list of 1, 6 or 9 logical shots; got '+_got(looks))
     fields={'slot','shot_id','display_goal','must_show','reason','body_action','hands','support','framing','garment_views','reference_sha256s'}
-    optional={'head','gaze','pose_reference','aesthetic_reference_sha256s','scene','lighting','camera','pose_id','pose_selection','pose_reuse_reason'}
+    optional={'head','gaze','pose_reference','aesthetic_reference_sha256s','scene','lighting','camera','pose_id','pose_selection','pose_reuse_reason','pose_decision'}
     ids=[];action_keys={}
     head_gaze=any(isinstance(s,dict) and ('head' in s or 'gaze' in s) for s in looks)
     if head_gaze and (model_source not in ('ai','new') or real_face_plan is not None or context.get('output_form')!='human'):
@@ -419,6 +419,13 @@ def _validate_v2(plan,inventory,*,context,count,identity,real_face_plan,strict_r
         if len(must)!=len(set(must)):raise ValueError(path+'.must_show must not repeat an item; got '+_got(must))
         if shot['framing'] not in ('full-body','half-body','knee-up','detail'):
             raise ValueError(path+'.framing must be one of full-body, half-body, knee-up, detail; got '+_got(shot['framing']))
+        if 'pose_decision' in shot:
+            decision=shot['pose_decision']
+            if (not isinstance(decision,dict) or set(decision)!={'kind','reason'}
+                    or decision['kind'] not in ('custom','not-applicable') or not _v2_line(decision['reason'])
+                    or 'pose_id' in shot or 'pose_selection' in shot
+                    or (decision['kind']=='not-applicable' and shot['framing']!='detail')):
+                raise ValueError(path+'.pose_decision needs a specific custom/not-applicable reason without a library binding')
         if head_gaze:
             for k in ('head','gaze'):
                 if not _v2_line(shot.get(k)):

@@ -330,7 +330,7 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
     for i, shot in enumerate(plan['shots'], 1):
         if plan['version'] == 1:
             pose = i if count == 6 else context['first_pose']
-            if (not isinstance(shot, dict) or set(shot) != {'slot', 'pose', 'scene', 'lighting', 'composition'}
+            if (not isinstance(shot, dict) or set(shot)-{'garment_focus'} != {'slot', 'pose', 'scene', 'lighting', 'composition'}
                     or type(shot['slot']) is not int or shot['slot'] != i
                     or shot['pose'] != pose or type(shot['pose']) is not type(pose)):
                 raise ValueError('Visual shots preserve actual numbered/custom presentation and consecutive slots')
@@ -344,7 +344,7 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
             if not isinstance(shot, dict):
                 raise ValueError(path + ' must be an object (Visual v2 shots preserve stable source slots and distinct shot_id values); got '
                                  + _got(shot) + hint)
-            if set(shot) != required_shot:
+            if set(shot)-{'garment_focus'} != required_shot:
                 raise ValueError(path + ' has the wrong keys (Visual v2 shots preserve stable source slots and distinct shot_id values); missing: '
                                  + (', '.join(sorted(required_shot - set(shot))) or 'none') + '; unexpected: '
                                  + (', '.join(sorted(set(shot) - required_shot)) or 'none') + hint)
@@ -358,6 +358,12 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
             seen_ids.add(shot['shot_id'])
         for key in ('scene', 'lighting', 'composition'):
             _line(shot[key], 'Per-shot ' + key, owned=True, v2=v2)
+        if 'garment_focus' in shot:
+            focus=shot['garment_focus']
+            if not isinstance(focus,dict) or set(focus)!={'description','keep'}:
+                raise ValueError('Per-shot garment_focus contains source-backed description and keep')
+            _line(focus['description'],'Focused garment description',owned=True,v2=v2)
+            _lines(focus['keep'],'Focused garment facts',required=True,owned=True,v2=v2)
     if shot_plan is not None:
         if not isinstance(shot_plan, dict) or shot_plan.get('version') not in (1, 2):
             raise ValueError('Visual binding requires a supported shot-plan version')
@@ -388,16 +394,17 @@ def render(plan, look=None):
     if look is not None and (type(look) is not int or not 1<=look<=len(plan['shots'])):
         raise ValueError('Unknown visual presentation slot')
     style = plan['style']
+    garment=plan['shots'][look-1].get('garment_focus',plan['garment']) if look is not None else plan['garment']
     rows = [BEGIN, 'Visual objective: ' + plan['objective'] + '.',
             'Output medium: ' + plan['output_medium'] + '.',
             'Output presentation: ' + plan['output_form'] + '.',
             'Primary style: ' + style['primary']['id'] + '.',
-            'Source-backed garment: ' + plan['garment']['description'],
-            'Preserve original garment facts: ' + '; '.join(plan['garment']['keep']) + '.']
-    if 'hem_state' in plan['garment']:
-        rows.append(HEM_STATES[plan['garment']['hem_state']])
-    if 'silhouette' in plan['garment']:
-        rows.append(SILHOUETTES[plan['garment']['silhouette']])
+            'Source-backed garment: ' + garment['description'],
+            'Preserve original garment facts: ' + '; '.join(garment['keep']) + '.']
+    if 'hem_state' in garment:
+        rows.append(HEM_STATES[garment['hem_state']])
+    if 'silhouette' in garment:
+        rows.append(SILHOUETTES[garment['silhouette']])
     if plan['output_form']=='faceless':
         rows.append('Keep the face outside the image or fully obscured; preserve supported body proportions and garment details. Do not introduce a visible face.')
     elif plan['output_form'] in ('flat-lay','hanger','mannequin'):
@@ -429,6 +436,9 @@ def render(plan, look=None):
         rows += [heading,
                  'Scene: ' + shot['scene'], 'Lighting: ' + shot['lighting'],
                  'Composition: ' + shot['composition']]
+        if look is None and shot.get('garment_focus'):
+            rows += ['Target garment: '+shot['garment_focus']['description'],
+                     'Target structures to preserve: '+'; '.join(shot['garment_focus']['keep'])]
         if plan.get('contract') == CONTRACT and plan.get(SUBSTITUTE_FLAG) and plan['version'] == 1 and shot['pose'] == 2:
             rows.append(SUBSTITUTE_LINE)
     rows += ['Exclude: ' + item for item in plan['negatives']]

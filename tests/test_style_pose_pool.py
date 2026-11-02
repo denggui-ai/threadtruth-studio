@@ -62,7 +62,7 @@ class StylePosePoolTests(unittest.TestCase):
         context = context or dict(outfit='synthetic-pool', style=spec['entry_id'], mode='C',
             output_form='human', size=[20, 30], first_pose=1, purpose='delivery')
         task.create(job, [self.source], None, [20, 30], model=spec['model'], context=context,
-                    route=route, shot_plan=spec['shot_plan'], visual_plan=visual, count=1)
+                    route=route, shot_plan=spec['shot_plan'], visual_plan=visual, count=1, workflow_version=0)
         task.export(job)
         data = task.read(job)
         folder = task.handoff_directory(job, data, data['looks'][0])

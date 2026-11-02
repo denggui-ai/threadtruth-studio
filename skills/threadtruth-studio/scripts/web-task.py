@@ -10,6 +10,7 @@ import json
 import math
 import os
 from pathlib import Path
+import re
 import shutil
 import struct
 import sys
@@ -24,6 +25,15 @@ models = importlib.util.module_from_spec(_model_spec)
 _model_spec.loader.exec_module(models)
 _face_plans = None
 _photography_targets = None
+_workflow = None
+
+
+def workflow_helper():
+    global _workflow
+    if _workflow is None:
+        spec=importlib.util.spec_from_file_location('task_workflow',Path(__file__).with_name('workflow.py'))
+        _workflow=importlib.util.module_from_spec(spec);spec.loader.exec_module(_workflow)
+    return _workflow
 
 
 def real_face_helper():
@@ -160,6 +170,9 @@ def plan_fingerprint(data):
                 model=data.get('model'),shot_plan=data.get('shot_plan'))
     if 'visual_plan' in data:frozen['visual_plan']=data['visual_plan']
     if 'identity_instruction_version' in data:frozen['identity_instruction_version']=data['identity_instruction_version']
+    if 'workflow_version' in data:
+        frozen['workflow_version']=data['workflow_version']
+        frozen['planned_requests']=[dict(number=row['number'],prompt_sha256=row['prompt_sha256']) for row in data['looks']]
     return object_hash(frozen)
 
 
@@ -256,13 +269,14 @@ def prompt_check(prompt,context,model=None,shot_plan=None,number=1,real_face_pla
 
 
 def delivery_retry_candidate(data,row,*,shot_plan=None,visual_plan=None,prompt=None):
-    """Clarify one rejected non-anchor arrangement without replacing shared plans."""
+    """Revise one rejected or reconciled-failed shot without changing its peers."""
     standalone=(v2(data.get('shot_plan')) and data['shot_plan']['series_role']=='standalone'
                 and len(data['looks'])==1 and not data.get('model_confirmation'))
     if (data['schema_version']!=2 or is_preview(data) or row is None
-            or (row['number']==1 and not standalone) or row['state']!='rejected'
+            or (row['number']==1 and not standalone)
+            or (row['state']!='rejected' and not reconciled_failure(data,row))
             or any(x['state'] in ('reserved','unknown') for x in data['looks'])):
-        raise ValueError('Revise only a rejected non-anchor delivery with no unresolved request')
+        raise ValueError('Revise only a rejected or reconciled-failed non-anchor delivery with no unresolved request')
     number=row['number'];index=number-1
     current_shot=data.get('shot_plan');current_visual=data.get('visual_plan')
     if current_shot is None or current_visual is None:
@@ -273,7 +287,7 @@ def delivery_retry_candidate(data,row,*,shot_plan=None,visual_plan=None,prompt=N
         target=shot_helper().shot_at(current_shot,number)
         replacement=shot_helper().shot_at(shot,number)
         allowed=copy.deepcopy(current_shot)
-        if any(replacement[k]!=target[k] for k in ('slot','shot_id')):
+        if any(replacement[k]!=target[k] for k in ('slot','shot_id','display_goal','must_show')):
             raise ValueError('A retry retains the stable shot identity')
         allowed['looks'][target['slot']-1]=copy.deepcopy(replacement)
         allowed_visual=copy.deepcopy(current_visual)
@@ -577,6 +591,9 @@ def refresh_delivery_status(data):
     data['delivery_status']=('preview-grid' if is_preview(data) else 'image-draft') if has_output else 'prepared'
     if is_preview(data) or 'preview_origin' in data:
         data['total_attempts']=data['attempts']+data.get('preview_origin', {}).get('attempts', 0)
+    if workflow_helper().enabled(data):
+        data['files_complete']=all(row.get('output') for row in data['looks'])
+        data['goals_met']=all(row.get('review',{}).get('goal',{}).get('result')=='met' for row in data['looks'])
 
 
 def save(root,data):
@@ -593,7 +610,7 @@ def save(root,data):
 
 @contextmanager
 def locked(root):
-    lock=root/'.writer-lock'
+    lock=series_root(root)/'.writer-lock'
     try:lock.mkdir()
     except FileExistsError:raise ValueError('Task is locked; inspect the existing writer before recovery')
     try:yield
@@ -615,6 +632,14 @@ def failure_recovery(data):
     return data['schema_version']==2 and data.get('failure_recovery_version')==1
 
 
+def reconciled_failure(data,row):
+    checked=(row or {}).get('failure_reconciliation',{})
+    return (failure_recovery(data) and row is not None and row.get('state')=='failed'
+            and bool(row.get('failure')) and checked.get('request_check_completed') is True
+            and checked.get('attempt_number')==row.get('attempt_number',1)
+            and checked.get('failure_sha256')==object_hash(row['failure']))
+
+
 def retain_failure(root,row,source,kind,reason):
     """Keep the exact local receipt/result, including invalid image bytes."""
     source=Path(source)
@@ -630,7 +655,7 @@ def retain_failure(root,row,source,kind,reason):
     return dict(kind=kind,reason=reason,evidence=dict(file=str(out.relative_to(root)),sha256=digest(out)),at=stamp())
 
 
-def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,context=None,route=None,model_package=None,real_face_plan=None,shot_plan=None,visual_plan=None,count=None):
+def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,context=None,route=None,model_package=None,real_face_plan=None,shot_plan=None,visual_plan=None,count=None,workflow_version=1):
     root=Path(root)
     if route is None:route='chatgpt_web' if schema_version==1 else 'codex_native'
     if model_package is not None:
@@ -743,6 +768,8 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
         if schema_version==2:
             data.update(context=context,context_sha256=object_hash(context),model=model,model_sha256=object_hash(model),model_confirmation=None,
                         references_sha256=object_hash(frozen),failure_recovery_version=1,prompt_contract_version=1)
+            if workflow_version!=0:data['workflow_version']=workflow_version
+            workflow_helper().enabled(data)
         if real_face_plan is not None:
             real_face_plan=real_face_helper().validate(real_face_plan,frozen,schema_version=schema_version,identity=identity,
                 model=model,context=context,count=plan_count,route=route,strict_looks=range(1,plan_count+1),shot_plan=shot_plan)
@@ -791,13 +818,15 @@ def reference_hashes(root,look):
     return [r['sha256'] for r in references(root,read(root),look)]
 
 
-def progression_error(data, look):
+def progression_error(data, look, related=()):
     """Shared export/reserve gate: resolved non-anchor visual rejects are local.
 
     Original requests, invalid canvases/provider failures and the first anchor
     remain blocking. A visual rejection is never promoted to acceptance here.
     Schema 1 retains its existing strict order.
     """
+    held=workflow_helper().hold_error(data,look,related)
+    if held:return held
     if is_preview(data) and data.get('preview_decision'):
         return 'Preview task is closed; no further preview submissions'
     if data['schema_version']==1:
@@ -805,7 +834,8 @@ def progression_error(data, look):
             x['state']!='accepted' for x in data['looks'][:look-1]) else None
     if any(x['state'] in ('reserved','unknown') for x in data['looks']):
         return 'Recover the existing unresolved request before another submission'
-    if any(x['state']=='failed' for x in data['looks']):
+    if any(x['state']=='failed' and not (workflow_helper().enabled(data) and
+           (x.get('failure',{}).get('code')=='moderation_blocked' or x.get('active_revision'))) for x in data['looks']):
         return 'Resolve the retained provider/canvas failure before another submission'
     if data['identity'] and look>1:
         if data['looks'][0]['state']!='accepted':
@@ -814,6 +844,10 @@ def progression_error(data, look):
             return 'First-image model has not been confirmed by the user'
     for prior in data['looks'][:look-1]:
         if prior['state']=='accepted':
+            continue
+        if workflow_helper().enabled(data) and prior['number']>1 and (
+                prior.get('active_revision') or prior.get('failure',{}).get('code')=='moderation_blocked'
+                or (prior['state']=='pending' and workflow_helper().hold_error(data,prior['number'],related))):
             continue
         if (prior['number']>1 and prior['state']=='rejected' and prior.get('output')
                 and prior.get('qa')=='qa-retry' and not prior.get('model_rejected')):
@@ -830,6 +864,8 @@ def evidence_rows(data):
 
 def canvas_baseline(data):
     """Derive from retained first-look evidence, including rejected/retried outputs."""
+    if data.get('revision_origin',{}).get('canvas_baseline'):
+        return data['revision_origin']['canvas_baseline']
     if data.get('context', {}).get('canvas_policy', 'exact') == 'exact':
         return data['size']
     first=data['looks'][0]
@@ -1028,6 +1064,8 @@ def compose_preview(root,data,row,**kw):
 
 
 def check_evidence(root,data):
+    workflow_helper().validate(data)
+    check_revision_links(root,data)
     prompt_contract(data)
     check_shot_plan(data)
     check_visual_plan(data)
@@ -1055,6 +1093,7 @@ def check_evidence(root,data):
         checked=preview_candidate(data,row,check_sources=False,**candidate['candidate'])
         if checked!=candidate['candidate']:raise ValueError('Invalid preview candidate')
     for row in evidence_rows(data):
+        workflow_helper().validate_review(data,row)
         if 'web_execution' in row:
             web_execution_helper().check_retained(root,row)
         check_local_edits(root,data,row)
@@ -1150,7 +1189,7 @@ def continue_v2(data,kw):
     if data['identity'] and not data['model_confirmation']:raise ValueError('Confirm the actual first-image model before continuation')
     if kw.get('context')!=data['context'] or not note or not approval:
         raise ValueError('Continuation retains context and requires explicit remaining-image approval')
-    if data.get('continuation_authorization') or any(g['approval_id']==approval for g in data.get('retry_authorizations',[])):
+    if data.get('continuation_authorization') or approval in data.get('linked_revisions',{}) or any(g['approval_id']==approval for g in data.get('retry_authorizations',[])):
         raise ValueError('Continuation approval already used')
     full=copy.deepcopy(prior);full['selected_shot_ids']=[s['shot_id'] for s in full['looks']];full['series_role']='series'
     if kw.get('shot_plan') is not None and inherit_framing_flag(kw['shot_plan'],prior)!=full:
@@ -1198,6 +1237,11 @@ def update(root,event,**kw):
     with locked(root):
         d=read(root);n=kw.get('look');row=None;stop_error=None
         check_evidence(root,d)
+        if d.get('revision_origin'):
+            parent=read(series_root(root));entry=parent['linked_revisions'][d['revision_origin']['id']]
+            if entry['state']=='adopted':raise ValueError('An adopted revision is frozen')
+            if event in ('authorize','retry-authorize','continue-authorize','revise-pending','confirm-plan'):
+                raise ValueError('Linked revision authority and plan belong to the root series; prepare another explicit revision there')
         if is_preview(d) and d.get('preview_decision'):
             raise ValueError('Preview task is closed; create a linked independent delivery instead')
         if is_preview(d) and event in ('confirm-model','reject-model','continue-authorize'):
@@ -1207,7 +1251,23 @@ def update(root,event,**kw):
         if n is not None:
             if type(n)!=int or not 1<=n<=len(d['looks']):raise ValueError('Unknown look number')
             row=d['looks'][n-1]
-        if event=='revise-preview':
+        if row and row.get('active_revision') and event in ('reserve','retry-authorize','revise-pending','review-output','accept'):
+            raise ValueError('This original slot is delegated to its active linked revision')
+        if row and row.get('adopted_revision') and event=='retry-authorize':
+            raise ValueError('Correct an adopted image through another root-linked revision retaining its actual presentation')
+        if event=='confirm-plan':
+            if any(x['state'] in ('reserved','unknown') for x in d['looks']):
+                raise ValueError('Recover the unresolved request before confirming a plan')
+            workflow_helper().store_confirmation(d,workflow_helper().confirmation(d,kw.get('decision'),plan_fingerprint(d),stamp()))
+        elif event=='review-hold':
+            if row is None or row['state']!='pending':raise ValueError('Review the hold for a pending shot')
+            workflow_helper().acknowledge(d,n,kw.get('failure_sha256'),kw.get('note'),stamp(),related_moderation(root,d))
+        elif event=='retain-output':
+            if (row is None or row['state'] not in ('accepted','rejected') or not kw.get('note','').strip()
+                    or not row.get('output') or kw.get('expected_output_sha256')!=row['output']['sha256']):
+                raise ValueError('Retain an exact reviewed output with the user decision; known QA remains')
+            row['retained_by_user']=dict(output_sha256=row['output']['sha256'],note=kw['note'],at=stamp())
+        elif event=='revise-preview':
             note=kw.get('note','').strip()
             if (not is_preview(d) or n!=1 or row['state'] not in ('accepted','rejected')
                     or not note or kw.get('expected_output_sha256')!=row.get('output',{}).get('sha256')):
@@ -1242,6 +1302,8 @@ def update(root,event,**kw):
             if d['authorization'] or d['attempts']:raise ValueError('Existing authorization/budget cannot be reset')
             limit=kw.get('limit');note=kw.get('note','').strip()
             if type(limit)!=int or not 1<=limit<=len(d['looks']) or not note:raise ValueError('Explicit ChatGPT upload and generation approval with limit required')
+            if kw.get('decision') is not None:
+                workflow_helper().store_confirmation(d,workflow_helper().confirmation(d,kw['decision'],plan_fingerprint(d),stamp()))
             d['authorization']={'destination':('ChatGPT' if d['schema_version']==1 else d['route']),'limit':limit,'note':note,'at':stamp()}
         elif event=='enable-failure-recovery':
             note=kw.get('note','').strip()
@@ -1275,7 +1337,7 @@ def update(root,event,**kw):
             if d['identity'] and not d['model_confirmation']:raise ValueError('User must confirm the model first')
             if d['context']['first_pose']!=1:raise ValueError('Only an actual pose-1 trial can become look-1 of the six-pose set')
             if kw.get('context')!=d['context']:raise ValueError('Continuation must keep outfit, style, mode, output form and canvas')
-            if not note or not approval or any(x['approval_id']==approval for x in d.get('retry_authorizations',[])):
+            if not note or not approval or approval in d.get('linked_revisions',{}) or any(x['approval_id']==approval for x in d.get('retry_authorizations',[])):
                 raise ValueError('Explicit five-image approval and a fresh ID required')
             continuation_visual=None
             if 'visual_plan' in d:
@@ -1352,6 +1414,7 @@ def update(root,event,**kw):
         elif event=='reject':
             note=kw.get('note','').strip()
             if row is None or row['state']!='returned' or not note:raise ValueError('Reject only a downloaded result with actual visual QA reasons')
+            if kw.get('review') is not None:workflow_helper().record_review(d,row,kw['review'],'qa-retry')
             row.update(state='rejected',qa='qa-retry',qa_note=note)
         elif event=='audit-reject':
             note=kw.get('note','').strip()
@@ -1368,7 +1431,9 @@ def update(root,event,**kw):
             if kw.get('expected_output_sha256')!=row['output']['sha256']:
                 raise ValueError('Re-review must target the exact existing output hash')
             row.setdefault('qa_history',[]).append(dict(qa=row['qa'],qa_note=row['qa_note'],
-                state=row['state'],output_sha256=row['output']['sha256'],at=stamp()))
+                state=row['state'],output_sha256=row['output']['sha256'],at=stamp(),
+                **({k:copy.deepcopy(row[k]) for k in ('review','review_sha256')} if 'review' in row else {})))
+            workflow_helper().record_review(d,row,kw.get('review'),qa)
             row.update(state='rejected' if qa=='qa-retry' else 'accepted',qa=qa,qa_note=note)
         elif event=='revise-pending':
             note=kw.get('note','').strip();prompt=kw.get('prompt','')
@@ -1412,7 +1477,7 @@ def update(root,event,**kw):
                     if key in kw and kw[key]!=proposal['candidate'].get(key):
                         raise ValueError('Retry must use the reviewed preview revision candidate')
             grants=d.get('retry_authorizations',[])
-            failed_ready=(row is not None and row['state']=='failed' and failure_recovery(d) and row.get('failure_reconciliation'))
+            failed_ready=reconciled_failure(d,row)
             if row is None or (row['state']!='rejected' and not failed_ready and not (proposal and row['state']=='accepted')) or not d['authorization']:
                 raise ValueError('Retry only a visually rejected result or a reconciled failure with retained evidence; recover unknown requests first; got '
                                  +('no --look' if row is None else 'look '+str(n)+' state '+repr(row['state']))
@@ -1433,7 +1498,7 @@ def update(root,event,**kw):
                     +'. Full form: retry-authorize --task <task> --look '+str(n)+' --expected-attempt '+str(attempt)
                     +' --approval-id <unique ID> --note "<user words>"'+('' if via_revise else ' --prompt-file <file>'))
             photography_helper().apply(prompt,d['context'].get('photography_targets') if d['schema_version']==2 else None)
-            if any(g['approval_id']==approval for g in grants) or d.get('continuation_authorization',{}).get('approval_id')==approval:raise ValueError('Retry approval already used')
+            if any(g['approval_id']==approval for g in grants) or approval in d.get('linked_revisions',{}) or d.get('continuation_authorization',{}).get('approval_id')==approval:raise ValueError('Retry approval already used')
             if (d['schema_version']==1 or n==1) and any(x['state']!='pending' for x in d['looks'][n:]):raise ValueError('Cannot replace an anchor with existing downstream work')
             if d['schema_version']==2:adopt_prompt_contract(d)
             history=copy.deepcopy(row.get('history',[]));old=copy.deepcopy(row);old.pop('history',None)
@@ -1508,12 +1573,13 @@ def update(root,event,**kw):
             if kw.get('mode') not in ('manual','automatic'):raise ValueError('Unknown mode')
             d['mode']=kw['mode']
         elif event=='reserve':
+            workflow_helper().require_confirmation(d,plan_fingerprint(d))
             auth=d['authorization']
             if not auth or d['attempts']>=auth['limit']+len(d.get('retry_authorizations',[]))+d.get('continuation_authorization',{}).get('additional_requests',0):raise ValueError('No authorized request budget remains')
             if row is None or row['state']!='pending':raise ValueError('Submission already reserved or no pending look')
-            if ('plan_version' in d or kw.get('expected_plan_sha256') is not None) and kw.get('expected_plan_sha256')!=plan_fingerprint(d):
+            if ('plan_version' in d or workflow_helper().enabled(d) or kw.get('expected_plan_sha256') is not None) and kw.get('expected_plan_sha256')!=plan_fingerprint(d):
                 raise ValueError('Reserve the current plan fingerprint; stale handoffs cannot be submitted')
-            blocked=progression_error(d,n)
+            blocked=submission_error(root,d,n)
             if blocked:raise ValueError(blocked)
             if ((row.get('plan_revision',0)>0 or kw.get('expected_prompt_sha256') is not None)
                     and kw.get('expected_prompt_sha256')!=row['prompt_sha256']):
@@ -1546,6 +1612,7 @@ def update(root,event,**kw):
             reason=kw.get('reason','').strip();receipt=kw.get('failure_receipt')
             if not reason or receipt is None:raise ValueError('Explicit terminal failure reason and a local failure receipt required')
             row.update(state='failed',failure=retain_failure(root,row,receipt,'provider',reason))
+            if workflow_helper().enabled(d) and reason=='moderation_blocked':row['failure']['code']='moderation_blocked'
         elif event in ('unknown','failed'):
             if row is None or row['state'] not in ('reserved','unknown'):raise ValueError('No pending submitted request')
             row['state']=event
@@ -1568,12 +1635,18 @@ def update(root,event,**kw):
             if row is None or row['state']!='returned':raise ValueError('No downloaded result for visual QA')
             if kw.get('qa') not in ('qa-pass','qa-user-review') or not kw.get('note','').strip():raise ValueError('Record actual visual QA and anchor suitability')
             if digest(root/row['output']['file'])!=row['output']['sha256']:raise ValueError('Output changed since import')
+            workflow_helper().record_review(d,row,kw.get('review'),kw['qa'])
             # Record-only (WP-16): the measurement never changes state, qa or qa_note.
             if headroom_applies(d,row):
                 try:row['headroom']=headroom_check(root/row['output']['file'])
                 except Exception as exc:row['headroom']={'status':'error','reason':type(exc).__name__}
             row.update(state='accepted',qa=kw['qa'],qa_note=kw['note'])
         else:raise ValueError('Unknown event')
+        if event in ('retry-authorize','continue-authorize','revise-pending'):
+            workflow_helper().rebind_confirmation(d,plan_fingerprint(d),kw['note'],stamp())
+        if event=='retry-authorize' and workflow_helper().enabled(d):
+            for failure_hash in workflow_helper().hold_sources(d,n,related_moderation(root,d)):
+                workflow_helper().acknowledge(d,n,failure_hash,kw['note'],stamp(),related_moderation(root,d))
         d['complete']=(bool(d.get('preview_decision')) if is_preview(d) else
             all(x['state']=='accepted' for x in d['looks']) and (d['schema_version']==1 or not d['identity'] or bool(d['model_confirmation'])))
         # Completeness never confers image-ready or user commercial acceptance.
@@ -1603,6 +1676,10 @@ def handoff_prompt(d,row,refs):
     if d['schema_version']==2 and d['context'].get('purpose')=='correction-edit':
         instruction.append('Operation: correct the declared edit target using the original person and garment sources; '
                            'retain only the requested picture elements. Native editing is soft conditioning, not pixel protection or guaranteed facial fidelity.')
+    if d.get('revision_origin'):
+        instruction.append('Original display goal retained for this revision: '+d['revision_origin']['goal'])
+        if d['revision_origin'].get('must_show'):
+            instruction.append('Required source-backed structures: '+'; '.join(d['revision_origin']['must_show']))
     form=('One '+('nine-panel 3x3' if v2(d.get('shot_plan')) and face_plan_count(d['context'],1,d['shot_plan'])==9 else 'six-panel')+' direction preview, not standalone delivery. Include the small single-line label '
           '方向预览·非成片 / PREVIEW ONLY — NOT FINAL.' if is_preview(d) else 'One standalone image.')
     prompt='Only use built-in image generation, no other plugins. '+form+'\n'+'\n'.join(instruction)+'\n'+canvas_instruction(d)+'\n'+row['prompt']
@@ -1695,7 +1772,7 @@ def export_web_execution(root,look):
         if type(look) is not int or not 1<=look<=len(d['looks']):raise ValueError('Select one current look')
         row=d['looks'][look-1]
         if row['state']!='pending':raise ValueError('Prepare execution only for an unsubmitted pending look')
-        blocked=progression_error(d,look)
+        blocked=submission_error(root,d,look)
         if blocked:raise ValueError(blocked)
         refs=references(root,d,look);prompt=handoff_prompt(d,row,refs)
         return web_execution_helper().prepare(root,d,row,handoff_directory(root,d,row),refs,prompt,
@@ -1710,7 +1787,7 @@ def export(root):
             lines=['# Codex 原生生成执行包','参考图按编号作为实际工具附件传入；只用原生生图。','调用前记录 reserve；本包不是新的生图授权。','原图返回后落盘、读取元数据并记录 QA。','未决调用先检查原结果，不自动追加调用。','']
         for row in d['looks']:
             n=row['number'];lines.append(f"- look-{n}: {row['state']}")
-            if row['state']!='pending' or progression_error(d,n):continue
+            if row['state']!='pending' or submission_error(root,d,n):continue
             refs=references(root,d,n);out=handoff_directory(root,d,row)
             out.mkdir(exist_ok=True);lines.append(f'  Current handoff: {out.name}; earlier attempt/plan folders are evidence only, never resubmit them.')
             for i,r in enumerate(refs,1):
@@ -1728,6 +1805,240 @@ def export(root):
                 manifest=handoff_manifest(d,row,refs,prompt)
                 (out/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf-8')
         (folder/'README.md').write_text('\n'.join(lines)+'\n',encoding='utf-8');return str(folder)
+
+
+def series_root(root):
+    """Children share the root writer lock; only the declared revisions directory is valid."""
+    root=Path(root).resolve()
+    path=root/'task.json'
+    data=json.loads(path.read_text()) if path.is_file() else {}
+    origin=data.get('revision_origin')
+    if not origin:return root
+    if (root.parent.name!='revisions' or origin.get('path')!='revisions/'+root.name
+            or origin.get('id')!=root.name or root.parent.is_symlink() or root.is_symlink()):
+        raise ValueError('Invalid linked revision location')
+    return root.parent.parent
+
+
+def series_members(root,data=None):
+    parent=series_root(root)
+    current=Path(root).resolve()
+    base=data if current==parent and data is not None else read(parent)
+    members=[(parent,base)]
+    for identifier,entry in base.get('linked_revisions',{}).items():
+        if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_-]{0,79}',identifier) or entry.get('path')!='revisions/'+identifier:
+            raise ValueError('Invalid root revision registry')
+        child=parent/entry['path']
+        if child.is_symlink() or child.parent.is_symlink():raise ValueError('Revision directories cannot be symbolic links')
+        value=data if child==current and data is not None else read(child)
+        origin=value.get('revision_origin',{})
+        if (origin.get('id')!=identifier or origin.get('path')!=entry['path']
+                or object_hash(origin)!=entry.get('origin_sha256') or len(value['looks'])!=1
+                or value.get('authorization')!=entry.get('authorization')
+                or value.get('retry_authorizations') or value.get('continuation_authorization')
+                or plan_fingerprint(value)!=entry.get('plan_sha256')):
+            raise ValueError('Linked revision no longer matches its root-owned plan and one-call grant')
+        members.append((child,value))
+    if current!=parent and not any(p==current for p,_ in members):
+        raise ValueError('Revision is not registered by its root series')
+    return members
+
+
+def related_moderation(root,data):
+    if not workflow_helper().enabled(data):return []
+    if not data.get('revision_origin') and not data.get('linked_revisions'):return []
+    return [source for path,member in series_members(root,data) if path!=Path(root).resolve()
+            for source in workflow_helper().moderation_sources(member)]
+
+
+def submission_error(root,data,look):
+    row=data['looks'][look-1]
+    if row.get('active_revision'):return 'Original slot is delegated to its linked revision'
+    related=related_moderation(root,data)
+    blocked=progression_error(data,look,related)
+    if blocked:return blocked
+    if data.get('revision_origin') or data.get('linked_revisions'):
+        for path,member in series_members(root,data):
+            if path==Path(root).resolve():continue
+            if any(r['state'] in ('reserved','unknown') for r in member['looks']):
+                return 'Recover the existing unresolved request in this series before another submission'
+            active=not member.get('revision_origin') or series_members(root,data)[0][1]['linked_revisions'][member['revision_origin']['id']]['state']=='active'
+            if active and any(r['state']=='failed' and not r.get('active_revision') and r.get('failure',{}).get('code')!='moderation_blocked' for r in member['looks']):
+                return 'Resolve the retained provider/canvas failure in this series before another submission'
+        return workflow_helper().hold_error(data,look,related)
+    return None
+
+
+def check_revision_links(root,data):
+    if not data.get('revision_origin') and not data.get('linked_revisions'):return
+    members=series_members(root,data);base=members[0][1]
+    for identifier,entry in base.get('linked_revisions',{}).items():
+        child=next(value for path,value in members[1:] if path.name==identifier)
+        if entry['state']=='adopted':
+            source=child['looks'][0]
+            if (source.get('state')!='accepted' or object_hash(source)!=entry.get('adopted_row_sha256')
+                    or child.get('model_confirmation')!=entry.get('model_confirmation')):
+                raise ValueError('Adopted revision evidence changed')
+    for row in data['looks']:
+        adopted=row.get('adopted_revision')
+        if adopted:
+            entry=base['linked_revisions'].get(adopted['id'],{})
+            if entry.get('state')!='adopted' or entry.get('adoption')!=adopted:
+                raise ValueError('Current adopted result lost its source provenance')
+            child=next(value for path,value in members[1:] if path.name==adopted['id'])
+            output=copy.deepcopy(child['looks'][0]['output']);output['file']=entry['path']+'/'+output['file']
+            if row.get('output')!=output:
+                raise ValueError('Adopted output differs from the accepted revision')
+
+
+def series_status(root):
+    current=read(root)
+    if not workflow_helper().enabled(current) and not current.get('revision_origin') and not current.get('linked_revisions'):
+        return current  # Legacy status remains a read-only recovery aid, not a new integrity gate.
+    members=series_members(root)
+    for path,member in members:check_evidence(path,member)
+    result=copy.deepcopy(members[0][1])
+    result['series_attempts']=sum(member['attempts'] for _,member in members)
+    result['series_authorized_requests']=sum((member.get('authorization') or {}).get('limit',0)
+        +len(member.get('retry_authorizations',[]))+member.get('continuation_authorization',{}).get('additional_requests',0)
+        for _,member in members)
+    result['series_total_attempts']=result['series_attempts']+result.get('preview_origin',{}).get('attempts',0)
+    return result
+
+
+def create_revision(root,look,spec,*,approval_id,note,form_change_note='',identity_note=''):
+    """One root-owned correction grant; no new budget for the old stable slot."""
+    root=Path(root).resolve()
+    if series_root(root)!=root:raise ValueError('Prepare linked revisions at the original series root')
+    with locked(root):
+        data=read(root);check_evidence(root,data)
+        if not workflow_helper().enabled(data) or is_preview(data) or not data.get('authorization'):
+            raise ValueError('Linked delivery revisions require a confirmed workflow-1 root series')
+        workflow_helper().require_confirmation(data,plan_fingerprint(data))
+        if type(look) is not int or not 1<=look<=len(data['looks']):raise ValueError('Select an original stable slot')
+        row=data['looks'][look-1]
+        if not workflow_helper().text(note) or not isinstance(approval_id,str) or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_-]{0,79}',approval_id):
+            raise ValueError('A fresh approval ID and explicit one-call user authorization are required')
+        used={g['approval_id'] for g in data.get('retry_authorizations',[])}|set(data.get('linked_revisions',{}))
+        used.add(data.get('continuation_authorization',{}).get('approval_id'))
+        if approval_id in used:raise ValueError('Revision approval already used; it creates no new budget')
+        members=series_members(root,data)
+        if any(r['state'] in ('reserved','unknown') for _,member in members for r in member['looks']):
+            raise ValueError('Recover the unresolved original request before creating another revision')
+        if row['state'] not in ('accepted','rejected') and not reconciled_failure(data,row):
+            raise ValueError('Revise only a reviewed image or a reconciled terminal failure')
+        previous=row.get('active_revision')
+        if previous:
+            prior=next(v for p,v in members if p.name==previous)
+            if prior['looks'][0]['state']!='rejected' and not reconciled_failure(prior,prior['looks'][0]):
+                raise ValueError('Resolve and review the active revision before another authorized correction')
+        if look==1 and any(r.get('submitted_at') or r.get('history') or r.get('active_revision') for r in data['looks'][1:]):
+            raise ValueError('Cannot replace the first anchor after downstream generation')
+        allowed={'references','prompts','size','identity','model','context','route','real_face_plan','shot_plan','visual_plan','count'}
+        if not isinstance(spec,dict) or set(spec)-allowed:raise ValueError('Provide one ordinary delivery/correction specification')
+        ctx=spec.get('context',{});identity=spec.get('identity',True)
+        if any(ctx.get(k)!=data['context'].get(k) for k in ('outfit','style','mode','canvas_policy')) or spec.get('size')!=data['size']:
+            raise ValueError('A series revision retains the SKU, style, mode and canvas contract')
+        current_form=row.get('adopted_revision',{}).get('output_form',data['context']['output_form'])
+        changed=ctx.get('output_form')!=current_form
+        if changed and not workflow_helper().text(form_change_note):
+            raise ValueError('Confirm the actual change from person to product presentation explicitly')
+        if look==1 and identity!=data['identity']:raise ValueError('First-image anchor correction retains the original person scope')
+        if ctx.get('purpose','delivery') not in ('delivery','correction-edit'):raise ValueError('A linked revision is a delivery image')
+        refs=spec.get('references',[])
+        if not refs or any(not isinstance(r,dict) or set(r)!={'path','role'} for r in refs):
+            raise ValueError('Revision sources need explicit paths and roles')
+        hashes=[(r['role'],digest(Path(r['path']))) for r in refs]
+        original={(r['role'],r['sha256']) for r in data['references']}
+        garments={h for role,h in hashes if role=='garment-source'}
+        if not garments or not garments<={h for role,h in original if role=='garment-source'}:
+            raise ValueError('Revision garment references must come from this same frozen SKU')
+        if identity:
+            model=spec.get('model',{})
+            before=data.get('model') or {}
+            if before.get('source_type')=='new':
+                if look==1 and not row.get('output'):
+                    if model!=before or any(role=='identity-reference' for role,_ in hashes):
+                        raise ValueError('A failed first request retains its original new-person casting conditions')
+                elif (not data['looks'][0].get('output') or not workflow_helper().text(identity_note) or model.get('source_type')!='ai'
+                        or {h for role,h in hashes if role=='identity-reference'}!={data['looks'][0].get('output',{}).get('sha256')}
+                        or any(model.get(k)!=before.get(k) for k in ('subject','scope','locked','adjustable'))):
+                    raise ValueError('Retain the exact generated first person with actual identity confirmation')
+            elif model!=before or {h for role,h in hashes if role=='identity-reference'}!={h for role,h in original if role=='identity-reference'}:
+                raise ValueError('A series revision retains the original model and all identity references')
+            permitted=original|{('edit-target',row.get('output',{}).get('sha256')),
+                                ('identity-reference',data['looks'][0].get('output',{}).get('sha256'))}
+            if any(pair not in permitted for pair in hashes):raise ValueError('Revision references lack original task provenance')
+            if data.get('real_face_plan'):
+                face=spec.get('real_face_plan',{})
+                if any(face.get(k)!=data['real_face_plan'][k] for k in ('coverage','primary_identity_sha256')):
+                    raise ValueError('Revision retains the original reviewed real-person view coverage')
+        elif any(role!='garment-source' for role,_ in hashes):raise ValueError('Product-only revisions carry no person references')
+        path='revisions/'+approval_id;child_root=root/path
+        child=None
+        try:
+            child=create(child_root,refs,spec.get('prompts'),spec['size'],identity,model=spec.get('model'),context=ctx,
+                         route=spec.get('route',data['route']),real_face_plan=spec.get('real_face_plan'),shot_plan=spec.get('shot_plan'),
+                         visual_plan=spec.get('visual_plan'),count=spec.get('count',1))
+            if len(child['looks'])!=1:raise ValueError('One correction approval covers exactly one request')
+            selected=workflow_helper().shot(data,look)
+            child['revision_origin']=dict(id=approval_id,path=path,look=look,
+                shot_id=selected['shot_id'] if selected else 'look-'+str(look),goal=workflow_helper().goal(data,row),
+                must_show=copy.deepcopy(selected['must_show']) if selected else [],
+                framing=selected['framing'] if selected else 'presentation',canvas_baseline=canvas_baseline(data),
+                original_attempt=row.get('attempt_number',1),original_plan_sha256=plan_fingerprint(data),
+                form_change_note=form_change_note,identity_note=identity_note,note=note)
+            child['authorization']=dict(destination=child['route'],limit=1,note=note,at=stamp())
+            decision=dict(style=ctx['style'],path='single',image_count=1,note=note)
+            workflow_helper().store_confirmation(child,workflow_helper().confirmation(child,decision,plan_fingerprint(child),stamp()))
+            # The explicit recovery decision reviews current holds for this revised request only.
+            for sha in workflow_helper().hold_sources(child,1,[s for _,v in members for s in workflow_helper().moderation_sources(v)]):
+                workflow_helper().acknowledge(child,1,sha,note,stamp(),[s for _,v in members for s in workflow_helper().moderation_sources(v)])
+            save(child_root,child)
+            entry=dict(path=path,look=look,origin_sha256=object_hash(child['revision_origin']),
+                       plan_sha256=plan_fingerprint(child),authorization=copy.deepcopy(child['authorization']),state='active')
+            data.setdefault('linked_revisions',{})[approval_id]=entry
+            if previous:data['linked_revisions'][previous]['state']='superseded'
+            row['active_revision']=approval_id
+            data['events'].append(dict(event='prepare-revision',look=look,approval_id=approval_id,at=stamp(),attempts=data['attempts']))
+            save(root,data)
+        except Exception:
+            if child is not None and child_root.exists():shutil.rmtree(child_root)
+            raise
+        return child
+
+
+def adopt_revision(root,approval_id,*,expected_output_sha256,note):
+    root=Path(root).resolve()
+    if series_root(root)!=root:raise ValueError('Adopt a correction at its original root series')
+    with locked(root):
+        data=read(root);check_evidence(root,data)
+        entry=data.get('linked_revisions',{}).get(approval_id)
+        if entry is None or not workflow_helper().text(note):raise ValueError('Select a registered revision with actual acceptance')
+        child_root=root/entry['path'];child=read(child_root);check_evidence(child_root,child);source=child['looks'][0]
+        if source.get('output',{}).get('sha256')!=expected_output_sha256 or source['state']!='accepted':
+            raise ValueError('Adopt the exact QA-accepted revision output')
+        if entry['state']=='adopted':return data
+        look=entry['look'];row=data['looks'][look-1]
+        if row.get('active_revision')!=approval_id:raise ValueError('This revision is no longer active for the stable slot')
+        if child['identity'] and not child.get('model_confirmation'):raise ValueError('Confirm the actual corrected person first')
+        if look==1 and any(r.get('submitted_at') or r.get('history') or r.get('active_revision') for r in data['looks'][1:]):
+            raise ValueError('First-image adoption is closed after downstream generation')
+        history=copy.deepcopy(row.get('history',[]));old=copy.deepcopy(row);old.pop('history',None);old.pop('active_revision',None)
+        history.append(old)
+        adoption=dict(id=approval_id,goal=child['revision_origin']['goal'],identity=child['identity'],output_form=child['context']['output_form'],note=note,
+                      output_sha256=expected_output_sha256,at=stamp())
+        output=copy.deepcopy(source['output']);output['file']=entry['path']+'/'+output['file']
+        preserved={key:row[key] for key in ('number','prompt','prompt_sha256','attempt_number','prompt_contract_version') if key in row}
+        row.clear();row.update(preserved,history=history,state='accepted',output=output,adopted_revision=adoption,
+            qa=source['qa'],qa_note=source['qa_note'],review=copy.deepcopy(source['review']),review_sha256=source['review_sha256'])
+        entry.update(state='adopted',adoption=copy.deepcopy(adoption),adopted_row_sha256=object_hash(source),
+                     model_confirmation=copy.deepcopy(child.get('model_confirmation')))
+        if look==1 and data['identity']:
+            data['model_confirmation']=dict(note=note,output_sha256=expected_output_sha256,at=stamp())
+        data['complete']=all(r['state']=='accepted' for r in data['looks']) and (not data['identity'] or bool(data['model_confirmation']))
+        data['events'].append(dict(event='adopt-revision',look=look,approval_id=approval_id,at=stamp(),attempts=data['attempts']))
+        save(root,data);return data
 
 
 def create_from_preview(root, preview_root, spec, *, note):
@@ -1790,7 +2101,7 @@ def create_from_preview(root, preview_root, spec, *, note):
             face=expected_face
         child=create(root,refs,prompts,spec['size'],d['identity'],model=d['model'],
                      context=context,route=d['route'],real_face_plan=face,shot_plan=planned,
-                     visual_plan=visual,count=requested)
+                     visual_plan=visual,count=requested,workflow_version=d.get('workflow_version',0))
         try:
             provenance=root/'provenance';provenance.mkdir()
             snapshot=provenance/'preview-task.json'
@@ -1826,7 +2137,7 @@ def export_model(root, destination, name, *, include_accepted=False, accepted_sc
 
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('command',choices=['init','status','export','export-web-execution','authorize','mode','reserve','bind','unknown','failed','returned','accept','reject','audit-reject','review-output','revise-pending','retry-authorize','confirm-model','reject-model','continue-authorize','export-model','enable-failure-recovery','reconcile-failure','finish-preview','prepare-delivery','revise-preview','cancel-preview-revision','compose-preview']);p.add_argument('--task',type=Path,required=True);p.add_argument('--spec',type=Path);p.add_argument('--destination',type=Path);p.add_argument('--preview-task',type=Path);p.add_argument('--decision',choices=['stop','direction-confirmed']);p.add_argument('--name');p.add_argument('--look',type=int);p.add_argument('--note');p.add_argument('--limit',type=int);p.add_argument('--mode',choices=['manual','automatic']);p.add_argument('--ready',action='store_true');p.add_argument('--refs',nargs='*');p.add_argument('--conversation');p.add_argument('--tab');p.add_argument('--file',type=Path);p.add_argument('--failure-receipt',type=Path);p.add_argument('--reason');p.add_argument('--request-check-completed',action='store_true');p.add_argument('--qa',choices=['qa-pass','qa-user-review','qa-retry']);p.add_argument('--execution-manifest',type=Path);p.add_argument('--expected-submission-sha256');p.add_argument('--expected-output-sha256');p.add_argument('--expected-donor-sha256');p.add_argument('--rectangle',nargs=4,type=int);p.add_argument('--expected-prompt-sha256');p.add_argument('--expected-plan-sha256');p.add_argument('--expected-candidate-sha256');p.add_argument('--expected-attempt',type=int);p.add_argument('--approval-id');p.add_argument('--prompt-file',type=Path);p.add_argument('--model-spec',type=Path);p.add_argument('--include-accepted-reference',action='store_true');p.add_argument('--accepted-scope',choices=['face','full']);a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('command',choices=['init','status','export','export-web-execution','authorize','mode','reserve','bind','unknown','failed','returned','accept','reject','audit-reject','review-output','revise-pending','retry-authorize','confirm-model','reject-model','continue-authorize','export-model','enable-failure-recovery','reconcile-failure','finish-preview','prepare-delivery','revise-preview','cancel-preview-revision','compose-preview','confirm-plan','review-hold','retain-output','prepare-revision','adopt-revision']);p.add_argument('--task',type=Path,required=True);p.add_argument('--spec',type=Path);p.add_argument('--destination',type=Path);p.add_argument('--preview-task',type=Path);p.add_argument('--decision',choices=['stop','direction-confirmed']);p.add_argument('--name');p.add_argument('--look',type=int);p.add_argument('--note');p.add_argument('--limit',type=int);p.add_argument('--mode',choices=['manual','automatic']);p.add_argument('--ready',action='store_true');p.add_argument('--refs',nargs='*');p.add_argument('--conversation');p.add_argument('--tab');p.add_argument('--file',type=Path);p.add_argument('--failure-receipt',type=Path);p.add_argument('--reason');p.add_argument('--request-check-completed',action='store_true');p.add_argument('--qa',choices=['qa-pass','qa-user-review','qa-retry']);p.add_argument('--execution-manifest',type=Path);p.add_argument('--expected-submission-sha256');p.add_argument('--expected-output-sha256');p.add_argument('--expected-donor-sha256');p.add_argument('--rectangle',nargs=4,type=int);p.add_argument('--expected-prompt-sha256');p.add_argument('--expected-plan-sha256');p.add_argument('--expected-candidate-sha256');p.add_argument('--expected-attempt',type=int);p.add_argument('--approval-id');p.add_argument('--prompt-file',type=Path);p.add_argument('--model-spec',type=Path);p.add_argument('--include-accepted-reference',action='store_true');p.add_argument('--accepted-scope',choices=['face','full']);p.add_argument('--review-file',type=Path);p.add_argument('--failure-sha256');p.add_argument('--form-change-note');p.add_argument('--identity-note');a=p.parse_args()
     try:
         if a.command!='export-model' and (a.include_accepted_reference or a.accepted_scope is not None):
             raise ValueError('Accepted-reference options are only for export-model')
@@ -1836,12 +2147,19 @@ def main():
             spec=json.loads(a.spec.read_text());result=create(a.task,spec['references'],spec.get('prompts'),spec['size'],spec.get('identity',True),schema_version=spec.get('schema_version',2),model=spec.get('model'),context=spec.get('context'),route=spec.get('route'),model_package=spec.get('model_package'),real_face_plan=spec.get('real_face_plan'),shot_plan=spec.get('shot_plan'),visual_plan=spec.get('visual_plan'),count=spec.get('count'))
         elif a.command=='prepare-delivery':
             result=create_from_preview(a.task,a.preview_task,json.loads(a.spec.read_text()),note=a.note)
-        elif a.command=='status':result=read(a.task)
+        elif a.command=='status':result=series_status(a.task)
+        elif a.command=='prepare-revision':
+            result=create_revision(a.task,a.look,json.loads(a.spec.read_text()),approval_id=a.approval_id,note=a.note,
+                                   form_change_note=a.form_change_note or '',identity_note=a.identity_note or '')
+        elif a.command=='adopt-revision':
+            result=adopt_revision(a.task,a.approval_id,expected_output_sha256=a.expected_output_sha256,note=a.note)
         elif a.command=='export':result=export(a.task)
         elif a.command=='export-web-execution':result=export_web_execution(a.task,a.look)
         elif a.command=='export-model':result=export_model(a.task,a.destination,a.name,include_accepted=a.include_accepted_reference,accepted_scope=a.accepted_scope or 'face')
         else:
-            args={k:v for k,v in vars(a).items() if k not in ('command','task','spec','prompt_file','destination','preview_task','name','model_spec','include_accepted_reference','accepted_scope') and v is not None}
+            args={k:v for k,v in vars(a).items() if k not in ('command','task','spec','prompt_file','destination','preview_task','name','model_spec','include_accepted_reference','accepted_scope','review_file','form_change_note','identity_note') and v is not None}
+            if a.review_file:args['review']=json.loads(a.review_file.read_text())
+            if a.command in ('confirm-plan','authorize') and a.spec:args['decision']=json.loads(a.spec.read_text())
             if a.model_spec:
                 if a.command not in ('retry-authorize','revise-preview'):raise ValueError('Model revision is only accepted with explicit first-image retry authority')
                 args['model']=json.loads(a.model_spec.read_text(encoding='utf-8'))['model']

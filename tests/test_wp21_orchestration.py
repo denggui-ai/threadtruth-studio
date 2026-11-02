@@ -272,7 +272,7 @@ class MissingBackTests(unittest.TestCase):
                 context = dict(outfit='coat', style='nordic-minimal', mode='C', output_form='flat-lay', size=[60, 40],
                                first_pose=1, purpose='preview-grid')
                 job = root / 'preview'
-                task.create(job, [image], None, [60, 40], False, context=context, visual_plan=plan)
+                task.create(job, [image], None, [60, 40], False, context=context, visual_plan=plan, workflow_version=0)
                 task.update(job, 'authorize', limit=1, note='One preview')
                 data = task.read(job)
                 task.update(job, 'reserve', look=1, ready=True, refs=task.reference_hashes(job, 1),
@@ -302,7 +302,7 @@ class MissingBackTests(unittest.TestCase):
                                                           source_sha256s=[digest])))
             context = dict(outfit='coat', style='nordic-minimal', mode='C', output_form='flat-lay', size=[60, 40],
                            first_pose=1, purpose='preview-grid')
-            record = task.create(Path(tmp) / 'job', [image], None, [60, 40], False, context=context, visual_plan=plan)
+            record = task.create(Path(tmp) / 'job', [image], None, [60, 40], False, context=context, visual_plan=plan, workflow_version=0)
             self.assertIs(record['presentation_2_substituted'], True)
             self.assertIn('front detail', record['looks'][0]['prompt'])
 
@@ -533,7 +533,7 @@ class PoseVocabularyLocalRevisionTests(unittest.TestCase):
         model = dict(source_type='new', scope='full', subject='adult female model', locked=[], adjustable=[], consent_note='')
         prompt = '\n'.join([web.models.apply_conditions('', model, allow_child=True).strip(),
                             web.shot_helper().render(plan, None, None), web.visual_helper().compile_prompt(visual)])
-        web.create(job, [ref], [prompt], [60, 40], context=context, shot_plan=plan, visual_plan=visual, model=model)
+        web.create(job, [ref], [prompt], [60, 40], context=context, shot_plan=plan, visual_plan=visual, model=model, workflow_version=0)
         web.update(job, 'authorize', limit=1, note='One preview')
         web.update(job, 'reserve', look=1, ready=True, refs=web.reference_hashes(job, 1), expected_plan_sha256=web.plan_fingerprint(web.read(job)))
         grid = root / 'grid.png'

@@ -59,7 +59,7 @@ class VisualPlanTests(unittest.TestCase):
             count=len((plan or self.plan())['shots'])
             kw.setdefault('shot_plan',self.shot_plan(count,self.context['first_pose']))
         return task.create(self.job,[self.front],None,[60,40],model=self.model,
-                           context=self.context,visual_plan=plan or self.plan(),**kw)
+                           context=self.context,visual_plan=plan or self.plan(),**kw, workflow_version=0)
 
     def reserve(self,look=1):
         d=task.read(self.job)
@@ -109,7 +109,7 @@ class VisualPlanTests(unittest.TestCase):
                         context=dict(self.context,output_form=form);plan=self.plan(form=form,medium=medium);plan['objective']=objective
                         identity=form in ('human','faceless')
                         d=task.create(job,[self.front],None,[60,40],identity,model=self.model if identity else None,
-                                      context=context,visual_plan=plan,shot_plan=self.shot_plan(1) if identity else None)
+                                      context=context,visual_plan=plan,shot_plan=self.shot_plan(1) if identity else None, workflow_version=0)
                         raw,_=self.exported_prompt(job)
                         self.assertIn('Output presentation: '+form,raw)
                         self.assertIn('Output medium: '+medium,raw)
@@ -121,16 +121,16 @@ class VisualPlanTests(unittest.TestCase):
     def test_nonportrait_cannot_bypass_model_or_reference_rules(self):
         plan=self.plan(form='flat-lay');context=dict(self.context,output_form='flat-lay')
         with self.assertRaises(ValueError):
-            task.create(self.job,[self.front],None,[60,40],True,context=context,visual_plan=plan)
+            task.create(self.job,[self.front],None,[60,40],True,context=context,visual_plan=plan, workflow_version=0)
         face=self.image('face','blue')
         with self.assertRaises(ValueError):
             task.create(self.job,[dict(path=self.front,role='garment-source'),dict(path=face,role='identity-reference')],
-                        None,[60,40],False,context=context,visual_plan=plan)
+                        None,[60,40],False,context=context,visual_plan=plan, workflow_version=0)
         self.assertFalse(self.job.exists())
 
     def test_numbered_human_requires_shot_plan_while_custom_and_diagnostic_keep_their_contracts(self):
         with self.assertRaisesRegex(ValueError,'require a reviewed source-backed shot_plan'):
-            task.create(self.job,[self.front],None,[60,40],model=self.model,context=self.context,visual_plan=self.plan())
+            task.create(self.job,[self.front],None,[60,40],model=self.model,context=self.context,visual_plan=self.plan(), workflow_version=0)
         self.context.update(first_pose='custom',pose_description='Relaxed standing at an oblique angle')
         self.create(self.plan(pose='custom'))
         raw,_=self.exported_prompt();self.assertIn('Explicit user presentation: Relaxed standing',raw)
@@ -141,7 +141,7 @@ class VisualPlanTests(unittest.TestCase):
         self.context.update(output_form='flat-lay',purpose='preview-grid')
         p=self.plan(6,form='flat-lay')
         for i,shot in enumerate(p['shots'],1):shot['composition']='Explicit garment arrangement '+str(i)
-        task.create(self.job,[self.front],None,[60,40],False,context=self.context,visual_plan=p)
+        task.create(self.job,[self.front],None,[60,40],False,context=self.context,visual_plan=p, workflow_version=0)
         task.update(self.job,'authorize',limit=1,note='One preview');self.accept()
         task.update(self.job,'finish-preview',decision='direction-confirmed',note='Actual reviewed arrangements')
         child=self.root/'flat-delivery'
@@ -155,7 +155,7 @@ class VisualPlanTests(unittest.TestCase):
         shot['coverage'].append(dict(sha256=task.digest(other),views=['back'],usable=True,same_sku=False,note='Different original SKU'))
         p=self.plan();p['garment']['source_sha256s'].append(task.digest(other))
         with self.assertRaisesRegex(ValueError,'same-SKU usable'):
-            task.create(self.job,[self.front,other],None,[60,40],model=self.model,context=self.context,visual_plan=p,shot_plan=shot)
+            task.create(self.job,[self.front,other],None,[60,40],model=self.model,context=self.context,visual_plan=p,shot_plan=shot, workflow_version=0)
 
     def test_tampered_visual_or_component_is_rejected_before_export(self):
         self.create();d=task.read(self.job)
@@ -187,12 +187,12 @@ class VisualPlanTests(unittest.TestCase):
         for prompt in ('Old photorealistic portrait style.',compiled+'Old style.',compiled+compiled,
                        compiled.replace('Quiet stone gallery','Opposite scene')):
             with self.subTest(prompt=prompt[:20]),self.assertRaises(ValueError):
-                task.create(self.job,[self.front],[prompt],[60,40],model=self.model,context=self.context,visual_plan=p,shot_plan=self.shot_plan(1))
+                task.create(self.job,[self.front],[prompt],[60,40],model=self.model,context=self.context,visual_plan=p,shot_plan=self.shot_plan(1), workflow_version=0)
         self.assertFalse(self.job.exists())
 
     def test_matching_existing_managed_blocks_remain_accepted(self):
         p=self.plan();prompt=task.models.apply_conditions(task.visual_helper().compile_prompt(p,1),self.model,allow_child=True)
-        task.create(self.job,[self.front],[prompt],[60,40],model=self.model,context=self.context,visual_plan=p,shot_plan=self.shot_plan(1))
+        task.create(self.job,[self.front],[prompt],[60,40],model=self.model,context=self.context,visual_plan=p,shot_plan=self.shot_plan(1), workflow_version=0)
         raw,_=self.exported_prompt();self.assertEqual(raw.count('[Current model conditions]'),1)
 
     def test_fusion_is_explicit_and_primary_style_cannot_drift(self):
@@ -280,14 +280,14 @@ class VisualPlanTests(unittest.TestCase):
                    locked=['retain original facial features'],adjustable=[],consent_note='Actual likeness permission')
         refs=[dict(path=self.front,role='garment-source'),dict(path=face,role='identity-reference')]
         args=dict(model=model,context=self.context,visual_plan=self.plan(6),shot_plan=self.shot_plan())
-        with self.assertRaises(ValueError):task.create(self.job,refs,None,[60,40],**args)
+        with self.assertRaises(ValueError):task.create(self.job,refs,None,[60,40],**args, workflow_version=0)
         cell=dict(body_action='relaxed standing',head_view='front',face_visible=True,gaze='toward camera',
                   reference_sha256s=[task.digest(self.front),face_hash],selection_note='Use original front and garment')
         real=dict(primary_identity_sha256=face_hash,coverage=[dict(sha256=face_hash,views=['front'],note='Reviewed original front')],
                   looks=[copy.deepcopy(cell) for _ in range(6)])
         unsupported=copy.deepcopy(real);unsupported['looks'][2]['head_view']='left-profile'
-        with self.assertRaises(ValueError):task.create(self.job,refs,None,[60,40],real_face_plan=unsupported,**args)
-        d=task.create(self.job,refs,None,[60,40],real_face_plan=real,**args)
+        with self.assertRaises(ValueError):task.create(self.job,refs,None,[60,40],real_face_plan=unsupported,**args, workflow_version=0)
+        d=task.create(self.job,refs,None,[60,40],real_face_plan=real,**args, workflow_version=0)
         task.update(self.job,'authorize',limit=1,note='One real preview');self.accept()
         d=task.read(self.job)
         with self.assertRaises(ValueError):task.update(self.job,'revise-preview',look=1,
@@ -305,11 +305,11 @@ class VisualPlanTests(unittest.TestCase):
                 reference_sha256s=[task.digest(self.front),face_hash],selection_note='Use original references')])
         with self.assertRaises(ValueError):task.create(self.job,[dict(path=self.front,role='garment-source'),
             dict(path=face,role='identity-reference')],None,[60,40],model=model,context=context,
-            visual_plan=self.plan(form='faceless'),real_face_plan=real,shot_plan=self.shot_plan(1))
+            visual_plan=self.plan(form='faceless'),real_face_plan=real,shot_plan=self.shot_plan(1), workflow_version=0)
 
     def test_existing_preview_can_explicitly_adopt_v2_without_rewriting_history(self):
         self.context['purpose']='preview-grid'
-        task.create(self.job,[self.front],['Legacy preview bytes.'],[60,40],model=self.model,context=self.context)
+        task.create(self.job,[self.front],['Legacy preview bytes.'],[60,40],model=self.model,context=self.context, workflow_version=0)
         task.update(self.job,'authorize',limit=1,note='One request');d=self.accept()
         task.update(self.job,'revise-preview',look=1,expected_output_sha256=d['looks'][0]['output']['sha256'],
                     visual_plan=self.plan(6),shot_plan=self.shot_plan(),note='Explicit structured visual revision')
@@ -321,7 +321,7 @@ class VisualPlanTests(unittest.TestCase):
 
     def test_legacy_no_plan_preserves_prompt_bytes_and_fingerprint(self):
         frozen='Legacy authored prompt.\nPreserve exact trailing whitespace.  \n'
-        d=task.create(self.job,[self.front],[frozen],[60,40],model=self.model,context=self.context)
+        d=task.create(self.job,[self.front],[frozen],[60,40],model=self.model,context=self.context, workflow_version=0)
         self.assertEqual(d['looks'][0]['prompt'],frozen);self.assertNotIn('visual_plan',d)
         self.assertEqual(task.plan_fingerprint(d),task.object_hash(dict(version=0,context=d['context'],model=d['model'],shot_plan=None)))
         raw,_=self.exported_prompt();self.assertIn(frozen,raw);self.assertNotIn('[Task visual plan]',raw)
@@ -488,7 +488,7 @@ class VisualPlanTests(unittest.TestCase):
         shot=task.shot_helper().default_plan('wp1-fixture',coverage);shot['looks']=shot['looks'][:1]
         context=dict(outfit='wp1-fixture',style='korean-cold-editorial',mode='C',output_form='human',size=[1024,1536],first_pose=1)
         model=dict(source_type='new',scope='full',subject='adult female model',locked=[],adjustable=[],consent_note='')
-        task.create(self.job,[source],None,[1024,1536],True,model=model,context=context,visual_plan=plan,shot_plan=shot,count=1)
+        task.create(self.job,[source],None,[1024,1536],True,model=model,context=context,visual_plan=plan,shot_plan=shot,count=1, workflow_version=0)
         task.export(self.job)
         request=json.loads(sorted(self.job.glob('handoff/look-1-v*/request.json'))[-1].read_text())
         prompt=request['prompt'];rows=prompt.split('\n')

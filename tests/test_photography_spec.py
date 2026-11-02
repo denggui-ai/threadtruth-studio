@@ -219,7 +219,7 @@ class PhotographySpecTests(unittest.TestCase):
                 job = self.root / ('export-'+style)
                 refs = [{k: r[k] for k in ('path', 'role')} for r in result['references']]
                 task.create(job, refs, [raw], (20, 30), model=self.model, route='codex_native',
-                    context=dict(outfit='same-outfit', style=style, mode='C', output_form='real', size=[20, 30], first_pose=3))
+                    context=dict(outfit='same-outfit', style=style, mode='C', output_form='real', size=[20, 30], first_pose=3), workflow_version=0)
                 task.export(job)
                 request = json.loads((job / 'handoff/look-1/request.json').read_text())
                 self.assertIn(raw, request['prompt'])

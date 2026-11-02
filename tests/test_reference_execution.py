@@ -60,7 +60,7 @@ class ReferenceExecutionTests(unittest.TestCase):
                         (20, 30), identity=identity,
                         model=self.model if model is None else model,
                         context=self.context if context is None else context,
-                        route='codex_native')
+                        route='codex_native', workflow_version=0)
 
     def custom_context(self):
         return dict(self.context, first_pose='custom', pose_description=self.presentation)
@@ -144,7 +144,7 @@ class ReferenceExecutionTests(unittest.TestCase):
         self.assertFalse(self.job.exists())
         with self.assertRaises(ValueError):
             m.create(self.job, rows, ['correct this image'], (20, 30), identity=False,
-                     context=self.correction_context(custom=False), route='codex_native')
+                     context=self.correction_context(custom=False), route='codex_native', workflow_version=0)
         self.assertFalse(self.job.exists())
 
     def test_correction_keeps_the_supplement_original_and_product_requirements(self):

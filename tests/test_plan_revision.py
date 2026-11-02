@@ -36,7 +36,7 @@ class PlanRevisionTests(unittest.TestCase):
     def create(self,plan=None):
         refs=[self.front,self.back] if plan and plan['route']=='A' else [self.front]
         return task.create(self.job,refs,['Gallery lighting and negative space.'],[60,40],
-            model=self.model,context=self.context,shot_plan=plan)
+            model=self.model,context=self.context,shot_plan=plan, workflow_version=0)
 
     def reserve(self,job=None):
         job=job or self.job;d=task.read(job)
@@ -82,7 +82,7 @@ class PlanRevisionTests(unittest.TestCase):
                       dict(path=str(self.back),role='identity-reference')]
                 try:
                     task.create(job,refs,['Gallery.'],[60,40],model=model,
-                                context=self.context,route=route,shot_plan=plan)
+                                context=self.context,route=route,shot_plan=plan, workflow_version=0)
                 except ValueError as error:
                     self.fail('Reviewed per-shot head/gaze was rejected before export: '+str(error))
                 task.export(job)
@@ -94,7 +94,7 @@ class PlanRevisionTests(unittest.TestCase):
                 single=copy.deepcopy(plan);single['looks']=[single['looks'][2]]
                 ctx=dict(self.context,purpose='delivery',first_pose=3)
                 task.create(job/'single',refs,['Gallery.'],[60,40],model=model,
-                            context=ctx,route=route,shot_plan=single)
+                            context=ctx,route=route,shot_plan=single, workflow_version=0)
                 task.export(job/'single')
                 text=(job/'single/handoff/look-1-v0/prompt.txt').read_text()
                 self.assertIn('Look directly at the lens.',text)
@@ -123,7 +123,7 @@ class PlanRevisionTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError,'real_face_plan'):
                     task.create(self.job,refs,['Gallery.']*(6 if source=='real' else 1),[60,40],
                                 model=dict(self.model,source_type=source,consent_note='Synthetic adult use authorized'),
-                                context=context,shot_plan=self.head_gaze_plan())
+                                context=context,shot_plan=self.head_gaze_plan(), workflow_version=0)
                 self.assertFalse(self.job.exists())
 
     def test_user_fixed_head_gaze_is_not_replaced_by_a_diversity_quota(self):
@@ -307,7 +307,7 @@ class PlanRevisionTests(unittest.TestCase):
     def test_single_to_six_retains_original_shot_and_requires_new_plan(self):
         plan=self.plan();full=copy.deepcopy(plan);plan['looks']=plan['looks'][:1]
         context=dict(self.context,purpose='delivery')
-        task.create(self.job,[self.front],['Gallery.'],[60,40],model=self.model,context=context,shot_plan=plan)
+        task.create(self.job,[self.front],['Gallery.'],[60,40],model=self.model,context=context,shot_plan=plan, workflow_version=0)
         task.update(self.job,'authorize',limit=1,note='Synthetic one');self.reserve()
         task.update(self.job,'returned',look=1,file=self.image('single','yellow'))
         task.update(self.job,'accept',look=1,qa='qa-pass',note='Synthetic QA')
@@ -320,7 +320,7 @@ class PlanRevisionTests(unittest.TestCase):
 
     def test_unusable_or_other_sku_inputs_are_not_actual_attachments(self):
         plan=self.plan();plan['coverage'].append(dict(sha256=task.digest(self.back),views=['back'],usable=True,same_sku=False,note='Different SKU, excluded'))
-        task.create(self.job,[self.front,self.back],['Gallery.'],[60,40],model=self.model,context=self.context,shot_plan=plan)
+        task.create(self.job,[self.front,self.back],['Gallery.'],[60,40],model=self.model,context=self.context,shot_plan=plan, workflow_version=0)
         task.export(self.job);folder=next((self.job/'handoff').glob('*/request.json')).parent
         self.assertEqual(len(json.loads((folder/'request.json').read_text())['referenced_image_paths']),1)
         self.assertIn(task.digest(self.back),json.loads((folder/'manifest.json').read_text())['omitted_reference_sha256s'])
@@ -361,7 +361,7 @@ class PlanRevisionTests(unittest.TestCase):
             reference_sha256s=[task.digest(self.front),fh],selection_note='Original front and original face retained') for _ in range(6)]
         face_plan=dict(primary_identity_sha256=fh,coverage=[dict(sha256=fh,views=['front'],note='Synthetic original front reviewed')],looks=looks)
         task.create(self.job,[dict(path=str(self.front),role='garment-source'),dict(path=str(face),role='identity-reference')],
-            ['Gallery.'],[60,40],model=model,context=self.context,shot_plan=self.plan(),real_face_plan=face_plan)
+            ['Gallery.'],[60,40],model=model,context=self.context,shot_plan=self.plan(),real_face_plan=face_plan, workflow_version=0)
         task.update(self.job,'authorize',limit=1,note='Synthetic one');self.reserve()
         task.update(self.job,'returned',look=1,file=self.image('real-grid','purple'))
         task.update(self.job,'accept',look=1,qa='qa-pass',note='Synthetic QA')
@@ -374,7 +374,7 @@ class PlanRevisionTests(unittest.TestCase):
     def test_planned_continuation_counts_actual_selection_not_whole_inventory(self):
         refs=[self.front]+[self.image('unused-'+str(i),color) for i,color in enumerate(['green','purple','orange','black'])]
         full=self.plan();single=copy.deepcopy(full);single['looks']=single['looks'][:1];context=dict(self.context,purpose='delivery')
-        task.create(self.job,refs,['Gallery.'],[60,40],model=self.model,context=context,shot_plan=single)
+        task.create(self.job,refs,['Gallery.'],[60,40],model=self.model,context=context,shot_plan=single, workflow_version=0)
         task.update(self.job,'authorize',limit=1,note='Synthetic one');self.reserve()
         task.update(self.job,'returned',look=1,file=self.image('single-many','yellow'))
         task.update(self.job,'accept',look=1,qa='qa-pass',note='Synthetic QA')

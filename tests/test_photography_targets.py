@@ -72,7 +72,7 @@ class PhotographyTaskTests(unittest.TestCase):
                 refs.append(dict(path=str(self.face), role='identity-reference'))
         try:
             return task.create(self.job, refs, [prompt] * count, (20, 30), model=model,
-                               context=context or self.context, route='codex_native')
+                               context=context or self.context, route='codex_native', workflow_version=0)
         except ValueError as error:
             self.fail('Valid frozen photography context must be supported: ' + str(error))
 
@@ -130,7 +130,7 @@ class PhotographyTaskTests(unittest.TestCase):
         for value in invalid:
             with self.subTest(value=value), self.assertRaises(ValueError):
                 task.create(self.job, [str(self.garment)], ['manual'], (20, 30),
-                            context=dict(self.context, photography_targets=value), route='codex_native')
+                            context=dict(self.context, photography_targets=value), route='codex_native', workflow_version=0)
             self.assertFalse(self.job.exists())
 
     def test_two_and_four_short_targets_are_supported_and_whitespace_is_normalized(self):
@@ -151,7 +151,7 @@ class PhotographyTaskTests(unittest.TestCase):
         for prompt in bad_prompts:
             with self.subTest(prompt=prompt), self.assertRaises(ValueError):
                 task.create(self.job, [str(self.garment)], [prompt], (20, 30),
-                            context=self.context, route='codex_native')
+                            context=self.context, route='codex_native', workflow_version=0)
             self.assertFalse(self.job.exists())
 
     def test_changed_context_fails_existing_hash_before_export_or_reserve(self):
@@ -183,7 +183,7 @@ class PhotographyTaskTests(unittest.TestCase):
         context = {key: value for key, value in self.context.items() if key != 'photography_targets'}
         with self.assertRaisesRegex(ValueError, 'photography'):
             task.create(self.job, [str(self.garment)], ['manual\n' + block()], (20, 30),
-                        context=context, route='codex_native')
+                        context=context, route='codex_native', workflow_version=0)
         self.assertFalse(self.job.exists())
 
     def test_deleting_helper_target_block_fails_the_original_frozen_prompt_hash(self):
@@ -253,7 +253,7 @@ class PhotographyTaskTests(unittest.TestCase):
         refs.append(dict(path=str(self.face), role='identity-reference'))
         with self.assertRaisesRegex(ValueError, 'five'):
             task.create(self.job, refs, ['manual'], (20, 30), model=self.model,
-                        context=self.context, route='codex_native')
+                        context=self.context, route='codex_native', workflow_version=0)
         self.assertFalse(self.job.exists())
 
     def test_missing_targets_preserve_exact_schema1_and_schema2_handoff_bytes(self):
@@ -265,7 +265,7 @@ class PhotographyTaskTests(unittest.TestCase):
                 kwargs = dict(schema_version=schema)
                 if schema == 2:
                     kwargs.update(context=context, route='codex_native')
-                data = task.create(job, [str(self.garment)], [raw], (20, 30), identity=False, **kwargs)
+                data = task.create(job, [str(self.garment)], [raw], (20, 30), identity=False, **kwargs, workflow_version=0)
                 task.export(job)
                 expected = ('Only use built-in image generation, no other plugins. One standalone image.\n'
                             'Image 1: garment source; authoritative product facts\nExact canvas: 20x30.\n' + raw)
@@ -289,7 +289,7 @@ class PhotographyTaskTests(unittest.TestCase):
             task.create(self.job, [dict(path=str(self.garment), role='garment-source'),
                                    dict(path=str(self.face), role='identity-reference')],
                         ['Keep the room description.\n' + block(context['photography_targets'])], (20, 30),
-                        model=self.model, context=context, route='codex_native')
+                        model=self.model, context=context, route='codex_native', workflow_version=0)
         self.assertFalse(self.job.exists())
 
     def test_frozen_targets_with_person_words_still_read_and_export(self):
@@ -313,7 +313,7 @@ class PhotographyTaskTests(unittest.TestCase):
                         ValueError, 'scene, light and composition'):
                     task.create(job, [dict(path=str(self.garment), role='garment-source')],
                                 ['Synthetic test prompt.'], (20, 30), identity=False,
-                                context=context, route=route)
+                                context=context, route=route, workflow_version=0)
                 self.assertFalse(job.exists())
 
     def test_f02_legitimate_photography_keeps_exported_text_and_reference_roles(self):
@@ -328,7 +328,7 @@ class PhotographyTaskTests(unittest.TestCase):
                 refs = [dict(path=str(self.garment), role='garment-source'),
                         dict(path=str(self.face), role='identity-reference')]
                 task.create(job, refs, [raw], (20, 30), model=self.model,
-                            context=context, route=route)
+                            context=context, route=route, workflow_version=0)
                 before = (job / 'task.json').read_bytes()
                 task.export(job)
                 prompt = (job / 'handoff/look-1/prompt.txt').read_text()
@@ -355,7 +355,7 @@ class PhotographyTaskTests(unittest.TestCase):
                 with patch.object(helper, 'strict_check', helper.validate):
                     task.create(job, [dict(path=str(self.garment), role='garment-source')],
                                 ['Synthetic historical prompt.\n'], (20, 30), identity=False,
-                                context=context, route=route)
+                                context=context, route=route, workflow_version=0)
                 before = (job / 'task.json').read_bytes()
                 task.export(job)
                 prompt = (job / 'handoff/look-1/prompt.txt').read_bytes()
@@ -406,7 +406,7 @@ class PhotographyHelperTests(unittest.TestCase):
                     refs = [{key: ref[key] for key in ('path', 'role')} for ref in result['references']]
                     job = self.root / f'task-{style}-{action}'
                     data = task.create(job, refs, [raw], (20, 30), model=self.model,
-                                       context=context, route='codex_native')
+                                       context=context, route='codex_native', workflow_version=0)
                     task.export(job)
                     request = json.loads((job / 'handoff/look-1/request.json').read_text())
                     manifest = json.loads((job / 'handoff/look-1/manifest.json').read_text())
