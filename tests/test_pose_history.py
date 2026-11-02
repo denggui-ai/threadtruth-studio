@@ -269,6 +269,9 @@ class PoseHistoryTests(unittest.TestCase):
             history.freeze([draft])
 
     def test_cli_reports_repeats_and_pre_migration_inline_cards_keep_their_own_identity(self):
+        # Keep the frozen source bytes independent of the host PNG encoder.
+        self.source.write_bytes((ROOT / 'tests/fixtures/style-pool-legacy-source.png').read_bytes())
+        self.sha = task.digest(self.source)
         fixture = json.loads((ROOT / 'tests/fixtures/style-pool-legacy.json').read_text())
         job = self.create(fixture['spec'], 'old-inline', visual=fixture['visual_plan'])
         self.returned(job)

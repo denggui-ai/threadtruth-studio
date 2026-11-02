@@ -113,7 +113,9 @@ class VisualLibraryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             runtime = root / 'skills/threadtruth-studio'
-            for relative in ('scripts/visual_library.py', 'scripts/visual_plan.py'):
+            for relative in ('scripts/visual_library.py', 'scripts/visual_plan.py',
+                             'scripts/shot_plan.py', 'scripts/pose_library.py', 'scripts/pose_catalog.py',
+                             'references/pose-library/catalog.json', 'references/pose-library/style-vocabulary.json'):
                 destination = runtime / relative
                 destination.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copyfile(ROOT / 'skills/threadtruth-studio' / relative, destination)

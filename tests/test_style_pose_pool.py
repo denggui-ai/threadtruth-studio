@@ -201,6 +201,9 @@ class StylePosePoolTests(unittest.TestCase):
             library.prepare(spec)
 
     def test_pre_migration_frozen_request_keeps_exact_bytes(self):
+        # Keep the frozen source bytes independent of the host PNG encoder.
+        self.source.write_bytes((ROOT / 'tests/fixtures/style-pool-legacy-source.png').read_bytes())
+        self.sha = task.digest(self.source)
         fixture = json.loads((ROOT / 'tests/fixtures/style-pool-legacy.json').read_text())
         spec, visual = fixture['spec'], fixture['visual_plan']
         self.assertEqual(spec['inventory'][0]['sha256'], self.sha)
