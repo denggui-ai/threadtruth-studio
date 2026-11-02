@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "workwear-vintage",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "name": "复古工装 / Workwear Vintage",
   "entry_type": "legacy-style",
   "aliases": [
@@ -148,103 +148,14 @@
     }
   ],
   "action_tendency": "Grounded and practical: steady weight, hands near a workbench, crate or door doing a real task, unhurried and capable; never runway, never soldier-like.",
-  "pose_vocabulary": [
-    {
-      "id": "wv-bench-hands",
-      "family": "stand",
-      "body": "standing at a wooden workbench, body three-quarter to camera, posture upright, weight even",
-      "hands": "both hands resting flat on the bench top beside the body",
-      "support": "floor and workbench",
-      "views": [
-        "front-side"
-      ],
-      "avoid_when": "none",
-      "check": "bench beside the figure, below the waist; garment front visible"
-    },
-    {
-      "id": "wv-toolbox-carry",
-      "family": "walk",
-      "body": "walking toward camera out of a workshop door, steady stride",
-      "hands": "one hand carrying a plain wooden toolbox low at the side by its handle, the other relaxed",
-      "support": "ground",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "none",
-      "check": "toolbox below the hip and to the side; garment front clear"
-    },
-    {
-      "id": "wv-crate-sit",
-      "family": "sit",
-      "body": "sitting on a wooden crate, both feet flat on the floor, knees a fist apart, back upright",
-      "hands": "both hands resting on the crate edge beside the hips",
-      "support": "crates",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "short skirts",
-      "check": "upright seat, feet flat; garment front visible"
-    },
-    {
-      "id": "wv-door-haul",
-      "family": "stand",
-      "body": "standing beside a roll-up warehouse door, body three-quarter, weight on the back foot",
-      "hands": "one hand on the door handle at hip height, the other relaxed",
-      "support": "ground",
-      "views": [
-        "front-side"
-      ],
-      "avoid_when": "none",
-      "check": "hand at hip height; door beside the figure"
-    },
-    {
-      "id": "wv-shelf-turn",
-      "family": "turn",
-      "body": "turning from a metal shelf toward camera, shoulders opening, mid-task",
-      "hands": "one hand still resting on the shelf edge at waist height, the other relaxed",
-      "support": "floor",
-      "views": [
-        "front-side"
-      ],
-      "avoid_when": "none",
-      "check": "shelf beside the body; hand no higher than the waist"
-    },
-    {
-      "id": "wv-brick-stand",
-      "family": "stand",
-      "body": "standing squarely at hip-width in front of a brick warehouse wall, shoulders level, weight grounded",
-      "hands": "arms relaxed at the sides",
-      "support": "ground",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "none",
-      "check": "eye-level camera; hip-width stance, not a wide street stance"
-    },
-    {
-      "id": "wv-yard-walk-away",
-      "family": "walk",
-      "body": "walking away from camera across a workshop yard or along a garage, steady stride",
-      "hands": "one hand carrying a plain wooden toolbox low at the side, the other relaxed",
-      "support": "ground",
-      "views": [
-        "back"
-      ],
-      "avoid_when": "no usable back source",
-      "check": "back of the garment fully readable; toolbox below the hem line"
-    },
-    {
-      "id": "wv-tool-look",
-      "family": "close",
-      "body": "half-body, looking down at the task, shoulders relaxed",
-      "hands": "one hand holding a wooden folding ruler or a spool of thread at waist height off to the side, the other out of frame; never a hammer, axe, knife or crowbar",
-      "support": "floor",
-      "views": [
-        "front",
-        "detail"
-      ],
-      "avoid_when": "none",
-      "check": "a harmless measuring or sewing item to the side, never across the garment front"
-    }
+  "pose_pool": [
+    "wv-bench-hands",
+    "wv-toolbox-carry",
+    "wv-crate-sit",
+    "wv-door-haul",
+    "wv-shelf-turn",
+    "wv-brick-stand",
+    "wv-yard-walk-away",
+    "wv-tool-look"
   ]
 }

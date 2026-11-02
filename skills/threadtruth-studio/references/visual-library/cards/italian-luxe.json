@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "italian-luxe",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "name": "意式奢华 / Italian Luxe",
   "entry_type": "legacy-style",
   "aliases": [
@@ -152,103 +152,14 @@
     }
   ],
   "action_tendency": "Relaxed and assured in a warm classical place: an easy stride through arcades, a light lean on warm stone, sitting on a terrace balustrade; expansive and confident, never stiff, never costume-like.",
-  "pose_vocabulary": [
-    {
-      "id": "il-cloister-walk",
-      "family": "walk",
-      "body": "walking toward camera through an arched stone cloister, columns receding behind, easy confident stride",
-      "hands": "arms swinging naturally",
-      "support": "ground",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "none",
-      "check": "colonnade depth behind; garment front clear; easy stride"
-    },
-    {
-      "id": "il-column-lean",
-      "family": "lean",
-      "body": "one shoulder resting lightly against a stone column in the cloister, body three-quarter, feet staggered",
-      "hands": "both arms relaxed at the sides, hands out of pockets",
-      "support": "column",
-      "views": [
-        "front-side"
-      ],
-      "avoid_when": "none",
-      "check": "only the shoulder touches the column; garment front faces the lens"
-    },
-    {
-      "id": "il-balustrade-sit",
-      "family": "sit",
-      "body": "sitting sideways on a stone terrace balustrade at sunset, one foot on the ground, body three-quarter, terracotta pots nearby",
-      "hands": "both hands resting on the balustrade beside the hips",
-      "support": "balustrade",
-      "views": [
-        "front-side"
-      ],
-      "avoid_when": "garments whose key detail sits on the lap",
-      "check": "hands beside the hips; warm sun on the garment; garment front readable"
-    },
-    {
-      "id": "il-foyer-doorway",
-      "family": "stand",
-      "body": "standing framed in a carved marble doorway of a foyer, weight on one leg, shoulders open",
-      "hands": "arms relaxed at the sides, hands out of pockets",
-      "support": "floor",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "none",
-      "check": "doorway frames the figure; not leaning on the frame"
-    },
-    {
-      "id": "il-lane-turn",
-      "family": "turn",
-      "body": "turning back toward camera mid-step in a narrow stone lane with shuttered windows",
-      "hands": "one arm swinging lightly, the other relaxed",
-      "support": "ground",
-      "views": [
-        "front-side"
-      ],
-      "avoid_when": "none",
-      "check": "mid-step turn; garment front readable; shutters and stone behind"
-    },
-    {
-      "id": "il-apartment-armchair",
-      "family": "sit",
-      "body": "sitting back in an armchair in a Milan apartment with herringbone parquet and warm walls, legs crossed at the knee, posture relaxed but upright",
-      "hands": "forearms resting on the armrests",
-      "support": "armchair",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "garments whose key detail sits on the lap",
-      "check": "hands on the armrests, clear of the garment; room depth behind"
-    },
-    {
-      "id": "il-painting-wall-walk-away",
-      "family": "walk",
-      "body": "walking away from camera along a wall of framed classical oil paintings, slow stride",
-      "hands": "arms relaxed at the sides, hands out of pockets",
-      "support": "floor",
-      "views": [
-        "back"
-      ],
-      "avoid_when": "no usable back source",
-      "check": "back of the garment fully readable; paintings beside, not behind the garment colour"
-    },
-    {
-      "id": "il-collar-close",
-      "family": "close",
-      "body": "half-body in warm side light, chin slightly raised, shoulders relaxed",
-      "hands": "arms relaxed at the sides, below the frame; no hand touches the garment",
-      "support": "ground",
-      "views": [
-        "front",
-        "detail"
-      ],
-      "avoid_when": "none",
-      "check": "no hand on the garment; sheen and texture readable"
-    }
+  "pose_pool": [
+    "il-cloister-walk",
+    "il-column-lean",
+    "il-balustrade-sit",
+    "il-foyer-doorway",
+    "il-lane-turn",
+    "il-apartment-armchair",
+    "il-painting-wall-walk-away",
+    "il-collar-close"
   ]
 }

@@ -5,7 +5,9 @@ model_reference, real_face_plan and shot_plan. This module owns visual expressio
 """
 import copy
 import hashlib
+import importlib.util
 import json
+from pathlib import Path
 import re
 
 BEGIN = '[Task visual plan]'
@@ -78,7 +80,7 @@ def _lines(value, label, *, required=False, owned=False, v2=False):
 
 
 POSE_FIELDS = ('id', 'family', 'body', 'hands', 'support', 'views', 'avoid_when', 'check')
-POSE_FAMILIES = ('stand', 'walk', 'sit', 'lean', 'turn', 'close')
+POSE_FAMILIES = ('stand', 'walk', 'sit', 'lean', 'turn', 'close', 'floor', 'kneel', 'squat', 'lie')
 POSE_VIEWS = ('front', 'front-side', 'back', 'detail')
 
 
@@ -126,6 +128,15 @@ def _component(value):
         raise ValueError('Frozen visual component hash does not match its snapshot')
     if 'pose_vocabulary' in value['snapshot']:
         check_pose_vocabulary(value['snapshot']['pose_vocabulary'], value['snapshot'].get('action_tendency'))
+    if 'pose_pool' in value['snapshot'] or 'pose_pool_snapshot' in value['snapshot']:
+        spec = importlib.util.spec_from_file_location('frozen_pose_pool', Path(__file__).with_name('pose_library.py'))
+        poses = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(poses)
+        frozen = value['snapshot'].get('pose_pool_snapshot')
+        resolved = poses.resolve_vocabulary(frozen)
+        if (value['snapshot'].get('pose_pool') != [row['id'] for row in resolved]
+                or value['snapshot'].get('pose_vocabulary') != resolved):
+            raise ValueError('Resolved vocabulary must match its frozen pose_pool definitions')
     if value['snapshot'].get('id', value['id']) != value['id']:
         raise ValueError('Visual component id conflicts with its frozen snapshot')
     if value['snapshot'].get('version',value['version']) != value['version']:

@@ -200,11 +200,14 @@ class KnowledgeStyleResolutionTests(unittest.TestCase):
         self.assertIn('Layered brown and caramel environment', library._visual().render(single, 1))
         self.assertEqual(plan, before)
 
-    def test_default_preparation_and_legacy_requests_match_the_handoff_baseline(self):
+    def test_default_preparation_matches_handoff_behavior_on_same_resolved_sources(self):
         relative = 'skills/threadtruth-studio/scripts/visual_library.py'
         source = subprocess.check_output(['git', 'show', '7f78875:' + relative], cwd=ROOT, text=True)
         namespace = dict(__file__=str(ROOT / relative), __name__='handoff_library')
         exec(compile(source, str(ROOT / relative), 'exec'), namespace)
+        # Isolate the commitment change from later card-storage migrations.
+        # Pre-migration frozen request bytes are covered by test_style_pose_pool.
+        namespace['card'] = library.card
         for entry, form in [('korean-cold-editorial', 'human'), ('korean-cold-editorial', 'faceless'),
                             ('gongbu-dress', 'flat-lay')]:
             with self.subTest(entry=entry, form=form):

@@ -9,6 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG = ROOT / 'references/pose-library/catalog.json'
+VOCABULARY = ROOT / 'references/pose-library/style-vocabulary.json'
 DEFINITION_FIELDS = {'source_id', 'usage', 'group_id', 'view', 'title', 'family',
                      'body_action', 'hands', 'support', 'garment_views', 'avoid_when',
                      'review_note', 'sha256'}
@@ -25,6 +26,84 @@ def _catalog():
 
 def digest(value):
     return hashlib.sha256(json.dumps(value, sort_keys=True, ensure_ascii=False, separators=(',', ':')).encode()).hexdigest()
+
+
+def freeze_vocabulary(ids, *, vocabulary_path=VOCABULARY, catalog_path=CATALOG):
+    """Resolve a card's text pool once. Metadata only; never attach or read images."""
+    if (not isinstance(ids, list) or not ids or len(ids) > 24
+            or any(not isinstance(item, str) or not item.strip() for item in ids) or len(ids) != len(set(ids))):
+        raise ValueError('pose_pool must contain distinct shared vocabulary ids')
+    source = json.loads(Path(vocabulary_path).read_text(encoding='utf-8'))
+    if (not isinstance(source, dict) or set(source) != {'version', 'entries'}
+            or type(source['version']) is not int or source['version'] != 1 or not isinstance(source['entries'], list)):
+        raise ValueError('Shared style vocabulary requires version=1 and entries')
+    by_id = {}
+    for row in source['entries']:
+        if (not isinstance(row, dict) or not isinstance(row.get('id'), str)
+                or not row['id'].strip() or row['id'] in by_id):
+            raise ValueError('Shared vocabulary entries need unique ids')
+        by_id[row['id']] = row
+    catalog = None
+    bindings = []
+    for item in ids:
+        if item not in by_id:
+            raise ValueError('Unknown pose_pool vocabulary id: ' + item)
+        row = copy.deepcopy(by_id[item])
+        binding = dict(entry=row)
+        if 'pose_id' in row:
+            if catalog is None:
+                catalog = _catalog().load(catalog_path)
+            matches = _catalog().search(catalog, group_id=row['pose_id'], view=row.get('view'))
+            if len(matches) != 1:
+                raise ValueError('Shared vocabulary must select one existing pose/view: ' + item)
+            selected = matches[0]
+            definition = {k: copy.deepcopy(selected[k]) for k in DEFINITION_FIELDS}
+            definition.update({k: copy.deepcopy(selected[k]) for k in OPTIONAL_DEFINITION_FIELDS if k in selected})
+            binding['base'] = dict(version=1, definition=definition, definition_sha256=digest(definition),
+                                   mode='text', origin='auto', adaptation_note='')
+        bindings.append(binding)
+    result = dict(version=1, entries=bindings)
+    result['sha256'] = digest(result)
+    resolve_vocabulary(result)
+    return result
+
+
+def resolve_vocabulary(frozen):
+    """Project an already frozen pool to the legacy eight fields, without live reads."""
+    if (not isinstance(frozen, dict) or set(frozen) != {'version', 'entries', 'sha256'}
+            or type(frozen['version']) is not int or frozen['version'] != 1
+            or not isinstance(frozen['entries'], list) or not 1 <= len(frozen['entries']) <= 24
+            or frozen['sha256'] != digest(dict(version=frozen['version'], entries=frozen['entries']))):
+        raise ValueError('Frozen pose pool version, entries or hash changed')
+    rows = []
+    fields = {'id', 'family', 'body', 'hands', 'support', 'views', 'avoid_when', 'check'}
+    for binding in frozen['entries']:
+        if not isinstance(binding, dict) or set(binding) not in ({'entry'}, {'entry', 'base'}):
+            raise ValueError('Frozen pose pool bindings require an entry and optional base')
+        entry = binding['entry']
+        if not isinstance(entry, dict):
+            raise ValueError('Frozen pose pool entry must be an object')
+        if 'base' not in binding:
+            if set(entry) != fields:
+                raise ValueError('Text-only pool entry must retain the complete eight-field vocabulary')
+            rows.append(copy.deepcopy(entry))
+            continue
+        if set(entry) != {'id', 'pose_id', 'view', 'context', 'avoid_when', 'check'}:
+            raise ValueError('Geometry-backed vocabulary needs id, pose_id, view, context, avoid_when and check')
+        if any(not _catalog()._text(value) for value in entry.values()):
+            raise ValueError('Geometry-backed vocabulary fields must be nonempty single lines')
+        base = _validate_snapshot(binding['base'])
+        if (binding['base']['mode'] != 'text' or binding['base']['origin'] != 'auto'
+                or binding['base']['adaptation_note'] or base.get('selection_policy')
+                or (base['group_id'], base['view']) != (entry['pose_id'], entry['view'])):
+            raise ValueError('Style pools require an unrestricted matching text definition; no image selection')
+        avoid = base['avoid_when']
+        if entry['avoid_when'] != 'none' and entry['avoid_when'] != avoid:
+            avoid += ' ' + entry['avoid_when']
+        rows.append(dict(id=entry['id'], family=base['family'], body=base['body_action'] + ' ' + entry['context'],
+                         hands=base['hands'], support=base['support'], views=copy.deepcopy(base['garment_views']),
+                         avoid_when=avoid, check=entry['check']))
+    return rows
 
 
 def candidates(*, query='', garment_views=None, include_restricted=False, catalog_path=CATALOG):

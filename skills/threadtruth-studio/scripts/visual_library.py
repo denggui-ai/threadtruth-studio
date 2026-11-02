@@ -76,6 +76,15 @@ def card(entry_id, root=ROOT):
     data = _read(root, found[0]['card'])
     if data.get('id') != entry_id or not data.get('version'):
         raise ValueError('Card identity/version does not match its execution entry')
+    if 'pose_pool' in data:
+        if 'pose_vocabulary' in data or 'pose_pool_snapshot' in data:
+            raise ValueError('Source cards must choose pose_pool or inline vocabulary, not both')
+        poses = _shots().pose_library()
+        data['pose_pool_snapshot'] = poses.freeze_vocabulary(
+            data['pose_pool'], vocabulary_path=Path(root) / 'references/pose-library/style-vocabulary.json',
+            catalog_path=Path(root) / 'references/pose-library/catalog.json')
+        data['pose_vocabulary'] = poses.resolve_vocabulary(data['pose_pool_snapshot'])
+        _visual().check_pose_vocabulary(data['pose_vocabulary'], data.get('action_tendency'))
     return data
 
 

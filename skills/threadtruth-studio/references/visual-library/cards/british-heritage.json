@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "british-heritage",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "name": "英伦传承 / British Heritage",
   "entry_type": "legacy-style",
   "aliases": [
@@ -151,103 +151,14 @@
     }
   ],
   "action_tendency": "Upright, measured and assured: an unhurried country walk, a hand on a gate or wall, a book or a closed umbrella as quiet props; never stiff military, theatrical or slouched.",
-  "pose_vocabulary": [
-    {
-      "id": "bh-gate-rest",
-      "family": "stand",
-      "body": "standing beside a wooden field gate, body three-quarter to camera, posture upright",
-      "hands": "one hand resting on the top rail of the gate, the other relaxed at the side",
-      "support": "ground and gate",
-      "views": [
-        "front-side"
-      ],
-      "avoid_when": "none",
-      "check": "hand on the gate rail; gate beside the body, not in front of the garment"
-    },
-    {
-      "id": "bh-country-walk",
-      "family": "walk",
-      "body": "walking along a gravel path or country lane toward camera, measured stride, shoulders level",
-      "hands": "one hand holding a closed plain black umbrella by the handle like a cane, the other swinging lightly",
-      "support": "ground",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "none",
-      "check": "umbrella closed and held to the side; garment front clear"
-    },
-    {
-      "id": "bh-stone-wall-lean",
-      "family": "lean",
-      "body": "one shoulder leaning lightly against a dry stone wall, feet staggered with weight on the back foot, ankles not crossed, body three-quarter",
-      "hands": "the far hand resting on the top of the wall, the near arm relaxed at the side; no arm across the body",
-      "support": "stone wall",
-      "views": [
-        "front-side"
-      ],
-      "avoid_when": "none",
-      "check": "light lean only; no arm crosses the garment front; ankles not crossed"
-    },
-    {
-      "id": "bh-armchair-read",
-      "family": "sit",
-      "body": "seated upright in a leather armchair in a panelled study, legs crossed at the knee",
-      "hands": "one hand holding a closed hardback book on the armrest, the other resting on the knee",
-      "support": "armchair",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "none",
-      "check": "book held on the armrest, not on the chest; full garment front visible"
-    },
-    {
-      "id": "bh-doorway-stand",
-      "family": "stand",
-      "body": "standing in front of a dark wooden door under a stone porch, weight on one leg, posture tall",
-      "hands": "one hand resting lightly on the door frame at hip height, the other relaxed",
-      "support": "ground and door frame",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "none",
-      "check": "door frame behind and beside the figure; hand no higher than the hip; garment centred"
-    },
-    {
-      "id": "bh-fireplace-turn",
-      "family": "turn",
-      "body": "standing by a stone fireplace mantel, body turned three-quarter toward it, face turned back toward camera",
-      "hands": "one hand resting on the mantel edge, the other relaxed",
-      "support": "floor and mantel",
-      "views": [
-        "front-side"
-      ],
-      "avoid_when": "none",
-      "check": "hand on the mantel; no fire glare on the garment"
-    },
-    {
-      "id": "bh-path-walk-away",
-      "family": "walk",
-      "body": "walking away from camera along a hedge-lined path or stone corridor, mid-stride",
-      "hands": "one hand holding a closed plain black umbrella low at the side, the other relaxed",
-      "support": "ground",
-      "views": [
-        "back"
-      ],
-      "avoid_when": "no usable back source",
-      "check": "back fully readable; umbrella low and to the side"
-    },
-    {
-      "id": "bh-collar-set",
-      "family": "close",
-      "body": "half-body, posture upright, chin level",
-      "hands": "one hand settling the edge of the collar or lapel, the other out of frame",
-      "support": "floor",
-      "views": [
-        "front",
-        "detail"
-      ],
-      "avoid_when": "collarless garments",
-      "check": "collar or lapel detail readable; the hand touches only the edge"
-    }
+  "pose_pool": [
+    "bh-gate-rest",
+    "bh-country-walk",
+    "bh-stone-wall-lean",
+    "bh-armchair-read",
+    "bh-doorway-stand",
+    "bh-fireplace-turn",
+    "bh-path-walk-away",
+    "bh-collar-set"
   ]
 }

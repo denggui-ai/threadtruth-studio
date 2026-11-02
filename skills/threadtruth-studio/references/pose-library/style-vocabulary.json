@@ -1,0 +1,2091 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "id": "as-platform-wait",
+      "pose_id": "tt-stand-weight-shift",
+      "view": "diag",
+      "context": "Wait on a subway platform and look down the platform; retain the casual, unposed city mood.",
+      "avoid_when": "none",
+      "check": "candid waiting posture; not facing camera square"
+    },
+    {
+      "id": "as-fence-hook",
+      "family": "lean",
+      "body": "leaning one shoulder lightly against a chain-link court fence, body three-quarter, feet staggered",
+      "hands": "the far hand hooked through the fence at hip height, the near arm relaxed",
+      "support": "fence",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "light lean; hand at hip height; fence does not cross in front of the garment"
+    },
+    {
+      "id": "as-stoop-recline",
+      "family": "sit",
+      "body": "sitting on a brownstone stoop, leaning back with the elbows resting on the step behind, legs relaxed down the steps",
+      "hands": "elbows on the step behind, hands loose",
+      "support": "stoop steps",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "short skirts",
+      "check": "leaning back, not forward over the knees; garment front open to the lens"
+    },
+    {
+      "id": "as-passing-stride",
+      "family": "walk",
+      "body": "walking past the camera along a sidewalk, glancing sideways, mid-stride",
+      "hands": "one arm swinging, the other relaxed at the side, hands out of the pockets",
+      "support": "ground",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "candid stride; no props; arms beside the body"
+    },
+    {
+      "id": "as-shutter-lean",
+      "family": "lean",
+      "body": "back resting against a roll-up shutter, one knee slightly bent with the foot flat on the ground, chin up",
+      "hands": "arms hanging relaxed at the sides, hands out of the pockets",
+      "support": "shutter",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "foot on the ground, not on the shutter; relaxed lean"
+    },
+    {
+      "id": "as-graffiti-look-back",
+      "family": "turn",
+      "body": "walking past a graffiti wall and turning back toward camera mid-step",
+      "hands": "one arm swinging slightly, the other relaxed, hands out of the pockets",
+      "support": "ground",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "graffiti unreadable; the turn is mid-step, natural"
+    },
+    {
+      "id": "as-block-walk-away",
+      "family": "walk",
+      "body": "walking away from camera down a city sidewalk or alley, loose stride",
+      "hands": "arms hanging relaxed at the sides, hands out of the pockets",
+      "support": "ground",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back of the garment fully readable"
+    },
+    {
+      "id": "as-candid-half",
+      "family": "close",
+      "body": "half-body, caught mid-moment with the shoulders turned slightly, chin a little down with a small smirk",
+      "hands": "arms hanging relaxed at the sides, hands out of the pockets, below the frame",
+      "support": "ground",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "none",
+      "check": "no hand touches the garment; collar and front details readable"
+    },
+    {
+      "id": "al-riverside-walk",
+      "family": "walk",
+      "body": "easy brisk walk toward camera along a riverside path, railing and water to one side",
+      "hands": "one hand holding a plain water bottle low at the side, the other swinging",
+      "support": "ground",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "bottle below the hip at the side; garment front clear; walking, not running"
+    },
+    {
+      "id": "al-rail-pause",
+      "pose_id": "tt-lean-forearm-rail",
+      "view": "diag",
+      "context": "Pause beside a riverside railing in everyday active clothing, with the water to one side.",
+      "avoid_when": "none",
+      "check": "forearm on the rail; garment front clear of the railing"
+    },
+    {
+      "id": "al-gym-window-stand",
+      "family": "stand",
+      "body": "standing beside the floor-to-ceiling window of a gym, a weight rack soft behind, weight on one leg",
+      "hands": "arms relaxed at the sides, hands out of pockets",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "garment front lit, not silhouetted; standing, no exercise"
+    },
+    {
+      "id": "al-studio-floor-sit",
+      "pose_id": "tt-floor-cross-leg",
+      "view": "front",
+      "context": "Use the pale wooden floor of a yoga studio with rolled mats behind; this is a relaxed pause, not an exercise.",
+      "avoid_when": "skirts or dresses",
+      "check": "seated at rest, no stretch; garment front readable"
+    },
+    {
+      "id": "al-cafe-bench-sit",
+      "family": "sit",
+      "body": "sitting on a café sidewalk bench after a run, leaning back slightly, body three-quarter, one ankle crossed over the other",
+      "hands": "one hand holding a takeaway cup on the knee, the other on the bench",
+      "support": "bench",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "garments whose key detail sits on the lap",
+      "check": "cup on the knee, clear of the garment front; relaxed seat"
+    },
+    {
+      "id": "al-park-turn",
+      "family": "turn",
+      "body": "turning back toward camera while walking along a tree-lined park path",
+      "hands": "arms relaxed, one swinging lightly",
+      "support": "ground",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "mid-walk turn; garment front readable; no jumping"
+    },
+    {
+      "id": "al-path-walk-away",
+      "family": "walk",
+      "body": "walking away from camera along a riverside path, relaxed stride",
+      "hands": "arms swinging lightly",
+      "support": "ground",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back of the garment fully readable; path leads away"
+    },
+    {
+      "id": "al-zip-close",
+      "family": "close",
+      "body": "half-body, relaxed shoulders, chin level",
+      "hands": "arms relaxed at the sides, below the frame; no hand touches the garment",
+      "support": "ground",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "none",
+      "check": "no hand on the garment; fabric, zip and seams readable"
+    },
+    {
+      "id": "bc-barre-rest",
+      "family": "stand",
+      "body": "standing beside a plain barre, body three-quarter, heels together with toes softly apart, posture lifted",
+      "hands": "one hand resting lightly on the barre at hip height, the other arm soft and low",
+      "support": "floor and barre",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "barre at hip height beside the body; relaxed small foot shape, not a split or high leg"
+    },
+    {
+      "id": "bc-mirror-turn",
+      "family": "turn",
+      "body": "standing in front of a studio mirror, body angled toward it, face turned back toward camera, neck long",
+      "hands": "arms soft and low at the sides",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "garment front faces the lens, not only seen in the mirror; reflection does not double the figure confusingly"
+    },
+    {
+      "id": "bc-stool-sit",
+      "family": "sit",
+      "body": "sitting upright on a simple wooden stool at the edge of the studio, knees together, one foot resting lightly in front of the other, neck long",
+      "hands": "both hands resting on the stool edge beside the hips",
+      "support": "stool",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "short skirts",
+      "check": "upright lifted seat; knees together; garment front fully visible"
+    },
+    {
+      "id": "bc-bench-shoe",
+      "family": "sit",
+      "body": "sitting on a low studio bench, leaning slightly to one side toward the feet",
+      "hands": "one hand adjusting the strap of a plain flat shoe at the ankle, the other on the bench",
+      "support": "bench",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "garments whose front would fold heavily when leaning",
+      "check": "lean is small; garment front not hidden by the arm"
+    },
+    {
+      "id": "bc-studio-glide",
+      "family": "walk",
+      "body": "a light small step across the studio floor, heel to toe, posture lifted",
+      "hands": "arms soft and slightly open at the sides, wrists relaxed, never in front of the body",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "arms beside the body; step light and small; not a bridal slow walk"
+    },
+    {
+      "id": "bc-window-stand",
+      "family": "stand",
+      "body": "standing upright by a tall studio window with sheer curtains, weight on one leg, shoulders down",
+      "hands": "arms soft and relaxed at the sides",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "soft window light on the figure; calm lifted posture"
+    },
+    {
+      "id": "bc-studio-walk-away",
+      "family": "walk",
+      "body": "walking lightly away from camera across the studio toward a bright window",
+      "hands": "arms soft and low at the sides",
+      "support": "floor",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back of the garment fully readable; light small step"
+    },
+    {
+      "id": "bc-neckline-detail",
+      "family": "close",
+      "body": "half-body, neck long, shoulders down and relaxed, chin slightly lifted",
+      "hands": "arms soft and low, out of frame",
+      "support": "floor",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "none",
+      "check": "neckline and shoulder details fully visible; no hand at the neckline"
+    },
+    {
+      "id": "be-centre-stand",
+      "pose_id": "tt-stand-neutral",
+      "view": "front",
+      "context": "Stand in the middle of a pale corridor with the full skirt settled around the feet; never gather or lift the skirt.",
+      "avoid_when": "none",
+      "check": "complete hem visible; front of the bodice and skirt fully uncovered"
+    },
+    {
+      "id": "be-train-fan-back",
+      "family": "stand",
+      "body": "standing back three-quarter to camera with the train fanned out behind on the floor, face turned softly toward the shoulder",
+      "hands": "arms long and relaxed at the sides",
+      "support": "floor",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back closure and train fully readable; train laid out, not bunched"
+    },
+    {
+      "id": "be-window-profile",
+      "family": "turn",
+      "body": "standing beside a tall window with sheer drapes, body three-quarter toward it, face turned toward the light in soft profile",
+      "hands": "one hand resting lightly on the window frame, the other relaxed",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "drape does not cover the dress; window light on the face side"
+    },
+    {
+      "id": "be-slow-step",
+      "family": "walk",
+      "body": "a slow small step forward along the corridor, the skirt moving gently",
+      "hands": "arms relaxed at the sides, fingers just clear of the skirt; never gathering, lifting or holding the skirt",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "fitted mermaid skirts that cannot be gathered",
+      "check": "skirt silhouette unchanged; no fabric held in the hands; small step"
+    },
+    {
+      "id": "be-bench-sit-spread",
+      "family": "sit",
+      "body": "seated upright on a simple low bench, the skirt spread around and in front onto the floor",
+      "hands": "hands resting together on the lap",
+      "support": "bench",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "stiff structured skirts that would crease badly when seated",
+      "check": "skirt spread wide and smooth; bodice fully visible"
+    },
+    {
+      "id": "be-half-turn",
+      "family": "turn",
+      "body": "a slow half-turn toward camera, the skirt swinging softly and settling",
+      "hands": "hands lightly open at the sides",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "skirt movement soft; no fabric lifted above the ankle"
+    },
+    {
+      "id": "be-corridor-approach",
+      "family": "walk",
+      "body": "walking slowly toward camera down a pale corridor, small step, the skirt moving gently and the train trailing behind",
+      "hands": "arms relaxed at the sides",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "front of the dress fully visible; train visible on the floor behind; no fabric held"
+    },
+    {
+      "id": "be-bodice-detail",
+      "family": "close",
+      "body": "close view from the shoulders to the waist, posture upright, shoulders soft",
+      "hands": "one hand resting lightly at the side of the waist seam, the other out of frame",
+      "support": "floor",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "none",
+      "check": "neckline, bodice and any beading fully visible; the hand covers no decoration"
+    },
+    {
+      "id": "bh-gate-rest",
+      "family": "stand",
+      "body": "standing beside a wooden field gate, body three-quarter to camera, posture upright",
+      "hands": "one hand resting on the top rail of the gate, the other relaxed at the side",
+      "support": "ground and gate",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "hand on the gate rail; gate beside the body, not in front of the garment"
+    },
+    {
+      "id": "bh-country-walk",
+      "family": "walk",
+      "body": "walking along a gravel path or country lane toward camera, measured stride, shoulders level",
+      "hands": "one hand holding a closed plain black umbrella by the handle like a cane, the other swinging lightly",
+      "support": "ground",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "umbrella closed and held to the side; garment front clear"
+    },
+    {
+      "id": "bh-stone-wall-lean",
+      "family": "lean",
+      "body": "one shoulder leaning lightly against a dry stone wall, feet staggered with weight on the back foot, ankles not crossed, body three-quarter",
+      "hands": "the far hand resting on the top of the wall, the near arm relaxed at the side; no arm across the body",
+      "support": "stone wall",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "light lean only; no arm crosses the garment front; ankles not crossed"
+    },
+    {
+      "id": "bh-armchair-read",
+      "family": "sit",
+      "body": "seated upright in a leather armchair in a panelled study, legs crossed at the knee",
+      "hands": "one hand holding a closed hardback book on the armrest, the other resting on the knee",
+      "support": "armchair",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "book held on the armrest, not on the chest; full garment front visible"
+    },
+    {
+      "id": "bh-doorway-stand",
+      "family": "stand",
+      "body": "standing in front of a dark wooden door under a stone porch, weight on one leg, posture tall",
+      "hands": "one hand resting lightly on the door frame at hip height, the other relaxed",
+      "support": "ground and door frame",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "door frame behind and beside the figure; hand no higher than the hip; garment centred"
+    },
+    {
+      "id": "bh-fireplace-turn",
+      "family": "turn",
+      "body": "standing by a stone fireplace mantel, body turned three-quarter toward it, face turned back toward camera",
+      "hands": "one hand resting on the mantel edge, the other relaxed",
+      "support": "floor and mantel",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "hand on the mantel; no fire glare on the garment"
+    },
+    {
+      "id": "bh-path-walk-away",
+      "family": "walk",
+      "body": "walking away from camera along a hedge-lined path or stone corridor, mid-stride",
+      "hands": "one hand holding a closed plain black umbrella low at the side, the other relaxed",
+      "support": "ground",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back fully readable; umbrella low and to the side"
+    },
+    {
+      "id": "bh-collar-set",
+      "family": "close",
+      "body": "half-body, posture upright, chin level",
+      "hands": "one hand settling the edge of the collar or lapel, the other out of frame",
+      "support": "floor",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "collarless garments",
+      "check": "collar or lapel detail readable; the hand touches only the edge"
+    },
+    {
+      "id": "cb-cafe-door-stand",
+      "family": "stand",
+      "body": "standing just outside a café door, weight on one leg, shoulders loose, body three-quarter",
+      "hands": "one hand holding a plain unbranded paper coffee cup low at the side, the other relaxed",
+      "support": "ground",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "cup low and to the side; relaxed off-centre weight"
+    },
+    {
+      "id": "cb-crosswalk-stride",
+      "family": "walk",
+      "body": "crossing a zebra crossing toward camera with an easy loose stride",
+      "hands": "arms swinging naturally",
+      "support": "ground",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "mid-stride; arms loose; garment front clear"
+    },
+    {
+      "id": "cb-curb-sit",
+      "family": "sit",
+      "body": "sitting on a low curb or concrete ledge, legs stretched out loosely in front and crossed at the shins, leaning back",
+      "hands": "both hands planted on the ledge behind the hips",
+      "support": "curb or ledge",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "short skirts, short dresses or shorts",
+      "check": "relaxed leaning-back seat; nothing across the garment front; not a forward elbows-on-knees squat"
+    },
+    {
+      "id": "cb-bookstore-browse",
+      "family": "turn",
+      "body": "standing at a bookstore window or outdoor book rack, body turned toward it, face turned back toward camera",
+      "hands": "one hand holding an open paperback at chest side height away from the garment front, the other relaxed",
+      "support": "ground",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "book held to the side; garment front clear"
+    },
+    {
+      "id": "cb-plant-shop-pause",
+      "family": "stand",
+      "body": "pausing in front of a small plant shop, weight off-centre, bending a little toward potted plants on a low rack, body three-quarter",
+      "hands": "one hand reaching toward a pot on the rack at hip height, the other relaxed",
+      "support": "ground",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "relaxed off-centre weight; the rack stays beside the figure, not in front of the garment"
+    },
+    {
+      "id": "cb-bench-spread",
+      "family": "sit",
+      "body": "sitting on a park bench, leaning back, one ankle resting on the opposite knee",
+      "hands": "one arm resting along the bench back, the other on the thigh",
+      "support": "bench",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "skirts or garments whose hem would be pulled by the crossed leg",
+      "check": "open relaxed seated pose; garment front visible"
+    },
+    {
+      "id": "cb-walk-away-street",
+      "family": "walk",
+      "body": "walking away from camera down a quiet street or past a shopfront, loose stride",
+      "hands": "arms relaxed at the sides",
+      "support": "ground",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back of the garment fully readable"
+    },
+    {
+      "id": "cb-sleeve-push",
+      "family": "close",
+      "body": "half-body, standing loose with the shoulders relaxed",
+      "hands": "one hand pushing the opposite sleeve up a little toward the forearm",
+      "support": "ground",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "short sleeves, sleeveless garments or cuffs that must stay as sold",
+      "check": "sleeve fabric and cuff readable; push is small"
+    },
+    {
+      "id": "cf-window-stand",
+      "pose_id": "tt-stand-neutral",
+      "view": "front",
+      "context": "Stand a step in front of a floor-to-ceiling window with a simple chair beside; keep the everyday mood relaxed.",
+      "avoid_when": "none",
+      "check": "garment front lit, not silhouetted; not leaning on anything"
+    },
+    {
+      "id": "cf-table-cup-sit",
+      "family": "sit",
+      "body": "sitting at a pale wooden table, body three-quarter to camera, a cup and a few books on the table",
+      "hands": "one hand around the cup on the tabletop, the other resting on the table edge",
+      "support": "chair and table",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "garments whose key detail sits below the waist where the table hides it",
+      "check": "cup stays on the table; upper garment fully readable above the tabletop"
+    },
+    {
+      "id": "cf-shop-exit-step",
+      "family": "walk",
+      "body": "stepping out of a quiet street shop entrance toward camera, short natural stride",
+      "hands": "arms swinging slightly",
+      "support": "ground",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "shop sign unreadable; garment front clear; natural stride"
+    },
+    {
+      "id": "cf-stair-descend",
+      "family": "walk",
+      "body": "walking down an apartment stairwell toward camera, body three-quarter, light even step",
+      "hands": "one hand sliding along the metal handrail, the other relaxed",
+      "support": "stairs and rail",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "long skirts that would catch on the steps",
+      "check": "feet on two different steps; hand on the rail; proportions natural"
+    },
+    {
+      "id": "cf-shopfront-lean",
+      "family": "lean",
+      "body": "one shoulder lightly against the stone pillar beside a quiet shop entrance, body three-quarter, feet staggered",
+      "hands": "both arms relaxed at the sides, hands out of pockets",
+      "support": "pillar",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "only the shoulder touches the pillar; no window reflection crosses the garment"
+    },
+    {
+      "id": "cf-window-turn",
+      "family": "turn",
+      "body": "standing by a floor-to-ceiling window, body turned three-quarter toward the glass, face turned back toward camera",
+      "hands": "arms relaxed at the sides, hands out of pockets",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "garment front faces the lens; light falls evenly on the garment"
+    },
+    {
+      "id": "cf-street-walk-away",
+      "family": "walk",
+      "body": "walking away from camera along a quiet street past shopfronts, relaxed stride",
+      "hands": "arms relaxed at the sides, hands out of pockets",
+      "support": "ground",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back of the garment fully readable; no readable signs"
+    },
+    {
+      "id": "cf-hem-close",
+      "family": "close",
+      "body": "half-body, posture straight, shoulders relaxed",
+      "hands": "arms relaxed at the sides, below the frame; no hand touches the garment",
+      "support": "floor",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "none",
+      "check": "no hand on the garment; construction readable"
+    },
+    {
+      "id": "cq-ankle-cross-stand",
+      "pose_id": "tt-stand-crossed-ankles",
+      "view": "front",
+      "context": "Keep the graceful, socially poised mood with a small head tilt when the model conditions allow it.",
+      "avoid_when": "none",
+      "check": "ankles crossed, knees together, head tilt; garment front fully clear"
+    },
+    {
+      "id": "cq-chair-side-sit",
+      "family": "sit",
+      "body": "sitting sideways on an upholstered salon chair, knees together angled to one side, ankles crossed, back tall with the head tilted toward one shoulder",
+      "hands": "hands folded softly on the lap",
+      "support": "upholstered chair",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "very short hemlines",
+      "check": "knees together and angled, ankles crossed, hands on the lap, head tilt"
+    },
+    {
+      "id": "cq-teacup-hold",
+      "family": "close",
+      "body": "half-body seated at a small tea table, shoulders soft, chin slightly lifted",
+      "hands": "one hand lifts a teacup by the handle off to one side, the other rests by the saucer",
+      "support": "tea table",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "garments whose key front detail sits where the cup would cross",
+      "check": "teacup held to the side; garment front not covered; chin lifted"
+    },
+    {
+      "id": "cq-mirror-touch",
+      "family": "turn",
+      "body": "standing beside a vintage mirror, body angled toward it, face turned back toward camera",
+      "hands": "fingertips of one hand resting lightly on the mirror frame, the other relaxed",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "fingertips on the mirror frame; body toward the mirror, face toward camera"
+    },
+    {
+      "id": "cq-tiptoe-turn",
+      "family": "turn",
+      "body": "a light half-turn on the balls of the feet, one heel lifted, the hem caught in slight motion",
+      "hands": "hands lightly open at the sides",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "structured garments that should not swing",
+      "check": "one heel lifted; small motion in the hem; light open hands"
+    },
+    {
+      "id": "cq-bench-lean",
+      "family": "sit",
+      "body": "sitting on a white garden bench, legs together extended on a diagonal, leaning slightly to one side",
+      "hands": "one hand on the bench behind the hip, the other resting on the knee",
+      "support": "garden bench",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "very short hemlines",
+      "check": "diagonal leg line, lean onto one hand, legs together"
+    },
+    {
+      "id": "cq-back-glance",
+      "family": "turn",
+      "body": "back three-quarter to camera, chin dipped toward the shoulder, eyes lowered demurely, head tilted",
+      "hands": "arms relaxed with fingertips lightly together in front",
+      "support": "floor",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back readable; demure chin-to-shoulder tilt; no laugh"
+    },
+    {
+      "id": "cq-jaw-touch",
+      "family": "close",
+      "body": "half-body, head tilted, eyes lifted to camera",
+      "hands": "fingertips of one hand touching the edge of the jaw, the other out of frame",
+      "support": "floor",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "none",
+      "check": "fingertips at the jaw; head tilt; neckline still visible"
+    },
+    {
+      "id": "fr-hair-tuck",
+      "family": "close",
+      "body": "half-body, head tilted, mid-gesture",
+      "hands": "one hand tucking hair behind an ear, the other relaxed",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "high collars that hide the hand gesture",
+      "check": "hand at the ear, asymmetric shoulders"
+    },
+    {
+      "id": "fr-laugh-turn",
+      "family": "turn",
+      "body": "turning away from camera mid-laugh, shoulders twisting, weight on the back foot",
+      "hands": "one hand near the mouth or chin",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "laughing face partly turned; torso twist visible"
+    },
+    {
+      "id": "fr-sill-perch",
+      "family": "sit",
+      "body": "half-sitting on a windowsill or table edge, one leg straight to the floor, the other bent",
+      "hands": "both hands on the edge beside the hips",
+      "support": "sill or table edge",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "long narrow skirts",
+      "check": "one straight leg, one bent; hands on the edge"
+    },
+    {
+      "id": "fr-walk-out",
+      "family": "walk",
+      "body": "walking out of frame toward one side, mid-stride, looking down",
+      "hands": "one arm swinging, the other holding the garment edge",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "clear stride, body heading out of frame"
+    },
+    {
+      "id": "fr-lean-cross",
+      "family": "lean",
+      "body": "one shoulder on a door frame, ankles loosely crossed, hips shifted",
+      "hands": "one hand in a pocket only if the garment has a real pocket, otherwise thumb at the waistband",
+      "support": "door frame",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "garments without a waist or pocket for the hand",
+      "check": "asymmetric hips, crossed ankles"
+    },
+    {
+      "id": "fr-coat-adjust",
+      "family": "close",
+      "body": "adjusting the garment while looking down, mid-motion",
+      "hands": "both hands at the front edge or zipper, pulling it slightly",
+      "support": "floor",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "fragile or sheer fronts that would distort",
+      "check": "hands on the garment edge, gaze down"
+    },
+    {
+      "id": "fr-over-shoulder",
+      "family": "turn",
+      "body": "back to camera, glancing over the shoulder with a smile",
+      "hands": "arms relaxed",
+      "support": "floor",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back fully shown, smile visible"
+    },
+    {
+      "id": "fr-cafe-sit",
+      "family": "sit",
+      "body": "sitting sideways on a café chair, one arm draped over the backrest, legs crossed",
+      "hands": "one arm on the chair back, other hand on the knee",
+      "support": "chair",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "very short hemlines",
+      "check": "arm over the chair back, crossed legs"
+    },
+    {
+      "id": "ge-pillar-stand",
+      "family": "stand",
+      "body": "standing tall beside a stone column facing camera, chin lowered, gaze up from under the brow",
+      "hands": "one hand resting flat on the column at shoulder height, the other hanging long",
+      "support": "stone column",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "strong vertical line; hand flat on the stone; lowered chin"
+    },
+    {
+      "id": "ge-shadow-turn",
+      "family": "turn",
+      "body": "body three-quarter away into the shadow side, face turned back toward the key light in near profile",
+      "hands": "arms long at the sides",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "garments whose key detail only exists on the front centre",
+      "check": "half the body falls into shadow while the face is lit; the shadow side still shows fabric texture"
+    },
+    {
+      "id": "ge-doorway-frame",
+      "family": "stand",
+      "body": "standing in a plain rectangular stone doorway, the figure filling most of the frame height, weight on one leg",
+      "hands": "hands loosely joined low in front",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "rectangular secular doorway frames the figure; no pointed arch or stained glass; garment large enough to read"
+    },
+    {
+      "id": "ge-throne-sit",
+      "family": "sit",
+      "body": "seated upright on a high-backed dark wooden chair, legs crossed at the knee, regal posture",
+      "hands": "forearms along the armrests, fingers draped over the ends",
+      "support": "high-backed chair",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "very short hemlines",
+      "check": "regal upright seat; hands draped on the armrests"
+    },
+    {
+      "id": "ge-hand-near-face",
+      "family": "close",
+      "body": "half-body, head bowed slightly, eyes lowered or closed",
+      "hands": "one hand raised beside the face with long fingers softly curled, not touching the garment",
+      "support": "floor",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "none",
+      "check": "elongated hand beside the face; neckline still visible"
+    },
+    {
+      "id": "ge-stair-descend",
+      "family": "walk",
+      "body": "slowly descending a dark stone staircase, one foot on the lower step, body upright",
+      "hands": "one hand trailing along the stone rail",
+      "support": "stone stairs and rail",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "a descending step in progress; hand on the rail"
+    },
+    {
+      "id": "ge-back-to-light",
+      "family": "turn",
+      "body": "back to camera before a dark stone wall, the side key light raking across the back, head turned to profile",
+      "hands": "arms long at the sides",
+      "support": "floor",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back details readable under the side light, never a silhouette; face in profile"
+    },
+    {
+      "id": "ge-wall-rest",
+      "family": "lean",
+      "body": "one shoulder and the temple resting against a dark stone wall, eyes closed, body three-quarter",
+      "hands": "one hand flat against the wall at hip height",
+      "support": "stone wall",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "head and shoulder touching the wall; eyes closed; garment side readable"
+    },
+    {
+      "id": "gc-wide-stance",
+      "family": "stand",
+      "body": "feet planted wider than the hips, weight grounded, chin slightly up, shoulders squared to a low camera",
+      "hands": "thumbs hooked in front pockets if the garment has them, otherwise arms loose",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "stance clearly wider than the hips; low camera"
+    },
+    {
+      "id": "gc-street-squat",
+      "family": "sit",
+      "body": "deep street squat, forearms resting on the knees, head up to camera",
+      "hands": "hands loosely clasped between the knees",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "long, padded or stiff garments whose hem or front would crumple or be hidden by the forearms",
+      "check": "deep squat, forearms on the knees, face up to camera"
+    },
+    {
+      "id": "gc-wall-foot-lean",
+      "family": "lean",
+      "body": "leaning back against a brick or graffiti wall with the sole of one foot planted flat on the wall behind",
+      "hands": "hands in pockets if the garment has them, otherwise arms loose at the sides",
+      "support": "wall",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "back on the wall, one sole on the wall, garment front open to camera"
+    },
+    {
+      "id": "gc-lens-reach",
+      "family": "close",
+      "body": "half-body leaning toward a slightly wide lens, playful",
+      "hands": "one hand reaching toward the lens with fingers spread, off to the side of the chest",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "foreshortened hand near the lens; garment front not covered"
+    },
+    {
+      "id": "gc-step-sit",
+      "family": "sit",
+      "body": "sitting on outdoor concrete steps, knees apart, elbows on the knees, leaning forward",
+      "hands": "one hand hanging between the knees, the other loose",
+      "support": "concrete steps",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "very short hemlines",
+      "check": "knees apart, relaxed forward lean, steps visible"
+    },
+    {
+      "id": "gc-diagonal-stride",
+      "family": "walk",
+      "body": "long stride crossing the frame on a diagonal across a footbridge or street, looking past the camera",
+      "hands": "hands in pockets if the garment has them, otherwise arms swinging",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "diagonal movement through the frame; long stride"
+    },
+    {
+      "id": "gc-back-look",
+      "family": "turn",
+      "body": "back to camera, looking back over the shoulder with a confident half-smile, shoulders rolled",
+      "hands": "arms loose at the sides",
+      "support": "floor",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back readable; confident look back over the shoulder"
+    },
+    {
+      "id": "gc-railing-lean",
+      "family": "lean",
+      "body": "leaning forward with the forearms on a metal railing, body angled three-quarter to camera",
+      "hands": "hands loosely clasped over the rail",
+      "support": "metal railing",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "garments whose key front detail would press against the rail",
+      "check": "forearms on the rail; body three-quarter; garment front readable"
+    },
+    {
+      "id": "il-cloister-walk",
+      "family": "walk",
+      "body": "walking toward camera through an arched stone cloister, columns receding behind, easy confident stride",
+      "hands": "arms swinging naturally",
+      "support": "ground",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "colonnade depth behind; garment front clear; easy stride"
+    },
+    {
+      "id": "il-column-lean",
+      "family": "lean",
+      "body": "one shoulder resting lightly against a stone column in the cloister, body three-quarter, feet staggered",
+      "hands": "both arms relaxed at the sides, hands out of pockets",
+      "support": "column",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "only the shoulder touches the column; garment front faces the lens"
+    },
+    {
+      "id": "il-balustrade-sit",
+      "family": "sit",
+      "body": "sitting sideways on a stone terrace balustrade at sunset, one foot on the ground, body three-quarter, terracotta pots nearby",
+      "hands": "both hands resting on the balustrade beside the hips",
+      "support": "balustrade",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "garments whose key detail sits on the lap",
+      "check": "hands beside the hips; warm sun on the garment; garment front readable"
+    },
+    {
+      "id": "il-foyer-doorway",
+      "family": "stand",
+      "body": "standing framed in a carved marble doorway of a foyer, weight on one leg, shoulders open",
+      "hands": "arms relaxed at the sides, hands out of pockets",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "doorway frames the figure; not leaning on the frame"
+    },
+    {
+      "id": "il-lane-turn",
+      "family": "turn",
+      "body": "turning back toward camera mid-step in a narrow stone lane with shuttered windows",
+      "hands": "one arm swinging lightly, the other relaxed",
+      "support": "ground",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "mid-step turn; garment front readable; shutters and stone behind"
+    },
+    {
+      "id": "il-apartment-armchair",
+      "family": "sit",
+      "body": "sitting back in an armchair in a Milan apartment with herringbone parquet and warm walls, legs crossed at the knee, posture relaxed but upright",
+      "hands": "forearms resting on the armrests",
+      "support": "armchair",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "garments whose key detail sits on the lap",
+      "check": "hands on the armrests, clear of the garment; room depth behind"
+    },
+    {
+      "id": "il-painting-wall-walk-away",
+      "family": "walk",
+      "body": "walking away from camera along a wall of framed classical oil paintings, slow stride",
+      "hands": "arms relaxed at the sides, hands out of pockets",
+      "support": "floor",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back of the garment fully readable; paintings beside, not behind the garment colour"
+    },
+    {
+      "id": "il-collar-close",
+      "family": "close",
+      "body": "half-body in warm side light, chin slightly raised, shoulders relaxed",
+      "hands": "arms relaxed at the sides, below the frame; no hand touches the garment",
+      "support": "ground",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "none",
+      "check": "no hand on the garment; sheen and texture readable"
+    },
+    {
+      "id": "jl-tea-pour",
+      "family": "sit",
+      "body": "sitting at a low wooden table, body turned three-quarter to camera so the garment front faces the lens, shoulders soft",
+      "hands": "one hand pours from a plain ceramic pot held low beside the body over a cup at the table edge, the other hand rests on the table",
+      "support": "floor cushion or low stool",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "long full skirts that would bunch on the floor; garments whose placket, chest pocket or waistband would be covered by the hand or the pot",
+      "check": "pot stays below the chest and to the side; garment front not covered"
+    },
+    {
+      "id": "jl-plant-water",
+      "family": "stand",
+      "body": "standing beside a windowsill with potted plants, body angled three-quarter, leaning a little forward",
+      "hands": "one hand holds a small plain watering can tilted over a pot, the other relaxed",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "watering can held out at the side over the pot; garment front stays clear"
+    },
+    {
+      "id": "jl-curtain-open",
+      "family": "turn",
+      "body": "standing at a window drawing back a sheer curtain, body half turned toward the window",
+      "hands": "one hand drawing the sheer curtain aside at hip height, the other relaxed at the side",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "hand no higher than the hip; curtain does not cover the garment"
+    },
+    {
+      "id": "jl-floor-sit",
+      "family": "sit",
+      "body": "sitting on a tatami or wooden floor with the legs folded softly to one side, back upright and relaxed",
+      "hands": "one hand resting on the floor beside the hip, the other on the knee",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "short skirts or garments whose hem would ride up",
+      "check": "legs folded to one side; full garment front readable"
+    },
+    {
+      "id": "jl-bicycle-walk",
+      "family": "walk",
+      "body": "walking slowly beside a simple city bicycle in a quiet lane, the bicycle on the far side of the body, body three-quarter to camera",
+      "hands": "the far hand on the handlebar, the near arm relaxed at the side",
+      "support": "ground and bicycle",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "long skirts that would catch in the wheel; garments whose hem or trouser hem would be hidden by the frame",
+      "check": "no part of the bicycle crosses in front of the garment; slow step"
+    },
+    {
+      "id": "jl-step-sit",
+      "family": "sit",
+      "body": "sitting on a low wooden entry step or porch edge, knees together, leaning slightly forward",
+      "hands": "a plain canvas tote resting on the step beside the hip, hands loosely together on the knees",
+      "support": "step",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "tote beside the body, not on the lap; garment front visible"
+    },
+    {
+      "id": "jl-walk-away-lane",
+      "family": "walk",
+      "body": "walking away from camera down a narrow residential lane or room, slow natural stride",
+      "hands": "one hand carrying a plain canvas tote low at the side, the other relaxed",
+      "support": "ground",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back of the garment fully readable; tote hangs below the hem line"
+    },
+    {
+      "id": "jl-sleeve-fold",
+      "family": "close",
+      "body": "half-body, standing relaxed with the shoulders soft, looking down at the task",
+      "hands": "both hands folding back one sleeve cuff a single turn",
+      "support": "floor",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "sleeveless garments or cuffs that must stay unfolded as sold",
+      "check": "cuff detail readable; folding stays a single turn"
+    },
+    {
+      "id": "kc-wall-stand",
+      "family": "lean",
+      "body": "shoulder blades lightly against the wall of an apartment entry or gallery, body straight, one foot crossed flat behind the other ankle",
+      "hands": "both arms hang close to the body",
+      "support": "wall and floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "long full skirts that would bunch against the wall",
+      "check": "spine stays vertical; legs read as one long line"
+    },
+    {
+      "id": "kc-off-axis-stand",
+      "family": "stand",
+      "body": "standing with the torso turned 45° away from camera while the head turns back to near-profile",
+      "hands": "one hand rests on the opposite forearm at waist height",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "garments whose key detail sits on the side turned away",
+      "check": "torso and head point in clearly different directions"
+    },
+    {
+      "id": "kc-edge-sit",
+      "family": "sit",
+      "body": "sitting on the edge of a low ledge or step, knees together and angled to one side, back upright",
+      "hands": "hands stacked loosely on one knee",
+      "support": "ledge",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "short hemlines that would ride up",
+      "check": "knees angled, back straight, hands on knee"
+    },
+    {
+      "id": "kc-collar-hold",
+      "family": "close",
+      "body": "half-body, chin slightly lowered",
+      "hands": "one hand holds the collar or neckline edge closed at the throat",
+      "support": "floor",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "garments without a collar or neckline edge to hold",
+      "check": "a single hand at the neckline; the other out of frame"
+    },
+    {
+      "id": "kc-pause-step",
+      "family": "walk",
+      "body": "caught mid-pause after a step, rear heel lifted, weight forward, arms still",
+      "hands": "arms nearly still at the sides",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "heel lifted, arms not swinging"
+    },
+    {
+      "id": "kc-window-profile",
+      "family": "turn",
+      "body": "standing in clean profile facing a window or wall edge, shoulders relaxed",
+      "hands": "hands loosely joined low in front",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "details that only exist on the front center",
+      "check": "full profile silhouette against the background"
+    },
+    {
+      "id": "kc-back-turn",
+      "family": "turn",
+      "body": "back to camera, head turned to a clean profile over the shoulder",
+      "hands": "arms relaxed",
+      "support": "floor",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back fully shown, face only in profile"
+    },
+    {
+      "id": "kc-seated-lean",
+      "family": "sit",
+      "body": "seated on a stool, forearm on the thigh, upper body leaning slightly forward",
+      "hands": "one forearm on thigh, other hand resting on the stool edge",
+      "support": "stool",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "garments whose front length would fold heavily",
+      "check": "forward lean visible, front length still readable"
+    },
+    {
+      "id": "km-atrium-stand",
+      "pose_id": "tt-stand-neutral",
+      "view": "front",
+      "context": "Stand still in a polished-concrete gallery atrium, with a stair and gray-green planting receding behind.",
+      "avoid_when": "none",
+      "check": "vertical posture with the atrium depth behind; not touching anything"
+    },
+    {
+      "id": "km-entrance-profile",
+      "family": "turn",
+      "body": "standing side-on at a steel-framed boutique entrance, body in profile, face turned toward camera",
+      "hands": "arms relaxed at the sides",
+      "support": "ground",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "clear profile line of the body; no glass reflection crosses the garment"
+    },
+    {
+      "id": "km-lobby-cube-sit",
+      "pose_id": "tt-sit-upright",
+      "view": "front",
+      "context": "Use the flat stone bench in an apartment lobby beside a tall plant; retain the still, architectural mood.",
+      "avoid_when": "short skirts",
+      "check": "upright and still; hands beside the hips, not on the garment; garment front fully visible"
+    },
+    {
+      "id": "km-corridor-walk",
+      "family": "walk",
+      "body": "slow straight walk along a frosted-glass corridor, body side-on to camera, measured step",
+      "hands": "arms nearly still at the sides",
+      "support": "ground",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "measured step, arms quiet; the corridor line runs straight behind"
+    },
+    {
+      "id": "km-arcade-pause",
+      "family": "stand",
+      "body": "standing still under a covered concrete arcade on a wet day, body three-quarter, weight on one leg",
+      "hands": "arms straight and relaxed at the sides",
+      "support": "ground",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "still posture; arms at the sides; nothing in front of the garment"
+    },
+    {
+      "id": "km-plaza-steps",
+      "family": "stand",
+      "body": "standing on wide stone plaza steps, one foot a step higher, body turned three-quarter, posture upright",
+      "hands": "arms relaxed at the sides",
+      "support": "steps",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "feet on two different steps; upright with no lean"
+    },
+    {
+      "id": "km-back-still",
+      "pose_id": "tt-turn-back-still",
+      "view": "back",
+      "context": "Stand still at the open doorway of a concrete gallery; show the supported garment back.",
+      "avoid_when": "no usable back source",
+      "check": "back of the garment fully readable; symmetric and still"
+    },
+    {
+      "id": "km-still-half",
+      "family": "close",
+      "body": "half-body, shoulders square, chin level, completely still",
+      "hands": "arms straight at the sides, below the frame",
+      "support": "ground",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "none",
+      "check": "no hand touches the garment; collar, closure and shoulder line readable"
+    },
+    {
+      "id": "nm-open-stand",
+      "pose_id": "tt-stand-neutral",
+      "view": "front",
+      "context": "Use a bright living room with a bookshelf and a plant a few steps behind; stand well away from any wall, with relaxed shoulders.",
+      "avoid_when": "none",
+      "check": "body centred with open floor around; room objects stay behind and clear of the garment; not leaning on anything"
+    },
+    {
+      "id": "nm-stair-pause",
+      "pose_id": "tt-stand-step-level",
+      "view": "diag",
+      "context": "Pause on a white staircase with the rail at the side; keep the unhurried, everyday mood.",
+      "avoid_when": "long skirts that would catch on the step",
+      "check": "feet on two different steps; hand on the rail; body three-quarter"
+    },
+    {
+      "id": "nm-table-sit",
+      "family": "sit",
+      "body": "sitting upright on a simple wooden chair at a pale wood table, body turned three-quarter to camera",
+      "hands": "forearms resting on the tabletop with hands loosely together",
+      "support": "chair and table",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "garments whose key detail sits below the waist where the table hides it",
+      "check": "forearms on the table; the upper garment fully readable above the tabletop"
+    },
+    {
+      "id": "nm-window-mug",
+      "family": "turn",
+      "body": "standing close to a large window, body three-quarter toward it, head turned to look out in soft profile",
+      "hands": "one hand holds a plain ceramic mug at shoulder height to the window side, the other relaxed at the side",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "mug held at shoulder height on the window side, clear of the garment front; face in soft profile toward the light"
+    },
+    {
+      "id": "nm-slow-walk",
+      "family": "walk",
+      "body": "slow relaxed walk along a wooden lakeside boardwalk or across a bright room, parallel to the camera, short natural stride",
+      "hands": "arms swinging slightly",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "side-on walk with a small stride and open space ahead of the body"
+    },
+    {
+      "id": "nm-bench-sit",
+      "family": "sit",
+      "body": "sitting on a low wooden bench, back upright, legs extended forward and crossed at the ankles",
+      "hands": "hands resting on the bench beside the hips",
+      "support": "low bench",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "very long coats that would pool on the floor",
+      "check": "low seat, legs extended and crossed at the ankles, hands beside the hips"
+    },
+    {
+      "id": "nm-walk-away",
+      "family": "walk",
+      "body": "walking away from camera toward a bright window or down a white corridor, mid-stride",
+      "hands": "arms relaxed at the sides",
+      "support": "floor",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back fully readable; mid-stride; open space around the figure"
+    },
+    {
+      "id": "nm-cuff-adjust",
+      "family": "close",
+      "body": "half-body, relaxed straight posture, looking slightly down",
+      "hands": "one hand gently adjusting the opposite cuff, sleeve edge or hem edge",
+      "support": "floor",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "garments with no cuff, sleeve or hem edge in reach",
+      "check": "one hand at an edge of the garment; gaze down; garment front still readable"
+    },
+    {
+      "id": "oc-brisk-walk",
+      "family": "walk",
+      "body": "brisk walk toward camera across a lobby or crosswalk, mid-stride, posture upright",
+      "hands": "one arm swinging naturally, the other holding a plain unbranded paper coffee cup at the side",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "clear stride; cup held at the side, not across the garment"
+    },
+    {
+      "id": "oc-phone-call",
+      "family": "stand",
+      "body": "standing upright mid-call, weight on one leg, head tilted slightly toward the phone",
+      "hands": "one hand holds a plain phone to the ear, the other relaxed at the side",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "phone at the ear; garment front and side pockets clear"
+    },
+    {
+      "id": "oc-desk-perch",
+      "family": "lean",
+      "body": "half-sitting against the edge of a desk, both legs straight and crossed at the ankles",
+      "hands": "both hands resting on the desk edge beside the hips",
+      "support": "desk",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "very short hemlines",
+      "check": "hips against the desk edge, straight legs crossed at the ankles, hands on the edge"
+    },
+    {
+      "id": "oc-door-push",
+      "family": "walk",
+      "body": "stepping through a glass door, body three-quarter to camera, mid-step",
+      "hands": "one hand flat on the glass pushing it open, the other holding a plain folder at the side",
+      "support": "glass door",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "hand on the door, step in progress, body three-quarter"
+    },
+    {
+      "id": "oc-folder-close",
+      "family": "close",
+      "body": "half-body, shoulders square, open friendly face",
+      "hands": "one hand holds a plain folder hanging beside the thigh, the other relaxed",
+      "support": "floor",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "none",
+      "check": "folder hangs beside the thigh; garment front and pockets clear; friendly face"
+    },
+    {
+      "id": "oc-desk-sit",
+      "family": "sit",
+      "body": "seated on an office chair at a desk, turned slightly toward camera, upright",
+      "hands": "one hand on a closed laptop, the other resting on the desk",
+      "support": "office chair and desk",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "garments whose key detail sits below the desk line",
+      "check": "upright seat; desk hides nothing above the waist"
+    },
+    {
+      "id": "oc-walk-away",
+      "family": "walk",
+      "body": "walking away toward an elevator hall, mid-stride, head turned slightly toward one shoulder",
+      "hands": "one hand carrying a plain folder at the side, the other arm relaxed",
+      "support": "floor",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back readable; mid-stride; head turned slightly"
+    },
+    {
+      "id": "oc-turn-greet",
+      "family": "turn",
+      "body": "turning toward camera as if greeting a colleague, shoulders opening, weight moving onto the front foot",
+      "hands": "one hand lifted to shoulder height in a small open wave, the other relaxed at the side",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "shoulders opening toward camera; turn in progress; raised hand clear of the garment front"
+    },
+    {
+      "id": "om-paddock-rail",
+      "family": "lean",
+      "body": "one forearm resting on the top bar of a white paddock rail fence, body three-quarter to camera, weight on the back leg, stable doors in the distance",
+      "hands": "one forearm on the rail, the other hand relaxed at the side",
+      "support": "fence",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "forearm on the rail; garment front clear of the fence"
+    },
+    {
+      "id": "om-driveway-car",
+      "family": "stand",
+      "body": "standing beside a classic car parked on a tree-lined estate driveway, not leaning on it, weight on one leg",
+      "hands": "one hand resting lightly on the top edge of the car door, the other relaxed",
+      "support": "ground",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "car beside the figure, not in front; no badge or plate readable"
+    },
+    {
+      "id": "om-deck-sit",
+      "family": "sit",
+      "body": "sitting on the bench of a wooden sailboat deck, legs crossed at the ankles, body three-quarter to camera, coiled rope beside",
+      "hands": "both hands resting on the bench edge beside the hips",
+      "support": "boat bench",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "garments whose key detail sits on the lap",
+      "check": "hands beside the hips; garment front readable; deck line behind"
+    },
+    {
+      "id": "om-club-hall-stand",
+      "family": "stand",
+      "body": "standing beside a billiard table in a private club hall with tall windows and a long polished wooden floor",
+      "hands": "one hand resting lightly on the wooden rail of the billiard table, the other relaxed at the side",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "table beside the figure, not in front of the garment; window depth behind"
+    },
+    {
+      "id": "om-veranda-wicker-sit",
+      "family": "sit",
+      "body": "sitting back in a white wicker chair on a seaside villa veranda, legs crossed at the knee, posture relaxed but upright",
+      "hands": "one forearm on the armrest, the other hand resting on the thigh beside the knee",
+      "support": "chair",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "garments whose key detail sits on the lap",
+      "check": "relaxed upright seat; hands clear of the garment front"
+    },
+    {
+      "id": "om-sideboard-turn",
+      "family": "turn",
+      "body": "standing by an antique wooden sideboard in a warm-wood apartment, body three-quarter toward it, face turned back toward camera",
+      "hands": "one hand resting lightly on the sideboard top, the other relaxed",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "hand on the sideboard; garment front faces the lens"
+    },
+    {
+      "id": "om-dock-walk-away",
+      "family": "walk",
+      "body": "walking away from camera down a wooden dock toward moored sailboats, unhurried stride",
+      "hands": "arms relaxed at the sides, hands out of pockets",
+      "support": "dock",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back of the garment fully readable; dock line leads away"
+    },
+    {
+      "id": "om-cuff-close",
+      "family": "close",
+      "body": "half-body, relaxed shoulders, chin level, soft side daylight",
+      "hands": "arms relaxed at the sides, below the frame; no hand touches the garment",
+      "support": "ground",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "none",
+      "check": "no hand on the garment; collar and closure readable"
+    },
+    {
+      "id": "pp-books-stride",
+      "family": "walk",
+      "body": "brisk walk toward camera along a tree-lined campus path, posture upright and open",
+      "hands": "one hand carrying two closed hardback books low against the side of the thigh, the other swinging",
+      "support": "ground",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "books at the side below the hip; garment front clear; brisk step"
+    },
+    {
+      "id": "pp-steps-descend",
+      "family": "walk",
+      "body": "walking down wide library steps toward camera with a light quick step, posture upright, body three-quarter",
+      "hands": "one hand carrying closed books low at the side, the other swinging lightly",
+      "support": "steps",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "long skirts that would catch on the steps",
+      "check": "feet on two different steps; books below the hip and to the side"
+    },
+    {
+      "id": "pp-shelf-pick",
+      "family": "turn",
+      "body": "standing at a library shelf, body turned three-quarter toward it, face turned back toward camera",
+      "hands": "one hand drawing a book from a shelf at waist height, the other relaxed",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "hand no higher than the waist; shelf beside the figure; garment front faces the lens"
+    },
+    {
+      "id": "pp-ivy-wall-stand",
+      "family": "stand",
+      "body": "standing a step in front of an ivy-covered brick wall, weight on one leg, shoulders open and level",
+      "hands": "both arms relaxed at the sides",
+      "support": "ground",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "not leaning on the wall; open upright stance"
+    },
+    {
+      "id": "pp-bench-read",
+      "family": "sit",
+      "body": "sitting upright on a wooden campus bench, legs together angled to one side",
+      "hands": "both hands holding an open paperback low on the thigh beside the knee, below the garment hem",
+      "support": "bench",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "dresses or skirts whose front detail sits on the lap",
+      "check": "book below the garment hem and to the side; torso front fully visible"
+    },
+    {
+      "id": "pp-quad-turn-wave",
+      "family": "turn",
+      "body": "turning toward camera mid-walk on a lawn as if greeting a friend, weight moving onto the front foot",
+      "hands": "one hand raised to waist height in a small open wave, the other carrying a closed notebook at the side",
+      "support": "ground",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "wave stays at waist height; notebook at the side"
+    },
+    {
+      "id": "pp-path-walk-away",
+      "family": "walk",
+      "body": "walking away from camera down a tree-lined campus path toward a brick building, mid-stride",
+      "hands": "one hand carrying closed books low at the side, the other relaxed",
+      "support": "ground",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back of the garment fully readable; books below the hem line"
+    },
+    {
+      "id": "pp-notebook-close",
+      "family": "close",
+      "body": "half-body, chin up with a bright smile, shoulders open",
+      "hands": "one hand holding a closed notebook at hip height against the side, the other out of frame",
+      "support": "ground",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "none",
+      "check": "notebook at the side below the waist; collar and front details readable"
+    },
+    {
+      "id": "ql-lounge-stand",
+      "family": "stand",
+      "body": "standing in a contemporary living room a step beside a stone coffee table, wool rug underfoot, weight on one leg, shoulders relaxed",
+      "hands": "both arms relaxed at the sides, fingers soft, hands out of pockets",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "coffee table beside the figure, not in front of the garment; still, easy stance"
+    },
+    {
+      "id": "ql-lobby-sofa-sit",
+      "family": "sit",
+      "body": "sitting upright on the front edge of a low sofa in a hotel lobby lounge, knees together angled to one side, body three-quarter to camera",
+      "hands": "one hand resting on the sofa cushion beside the hip, the other on the thigh near the knee",
+      "support": "sofa",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "garments whose key detail sits on the lap",
+      "check": "upright on the sofa edge; garment front readable; hands clear of the garment front"
+    },
+    {
+      "id": "ql-gallery-pause",
+      "family": "turn",
+      "body": "standing in a contemporary gallery a few steps from a single sculpture, body three-quarter toward the work, face turned back toward camera",
+      "hands": "hands loosely clasped behind the back",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "sculpture stays beside or behind the figure; garment front faces the lens"
+    },
+    {
+      "id": "ql-skyline-window",
+      "family": "stand",
+      "body": "standing beside a floor-to-ceiling window over a city skyline in a high apartment, body angled three-quarter, a low lounge chair next to the figure",
+      "hands": "one hand resting lightly on the back of the lounge chair, the other relaxed at the side",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "garment lit from the window side, not silhouetted; no glass reflection crosses the garment"
+    },
+    {
+      "id": "ql-fabric-rack-touch",
+      "family": "turn",
+      "body": "standing beside a fabric rack in a designer studio, body three-quarter toward the rack, face turned toward camera",
+      "hands": "one hand lightly touching a fabric bolt on the rack at waist height, the other relaxed",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "hand on the rack fabric, not on the garment; rack fabrics stay muted and do not resemble the garment"
+    },
+    {
+      "id": "ql-lobby-walk",
+      "family": "walk",
+      "body": "slow unhurried walk toward camera across a stone-floored hotel lobby, short natural stride",
+      "hands": "arms swinging slightly at the sides",
+      "support": "floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "small stride; garment front clear; lobby depth behind"
+    },
+    {
+      "id": "ql-gallery-walk-away",
+      "family": "walk",
+      "body": "walking away from camera through a contemporary gallery toward a pale stone wall, slow stride",
+      "hands": "arms relaxed at the sides, hands out of pockets",
+      "support": "floor",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back of the garment fully readable; open floor around the figure"
+    },
+    {
+      "id": "ql-texture-close",
+      "family": "close",
+      "body": "half-body, shoulders relaxed, chin slightly lowered, soft side light across the fabric",
+      "hands": "arms relaxed at the sides, below the frame; no hand touches the garment",
+      "support": "floor",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "none",
+      "check": "no hand on the garment; surface texture readable up close"
+    },
+    {
+      "id": "ra-counter-lean",
+      "family": "lean",
+      "body": "hip resting lightly against a kitchen counter, body three-quarter to camera, one foot a little forward with the heel down, ankles not crossed",
+      "hands": "both hands resting on the counter edge behind the hips",
+      "support": "counter",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "light lean; counter behind the body; garment front fully visible; ankles not crossed"
+    },
+    {
+      "id": "ra-coffee-pour",
+      "family": "stand",
+      "body": "standing at the counter, body turned three-quarter with the garment front toward the lens, leaning a little toward the task",
+      "hands": "one hand pours from a plain enamel coffee pot held low at the side into a mug on the counter, the other rests on the counter",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "aprons whose bib would be hidden by the arms; garments whose placket, chest pocket or waistband would be covered by the hand or the pot",
+      "check": "pot below the chest and to the side; garment front not covered"
+    },
+    {
+      "id": "ra-booth-sit",
+      "family": "sit",
+      "body": "sitting in a diner booth facing camera, back against the seat, relaxed",
+      "hands": "forearms resting on the table edge with a plain mug between the hands",
+      "support": "booth seat and table",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "bottoms that must be shown, since the table hides the lower body",
+      "check": "table edge stays below the garment's key upper parts"
+    },
+    {
+      "id": "ra-grocery-carry",
+      "family": "walk",
+      "body": "walking out of a corner grocery doorway toward camera, easy stride",
+      "hands": "one arm carrying a plain brown paper grocery bag against the hip on the side, the other swinging",
+      "support": "ground",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "bag on the side of the body, not in front of the garment"
+    },
+    {
+      "id": "ra-porch-step-sit",
+      "family": "sit",
+      "body": "sitting on a wooden porch step, knees together, leaning slightly forward",
+      "hands": "forearms resting on the knees with hands loosely together",
+      "support": "step",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "short skirts",
+      "check": "garment front visible above the knees"
+    },
+    {
+      "id": "ra-cupboard-reach",
+      "family": "turn",
+      "body": "standing at an open low wooden cupboard or sideboard, body turned three-quarter toward it, face turned back toward camera",
+      "hands": "one hand resting on the open cupboard door at hip height, the other holding a plain mug low",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "hands no higher than the hip; garment length and closure unchanged"
+    },
+    {
+      "id": "ra-kitchen-walk-away",
+      "family": "walk",
+      "body": "walking away from camera through a kitchen or hallway toward a lit doorway, mid-stride",
+      "hands": "arms relaxed at the sides",
+      "support": "floor",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back and any straps or ties fully readable"
+    },
+    {
+      "id": "ra-tie-check",
+      "family": "close",
+      "body": "half-body, standing relaxed, looking down at the hands",
+      "hands": "both hands lightly adjusting a tie, strap or hem edge of the garment at the side",
+      "support": "floor",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "garments without ties, straps or a hem to adjust",
+      "check": "hands touch only an edge; detail readable"
+    },
+    {
+      "id": "wv-bench-hands",
+      "family": "stand",
+      "body": "standing at a wooden workbench, body three-quarter to camera, posture upright, weight even",
+      "hands": "both hands resting flat on the bench top beside the body",
+      "support": "floor and workbench",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "bench beside the figure, below the waist; garment front visible"
+    },
+    {
+      "id": "wv-toolbox-carry",
+      "family": "walk",
+      "body": "walking toward camera out of a workshop door, steady stride",
+      "hands": "one hand carrying a plain wooden toolbox low at the side by its handle, the other relaxed",
+      "support": "ground",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "none",
+      "check": "toolbox below the hip and to the side; garment front clear"
+    },
+    {
+      "id": "wv-crate-sit",
+      "family": "sit",
+      "body": "sitting on a wooden crate, both feet flat on the floor, knees a fist apart, back upright",
+      "hands": "both hands resting on the crate edge beside the hips",
+      "support": "crates",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "short skirts",
+      "check": "upright seat, feet flat; garment front visible"
+    },
+    {
+      "id": "wv-door-haul",
+      "family": "stand",
+      "body": "standing beside a roll-up warehouse door, body three-quarter, weight on the back foot",
+      "hands": "one hand on the door handle at hip height, the other relaxed",
+      "support": "ground",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "hand at hip height; door beside the figure"
+    },
+    {
+      "id": "wv-shelf-turn",
+      "family": "turn",
+      "body": "turning from a metal shelf toward camera, shoulders opening, mid-task",
+      "hands": "one hand still resting on the shelf edge at waist height, the other relaxed",
+      "support": "floor",
+      "views": [
+        "front-side"
+      ],
+      "avoid_when": "none",
+      "check": "shelf beside the body; hand no higher than the waist"
+    },
+    {
+      "id": "wv-brick-stand",
+      "pose_id": "tt-stand-neutral",
+      "view": "front",
+      "context": "Stand in front of a brick warehouse wall with a grounded, practical mood; do not lean on the wall.",
+      "avoid_when": "none",
+      "check": "eye-level camera; hip-width stance, not a wide street stance"
+    },
+    {
+      "id": "wv-yard-walk-away",
+      "family": "walk",
+      "body": "walking away from camera across a workshop yard or along a garage, steady stride",
+      "hands": "one hand carrying a plain wooden toolbox low at the side, the other relaxed",
+      "support": "ground",
+      "views": [
+        "back"
+      ],
+      "avoid_when": "no usable back source",
+      "check": "back of the garment fully readable; toolbox below the hem line"
+    },
+    {
+      "id": "wv-tool-look",
+      "family": "close",
+      "body": "half-body, looking down at the task, shoulders relaxed",
+      "hands": "one hand holding a wooden folding ruler or a spool of thread at waist height off to the side, the other out of frame; never a hammer, axe, knife or crowbar",
+      "support": "floor",
+      "views": [
+        "front",
+        "detail"
+      ],
+      "avoid_when": "none",
+      "check": "a harmless measuring or sewing item to the side, never across the garment front"
+    }
+  ]
+}

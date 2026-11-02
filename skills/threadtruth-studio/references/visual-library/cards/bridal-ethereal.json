@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "bridal-ethereal",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "name": "婚纱空灵",
   "entry_type": "complex-garment",
   "aliases": [
@@ -143,103 +143,14 @@
     }
   ],
   "action_tendency": "Slow, light and quiet: upright graceful lines, small unhurried steps, the skirt and train laid out with care, hands soft and low; never dramatic, sultry or playful.",
-  "pose_vocabulary": [
-    {
-      "id": "be-centre-stand",
-      "family": "stand",
-      "body": "standing upright in the middle of a pale corridor, weight even, the full skirt settled around the feet",
-      "hands": "arms relaxed at the sides, fingertips at most touching the side seam, never on the front of the skirt",
-      "support": "floor",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "none",
-      "check": "complete hem visible; front of the bodice and skirt fully uncovered"
-    },
-    {
-      "id": "be-train-fan-back",
-      "family": "stand",
-      "body": "standing back three-quarter to camera with the train fanned out behind on the floor, face turned softly toward the shoulder",
-      "hands": "arms long and relaxed at the sides",
-      "support": "floor",
-      "views": [
-        "back"
-      ],
-      "avoid_when": "no usable back source",
-      "check": "back closure and train fully readable; train laid out, not bunched"
-    },
-    {
-      "id": "be-window-profile",
-      "family": "turn",
-      "body": "standing beside a tall window with sheer drapes, body three-quarter toward it, face turned toward the light in soft profile",
-      "hands": "one hand resting lightly on the window frame, the other relaxed",
-      "support": "floor",
-      "views": [
-        "front-side"
-      ],
-      "avoid_when": "none",
-      "check": "drape does not cover the dress; window light on the face side"
-    },
-    {
-      "id": "be-slow-step",
-      "family": "walk",
-      "body": "a slow small step forward along the corridor, the skirt moving gently",
-      "hands": "arms relaxed at the sides, fingers just clear of the skirt; never gathering, lifting or holding the skirt",
-      "support": "floor",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "fitted mermaid skirts that cannot be gathered",
-      "check": "skirt silhouette unchanged; no fabric held in the hands; small step"
-    },
-    {
-      "id": "be-bench-sit-spread",
-      "family": "sit",
-      "body": "seated upright on a simple low bench, the skirt spread around and in front onto the floor",
-      "hands": "hands resting together on the lap",
-      "support": "bench",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "stiff structured skirts that would crease badly when seated",
-      "check": "skirt spread wide and smooth; bodice fully visible"
-    },
-    {
-      "id": "be-half-turn",
-      "family": "turn",
-      "body": "a slow half-turn toward camera, the skirt swinging softly and settling",
-      "hands": "hands lightly open at the sides",
-      "support": "floor",
-      "views": [
-        "front-side"
-      ],
-      "avoid_when": "none",
-      "check": "skirt movement soft; no fabric lifted above the ankle"
-    },
-    {
-      "id": "be-corridor-approach",
-      "family": "walk",
-      "body": "walking slowly toward camera down a pale corridor, small step, the skirt moving gently and the train trailing behind",
-      "hands": "arms relaxed at the sides",
-      "support": "floor",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "none",
-      "check": "front of the dress fully visible; train visible on the floor behind; no fabric held"
-    },
-    {
-      "id": "be-bodice-detail",
-      "family": "close",
-      "body": "close view from the shoulders to the waist, posture upright, shoulders soft",
-      "hands": "one hand resting lightly at the side of the waist seam, the other out of frame",
-      "support": "floor",
-      "views": [
-        "front",
-        "detail"
-      ],
-      "avoid_when": "none",
-      "check": "neckline, bodice and any beading fully visible; the hand covers no decoration"
-    }
+  "pose_pool": [
+    "be-centre-stand",
+    "be-train-fan-back",
+    "be-window-profile",
+    "be-slow-step",
+    "be-bench-sit-spread",
+    "be-half-turn",
+    "be-corridor-approach",
+    "be-bodice-detail"
   ]
 }

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "athleisure",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "name": "运动休闲 / Athleisure",
   "entry_type": "legacy-style",
   "aliases": [
@@ -151,103 +151,14 @@
     }
   ],
   "action_tendency": "Everyday active ease between city and workout: walking with a water bottle, a short pause on a riverside rail, sitting on a bench after a session; light and natural, never a stretch, jump, sprint or pro training move.",
-  "pose_vocabulary": [
-    {
-      "id": "al-riverside-walk",
-      "family": "walk",
-      "body": "easy brisk walk toward camera along a riverside path, railing and water to one side",
-      "hands": "one hand holding a plain water bottle low at the side, the other swinging",
-      "support": "ground",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "none",
-      "check": "bottle below the hip at the side; garment front clear; walking, not running"
-    },
-    {
-      "id": "al-rail-pause",
-      "family": "lean",
-      "body": "pausing at a riverside railing, one forearm resting on the top rail, body three-quarter to camera",
-      "hands": "one forearm on the rail, the other hand relaxed at the side",
-      "support": "railing",
-      "views": [
-        "front-side"
-      ],
-      "avoid_when": "none",
-      "check": "forearm on the rail; garment front clear of the railing"
-    },
-    {
-      "id": "al-gym-window-stand",
-      "family": "stand",
-      "body": "standing beside the floor-to-ceiling window of a gym, a weight rack soft behind, weight on one leg",
-      "hands": "arms relaxed at the sides, hands out of pockets",
-      "support": "floor",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "none",
-      "check": "garment front lit, not silhouetted; standing, no exercise"
-    },
-    {
-      "id": "al-studio-floor-sit",
-      "family": "sit",
-      "body": "sitting cross-legged on the pale wooden floor of a yoga studio, back upright, rolled mats behind",
-      "hands": "hands resting on the knees",
-      "support": "floor",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "skirts or dresses",
-      "check": "seated at rest, no stretch; garment front readable"
-    },
-    {
-      "id": "al-cafe-bench-sit",
-      "family": "sit",
-      "body": "sitting on a café sidewalk bench after a run, leaning back slightly, body three-quarter, one ankle crossed over the other",
-      "hands": "one hand holding a takeaway cup on the knee, the other on the bench",
-      "support": "bench",
-      "views": [
-        "front-side"
-      ],
-      "avoid_when": "garments whose key detail sits on the lap",
-      "check": "cup on the knee, clear of the garment front; relaxed seat"
-    },
-    {
-      "id": "al-park-turn",
-      "family": "turn",
-      "body": "turning back toward camera while walking along a tree-lined park path",
-      "hands": "arms relaxed, one swinging lightly",
-      "support": "ground",
-      "views": [
-        "front-side"
-      ],
-      "avoid_when": "none",
-      "check": "mid-walk turn; garment front readable; no jumping"
-    },
-    {
-      "id": "al-path-walk-away",
-      "family": "walk",
-      "body": "walking away from camera along a riverside path, relaxed stride",
-      "hands": "arms swinging lightly",
-      "support": "ground",
-      "views": [
-        "back"
-      ],
-      "avoid_when": "no usable back source",
-      "check": "back of the garment fully readable; path leads away"
-    },
-    {
-      "id": "al-zip-close",
-      "family": "close",
-      "body": "half-body, relaxed shoulders, chin level",
-      "hands": "arms relaxed at the sides, below the frame; no hand touches the garment",
-      "support": "ground",
-      "views": [
-        "front",
-        "detail"
-      ],
-      "avoid_when": "none",
-      "check": "no hand on the garment; fabric, zip and seams readable"
-    }
+  "pose_pool": [
+    "al-riverside-walk",
+    "al-rail-pause",
+    "al-gym-window-stand",
+    "al-studio-floor-sit",
+    "al-cafe-bench-sit",
+    "al-park-turn",
+    "al-path-walk-away",
+    "al-zip-close"
   ]
 }

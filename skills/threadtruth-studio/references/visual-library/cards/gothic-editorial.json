@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "gothic-editorial",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "name": "哥特暗调摄影",
   "entry_type": "shooting-plan",
   "aliases": [
@@ -144,103 +144,14 @@
     }
   ],
   "action_tendency": "Slow, solemn and elongated: still verticals, long extended hands, heads bowed or turned into shadow; never cheerful, bouncy or casual.",
-  "pose_vocabulary": [
-    {
-      "id": "ge-pillar-stand",
-      "family": "stand",
-      "body": "standing tall beside a stone column facing camera, chin lowered, gaze up from under the brow",
-      "hands": "one hand resting flat on the column at shoulder height, the other hanging long",
-      "support": "stone column",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "none",
-      "check": "strong vertical line; hand flat on the stone; lowered chin"
-    },
-    {
-      "id": "ge-shadow-turn",
-      "family": "turn",
-      "body": "body three-quarter away into the shadow side, face turned back toward the key light in near profile",
-      "hands": "arms long at the sides",
-      "support": "floor",
-      "views": [
-        "front-side"
-      ],
-      "avoid_when": "garments whose key detail only exists on the front centre",
-      "check": "half the body falls into shadow while the face is lit; the shadow side still shows fabric texture"
-    },
-    {
-      "id": "ge-doorway-frame",
-      "family": "stand",
-      "body": "standing in a plain rectangular stone doorway, the figure filling most of the frame height, weight on one leg",
-      "hands": "hands loosely joined low in front",
-      "support": "floor",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "none",
-      "check": "rectangular secular doorway frames the figure; no pointed arch or stained glass; garment large enough to read"
-    },
-    {
-      "id": "ge-throne-sit",
-      "family": "sit",
-      "body": "seated upright on a high-backed dark wooden chair, legs crossed at the knee, regal posture",
-      "hands": "forearms along the armrests, fingers draped over the ends",
-      "support": "high-backed chair",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "very short hemlines",
-      "check": "regal upright seat; hands draped on the armrests"
-    },
-    {
-      "id": "ge-hand-near-face",
-      "family": "close",
-      "body": "half-body, head bowed slightly, eyes lowered or closed",
-      "hands": "one hand raised beside the face with long fingers softly curled, not touching the garment",
-      "support": "floor",
-      "views": [
-        "front",
-        "detail"
-      ],
-      "avoid_when": "none",
-      "check": "elongated hand beside the face; neckline still visible"
-    },
-    {
-      "id": "ge-stair-descend",
-      "family": "walk",
-      "body": "slowly descending a dark stone staircase, one foot on the lower step, body upright",
-      "hands": "one hand trailing along the stone rail",
-      "support": "stone stairs and rail",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "none",
-      "check": "a descending step in progress; hand on the rail"
-    },
-    {
-      "id": "ge-back-to-light",
-      "family": "turn",
-      "body": "back to camera before a dark stone wall, the side key light raking across the back, head turned to profile",
-      "hands": "arms long at the sides",
-      "support": "floor",
-      "views": [
-        "back"
-      ],
-      "avoid_when": "no usable back source",
-      "check": "back details readable under the side light, never a silhouette; face in profile"
-    },
-    {
-      "id": "ge-wall-rest",
-      "family": "lean",
-      "body": "one shoulder and the temple resting against a dark stone wall, eyes closed, body three-quarter",
-      "hands": "one hand flat against the wall at hip height",
-      "support": "stone wall",
-      "views": [
-        "front-side"
-      ],
-      "avoid_when": "none",
-      "check": "head and shoulder touching the wall; eyes closed; garment side readable"
-    }
+  "pose_pool": [
+    "ge-pillar-stand",
+    "ge-shadow-turn",
+    "ge-doorway-frame",
+    "ge-throne-sit",
+    "ge-hand-near-face",
+    "ge-stair-descend",
+    "ge-back-to-light",
+    "ge-wall-rest"
   ]
 }

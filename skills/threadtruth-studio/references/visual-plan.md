@@ -34,7 +34,7 @@
 schema2新任务可携带顶层`visual_plan`及其版本／哈希，启用prompt contract 2。核心内容：
 
 - `objective`、`output_medium`、`output_form`（human/faceless/flat-lay/hanger/mannequin，与当前任务一致）；
-- `style.primary`与`style.supporting`的`id/version/sha256/snapshot`，冻结来源卡全文；
+- `style.primary`与`style.supporting`的`id/version/sha256/snapshot`，冻结来源卡全文；带`pose_pool`的卡同时保存解析后的`pose_vocabulary`与`pose_pool_snapshot`（版本、逐条文字或几何定义、哈希）。校验与恢复只读冻结内容，不重载共享目录；动作候选不整池渲染，具体身体／手位／支撑仍由`shot_plan`负责。旧内嵌词条卡继续原契约；
 - `garment.description/keep/source_sha256s`（可选`hem_state`、`silhouette`，固定枚举，渲染为几何句）、允许的`styling`；
 - `photography.scene/lighting/composition/palette`、`art.direction/techniques/limits`、限定范围的`negatives`；
 - `shots`按实际slot和稳定shot_id冻结（旧v1按pose）逐张场景、光线及构图；文化服饰可另有冻结的`culture_profile`；

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "quiet-luxury",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "name": "静奢风 / Quiet Luxury",
   "entry_type": "legacy-style",
   "aliases": [
@@ -152,103 +152,14 @@
     }
   ],
   "action_tendency": "Unhurried and understated in a contemporary interior: slow steps, still weight, a light touch on furniture or fabric; never posing for display, never flaunting the garment.",
-  "pose_vocabulary": [
-    {
-      "id": "ql-lounge-stand",
-      "family": "stand",
-      "body": "standing in a contemporary living room a step beside a stone coffee table, wool rug underfoot, weight on one leg, shoulders relaxed",
-      "hands": "both arms relaxed at the sides, fingers soft, hands out of pockets",
-      "support": "floor",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "none",
-      "check": "coffee table beside the figure, not in front of the garment; still, easy stance"
-    },
-    {
-      "id": "ql-lobby-sofa-sit",
-      "family": "sit",
-      "body": "sitting upright on the front edge of a low sofa in a hotel lobby lounge, knees together angled to one side, body three-quarter to camera",
-      "hands": "one hand resting on the sofa cushion beside the hip, the other on the thigh near the knee",
-      "support": "sofa",
-      "views": [
-        "front-side"
-      ],
-      "avoid_when": "garments whose key detail sits on the lap",
-      "check": "upright on the sofa edge; garment front readable; hands clear of the garment front"
-    },
-    {
-      "id": "ql-gallery-pause",
-      "family": "turn",
-      "body": "standing in a contemporary gallery a few steps from a single sculpture, body three-quarter toward the work, face turned back toward camera",
-      "hands": "hands loosely clasped behind the back",
-      "support": "floor",
-      "views": [
-        "front-side"
-      ],
-      "avoid_when": "none",
-      "check": "sculpture stays beside or behind the figure; garment front faces the lens"
-    },
-    {
-      "id": "ql-skyline-window",
-      "family": "stand",
-      "body": "standing beside a floor-to-ceiling window over a city skyline in a high apartment, body angled three-quarter, a low lounge chair next to the figure",
-      "hands": "one hand resting lightly on the back of the lounge chair, the other relaxed at the side",
-      "support": "floor",
-      "views": [
-        "front-side"
-      ],
-      "avoid_when": "none",
-      "check": "garment lit from the window side, not silhouetted; no glass reflection crosses the garment"
-    },
-    {
-      "id": "ql-fabric-rack-touch",
-      "family": "turn",
-      "body": "standing beside a fabric rack in a designer studio, body three-quarter toward the rack, face turned toward camera",
-      "hands": "one hand lightly touching a fabric bolt on the rack at waist height, the other relaxed",
-      "support": "floor",
-      "views": [
-        "front-side"
-      ],
-      "avoid_when": "none",
-      "check": "hand on the rack fabric, not on the garment; rack fabrics stay muted and do not resemble the garment"
-    },
-    {
-      "id": "ql-lobby-walk",
-      "family": "walk",
-      "body": "slow unhurried walk toward camera across a stone-floored hotel lobby, short natural stride",
-      "hands": "arms swinging slightly at the sides",
-      "support": "floor",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "none",
-      "check": "small stride; garment front clear; lobby depth behind"
-    },
-    {
-      "id": "ql-gallery-walk-away",
-      "family": "walk",
-      "body": "walking away from camera through a contemporary gallery toward a pale stone wall, slow stride",
-      "hands": "arms relaxed at the sides, hands out of pockets",
-      "support": "floor",
-      "views": [
-        "back"
-      ],
-      "avoid_when": "no usable back source",
-      "check": "back of the garment fully readable; open floor around the figure"
-    },
-    {
-      "id": "ql-texture-close",
-      "family": "close",
-      "body": "half-body, shoulders relaxed, chin slightly lowered, soft side light across the fabric",
-      "hands": "arms relaxed at the sides, below the frame; no hand touches the garment",
-      "support": "floor",
-      "views": [
-        "front",
-        "detail"
-      ],
-      "avoid_when": "none",
-      "check": "no hand on the garment; surface texture readable up close"
-    }
+  "pose_pool": [
+    "ql-lounge-stand",
+    "ql-lobby-sofa-sit",
+    "ql-gallery-pause",
+    "ql-skyline-window",
+    "ql-fabric-rack-touch",
+    "ql-lobby-walk",
+    "ql-gallery-walk-away",
+    "ql-texture-close"
   ]
 }
