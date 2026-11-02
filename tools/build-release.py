@@ -100,6 +100,15 @@ def _tracked_files(root: Path, name: str) -> list[str]:
     return sorted(item for item in listing.stdout.split("\0") if item)
 
 
+def _reject_symlinked_path(root: Path, relative: str) -> None:
+    """Reject a symlink at the file or any parent directory below the repository root."""
+    current = root
+    for part in Path(relative).parts:
+        current = current / part
+        if current.is_symlink():
+            raise ValueError(f"release source must not contain a symlink: {relative}")
+
+
 def _copy_source_dirs(root: Path, stage: Path) -> None:
     for name in SOURCE_DIRS:
         source = root / name
@@ -112,8 +121,7 @@ def _copy_source_dirs(root: Path, stage: Path) -> None:
             if name == "docs/demo" and parts[-1] in IGNORED_DEMO_NAMES:
                 continue
             path = root / relative
-            if path.is_symlink():
-                raise ValueError(f"release source must not contain a symlink: {relative}")
+            _reject_symlinked_path(root, relative)
             if not path.is_file():
                 raise FileNotFoundError(f"tracked release file missing from work tree: {relative}")
             target = stage / relative
@@ -125,8 +133,7 @@ def _copy_allowlist(root: Path, stage: Path) -> None:
     _copy_source_dirs(root, stage)
     for name in PUBLIC_FILES:
         source = root / name
-        if source.is_symlink():
-            raise ValueError(f"release file must not be a symlink: {name}")
+        _reject_symlinked_path(root, name)
         if not source.is_file():
             raise FileNotFoundError(f"missing release file: {source}")
         (stage / name).parent.mkdir(parents=True, exist_ok=True)

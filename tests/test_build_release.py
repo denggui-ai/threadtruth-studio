@@ -249,5 +249,16 @@ class ReleaseBuildTests(unittest.TestCase):
                 module._copy_source_dirs(root, Path(base) / "stage")
 
 
+    def test_release_copy_rejects_symlinked_parent_directory(self):
+        module = self._load_module()
+        with tempfile.TemporaryDirectory() as base:
+            root = self._synthetic_repo(base)
+            outside = Path(base) / "outside-dir"
+            shutil.move(str(root / "skills/demo-skill"), outside)
+            (outside / "SKILL.md").write_text("private marker")
+            (root / "skills/demo-skill").symlink_to(outside, target_is_directory=True)
+            with self.assertRaisesRegex(ValueError, "symlink"):
+                module._copy_source_dirs(root, Path(base) / "stage")
+
 if __name__ == "__main__":
     unittest.main()
