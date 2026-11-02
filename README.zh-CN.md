@@ -1,4 +1,4 @@
-> **当前源码的本地完整候选：1.0.0-beta.16+studio.20261102.569a9b6。** 52动作／60视图与知识／风格规则衔接已纳入；未安装、未发布，视觉缺口保留。先看[完整候选指南](docs/STUDIO-CANDIDATE.md)与[离线入口](USER-GUIDE.html)。下文beta.16下载及历史图库保留原发布范围，不代表本候选。 / Local candidate only; historical download links do not identify this archive.
+> **当前源码的本地完整候选：1.0.0-beta.16+studio.20261102.da7e9a8。** 52动作／60视图、知识／风格规则、22卡动作池、跨组精确／近似避重及推荐排序已纳入；未安装、未发布，视觉缺口保留。先看[完整候选指南](docs/STUDIO-CANDIDATE.md)与[离线入口](USER-GUIDE.html)。下文beta.16下载及历史图库保留原发布范围，不代表本候选。 / Local candidate only; historical download links do not identify this archive.
 
 # 裁光 · Caiguang
 
