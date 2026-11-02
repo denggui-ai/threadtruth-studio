@@ -170,3 +170,15 @@ class CommonFlowTests(unittest.TestCase):
         with self.assertRaises(FileExistsError):
             m.update(self.job, 'returned', look=1, file=self.image('other', (20, 30), 'green'))
         self.assertEqual(m.read(self.job)['looks'][0]['state'], 'reserved')
+
+    def test_returned_does_not_recover_through_symlinked_output(self):
+        self.create()
+        m.export(self.job)
+        m.update(self.job, 'authorize', limit=1, note='Synthetic authorization')
+        self.reserve(1)
+        result = self.image('outside', (20, 30), 'blue')
+        (self.job/'outputs').mkdir(exist_ok=True)
+        (self.job/'outputs/look-1.png').symlink_to(result)
+        with self.assertRaises(FileExistsError):
+            m.update(self.job, 'returned', look=1, file=result)
+        self.assertEqual(m.read(self.job)['looks'][0]['state'], 'reserved')

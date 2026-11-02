@@ -1676,7 +1676,7 @@ def update(root,event,**kw):
             if stop_error is None:
                 suffix=f"-attempt-{row['attempt_number']}" if row.get('attempt_number',1)>1 else '';out=root/'outputs'/f'look-{n}{suffix}.png';out.parent.mkdir(exist_ok=True)
                 # Recover an image copied before a failed ledger save only when it is byte-identical.
-                if out.exists() and digest(out)==sha and png_size(out)==dimensions:pass
+                if out.is_file() and not out.is_symlink() and digest(out)==sha and png_size(out)==dimensions:pass
                 else:
                     with out.open('xb') as f:f.write(source.read_bytes())
                 row.update(state='returned',output={'file':str(out.relative_to(root)),'sha256':sha,'dimensions':dimensions})
