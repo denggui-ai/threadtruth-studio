@@ -1,6 +1,6 @@
 # Compatibility / 兼容性
 
-Updated 2026-11-02 for **beta.17**. The runtime matches the complete candidate installed and enabled on the maintainer’s Mac. Historical evidence stays scoped to its original version.
+Updated 2026-11-02 for **beta.18**. The runtime matches the complete candidate installed and enabled on the maintainer’s Mac. Historical evidence stays scoped to its original version.
 
 本版运行源码da7e9a8已完成维护者本机备份、替换与启用：403源／缓存文件一致，166运行文件与候选一致；52／60目录及只读入口可读，其他插件保持。未新增模型会话、实图或实际回滚验证；新机器仍缺证。下载与安装见[本版指南](STUDIO-CANDIDATE.md)。
 

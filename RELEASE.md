@@ -1,6 +1,12 @@
 # Release Readiness
 
-## Current release — beta.17 (GitHub prerelease)
+## Current release — beta.18 (GitHub prerelease)
+
+A scoped reception update on beta.17: say hello or upload materials after opening Caiguang, with no long starter prompt. The skill checks materials, asks only material missing questions and prepares a plan when requested; uploads and plan confirmation do not authorize generation. Both skill and plugin default prompts start with planning.
+
+Channel: GitHub prerelease; `guide-required`. The ZIP includes the updated offline guide. Existing scripts and image assets are unchanged; unmerged workflow development is excluded. Three source-side reception scenarios remain not-run. Static/package checks and required CI establish distribution integrity, not model adherence, fresh-host success or visual quality. No image calls or new model evaluations. See [release evidence](docs/verification/2026-11-02-reception-release.md).
+
+## Historical release — beta.17 (GitHub prerelease)
 
 Version `1.0.0-beta.17` publishes the existing complete runtime at `da7e9a8`: 52 actions / 60 reference views, knowledge and style-commitment resolution, a 22-card / 176-entry shared pose pool, selected-task exact / limited near-repeat checks and product-goal recommendation ranking. Runtime files match the candidate already backed up, installed and checked on the maintainer’s Mac. This release changes distribution metadata, usage documentation and the public homepage; it adds no runtime feature, image call or new model evaluation.
 
