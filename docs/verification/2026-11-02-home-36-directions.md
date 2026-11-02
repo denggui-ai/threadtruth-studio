@@ -11,4 +11,6 @@
 - 320／390／1440宽度及原有响应检查、中英文、无脚本目录、页面链接和字体覆盖通过；已查看桌面目录／说明和手机导航／英文说明截图。
 - 网页素材完整性及部署范围检查通过；运行目录和插件版本对origin/main无差异，原24样例素材字节未改。
 
-私人截图：工作台outputs/caiguang-home-36-directions-20261102/。待本次PR必需CI及Pages部署后补线上回执；不因此重做运行验收、安装或发布新包。零生图、零新模型评测。
+上线完成：[PR #62](https://github.com/denggui-ai/threadtruth-studio/pull/62)的必需CI通过（运行41390897778，含全部15组首页浏览器检查），合并提交4324ea0458d5f286b6f64b29da4c310e4a8b8161；[Pages部署](https://github.com/denggui-ai/threadtruth-studio/actions/runs/41391664357)成功。公开首页、历史对照页、home.css、素材清单与中文字体共5个变更文件全部与本地验收字节一致。发布提交对上一版5fecf2b的运行目录及插件版本无差异。
+
+私人截图、checks.json、online-checks.json与RESULT.md位于工作台outputs/caiguang-home-36-directions-20261102/。收尾记录仅本地提交，不另开PR或重复部署。本包结束，零生图、零新模型评测；不重做运行验收、安装或发布新包。收尾期间出现另一个POC工作包的未提交改动，已保留，未纳入本次发布或收尾提交。
