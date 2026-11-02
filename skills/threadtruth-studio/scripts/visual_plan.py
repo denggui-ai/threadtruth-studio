@@ -220,7 +220,7 @@ def shot_bindings(shot_plan):
 
 def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
     """Validate resolved visual fields against original garment hashes and context."""
-    if (not isinstance(plan, dict) or set(plan) - {'culture_profile', 'persona', 'persona_model_sha256', *COMMIT_OPTIONAL, SUBSTITUTE_FLAG, 'asset_trace', 'contract'} != FIELDS
+    if (not isinstance(plan, dict) or set(plan) - {'culture_profile', 'persona', 'persona_model_sha256', *COMMIT_OPTIONAL, SUBSTITUTE_FLAG, 'asset_trace', 'pose_history', 'contract'} != FIELDS
             or type(plan['version']) is not int or plan['version'] not in (1, 2)):
         raise ValueError('Visual plan requires complete version-1 or version-2 structured fields')
     v2 = plan['version'] == 2
@@ -259,7 +259,7 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
         if not isinstance(plan['persona_model_sha256'], str) or not re.fullmatch(r'[a-f0-9]{64}', plan['persona_model_sha256']):
             raise ValueError('Style persona requires the exact resolving model hash')
         _line(plan['persona'], 'Style persona', owned=True, v2=v2)
-    new_keys = [key for key in (*COMMIT_OPTIONAL, SUBSTITUTE_FLAG, 'asset_trace') if key in plan]
+    new_keys = [key for key in (*COMMIT_OPTIONAL, SUBSTITUTE_FLAG, 'asset_trace', 'pose_history') if key in plan]
     if 'contract' in plan and (type(plan['contract']) is not int or plan['contract'] != CONTRACT):
         raise ValueError('visual_plan.contract must be ' + str(CONTRACT) + ' when present')
     if new_keys and plan.get('contract') != CONTRACT:
@@ -372,6 +372,14 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
                              + (json.dumps(expected[at], sort_keys=True) if at < len(expected) else 'none (too many shots)')
                              + ' (Visual and garment shot plans must bind the same active shot IDs and source slots); got '
                              + (json.dumps(actual[at], sort_keys=True) if at < len(actual) else 'none (missing shot)'))
+    if 'pose_history' in plan:
+        if (shot_plan is None or shot_plan.get('version') != 2
+                or plan['output_form'] not in ('human', 'faceless')):
+            raise ValueError('Pose history applies to v2 human/faceless plans only')
+        spec = importlib.util.spec_from_file_location('visual_pose_history', Path(__file__).with_name('pose_history.py'))
+        history = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(history)
+        history.enforce(plan['pose_history'], shot_plan, plan['style']['primary']['snapshot'])
     return copy.deepcopy(plan)
 
 

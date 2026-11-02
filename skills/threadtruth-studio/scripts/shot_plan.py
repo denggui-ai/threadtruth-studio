@@ -388,7 +388,7 @@ def _validate_v2(plan,inventory,*,context,count,identity,real_face_plan,strict_r
     if not isinstance(looks,list) or len(looks) not in (1,6,9):
         raise ValueError('shot_plan.looks must be a list of 1, 6 or 9 logical shots; got '+_got(looks))
     fields={'slot','shot_id','display_goal','must_show','reason','body_action','hands','support','framing','garment_views','reference_sha256s'}
-    optional={'head','gaze','pose_reference','aesthetic_reference_sha256s','scene','lighting','camera','pose_id','pose_selection'}
+    optional={'head','gaze','pose_reference','aesthetic_reference_sha256s','scene','lighting','camera','pose_id','pose_selection','pose_reuse_reason'}
     ids=[];action_keys={}
     head_gaze=any(isinstance(s,dict) and ('head' in s or 'gaze' in s) for s in looks)
     if head_gaze and (model_source not in ('ai','new') or real_face_plan is not None or context.get('output_form')!='human'):
@@ -444,6 +444,8 @@ def _validate_v2(plan,inventory,*,context,count,identity,real_face_plan,strict_r
             raise ValueError(path+'.body_action/head must not turn away from the camera ("'+m.group(0)+'") when garment_views has no "back"; add back coverage or change the action')
         if 'pose_id' in shot and not _v2_line(shot['pose_id']):
             raise ValueError(path+'.pose_id must be a nonempty single line when given; got '+_got(shot['pose_id']))
+        if 'pose_reuse_reason' in shot and not _v2_line(shot['pose_reuse_reason']):
+            raise ValueError(path+'.pose_reuse_reason must give a concrete single-line reason for retaining a historical action')
         key=(shot['framing'],' '.join(re.sub(r'[\W_]+',' ',shot['body_action'].casefold()).split()))
         if variety and key in action_keys:
             raise ValueError(path+'.body_action repeats shot_plan.looks['+str(action_keys[key])+'] with the same framing; give each shot a different body action or framing')

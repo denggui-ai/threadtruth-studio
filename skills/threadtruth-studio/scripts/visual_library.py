@@ -23,6 +23,13 @@ def _visual():
     return module
 
 
+def _history():
+    spec = importlib.util.spec_from_file_location('library_pose_history', Path(__file__).with_name('pose_history.py'))
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 def _models():
     spec = importlib.util.spec_from_file_location('library_model_reference', Path(__file__).with_name('model_reference.py'))
     module = importlib.util.module_from_spec(spec)
@@ -233,7 +240,7 @@ def prepare(spec, root=ROOT):
     in the task ledger. This local preparation does not grant or consume a call.
     """
     allowed = {'entry_id', 'garment', 'inventory', 'count', 'first_pose', 'objective', 'output_form',
-               'output_medium', 'supporting', 'fusion_note', 'overrides', 'culture_profile', 'shot_plan', 'model', 'back_source', 'asset_trace'}
+               'output_medium', 'supporting', 'fusion_note', 'overrides', 'culture_profile', 'shot_plan', 'model', 'back_source', 'asset_trace', 'pose_history_tasks'}
     if not isinstance(spec, dict) or set(spec) - allowed:
         raise ValueError('Unknown visual preparation fields')
     primary = card(spec['entry_id'], root)
@@ -298,6 +305,8 @@ def prepare(spec, root=ROOT):
                 photography=photography, art=art,
                 negatives=negatives,
                 shots=copy.deepcopy(overrides.get('shots', shots)))
+    if 'pose_history_tasks' in spec:
+        plan['pose_history'] = _history().freeze(spec['pose_history_tasks'])
     if spec.get('culture_profile') is not None:
         plan['culture_profile'] = component(spec['culture_profile'])
     elif primary.get('culture_profile'):
