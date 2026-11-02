@@ -18,6 +18,7 @@ const screenshotArg = process.argv.indexOf('--screenshots');
 const shots = screenshotArg >= 0 ? path.resolve(process.argv[screenshotArg + 1]) : null;
 const failures = [];
 async function check(name, fn) {
+  if (process.env.CAIGUANG_UI_CHECK && !name.includes(process.env.CAIGUANG_UI_CHECK)) return;
   try { await fn(); console.log('PASS: ' + name); }
   catch (error) { failures.push(name); console.error('FAIL: ' + name + '\n' + error.stack); }
 }
@@ -143,6 +144,8 @@ async function check(name, fn) {
         assert.equal(await p.locator('.library-pose:visible').count(), 60);
         assert.equal(await p.locator('.demo-pose:visible').count(), 3);
         assert.equal(await p.locator('#pose-family').isVisible(), false);
+        assert.equal(await p.locator('.direction-entry:visible').count(), 36);
+        assert.equal(await p.locator('.direction-jump').count(), 36);
         assert.ok(/\.png$/.test(await p.locator('.highlight-image').first().getAttribute('href')));
       } finally { await context.close(); }
     });
@@ -151,7 +154,7 @@ async function check(name, fn) {
       try {
         await p.goto(origin + '/?source=readme#old-money');
         await p.waitForURL('**/compare.html?source=readme#old-money');
-        for(const hash of ['complete-case','style-highlights','outfit','begin','shoot-options','capabilities','pose-planner','pose-library']) {
+        for(const hash of ['complete-case','style-highlights','outfit','begin','shoot-options','capabilities','pose-planner','pose-library','visual-directions','direction-notes']) {
           await p.goto(origin + '/#' + hash);
           assert.equal(new URL(p.url()).pathname, '/');
           assert.equal(await p.locator('#' + hash).count(), 1);
@@ -288,6 +291,32 @@ async function check(name, fn) {
         assert.ok((await restricted.innerText()).includes('right forearm obscures'));
         await p.emulateMedia({reducedMotion:'reduce'});
         assert.equal(await p.locator('.focus-marker').evaluate(el=>getComputedStyle(el).transitionDuration),'0s');
+      } finally { await context.close(); }
+    });
+    await check('all 36 visual directions match the source index and retain the 24 examples', async () => {
+      const context=await browser.newContext();
+      try {
+        const p=await context.newPage(); await p.goto(origin);
+        const source=JSON.parse(fs.readFileSync(path.resolve(__dirname,'../skills/threadtruth-studio/references/visual-library/index.json'),'utf8')).entries.map(e=>e.id);
+        assert.deepEqual(await p.locator('.direction-entry').evaluateAll(nodes=>nodes.map(n=>n.dataset.directionId)),source);
+        assert.deepEqual(await p.locator('.direction-jump').evaluateAll(nodes=>nodes.map(n=>n.dataset.directionLink)),source);
+        assert.equal(await p.locator('[data-content-kind="example"] .highlight-image').count(),24);
+        assert.equal(await p.locator('[data-content-kind="description"]').count(),12);
+        assert.equal(await p.locator('[data-content-kind="description"] img').count(),0,'new descriptions must not borrow unrelated sample images');
+        for(const lang of ['zh','en']) {
+          if(lang==='en') await p.locator('#language-toggle').click();
+          for(const width of [1440,390,320]) {
+            await p.setViewportSize({width,height:960});
+            assert.equal(await p.locator('.nav-styles').isVisible(),true,'36-direction navigation must remain visible');
+            assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+            await p.locator('.direction-jump[data-direction-link="surreal-space-ad"]').click();
+            assert.ok(p.url().endsWith('#direction-surreal-space-ad'));
+            assert.equal(await p.locator('#direction-surreal-space-ad dl>div').count(),2);
+            assert.ok((await p.locator('#direction-surreal-space-ad').innerText()).includes(lang==='zh'?'允许改变的空间规则':'which spatial rule may change'));
+            await p.locator('#direction-surreal-space-ad .direction-back').click();
+            assert.ok(p.url().endsWith('#direction-index'));
+          }
+        }
       } finally { await context.close(); }
     });
     await check('responsive Chinese and English layouts, complete images and no page errors', async () => {
