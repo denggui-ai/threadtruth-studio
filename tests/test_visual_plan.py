@@ -103,7 +103,8 @@ class VisualPlanTests(unittest.TestCase):
     def test_all_objectives_media_and_five_forms_retain_identity_boundary(self):
         for objective in task.visual_helper().OBJECTIVES:
             for medium in task.visual_helper().MEDIA:
-                for form in task.visual_helper().OUTPUT_FORMS:
+                # These are legacy expression forms; strict Ghost has its own product contract tests.
+                for form in ('human', 'faceless', 'flat-lay', 'hanger', 'mannequin'):
                     with self.subTest(objective=objective,medium=medium,form=form):
                         job=self.root/(objective+'-'+medium+'-'+form)
                         context=dict(self.context,output_form=form);plan=self.plan(form=form,medium=medium);plan['objective']=objective

@@ -85,6 +85,8 @@ def inherit_framing_flag(plan,frozen):
 
 def selected_references(inventory,context,shot_plan,face_plan,look):
     """One ordered selection used by preparation, revisions and both exporters."""
+    if context.get('purpose') == 'product-edit':
+        return list(inventory)  # A single product edit must never lose its target to portrait-view filtering.
     preview=context.get('purpose')=='preview-grid'
     if face_plan is not None:
         cells=face_plan['looks'] if preview else [face_plan['looks'][look-1]]
@@ -231,9 +233,14 @@ def check_visual_plan(data):
     history=data.get('visual_plan_history',[])
     if not isinstance(history,list):raise ValueError('Invalid visual plan history')
     for prior in history:
+        product_history = ('product_edit' in data['visual_plan'] and isinstance(prior, dict)
+                           and isinstance(prior.get('plan'), dict)
+                           and visual_helper().product_helper().same_contract(
+                               prior['plan'].get('product_edit'), data['visual_plan']['product_edit']))
         if (not isinstance(prior,dict) or set(prior)!={'plan','sha256','note'}
                 or object_hash(prior['plan'])!=prior['sha256'] or not prior['note'].strip()
-                or any(prior['plan'][k]!=data['visual_plan'].get(k) for k in prior['plan'] if k not in ('shots','persona','persona_model_sha256'))
+                or any(prior['plan'][k]!=data['visual_plan'].get(k) for k in prior['plan']
+                       if k not in ('shots','persona','persona_model_sha256') and not (k=='product_edit' and product_history))
                 or (not (v2(data.get('shot_plan')) and data['shot_plan']['series_role']=='standalone')
                     and prior['plan']['shots'][0]!=data['visual_plan']['shots'][0])):
             raise ValueError('Historical approved visual plan changed')
@@ -270,6 +277,20 @@ def prompt_check(prompt,context,model=None,shot_plan=None,number=1,real_face_pla
 
 def delivery_retry_candidate(data,row,*,shot_plan=None,visual_plan=None,prompt=None):
     """Revise one rejected or reconciled-failed shot without changing its peers."""
+    if data.get('context', {}).get('purpose') == 'product-edit':
+        current = data['visual_plan']
+        visual = copy.deepcopy(visual_plan)
+        if (row is None or len(data['looks']) != 1 or shot_plan is not None
+                or (row['state'] != 'rejected' and not reconciled_failure(data, row))
+                or any(x['state'] in ('reserved', 'unknown') for x in data['looks'])
+                or not isinstance(visual, dict) or visual == current
+                or {k:v for k,v in visual.items() if k!='product_edit'} != {k:v for k,v in current.items() if k!='product_edit'}
+                or not visual_helper().product_helper().same_contract(current['product_edit'], visual.get('product_edit'))):
+            raise ValueError('Product retry changes only the local correction note on a rejected or reconciled-failed single image')
+        visual_helper().validate(visual, data['references'], context=data['context'], count=1, identity=data['identity'])
+        compiled = visual_helper().compile_prompt(visual, 1) if prompt is None else prompt
+        prompt_check(compiled, data['context'], data['model'], None, 1, data.get('real_face_plan'), visual)
+        return dict(visual_plan=visual, prompt=compiled)
     standalone=(v2(data.get('shot_plan')) and data['shot_plan']['series_role']=='standalone'
                 and len(data['looks'])==1 and not data.get('model_confirmation'))
     if (data['schema_version']!=2 or is_preview(data) or row is None
@@ -472,8 +493,8 @@ def context_check(context, size, shot_plan=None):
         raise ValueError('pose_description is only for a custom body-action category; keep numbered-master framing/support/gaze choices in the frozen prompt')
     if context['mode'] not in ('B', 'C', 'D') or context['size'] != list(size):
         raise ValueError('Task mode/canvas does not match context')
-    if context.get('purpose', 'delivery') not in ('delivery', 'model-check', 'correction-edit', 'preview-grid'):
-        raise ValueError('Task purpose must be delivery, model-check, correction-edit or preview-grid')
+    if context.get('purpose', 'delivery') not in ('delivery', 'model-check', 'correction-edit', 'preview-grid', 'product-edit'):
+        raise ValueError('Task purpose must be delivery, model-check, correction-edit, preview-grid or product-edit')
     if context.get('canvas_policy', 'exact') not in ('exact', 'ratio-first'):
         raise ValueError('Canvas policy must be exact or ratio-first')
     result=copy.deepcopy(context)
@@ -494,8 +515,28 @@ def presentation_check(context, refs, count, identity, model, shot_plan=None):
         if (count != 1 or not identity or not model or model['source_type'] not in ('ai', 'real')
                 or not any(r['role'] == 'identity-reference' for r in refs) or targets != 1):
             raise ValueError('Correction edit requires one image, one edit target and an existing original person reference')
+    elif context.get('purpose') == 'product-edit':
+        if count != 1 or targets != 1 or context['first_pose'] != 'custom' or shot_plan is not None:
+            raise ValueError('Product editing requires one custom single-image plan and exactly one edit target')
+        if identity and (not model or model['source_type'] not in ('ai', 'real')
+                         or not any(r['role'] == 'identity-reference' for r in refs)):
+            raise ValueError('Retaining a person during background cleanup requires the original person reference')
     elif targets:
         raise ValueError('An edit target is only valid for an explicitly requested correction-edit')
+
+
+def product_task_check(context, inventory, visual_plan, route, workflow_version):
+    if context.get('purpose') != 'product-edit' and context.get('output_form') != 'ghost-mannequin':
+        return
+    if (context.get('purpose') != 'product-edit' or route != 'codex_native' or workflow_version != 1
+            or not isinstance(visual_plan, dict) or 'product_edit' not in visual_plan):
+        raise ValueError('Product editing requires the native route, target QA workflow and frozen product visual plan')
+    permitted = {'garment-source', 'edit-target'}
+    if context['output_form'] in ('human', 'faceless'):
+        permitted.add('identity-reference')
+    if any(r['role'] not in permitted for r in inventory):
+        raise ValueError('Product edits carry only original product facts, the edit target and any retained original person')
+    visual_helper().product_helper().validate(visual_plan['product_edit'], inventory, output_form=context['output_form'])
 
 
 def object_hash(value):
@@ -709,7 +750,8 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
         has_identity=any(x['role']=='identity-reference' for x in items)
         if any(x['role']=='model-supplement' for x in items) and not has_identity:
             raise ValueError('An accepted supplement requires the original identity reference')
-        if not identity and any(x['role']!='garment-source' for x in items):raise ValueError('Non-portrait task cannot carry person references')
+        nonportrait_roles = ('garment-source', 'edit-target') if context.get('purpose') == 'product-edit' else ('garment-source',)
+        if not identity and any(x['role'] not in nonportrait_roles for x in items):raise ValueError('Non-portrait task cannot carry person references')
         if identity and (has_identity != (model['source_type'] in ('ai','real'))):raise ValueError('Existing models need original identity references; new models do not copy identity')
         presentation_check(context, items, len(prompts), identity, model, shot_plan)
     for prompt in prompts:
@@ -723,6 +765,8 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
         if len(identities)!=len(set(identities)):
             raise ValueError('Deduplicate identical identity references before task initialization and prompt numbering')
     inventory=[dict(sha256=digest(p),role=item['role'],**({'pose_source':copy.deepcopy(item['pose_source'])} if 'pose_source' in item else {})) for p,item in zip(sources,items)]
+    if schema_version == 2:
+        product_task_check(context, inventory, visual_plan, route, workflow_version)
     for item,row in zip(items,inventory):
         if 'sha256' in item and item['sha256']!=row['sha256']:raise ValueError('Reference hash changed before import')
     if v2(shot_plan) and real_face_plan is not None:
@@ -1078,6 +1122,7 @@ def check_evidence(root,data):
         context_check(data['context'],data['size'],data.get('shot_plan'))
         if data['identity']:models.validate_model(data['model'],allow_child=True)
         presentation_check(data['context'], data['references'], len(data['looks']), data['identity'], data['model'],data.get('shot_plan'))
+        product_task_check(data['context'], data['references'], data.get('visual_plan'), data['route'], data.get('workflow_version', 0))
         if is_preview(data) and (data.get('model_confirmation') or len(data.get('retry_authorizations',[]))>3):
             raise ValueError('A preview cannot confirm identity or exceed three correction requests')
     if 'plan_version' in data and (type(data['plan_version']) is not int or data['plan_version']<0):
@@ -1332,7 +1377,7 @@ def update(root,event,**kw):
             note=kw.get('note','').strip();approval=kw.get('approval_id','').strip();prompts=kw.get('prompts')
             if d['schema_version']!=2 or len(d['looks'])!=1 or d['looks'][0]['state']!='accepted' or not d['authorization']:
                 raise ValueError('Continue only the same accepted one-image task')
-            if d['context'].get('purpose') in ('model-check', 'correction-edit'):
+            if d['context'].get('purpose') in ('model-check', 'correction-edit', 'product-edit'):
                 raise ValueError(d['context']['purpose']+' cannot become look-1 of a production six-pose set')
             if d['identity'] and not d['model_confirmation']:raise ValueError('User must confirm the model first')
             if d['context']['first_pose']!=1:raise ValueError('Only an actual pose-1 trial can become look-1 of the six-pose set')
@@ -1534,6 +1579,7 @@ def update(root,event,**kw):
                     old.update(real_face_plan=copy.deepcopy(d['real_face_plan']),real_face_plan_sha256=d['real_face_plan_sha256'])
                     d.update(real_face_plan=copy.deepcopy(delivery_revision['real_face_plan']),real_face_plan_sha256=object_hash(delivery_revision['real_face_plan']))
                 for field in ('shot_plan','visual_plan'):
+                    if field not in delivery_revision:continue
                     previous=d[field];changed=delivery_revision[field]
                     if changed!=previous:
                         d.setdefault(field+'_history',[]).append(dict(plan=copy.deepcopy(previous),sha256=object_hash(previous),note=note))

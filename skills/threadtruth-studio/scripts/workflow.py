@@ -1,7 +1,9 @@
 """Versioned plan decisions, target QA and moderation scope. No I/O or generation."""
 import copy
 import hashlib
+import importlib.util
 import json
+from pathlib import Path
 
 
 def digest(value):
@@ -121,6 +123,15 @@ def goal(data, row):
 
 def review_result(data, row, review):
     required = {'goal', 'garment', 'photography'}
+    visual = row.get('visual_plan', data.get('visual_plan', {}))
+    product = visual.get('product_edit')
+    expectations = {}
+    if product is not None:
+        spec = importlib.util.spec_from_file_location('qa_product_edit', Path(__file__).with_name('product_edit.py'))
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        expectations = module.requirements(product, visual['output_form'])
+        required.update(expectations)
     identity = row.get('adopted_revision', {}).get('identity', data['identity'])
     if identity:
         required |= {'identity', 'anatomy'}
@@ -133,6 +144,8 @@ def review_result(data, row, review):
             raise ValueError('Each QA item needs its actual expectation, observation and met/unmet/unknown result')
     if review['goal']['expected'] != goal(data, row):
         raise ValueError('QA must assess the frozen display goal, not a substituted target')
+    if any(review[key]['expected'] != value for key, value in expectations.items()):
+        raise ValueError('Product QA must assess every frozen product requirement without substituting expectations')
     if any(item['result'] == 'unmet' for key, item in review.items() if key != 'photography'):
         return 'qa-retry'
     if any(item['result'] != 'met' for item in review.values()):

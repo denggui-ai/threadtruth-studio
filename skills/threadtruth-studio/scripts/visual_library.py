@@ -207,7 +207,7 @@ def _check_culture_trace(plan, root):
 
 def open_variables(output_form, model=None):
     """Variables this task leaves to the style: faceless drops makeup/expression, non-portrait forms keep staging only."""
-    if output_form in ('flat-lay', 'hanger', 'mannequin'):
+    if output_form in ('flat-lay', 'hanger', 'mannequin', 'ghost-mannequin'):
         return ['arrangement', 'camera', 'scene', 'lighting']
     names = ['makeup', 'expression', 'body', 'arrangement', 'camera', 'scene', 'lighting']
     if output_form == 'faceless':
@@ -240,10 +240,11 @@ def prepare(spec, root=ROOT):
     in the task ledger. This local preparation does not grant or consume a call.
     """
     allowed = {'entry_id', 'garment', 'inventory', 'count', 'first_pose', 'objective', 'output_form',
-               'output_medium', 'supporting', 'fusion_note', 'overrides', 'culture_profile', 'shot_plan', 'model', 'back_source', 'asset_trace', 'pose_history_tasks'}
+               'output_medium', 'supporting', 'fusion_note', 'overrides', 'culture_profile', 'shot_plan', 'model', 'back_source', 'asset_trace', 'pose_history_tasks', 'product_edit'}
     if not isinstance(spec, dict) or set(spec) - allowed:
         raise ValueError('Unknown visual preparation fields')
     primary = card(spec['entry_id'], root)
+    product = spec.get('product_edit')
     model = _models().validate_model(spec['model'], allow_child=True) if spec.get('model') is not None else None
     if model is not None and 'styling_lock' not in model:
         model['styling_lock'] = 'identity'  # new plans state the lock explicitly; web-task create applies the same default
@@ -262,9 +263,9 @@ def prepare(spec, root=ROOT):
     output_form = spec.get('output_form', 'human')
     shot_plan = spec.get('shot_plan')
     bindings = _visual().shot_bindings(shot_plan) if shot_plan is not None else None
-    count = spec.get('count', len(bindings) if bindings is not None else
+    count = spec.get('count', 1 if product is not None else len(bindings) if bindings is not None else
                      (9 if output_form in ('human', 'faceless') else 1))
-    pose = spec.get('first_pose', bindings[0]['slot'] if bindings else 1)
+    pose = spec.get('first_pose', 'custom' if product is not None else bindings[0]['slot'] if bindings else 1)
     if bindings is not None and (count != len(bindings) or pose != bindings[0]['slot']):
         raise ValueError('Count and first_pose cannot remap the reviewed active shot selection')
     photography = copy.deepcopy(primary['photography'])
@@ -281,6 +282,11 @@ def prepare(spec, root=ROOT):
             baseline.update(copy.deepcopy(overrides[key]))
     if type(count) is not int or count not in (1, 6, 9):
         raise ValueError('Prepare one independent image or six/nine preview/delivery presentations')
+    if product is not None:
+        _visual().product_helper().validate(product, spec['inventory'], output_form=output_form)
+        if spec['entry_id'] != 'ecommerce-studio' or supporting or overrides:
+            raise ValueError('Product editing uses the existing ecommerce-studio entry and its product constraints; no conflicting style overrides')
+        photography = _visual().product_helper().photography(product)
     version = 2 if bindings is not None or count == 9 else 1
     if version == 2:
         bindings = bindings or [dict(slot=i, shot_id='shot-' + str(i)) for i in range(1, count + 1)]
@@ -294,6 +300,8 @@ def prepare(spec, root=ROOT):
                       **{key: photography[key] for key in ('scene', 'lighting', 'composition')})
                  for i in range(1, count + 1)]
     negatives = copy.deepcopy(overrides.get('negatives', primary.get('negatives', [])))
+    if product is not None:
+        negatives = ['No unlisted products, invented design, captions or new marks.', 'No busy background or color cast.']
     if objective == 'product-display' and 'negatives' not in overrides:
         # An editorial-only exclusion must not fight a catalog-style objective.
         negatives = [item for item in negatives if item != 'no e-commerce catalog look']
@@ -305,6 +313,8 @@ def prepare(spec, root=ROOT):
                 photography=photography, art=art,
                 negatives=negatives,
                 shots=copy.deepcopy(overrides.get('shots', shots)))
+    if product is not None:
+        plan['product_edit'] = copy.deepcopy(product)
     if 'pose_history_tasks' in spec:
         plan['pose_history'] = _history().freeze(spec['pose_history_tasks'])
     if spec.get('culture_profile') is not None:
@@ -322,7 +332,7 @@ def prepare(spec, root=ROOT):
                                 v2=version == 2)
         except ValueError as error:
             raise ValueError('overrides.commitments: ' + str(error)) from error
-    if (primary.get('commitments') or 'commitments' in overrides) and output_form in ('human', 'faceless', 'flat-lay', 'hanger', 'mannequin'):
+    if product is None and (primary.get('commitments') or 'commitments' in overrides) and output_form in _visual().OUTPUT_FORMS:
         opened = open_variables(output_form, model)
         declared = set()
         if model is not None:
@@ -347,7 +357,7 @@ def prepare(spec, root=ROOT):
     if spec['entry_id'] in CULTURE_ENTRIES:
         _check_culture_trace(plan, root)
     persona = primary.get('persona')
-    if model is not None and output_form == 'human' and isinstance(persona, str) and persona.strip():
+    if product is None and model is not None and output_form == 'human' and isinstance(persona, str) and persona.strip():
         resolved = _models().resolve_persona(model, persona)
         if resolved:
             plan['persona'] = resolved
@@ -361,7 +371,8 @@ def prepare(spec, root=ROOT):
             and primary.get('pose_vocabulary')):
         _shots().check_poses(shot_plan, primary['pose_vocabulary'])
     return _visual().validate(plan, spec['inventory'],
-                              context=dict(style=spec['entry_id'], first_pose=pose, output_form=output_form),
+                              context=dict(style=spec['entry_id'], first_pose=pose, output_form=output_form,
+                                           purpose='product-edit' if product is not None else 'delivery'),
                               count=count, identity=output_form in ('human', 'faceless'), shot_plan=shot_plan)
 
 

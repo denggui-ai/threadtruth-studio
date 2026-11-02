@@ -130,6 +130,10 @@ python3 "$SKILL/scripts/web-task.py" status --task delivery
 
 status中的`attempts`仍是该根任务的直接调用，`series_attempts`汇总每个已登记子任务各一次，`series_total_attempts`再加原预览；采用动作不计调用。`files_complete`与`goals_met`分别报告齐图和目标达到。旧任务恢复不补新契约，历史原始失败不因源码修复变成成功。
 
+## 单张白底与Ghost
+
+先读[product-edit.md](product-edit.md)，其spec与QA仍走上面的init/confirm-plan/authorize/export/reserve/returned链。产品任务不传shot_plan，非人像identity=false，purpose=product-edit；完整product_edit放在visual_plan内。普通人台与Ghost分开，只清底保留当前主体。当前产品编辑仅codex_native，不自动回退网页或外部抠图服务；没有调用时attempts保持0。
+
 ## 4. 对用户怎么说
 
 - 每一步只报结果与下一步要的确认，不展示 JSON、哈希或状态码；文件路径只在用户要时给。

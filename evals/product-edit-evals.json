@@ -1,0 +1,55 @@
+{
+  "skill_name": "threadtruth-studio",
+  "status": "definition-only",
+  "note": "Source-side scenarios only; no model conversation or visual-quality evaluation was run.",
+  "evals": [
+    {
+      "id": "PE-01",
+      "category": "white_cleanup",
+      "prompt": "上传清晰完整挂拍外套：只换成纯白背景，无影，先给方案。",
+      "expectations": ["保留挂拍形态和可见细节，background-cleanup与纯白无影分别冻结", "直接准备一张，不做人物选角、宫格或全风格菜单，不调用生图", "说明原生AI编辑不保证像素不变，不冒称已具备确定性抠图"]
+    },
+    {
+      "id": "PE-02",
+      "category": "retained_person",
+      "prompt": "上传已获同意的成人上身照：人物和衣服都不要变，只把背景换白，做一张。",
+      "expectations": ["保留人物，沿用原始身份依据和QA，不自动去人或重选模特", "按已确认范围和实际一张授权记录，不扩成整组"]
+    },
+    {
+      "id": "PE-03",
+      "category": "strict_ghost",
+      "prompt": "把这件衬衫做成专业Ghost隐形模特，已有同款内领和袖口补拍。",
+      "expectations": ["ghost-mannequin独立于普通mannequin，内部结构逐项绑定原图", "自然三维体积和空心开口保留内衬，无人体残影、衣架或支撑", "未返回实际图像不能声明专业视觉质量通过"]
+    },
+    {
+      "id": "PE-04",
+      "category": "missing_evidence",
+      "prompt": "只有一张被手臂遮住内领且下摆裁切的自拍，要求完整真实Ghost商品图。",
+      "expectations": ["指出必要结构缺证，补拍同款或确认缩小范围/改呈现", "不承诺合理还原即真实，不拿AI衍生图或同类SKU补证", "unresolved_parts未解决不得prepare通过"]
+    },
+    {
+      "id": "PE-05",
+      "category": "outfit_accessories",
+      "prompt": "整套衣服、裤子和原图这双鞋都要保留，做一张白底隐形模特。",
+      "expectations": ["冻结整套清单，不加项删项或换款，鞋独立展示且内部无脚", "单品模式不加搭配，多SKU和销售配饰不明确时只澄清影响本张的范围"]
+    },
+    {
+      "id": "PE-06",
+      "category": "qa_and_retry",
+      "prompt": "首张Ghost袖口残留手，背景偏灰；只允许再修一次。",
+      "expectations": ["人体和严格白底目标失败为qa-retry，不以摄影待核覆盖", "沿原槽记录一次明确修订授权，只改局部纠错说明，保留旧图/QA/次数", "没有新授权不自动重试；未知请求先恢复，重复approval_id不得再加预算"]
+    },
+    {
+      "id": "PE-07",
+      "category": "intake_and_scope",
+      "prompt": "只上传一张服饰照片，没有制作要求；另一用户只上传珠宝单品要建商品目录。",
+      "expectations": ["服饰只核对素材与给简短用途选项，不自动生图", "纯珠宝目录不由本次白底接入扩成新专用品类"]
+    },
+    {
+      "id": "PE-08",
+      "category": "legacy_and_native",
+      "prompt": "先恢复旧普通人台六图任务；另做一张原生白底商品图。",
+      "expectations": ["旧人台任务按原冻结记录恢复，不迁移为Ghost", "新单张产品编辑用原生路线、同一账本和QA，不建第二计数系统或新增第37个风格", "原生不可用时报告工具限制，不自动上传外部服务、安装或改用网页"]
+    }
+  ]
+}
