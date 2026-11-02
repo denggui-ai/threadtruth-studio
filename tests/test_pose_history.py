@@ -62,7 +62,7 @@ class PoseHistoryTests(unittest.TestCase):
         context = dict(outfit='synthetic-history', style=spec['entry_id'], mode='C', output_form='human',
                        size=[20, 30], first_pose=spec['first_pose'], purpose='preview-grid' if preview else 'delivery')
         task.create(job, [self.source], None, [20, 30], model=spec['model'], context=context,
-                    route=route, shot_plan=spec['shot_plan'], visual_plan=visual or library.prepare(spec))
+                    route=route, shot_plan=spec['shot_plan'], visual_plan=visual or library.prepare(spec), workflow_version=0)
         return job
 
     def returned(self, job, number=1, *, accepted=False):

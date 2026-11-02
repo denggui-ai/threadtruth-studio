@@ -218,6 +218,7 @@ def apply(plan, shot_id, pose_id, view, *, mode='text', origin='auto', catalog_p
         raise ValueError('Selected pose is not supported by this shot garment views')
     shot.update({k: definition[k] for k in ('body_action', 'hands', 'support')})
     shot.update(pose_id=pose_id, pose_selection=selected)
+    shot.pop('pose_decision',None)
     shot.pop('pose_reference', None)
     if mode == 'image':
         shot['pose_reference'] = dict(sha256=ref['sha256'], reason='Selected body, hand and support relations only; preserve the garment and identity references.')

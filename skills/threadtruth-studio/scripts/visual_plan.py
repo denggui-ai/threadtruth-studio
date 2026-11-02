@@ -14,7 +14,7 @@ BEGIN = '[Task visual plan]'
 END = '[/Task visual plan]'
 OBJECTIVES = ('product-display', 'styled-editorial', 'art-campaign')
 MEDIA = ('photography', 'illustration', 'mixed-media')
-OUTPUT_FORMS = ('human', 'faceless', 'flat-lay', 'hanger', 'mannequin')
+OUTPUT_FORMS = ('human', 'faceless', 'flat-lay', 'hanger', 'mannequin', 'ghost-mannequin')
 FIELDS = {'version', 'objective', 'output_medium', 'output_form', 'style', 'garment', 'styling',
           'photography', 'art', 'negatives', 'shots'}
 # WP-16 (FINDINGS G): optional source-backed fit facts, rendered as fixed geometric sentences.
@@ -39,7 +39,7 @@ SUBSTITUTE_FLAG = 'presentation_2_substituted'  # WP-21d: no same-SKU back sourc
 SUBSTITUTE_LINE = ('Presentation 2 focus: a close front detail of a garment part not shown in presentation 3 '
                    '(neckline, shoulder, cuff or waistband); show only what the front source supports, with no rear or reverse view.')
 NON_PORTRAIT_OPEN = ('arrangement', 'camera', 'scene', 'lighting')
-NON_PORTRAIT_FORMS = ('flat-lay', 'hanger', 'mannequin')
+NON_PORTRAIT_FORMS = ('flat-lay', 'hanger', 'mannequin', 'ghost-mannequin')
 RESERVED = re.compile(r'\[(?:/?Task |/?Current model)|^\s*(?:POSE|Shot)\s+[1-6]\s*:', re.I)
 V2_RESERVED = re.compile(r'^\s*(?:POSE|Shot)\s+[7-9]\s*:', re.I)
 V2_BODY = re.compile(r'\b(?:body (?:action|pose|orientation)|hand (?:position|placement))\b', re.I)
@@ -52,6 +52,13 @@ OWNED = re.compile(r'\b(?:gaze|eyeline|off[- ](?:lens|camera|frame)|head (?:turn
 
 def object_hash(value):
     return hashlib.sha256(json.dumps(value, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
+
+
+def product_helper():
+    spec = importlib.util.spec_from_file_location('visual_product_edit', Path(__file__).with_name('product_edit.py'))
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
 def _got(value):
@@ -220,16 +227,27 @@ def shot_bindings(shot_plan):
 
 def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
     """Validate resolved visual fields against original garment hashes and context."""
-    if (not isinstance(plan, dict) or set(plan) - {'culture_profile', 'persona', 'persona_model_sha256', *COMMIT_OPTIONAL, SUBSTITUTE_FLAG, 'asset_trace', 'pose_history', 'contract'} != FIELDS
+    if (not isinstance(plan, dict) or set(plan) - {'culture_profile', 'persona', 'persona_model_sha256', *COMMIT_OPTIONAL, SUBSTITUTE_FLAG, 'asset_trace', 'pose_history', 'contract', 'product_edit'} != FIELDS
             or type(plan['version']) is not int or plan['version'] not in (1, 2)):
         raise ValueError('Visual plan requires complete version-1 or version-2 structured fields')
     v2 = plan['version'] == 2
     if plan['objective'] not in OBJECTIVES or plan['output_medium'] not in MEDIA:
         raise ValueError('Unknown visual objective or output medium')
     if plan['output_form'] not in OUTPUT_FORMS or plan['output_form'] != context['output_form']:
-        raise ValueError('Visual output_form must match one of the five frozen task presentations')
+        raise ValueError('Visual output_form must match a supported frozen task presentation')
     if bool(identity) != (plan['output_form'] in ('human', 'faceless')):
         raise ValueError('Human/faceless presentations retain identity gates; flat-lay/hanger/mannequin are non-portrait')
+    product = plan.get('product_edit')
+    if ('product_edit' in plan) != (context.get('purpose') == 'product-edit'):
+        raise ValueError('A product-edit purpose and frozen product_edit specification are required together')
+    if plan['output_form'] == 'ghost-mannequin' and product is None:
+        raise ValueError('Ghost mannequin requires the source-backed product-edit branch')
+    if 'product_edit' in plan:
+        if (count != 1 or plan['version'] != 1 or shot_plan is not None or context['first_pose'] != 'custom'
+                or plan['objective'] != 'product-display' or plan['output_medium'] != 'photography'
+                or plan.get('persona') or plan.get('commitments') or plan['styling']):
+            raise ValueError('Product editing is one custom photographic product display, without portrait poses or added styling')
+        product_helper().validate(product, inventory, output_form=plan['output_form'])
     style = plan['style']
     if not isinstance(style, dict) or set(style) != {'primary', 'supporting', 'fusion_note'}:
         raise ValueError('Style selection requires primary, supporting and fusion_note')
@@ -304,6 +322,8 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
     if (not isinstance(hashes, list) or not hashes or any(not isinstance(h, str) or h not in originals for h in hashes)
             or len(set(hashes)) != len(hashes)):
         raise ValueError('Visual garment facts must bind distinct original garment hashes')
+    if product is not None and set(hashes) != {h for item in product['items'] for h in item['source_sha256s']}:
+        raise ValueError('Product garment facts must match the declared item sources')
     _lines(plan['styling'], 'Allowed styling', owned=True, v2=v2)
     photography = plan['photography']
     if not isinstance(photography, dict) or set(photography) != {'scene', 'lighting', 'composition', 'palette'}:
@@ -330,7 +350,7 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
     for i, shot in enumerate(plan['shots'], 1):
         if plan['version'] == 1:
             pose = i if count == 6 else context['first_pose']
-            if (not isinstance(shot, dict) or set(shot) != {'slot', 'pose', 'scene', 'lighting', 'composition'}
+            if (not isinstance(shot, dict) or set(shot)-{'garment_focus'} != {'slot', 'pose', 'scene', 'lighting', 'composition'}
                     or type(shot['slot']) is not int or shot['slot'] != i
                     or shot['pose'] != pose or type(shot['pose']) is not type(pose)):
                 raise ValueError('Visual shots preserve actual numbered/custom presentation and consecutive slots')
@@ -344,7 +364,7 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
             if not isinstance(shot, dict):
                 raise ValueError(path + ' must be an object (Visual v2 shots preserve stable source slots and distinct shot_id values); got '
                                  + _got(shot) + hint)
-            if set(shot) != required_shot:
+            if set(shot)-{'garment_focus'} != required_shot:
                 raise ValueError(path + ' has the wrong keys (Visual v2 shots preserve stable source slots and distinct shot_id values); missing: '
                                  + (', '.join(sorted(required_shot - set(shot))) or 'none') + '; unexpected: '
                                  + (', '.join(sorted(set(shot) - required_shot)) or 'none') + hint)
@@ -358,6 +378,12 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
             seen_ids.add(shot['shot_id'])
         for key in ('scene', 'lighting', 'composition'):
             _line(shot[key], 'Per-shot ' + key, owned=True, v2=v2)
+        if 'garment_focus' in shot:
+            focus=shot['garment_focus']
+            if not isinstance(focus,dict) or set(focus)!={'description','keep'}:
+                raise ValueError('Per-shot garment_focus contains source-backed description and keep')
+            _line(focus['description'],'Focused garment description',owned=True,v2=v2)
+            _lines(focus['keep'],'Focused garment facts',required=True,owned=True,v2=v2)
     if shot_plan is not None:
         if not isinstance(shot_plan, dict) or shot_plan.get('version') not in (1, 2):
             raise ValueError('Visual binding requires a supported shot-plan version')
@@ -388,19 +414,20 @@ def render(plan, look=None):
     if look is not None and (type(look) is not int or not 1<=look<=len(plan['shots'])):
         raise ValueError('Unknown visual presentation slot')
     style = plan['style']
+    garment=plan['shots'][look-1].get('garment_focus',plan['garment']) if look is not None else plan['garment']
     rows = [BEGIN, 'Visual objective: ' + plan['objective'] + '.',
             'Output medium: ' + plan['output_medium'] + '.',
             'Output presentation: ' + plan['output_form'] + '.',
             'Primary style: ' + style['primary']['id'] + '.',
-            'Source-backed garment: ' + plan['garment']['description'],
-            'Preserve original garment facts: ' + '; '.join(plan['garment']['keep']) + '.']
-    if 'hem_state' in plan['garment']:
-        rows.append(HEM_STATES[plan['garment']['hem_state']])
-    if 'silhouette' in plan['garment']:
-        rows.append(SILHOUETTES[plan['garment']['silhouette']])
+            'Source-backed garment: ' + garment['description'],
+            'Preserve original garment facts: ' + '; '.join(garment['keep']) + '.']
+    if 'hem_state' in garment:
+        rows.append(HEM_STATES[garment['hem_state']])
+    if 'silhouette' in garment:
+        rows.append(SILHOUETTES[garment['silhouette']])
     if plan['output_form']=='faceless':
         rows.append('Keep the face outside the image or fully obscured; preserve supported body proportions and garment details. Do not introduce a visible face.')
-    elif plan['output_form'] in ('flat-lay','hanger','mannequin'):
+    elif plan['output_form'] in NON_PORTRAIT_FORMS:
         rows.append('Non-portrait garment display: no live person, face, gaze or human pose instructions. Use garment arrangements for the numbered presentations.')
     if style['supporting']:
         rows += ['Supporting styles: ' + ', '.join(x['id'] for x in style['supporting']) + '.',
@@ -429,11 +456,17 @@ def render(plan, look=None):
         rows += [heading,
                  'Scene: ' + shot['scene'], 'Lighting: ' + shot['lighting'],
                  'Composition: ' + shot['composition']]
+        if look is None and shot.get('garment_focus'):
+            rows += ['Target garment: '+shot['garment_focus']['description'],
+                     'Target structures to preserve: '+'; '.join(shot['garment_focus']['keep'])]
         if plan.get('contract') == CONTRACT and plan.get(SUBSTITUTE_FLAG) and plan['version'] == 1 and shot['pose'] == 2:
             rows.append(SUBSTITUTE_LINE)
     rows += ['Exclude: ' + item for item in plan['negatives']]
     rows += ['Garment facts, original identity, real-person view coverage and approved shot framing remain authoritative over visual expression.',
-             'Create image artwork without added branding, poster copy, slogans, captions or extra text layouts. Preserve existing source garment marks and lettering; a direction preview may retain its required preview-only label.', END]
+             'Create image artwork without added branding, poster copy, slogans, captions or extra text layouts. Preserve existing source garment marks and lettering; a direction preview may retain its required preview-only label.']
+    if 'product_edit' in plan:
+        rows.append(product_helper().render(plan['product_edit'], plan['output_form']))
+    rows.append(END)
     return '\n'.join(rows)
 
 

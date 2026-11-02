@@ -40,7 +40,7 @@ class WebExecutionTests(unittest.TestCase):
                              source_sha256s=[task.digest(self.source)]),
                 inventory=[dict(sha256=task.digest(self.source),role='garment-source')]))
             args.update(visual_plan=visual_plan,count=1);prompts=None
-        task.create(self.job,[self.source],prompts,[20,30],identity=False,**args)
+        task.create(self.job,[self.source],prompts,[20,30],identity=False,**args, workflow_version=0)
         task.export(self.job)
         data=task.read(self.job);self.handoff=task.handoff_directory(self.job,data,data['looks'][0])
         return data

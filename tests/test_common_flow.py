@@ -35,7 +35,7 @@ class CommonFlowTests(unittest.TestCase):
         if policy is not None:
             context['canvas_policy'] = policy
         return m.create(self.job, [self.ref], ['shot']*count, [20, 30],
-                        identity=False, context=context, **kw)
+                        identity=False, context=context, **kw, workflow_version=0)
 
     def reserve(self, number):
         return m.update(self.job, 'reserve', look=number, ready=True,
@@ -59,7 +59,7 @@ class CommonFlowTests(unittest.TestCase):
         self.assertEqual(run.returncode, 0, run.stderr)
         self.assertEqual(json.loads(run.stdout)['route'], 'codex_native')
         legacy = m.create(self.root/'legacy', [self.ref], ['shot'], [20, 30],
-                          identity=False, schema_version=1)
+                          identity=False, schema_version=1, workflow_version=0)
         self.assertEqual(legacy['route'], 'chatgpt_web')
 
     def test_existing_web_task_reads_without_rewrite_or_route_migration(self):

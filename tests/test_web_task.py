@@ -16,7 +16,7 @@ class WebTaskTests(unittest.TestCase):
         self.ref=self.root/'source.png';Image.new('RGB',(20,30),'red').save(self.ref)
         self.job=self.root/'job'
         # Retained schema-1 tasks must keep their historical progression behavior.
-        m.create(self.job,[self.ref],['pose '+str(i) for i in range(6)],(20,30),True,schema_version=1)
+        m.create(self.job,[self.ref],['pose '+str(i) for i in range(6)],(20,30),True,schema_version=1, workflow_version=0)
     def tearDown(self):self.tmp.cleanup()
     def authorize(self):m.update(self.job,'authorize',note='User approved this outfit six images to ChatGPT',limit=6)
     def reserve(self):return m.update(self.job,'reserve',look=1,ready=True,refs=m.reference_hashes(self.job,1),conversation='https://chatgpt.com/c/test')
@@ -162,7 +162,7 @@ class KidswearLedgerTests(unittest.TestCase):
                 model=dict(source_type='new',scope='full',subject='child model',locked=[],adjustable=[],consent_note='')
                 context=dict(outfit='kids-shirt',style='ecommerce-studio',mode='B',output_form='human',size=[20,30],first_pose=1)
                 job=root/'task'
-                m.create(job,[ref],['Age-appropriate child wearing the source shirt'],[20,30],model=model,context=context,route=route)
+                m.create(job,[ref],['Age-appropriate child wearing the source shirt'],[20,30],model=model,context=context,route=route, workflow_version=0)
                 folder=Path(m.export(job));prompt=(folder/'look-1/prompt.txt').read_text()
                 self.assertIn('child model',prompt);self.assertIn('non-sexualized',prompt)
                 ready=dict(look=1,ready=True,refs=m.reference_hashes(job,1),conversation='https://chatgpt.com/c/synthetic')

@@ -51,11 +51,16 @@ def validate(plan, inventory, *, schema_version, identity, model, context, count
         raise ValueError('real_face_plan applies only to an existing real-person identity task')
     if not isinstance(plan, dict) or set(plan) != {'primary_identity_sha256', 'coverage', 'looks'}:
         raise ValueError('Real face plan requires primary_identity_sha256, coverage and looks')
-    if len({r['sha256'] for r in inventory}) != len(inventory):
+    product = context.get('purpose') == 'product-edit'
+    inventory_hashes = {r['sha256'] for r in inventory}
+    shared_product_roles = (product and count == 1 and context.get('output_form') in ('human', 'faceless')
+                            and all(r['role'] in ('garment-source', 'edit-target', 'identity-reference') for r in inventory)
+                            and len({(r['sha256'], r['role']) for r in inventory}) == len(inventory))
+    if len(inventory_hashes) != len(inventory) and not shared_product_roles:
         raise ValueError('Per-image selection requires unique inventory hashes and unambiguous roles')
-    by_hash = {r['sha256']: r for r in inventory}
+    identity_hashes = {r['sha256'] for r in inventory if r['role'] == 'identity-reference'}
     primary = plan['primary_identity_sha256']
-    if not sha(primary) or primary not in by_hash or by_hash[primary]['role'] != 'identity-reference':
+    if not sha(primary) or primary not in identity_hashes:
         raise ValueError('The primary identity must be an original identity-reference, not a supplement')
     coverage = plan['coverage']
     if not isinstance(coverage, list) or not coverage:
@@ -65,8 +70,7 @@ def validate(plan, inventory, *, schema_version, identity, model, context, count
         if not isinstance(row, dict) or set(row) != {'sha256', 'views', 'note'}:
             raise ValueError('Coverage declares original sha256, views and a review note')
         h, views = row['sha256'], row['views']
-        if (not sha(h) or h not in by_hash or by_hash[h]['role'] != 'identity-reference'
-                or h in reviewed):
+        if not sha(h) or h not in identity_hashes or h in reviewed:
             raise ValueError('Coverage must bind distinct original identity references; AI supplements are not real angles')
         if (not isinstance(views, list) or not views or any(not isinstance(v, str) or v not in VIEWS for v in views)
                 or len(set(views)) != len(views) or ('unknown' in views and len(views) != 1)
@@ -92,10 +96,16 @@ def validate(plan, inventory, *, schema_version, identity, model, context, count
                 or (not look['face_visible'] and target != 'hidden')):
             raise ValueError('Visible faces need a supported head_view; hidden faces use head_view=hidden')
         hashes = look['reference_sha256s']
-        if (not isinstance(hashes, list) or not hashes or any(not sha(h) or h not in by_hash for h in hashes)
+        if (not isinstance(hashes, list) or not hashes or any(not sha(h) or h not in inventory_hashes for h in hashes)
                 or len(set(hashes)) != len(hashes)):
             raise ValueError('Select distinct frozen inventory hashes in actual attachment order')
-        rows = selected(plan, inventory, number)
+        if product:
+            # The product exporter retains every role; do not collapse a shared image to one role.
+            if hashes != list(dict.fromkeys(r['sha256'] for r in inventory)):
+                raise ValueError('A product real-face plan lists every inventory image hash once in frozen attachment order')
+            rows = list(inventory)
+        else:
+            rows = selected(plan, inventory, number)
         if primary not in hashes or not any(r['role'] == 'garment-source' for r in rows):
             raise ValueError('Each image must retain the primary original identity and at least one garment source')
         if context.get('purpose') == 'correction-edit' and sum(r['role'] == 'edit-target' for r in rows) != 1:

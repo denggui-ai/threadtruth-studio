@@ -1,6 +1,6 @@
 # 姿势母版 + 头部视线 + 负面词 + image_gen 调用 + 单张重试(core,风格无关管线)
 
-> **当前编排：** 新人物／不露脸任务按[pose-planning.md](pose-planning.md)准备shot_plan v2，默认九张。本文N为冻结交付数；明确单张／六张照办。§1和§1b仅适用于明确经典六姿势或旧v1任务；非人像仍用§1a六构图。商品事实、身份覆盖、串行与授权规则共同适用，不因九张或自由动作放宽。
+> **当前编排：** 新人物／不露脸任务按[pose-planning.md](pose-planning.md)准备shot_plan v2，默认九张。本文N为冻结交付数；明确单张／六张照办。§1和§1b仅适用于明确经典六姿势或旧v1任务；普通非人像多张用§1a六构图。白底与严格Ghost按[商品编辑](product-edit.md)直接准备单张，不套六构图。商品事实、身份覆盖、串行与授权规则共同适用。
 
 ## Contents
 - §1 六个姿势母版 / §1a 输出形态覆盖层 / §1b 缺背面资料的第六张替代 / §2 头部视线 / §3 负面词(3a 成片 / 3b 预览 / 露肤追加) / §4 image_gen 规范(4.0 闭集串行计数 / 4.0a 首张身份锚点 / 4.0b 批次画布契约 / 4.1 成片公式 / 4.2 预览公式 / 4.3 预览→成片红线 / §4.4 落盘) / §5 QA / §6 高风险 fallback / §7 单张重试
@@ -34,11 +34,12 @@
 - **不露脸 / 局部 / 切头:** 仍是人像输出，默认服饰驱动v2；明确经典分支才继承六母版;但头部视线改为 `face out of frame, face naturally obscured, cropped below the nose or from neck down when composition allows, no identifiable face, garment remains the focus`。不得复刻源图真人身份。若使用母版 6,`BACK_TURN_GLANCE` 的回眸只保留背身/肩线姿态张力,不得要求露脸或看向镜头。
 - **平铺 flat-lay:** 非人像输出;跳过 §1/§2 的真人姿势和头部视线,改为 `clean flat-lay product composition on a low-distraction surface, garment laid naturally, full outline visible, front/back/detail views as requested, no human model, no face`。
 - **挂拍 hanger:** 非人像输出;跳过真人姿势和头部视线,改为 `garment hanging on a simple hanger or rail, low-distraction background, full silhouette visible, no human model, no face`。
-- **人台 / 假人 / ghost mannequin:** 非真人身份输出;跳过真人头部视线,改为 `ghost mannequin or simple mannequin product presentation, no human model, no realistic face, no hair, garment shape supported clearly, low-distraction studio setting`。
+- **普通人台 / 假人 mannequin:** 非真人身份输出；允许可见人台，跳过真人头部视线，使用 `simple mannequin product presentation, no human model, no realistic face, no hair, garment shape supported clearly, low-distraction studio setting`。
+- **专业隐形模特 ghost-mannequin:** 走product-edit单张契约，由结构化商品计划编译无人体/无支撑、立体体积、开口与内衬、商品清单和独立配饰要求；不得并列“或普通人台”，也不套下方六构图。
 
 非人像闭集构图编号(动作1逐张成片、动作0六宫格预览都使用同一编号语义):
 
-| # | 平铺 flat-lay | 挂拍 hanger | 人台 / ghost mannequin |
+| # | 平铺 flat-lay | 挂拍 hanger | 普通人台 mannequin |
 |---|---|---|---|
 | 1 | 正面全轮廓平铺,完整展示长度、肩线、下摆 | 正面挂拍全轮廓,衣架/横杆低存在感 | 正面人台全轮廓,服饰结构被清楚撑起 |
 | 2 | 背面全轮廓平铺,保留后片结构与后摆 | 背面挂拍全轮廓,保留后片与后摆 | 背面人台全轮廓,保留后片结构 |

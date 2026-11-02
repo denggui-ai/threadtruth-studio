@@ -43,12 +43,12 @@ class FlowTests(unittest.TestCase):
         root = task or self.task
         if schema == 1:
             ledger.create(root, [self.sources[0]], ['p'+str(i) for i in range(6)], [12, 18],
-                          schema_version=1)
+                          schema_version=1, workflow_version=0)
         else:
             ledger.create(root, [dict(path=str(self.sources[0]), role='garment-source'),
                                  dict(path=str(self.sources[1]), role='identity-reference')],
                           ['p'+str(i) for i in range(6)], [12, 18], model=self.model,
-                          context=self.context, route=route)
+                          context=self.context, route=route, workflow_version=0)
         ledger.update(root, 'authorize', limit=6, note='Synthetic test: six requests approved')
 
     def data(self):

@@ -1,0 +1,84 @@
+{
+  "skill_name": "threadtruth-studio",
+  "status": "definition-only",
+  "note": "Source-side regression scenarios; not executed model conversations or visual-quality evidence.",
+  "evals": [
+    {
+      "id": "WF-01",
+      "category": "confirmed_direct",
+      "prompt": "已有明确成人女装、风格和九张直出方案，用户一次确认整份方案并授权九次。",
+      "expectations": [
+        "沿用风格、直出路线与张数，不重复拆问；confirm-plan或authorize --spec记录同一确认依据",
+        "逐张实际查询推荐并适配；库内快照或自定义理由冻结；用户未提供历史就不做跨组比较"
+      ]
+    },
+    {
+      "id": "WF-02",
+      "category": "style_missing",
+      "prompt": "服饰和AI人物清楚，用户要一组图但尚未选风格或确定预览路线，只先准备。",
+      "expectations": [
+        "先展示主推、两个备选与完整目录，保留已有张数",
+        "不自行确认风格或生图；执行时未完成方案记录不能reserve"
+      ]
+    },
+    {
+      "id": "WF-03",
+      "category": "moderation_scope",
+      "prompt": "人物袖口近景首次收到明确审核终态失败，下一张也是人物细节，另有一张全身已授权。",
+      "expectations": [
+        "记录原回执，暂停同类人物细节；暂停不计调用",
+        "核实不受影响的全身编号才继续；先评原目标、动作和取景，不猜触发原因或保证换姿通过",
+        "未知请求不能当已失败；恢复仍需真实核实与对应额外授权"
+      ]
+    },
+    {
+      "id": "WF-04",
+      "category": "failed_revision",
+      "prompt": "已核实第二张未返回图片，用户批准一张同目标换手位/构图重试。",
+      "expectations": [
+        "结构化retry接受已核实failed；保留原目标、其他图、旧失败和原调用数",
+        "旧attempt、重复授权ID、过期计划和未核实失败仍拒绝；不自动重试"
+      ]
+    },
+    {
+      "id": "WF-05",
+      "category": "corrected_anchor",
+      "prompt": "首张商品结构被否决，人物可沿用，用户授权仅修正这一张，尚未生成下游。",
+      "expectations": [
+        "使用根系列关联单张修订并绑定原商品、原人物与画幅",
+        "实际新图QA及人物确认通过后采用，原图/失败保留，后续继续原序列",
+        "status累计根和子任务实际调用，重复采用不增加预算；已有下游时不能替换首张"
+      ]
+    },
+    {
+      "id": "WF-06",
+      "category": "presentation_change",
+      "prompt": "连续人物细节审核失败，考虑把同一商品图改为静物。",
+      "expectations": [
+        "先保留人物形式比较动作/取景备选；若提出静物，明确呈现形式变化并核对已有授权",
+        "缺明确呈现变化确认时阻止关联执行；已有预授权不重复询问",
+        "静物只带商品依据，仍按原展示目标验收，失败不能证明静物是审核解决方案"
+      ]
+    },
+    {
+      "id": "WF-07",
+      "category": "target_failure",
+      "prompt": "原要求包占画面主体且包扣清楚，实际仍以整身人物为主；用户希望保留此图。",
+      "expectations": [
+        "goal明确unmet并qa-retry，不只写摄影/细节待核",
+        "记录用户保留但不清除已知偏差；文件齐全与目标达成分开报告",
+        "未知来源参考不能升级实物保真，商品不明与已知展示失败分别判断"
+      ]
+    },
+    {
+      "id": "WF-08",
+      "category": "legacy_and_routes",
+      "prompt": "恢复没有workflow_version的旧任务，并比较原生与网页导出；不生图。",
+      "expectations": [
+        "不向旧记录补写新契约，原冻结字节与次数保持",
+        "新契约双路线均检查确认、目标与原请求依据；库内文字进入请求，线稿按需",
+        "无新模型评测或真实图片调用，不用脚本通过宣称画面稳定"
+      ]
+    }
+  ]
+}

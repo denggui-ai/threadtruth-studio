@@ -107,7 +107,7 @@ class RevisionRecoveryTests(unittest.TestCase):
 
     def test_real_extra_detail_is_retained_in_actual_cell_mapping(self):
         plan,fp,model,refs,dh=self.real_inputs()
-        d=task.create(self.f.job,refs,['Gallery lighting.'],[60,40],model=model,context=self.f.context,shot_plan=plan,real_face_plan=fp)
+        d=task.create(self.f.job,refs,['Gallery lighting.'],[60,40],model=model,context=self.f.context,shot_plan=plan,real_face_plan=fp, workflow_version=0)
         task.export(self.f.job)
         folder=next((self.f.job/'handoff').glob('look-*'))
         request=json.loads((folder/'request.json').read_text());manifest=json.loads((folder/'manifest.json').read_text())
@@ -121,7 +121,7 @@ class RevisionRecoveryTests(unittest.TestCase):
             if case=='unusable':plan['coverage'][-1]['usable']=False
             if case=='other-sku':plan['coverage'][-1]['same_sku']=False
             with self.subTest(case=case),self.assertRaises(ValueError):
-                task.create(self.f.job,refs,['Gallery.'],[60,40],model=model,context=self.f.context,shot_plan=plan,real_face_plan=fp)
+                task.create(self.f.job,refs,['Gallery.'],[60,40],model=model,context=self.f.context,shot_plan=plan,real_face_plan=fp, workflow_version=0)
             self.assertFalse(self.f.job.exists())
 
     def test_legacy_plain_partial_and_complete_model_prose_remain_recoverable(self):
@@ -150,7 +150,7 @@ class RevisionRecoveryTests(unittest.TestCase):
     def test_new_task_still_rejects_partial_or_conflicting_structured_model(self):
         for prompt in ['Fixed model conditions: mature adult; tied-back hair','Fixed model conditions: different old age']:
             with self.subTest(prompt=prompt),self.assertRaises(ValueError):
-                task.create(self.f.job,[self.f.front],[prompt],[60,40],model=self.f.model,context=self.f.context)
+                task.create(self.f.job,[self.f.front],[prompt],[60,40],model=self.f.model,context=self.f.context, workflow_version=0)
 
     def test_legacy_retry_adopts_new_contract_without_revalidating_old_prose(self):
         raw='Fixed model conditions: mature adult; tied-back hair';self.legacy(raw)
@@ -174,7 +174,7 @@ class RevisionRecoveryTests(unittest.TestCase):
                     'POSE 3: UPRIGHT_SEATED — full-body with shoes visible.',
                     'Shot 5: SLIGHT_FORWARD_LEAN — hands braced on thighs.']:
             with self.subTest(raw=raw),self.assertRaises(ValueError):
-                task.create(self.f.job,[self.f.front],[raw],[60,40],model=self.f.model,context=self.f.context,shot_plan=self.f.plan())
+                task.create(self.f.job,[self.f.front],[raw],[60,40],model=self.f.model,context=self.f.context,shot_plan=self.f.plan(), workflow_version=0)
             self.assertFalse(self.f.job.exists())
 
     def test_one_current_shot_block_preserves_scene_text_and_rejects_outside_pose(self):
@@ -184,7 +184,7 @@ class RevisionRecoveryTests(unittest.TestCase):
         self.assertEqual(task.shot_helper().apply(raw,plan),raw)
         with self.assertRaises(ValueError):task.shot_helper().apply(raw+'\nPOSE 6: BACK_TURN_GLANCE',plan)
         # Existing unplanned tasks are not silently rewritten by the new shot compiler.
-        task.create(self.f.job,[self.f.front],['POSE 1: SIDE_TURN_STANDING'],[60,40],model=self.f.model,context=self.f.context)
+        task.create(self.f.job,[self.f.front],['POSE 1: SIDE_TURN_STANDING'],[60,40],model=self.f.model,context=self.f.context, workflow_version=0)
         task.export(self.f.job)
 
     def legacy_planned(self,raw):

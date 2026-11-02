@@ -220,7 +220,7 @@ class ExpandedPoseRequestTests(unittest.TestCase):
         plan,refs,visual=self.prepare(pose,view,mode)
         job=self.fixture.root/(pose+'-'+view+'-'+mode)
         self.task.create(job,refs,None,[60,40],model=self.fixture.model,context=self.fixture.context,
-                         route='codex_native',shot_plan=plan,visual_plan=visual)
+                         route='codex_native',shot_plan=plan,visual_plan=visual, workflow_version=0)
         data=self.task.read(job)
         self.task.export(job)
         folder=next((job/'handoff').glob('look-1-*'))

@@ -233,16 +233,13 @@ class RetryAuthorizeMessageTests(unittest.TestCase):
         self.nt.create(preview=True)
         self.task.update(self.nt.job, 'authorize', limit=1, note='Synthetic preview request authority.')
         self.nt.reserve(1)
-        data = self.task.read(self.nt.job)
-        row = data['looks'][0]
-        row.update(state='failed', failure_reconciliation=dict(synthetic=True))
-        with unittest.mock.patch.object(self.task, 'failure_recovery', return_value=True), \
-                unittest.mock.patch.object(self.task, 'check_evidence'), \
-                unittest.mock.patch.object(self.task, 'read', return_value=data), \
-                unittest.mock.patch.object(self.task, 'write', create=True):
-            with self.assertRaises(ValueError) as caught:
-                self.task.update(self.nt.job, 'retry-authorize', look=1, expected_attempt=1,
-                                 note='Synthetic user grant.', approval_id='synthetic-retry-1')
+        receipt=self.nt.root/'failure.txt';receipt.write_text('Synthetic terminal provider failure')
+        self.task.update(self.nt.job,'failed',look=1,reason='provider_error',failure_receipt=receipt)
+        self.task.update(self.nt.job,'reconcile-failure',look=1,expected_attempt=1,request_check_completed=True,
+                         note='Synthetic original request checked; no result exists')
+        with self.assertRaises(ValueError) as caught:
+            self.task.update(self.nt.job, 'retry-authorize', look=1, expected_attempt=1,
+                             note='Synthetic user grant.', approval_id='synthetic-retry-1')
         message = str(caught.exception)
         self.assertIn('--prompt-file', message)
         self.assertNotIn('revise-preview', message)

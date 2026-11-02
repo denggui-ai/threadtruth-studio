@@ -80,7 +80,7 @@ class NineTaskTests(unittest.TestCase):
         context = dict(self.context, first_pose=task.shot_helper().active_looks(plan)[0]['slot'],
                        purpose='preview-grid' if preview else 'delivery')
         return task.create(self.job, refs or self.refs(), None, [60, 40], model=model or self.model,
-                           context=context, route=route, shot_plan=plan, visual_plan=self.visual(plan), real_face_plan=real)
+                           context=context, route=route, shot_plan=plan, visual_plan=self.visual(plan), real_face_plan=real, workflow_version=0)
 
     def reserve(self, number=1):
         data = task.read(self.job)
@@ -115,7 +115,7 @@ class NineTaskTests(unittest.TestCase):
         visual = self.visual(plan)
         visual['garment']['description'] += ' Use garment facts only; do not copy the person face, hair or expression.'
         data = task.create(self.job, self.refs(), None, [60, 40], model=self.model,
-                           context=self.context, route='codex_native', shot_plan=plan, visual_plan=visual)
+                           context=self.context, route='codex_native', shot_plan=plan, visual_plan=visual, workflow_version=0)
         prompt = task.handoff_prompt(data, data['looks'][2], task.selected_references(
             data['references'], data['context'], data['shot_plan'], None, 3))
         self.assertIn('do not copy the person face, hair or expression', prompt)
