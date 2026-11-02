@@ -142,3 +142,31 @@ class CommonFlowTests(unittest.TestCase):
         m.save(self.job, d)
         with self.assertRaisesRegex(ValueError, 'Frozen context'):
             m.export(self.job)
+
+    def test_returned_recovers_after_ledger_save_failure_with_same_image(self):
+        from unittest import mock
+        self.create()
+        m.export(self.job)
+        m.update(self.job, 'authorize', limit=1, note='Synthetic authorization')
+        self.reserve(1)
+        result = self.image('result', (20, 30), 'blue')
+        with mock.patch.object(m, 'save', side_effect=OSError('disk full')):
+            with self.assertRaises(OSError):
+                m.update(self.job, 'returned', look=1, file=result)
+        self.assertTrue((self.job/'outputs/look-1.png').is_file())
+        self.assertEqual(m.read(self.job)['looks'][0]['state'], 'reserved')
+        recovered = m.update(self.job, 'returned', look=1, file=result)
+        self.assertEqual(recovered['looks'][0]['state'], 'returned')
+
+    def test_returned_refuses_different_image_over_orphaned_output(self):
+        from unittest import mock
+        self.create()
+        m.export(self.job)
+        m.update(self.job, 'authorize', limit=1, note='Synthetic authorization')
+        self.reserve(1)
+        with mock.patch.object(m, 'save', side_effect=OSError('disk full')):
+            with self.assertRaises(OSError):
+                m.update(self.job, 'returned', look=1, file=self.image('first', (20, 30), 'blue'))
+        with self.assertRaises(FileExistsError):
+            m.update(self.job, 'returned', look=1, file=self.image('other', (20, 30), 'green'))
+        self.assertEqual(m.read(self.job)['looks'][0]['state'], 'reserved')
