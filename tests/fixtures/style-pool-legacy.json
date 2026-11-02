@@ -1,0 +1,463 @@
+{
+  "baseline": "07ea0c8",
+  "spec": {
+    "entry_id": "nordic-minimal",
+    "model": {
+      "source_type": "new",
+      "scope": "full",
+      "subject": "adult female model",
+      "locked": [],
+      "adjustable": [],
+      "consent_note": "",
+      "styling_lock": "identity"
+    },
+    "count": 1,
+    "first_pose": 1,
+    "output_form": "human",
+    "inventory": [
+      {
+        "sha256": "c460343ee65adeb6984ed8ede7ace17a75a587c6ca49ed9e8c8c1d8d3acd27c3",
+        "role": "garment-source"
+      }
+    ],
+    "garment": {
+      "description": "Synthetic blue garment.",
+      "keep": [
+        "Keep the original blue colour."
+      ],
+      "source_sha256s": [
+        "c460343ee65adeb6984ed8ede7ace17a75a587c6ca49ed9e8c8c1d8d3acd27c3"
+      ]
+    },
+    "shot_plan": {
+      "version": 2,
+      "framing_guidance": 2,
+      "variety_checks": 2,
+      "sku": "synthetic-legacy",
+      "route": "B",
+      "coverage": [
+        {
+          "sha256": "c460343ee65adeb6984ed8ede7ace17a75a587c6ca49ed9e8c8c1d8d3acd27c3",
+          "views": [
+            "front"
+          ],
+          "usable": true,
+          "same_sku": true,
+          "note": "Synthetic front source."
+        }
+      ],
+      "looks": [
+        {
+          "slot": 1,
+          "shot_id": "legacy-slot-1",
+          "display_goal": "Show the garment front.",
+          "must_show": [
+            "front panel"
+          ],
+          "reason": "Keep the front panel readable.",
+          "body_action": "standing square to camera in a bright living room, a bookshelf and a plant a few steps behind, weight even, shoulders dropped, well away from any wall",
+          "hands": "arms hang loosely with relaxed fingers",
+          "support": "floor",
+          "pose_id": "nm-open-stand",
+          "framing": "full-body",
+          "garment_views": [
+            "front"
+          ],
+          "reference_sha256s": [
+            "c460343ee65adeb6984ed8ede7ace17a75a587c6ca49ed9e8c8c1d8d3acd27c3"
+          ],
+          "head": "Head upright facing the camera.",
+          "gaze": "Look at the lens."
+        }
+      ],
+      "selected_shot_ids": [
+        "legacy-slot-1"
+      ],
+      "series_role": "standalone"
+    }
+  },
+  "visual_plan": {
+    "contract": 21,
+    "version": 2,
+    "objective": "styled-editorial",
+    "output_medium": "photography",
+    "output_form": "human",
+    "style": {
+      "primary": {
+        "id": "nordic-minimal",
+        "version": "0.1.3",
+        "sha256": "037064e868e5e1ecfe1c56a504a6073dd1365d7785a31280a45680b5c82d15db",
+        "snapshot": {
+          "schema_version": 1,
+          "id": "nordic-minimal",
+          "version": "0.1.3",
+          "name": "北欧极简 / Nordic Minimal",
+          "entry_type": "legacy-style",
+          "aliases": [
+            "北欧极简",
+            "性冷淡极简",
+            "nordic minimal",
+            "scandi minimal",
+            "斯堪的纳维亚",
+            "冷淡北欧"
+          ],
+          "medium": "photography",
+          "purpose_support": [
+            "product-display",
+            "styled-editorial",
+            "art-campaign"
+          ],
+          "status": "draft",
+          "bases": [
+            "nordic-minimal"
+          ],
+          "source_ids": [
+            "R02"
+          ],
+          "scope": "冷白自然光、建筑负空间与少量环境材料。",
+          "distinctive_features": [
+            "冷白自然光、建筑负空间与少量环境材料。",
+            "与Clean Fit的基础穿搭整洁区分：本方向更强调空间留白与冷日光。"
+          ],
+          "legacy": {
+            "slug": "nordic-minimal",
+            "pack_path": "references/styles/nordic-minimal.pack.yaml",
+            "version": "0.1.1",
+            "sha256": "58e20e5777d1dec4d20f068467940a86dd92c3e79072adc7f3c79ac6b55dfeb0",
+            "maturity": "DRAFT"
+          },
+          "base_policy": "未选新组件时保留旧配方；明确用途/媒介/逐张计划替换冲突段，不能把本卡与旧pack重复累加。",
+          "input_requirements": [
+            "明确当前商品参考及不可改事实；仅展示有依据的视角。",
+            "人物来源与允许调整项沿用当前人物记录；不得把服装图中的人脸自动当作身份授权。"
+          ],
+          "boundaries": [
+            "风格名是已定义摄影配方，不代表该国家全部审美或人物国籍。",
+            "适用品类/anti_categories是默认推荐线索；用户明确保留商品借用摄影时，按实际结构与适龄边界适配，不改成推荐服种。",
+            "当前修订未获得新实图验收，旧样片的接受只保留原范围。"
+          ],
+          "garment_preservation": [
+            "服装和允许搭配分别记录；原商品的版型、衣长、领袖、开合、层次、颜色、材质、图案、标识及配饰以参考为准。",
+            "配色与艺术语言不得给原商品染色、增删装饰、收腰、加长或改变露肤范围。",
+            "身份、年龄、体型与头眼动作由当前人物条件和逐张计划决定，风格名不决定人物国籍、族群或脸型。",
+            "照片只能证明可见特征；手工、手织、手绣、材质成分等来源声明须另有依据。"
+          ],
+          "planning_requirements": [
+            "场景列表给空间候选，不能由其顺序改变逐张动作。",
+            "单张/系列/独立比较/融合按本次意图，多个名称不自动混在一张图。"
+          ],
+          "photography": {
+            "scene": "北欧公寓与安静日常地点：白墙浅木、书架、绿植或羊毛毯，空间开阔但有生活物件。",
+            "lighting": "冷白自然漫射光，保持细微体积层次，不做平面死白。",
+            "composition": "建筑负空间占有明确比例，边界清晰、物件精简，主体与环境自然分离。 每张按已确认的逐张计划组织。",
+            "palette": "环境采用灰白、雾蓝与浅木色的低饱和关系。 商品原色与饱和度保持不变。"
+          },
+          "prompt_fragment": "本卡审美意图：北欧极简编辑摄影：清冷、简明、开阔的视觉秩序，克制来自环境而非删减商品细节。 摄影内容只使用本次解析后的 photography 字段；人物气质仅按当前人物条件处理，不另行拼接旧 pack 全文。",
+          "art": {
+            "direction": "北欧极简编辑摄影：清冷、简明、开阔的视觉秩序，克制来自环境而非删减商品细节。",
+            "techniques": [],
+            "limits": [
+              "服装和允许搭配分别记录；原商品的版型、衣长、领袖、开合、层次、颜色、材质、图案、标识及配饰以参考为准。",
+              "配色与艺术语言不得给原商品染色、增删装饰、收腰、加长或改变露肤范围。",
+              "身份、年龄、体型与头眼动作由当前人物条件和逐张计划决定，风格名不决定人物国籍、族群或脸型。",
+              "照片只能证明可见特征；手工、手织、手绣、材质成分等来源声明须另有依据。"
+            ]
+          },
+          "negatives": [
+            "不新增商品参考中没有的服装部件、图案、首饰或品牌标识",
+            "不通过拉长身体、缩腰或改变人物年龄制造风格",
+            "不加入广告标题、价格、促销语、品牌口号或海报版式；商品原有文字标识保留",
+            "no warm muji lifestyle look",
+            "no busy decor",
+            "no glossy retouch"
+          ],
+          "acceptance": [
+            "商品与人物事实分别对照原始参考，不能只拿上一次生成图互相核对。",
+            "独立成图满足本次画幅与逐张计划；联系表或预览不能替代独立图片。",
+            "风格差异来自所选视觉手段，不能以改变商品或身份换取差异。",
+            "与Clean Fit的基础穿搭整洁区分：本方向更强调空间留白与冷日光。",
+            "光线、色彩与场景的具体特征可在画面中判断；不以名字或形容词代替验收。"
+          ],
+          "evidence": {
+            "visual_status": "unverified",
+            "records": [],
+            "scope": "当前修订尚无实图验收；既有历史记录保留，不自动扩展其接受范围。"
+          },
+          "scene_options": [
+            "北欧白墙客厅（书架、绿植）",
+            "浅木餐桌与吊灯",
+            "大窗边阅读角",
+            "白色楼梯转角",
+            "阴天湖边木栈道",
+            "安静的设计书店或咖啡馆"
+          ],
+          "default_objective": "styled-editorial",
+          "persona": "calm reserved expression, composed stillness, quiet confidence",
+          "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。calm reserved expression, composed stillness, quiet confidence",
+          "commitments": [
+            {
+              "id": "nm-cool-daylight",
+              "show": "large cool-white diffused daylight from a big window; soft volume with gentle shadows, never flat dead white",
+              "needs": [
+                "lighting"
+              ],
+              "check": "light clearly comes from a window direction; shadows are soft but present; whites keep texture and are not blown"
+            },
+            {
+              "id": "nm-open-space",
+              "show": "the subject takes a small-to-medium part of the frame inside a bright, airy home or calm public place, with open room around the figure",
+              "needs": [
+                "camera",
+                "scene"
+              ],
+              "check": "open space around the subject in each cell; the subject does not touch or lean on a wall"
+            },
+            {
+              "id": "nm-pale-materials",
+              "show": "a lived Scandinavian setting: gray-white walls, pale wood, a fog-blue accent and two or three real objects (a bookshelf, a wool throw, a plant, a ceramic lamp or a dining table)",
+              "needs": [
+                "scene"
+              ],
+              "check": "backdrop reads gray-white with pale wood, no beige or yellow cast; each cell shows a few real objects and a recognisable place; a six or nine grid shows at least three different places; a white or pale garment still separates from the walls by tone"
+            },
+            {
+              "id": "nm-calm-natural-expression",
+              "show": "calm, reserved, natural expression with a relaxed mouth; at ease rather than detached",
+              "needs": [
+                "expression"
+              ],
+              "check": "relaxed closed or slightly parted lips; the face reads calm and at ease; no broad smile and no cold stare"
+            },
+            {
+              "id": "nm-fresh-bare-makeup",
+              "show": "fresh bare-skin makeup: natural matte skin, almost no eye colour, natural lip; hair smooth and simple",
+              "needs": [
+                "makeup"
+              ],
+              "realize": [
+                "hair length stays as the identity reference"
+              ],
+              "check": "skin looks natural and matte without shimmer; no visible eyeshadow colour; lip close to natural; hair smooth"
+            }
+          ],
+          "action_tendency": "Unhurried and at ease in an open bright room: even relaxed weight, everyday gestures, generous distance from walls; never editorial-tense, angular or posed.",
+          "pose_vocabulary": [
+            {
+              "id": "nm-open-stand",
+              "family": "stand",
+              "body": "standing square to camera in a bright living room, a bookshelf and a plant a few steps behind, weight even, shoulders dropped, well away from any wall",
+              "hands": "arms hang loosely with relaxed fingers",
+              "support": "floor",
+              "views": [
+                "front"
+              ],
+              "avoid_when": "none",
+              "check": "body centred with open floor around; room objects stay behind and clear of the garment; not leaning on anything"
+            },
+            {
+              "id": "nm-stair-pause",
+              "family": "stand",
+              "body": "pausing one step up on a white staircase, one foot on the higher step, body angled three-quarter to camera",
+              "hands": "one hand resting lightly on the rail, the other relaxed",
+              "support": "staircase and rail",
+              "views": [
+                "front-side"
+              ],
+              "avoid_when": "long skirts that would catch on the step",
+              "check": "feet on two different steps; hand on the rail; body three-quarter"
+            },
+            {
+              "id": "nm-table-sit",
+              "family": "sit",
+              "body": "sitting upright on a simple wooden chair at a pale wood table, body turned three-quarter to camera",
+              "hands": "forearms resting on the tabletop with hands loosely together",
+              "support": "chair and table",
+              "views": [
+                "front-side"
+              ],
+              "avoid_when": "garments whose key detail sits below the waist where the table hides it",
+              "check": "forearms on the table; the upper garment fully readable above the tabletop"
+            },
+            {
+              "id": "nm-window-mug",
+              "family": "turn",
+              "body": "standing close to a large window, body three-quarter toward it, head turned to look out in soft profile",
+              "hands": "one hand holds a plain ceramic mug at shoulder height to the window side, the other relaxed at the side",
+              "support": "floor",
+              "views": [
+                "front-side"
+              ],
+              "avoid_when": "none",
+              "check": "mug held at shoulder height on the window side, clear of the garment front; face in soft profile toward the light"
+            },
+            {
+              "id": "nm-slow-walk",
+              "family": "walk",
+              "body": "slow relaxed walk along a wooden lakeside boardwalk or across a bright room, parallel to the camera, short natural stride",
+              "hands": "arms swinging slightly",
+              "support": "floor",
+              "views": [
+                "front-side"
+              ],
+              "avoid_when": "none",
+              "check": "side-on walk with a small stride and open space ahead of the body"
+            },
+            {
+              "id": "nm-bench-sit",
+              "family": "sit",
+              "body": "sitting on a low wooden bench, back upright, legs extended forward and crossed at the ankles",
+              "hands": "hands resting on the bench beside the hips",
+              "support": "low bench",
+              "views": [
+                "front"
+              ],
+              "avoid_when": "very long coats that would pool on the floor",
+              "check": "low seat, legs extended and crossed at the ankles, hands beside the hips"
+            },
+            {
+              "id": "nm-walk-away",
+              "family": "walk",
+              "body": "walking away from camera toward a bright window or down a white corridor, mid-stride",
+              "hands": "arms relaxed at the sides",
+              "support": "floor",
+              "views": [
+                "back"
+              ],
+              "avoid_when": "no usable back source",
+              "check": "back fully readable; mid-stride; open space around the figure"
+            },
+            {
+              "id": "nm-cuff-adjust",
+              "family": "close",
+              "body": "half-body, relaxed straight posture, looking slightly down",
+              "hands": "one hand gently adjusting the opposite cuff, sleeve edge or hem edge",
+              "support": "floor",
+              "views": [
+                "front",
+                "detail"
+              ],
+              "avoid_when": "garments with no cuff, sleeve or hem edge in reach",
+              "check": "one hand at an edge of the garment; gaze down; garment front still readable"
+            }
+          ]
+        }
+      },
+      "supporting": [],
+      "fusion_note": ""
+    },
+    "garment": {
+      "description": "Synthetic blue garment.",
+      "keep": [
+        "Keep the original blue colour."
+      ],
+      "source_sha256s": [
+        "c460343ee65adeb6984ed8ede7ace17a75a587c6ca49ed9e8c8c1d8d3acd27c3"
+      ]
+    },
+    "styling": [],
+    "photography": {
+      "scene": "北欧公寓与安静日常地点：白墙浅木、书架、绿植或羊毛毯，空间开阔但有生活物件。",
+      "lighting": "冷白自然漫射光，保持细微体积层次，不做平面死白。",
+      "composition": "建筑负空间占有明确比例，边界清晰、物件精简，主体与环境自然分离。 每张按已确认的逐张计划组织。",
+      "palette": "环境采用灰白、雾蓝与浅木色的低饱和关系。 商品原色与饱和度保持不变。"
+    },
+    "art": {
+      "direction": "北欧极简编辑摄影：清冷、简明、开阔的视觉秩序，克制来自环境而非删减商品细节。",
+      "techniques": [],
+      "limits": [
+        "服装和允许搭配分别记录；原商品的版型、衣长、领袖、开合、层次、颜色、材质、图案、标识及配饰以参考为准。",
+        "配色与艺术语言不得给原商品染色、增删装饰、收腰、加长或改变露肤范围。",
+        "身份、年龄、体型与头眼动作由当前人物条件和逐张计划决定，风格名不决定人物国籍、族群或脸型。",
+        "照片只能证明可见特征；手工、手织、手绣、材质成分等来源声明须另有依据。"
+      ]
+    },
+    "negatives": [
+      "不新增商品参考中没有的服装部件、图案、首饰或品牌标识",
+      "不通过拉长身体、缩腰或改变人物年龄制造风格",
+      "不加入广告标题、价格、促销语、品牌口号或海报版式；商品原有文字标识保留",
+      "no warm muji lifestyle look",
+      "no busy decor",
+      "no glossy retouch"
+    ],
+    "shots": [
+      {
+        "slot": 1,
+        "shot_id": "legacy-slot-1",
+        "scene": "北欧公寓与安静日常地点：白墙浅木、书架、绿植或羊毛毯，空间开阔但有生活物件。",
+        "lighting": "冷白自然漫射光，保持细微体积层次，不做平面死白。",
+        "composition": "建筑负空间占有明确比例，边界清晰、物件精简，主体与环境自然分离。 每张按已确认的逐张计划组织。"
+      }
+    ],
+    "commitments": [
+      {
+        "id": "nm-cool-daylight",
+        "show": "large cool-white diffused daylight from a big window; soft volume with gentle shadows, never flat dead white",
+        "needs": [
+          "lighting"
+        ],
+        "check": "light clearly comes from a window direction; shadows are soft but present; whites keep texture and are not blown"
+      },
+      {
+        "id": "nm-open-space",
+        "show": "the subject takes a small-to-medium part of the frame inside a bright, airy home or calm public place, with open room around the figure",
+        "needs": [
+          "camera",
+          "scene"
+        ],
+        "check": "open space around the subject in each cell; the subject does not touch or lean on a wall"
+      },
+      {
+        "id": "nm-pale-materials",
+        "show": "a lived Scandinavian setting: gray-white walls, pale wood, a fog-blue accent and two or three real objects (a bookshelf, a wool throw, a plant, a ceramic lamp or a dining table)",
+        "needs": [
+          "scene"
+        ],
+        "check": "backdrop reads gray-white with pale wood, no beige or yellow cast; each cell shows a few real objects and a recognisable place; a six or nine grid shows at least three different places; a white or pale garment still separates from the walls by tone"
+      },
+      {
+        "id": "nm-calm-natural-expression",
+        "show": "calm, reserved, natural expression with a relaxed mouth; at ease rather than detached",
+        "needs": [
+          "expression"
+        ],
+        "check": "relaxed closed or slightly parted lips; the face reads calm and at ease; no broad smile and no cold stare"
+      },
+      {
+        "id": "nm-fresh-bare-makeup",
+        "show": "fresh bare-skin makeup: natural matte skin, almost no eye colour, natural lip; hair smooth and simple",
+        "needs": [
+          "makeup"
+        ],
+        "realize": [
+          "hair length stays as the identity reference"
+        ],
+        "check": "skin looks natural and matte without shimmer; no visible eyeshadow colour; lip close to natural; hair smooth"
+      }
+    ],
+    "commitments_skipped": [],
+    "open_variables": [
+      "makeup",
+      "expression",
+      "body",
+      "arrangement",
+      "camera",
+      "scene",
+      "lighting"
+    ],
+    "persona": "calm reserved expression, composed stillness, quiet confidence",
+    "persona_model_sha256": "cdcb6badf35611cd7c600d5aa3399a3b435cbbb3179589e55f8fcb17fa2afccd"
+  },
+  "context": {
+    "outfit": "synthetic-legacy",
+    "style": "nordic-minimal",
+    "mode": "C",
+    "output_form": "human",
+    "size": [
+      20,
+      30
+    ],
+    "first_pose": 1,
+    "purpose": "delivery"
+  },
+  "prompt_sha256": "5694b7eff2e3276875eb7308e100979eb23c756bc3136e480e9468ca4c6d540c"
+}

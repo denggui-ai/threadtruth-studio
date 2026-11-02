@@ -29,6 +29,8 @@ PUBLIC_FILES = (
     "PROVENANCE.md",
     "SECURITY.md",
     "docs/INSTALL.md",
+    "docs/STUDIO-CANDIDATE.md",
+    "docs/POSE-LIBRARY-TRYOUT.md",
     "docs/BETA9-TRYOUT.md",
     "docs/BETA10-TRYOUT.md",
     "docs/BETA11-TRYOUT.md",

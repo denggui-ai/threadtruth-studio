@@ -1,6 +1,16 @@
 # Release Readiness
 
-## Current release — beta.16 (GitHub prerelease)
+## Current release — beta.17 (GitHub prerelease)
+
+Version `1.0.0-beta.17` publishes the existing complete runtime at `da7e9a8`: 52 actions / 60 reference views, knowledge and style-commitment resolution, a 22-card / 176-entry shared pose pool, selected-task exact / limited near-repeat checks and product-goal recommendation ranking. Runtime files match the candidate already backed up, installed and checked on the maintainer’s Mac. This release changes distribution metadata, usage documentation and the public homepage; it adds no runtime feature, image call or new model evaluation.
+
+Preparation evidence: [beta.17 release checks](docs/verification/2026-11-02-beta17-release.md).
+
+Channel: GitHub prerelease; `guide-required`. The plugin ZIP includes the offline guide and all 60 existing reference images. Download the named Plugin ZIP and matching `.sha256` from [beta.17](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.17); `release-manifest.json` identifies the fixed source and runtime files. GitHub automatic source archives are for maintainers, not installation.
+
+Reuse prior scoped functional, asset, page and local installation evidence. Required repository CI still applies; release-specific checks cover archive safety/parity, offline links, public copy/layout, download bytes and Pages deployment. Old releases and sample images remain unchanged. Six POC images remain `qa-retry`; `GEO-SLEEVE-01` remains restricted. Near-repeat comparison is limited English action-text matching, not image-pose recognition. Fresh-host discovery, actual rollback and broad visual consistency remain unverified; no production-ready claim.
+
+## Historical release — beta.16 (GitHub prerelease)
 
 Version `1.0.0-beta.16` publishes `main` after PRs #48 and #49: validation errors for hand-written `overrides.shots` and `retry-authorize` now name the JSON path, the missing keys and the repair; `visual_plan.garment` accepts optional `hem_state` and `silhouette` facts rendered as fixed geometric sentences (prompt bytes unchanged when absent); delivery `accept` records a head-top margin measurement without changing QA; four entry cards (korean-cold-editorial, retro-americana, garment-illustration, art-deco-set) carry an owner-accepted nine-panel direction preview as `direction-accepted`. Evidence: one real Codex session on this source produced the ecommerce-studio nine-panel preview through the ledger after a single self-correction (record: `korea/outputs/caiguang-wp14-ecommerce-r2-20261030`, outside this repository). No fresh-host installation test was repeated. Download [v1.0.0-beta.16](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.16) and its SHA-256 sidecar.
 

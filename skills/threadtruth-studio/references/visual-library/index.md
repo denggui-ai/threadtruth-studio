@@ -6,6 +6,8 @@
 
 从 [执行索引](index.json) 选择入口，再读该入口的 `card`。卡片路径相对 skill 根目录。原 24 个入口保留 slug、名称、源 pack 与原场景候选；卡片逐项记录场景、照明、构图、配色和艺术意图，供[统一视觉方案](../visual-plan.md)解析。不要把卡片和旧 pack 全文重复累加。
 
+22张已有动作卡通过`pose_pool`引用[共享动作文字目录](../pose-library/style-vocabulary.json)。用`scripts/visual_library.py show <入口ID>`取得该卡解析后的八字段`pose_vocabulary`；不要把176条全读入本轮。`prepare`把选中卡的动作来源与哈希一并冻结，具体采用的身体、手位和支撑仍须写入逐张计划。无动作池的其余14卡保持原路径。
+
 名称表示摄影或艺术方案，不能决定模特的国籍、族群、身份或身体特征。商品事实、允许的搭配、人物条件与视觉方案分别记录。`anti_categories` 是默认推荐线索；用户已明确要保留商品借用拍法时，使用视觉手段完成，不强制改成该方向的典型服装。
 
 “美式”需要结合上下文区分街头、学院、复古日常与工装；“美式厨房”可以只是场景。“分别比较”建立独立方案；明确融合则确定主辅和各自负责的字段，不能因历史互斥表直接拒绝。
@@ -44,6 +46,7 @@
 - `art.direction` 写审美意图，`techniques` 写所选媒介技法，`limits` 写本方案仍须遵守的商品和人物边界。可选 `commitments`（WP-21c，字段固定为 `id/show/needs/check` 与可选 `realize`，3–5 条可目测的风格承诺，按本次开放变量过滤，见 visual-plan.md）。`persona_guidance` 仅供本次允许调整的人物条件参考，不直接覆盖已确认笑容或妆发。
 - `scene_options` 是空间候选，不是动作安排。具体景别、头眼、动作和来源覆盖进入当前逐张计划；不能用场景顺序偷换六张动作。
 - 写卡（WP-23）：场景用具体地点加少量真实物件来写，不用“无杂物、空墙、大面积留白、纯色背景”来定义；极简感交给构图、色调和留白比例。`scene_options` 里棚拍或纯色墙最多 1 项；8 条动作词条至少覆盖 4 个不同地点，不全部绑定同一种墙面。
+- 动作池条目保留稳定词条ID。完整情节使用`id/family/body/hands/support/views/avoid_when/check`；仅当身体、手位、支撑与所需商品视角相符时，改用`id/pose_id/view/context/avoid_when/check`引用自有库，`context`保留风格地点与行为语境。引用只解析文字，不附图；不引入`user-only`条目。修订时核对解析结果、共享条目的调用卡和旧冻结兼容性，卡片与索引版本同步。
 - `bases` 表示可借鉴的原方案，不表示自动载入并叠加全部旧提示词。`prompt_fragment` 是阅读辅助，实际输出来自冻结后解析的方案。
 - `status=draft`、`evidence.visual_status=unverified` 表示仍需该范围的实图验证。仅填写结构、编译成功、存在旧样片或单个新样片，都不能自动升级为整个方向通过。`evidence.visual_status=direction-accepted` 表示仅有九格方向预览经 Owner 接受方向（`records` 记图路径与哈希），成片仍未验证，仍不等于整个方向通过。
 

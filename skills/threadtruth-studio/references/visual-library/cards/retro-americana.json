@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "retro-americana",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "name": "美式复古日常",
   "entry_type": "shooting-plan",
   "aliases": [
@@ -158,103 +158,14 @@
     }
   ],
   "action_tendency": "Warm and everyday-capable: hands busy with ordinary kitchen, diner and grocery tasks, an easy lean on a counter, sitting in a booth; never pin-up, never posed like a vintage ad.",
-  "pose_vocabulary": [
-    {
-      "id": "ra-counter-lean",
-      "family": "lean",
-      "body": "hip resting lightly against a kitchen counter, body three-quarter to camera, one foot a little forward with the heel down, ankles not crossed",
-      "hands": "both hands resting on the counter edge behind the hips",
-      "support": "counter",
-      "views": [
-        "front-side"
-      ],
-      "avoid_when": "none",
-      "check": "light lean; counter behind the body; garment front fully visible; ankles not crossed"
-    },
-    {
-      "id": "ra-coffee-pour",
-      "family": "stand",
-      "body": "standing at the counter, body turned three-quarter with the garment front toward the lens, leaning a little toward the task",
-      "hands": "one hand pours from a plain enamel coffee pot held low at the side into a mug on the counter, the other rests on the counter",
-      "support": "floor",
-      "views": [
-        "front-side"
-      ],
-      "avoid_when": "aprons whose bib would be hidden by the arms; garments whose placket, chest pocket or waistband would be covered by the hand or the pot",
-      "check": "pot below the chest and to the side; garment front not covered"
-    },
-    {
-      "id": "ra-booth-sit",
-      "family": "sit",
-      "body": "sitting in a diner booth facing camera, back against the seat, relaxed",
-      "hands": "forearms resting on the table edge with a plain mug between the hands",
-      "support": "booth seat and table",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "bottoms that must be shown, since the table hides the lower body",
-      "check": "table edge stays below the garment's key upper parts"
-    },
-    {
-      "id": "ra-grocery-carry",
-      "family": "walk",
-      "body": "walking out of a corner grocery doorway toward camera, easy stride",
-      "hands": "one arm carrying a plain brown paper grocery bag against the hip on the side, the other swinging",
-      "support": "ground",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "none",
-      "check": "bag on the side of the body, not in front of the garment"
-    },
-    {
-      "id": "ra-porch-step-sit",
-      "family": "sit",
-      "body": "sitting on a wooden porch step, knees together, leaning slightly forward",
-      "hands": "forearms resting on the knees with hands loosely together",
-      "support": "step",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "short skirts",
-      "check": "garment front visible above the knees"
-    },
-    {
-      "id": "ra-cupboard-reach",
-      "family": "turn",
-      "body": "standing at an open low wooden cupboard or sideboard, body turned three-quarter toward it, face turned back toward camera",
-      "hands": "one hand resting on the open cupboard door at hip height, the other holding a plain mug low",
-      "support": "floor",
-      "views": [
-        "front-side"
-      ],
-      "avoid_when": "none",
-      "check": "hands no higher than the hip; garment length and closure unchanged"
-    },
-    {
-      "id": "ra-kitchen-walk-away",
-      "family": "walk",
-      "body": "walking away from camera through a kitchen or hallway toward a lit doorway, mid-stride",
-      "hands": "arms relaxed at the sides",
-      "support": "floor",
-      "views": [
-        "back"
-      ],
-      "avoid_when": "no usable back source",
-      "check": "back and any straps or ties fully readable"
-    },
-    {
-      "id": "ra-tie-check",
-      "family": "close",
-      "body": "half-body, standing relaxed, looking down at the hands",
-      "hands": "both hands lightly adjusting a tie, strap or hem edge of the garment at the side",
-      "support": "floor",
-      "views": [
-        "front",
-        "detail"
-      ],
-      "avoid_when": "garments without ties, straps or a hem to adjust",
-      "check": "hands touch only an edge; detail readable"
-    }
+  "pose_pool": [
+    "ra-counter-lean",
+    "ra-coffee-pour",
+    "ra-booth-sit",
+    "ra-grocery-carry",
+    "ra-porch-step-sit",
+    "ra-cupboard-reach",
+    "ra-kitchen-walk-away",
+    "ra-tie-check"
   ]
 }

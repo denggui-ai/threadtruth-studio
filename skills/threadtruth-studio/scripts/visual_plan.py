@@ -5,7 +5,9 @@ model_reference, real_face_plan and shot_plan. This module owns visual expressio
 """
 import copy
 import hashlib
+import importlib.util
 import json
+from pathlib import Path
 import re
 
 BEGIN = '[Task visual plan]'
@@ -78,7 +80,7 @@ def _lines(value, label, *, required=False, owned=False, v2=False):
 
 
 POSE_FIELDS = ('id', 'family', 'body', 'hands', 'support', 'views', 'avoid_when', 'check')
-POSE_FAMILIES = ('stand', 'walk', 'sit', 'lean', 'turn', 'close')
+POSE_FAMILIES = ('stand', 'walk', 'sit', 'lean', 'turn', 'close', 'floor', 'kneel', 'squat', 'lie')
 POSE_VIEWS = ('front', 'front-side', 'back', 'detail')
 
 
@@ -126,6 +128,15 @@ def _component(value):
         raise ValueError('Frozen visual component hash does not match its snapshot')
     if 'pose_vocabulary' in value['snapshot']:
         check_pose_vocabulary(value['snapshot']['pose_vocabulary'], value['snapshot'].get('action_tendency'))
+    if 'pose_pool' in value['snapshot'] or 'pose_pool_snapshot' in value['snapshot']:
+        spec = importlib.util.spec_from_file_location('frozen_pose_pool', Path(__file__).with_name('pose_library.py'))
+        poses = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(poses)
+        frozen = value['snapshot'].get('pose_pool_snapshot')
+        resolved = poses.resolve_vocabulary(frozen)
+        if (value['snapshot'].get('pose_pool') != [row['id'] for row in resolved]
+                or value['snapshot'].get('pose_vocabulary') != resolved):
+            raise ValueError('Resolved vocabulary must match its frozen pose_pool definitions')
     if value['snapshot'].get('id', value['id']) != value['id']:
         raise ValueError('Visual component id conflicts with its frozen snapshot')
     if value['snapshot'].get('version',value['version']) != value['version']:
@@ -209,7 +220,7 @@ def shot_bindings(shot_plan):
 
 def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
     """Validate resolved visual fields against original garment hashes and context."""
-    if (not isinstance(plan, dict) or set(plan) - {'culture_profile', 'persona', 'persona_model_sha256', *COMMIT_OPTIONAL, SUBSTITUTE_FLAG, 'asset_trace', 'contract'} != FIELDS
+    if (not isinstance(plan, dict) or set(plan) - {'culture_profile', 'persona', 'persona_model_sha256', *COMMIT_OPTIONAL, SUBSTITUTE_FLAG, 'asset_trace', 'pose_history', 'contract'} != FIELDS
             or type(plan['version']) is not int or plan['version'] not in (1, 2)):
         raise ValueError('Visual plan requires complete version-1 or version-2 structured fields')
     v2 = plan['version'] == 2
@@ -248,7 +259,7 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
         if not isinstance(plan['persona_model_sha256'], str) or not re.fullmatch(r'[a-f0-9]{64}', plan['persona_model_sha256']):
             raise ValueError('Style persona requires the exact resolving model hash')
         _line(plan['persona'], 'Style persona', owned=True, v2=v2)
-    new_keys = [key for key in (*COMMIT_OPTIONAL, SUBSTITUTE_FLAG, 'asset_trace') if key in plan]
+    new_keys = [key for key in (*COMMIT_OPTIONAL, SUBSTITUTE_FLAG, 'asset_trace', 'pose_history') if key in plan]
     if 'contract' in plan and (type(plan['contract']) is not int or plan['contract'] != CONTRACT):
         raise ValueError('visual_plan.contract must be ' + str(CONTRACT) + ' when present')
     if new_keys and plan.get('contract') != CONTRACT:
@@ -361,6 +372,14 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
                              + (json.dumps(expected[at], sort_keys=True) if at < len(expected) else 'none (too many shots)')
                              + ' (Visual and garment shot plans must bind the same active shot IDs and source slots); got '
                              + (json.dumps(actual[at], sort_keys=True) if at < len(actual) else 'none (missing shot)'))
+    if 'pose_history' in plan:
+        if (shot_plan is None or shot_plan.get('version') != 2
+                or plan['output_form'] not in ('human', 'faceless')):
+            raise ValueError('Pose history applies to v2 human/faceless plans only')
+        spec = importlib.util.spec_from_file_location('visual_pose_history', Path(__file__).with_name('pose_history.py'))
+        history = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(history)
+        history.enforce(plan['pose_history'], shot_plan, plan['style']['primary']['snapshot'])
     return copy.deepcopy(plan)
 
 

@@ -269,6 +269,12 @@ def _pose_helper():
     return helper
 
 
+def pose_library():
+    spec=importlib.util.spec_from_file_location('shot_owned_pose_library',Path(__file__).with_name('pose_library.py'))
+    helper=importlib.util.module_from_spec(spec);spec.loader.exec_module(helper)
+    return helper
+
+
 def _got(value):
     """Describe an offending value briefly for validation messages (type or short repr)."""
     if value is None or isinstance(value,(bool,int,float)):return repr(value)
@@ -293,8 +299,9 @@ def check_poses(plan,vocabulary):
     """WP-21f: with a style pose vocabulary, pose_id must name an entry whose views the look shows; a six/nine grid uses it on at least five looks.
     WP-22: a pose_id is used once per plan, and at most one non-detail look shows the back.
     WP-23: a six/nine grid names at least three different places across its non-detail looks; looks without a scene share the card default."""
-    if not vocabulary:return
-    by_id={e['id']:e for e in vocabulary}
+    owned=plan.get('variety_checks')==2
+    if not vocabulary and not owned:return
+    by_id={e['id']:e for e in (vocabulary or [])}
     looks=plan['looks'];used=0;first={};back=None
     for i,shot in enumerate(looks):
         if 'back' in shot['garment_views'] and shot['framing']!='detail':
@@ -304,6 +311,10 @@ def check_poses(plan,vocabulary):
             back=i
         if 'pose_id' not in shot:continue
         entry=by_id.get(shot['pose_id'])
+        if owned and 'pose_selection' in shot:
+            definition=pose_library()._validate_snapshot(shot['pose_selection'])
+            entry=dict(id=definition['group_id'],views=definition['garment_views'])
+            if shot['pose_id']!=entry['id']:raise ValueError('Selected pose_id differs from its frozen definition')
         if entry is None:
             raise ValueError(f'shot_plan.looks[{i}].pose_id must be one of the style pose ids: '+', '.join(sorted(by_id))+'; got '+_got(shot['pose_id']))
         if shot['pose_id'] in first:
@@ -313,7 +324,7 @@ def check_poses(plan,vocabulary):
         if missing:
             raise ValueError(f'shot_plan.looks[{i}].pose_id "{entry["id"]}" needs garment_views {", ".join(entry["views"])}; this look lacks: '+', '.join(missing))
         used+=1
-    if len(looks)>=6 and used<5:
+    if not owned and len(looks)>=6 and used<5:
         raise ValueError(f'shot_plan.looks: at least 5 looks must carry a pose_id from the style pose vocabulary (found {used}); available ids: '+', '.join(sorted(by_id)))
     if len(looks)>=6:
         places={' '.join(shot.get('scene','').lower().split()) for shot in looks if shot['framing']!='detail'}
@@ -330,9 +341,9 @@ def _validate_v2(plan,inventory,*,context,count,identity,real_face_plan,strict_r
     if not _v2_line(plan['sku']):raise ValueError('shot_plan.sku must be a nonempty single line; got '+_got(plan['sku']))
     if plan['route'] not in ('A','B'):raise ValueError('shot_plan.route must be "A" or "B"; got '+_got(plan['route']))
     _check_framing_guidance(plan)
-    if 'variety_checks' in plan and (type(plan['variety_checks']) is not int or plan['variety_checks']!=1):
-        raise ValueError('variety_checks must be 1 when present')
-    variety=plan.get('variety_checks')==1
+    if 'variety_checks' in plan and (type(plan['variety_checks']) is not int or plan['variety_checks'] not in (1,2)):
+        raise ValueError('variety_checks must be 1 or 2 when present')
+    variety=plan.get('variety_checks') in (1,2)
     if (not identity or context.get('output_form') not in ('human','faceless')
             or context.get('first_pose')=='custom' or context.get('purpose') in ('model-check','correction-edit')):
         raise ValueError('Version-2 shot planning applies to human/faceless delivery and preview only; got identity='+_got(identity)
@@ -377,7 +388,7 @@ def _validate_v2(plan,inventory,*,context,count,identity,real_face_plan,strict_r
     if not isinstance(looks,list) or len(looks) not in (1,6,9):
         raise ValueError('shot_plan.looks must be a list of 1, 6 or 9 logical shots; got '+_got(looks))
     fields={'slot','shot_id','display_goal','must_show','reason','body_action','hands','support','framing','garment_views','reference_sha256s'}
-    optional={'head','gaze','pose_reference','aesthetic_reference_sha256s','scene','lighting','camera','pose_id'}
+    optional={'head','gaze','pose_reference','aesthetic_reference_sha256s','scene','lighting','camera','pose_id','pose_selection','pose_reuse_reason'}
     ids=[];action_keys={}
     head_gaze=any(isinstance(s,dict) and ('head' in s or 'gaze' in s) for s in looks)
     if head_gaze and (model_source not in ('ai','new') or real_face_plan is not None or context.get('output_form')!='human'):
@@ -433,6 +444,8 @@ def _validate_v2(plan,inventory,*,context,count,identity,real_face_plan,strict_r
             raise ValueError(path+'.body_action/head must not turn away from the camera ("'+m.group(0)+'") when garment_views has no "back"; add back coverage or change the action')
         if 'pose_id' in shot and not _v2_line(shot['pose_id']):
             raise ValueError(path+'.pose_id must be a nonempty single line when given; got '+_got(shot['pose_id']))
+        if 'pose_reuse_reason' in shot and not _v2_line(shot['pose_reuse_reason']):
+            raise ValueError(path+'.pose_reuse_reason must give a concrete single-line reason for retaining a historical action')
         key=(shot['framing'],' '.join(re.sub(r'[\W_]+',' ',shot['body_action'].casefold()).split()))
         if variety and key in action_keys:
             raise ValueError(path+'.body_action repeats shot_plan.looks['+str(action_keys[key])+'] with the same framing; give each shot a different body action or framing')
@@ -444,6 +457,8 @@ def _validate_v2(plan,inventory,*,context,count,identity,real_face_plan,strict_r
                     or by_hash[ref['sha256']]['role']!='pose-reference'):
                 raise ValueError(path+'.pose_reference must be {sha256: <one pose-reference inventory hash>, reason: <single line>}; got '+_got(ref))
             catalog.validate_reference(by_hash[ref['sha256']])
+        if 'pose_selection' in shot:
+            pose_library().validate_shot(shot,inventory,variety_checks=plan.get('variety_checks'))
         aesthetic=shot.get('aesthetic_reference_sha256s',[])
         if (not isinstance(aesthetic,list) or any(not isinstance(h,str) or h not in by_hash or by_hash[h]['role']!='aesthetic-reference' for h in aesthetic)
                 or len(aesthetic)!=len(set(aesthetic))):

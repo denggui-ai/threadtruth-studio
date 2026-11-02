@@ -46,7 +46,7 @@ description: "服饰人像；首句随用户语言只核对素材，不预告交
 - **单张重试不重做整组**(见 `prompt-build.md` §7)。
 - **不自动检索历史图。** 当前对话明确“继续用她”可沿用已确认模特;新对话需重新提供参考包或明确本地位置。新商品服饰事实源独立上传,旧商品不继承。
 
-**视觉文件按需读取：** 先读 `references/style-router.md` 与 `references/visual-library/index.json`，实际定位所选入口的ID和文件映射，再读对应卡片；原24入口同时读取注册pack与适用的摄影基准。不要由用户别名拼文件名，不把截断读取当已核对。只有需要解释、查缺或文化溯源时才读知识目录；每次不加载全库。新任务按 [visual-plan.md](references/visual-plan.md) 冻结本轮方案，旧任务继续读自身冻结记录。
+**视觉文件按需读取：** 先读 `references/style-router.md` 与 `references/visual-library/index.json`，实际定位所选入口的ID和文件映射，再读对应卡片；卡片有`pose_pool`时用`scripts/visual_library.py show <入口ID>`读取解析后的动作词条，不手工猜引用或加载整个动作池。原24入口同时读取注册pack与适用的摄影基准。不要由用户别名拼文件名，不把截断读取当已核对。解释、查缺、文化溯源或采用具体修饰语时只读对应知识记录，按 [知识转译](references/visual-plan.md#把选中的知识与风格要求写入执行字段) 写入本轮执行字段；来源ID或卡片快照不能代替实际拍法。每次不加载全库。新任务按 [visual-plan.md](references/visual-plan.md) 冻结本轮方案，旧任务继续读自身冻结记录。
 
 ## 1. 系统优先级链
 
@@ -98,6 +98,8 @@ description: "服饰人像；首句随用户语言只核对素材，不预告交
 - **平台政策红线 R1–R7 + 优先级链 + pack 加载二次校验** → `references/safety-core.md`
 
 **快捷键映射:** 字母=模式，数字=动作。A自动推荐B棚拍C场景D混合；0方向预览（人物默认九格，经典／非人像六格（单张无 shot_plan 时默认 1））；1本轮整组独立图（人物默认9）；2主动单张；3只出提示词。风格用style-router代号，例：法式B0、韩系A1。快捷键不免除具体方案和次数授权。
+
+成人女装自由编排可从[自有动作选姿页](references/pose-library/index.html)与风格情节共同选用；用户可指定几张、其余由 Agent 安排，选姿文字默认继承、线稿按需附带。适配范围、冻结与容量取舍见[动作规划](references/pose-planning.md#可选动作与用户指定)。
 
 ## 3. 内容安全(强制,焊进每条 prompt;细则见 `references/safety-core.md`)
 

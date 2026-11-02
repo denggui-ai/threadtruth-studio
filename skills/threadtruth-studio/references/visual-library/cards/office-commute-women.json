@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "office-commute-women",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "name": "职场通勤女装 / Office Commute Women",
   "entry_type": "legacy-style",
   "aliases": [
@@ -152,103 +152,14 @@
     }
   ],
   "action_tendency": "Purposeful working-day rhythm: brisk steps, upright open posture, practical hand tasks with plain unbranded objects; approachable, never cold-detached or runway.",
-  "pose_vocabulary": [
-    {
-      "id": "oc-brisk-walk",
-      "family": "walk",
-      "body": "brisk walk toward camera across a lobby or crosswalk, mid-stride, posture upright",
-      "hands": "one arm swinging naturally, the other holding a plain unbranded paper coffee cup at the side",
-      "support": "floor",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "none",
-      "check": "clear stride; cup held at the side, not across the garment"
-    },
-    {
-      "id": "oc-phone-call",
-      "family": "stand",
-      "body": "standing upright mid-call, weight on one leg, head tilted slightly toward the phone",
-      "hands": "one hand holds a plain phone to the ear, the other relaxed at the side",
-      "support": "floor",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "none",
-      "check": "phone at the ear; garment front and side pockets clear"
-    },
-    {
-      "id": "oc-desk-perch",
-      "family": "lean",
-      "body": "half-sitting against the edge of a desk, both legs straight and crossed at the ankles",
-      "hands": "both hands resting on the desk edge beside the hips",
-      "support": "desk",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "very short hemlines",
-      "check": "hips against the desk edge, straight legs crossed at the ankles, hands on the edge"
-    },
-    {
-      "id": "oc-door-push",
-      "family": "walk",
-      "body": "stepping through a glass door, body three-quarter to camera, mid-step",
-      "hands": "one hand flat on the glass pushing it open, the other holding a plain folder at the side",
-      "support": "glass door",
-      "views": [
-        "front-side"
-      ],
-      "avoid_when": "none",
-      "check": "hand on the door, step in progress, body three-quarter"
-    },
-    {
-      "id": "oc-folder-close",
-      "family": "close",
-      "body": "half-body, shoulders square, open friendly face",
-      "hands": "one hand holds a plain folder hanging beside the thigh, the other relaxed",
-      "support": "floor",
-      "views": [
-        "front",
-        "detail"
-      ],
-      "avoid_when": "none",
-      "check": "folder hangs beside the thigh; garment front and pockets clear; friendly face"
-    },
-    {
-      "id": "oc-desk-sit",
-      "family": "sit",
-      "body": "seated on an office chair at a desk, turned slightly toward camera, upright",
-      "hands": "one hand on a closed laptop, the other resting on the desk",
-      "support": "office chair and desk",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "garments whose key detail sits below the desk line",
-      "check": "upright seat; desk hides nothing above the waist"
-    },
-    {
-      "id": "oc-walk-away",
-      "family": "walk",
-      "body": "walking away toward an elevator hall, mid-stride, head turned slightly toward one shoulder",
-      "hands": "one hand carrying a plain folder at the side, the other arm relaxed",
-      "support": "floor",
-      "views": [
-        "back"
-      ],
-      "avoid_when": "no usable back source",
-      "check": "back readable; mid-stride; head turned slightly"
-    },
-    {
-      "id": "oc-turn-greet",
-      "family": "turn",
-      "body": "turning toward camera as if greeting a colleague, shoulders opening, weight moving onto the front foot",
-      "hands": "one hand lifted to shoulder height in a small open wave, the other relaxed at the side",
-      "support": "floor",
-      "views": [
-        "front-side"
-      ],
-      "avoid_when": "none",
-      "check": "shoulders opening toward camera; turn in progress; raised hand clear of the garment front"
-    }
+  "pose_pool": [
+    "oc-brisk-walk",
+    "oc-phone-call",
+    "oc-desk-perch",
+    "oc-door-push",
+    "oc-folder-close",
+    "oc-desk-sit",
+    "oc-walk-away",
+    "oc-turn-greet"
   ]
 }

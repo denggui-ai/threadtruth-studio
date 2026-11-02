@@ -99,13 +99,13 @@
     "id": "vl-explicit-fusion",
     "type": "routing-intent",
     "input": "哥特为主、Art Deco只负责布景，保留原衣一张。",
-    "expect": "一个primary与一个supporting，fusion_note明确布景归属；解析成单一方案，不因历史风格互斥表拒绝或复制两套照明。"
+    "expect": "一个primary与一个supporting，fusion_note明确布景归属；把实际几何布景转入photography.scene及受影响的逐张字段，不只冻结辅卡ID。保留主卡照明，核对相容承诺，不因历史风格互斥表拒绝或复制两套照明。"
   },
   {
     "id": "vl-japanese-outdoor-override",
     "type": "resolved-field-ownership",
     "input": "已有日系方案，将场景换为室外红砖广场、正午硬光，其他审美保持。",
-    "expect": "替换场景与光线及相应逐张字段；art.direction不残留室内、窗光或暖白漫射指令，商品事实和人物条件保留。"
+    "expect": "替换场景与光线及相应逐张字段；核对art、negatives和commitments，使用overrides.commitments完整列表只修订冲突承诺，其余保留，再经原人物/输出形态过滤。实际导出不残留室内、窗光或暖白漫射指令，商品事实和人物条件保留。"
   },
   {
     "id": "vl-korean-fixed-smile",
@@ -142,5 +142,23 @@
     "type": "evidence-boundary",
     "input": "prepare编译成功，帮我把所有方向标为实图通过。",
     "expect": "结构与编译只证明离线接口可运行，image_calls仍为0；没有真实输出和验收不得标实图通过。"
+  },
+  {
+    "id": "vl-modifier-execution-fields",
+    "type": "knowledge-to-plan",
+    "input": "已有蓝色外套图。只要拍摄方案，保留韩系侧光与构图，环境明确改成美拉德暖棕，衣服不改色。",
+    "expect": "只读取所选卡及T02记录；暖棕深浅层次、中性白平衡和商品原色保护进入photography.palette，核对scene/lighting及逐张值；overrides.commitments替换kc-cool-white-balance的冲突内容并保留相容项。asset_trace标明真正改变的字段，不输出资料全文，不注册新入口或修改共享卡。只给文字，不生图。"
+  },
+  {
+    "id": "vl-cultural-knowledge-translated",
+    "type": "knowledge-to-plan",
+    "input": "用户已提供本件工布日常服饰资料与清楚正面图。准备一张正面展示外套和内搭关系，不添节庆装饰，仅检查方案。",
+    "expect": "读取gongbu-dress与C19；可见外套/内搭和开口关系进入garment.keep，展示重点进入shot_plan的display_goal/must_show，不添节庆或其他地区构件进入art.limits。profile与asset_trace用于范围/出处，不能只写C19就声称约束已传递。未知背面、工艺来源与人物族群不推定，不生图。"
+  },
+  {
+    "id": "vl-commitment-replacement-boundaries",
+    "type": "resolved-field-ownership",
+    "input": "新方案沿用已确认人物的笑容与全部妆发，只改风格光线；另有不露脸和平铺版本。给准备结果，不生图。",
+    "expect": "显式承诺替换仍服从model锁定与output_form过滤，不能把原笑容/妆发改掉或向不露脸/平铺加入表情妆发。保留未冲突规则；被明确移除的原卡承诺记explicit-override。只修订新准备结果，旧冻结任务和来源卡不重写；检查与画面效果分开。"
   }
 ]

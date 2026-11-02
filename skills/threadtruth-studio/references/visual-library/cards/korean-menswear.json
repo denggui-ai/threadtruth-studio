@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "korean-menswear",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "name": "韩式男装 / Korean Menswear",
   "entry_type": "legacy-style",
   "aliases": [
@@ -149,103 +149,14 @@
     }
   ],
   "action_tendency": "Still and architectural: upright verticals, minimal gestures, weight even or on one leg, pauses rather than movement; never loose, slouched, playful or idol-like.",
-  "pose_vocabulary": [
-    {
-      "id": "km-atrium-stand",
-      "family": "stand",
-      "body": "standing upright and still in a polished-concrete gallery atrium, a stair and gray-green planting receding behind, weight even, shoulders level",
-      "hands": "arms straight and relaxed at the sides",
-      "support": "ground",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "none",
-      "check": "vertical posture with the atrium depth behind; not touching anything"
-    },
-    {
-      "id": "km-entrance-profile",
-      "family": "turn",
-      "body": "standing side-on at a steel-framed boutique entrance, body in profile, face turned toward camera",
-      "hands": "arms relaxed at the sides",
-      "support": "ground",
-      "views": [
-        "front-side"
-      ],
-      "avoid_when": "none",
-      "check": "clear profile line of the body; no glass reflection crosses the garment"
-    },
-    {
-      "id": "km-lobby-cube-sit",
-      "family": "sit",
-      "body": "seated upright on a low stone bench in an apartment lobby beside a tall plant, knees at hip width, feet flat, back straight",
-      "hands": "both hands resting on the bench edge beside the hips",
-      "support": "cube bench",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "short skirts",
-      "check": "upright and still; hands beside the hips, not on the garment; garment front fully visible"
-    },
-    {
-      "id": "km-corridor-walk",
-      "family": "walk",
-      "body": "slow straight walk along a frosted-glass corridor, body side-on to camera, measured step",
-      "hands": "arms nearly still at the sides",
-      "support": "ground",
-      "views": [
-        "front-side"
-      ],
-      "avoid_when": "none",
-      "check": "measured step, arms quiet; the corridor line runs straight behind"
-    },
-    {
-      "id": "km-arcade-pause",
-      "family": "stand",
-      "body": "standing still under a covered concrete arcade on a wet day, body three-quarter, weight on one leg",
-      "hands": "arms straight and relaxed at the sides",
-      "support": "ground",
-      "views": [
-        "front-side"
-      ],
-      "avoid_when": "none",
-      "check": "still posture; arms at the sides; nothing in front of the garment"
-    },
-    {
-      "id": "km-plaza-steps",
-      "family": "stand",
-      "body": "standing on wide stone plaza steps, one foot a step higher, body turned three-quarter, posture upright",
-      "hands": "arms relaxed at the sides",
-      "support": "steps",
-      "views": [
-        "front-side"
-      ],
-      "avoid_when": "none",
-      "check": "feet on two different steps; upright with no lean"
-    },
-    {
-      "id": "km-back-still",
-      "family": "stand",
-      "body": "standing still with the back to camera at the open doorway of a concrete gallery, weight even",
-      "hands": "arms straight and relaxed at the sides",
-      "support": "ground",
-      "views": [
-        "back"
-      ],
-      "avoid_when": "no usable back source",
-      "check": "back of the garment fully readable; symmetric and still"
-    },
-    {
-      "id": "km-still-half",
-      "family": "close",
-      "body": "half-body, shoulders square, chin level, completely still",
-      "hands": "arms straight at the sides, below the frame",
-      "support": "ground",
-      "views": [
-        "front",
-        "detail"
-      ],
-      "avoid_when": "none",
-      "check": "no hand touches the garment; collar, closure and shoulder line readable"
-    }
+  "pose_pool": [
+    "km-atrium-stand",
+    "km-entrance-profile",
+    "km-lobby-cube-sit",
+    "km-corridor-walk",
+    "km-arcade-pause",
+    "km-plaza-steps",
+    "km-back-still",
+    "km-still-half"
   ]
 }

@@ -23,6 +23,13 @@ def _visual():
     return module
 
 
+def _history():
+    spec = importlib.util.spec_from_file_location('library_pose_history', Path(__file__).with_name('pose_history.py'))
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 def _models():
     spec = importlib.util.spec_from_file_location('library_model_reference', Path(__file__).with_name('model_reference.py'))
     module = importlib.util.module_from_spec(spec)
@@ -76,6 +83,15 @@ def card(entry_id, root=ROOT):
     data = _read(root, found[0]['card'])
     if data.get('id') != entry_id or not data.get('version'):
         raise ValueError('Card identity/version does not match its execution entry')
+    if 'pose_pool' in data:
+        if 'pose_vocabulary' in data or 'pose_pool_snapshot' in data:
+            raise ValueError('Source cards must choose pose_pool or inline vocabulary, not both')
+        poses = _shots().pose_library()
+        data['pose_pool_snapshot'] = poses.freeze_vocabulary(
+            data['pose_pool'], vocabulary_path=Path(root) / 'references/pose-library/style-vocabulary.json',
+            catalog_path=Path(root) / 'references/pose-library/catalog.json')
+        data['pose_vocabulary'] = poses.resolve_vocabulary(data['pose_pool_snapshot'])
+        _visual().check_pose_vocabulary(data['pose_vocabulary'], data.get('action_tendency'))
     return data
 
 
@@ -224,7 +240,7 @@ def prepare(spec, root=ROOT):
     in the task ledger. This local preparation does not grant or consume a call.
     """
     allowed = {'entry_id', 'garment', 'inventory', 'count', 'first_pose', 'objective', 'output_form',
-               'output_medium', 'supporting', 'fusion_note', 'overrides', 'culture_profile', 'shot_plan', 'model', 'back_source', 'asset_trace'}
+               'output_medium', 'supporting', 'fusion_note', 'overrides', 'culture_profile', 'shot_plan', 'model', 'back_source', 'asset_trace', 'pose_history_tasks'}
     if not isinstance(spec, dict) or set(spec) - allowed:
         raise ValueError('Unknown visual preparation fields')
     primary = card(spec['entry_id'], root)
@@ -254,8 +270,8 @@ def prepare(spec, root=ROOT):
     photography = copy.deepcopy(primary['photography'])
     art = copy.deepcopy(primary['art'])
     overrides = spec.get('overrides', {})
-    if not isinstance(overrides, dict) or set(overrides) - {'photography', 'art', 'styling', 'negatives', 'shots'}:
-        raise ValueError('Resolve changes in photography/art/styling/negatives/shots only')
+    if not isinstance(overrides, dict) or set(overrides) - {'photography', 'art', 'styling', 'negatives', 'shots', 'commitments'}:
+        raise ValueError('Resolve changes in photography/art/styling/negatives/shots/commitments only')
     for key, baseline in [('photography', photography), ('art', art)]:
         if key in overrides:
             if not isinstance(overrides[key], dict) or set(overrides[key]) - set(baseline):
@@ -289,11 +305,24 @@ def prepare(spec, root=ROOT):
                 photography=photography, art=art,
                 negatives=negatives,
                 shots=copy.deepcopy(overrides.get('shots', shots)))
+    if 'pose_history_tasks' in spec:
+        plan['pose_history'] = _history().freeze(spec['pose_history_tasks'])
     if spec.get('culture_profile') is not None:
         plan['culture_profile'] = component(spec['culture_profile'])
     elif primary.get('culture_profile'):
         plan['culture_profile'] = component(primary['culture_profile'])
-    if primary.get('commitments') and output_form in ('human', 'faceless', 'flat-lay', 'hanger', 'mannequin'):
+    commitments = copy.deepcopy(overrides.get('commitments', primary.get('commitments', [])))
+    if 'commitments' in overrides:
+        # Validate the complete explicit replacement before filtering: even a
+        # row skipped for this output form must have a valid shape and scope.
+        visual = _visual()
+        try:
+            visual._commitments(dict(output_form='human', commitments=commitments,
+                                     commitments_skipped=[], open_variables=list(visual.COMMIT_NEEDS)),
+                                v2=version == 2)
+        except ValueError as error:
+            raise ValueError('overrides.commitments: ' + str(error)) from error
+    if (primary.get('commitments') or 'commitments' in overrides) and output_form in ('human', 'faceless', 'flat-lay', 'hanger', 'mannequin'):
         opened = open_variables(output_form, model)
         declared = set()
         if model is not None:
@@ -304,7 +333,11 @@ def prepare(spec, root=ROOT):
                 declared.add('expression')
             if axes & {'makeup', 'hair'}:
                 declared.add('makeup')
-        plan['commitments'], plan['commitments_skipped'] = _split_commitments(primary['commitments'], opened, declared)
+        plan['commitments'], plan['commitments_skipped'] = _split_commitments(commitments, opened, declared)
+        if 'commitments' in overrides:
+            selected_ids = {item['id'] for item in commitments}
+            plan['commitments_skipped'] += [dict(id=item['id'], reason='explicit-override')
+                                            for item in primary.get('commitments', []) if item['id'] not in selected_ids]
         plan['open_variables'] = opened
     if output_form in ('flat-lay', 'hanger', 'mannequin') and count == 6 and version == 1 and spec.get('back_source') is not True:
         # No reviewed same-SKU back source: never plan a speculative back view for presentation 2.
@@ -319,6 +352,11 @@ def prepare(spec, root=ROOT):
         if resolved:
             plan['persona'] = resolved
             plan['persona_model_sha256'] = _visual().object_hash(model)
+    if isinstance(shot_plan, dict) and shot_plan.get('variety_checks') == 2:
+        _shots().pose_library().validate_scope(shot_plan, model, output_form)
+        _shots().validate(shot_plan, spec['inventory'],
+                          context=dict(first_pose=pose, output_form=output_form, purpose='delivery'), count=count,
+                          model_source=(model or {}).get('source_type'), pose_vocabulary=primary.get('pose_vocabulary'))
     if (isinstance(shot_plan, dict) and shot_plan.get('variety_checks') == 1 and output_form in ('human', 'faceless')
             and primary.get('pose_vocabulary')):
         _shots().check_poses(shot_plan, primary['pose_vocabulary'])

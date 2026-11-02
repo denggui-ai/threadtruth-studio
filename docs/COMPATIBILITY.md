@@ -1,10 +1,18 @@
 # Compatibility / 兼容性
 
-Updated 2026-10-30. The current release target is the [beta.15 prerelease](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.15). Rows below keep the scope of the environment and task they record; they are not a general compatibility guarantee.
+Updated 2026-11-02 for **beta.17**. The runtime matches the complete candidate installed and enabled on the maintainer’s Mac. Historical evidence stays scoped to its original version.
 
-更新于2026-10-30。当前发行目标为[beta.15预发布版](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.15)。下表各行保留所记录环境与任务的验证范围，不承诺所有环境兼容。
+本版运行源码da7e9a8已完成维护者本机备份、替换与启用：403源／缓存文件一致，166运行文件与候选一致；52／60目录及只读入口可读，其他插件保持。未新增模型会话、实图或实际回滚验证；新机器仍缺证。下载与安装见[本版指南](STUDIO-CANDIDATE.md)。
 
 ## Current source candidate / 当前源码候选
+
+运行源码da7e9a8包含52／60选姿、知识／风格规则衔接、22卡／176条动作池、选定任务的跨组精确／有限英文文字近似避重及商品目标推荐排序。各包有效回归、双路线合成任务和60图页面证据按原范围复用，不相加为一次全量验收；详细记录在开发源码docs/verification中的对应2026-11-02文档。本轮沿用既有功能验收，只补发布物料、展示页与线上结果的必要核对；仓库既有CI仍按规则运行。
+
+近似比较不是图像骨架或任意语义理解；推荐使用有限中英目标词与已有元数据，缺证会列出。排序不自动选姿或附图；旧任务按冻结版本读取，不因候选更新而重写。没有新数据库或检索服务。
+
+六图对照仍qa-retry，匿名评审没有稳定收益结论；推袖GEO-SLEEVE-01保持open。源码与打包检查不证明人物、商品或摄影效果改善。安装与发行不升级视觉结论。更多使用边界见[选姿说明](POSE-LIBRARY-TRYOUT.md)。
+
+### 历史beta.15基线
 
 beta.15 (2026-10-30) ships the 36 visual entries (24 original style entries plus 12 execution entries) in the prerelease; all 36 entry cards remain `draft`. The default flow is garment-driven nine-shot planning with one labeled nine-panel direction preview first, and the ledger scripts must record authorization and every call before any generation. The only live evidence is one real Codex session (denim set) that produced the labeled nine-panel preview and the first delivery image through the ledger with zero hand-written prompts; the 36 entries have not been run one by one. Records from the 2026-10-18 candidate stage keep their original findings (three paired samples did not demonstrate overall improvement; the child set retained garment/framing failures; adult web delivery and cross-product reuse were unfinished; a later adult direction preview was accepted after an explicitly authorized local composite, which is not an accepted independent portrait). Detailed sanitized development records stay in the source repository under `docs/verification/2026-10-18-studio-redesign/`; they are not part of the offline plugin package.
 

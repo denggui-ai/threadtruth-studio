@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "preppy",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "name": "美式学院 / Preppy",
   "entry_type": "legacy-style",
   "aliases": [
@@ -151,103 +151,14 @@
     }
   ],
   "action_tendency": "Bright and purposeful on campus: brisk walks between buildings, books carried at the side, sitting on library steps, an upright friendly energy; never childish, never a school uniform pose.",
-  "pose_vocabulary": [
-    {
-      "id": "pp-books-stride",
-      "family": "walk",
-      "body": "brisk walk toward camera along a tree-lined campus path, posture upright and open",
-      "hands": "one hand carrying two closed hardback books low against the side of the thigh, the other swinging",
-      "support": "ground",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "none",
-      "check": "books at the side below the hip; garment front clear; brisk step"
-    },
-    {
-      "id": "pp-steps-descend",
-      "family": "walk",
-      "body": "walking down wide library steps toward camera with a light quick step, posture upright, body three-quarter",
-      "hands": "one hand carrying closed books low at the side, the other swinging lightly",
-      "support": "steps",
-      "views": [
-        "front-side"
-      ],
-      "avoid_when": "long skirts that would catch on the steps",
-      "check": "feet on two different steps; books below the hip and to the side"
-    },
-    {
-      "id": "pp-shelf-pick",
-      "family": "turn",
-      "body": "standing at a library shelf, body turned three-quarter toward it, face turned back toward camera",
-      "hands": "one hand drawing a book from a shelf at waist height, the other relaxed",
-      "support": "floor",
-      "views": [
-        "front-side"
-      ],
-      "avoid_when": "none",
-      "check": "hand no higher than the waist; shelf beside the figure; garment front faces the lens"
-    },
-    {
-      "id": "pp-ivy-wall-stand",
-      "family": "stand",
-      "body": "standing a step in front of an ivy-covered brick wall, weight on one leg, shoulders open and level",
-      "hands": "both arms relaxed at the sides",
-      "support": "ground",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "none",
-      "check": "not leaning on the wall; open upright stance"
-    },
-    {
-      "id": "pp-bench-read",
-      "family": "sit",
-      "body": "sitting upright on a wooden campus bench, legs together angled to one side",
-      "hands": "both hands holding an open paperback low on the thigh beside the knee, below the garment hem",
-      "support": "bench",
-      "views": [
-        "front"
-      ],
-      "avoid_when": "dresses or skirts whose front detail sits on the lap",
-      "check": "book below the garment hem and to the side; torso front fully visible"
-    },
-    {
-      "id": "pp-quad-turn-wave",
-      "family": "turn",
-      "body": "turning toward camera mid-walk on a lawn as if greeting a friend, weight moving onto the front foot",
-      "hands": "one hand raised to waist height in a small open wave, the other carrying a closed notebook at the side",
-      "support": "ground",
-      "views": [
-        "front-side"
-      ],
-      "avoid_when": "none",
-      "check": "wave stays at waist height; notebook at the side"
-    },
-    {
-      "id": "pp-path-walk-away",
-      "family": "walk",
-      "body": "walking away from camera down a tree-lined campus path toward a brick building, mid-stride",
-      "hands": "one hand carrying closed books low at the side, the other relaxed",
-      "support": "ground",
-      "views": [
-        "back"
-      ],
-      "avoid_when": "no usable back source",
-      "check": "back of the garment fully readable; books below the hem line"
-    },
-    {
-      "id": "pp-notebook-close",
-      "family": "close",
-      "body": "half-body, chin up with a bright smile, shoulders open",
-      "hands": "one hand holding a closed notebook at hip height against the side, the other out of frame",
-      "support": "ground",
-      "views": [
-        "front",
-        "detail"
-      ],
-      "avoid_when": "none",
-      "check": "notebook at the side below the waist; collar and front details readable"
-    }
+  "pose_pool": [
+    "pp-books-stride",
+    "pp-steps-descend",
+    "pp-shelf-pick",
+    "pp-ivy-wall-stand",
+    "pp-bench-read",
+    "pp-quad-turn-wave",
+    "pp-path-walk-away",
+    "pp-notebook-close"
   ]
 }
