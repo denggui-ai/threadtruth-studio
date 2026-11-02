@@ -278,6 +278,64 @@ html.image-open { overflow:hidden; }
 
 .install-path .download-plugin{display:inline-block;margin-top:20px}
 
+/* All selectable directions, with historical examples and new descriptions. */
+.hero-summary a { text-underline-offset:4px; }
+.direction-section-links { display:flex; gap:28px; flex-wrap:wrap; border-block:1px solid var(--line); padding-block:16px; margin-bottom:30px; }
+.direction-section-links a { display:inline-flex; align-items:center; min-height:44px; font-size:13px; text-underline-offset:6px; }
+.direction-index { margin-bottom:60px; scroll-margin-top:24px; }
+.direction-index-group+ .direction-index-group { margin-top:28px; }
+.direction-index-group>p { font-size:11px; color:var(--subtle); margin-bottom:12px; }
+.direction-index ol { list-style:none; padding:0; margin:0; display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:1px 18px; }
+.direction-index li { min-width:0; border-bottom:1px solid var(--line); }
+.direction-jump { display:flex; align-items:baseline; gap:9px; padding-block:14px; min-height:52px; text-decoration:none; font-size:12px; line-height:1.6; }
+.direction-jump:hover { background:var(--soft); }
+.direction-jump small { flex-shrink:0; font-size:10px; color:var(--subtle); font-variant-numeric:tabular-nums; }
+.direction-jump>span:nth-child(2) { min-width:0; overflow-wrap:anywhere; }
+.direction-jump>span:last-child { margin-left:auto; color:var(--subtle); }
+.direction-subheading { display:flex; justify-content:space-between; align-items:baseline; gap:32px; padding-block:20px; scroll-margin-top:24px; }
+.direction-subheading h3 { font-size:24px; line-height:1.45; }
+.direction-subheading>p { max-width:50ch; font-size:12px; line-height:1.8; color:var(--subtle); }
+.direction-entry { scroll-margin-top:28px; }
+.new-directions { border-top:1px solid var(--line); margin-top:60px; padding-top:25px; scroll-margin-top:24px; }
+.new-directions-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:40px 30px; margin-top:24px; }
+.new-direction { min-width:0; border-top:2px solid var(--ink); padding-top:20px; display:flex; flex-direction:column; }
+.new-direction-top { display:flex; align-items:center; gap:14px; margin-bottom:24px; }
+.direction-number { font-size:36px; line-height:1; font-weight:500; letter-spacing:-.035em; font-variant-numeric:tabular-nums; }
+.new-direction-top p { font-size:11px; color:var(--subtle); }
+.direction-description-badge { margin-left:auto; flex-shrink:0; border:1px solid #a9aaa6; color:var(--subtle); padding:3px 6px; font-size:9px; }
+.new-direction h4 { font-size:23px; font-weight:600; letter-spacing:-.025em; line-height:1.45; text-wrap:balance; margin:0 0 16px; }
+.new-direction-summary { font-size:14px; line-height:1.85; margin-bottom:24px!important; }
+.new-direction dl { margin:0 0 20px; font-size:12px; line-height:1.85; }
+.new-direction dl>div+div { margin-top:15px; }
+.new-direction dt { font-size:10px; color:var(--subtle); margin-bottom:5px; }
+.new-direction dd { margin:0; }
+.direction-back { display:inline-block; font-size:11px; color:var(--subtle); min-height:40px; padding-block:10px; margin-top:auto; align-self:flex-start; }
+.direction-scope-note { font-size:11px; line-height:1.9; color:var(--subtle); max-width:100ch; margin-top:36px!important; }
+@media(min-width:700px) and (max-width:1099px) {
+ .direction-index ol { grid-template-columns:repeat(4,minmax(0,1fr)); }
+ .new-directions-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:32px 24px; }
+ .direction-subheading { align-items:flex-start; }
+}
+@media(max-width:699px) {
+ .directions-home .site-header { height:auto; min-height:82px; display:grid; grid-template-columns:1fr; gap:8px; padding-block:16px 10px; }
+ .directions-home .site-header nav { justify-content:space-between; gap:16px; }
+ .home-page.directions-home .site-header .nav-styles { display:flex; }
+ .direction-section-links { gap:10px 20px; padding-block:12px; margin-bottom:24px; }
+ .direction-section-links a { font-size:12px; }
+ .direction-index { margin-bottom:34px; }
+ .direction-index ol { grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 18px; }
+ .direction-jump { font-size:12px; gap:7px; }
+ .direction-subheading { flex-direction:column; gap:13px; padding-block:16px; }
+ .direction-subheading h3 { font-size:21px; }
+ .direction-subheading>p { font-size:12px; }
+ .new-directions { margin-top:38px; padding-top:12px; }
+ .new-directions-grid { grid-template-columns:1fr; gap:30px; margin-top:18px; }
+ .new-direction { padding-top:18px; }
+ .new-direction-top { margin-bottom:20px; }
+ .new-direction h4 { font-size:23px; }
+ .new-direction-summary { margin-bottom:20px!important; }
+}
+
 /* Reviewed cases use the existing editorial canvas and fixed six poses. */
 .reviewed-home { padding-block:64px; border-top:1px solid var(--line); }
 .reviewed-heading { max-width:880px; padding-block:32px; }

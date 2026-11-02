@@ -14,4 +14,4 @@
 - 桌面与手机截图人工查看：首屏、商品目标示例、历史对照和图库可读。私人截图在工作台`outputs/caiguang-home-pose-showcase-20261102/`。
 - `git diff origin/main -- skills`为空；运行功能、原始姿势图、本机安装与发行包没有改动。
 
-本地核对不替代GitHub必需CI和Pages部署结果。公开上线回执将在同一工作台输出目录记录；上线后结束，不重做运行验收、不更新安装或发行包。零新增生图、零新模型评测；既有画面缺口不因此关闭。
+上线完成：[PR #61](https://github.com/denggui-ai/threadtruth-studio/pull/61)的必需CI通过，合并提交为5fecf2b4b35c43b771fd79db0eb93e98eb363172；[Pages部署](https://github.com/denggui-ai/threadtruth-studio/actions/runs/41388772761)成功。公开官网66个相关文件（首页、交互CSS／JS、素材清单、两份字体及60图）全部与本地验收字节一致。私人回执与逐文件核对在同一工作台输出目录。收尾记录仅本地提交，不因此再开PR或重复部署。本轮结束，不重做运行验收、不更新安装或发行包；零新增生图、零新模型评测，既有画面缺口不因此关闭。
