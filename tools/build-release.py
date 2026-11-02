@@ -13,6 +13,7 @@ import hashlib
 import importlib.util
 import json
 import shutil
+import subprocess
 import zipfile
 from pathlib import Path
 
@@ -85,21 +86,47 @@ def _validate_public_demo(root: Path) -> None:
         raise ValueError("public demo rights validation failed:\noutfit preview release assets invalid")
 
 
-def _copy_allowlist(root: Path, stage: Path) -> None:
+IGNORED_PARTS = {"__pycache__", ".DS_Store", "superpowers"}
+IGNORED_SUFFIXES = {".pyc", ".pyo"}
+IGNORED_DEMO_NAMES = {"GROWTH.md"}
+
+
+def _tracked_files(root: Path, name: str) -> list[str]:
+    """Git-tracked files only, so local state or stray files never ship."""
+    listing = subprocess.run(
+        ["git", "ls-files", "-z", "--", name],
+        cwd=root, check=True, capture_output=True, text=True,
+    )
+    return sorted(item for item in listing.stdout.split("\0") if item)
+
+
+def _copy_source_dirs(root: Path, stage: Path) -> None:
     for name in SOURCE_DIRS:
         source = root / name
         if not source.is_dir():
             raise FileNotFoundError(f"missing release directory: {source}")
-        ignored = ["__pycache__", "*.pyc", "*.pyo", ".DS_Store", "superpowers"]
-        if name == "docs/demo":
-            ignored.append("GROWTH.md")
-        shutil.copytree(
-            source,
-            stage / name,
-            ignore=shutil.ignore_patterns(*ignored),
-        )
+        for relative in _tracked_files(root, name):
+            parts = Path(relative).parts
+            if IGNORED_PARTS.intersection(parts) or Path(relative).suffix in IGNORED_SUFFIXES:
+                continue
+            if name == "docs/demo" and parts[-1] in IGNORED_DEMO_NAMES:
+                continue
+            path = root / relative
+            if path.is_symlink():
+                raise ValueError(f"release source must not contain a symlink: {relative}")
+            if not path.is_file():
+                raise FileNotFoundError(f"tracked release file missing from work tree: {relative}")
+            target = stage / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(path, target)
+
+
+def _copy_allowlist(root: Path, stage: Path) -> None:
+    _copy_source_dirs(root, stage)
     for name in PUBLIC_FILES:
         source = root / name
+        if source.is_symlink():
+            raise ValueError(f"release file must not be a symlink: {name}")
         if not source.is_file():
             raise FileNotFoundError(f"missing release file: {source}")
         (stage / name).parent.mkdir(parents=True, exist_ok=True)
