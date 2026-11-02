@@ -208,6 +208,57 @@ class ReleaseBuildTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "public demo rights validation failed"):
                 module.build_release(clone, Path(temp_dir) / "out")
 
+    def _load_module(self):
+        spec = importlib.util.spec_from_file_location("build_release_copy", SCRIPT)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module
+
+    def _synthetic_repo(self, base):
+        import subprocess
+        root = Path(base) / "repo"
+        for name in ("skills/demo-skill", ".codex-plugin", "docs/demo"):
+            (root / name).mkdir(parents=True)
+        (root / "skills/demo-skill/SKILL.md").write_text("tracked")
+        (root / ".codex-plugin/plugin.json").write_text("{}")
+        (root / "docs/demo/README.md").write_text("tracked")
+        subprocess.run(["git", "init", "-q"], cwd=root, check=True)
+        subprocess.run(["git", "add", "-A"], cwd=root, check=True)
+        return root
+
+    def test_release_copy_skips_untracked_local_files(self):
+        module = self._load_module()
+        with tempfile.TemporaryDirectory() as base:
+            root = self._synthetic_repo(base)
+            (root / "skills/demo-skill/private-state.json").write_text("local only")
+            stage = Path(base) / "stage"
+            module._copy_source_dirs(root, stage)
+            self.assertTrue((stage / "skills/demo-skill/SKILL.md").is_file())
+            self.assertFalse((stage / "skills/demo-skill/private-state.json").exists())
+
+    def test_release_copy_rejects_symlinks(self):
+        module = self._load_module()
+        with tempfile.TemporaryDirectory() as base:
+            root = self._synthetic_repo(base)
+            outside = Path(base) / "outside-secret.txt"
+            outside.write_text("secret")
+            (root / "skills/demo-skill/linked.txt").symlink_to(outside)
+            import subprocess
+            subprocess.run(["git", "add", "-A"], cwd=root, check=True)
+            with self.assertRaisesRegex(ValueError, "symlink"):
+                module._copy_source_dirs(root, Path(base) / "stage")
+
+
+    def test_release_copy_rejects_symlinked_parent_directory(self):
+        module = self._load_module()
+        with tempfile.TemporaryDirectory() as base:
+            root = self._synthetic_repo(base)
+            outside = Path(base) / "outside-dir"
+            shutil.move(str(root / "skills/demo-skill"), outside)
+            (outside / "SKILL.md").write_text("private marker")
+            (root / "skills/demo-skill").symlink_to(outside, target_is_directory=True)
+            with self.assertRaisesRegex(ValueError, "symlink"):
+                module._copy_source_dirs(root, Path(base) / "stage")
 
 if __name__ == "__main__":
     unittest.main()

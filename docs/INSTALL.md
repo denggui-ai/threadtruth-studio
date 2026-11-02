@@ -30,10 +30,11 @@ Before writing any installation files, open a terminal and check that Python 3 a
 
 ```bash
 python3 --version
+python3 -c "import PIL; print('Pillow', PIL.__version__)"
 codex plugin add --help
 ```
 
-Continue only if the first command reports Python 3 and the second displays help for `plugin add`. If either command is missing or the subcommand is unsupported, stop and check [compatibility](COMPATIBILITY.md); do not run `--apply` or manually edit Codex configuration to bypass it.
+Continue only if the first command reports Python 3, the second prints a Pillow version, and the third displays help for `plugin add`. Pillow is needed to check uploaded garment and person images; if the second command fails, install it yourself for that same `python3` (for example `python3 -m pip install --user Pillow`) and run the check again. The installer does not install it for you. If either command is missing or the subcommand is unsupported, stop and check [compatibility](COMPATIBILITY.md); do not run `--apply` or manually edit Codex configuration to bypass it.
 
 ### 1. Verify and extract
 
@@ -85,9 +86,9 @@ Start a **new Codex task** so the Skill is loaded. Upload a garment image first,
 Use $threadtruth-studio to identify this garment and recommend styles. Do not generate images.
 ```
 
-Expected: a garment recognition card, a primary recommendation plus alternatives, and the full 24-style catalogue. No image should be generated and no generation cost is authorized.
+Expected: visible garment facts, a primary recommendation plus two alternatives, and the full catalogue of 36 visual entries; it then waits for your choice. No image should be generated and no generation cost is authorized.
 
-First use succeeds when the installed entry is enabled, the new task can invoke `$threadtruth-studio`, and the recognition card and style catalogue appear. Share a brief success or failure through the [installation feedback form](https://github.com/denggui-ai/threadtruth-studio/issues/new?template=installation-feedback.yml); report the actual installed version, or the attempted release if installation did not complete, and keep private images, credentials and full logs out of the public Issue.
+First use succeeds when the installed entry is enabled, the new task can invoke `$threadtruth-studio`, and it returns a material check and a concrete plan. Share a brief success or failure through the [installation feedback form](https://github.com/denggui-ai/threadtruth-studio/issues/new?template=installation-feedback.yml); report the actual installed version, or the attempted release if installation did not complete, and keep private images, credentials and full logs out of the public Issue.
 
 ### 4. Prepare photos and generate
 
@@ -160,10 +161,11 @@ GitHub 自动生成的 **Source code (zip)** 和 **Source code (tar.gz)** 不是
 
 ```bash
 python3 --version
+python3 -c "import PIL; print('Pillow', PIL.__version__)"
 codex plugin add --help
 ```
 
-第一条应显示 Python 3，第二条应显示 `plugin add` 帮助。若命令不存在或不支持该子命令，先停止并查看[兼容性说明](COMPATIBILITY.md)，不要继续 `--apply`，也不要手改 Codex 配置绕过检查。
+第一条应显示 Python 3，第二条应显示 Pillow 版本，第三条应显示 `plugin add` 帮助。Pillow 用于核对上传的服饰和人物图片；若第二条报错，请为同一个 `python3` 自行安装（例如 `python3 -m pip install --user Pillow`）后重新检查。安装器不会代为安装。若命令不存在或不支持该子命令，先停止并查看[兼容性说明](COMPATIBILITY.md)，不要继续 `--apply`，也不要手改 Codex 配置绕过检查。
 
 ### 1. 校验并解压
 
