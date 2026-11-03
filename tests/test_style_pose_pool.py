@@ -15,6 +15,19 @@ from tests.test_pose_plan_v2 import sample_plan
 ROOT = Path(__file__).resolve().parents[1]
 SKILL = ROOT / 'skills/threadtruth-studio'
 
+Q6_POOL_IDS = {
+    'neo-chinese': ('tea-room-stand', 'courtyard-step', 'screen-bench-seat', 'tea-table-palm',
+                    'corridor-gather-turn', 'stone-ledge-forearm', 'halfbody-conversation', 'closure-detail'),
+    'hanfu-form-specific': ('layer-stand', 'measured-step', 'broad-bench-seat', 'side-palm-rest',
+                           'gathered-turn', 'low-sleeve-space', 'halfbody-bench-laugh', 'overlap-detail'),
+    'lolita-layered': ('skirt-clear-stand', 'short-promenade', 'armless-bench-seat', 'side-console-palm',
+                      'small-pivot', 'shoe-offset-pause', 'halfbody-shoulder-laugh', 'lace-layer-detail'),
+    'gorpcore': ('trail-scout', 'incline-walk', 'boulder-rest', 'trail-rail-palm',
+                'low-ledge-step', 'sheltered-squat', 'halfbody-van-laugh', 'construction-detail'),
+    'y2k-millennium': ('pop-stand', 'record-shop-step', 'booth-bench-seat', 'metal-wall-shoulder',
+                       'arcade-pivot', 'side-counter-palm', 'halfbody-sticker-grin', 'surface-detail'),
+}
+
 
 def module(name):
     spec = importlib.util.spec_from_file_location('pool_' + name, SKILL / 'scripts' / (name + '.py'))
@@ -78,6 +91,10 @@ class StylePosePoolTests(unittest.TestCase):
             spec.update(culture_profile=dict(id='qipao-contemporary-daily', version=1, form='contemporary daily qipao'),
                         asset_trace=[dict(asset='C10', decision='translated', affects='Use the source-backed modern cut.',
                                           check='No invented historical costume details.')])
+        elif entry == 'hanfu-form-specific':
+            spec.update(culture_profile=dict(id='hanfu-test-form', version=1, form='synthetic source-backed layers'),
+                        asset_trace=[dict(asset='C05', decision='translated', affects='Keep the supplied collar and layers.',
+                                          check='Collar direction, sleeves and wearing order match the source.')])
         return spec
 
     def export(self, spec, visual, route, name=None, context=None):
@@ -131,8 +148,8 @@ class StylePosePoolTests(unittest.TestCase):
                     if original['avoid_when'] != 'none':
                         self.assertIn(original['avoid_when'], resolved['avoid_when'])
                 used.append(resolved['id'])
-        self.assertEqual(len(migrated), 25)
-        self.assertEqual(len(used), 200)
+        self.assertEqual(len(migrated), 30)
+        self.assertEqual(len(used), 240)
         self.assertEqual(set(used), set(by_id))
         self.assertEqual(len(used), len(set(used)))
 
@@ -152,6 +169,56 @@ class StylePosePoolTests(unittest.TestCase):
                     rendered = library._visual().render(frozen, 1)
                     for item in frozen.get('commitments', []):
                         self.assertIn(item['show'], rendered)
+
+    def test_five_q6_style_pools_resolve_stable_ids_and_freeze_each_action(self):
+        for entry, suffixes in Q6_POOL_IDS.items():
+            card = library.card(entry)
+            expected_ids = [entry + '-' + suffix for suffix in suffixes]
+            self.assertEqual(card['pose_pool'], expected_ids)
+            self.assertEqual([row['id'] for row in card['pose_vocabulary']], expected_ids)
+            self.assertEqual(len(set(expected_ids)), 8)
+            self.assertTrue({'stand', 'walk', 'sit', 'lean', 'close'} <=
+                            {row['family'] for row in card['pose_vocabulary']})
+            for row in card['pose_vocabulary']:
+                with self.subTest(entry=entry, action=row['id']):
+                    spec = self.spec(entry, row)
+                    spec['shot_plan']['framing_guidance'] = 3
+                    cell = spec['shot_plan']['looks'][0]
+                    if row['family'] == 'close':
+                        cell['framing'] = 'detail'
+                    elif '-halfbody-' in row['id']:
+                        cell['framing'] = 'half-body'
+                    frozen = library.prepare(spec)
+                    snapshot = frozen['style']['primary']['snapshot']
+                    self.assertEqual(snapshot['pose_pool'], expected_ids)
+                    self.assertEqual(snapshot['action_tendency'], card['action_tendency'])
+                    self.assertEqual(snapshot['pose_vocabulary'], card['pose_vocabulary'])
+                    rendered = self.export(spec, frozen, 'codex_native', name=row['id']).decode()
+                    for field in ('body', 'hands', 'support'):
+                        self.assertIn(row[field], rendered)
+                    self.assertEqual(frozen['shots'][0]['framing'], cell['framing'])
+
+    def test_five_q6_frozen_style_pools_do_not_reload_shared_files(self):
+        for entry in Q6_POOL_IDS:
+            card = library.card(entry)
+            for row in card['pose_vocabulary']:
+                with self.subTest(entry=entry, action=row['id']):
+                    spec = self.spec(entry, row)
+                    spec['shot_plan']['framing_guidance'] = 3
+                    if row['family'] == 'close':
+                        spec['shot_plan']['looks'][0]['framing'] = 'detail'
+                    elif '-halfbody-' in row['id']:
+                        spec['shot_plan']['looks'][0]['framing'] = 'half-body'
+                    frozen = library.prepare(spec)
+                    original = copy.deepcopy(frozen)
+                    visual = library._visual()
+                    rendered = visual.render(frozen, 1)
+                    with patch.object(Path, 'read_text', side_effect=AssertionError('Unexpected live source read')):
+                        visual.validate(frozen, spec['inventory'],
+                            context=dict(style=entry, first_pose=1, output_form='human'),
+                            count=1, identity=True, shot_plan=spec['shot_plan'])
+                        self.assertEqual(visual.render(visual.subset(frozen, 1), 1), rendered)
+                    self.assertEqual(frozen, original)
 
     def test_all_migrated_cards_reach_both_actual_exports(self):
         shared = {e['id'] for e in json.loads(poses.VOCABULARY.read_text())['entries'] if 'pose_id' in e}

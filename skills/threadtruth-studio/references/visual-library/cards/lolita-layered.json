@@ -94,5 +94,16 @@
   "default_objective": "styled-editorial",
   "scene_options": [
     "按实际分支选中性棚景、古典室内或暗色空间；不将所有分支统一成粉色玩偶房。"
+  ],
+  "action_tendency": "Let the actual branch and complete outfit lead: skirt-clear standing, short promenade steps, small pivots, side supports and a broad seat only when the real petticoat allows it; confidence, curiosity and delighted laughter, including a half-body portrait. Keep original skirt volume, lace, bows and shoe-to-sock relationships; no forced twirls, narrow seats or infantilization.",
+  "pose_pool": [
+    "lolita-layered-skirt-clear-stand",
+    "lolita-layered-short-promenade",
+    "lolita-layered-armless-bench-seat",
+    "lolita-layered-side-console-palm",
+    "lolita-layered-small-pivot",
+    "lolita-layered-shoe-offset-pause",
+    "lolita-layered-halfbody-shoulder-laugh",
+    "lolita-layered-lace-layer-detail"
   ]
 }

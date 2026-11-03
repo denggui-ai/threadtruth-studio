@@ -2374,6 +2374,486 @@
       ],
       "avoid_when": "Do not invent embroidery, fringe, ethnic symbols or material claims; light must not erase the original pattern.",
       "check": "the source-backed texture or layer boundary is visible without added decorations or portrait directions"
+    },
+    {
+      "id": "neo-chinese-tea-room-stand",
+      "family": "stand",
+      "body": "standing beside a tea-room wood wall with weight on one leg, the free foot slightly forward and torso tall, thoughtful self-assurance",
+      "hands": "arms hang with a small gap from the waist, fingers relaxed below any front fastenings",
+      "support": "one leg carries most weight; both feet remain on the level floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep any source-backed standing collar and frog closures untouched; do not add Chinese garment features to a plain garment.",
+      "check": "asymmetric weight and clean space around the existing neckline and closure, with the original garment length visible"
+    },
+    {
+      "id": "neo-chinese-courtyard-step",
+      "family": "walk",
+      "body": "taking a short diagonal step through a white-wall courtyard, torso moving with the leading leg, a warm welcoming smile",
+      "hands": "arms swing low beside the body without brushing the closure",
+      "support": "leading foot planted on level courtyard paving; trailing forefoot still in contact",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Respect the actual skirt or trouser ease; no lifting the hem, opening a slit or letting bamboo shadows hide key garment details.",
+      "check": "a visible transfer of weight and an open smile; source-backed collar, sleeves and hem keep their shape"
+    },
+    {
+      "id": "neo-chinese-screen-bench-seat",
+      "family": "sit",
+      "body": "sitting upright on the front of a broad armless bench before a dark screen, knees relaxed forward and torso shallowly oblique, attentive quiet",
+      "hands": "palms rest on the seat beside the hips, away from the garment front",
+      "support": "bench supports the pelvis; both feet reach the floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use only when actual seated ease permits; preserve hem length, layer order and closure tension, with no furniture trapping the skirt.",
+      "check": "a lower body height with a freely falling skirt or natural trouser folds; the existing collar remains uncompressed"
+    },
+    {
+      "id": "neo-chinese-tea-table-palm",
+      "family": "lean",
+      "body": "leaning slightly toward one palm placed on a tea table at the side, hips clear of the table and shoulders relaxed, curious engagement",
+      "hands": "one palm rests on the bare table edge; the free hand hangs below the waist",
+      "support": "both feet grounded; side palm bears a small share of the weight",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep the table beside the silhouette; do not pour tea, add props, wet the sleeve or stretch a fitted sleeve to reach the support.",
+      "check": "side palm support and mild torso inclination are visible without covering the front closure"
+    },
+    {
+      "id": "neo-chinese-corridor-gather-turn",
+      "family": "turn",
+      "body": "gathering a short step into a shallow whole-body turn in a contemporary hotel corridor, shoulders and hips moving together, a lightly amused smile",
+      "hands": "both arms remain low and separate from the front panel",
+      "support": "one planted foot bears weight; the other forefoot settles nearby",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Stop within the source-supported front view; no deep waist twist, spinning, invented rear structure or pulled fastening line.",
+      "check": "a small change of torso direction with intact collar height, closure placement and natural garment drape"
+    },
+    {
+      "id": "neo-chinese-stone-ledge-forearm",
+      "family": "lean",
+      "body": "resting one forearm on a broad stone ledge at the side, torso eased slightly toward it with hips free, reflective ease",
+      "hands": "supported forearm lies beside the body; the other hand remains low and clear of the front",
+      "support": "both staggered feet on level ground; one forearm rests on the dry ledge",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Choose a ledge height within the real sleeve allowance; avoid pressure on sleeve ornament and keep stone away from the waist and hem.",
+      "check": "forearm support differs from palm leaning; the original sleeve volume and front panel remain readable"
+    },
+    {
+      "id": "neo-chinese-halfbody-conversation",
+      "family": "sit",
+      "body": "sitting on a tea-room bench and inclining the torso slightly forward in conversation, shoulders loose, an unguarded warm laugh",
+      "hands": "hands rest separately on the seat beside the hips, clear of the neckline and fastening line",
+      "support": "bench supports the pelvis; both feet grounded, with no elbow pressure on the knees",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep the forward inclination mild so a standing collar or fitted front does not fold; preserve the current person conditions and add no tea props.",
+      "check": "a half-body emotional portrait keeps the face, relaxed shoulders and source-backed neckline in view; laughter is visible without throwing the head back"
+    },
+    {
+      "id": "neo-chinese-closure-detail",
+      "family": "close",
+      "body": "standing at rest for a localized study of an existing collar edge, fastening or seam, torso settled without pulling the front",
+      "hands": "hands stay outside the chosen detail area",
+      "support": "both feet planted on the level floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Select only a source-visible detail; no added frog buttons, raised collar, embroidery or invented material claim.",
+      "check": "the selected closure or seam is readable in a detail crop without changing its construction"
+    },
+    {
+      "id": "hanfu-form-specific-layer-stand",
+      "family": "stand",
+      "body": "standing with a modest foot offset and upright torso, arms held slightly away from the sides so the actual sleeve shape falls freely, composed assurance",
+      "hands": "hands stay low beside the body and separate from the collar overlap, ties and waist layers",
+      "support": "both feet supported on level ground with more weight on the rear leg",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Follow the supplied garment form and wearing order; do not reverse a crossed collar, spread the sleeves wider or add historical accessories.",
+      "check": "the source-backed collar closure, sleeve outline and waist-to-skirt relationship remain distinct"
+    },
+    {
+      "id": "hanfu-form-specific-measured-step",
+      "family": "walk",
+      "body": "taking a measured short step along a clear level passage, torso carried over the leading leg, a bright spontaneous smile",
+      "hands": "arms move gently at the sides within the actual sleeve allowance, without lifting the skirt",
+      "support": "leading foot takes weight; trailing forefoot touches the firm floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Choose a step allowed by the actual skirt and layers; keep collar overlap, ties, sleeve length and hem unchanged, with no forced billowing.",
+      "check": "a real but small walking transfer with distinct source-backed layers and a cheerful expression"
+    },
+    {
+      "id": "hanfu-form-specific-broad-bench-seat",
+      "family": "sit",
+      "body": "sitting upright near the front of a broad armless bench, legs comfortably forward and torso gently oblique, quiet concentration",
+      "hands": "hands rest on the seat at the sides with sleeves falling free of the seat edge",
+      "support": "bench supports the pelvis; both feet on the floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use only if this documented wearing arrangement permits sitting; do not trap ties, crush a required skirt panel or change collar overlap and layer order.",
+      "check": "a seated silhouette with the original skirt length and natural folds; no imposed kneeling or ceremonial posture"
+    },
+    {
+      "id": "hanfu-form-specific-side-palm-rest",
+      "family": "lean",
+      "body": "resting one palm on a smooth low architectural ledge beside the body, torso inclined slightly toward that support, interested listening",
+      "hands": "one palm contacts the ledge at a comfortable low reach; the other hand stays clear of the waist ties",
+      "support": "both feet grounded; side palm provides light support",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use only when the actual sleeve can clear the dry ledge without being gathered, pinned or dragged; do not stretch the collar or expose unsupported rear construction.",
+      "check": "a visible side support within the supplied sleeve form; closure and hanging layers remain undisturbed"
+    },
+    {
+      "id": "hanfu-form-specific-gathered-turn",
+      "family": "turn",
+      "body": "closing a small step into a shallow turn, torso and pelvis turning together while the layered skirt settles naturally, pleased anticipation",
+      "hands": "hands remain low beside the sleeves, never gathering or fanning the skirt",
+      "support": "one foot bears weight; the other forefoot settles close on level ground",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "No spin, sleeve tossing or artificial skirt flare; keep the turn within source-supported front structure and preserve the documented collar closing direction.",
+      "check": "a gentle change of direction with unaltered sleeve shape, ties and skirt panel order"
+    },
+    {
+      "id": "hanfu-form-specific-low-sleeve-space",
+      "family": "stand",
+      "body": "standing with feet comfortably apart within the garment allowance, torso shallowly angled, elbows softly bent low to separate the sleeves from the waist, absorbed attention",
+      "hands": "hands hover low outside the hip line with palms relaxed, without pulling the cuffs or joining in front of the closure",
+      "support": "weight distributed across both planted feet",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep elbows below the waist and within the actual sleeve cut; no invented oversized sleeves, ritual hand gesture or extra layers.",
+      "check": "the real sleeve opening and waist layering can be distinguished without stretching the fabric"
+    },
+    {
+      "id": "hanfu-form-specific-halfbody-bench-laugh",
+      "family": "sit",
+      "body": "sitting on a broad bench with the torso relaxed and only slightly inclined forward, shoulders lowered, a warm candid laugh",
+      "hands": "hands rest separately on the seat beside the hips; sleeves fall without covering the collar overlap",
+      "support": "seat supports the pelvis and both feet meet the floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Retain the supplied collar orientation and neck coverage; do not fold across the closure or add a fan, headpiece or period-specific gesture.",
+      "check": "a half-body emotional portrait includes the face, collar overlap and upper sleeve outline, with a laugh rather than compulsory solemnity"
+    },
+    {
+      "id": "hanfu-form-specific-overlap-detail",
+      "family": "close",
+      "body": "standing at ease for a localized study of the source-backed collar overlap or a documented sleeve-to-layer boundary",
+      "hands": "hands remain outside the selected overlap or layer boundary",
+      "support": "both feet grounded on a level surface",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Do not reverse collar closure, move ties, invent embroidery or infer an unseen layer; choose only a detail proved by the supplied form references.",
+      "check": "the selected overlap direction or layer edge is clear in a detail crop, with the original construction intact"
+    },
+    {
+      "id": "lolita-layered-skirt-clear-stand",
+      "family": "stand",
+      "body": "standing tall with one foot slightly forward beneath the original skirt silhouette, arms separated from the skirt volume, poised confidence",
+      "hands": "hands hang just outside the skirt outline without touching lace or bows",
+      "support": "both feet grounded, with weight mainly on the rear leg",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep the actual petticoat shape, skirt volume and shoe-to-sock relationship; do not widen the skirt or infantilize the person.",
+      "check": "the full outfit retains its original branch-specific silhouette and all source-backed decoration"
+    },
+    {
+      "id": "lolita-layered-short-promenade",
+      "family": "walk",
+      "body": "taking a small promenade step across an uncluttered studio or interior floor, torso upright over the leading leg, a delighted smile",
+      "hands": "arms swing slightly outside the skirt volume, hands clear of the front bows",
+      "support": "leading foot planted; trailing forefoot touches the floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use the actual hem and petticoat walking allowance; no skirt lifting, bouncing, inflated volume or added accessories.",
+      "check": "a caught walking moment with the original skirt shape, lace density and visible shoe placement"
+    },
+    {
+      "id": "lolita-layered-armless-bench-seat",
+      "family": "sit",
+      "body": "sitting upright on the front edge of a broad armless bench, knees comfortably forward, with room for the skirt to fall freely, attentive curiosity",
+      "hands": "palms rest on the seat outside the skirt outline without pressing the lace",
+      "support": "bench supports the pelvis; both feet reach the floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Select only if the actual petticoat can sit without flattening or tipping its frame; no narrow chair arms, trapped bows, lifted hem or altered exposure.",
+      "check": "a plausible seated height with natural fabric folds and the original supported skirt outline retained"
+    },
+    {
+      "id": "lolita-layered-side-console-palm",
+      "family": "lean",
+      "body": "inclining the torso slightly toward a side console with one palm resting on its edge, hips and skirt kept clear, thoughtful composure",
+      "hands": "supporting palm stays beside the body; the free hand rests outside the skirt outline",
+      "support": "both feet on the floor; one side palm takes light weight",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Console height and reach must suit the real sleeve; furniture must not touch the petticoat, front bows or required lace panels.",
+      "check": "side palm support is visible while the skirt keeps its original shape and decoration count"
+    },
+    {
+      "id": "lolita-layered-small-pivot",
+      "family": "turn",
+      "body": "making a small gathering pivot with torso and hips moving together, skirt settling under its own weight, playful anticipation",
+      "hands": "hands remain low outside the skirt, no holding or fanning of the hem",
+      "support": "one foot carries weight; the other forefoot settles close beside it",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "No twirl or exaggerated flare; keep to the source-supported front angle and preserve the actual petticoat shape, print repeat and bow placement.",
+      "check": "a small direction change rather than a skirt-spinning performance; all original layers stay in order"
+    },
+    {
+      "id": "lolita-layered-shoe-offset-pause",
+      "family": "stand",
+      "body": "pausing with one foot placed a short distance diagonally to the side, torso upright over the planted leg, a quietly proud expression",
+      "hands": "hands relaxed beside the skirt and clear of the visible shoe-to-sock line",
+      "support": "one leg carries weight; the other foot touches the floor lightly",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep the foot within the actual hem clearance; no lifted leg, curtsey, skirt spreading or invented socks and shoes.",
+      "check": "the offset foot makes the supplied shoe and sock relationship readable without changing the skirt volume"
+    },
+    {
+      "id": "lolita-layered-halfbody-shoulder-laugh",
+      "family": "lean",
+      "body": "resting one shoulder lightly on a plain vertical panel with the hips held clear, torso shallowly angled, an amused open laugh",
+      "hands": "hands hang freely outside the skirt outline and away from the neckline bows",
+      "support": "one shoulder lightly contacts the panel; both feet grounded",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use a plain shoulder area only; do not crush sleeve trim, press the petticoat against the panel, change the selected branch or infantilize the expression.",
+      "check": "a half-body emotional portrait shows the laughing face and original neckline layers; skirt clearance is maintained outside the crop"
+    },
+    {
+      "id": "lolita-layered-lace-layer-detail",
+      "family": "close",
+      "body": "standing at rest for a localized study of an existing lace edge, bow attachment or printed layer boundary",
+      "hands": "hands remain outside the selected decoration without pinching or straightening it",
+      "support": "both feet planted on the studio floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Select a detail visible in the source; retain lace density, bow number and position, print repeat and actual layer order.",
+      "check": "the selected decoration and its attachment are legible in a detail crop without adding or simplifying ornament"
+    },
+    {
+      "id": "gorpcore-trail-scout",
+      "family": "stand",
+      "body": "pausing at the edge of a mountain path with one foot on a very low flat rock and torso upright, alert curiosity about the route ahead",
+      "hands": "hands hang at the sides, clear of pockets and existing fastening hardware",
+      "support": "lower foot bears most weight on firm ground; the other sole rests fully on the low rock",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use only stable terrain and a height allowed by the real garment; do not add boots, packs, straps or pockets to imply technical function.",
+      "check": "different foot heights and a clear load-bearing leg; the original hem and pocket layout stay readable"
+    },
+    {
+      "id": "gorpcore-incline-walk",
+      "family": "walk",
+      "body": "walking up a gentle firm trail with a short step and slight whole-body forward inclination, focused determination",
+      "hands": "arms swing low for balance without covering the garment front",
+      "support": "leading sole planted on the gentle slope; trailing forefoot pushes from firm ground",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "No scrambling, slippery footing or stride beyond the actual garment ease; retain existing hems, seams and closures without adding equipment.",
+      "check": "the slope and grounded weight transfer explain the posture; actual clothing construction remains unchanged"
+    },
+    {
+      "id": "gorpcore-boulder-rest",
+      "family": "sit",
+      "body": "sitting on a broad dry boulder beside the trail, feet placed on a lower level patch and torso leaning forward slightly from the hips, satisfied relief",
+      "hands": "palms rest on the rock beside the hips, leaving the front pockets and panels clear",
+      "support": "boulder supports the pelvis; both feet planted on firm ground",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Check seated ease and avoid a sharp rock edge under fabric; no compressed key pocket, raised hem or invented reinforcement panel.",
+      "check": "a believable trail rest with a lower body height and intact garment length and panel layout"
+    },
+    {
+      "id": "gorpcore-trail-rail-palm",
+      "family": "lean",
+      "body": "leaning lightly through one palm onto a side rail on a forest boardwalk, torso oblique and hips free, interested attention",
+      "hands": "one palm rests on the dry rail; the other hand hangs below the waist",
+      "support": "both staggered feet on the boardwalk; side palm provides light support",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep the rail beside the silhouette and the reach within actual sleeve mobility; no branch or rail crossing required pockets and seams.",
+      "check": "side hand support is clear, with an outdoor pause rather than a fashion-only unsupported lean"
+    },
+    {
+      "id": "gorpcore-low-ledge-step",
+      "family": "walk",
+      "body": "stepping onto a low broad rock ledge with a modest knee bend, torso moving over the leading leg, an eager grin",
+      "hands": "arms separate slightly at low height for balance, hands free of straps or props",
+      "support": "leading foot fully on the stable ledge; trailing forefoot remains on the lower ground",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Choose only a low rise allowed by the actual knee and hem ease; no jump, climbing pose or claim of waterproof or protective performance.",
+      "check": "a grounded upward transfer differs from level walking; garment coverage and pocket shapes remain intact"
+    },
+    {
+      "id": "gorpcore-sheltered-squat",
+      "family": "squat",
+      "body": "resting in a shallow squat on a dry level patch beside an outdoor shop, torso balanced over the feet, thoughtful route-planning focus",
+      "hands": "hands hang outside the knees without pressing the garment front",
+      "support": "both soles fully grounded with knees comfortably bent",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Only if the actual garment permits knee and hip flexion without changed exposure or strained seams; no deep squat, wet slope or invented gear.",
+      "check": "a clear low body height with balanced support and the source-backed clothing panels still identifiable"
+    },
+    {
+      "id": "gorpcore-halfbody-van-laugh",
+      "family": "lean",
+      "body": "resting one forearm on a low fixed ledge beside a parked camper, torso eased sideways toward the support, a broad relieved laugh after walking",
+      "hands": "supported forearm stays beside the body; the free hand hangs clear of existing chest pockets",
+      "support": "both feet on dry level ground; one forearm supported by the fixed ledge",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use a stationary support at a comfortable height; do not compress sleeve hardware or add outdoor accessories and functional claims.",
+      "check": "a half-body emotional portrait shows relaxed shoulders and a broad laugh while the existing chest and collar construction remain visible"
+    },
+    {
+      "id": "gorpcore-construction-detail",
+      "family": "close",
+      "body": "standing still for a localized study of an existing pocket opening, zipper end or panel seam in diffuse outdoor light",
+      "hands": "hands remain outside the selected construction and do not unzip or pull it",
+      "support": "both feet planted on firm level ground",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use only visible source-backed construction; no added technical hardware or unproven waterproof, breathable or abrasion-resistant material claims.",
+      "check": "the actual pocket, closure or seam geometry is clear in a detail crop with unchanged colour and texture"
+    },
+    {
+      "id": "y2k-millennium-pop-stand",
+      "family": "stand",
+      "body": "standing in a retro digital studio with weight shifted to one leg, the free foot angled slightly outward and torso tall, cheeky pop confidence",
+      "hands": "one hand hovers just outside the hip while the other hangs low, neither pulling the waistband",
+      "support": "both feet on the level floor, one leg carrying most weight",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "No forced back arch, lowered waistband, changed body proportions or extra skin exposure; period energy comes from the stance, not garment redesign.",
+      "check": "an asymmetric pop-editorial stance with the actual waist height and original garment length intact"
+    },
+    {
+      "id": "y2k-millennium-record-shop-step",
+      "family": "walk",
+      "body": "taking a short bouncy-feeling step past a record-shop entrance, torso carried over the leading foot without leaving the ground, an excited grin",
+      "hands": "arms swing independently at low height, hands empty and clear of the front",
+      "support": "leading foot grounded; trailing forefoot still contacts the pavement",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep movement within the real garment ease; no jump, raised hem, added headphones or readable invented shop branding.",
+      "check": "a candid pop-culture street moment with visible weight transfer and unaltered clothing coverage"
+    },
+    {
+      "id": "y2k-millennium-booth-bench-seat",
+      "family": "sit",
+      "body": "sitting on a broad bench beside a photo-booth entrance, feet offset diagonally and torso mildly reclined, a knowingly amused smile",
+      "hands": "palms brace on the seat behind the hips without catching the garment",
+      "support": "bench supports the pelvis; both palms and both feet have firm support",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep the recline mild and check seated coverage; no widened knees, lowered waist, shortened skirt or inferred underwear.",
+      "check": "an informal early-digital snapshot posture with natural garment folds and the original waist position"
+    },
+    {
+      "id": "y2k-millennium-metal-wall-shoulder",
+      "family": "lean",
+      "body": "resting one shoulder against a silver wall with hips held free, feet staggered and torso shallowly angled, cool defiance",
+      "hands": "hands loose by the sides, fingers clear of the waistband and garment fastenings",
+      "support": "one shoulder lightly contacts the wall; both feet grounded with the outer leg bearing weight",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "No extreme arch, shoulder ornament compression or metal reflections hiding the garment; preserve the source-supported front structure.",
+      "check": "a visible shoulder-supported diagonal and a distinct assertive mood with the original silhouette intact"
+    },
+    {
+      "id": "y2k-millennium-arcade-pivot",
+      "family": "turn",
+      "body": "gathering a short step into a shallow whole-body pivot outside an arcade, shoulders and hips moving together, playful surprise",
+      "hands": "arms held loosely away from the waist at low height, palms open without covering the garment",
+      "support": "one planted foot takes weight; the other forefoot settles close by",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "No dance leap, deep twist or unsupported rear view; keep any hem, slit and waist at their real positions.",
+      "check": "a small caught-in-motion pivot and a surprised expression rather than added costume accessories"
+    },
+    {
+      "id": "y2k-millennium-side-counter-palm",
+      "family": "lean",
+      "body": "placing one palm on a low side counter in a retro digital set, torso leaning slightly toward that hand with hips stable, skeptical pop-star attitude",
+      "hands": "supporting palm stays at the side; the free hand hangs beside the thigh",
+      "support": "both feet on the floor; one palm lightly supports the torso",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep the counter out of the front panel and the reach within the sleeve allowance; do not add a phone, jewellery or branded prop.",
+      "check": "hand-supported inclination differs from the wall lean; the attitude is visible without altering the clothing or body"
+    },
+    {
+      "id": "y2k-millennium-halfbody-sticker-grin",
+      "family": "stand",
+      "body": "standing with knees softly unlocked and torso inclined slightly toward the photo-booth opening, shoulders relaxed, an exuberant sticker-photo grin",
+      "hands": "one hand makes a small V sign beside the cheek without covering the face or neckline; the other stays low",
+      "support": "both feet grounded with weight balanced beneath the mild forward inclination",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep the gesture within the existing person and sleeve conditions; no face distortion, added hair clips, infantile expression or changed neckline coverage.",
+      "check": "a half-body emotional portrait captures the face, V sign and upper garment with early-2000s photo-booth energy; no graphic stickers or captions are added"
+    },
+    {
+      "id": "y2k-millennium-surface-detail",
+      "family": "close",
+      "body": "standing still for a localized study of an existing seam, printed mark or fastening under controlled direct flash",
+      "hands": "hands stay outside the selected detail without stretching its surface",
+      "support": "both feet planted on the studio floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep flash highlights below detail loss; do not add metallic fabric, rhinestones, logos or low-rise construction to imply an era.",
+      "check": "the source-backed surface or fastening remains readable in a detail crop with its original colour and position"
     }
   ]
 }

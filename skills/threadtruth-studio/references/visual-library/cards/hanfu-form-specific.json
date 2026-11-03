@@ -96,5 +96,16 @@
   "default_objective": "styled-editorial",
   "scene_options": [
     "简洁墙面、可确认的历史空间或明确的现代场景；历史形制不强制古建筑背景。"
+  ],
+  "action_tendency": "Move within the supplied garment form and wearing arrangement: measured steps, natural low sleeves, supported bench seats, light side rests and shallow turns; assurance, curiosity and warm laughter, including a half-body portrait. Preserve collar closing direction, ties, sleeve cut and skirt layers; no invented period gestures, sleeve tossing or spinning.",
+  "pose_pool": [
+    "hanfu-form-specific-layer-stand",
+    "hanfu-form-specific-measured-step",
+    "hanfu-form-specific-broad-bench-seat",
+    "hanfu-form-specific-side-palm-rest",
+    "hanfu-form-specific-gathered-turn",
+    "hanfu-form-specific-low-sleeve-space",
+    "hanfu-form-specific-halfbody-bench-laugh",
+    "hanfu-form-specific-overlap-detail"
   ]
 }

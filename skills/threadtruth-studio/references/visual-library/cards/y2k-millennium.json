@@ -104,5 +104,16 @@
   ],
   "default_objective": "styled-editorial",
   "persona": "confident playful attitude, sharp pop energy, controlled editorial edge",
-  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。confident playful attitude, sharp pop energy, controlled editorial edge"
+  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。confident playful attitude, sharp pop energy, controlled editorial edge",
+  "action_tendency": "Early-digital snapshot energy: asymmetric pop stances, short record-shop steps, photo-booth bench seats, silver-wall leans, arcade pivots and a half-body V-sign grin. Vary cheeky confidence, cool defiance, surprise and exuberance; express the era through supported posture without lowering waistlines, changing exposure or adding accessories.",
+  "pose_pool": [
+    "y2k-millennium-pop-stand",
+    "y2k-millennium-record-shop-step",
+    "y2k-millennium-booth-bench-seat",
+    "y2k-millennium-metal-wall-shoulder",
+    "y2k-millennium-arcade-pivot",
+    "y2k-millennium-side-counter-palm",
+    "y2k-millennium-halfbody-sticker-grin",
+    "y2k-millennium-surface-detail"
+  ]
 }
