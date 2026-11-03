@@ -34,19 +34,20 @@ class PoseRecommendationTests(unittest.TestCase):
         return next(row for row in report['candidates'] if row['pose_id'] == pose_id
                     or any(alt['pose_id'] == pose_id for alt in row['alternatives']))
 
-    def test_goal_changes_order_and_preserves_target_cautions_without_image_reads(self):
+    def test_must_show_vetoes_obstruction_without_turning_cautions_into_scores(self):
         spec = self.preparation(goal='领口清楚完整展示。')
         before = copy.deepcopy(spec)
         with patch.object(Path, 'read_bytes', side_effect=AssertionError('Ranking must not read images')):
             collar = self.rank(spec)
         self.assertEqual(spec, before)
         self.assertEqual(collar['goal_terms'], ['collar'])
-        touch = self.candidate(collar, 'tt-close-collar-touch')
-        neutral = self.candidate(collar, 'tt-stand-neutral')
-        self.assertLess(neutral['rank'], touch['rank'])
-        self.assertEqual(touch['ranking_factors']['target_cautions'][0]['target'], 'collar')
-        self.assertIn('avoid_when', touch['ranking_factors']['target_cautions'][0]['fields'])
-        self.assertIn('领口', touch['review']['avoid_when'])
+        self.assertNotIn('tt-close-collar-touch', {r['pose_id'] for r in collar['candidates']})
+        self.assertGreater(collar['excluded']['must-show-occlusion'], 0)
+        self.assertEqual(collar['ordering'][:2], ['current_style_first', 'body_relation_penalty'])
+        # Emotion words mentioning a garment part do not create a must-show veto.
+        spec['shot_plan']['looks'][0]['must_show'] = ['visible panels']
+        emotional = self.rank(spec)
+        self.assertIn('领口', self.candidate(emotional, 'tt-close-collar-touch')['review']['avoid_when'])
         spec['shot_plan']['looks'][0].update(display_goal='Show the garment hem and length.',
                                            must_show=['hem', 'garment length'])
         hem = self.rank(spec)
@@ -56,16 +57,46 @@ class PoseRecommendationTests(unittest.TestCase):
         self.assertTrue(raised['ranking_factors']['target_cautions'])
         self.assertIn('occludes', {f for c in raised['ranking_factors']['target_cautions'] for f in c['fields']})
 
+    def test_style_first_and_group_body_relations_precede_framing_and_history(self):
+        spec = self.preparation('french-effortless')
+        baseline = self.rank(spec)
+        kinds = [row['kind'] for row in baseline['candidates']]
+        self.assertEqual(kinds, sorted(kinds, key=lambda kind: kind != 'style'))
+        chosen = baseline['candidates'][0]
+        other = copy.deepcopy(spec['shot_plan']['looks'][0])
+        other.update(shot_id='already-selected', slot=2,
+                     **{key: chosen[key] for key in ('pose_id', 'body_action', 'hands', 'support')})
+        spec['shot_plan']['looks'].append(other)
+        ranked = self.rank(spec)
+        repeated = self.candidate(ranked, chosen['pose_id'])
+        self.assertEqual(repeated['ranking_factors']['body_variety']['penalty'], 2)
+        distinct = [row for row in ranked['candidates'] if row['kind'] == 'style'
+                    and row['ranking_factors']['body_variety']['penalty'] == 0]
+        self.assertTrue(distinct)
+        self.assertLess(distinct[0]['rank'], repeated['rank'])
+        before = copy.deepcopy(repeated['ranking_factors']['body_variety'])
+        other.update(head='Head turned left.', gaze='Look down.', hands='Hands touch the hair.',
+                     scene='A different outdoor location.')
+        after = self.candidate(self.rank(spec), chosen['pose_id'])['ranking_factors']['body_variety']
+        self.assertEqual(before, after)
+
     def test_target_source_views_and_restricted_policy_are_hard_filters(self):
         spec = self.preparation()
         spec['shot_plan']['looks'][0]['garment_views'] = ['front']
         report = self.rank(spec)
         for row in report['candidates']:
             for candidate in [row, *row['alternatives']]:
-                self.assertLessEqual(set(candidate['garment_views']), {'front'})
+                self.assertLessEqual(set(candidate['garment_views']), {'front', 'front-side'})
                 self.assertNotEqual(candidate['pose_id'], 'tt-close-sleeve-push')
         self.assertEqual(report['excluded']['user-only'], 1)
-        self.assertGreater(report['excluded']['target-garment-views'], 0)
+        self.assertGreater(report['excluded']['needs-back'], 0)
+        shallow = self.candidate(report, 'tt-turn-front-counter')
+        self.assertIn('view_adaptation', shallow['review'])
+        self.assertNotIn('tt-turn-back-still', {row['pose_id'] for row in report['candidates']})
+        # Conditional skirt pressure stays reviewable, including front-facing kneeling.
+        spec['shot_plan']['looks'][0]['must_show'] = ['hem']
+        kneel = self.candidate(self.rank(spec), 'tt-kneel-tall')
+        self.assertIn('膝下', kneel['review']['avoid_when'])
         spec['shot_plan']['looks'][0]['garment_views'] = ['front-side']
         spec['shot_plan']['coverage'][0]['views'] = ['front']
         with self.assertRaisesRegex(ValueError, 'own reference_sha256s'):
@@ -116,7 +147,9 @@ class PoseRecommendationTests(unittest.TestCase):
         spec['pose_history_tasks'] = [str(prior)]
         ranked = self.rank(spec)
         repeated = self.candidate(ranked, 'tt-stand-neutral')
-        fresh = self.candidate(ranked, 'tt-stand-weight-shift')
+        fresh = next(row for row in ranked['candidates'] if row['kind'] == repeated['kind']
+                     and row['history']['tier'] < repeated['history']['tier']
+                     and row['ranking_factors']['framing_penalty'] == repeated['ranking_factors']['framing_penalty'])
         self.assertGreater(repeated['rank'], self.candidate(baseline, 'tt-stand-neutral')['rank'])
         self.assertLess(fresh['rank'], repeated['rank'])
         self.assertEqual(repeated['history']['status'], 'exact-repeat')
@@ -125,8 +158,8 @@ class PoseRecommendationTests(unittest.TestCase):
         self.assertEqual((prior / 'task.json').read_bytes(), before)
         spec['shot_plan']['looks'][0].update(display_goal='Show the collar clearly.', must_show=['collar'])
         product_first = self.rank(spec)
-        self.assertLess(self.candidate(product_first, 'tt-stand-neutral')['rank'],
-                        self.candidate(product_first, 'tt-close-collar-touch')['rank'])
+        self.candidate(product_first, 'tt-stand-neutral')
+        self.assertNotIn('tt-close-collar-touch', {r['pose_id'] for r in product_first['candidates']})
 
     def test_near_results_frozen_v1_and_missing_history_keep_distinct_statuses(self):
         prior = self.prior(self.spec('athleisure', pose_id='al-zip-close'))
