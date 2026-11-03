@@ -118,11 +118,30 @@
     },
     {
       "id": "qp-composed-stance",
-      "show": "a composed upright stance with a small turn that shows the true fit at the waist and slit",
+      "show": "composed urban body relationships through supported short steps, sitting, leaning or shallow turns, as selected in the shot plan; retain the true fit and slit",
       "needs": [
         "body"
       ],
-      "check": "waist, closure and slit remain unobstructed and readable in each cell"
+      "check": "the required garment parts remain readable in each cell; support, height or torso direction varies without widening the slit"
+    },
+    {
+      "id": "qp-city-emotions",
+      "show": "warm confidence, attentive quiet and occasional spontaneous amusement, matched to the selected urban moment",
+      "needs": [
+        "expression"
+      ],
+      "check": "non-detail cells show distinct emotional states without imposing vintage styling"
     }
+  ],
+  "action_tendency": "Contemporary city presence: short grounded steps, supported sitting, shoulder or palm leans and shallow whole-body turns, with warm confidence, amusement and attentive quiet. Respect actual fitted ease and slit height; no forced stride, leg crossing, deep squat or enlarged exposure.",
+  "pose_pool": [
+    "qp-city-short-step",
+    "qp-bench-upright",
+    "qp-doorway-shoulder",
+    "qp-pavement-pivot",
+    "qp-counter-palm",
+    "qp-window-seat",
+    "qp-offset-weight",
+    "qp-closure-detail"
   ]
 }

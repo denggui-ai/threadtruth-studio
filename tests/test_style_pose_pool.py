@@ -52,10 +52,15 @@ class StylePosePoolTests(unittest.TestCase):
         model = copy.deepcopy(self.model)
         if entry in ('korean-menswear', 'cityboy'):
             model['subject'] = 'adult male model'
-        return dict(entry_id=entry, count=1, first_pose=1, model=model, output_form='human',
+        spec = dict(entry_id=entry, count=1, first_pose=1, model=model, output_form='human',
             inventory=[dict(role='garment-source', sha256=self.sha)], shot_plan=plan,
             garment=dict(description='Synthetic blue garment.', keep=['Keep the original blue colour.'],
                          source_sha256s=[self.sha]))
+        if entry == 'qipao-urban':
+            spec.update(culture_profile=dict(id='qipao-contemporary-daily', version=1, form='contemporary daily qipao'),
+                        asset_trace=[dict(asset='C10', decision='translated', affects='Use the source-backed modern cut.',
+                                          check='No invented historical costume details.')])
+        return spec
 
     def export(self, spec, visual, route, name=None, context=None):
         job = self.root / (name or spec['entry_id'] + '-' + route)
@@ -108,10 +113,28 @@ class StylePosePoolTests(unittest.TestCase):
                     if original['avoid_when'] != 'none':
                         self.assertIn(original['avoid_when'], resolved['avoid_when'])
                 used.append(resolved['id'])
-        self.assertEqual(len(migrated), 22)
-        self.assertEqual(len(used), 176)
+        self.assertEqual(len(migrated), 25)
+        self.assertEqual(len(used), 200)
         self.assertEqual(set(used), set(by_id))
         self.assertEqual(len(used), len(set(used)))
+
+    def test_three_new_style_pools_freeze_each_action_and_keep_detail_portrait_scope(self):
+        for entry in ('resort-vacation', 'qipao-urban', 'romantic-bohemian'):
+            card = library.card(entry)
+            self.assertEqual(len(card['pose_vocabulary']), 8)
+            self.assertTrue({'walk', 'sit', 'lean', 'turn', 'close'} <= {r['family'] for r in card['pose_vocabulary']})
+            for row in card['pose_vocabulary']:
+                with self.subTest(entry=entry, action=row['id']):
+                    spec = self.spec(entry, row)
+                    spec['shot_plan']['framing_guidance'] = 3
+                    if row['family'] == 'close':
+                        spec['shot_plan']['looks'][0]['framing'] = 'detail'
+                    frozen = library.prepare(spec)
+                    self.assertEqual(frozen['style']['primary']['snapshot']['pose_pool'], card['pose_pool'])
+                    rendered = library._visual().render(frozen, 1)
+                    for item in frozen.get('commitments', []):
+                        if 'expression' in item['needs']:
+                            self.assertEqual(item['show'] in rendered, row['family'] != 'close')
 
     def test_all_migrated_cards_reach_both_actual_exports(self):
         shared = {e['id'] for e in json.loads(poses.VOCABULARY.read_text())['entries'] if 'pose_id' in e}

@@ -2086,6 +2086,294 @@
       ],
       "avoid_when": "none",
       "check": "a harmless measuring or sewing item to the side, never across the garment front"
+    },
+    {
+      "id": "rv-boardwalk-stroll",
+      "family": "walk",
+      "body": "walking along a level seaside boardwalk with a short easy step, weight passing onto the leading foot, a bright spontaneous smile",
+      "hands": "arms swing low beside the dress, hands clear of the front panel",
+      "support": "leading foot planted on the boardwalk; trailing forefoot in light contact",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep the step within the actual garment ease; no stride that raises the hem or widens a slit.",
+      "check": "a caught-in-motion holiday moment, a visible weight transfer and unchanged garment length"
+    },
+    {
+      "id": "rv-palm-wall-lean",
+      "family": "lean",
+      "body": "leaning the left shoulder lightly against a white hotel wall, torso at a shallow angle, hips clear of the wall, an amused half-smile",
+      "hands": "both hands hang loosely beside the hips",
+      "support": "left shoulder against the wall; right leg takes most weight with both feet grounded",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Do not press a fragile shoulder embellishment against the wall; leaf shadows stay off the garment.",
+      "check": "shoulder contact is believable and the waist is free; amused ease rather than a formal catalog stance"
+    },
+    {
+      "id": "rv-terrace-perch",
+      "family": "sit",
+      "body": "sitting on the front of a broad terrace bench, torso upright and slightly oblique, knees comfortably forward, a quiet contented expression",
+      "hands": "palms rest on the seat beside the hips, clear of the skirt",
+      "support": "bench supports the pelvis; both feet reach the floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Check actual seated ease and coverage; let the skirt fall naturally without changing its length, shape or slit opening.",
+      "check": "seated height differs from the standing cells; the skirt falls freely beyond the seat edge"
+    },
+    {
+      "id": "rv-low-step-pause",
+      "family": "stand",
+      "body": "pausing with one forefoot on a very low boardwalk step, the other leg bearing weight, torso upright, curious anticipation in the expression",
+      "hands": "one hand lightly touches a side rail; the other stays beside the hip",
+      "support": "rear foot fully on level ground; forward forefoot on the low step, rail used only for balance",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use only a step height the actual garment allows; no lifted knee pulling the hem or opening a slit.",
+      "check": "different foot heights and a clear load-bearing leg; garment length and natural volume remain readable"
+    },
+    {
+      "id": "rv-balcony-forearm",
+      "family": "lean",
+      "body": "resting one forearm on a balcony rail at the side, torso inclined slightly toward that support, a relaxed open laugh",
+      "hands": "supported forearm stays beside the body; free hand hangs clear of the garment",
+      "support": "both feet grounded; one forearm rests on a side rail below the chest",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep the rail beside the body, never across the chest or waist; do not compress a key sleeve detail.",
+      "check": "side support and mild torso inclination are visible; laughter does not rely on a thrown-back head"
+    },
+    {
+      "id": "rv-poolside-seat",
+      "family": "sit",
+      "body": "sitting on a low poolside seat with the feet placed diagonally forward, torso gently leaning back, peaceful end-of-day ease",
+      "hands": "hands brace on the seat behind the hips without bunching fabric",
+      "support": "seat beneath the pelvis; both hands and both feet supported",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep the setting dry and the garment coverage unchanged; avoid tension that shortens the dress or exposes an unsupported area.",
+      "check": "reclined seated support differs from the upright perch; natural fabric drape and original hem remain"
+    },
+    {
+      "id": "rv-courtyard-pivot",
+      "family": "turn",
+      "body": "gathering a short step into a shallow turn toward a courtyard opening, weight settling on one leg, a playful delighted smile",
+      "hands": "arms remain low and separate from the dress, no skirt lifting",
+      "support": "one foot bears weight; the other forefoot settles alongside it on level paving",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep the turn shallow enough to show only supported front structure; no spin, fabric flare or invented rear view.",
+      "check": "the pelvis and torso change direction together; movement stays small and the dress is not pulled"
+    },
+    {
+      "id": "rv-daylight-detail",
+      "family": "close",
+      "body": "standing at rest beside a sunlit wall for a close study of the source-backed garment edge, shoulders settled",
+      "hands": "hands rest outside the selected detail area without pinching the fabric",
+      "support": "both feet supported on level ground",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Choose only a detail visible in the source; hands and leaf shadows must not cover the selected structure.",
+      "check": "the selected seam, trim or pattern edge is clearly readable; no face direction is needed for a detail crop"
+    },
+    {
+      "id": "qp-city-short-step",
+      "family": "walk",
+      "body": "taking a short level step beneath a modern portico, torso upright, weight moving onto the leading foot, a warm confident smile",
+      "hands": "hands swing low by the sides, clear of the closure and waist",
+      "support": "leading foot fully planted; trailing forefoot on level paving",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use only the stride allowed by the actual fitted cut and slit; do not widen the slit or increase exposed skin.",
+      "check": "a real short step rather than feet locked together; collar, closure and actual slit height remain unchanged"
+    },
+    {
+      "id": "qp-bench-upright",
+      "family": "sit",
+      "body": "sitting on a city bench at a shallow angle, torso upright, knees close but relaxed with feet slightly offset, a quietly attentive expression",
+      "hands": "hands rest on the bench beside the hips, not over the closure",
+      "support": "bench supports the pelvis; both feet reach level ground",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Confirm seated ease in this qipao; skirt falls naturally without pulling the hem upward or opening the slit beyond the source.",
+      "check": "seated height and grounded feet are clear; original dress length and fitted shape are retained"
+    },
+    {
+      "id": "qp-doorway-shoulder",
+      "family": "lean",
+      "body": "resting one shoulder lightly on a doorway edge, hips clear of the support, torso shallowly oblique, a dry amused smile",
+      "hands": "hands loose by the hips, fingers clear of fastenings",
+      "support": "one shoulder contacts the doorway; both feet remain grounded with weight on the outer leg",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Do not crush shoulder trim or force a waist bend; expose no unsupported rear structure.",
+      "check": "shoulder support is distinct from an upright stance; the waist and closure remain readable"
+    },
+    {
+      "id": "qp-pavement-pivot",
+      "family": "turn",
+      "body": "making a small gathering turn on city paving, feet placed within the garment walking allowance, torso and hips rotating together, a lively welcoming expression",
+      "hands": "one arm low beside the body, the other slightly behind the hip without touching the slit",
+      "support": "one planted foot carries weight; the other forefoot settles nearby",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "No spin, deep twist or crossed stride; stop the turn before unknown back structure or a widened slit becomes visible.",
+      "check": "a visible small direction change with the original neckline, fit and slit geometry intact"
+    },
+    {
+      "id": "qp-counter-palm",
+      "family": "lean",
+      "body": "placing one palm on a low side counter, torso inclined slightly toward the support with hips stable, calm self-assurance",
+      "hands": "supporting palm stays at the side; the other hand hangs free, clear of the waist",
+      "support": "both feet on the floor; one palm lightly supported on the counter",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Counter stays beside the garment; no deep forward bend, tight-sleeve reach or compressed fastening line.",
+      "check": "hand-supported torso inclination differs from shoulder leaning; fabric keeps its natural fitted line"
+    },
+    {
+      "id": "qp-window-seat",
+      "family": "sit",
+      "body": "sitting diagonally on a broad window seat, torso eased slightly backward, knees relaxed forward without crossing, an unguarded small laugh",
+      "hands": "both palms brace behind the hips on the seat without trapping fabric",
+      "support": "seat supports the pelvis; palms supported and both feet on the floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep recline mild and check real seated allowance; no slit expansion, hem lift or unsupported legs.",
+      "check": "seated recline is distinct from the upright bench; the skirt falls freely with original length and coverage"
+    },
+    {
+      "id": "qp-offset-weight",
+      "family": "stand",
+      "body": "standing with weight on one leg and the other foot half a foot-length forward, torso tall and gently angled, poised thoughtful concentration",
+      "hands": "one hand relaxed beside the thigh, the other near the side seam without holding the dress",
+      "support": "rear leg bears weight; forward foot remains fully grounded",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep the offset within the fitted skirt allowance; do not cross the legs tightly, force an arch or conceal the slit.",
+      "check": "asymmetric weight and a shallow torso angle are visible; no compulsory feet-together stance"
+    },
+    {
+      "id": "qp-closure-detail",
+      "family": "close",
+      "body": "standing at rest for a source-backed collar or closure study, torso settled without stretching the fitted front",
+      "hands": "hands stay outside the selected collar or closure area",
+      "support": "both feet planted on level ground",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Do not add frog buttons, change collar height or move the slit; use only structures visible in the source.",
+      "check": "collar edge or fastening construction is legible; the detail does not require an expression or eye direction"
+    },
+    {
+      "id": "rb-meadow-stroll",
+      "family": "walk",
+      "body": "walking on a level meadow path with a short diagonal step, torso carried easily over the leading leg, an open joyful smile",
+      "hands": "arms swing low and independently beside the garment",
+      "support": "leading foot supported on firm ground; trailing forefoot touches the path",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "No long stride in an unverified narrow skirt; do not pull fabric, add fringe or lift the hem.",
+      "check": "grounded movement and an expansive mood; original garment layers remain identifiable"
+    },
+    {
+      "id": "rb-grass-side-seat",
+      "family": "floor",
+      "body": "sitting on dry firm grass with both legs folded gently to one side, torso upright, a quiet absorbed expression",
+      "hands": "one palm rests beside the hip on the ground, the other hand on the ground near the knee",
+      "support": "one sitting bone and one palm supported on the ground; legs rest naturally",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Check actual knee and hip mobility and garment coverage; do not pin an essential hem motif under the body.",
+      "check": "low seated height and side-folded support are clear; original length and layer order remain"
+    },
+    {
+      "id": "rb-stone-perch",
+      "family": "sit",
+      "body": "sitting on a broad low courtyard stone, torso leaning forward slightly from the hips with shoulders relaxed, an intimate amused smile",
+      "hands": "hands rest on the stone beside the hips, not over the garment front",
+      "support": "stone supports the pelvis; both feet planted on the path",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "No deep fold across a required front motif; skirt drapes naturally without being shortened or spread wider.",
+      "check": "a social leaning-in moment distinct from the upright grass seat; actual garment edges remain readable"
+    },
+    {
+      "id": "rb-tree-palm-lean",
+      "family": "lean",
+      "body": "leaning lightly through one palm against a tree trunk beside the body, torso oblique, a curious listening expression",
+      "hands": "supporting palm touches the trunk at waist height; the other hand hangs free",
+      "support": "both staggered feet grounded; one palm against the trunk",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep branches and the trunk out of the garment outline; do not stretch a tight sleeve or infer back details.",
+      "check": "side palm support is visible; curiosity comes from the moment without requiring a large head turn"
+    },
+    {
+      "id": "rb-half-kneel-rest",
+      "family": "kneel",
+      "body": "resting in a low half-kneel on firm dry ground, torso upright over the grounded knee, a warm candid laugh",
+      "hands": "one hand touches the ground beside the hip, the other rests clear of the garment front",
+      "support": "one knee and instep on the ground; opposite foot planted with a low bent knee",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Only when actual garment ease permits; avoid a narrow fitted skirt, unstable ground or a hem motif pressed beneath the knee.",
+      "check": "a clear low kneeling support without widening the garment, adding volume or changing exposure"
+    },
+    {
+      "id": "rb-garden-turn",
+      "family": "turn",
+      "body": "taking a small gathering step into a shallow torso turn in an open garden, shoulders and hips turning together, playful anticipation",
+      "hands": "hands loose beside the body, no grabbing or fanning of fabric",
+      "support": "one foot carries weight while the other forefoot settles on the path",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "No spinning, backward view or invented fabric flare; keep any slit and layering within source-supported geometry.",
+      "check": "a gentle direction change and playful energy; the natural garment silhouette stays intact"
+    },
+    {
+      "id": "rb-courtyard-recline",
+      "family": "sit",
+      "body": "sitting on a low broad courtyard step, torso supported in a mild backward lean, feet extended diagonally with soft knees, contemplative ease",
+      "hands": "forearms rest on the step behind the pelvis",
+      "support": "pelvis and forearms supported by the steps; both feet on level ground",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep the recline and knee angle within real garment ease; avoid hem tension, deep neckline exposure or furniture covering required details.",
+      "check": "reclined support differs from the perched and floor-seated cells; cloth falls with its real weight"
+    },
+    {
+      "id": "rb-texture-study",
+      "family": "close",
+      "body": "standing at rest in soft courtyard light for a localized study of the existing garment texture or layer boundary",
+      "hands": "hands remain outside the selected detail, without pulling the fabric",
+      "support": "both feet on firm ground",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Do not invent embroidery, fringe, ethnic symbols or material claims; light must not erase the original pattern.",
+      "check": "the source-backed texture or layer boundary is visible without added decorations or portrait directions"
     }
   ]
 }

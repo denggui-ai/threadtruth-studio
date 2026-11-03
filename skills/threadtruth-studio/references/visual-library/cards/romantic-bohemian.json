@@ -93,5 +93,43 @@
   "default_objective": "styled-editorial",
   "scene_options": [
     "开阔草坡、干燥旷野或有创作痕迹的庭院；与海岸酒店/泳池场景区分。"
+  ],
+  "commitments": [
+    {
+      "id": "rb-land-light",
+      "show": "directional daylight and gentle natural fill in open land or a creative courtyard; actual textile layers stay readable",
+      "needs": [
+        "lighting",
+        "scene"
+      ],
+      "check": "land or courtyard depth differs from a resort hotel, with preserved garment colour and texture"
+    },
+    {
+      "id": "rb-grounded-variety",
+      "show": "grounded, varied relationships with the landscape through the selected seats, leans and small movements; keep the original garment layers and volume",
+      "needs": [
+        "body"
+      ],
+      "check": "visible support, height or torso direction distinguishes non-detail cells without added costume symbols"
+    },
+    {
+      "id": "rb-emotional-range",
+      "show": "a range of open joy, amused intimacy, curious attention and contemplative absorption across the selected non-detail moments",
+      "needs": [
+        "expression"
+      ],
+      "check": "emotions change with the interaction and are not all serene or restrained"
+    }
+  ],
+  "action_tendency": "Open-land intimacy and spontaneous play: small wandering steps, grounded seats, supported leans and a low kneeling option only when the garment permits; joy, curiosity, absorption and contemplation. No decorative props, forced wind or invented fabric volume.",
+  "pose_pool": [
+    "rb-meadow-stroll",
+    "rb-grass-side-seat",
+    "rb-stone-perch",
+    "rb-tree-palm-lean",
+    "rb-half-kneel-rest",
+    "rb-garden-turn",
+    "rb-courtyard-recline",
+    "rb-texture-study"
   ]
 }
