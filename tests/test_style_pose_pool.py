@@ -118,7 +118,7 @@ class StylePosePoolTests(unittest.TestCase):
         self.assertEqual(set(used), set(by_id))
         self.assertEqual(len(used), len(set(used)))
 
-    def test_three_new_style_pools_freeze_each_action_and_keep_detail_portrait_scope(self):
+    def test_three_new_style_pools_freeze_each_action_and_keep_detail_commitments(self):
         for entry in ('resort-vacation', 'qipao-urban', 'romantic-bohemian'):
             card = library.card(entry)
             self.assertEqual(len(card['pose_vocabulary']), 8)
@@ -133,8 +133,7 @@ class StylePosePoolTests(unittest.TestCase):
                     self.assertEqual(frozen['style']['primary']['snapshot']['pose_pool'], card['pose_pool'])
                     rendered = library._visual().render(frozen, 1)
                     for item in frozen.get('commitments', []):
-                        if 'expression' in item['needs']:
-                            self.assertEqual(item['show'] in rendered, row['family'] != 'close')
+                        self.assertIn(item['show'], rendered)
 
     def test_all_migrated_cards_reach_both_actual_exports(self):
         shared = {e['id'] for e in json.loads(poses.VOCABULARY.read_text())['entries'] if 'pose_id' in e}

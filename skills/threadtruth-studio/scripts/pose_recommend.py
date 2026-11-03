@@ -31,11 +31,17 @@ GOALS = {
 ORDER = ['current_style_first', 'body_relation_penalty', 'framing_penalty', 'history_tier',
          'stable_pose_id_and_view']
 
+# Recommendation-only vocabulary; frozen shot-plan validation keeps its original words.
+BACK_ACTION = re.compile(
+    r'\b(?:turn(?:s|ed|ing)?|fac(?:e|es|ed|ing)|walk(?:s|ed|ing)?)\s+away\b'
+    r'|\bback\s+to\s+(?:the\s+)?camera\b|\bover[- ](?:the[- ])?shoulder\b'
+    r'|\bface\s+turn(?:s|ed|ing)?\s+back\b|\bthree[- ]quarter\s+away\b', re.I)
+
 
 def _needs_back(row, back_words):
     """View labels cannot override explicit back-facing actions or evidence requirements."""
     action = ' '.join(row.get(key, '') for key in ('body', 'body_action', 'hands', 'support', 'head'))
-    if back_words.search(action) or re.search(r'three[- ]quarter away|face turned back', action, re.I):
+    if back_words.search(action) or BACK_ACTION.search(action):
         return True
     limits = ' '.join(row.get(key, '') for key in ('avoid_when', 'check', 'review_note'))
     return bool(re.search(

@@ -529,10 +529,9 @@ def _render_v2(plan,look,real_face_plan):
                      'Display purpose: '+shot['display_goal'], 'Must show: '+', '.join(shot['must_show'])+'.',
                      'Selection reason: '+shot['reason'], body_text(shot),
                      'Supported garment views: '+', '.join(shot['garment_views'])+'.'])
-        if 'head' in shot and not (plan.get('framing_guidance')==3 and shot['framing']=='detail'):
-            rows.extend(['Head orientation: '+shot['head'],'Eye gaze: '+shot['gaze']])
+        if 'head' in shot:rows.extend(['Head orientation: '+shot['head'],'Eye gaze: '+shot['gaze']])
         if 'pose_reference' in shot:
             rows.append('Optional body-only reference reason: '+shot['pose_reference']['reason']+' Copy no identity, body proportions, clothing or illustration style; preview uses the described action only.')
-        if real_face_plan is not None and not (plan.get('framing_guidance')==3 and shot['framing']=='detail'):
+        if real_face_plan is not None:
             rows.append('The reviewed real-face plan mirrors this body action and supplies supported head/gaze; it cannot establish another real face angle.')
     return '\n'.join(rows+[END])

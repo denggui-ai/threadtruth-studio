@@ -432,22 +432,13 @@ def _photography_text(value):
     return FROZEN_SHOT_CLAUSE.sub('', value).strip()
 
 
-def detail_only(plan, look=None):
-    if not plan or plan.get('rendering_version') != 2:
-        return False
-    cells = plan['shots'] if look is None else [plan['shots'][look - 1]]
-    return bool(cells) and all(s.get('framing') == 'detail' for s in cells)
-
-
 def render(plan, look=None):
     """Render only frozen resolved values. look is a task slot, None selects all."""
     if look is not None and (type(look) is not int or not 1<=look<=len(plan['shots'])):
         raise ValueError('Unknown visual presentation slot')
     style = plan['style']
     compact = plan.get('rendering_version') == 2
-    detail = detail_only(plan, look)
     cells = plan['shots'] if look is None else [plan['shots'][look - 1]]
-    mixed = compact and not detail and any(s.get('framing') == 'detail' for s in cells)
     garment=plan['shots'][look-1].get('garment_focus',plan['garment']) if look is not None else plan['garment']
     rows = [BEGIN, 'Visual objective: ' + plan['objective'] + '.',
             'Output medium: ' + plan['output_medium'] + '.',
@@ -480,17 +471,13 @@ def render(plan, look=None):
     rows += ['Art direction: ' + plan['art']['direction']]
     rows += ['Art technique: ' + item for item in plan['art']['techniques']]
     rows += ['Art limit: ' + item for item in plan['art']['limits']]
-    if plan.get('persona') and not detail:
-        rows.append(('Non-detail cells only. ' if mixed else '') + ('Style persona (expression and styling; identity stays as declared): ' if plan.get('contract') == CONTRACT
+    if plan.get('persona'):
+        rows.append(('Style persona (expression and styling; identity stays as declared): ' if plan.get('contract') == CONTRACT
                      else 'Style persona (yields to the declared model conditions): ') + plan['persona'])
     if plan.get('contract') == CONTRACT and plan.get('commitments'):
         rows.append('Style commitments (each must be visible in the image):')
         for item in plan['commitments']:
-            portrait = bool(set(item['needs']) & {'expression', 'body'})
-            if detail and portrait:
-                continue
-            rows.append(('Non-detail cells only. ' if mixed and portrait else '')
-                        + 'Commitment: ' + item['show'] + ''.join('; ' + step for step in item.get('realize', [])))
+            rows.append('Commitment: ' + item['show'] + ''.join('; ' + step for step in item.get('realize', [])))
     for shot in cells:
         heading = (f"Visual slot {shot['slot']} (shot {shot['shot_id']}):" if plan['version'] == 2
                    else f"Visual slot {shot['slot']} (presentation {shot['pose']}):")

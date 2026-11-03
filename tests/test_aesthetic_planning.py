@@ -6,6 +6,7 @@ import unittest
 
 from tests.test_pose_plan_v2 import sample_plan, shot
 from tests.test_style_pose_pool import module
+from tests.test_aesthetic_review_regressions import baseline_model_block
 
 library, visual, task = module('visual_library'), module('visual_plan'), module('web-task')
 ROOT = Path(__file__).resolve().parents[1]
@@ -82,33 +83,33 @@ class AestheticPlanningTests(unittest.TestCase):
         self.assertIn('Lighting: Cool reflected light.', single)
         self.assertEqual(single.count(visual.FROZEN_SHOT_LINE), 1)
 
-    def test_f8_detail_skips_portrait_directions_in_both_request_shapes(self):
+    def test_f8_detail_retains_baseline_portrait_directions_in_both_request_shapes(self):
         spec = self.new_spec()
         prepared = library.prepare(spec)
         detail = visual.render(prepared, 6)
-        self.assertNotIn('Style persona', detail)
+        self.assertIn('Style persona', detail)
         for commitment in prepared.get('commitments', []):
             if set(commitment['needs']) & {'expression', 'body'}:
-                self.assertNotIn(commitment['show'], detail)
-        self.assertNotIn('Head direction sentinel.', shot.render(spec['shot_plan'], 6))
-        self.assertNotIn('Eye direction sentinel.', shot.render(spec['shot_plan'], 6))
+                self.assertIn(commitment['show'], detail)
+        self.assertIn('Head direction sentinel.', shot.render(spec['shot_plan'], 6))
+        self.assertIn('Eye direction sentinel.', shot.render(spec['shot_plan'], 6))
         data = dict(schema_version=2, model=spec['model'], identity=True,
                     context=dict(self.fixture()['context'], purpose='delivery'), size=[20, 30], route='codex_native',
                     shot_plan=spec['shot_plan'], visual_plan=prepared, prompt_contract_version=2,
                     identity_instruction_version=1, references=spec['inventory'])
         prompt = task.handoff_prompt(data, dict(number=6, prompt=visual.compile_prompt(prepared, 6)), data['references'])
-        self.assertNotIn('expression sentinel', prompt)
-        self.assertNotIn('Head direction sentinel.', prompt)
-        self.assertNotIn('Eye direction sentinel.', prompt)
-        self.assertIn('visible skin and body proportions', prompt)
+        self.assertIn('expression sentinel', prompt)
+        self.assertIn('Head direction sentinel.', prompt)
+        self.assertIn('Eye direction sentinel.', prompt)
+        self.assertIn(baseline_model_block('portrait_directions'), prompt)
         self.assertIn('Warm olive skin tone', prompt)
         self.assertIn('naturally broad body proportions', prompt)
         data['context']['purpose'] = 'preview-grid'
         preview = task.handoff_prompt(data, dict(number=1, prompt=visual.compile_prompt(prepared)), data['references'])
-        self.assertEqual(preview.count('Head direction sentinel.'), 5)
-        self.assertEqual(preview.count('Eye direction sentinel.'), 5)
-        self.assertIn('Non-detail cells only. Style persona', preview)
-        self.assertIn('portrait conditions to non-detail cells only', preview)
+        self.assertEqual(preview.count('Head direction sentinel.'), 6)
+        self.assertEqual(preview.count('Eye direction sentinel.'), 6)
+        self.assertIn('Style persona', preview)
+        self.assertNotIn('non-detail cells only', preview.lower())
 
 
 if __name__ == '__main__':

@@ -12,6 +12,12 @@ library, task, recommend = (fixtures.module(name) for name in ('visual_library',
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def baseline_model_block(name):
+    fixture = json.loads((ROOT / 'tests/fixtures/aesthetic-detail-model-blocks.json').read_text())
+    assert fixture['baseline'] == 'd7d7e66'
+    return fixture['blocks'][name]
+
+
 class AestheticReviewRegressionTests(unittest.TestCase):
     setUp = fixtures.StylePosePoolTests.setUp
 
@@ -175,8 +181,103 @@ class AestheticReviewRegressionTests(unittest.TestCase):
         prompt = self.exported(job)
         for fact in spec['model']['locked']:
             self.assertIn(fact, prompt)
-        self.assertNotIn('expression sentinel', prompt)
-        self.assertNotIn('Style persona', prompt)
+        # d7d7e66 uses the complete model block for detail crops as well.
+        self.assertIn(baseline_model_block('mixed_locked'), prompt)
+        self.assertIn('expression sentinel', prompt)
+        self.assertIn('Style persona', prompt)
+
+    def test_mixed_preview_keeps_locked_hand_fact_in_unscoped_model_block(self):
+        spec, _, context = self.legacy_series()
+        spec['model']['locked'] = ['左手疤痕']
+        spec['shot_plan']['framing_guidance'] = 3
+        spec['shot_plan']['looks'][-1].update(framing='detail', display_goal='Show the cuff and left hand.')
+        context['purpose'] = 'preview-grid'
+        job = self.create(spec, library.prepare(spec), context)
+        prompt = self.exported(job)
+        self.assertIn(baseline_model_block('hand_preview'), prompt)
+        self.assertIn('左手疤痕', prompt)
+        self.assertNotIn('non-detail cells only', prompt.lower())
+
+    def test_ai_face_only_detail_export_keeps_baseline_identity_scope(self):
+        spec, _, context = self.legacy_series()
+        spec['model'].update(source_type='ai', scope='face')
+        spec['shot_plan'] = task.shot_helper().subset(spec['shot_plan'], 1, series_role='standalone')
+        spec['shot_plan']['framing_guidance'] = 3
+        spec['shot_plan']['looks'][0]['framing'] = 'detail'
+        spec['count'] = 1
+        identity = self.root / 'synthetic-identity.png'
+        Image.new('RGB', (20, 30), 'purple').save(identity)
+        spec['inventory'].append(dict(role='identity-reference', sha256=task.digest(identity)))
+        job = self.root / 'face-detail'
+        task.create(job, [dict(path=self.source, role='garment-source'),
+                          dict(path=identity, role='identity-reference')], None, [20, 30],
+                    model=spec['model'], context=context, shot_plan=spec['shot_plan'],
+                    visual_plan=library.prepare(spec), workflow_version=0)
+        prompt = self.exported(job)
+        self.assertIn('face-only reference; do not infer its unseen body; use declared body presentation', prompt)
+        self.assertIn(baseline_model_block('ai_face_detail'), prompt)
+        self.assertNotIn('body proportions from the declared model and identity references', prompt)
+
+    def test_french_front_only_excludes_laugh_turn_without_back_evidence(self):
+        spec, _, _ = self.legacy_series()
+        target = spec['shot_plan']['looks'][0]
+        target['garment_views'] = ['front']
+        spec['shot_plan']['coverage'][0]['views'] = ['front']
+        report = recommend.recommend(spec, target['shot_id'], limit=60)
+        ids = {item['pose_id'] for row in report['candidates'] for item in [row, *row['alternatives']]}
+        self.assertNotIn('fr-laugh-turn', ids)
+        self.assertIn('tt-turn-front-counter', ids)
+        target['garment_views'].append('back')
+        spec['shot_plan']['coverage'][0]['views'].append('back')
+        backed = recommend.recommend(spec, target['shot_id'], limit=60)
+        self.assertIn('fr-laugh-turn', {item['pose_id'] for row in backed['candidates']
+                                      for item in [row, *row['alternatives']]})
+
+    def test_back_action_inflections_are_filtered_without_changing_frozen_validator(self):
+        back_words = task.shot_helper().BACK_WORDS
+        for phrase in ('turn away', 'turns away', 'turned away', 'turning away', 'facing away',
+                       'back to camera', 'back to the camera', 'over the shoulder',
+                       'face turned back', 'three-quarter away', 'three quarter away'):
+            with self.subTest(phrase=phrase):
+                self.assertTrue(recommend._needs_back(dict(body=phrase), back_words))
+        self.assertFalse(recommend._needs_back(dict(body='A shallow turn with the front panel visible.'), back_words))
+
+    def test_legacy_preview_can_retry_same_revised_visual_input(self):
+        spec, frozen, context = self.legacy_series()
+        frozen = dict(frozen, shots=library.prepare(spec)['shots'])
+        context['purpose'] = 'preview-grid'
+        job = self.create(spec, frozen, context)
+        task.update(job, 'authorize', limit=1, note='Synthetic preview permission.')
+        self.reserve(job)
+        output = self.root / 'preview.png'
+        Image.new('RGB', (20, 30), 'green').save(output)
+        task.update(job, 'returned', look=1, file=output)
+        data = task.update(job, 'reject', look=1, note='Synthetic scene revision.')
+        revised_spec = copy.deepcopy(spec)
+        revised_spec['shot_plan']['framing_guidance'] = 3
+        revised = library.prepare(revised_spec)
+        revised['photography']['scene'] = 'Revised quiet room.'
+        before = copy.deepcopy(revised)
+        reviewed = task.update(job, 'revise-preview', look=1,
+            expected_output_sha256=data['looks'][0]['output']['sha256'],
+            visual_plan=revised, note='Synthetic reviewed scene revision.')
+        candidate = reviewed['preview_revision']['candidate']
+        # Normalization must not permit a different, unreviewed revision.
+        wrong = copy.deepcopy(revised)
+        wrong['photography']['scene'] = 'Unreviewed scene.'
+        with self.assertRaisesRegex(ValueError, 'reviewed preview revision candidate'):
+            task.update(job, 'retry-authorize', look=1, expected_attempt=1,
+                        approval_id='retry', note='One synthetic retry.', visual_plan=wrong)
+        retried = task.update(job, 'retry-authorize', look=1, expected_attempt=1,
+                             approval_id='retry', note='One synthetic retry.', visual_plan=revised)
+        self.assertEqual(revised, before)
+        self.assertEqual(retried['visual_plan'], candidate['visual_plan'])
+        self.assertNotIn('model_source_type', retried['visual_plan'])
+        self.assertNotIn('rendering_version', retried['visual_plan'])
+        self.assertEqual(retried['looks'][0]['attempt_number'], 2)
+        self.assertEqual(retried['attempts'], 1)
+        task.check_evidence(job, task.read(job))
+        self.assertIn('Revised quiet room.', self.exported(job))
 
 
 if __name__ == '__main__':
