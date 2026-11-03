@@ -22,7 +22,11 @@ class AestheticReviewRegressionTests(unittest.TestCase):
     setUp = fixtures.StylePosePoolTests.setUp
 
     def legacy_series(self):
-        fixture = json.loads((ROOT / 'tests/fixtures/aesthetic-legacy-series.json').read_text())
+        raw = (ROOT / 'tests/fixtures/aesthetic-legacy-series.json').read_text()
+        recorded = json.loads(raw)['spec']['garment']['source_sha256s'][0]
+        # The synthetic PNG's bytes depend on the Pillow/zlib build; rebind the
+        # recorded source hash to this environment's synthetic source.
+        fixture = json.loads(raw.replace(recorded, self.sha))
         self.assertEqual(fixture['baseline'], 'd7d7e66')
         spec, frozen = fixture['spec'], fixture['visual_plan']
         fixtures.use_current_pool_in_fixture(frozen)
