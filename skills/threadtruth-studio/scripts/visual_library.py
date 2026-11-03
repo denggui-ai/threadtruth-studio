@@ -394,12 +394,9 @@ def prepare(spec, root=ROOT, *, frozen_visual_plan=None):
         _shots().validate(shot_plan, spec['inventory'],
                           context=dict(first_pose=pose, output_form=output_form, purpose='delivery'), count=count,
                           model_source=(model or {}).get('source_type'), pose_vocabulary=primary.get('pose_vocabulary'))
-    if isinstance(shot_plan, dict) and shot_plan.get('variety_checks') == 1 and output_form in ('human', 'faceless'):
-        # Re-preparation keeps the vocabulary available when the task was frozen,
-        # including its absence; later card additions must not impose new pose IDs.
-        pose_snapshot = primary if frozen_visual_plan is None else frozen_visual_plan['style']['primary']['snapshot']
-        if pose_snapshot.get('pose_vocabulary'):
-            _shots().check_poses(shot_plan, pose_snapshot['pose_vocabulary'])
+    if (isinstance(shot_plan, dict) and shot_plan.get('variety_checks') == 1 and output_form in ('human', 'faceless')
+            and primary.get('pose_vocabulary')):
+        _shots().check_poses(shot_plan, primary['pose_vocabulary'])
     rendering_source = frozen_visual_plan
     if (frozen_visual_plan is not None and frozen_visual_plan.get('model_source_type') == 'new'
             and plan.get('model_source_type') == 'ai'):
