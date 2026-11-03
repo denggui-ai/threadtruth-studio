@@ -240,6 +240,8 @@ def prepare(spec, root=ROOT, *, frozen_visual_plan=None):
     in the task ledger. This local preparation does not grant or consume a call.
     Re-preparation passes the existing task's frozen visual plan explicitly;
     shot-plan version flags do not tell us whether a task already exists.
+    Linked corrections may retain a generated new person as an AI reference;
+    create_revision still checks the actual identity and reference provenance.
     """
     allowed = {'entry_id', 'garment', 'inventory', 'count', 'first_pose', 'objective', 'output_form',
                'output_medium', 'supporting', 'fusion_note', 'overrides', 'culture_profile', 'shot_plan', 'model', 'back_source', 'asset_trace', 'pose_history_tasks', 'product_edit'}
@@ -395,7 +397,14 @@ def prepare(spec, root=ROOT, *, frozen_visual_plan=None):
     if (isinstance(shot_plan, dict) and shot_plan.get('variety_checks') == 1 and output_form in ('human', 'faceless')
             and primary.get('pose_vocabulary')):
         _shots().check_poses(shot_plan, primary['pose_vocabulary'])
-    plan = _visual().inherit_rendering(plan, frozen_visual_plan)
+    rendering_source = frozen_visual_plan
+    if (frozen_visual_plan is not None and frozen_visual_plan.get('model_source_type') == 'new'
+            and plan.get('model_source_type') == 'ai'):
+        # create_revision permits only this source transition to retain the
+        # generated first person. Do not mutate the parent or relax inheritance
+        # for in-place retries/continuations; their model stays frozen.
+        rendering_source = dict(frozen_visual_plan, model_source_type='ai')
+    plan = _visual().inherit_rendering(plan, rendering_source)
     return _visual().validate(plan, spec['inventory'],
                               context=dict(style=spec['entry_id'], first_pose=pose, output_form=output_form,
                                            purpose='product-edit' if product is not None else 'delivery'),

@@ -325,7 +325,8 @@ def check_new_pose_pool(plan,card):
     needed=(len(bodies)+1)//2
     remedy=(' First run python3 scripts/pose_library.py recommend --spec prepare.json --shot-id <shot_id> --limit 5 '
             'for each non-detail shot; prefer this style pool, or apply an eligible owned pose_selection. '
-            'For remaining custom shots, explain why pool actions do not fit this shot, then prepare again.')
+            'For remaining custom shots, explain why pool actions do not fit this shot, then prepare again. '
+            '已有任务的重新准备／关联修订请传 --task。')
     if len(selected)<needed:
         raise ValueError(f'shot_plan: at least {needed} of {len(bodies)} non-detail shots must use a style-pool pose_id '
                          f'or owned pose_selection (found {len(selected)}).'+remedy)
