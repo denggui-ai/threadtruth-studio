@@ -32,6 +32,21 @@ ORDER = ['current_style_first', 'body_relation_penalty', 'framing_penalty', 'his
          'stable_pose_id_and_view']
 
 
+def _needs_back(row, back_words):
+    """View labels cannot override explicit back-facing actions or evidence requirements."""
+    action = ' '.join(row.get(key, '') for key in ('body', 'body_action', 'hands', 'support', 'head'))
+    if back_words.search(action) or re.search(r'three[- ]quarter away|face turned back', action, re.I):
+        return True
+    limits = ' '.join(row.get(key, '') for key in ('avoid_when', 'check', 'review_note'))
+    return bool(re.search(
+        r'(?:后侧|后片|背面|背部)(?:商品)?(?:依据|参考|素材|源图)(?:不足|缺失|未知)'
+        r'|(?:需|需要|缺少|缺乏)(?:同款|真实|可用)?(?:后侧|后片|背面|背部)(?:商品)?(?:依据|参考|素材|源图)'
+        r'|背面未知却转出后片'
+        r'|\b(?:needs?|requires?|missing|insufficient|no usable|lack of)\b[^.;。；]*\b(?:back|rear)\b[^.;。；]*\b(?:evidence|sources?|references?)\b'
+        r'|\b(?:back|rear)\b[^.;。；]*\b(?:evidence|sources?|references?)\b[^.;。；]*\b(?:missing|insufficient|unavailable)\b',
+        limits, re.I))
+
+
 def _terms(text):
     return {name for name, pattern in GOALS.items() if re.search(pattern, text, re.I)}
 
@@ -172,6 +187,7 @@ def recommend(spec, shot_id, *, history=None, limit=5, catalog_path=None):
     if not isinstance(spec, dict) or type(limit) is not int or not 1 <= limit <= 60:
         raise ValueError('Recommendations need a preparation spec and limit between 1 and 60')
     poses, visual, hist = _module('pose_library'), _module('visual_library'), _module('pose_history')
+    back_words = _module('shot_plan').BACK_WORDS
     catalog = poses._catalog()
     target = _target(spec, shot_id, catalog)
     model = visual._models().validate_model(spec.get('model'), allow_child=True)
@@ -212,6 +228,7 @@ def recommend(spec, shot_id, *, history=None, limit=5, catalog_path=None):
         occludes = owned_by_view.get((base.get('group_id'), base.get('view')), {}).get('occludes', [])
         candidates.append(dict(kind='style', pose_id=row['id'], view=None, title=row['id'], family=row['family'],
             body_action=row['body'], hands=row['hands'], support=row['support'], garment_views=row['views'],
+            _needs_back=_needs_back(row, back_words),
             review=dict(avoid_when=row['avoid_when'], check=row['check'], occludes=occludes, review_note='Current style text vocabulary.')))
     for row in owned_rows:
         if row.get('selection_policy'):
@@ -227,13 +244,15 @@ def recommend(spec, shot_id, *, history=None, limit=5, catalog_path=None):
         candidates.append(dict(kind='owned', pose_id=row['group_id'], view=row['view'], title=row['title'],
             family=row['family'], body_action=row['body_action'], hands=row['hands'], support=row['support'],
             garment_views=row['garment_views'], _selection=selection,
+            _needs_back=_needs_back(row, back_words),
             review=dict(avoid_when=row['avoid_when'], check='', occludes=row.get('occludes', []), review_note=row['review_note'])))
     ranked = []
     for row in candidates:
         supported_views = set(target['garment_views'])
         if 'front' in supported_views:
             supported_views.add('front-side')
-        if 'back' in row['garment_views'] and 'back' not in supported_views:
+        needs_back = row.pop('_needs_back') or 'back' in row['garment_views']
+        if needs_back and 'back' not in supported_views:
             report['excluded']['needs-back'] = report['excluded'].get('needs-back', 0) + 1
             continue
         if not set(row['garment_views']) <= supported_views:

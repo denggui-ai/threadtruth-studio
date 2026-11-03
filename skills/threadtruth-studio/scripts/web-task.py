@@ -83,6 +83,23 @@ def inherit_framing_flag(plan,frozen):
     return plan
 
 
+def inherit_visual_rendering(plan,frozen):
+    """Only a fresh prepare opts into rendering flags; existing tasks retain their contract."""
+    if not isinstance(plan,dict) or not isinstance(frozen,dict):return plan
+    plan=copy.deepcopy(plan)
+    for key in ('model_source_type','rendering_version'):
+        if key not in frozen:
+            plan.pop(key,None)
+        else:
+            if key in plan and plan[key]!=frozen[key]:
+                raise ValueError('An existing task cannot change its frozen visual '+key)
+            plan[key]=frozen[key]
+    if 'rendering_version' not in frozen:
+        for cell in plan.get('shots',[]):
+            if isinstance(cell,dict):cell.pop('framing',None)
+    return plan
+
+
 def selected_references(inventory,context,shot_plan,face_plan,look):
     """One ordered selection used by preparation, revisions and both exporters."""
     if context.get('purpose') == 'product-edit':
@@ -279,6 +296,7 @@ def prompt_check(prompt,context,model=None,shot_plan=None,number=1,real_face_pla
 
 def delivery_retry_candidate(data,row,*,shot_plan=None,visual_plan=None,prompt=None):
     """Revise one rejected or reconciled-failed shot without changing its peers."""
+    visual_plan=inherit_visual_rendering(visual_plan,data.get('visual_plan'))
     if data.get('context', {}).get('purpose') == 'product-edit':
         current = data['visual_plan']
         visual = copy.deepcopy(visual_plan)
@@ -364,6 +382,7 @@ def delivery_retry_candidate(data,row,*,shot_plan=None,visual_plan=None,prompt=N
 def persona_rebind_candidate(data,row,visual_plan,model):
     """Rebind a frozen persona to a revised, still unconfirmed first model; nothing else in the visual plan may change."""
     current=data.get('visual_plan')
+    visual_plan=inherit_visual_rendering(visual_plan,current)
     if (data['schema_version']!=2 or is_preview(data) or row is None or row['number']!=1
             or current is None or not current.get('persona') or not isinstance(visual_plan,dict)):
         raise ValueError('Persona rebinding applies only to the rejected first look of a structured delivery whose plan carries a persona')
@@ -380,6 +399,7 @@ def persona_rebind_candidate(data,row,visual_plan,model):
 
 def preview_candidate(data, row, *, model=None, shot_plan=None, prompt=None, garment_references=None, real_face_plan=None, visual_plan=None, check_sources=True):
     shot_plan=inherit_framing_flag(shot_plan,data.get('shot_plan'))
+    visual_plan=inherit_visual_rendering(visual_plan,data.get('visual_plan'))
     changed=models.validate_model(model if model is not None else data['model'],allow_child=True) if data['identity'] else None
     if changed is not None and (any(changed[k]!=data['model'][k] for k in ('source_type','scope','subject'))
             or changed.get('consent_note','')!=data['model'].get('consent_note','')):
@@ -1254,10 +1274,11 @@ def continue_v2(data,kw):
         pose_vocabulary=style_poses(kw.get('visual_plan') or data.get('visual_plan')))
     visual=None;prompts=kw.get('prompts')
     if 'visual_plan' in data:
-        visual=visual_helper().validate(kw.get('visual_plan'),data['references'],context=data['context'],count=count,
+        visual=visual_helper().validate(inherit_visual_rendering(kw.get('visual_plan'),data['visual_plan']),data['references'],context=data['context'],count=count,
             identity=data['identity'],shot_plan=full)
         old=data['visual_plan']
-        if any(visual[k]!=old[k] for k in old if k!='shots') or visual['shots'][0]!=old['shots'][0]:
+        if ({k:v for k,v in visual.items() if k!='shots'}!={k:v for k,v in old.items() if k!='shots'}
+                or visual['shots'][0]!=old['shots'][0]):
             raise ValueError('Continuation keeps shared photography and the accepted first shot')
         if prompts is None:prompts=[visual_helper().compile_prompt(visual,n) for n in range(2,count+1)]
     elif kw.get('visual_plan') is not None:raise ValueError('Do not retrofit a visual plan onto the accepted first image')
@@ -1388,10 +1409,10 @@ def update(root,event,**kw):
                 raise ValueError('Explicit five-image approval and a fresh ID required')
             continuation_visual=None
             if 'visual_plan' in d:
-                continuation_visual=visual_helper().validate(kw.get('visual_plan'),d['references'],
+                continuation_visual=visual_helper().validate(inherit_visual_rendering(kw.get('visual_plan'),d['visual_plan']),d['references'],
                     context=d['context'],count=6,identity=d['identity'])
                 prior=d['visual_plan']
-                if (any(continuation_visual[k]!=prior[k] for k in prior if k!='shots')
+                if ({k:v for k,v in continuation_visual.items() if k!='shots'}!={k:v for k,v in prior.items() if k!='shots'}
                         or continuation_visual['shots'][0]!=prior['shots'][0]):
                     raise ValueError('Continuation cannot replace approved shared visual decisions or first shot')
                 if prompts is None:
@@ -1715,16 +1736,15 @@ def handoff_directory(root,data,row):
 
 
 def detail_model_conditions(model):
-    """Keep declared physical conditions while omitting separate portrait clauses."""
+    """Keep every fixed model fact; only adjustable styling may omit portrait clauses."""
     rows=['Detail crop: retain visible skin and body proportions from the declared model and identity references.',
           'Model subject: '+model['subject']+'.']
+    if model['locked']:rows.append('Fixed detail conditions: '+'; '.join(model['locked']))
     portrait=models.STYLE_AXES['expression']+r'|\b(?:gaze|eyeline|mood|attitude|temperament|laugh\w*)\b|气质|视线|眼神'
     physical='|'.join(models.STYLE_AXES[k] for k in ('body','age','skin','gender'))
-    for label,key in (('Fixed detail conditions','locked'),('Permitted detail styling','adjustable')):
-        clauses=[part.strip() for value in model[key] for part in re.split(r'[,;，；。]|\.(?=\s|$)',value) if part.strip()]
-        # Do not erase a mixed physical/portrait fact merely because a keyword matched.
-        kept=[part for part in clauses if not re.search(portrait,part,re.I) or re.search(physical,part,re.I)]
-        if kept:rows.append(label+': '+'; '.join(kept)+'.')
+    clauses=[part.strip() for value in model['adjustable'] for part in re.split(r'[,;，；。]|\.(?=\s|$)',value) if part.strip()]
+    kept=[part for part in clauses if not re.search(portrait,part,re.I) or re.search(physical,part,re.I)]
+    if kept:rows.append('Permitted detail styling: '+'; '.join(kept)+'.')
     if model['subject']=='child model':
         rows.append('Child model: age-appropriate, modest clothing, safe everyday setting, non-sexualized.')
     return '\n'.join(rows)
