@@ -8,7 +8,7 @@ BEGIN='[Task shot plan]'
 END='[/Task shot plan]'
 MASTERS=['SIDE_TURN_STANDING','SIDE_LEANING_WALL','UPRIGHT_SEATED','FRONT_LIGHT_STEP','SLIGHT_FORWARD_LEAN','BACK_TURN_GLANCE']
 FRAMINGS=['full-body','full-body','half-body','full-body','knee-up','full-body']
-# WP-6b/WP-20: breathing room. framing_guidance=1 renders the legacy head-height wording (frozen plans keep their bytes); 2 renders numeric coordinates (new plans).
+# Frozen framing 1/2 retain their wording; newly prepared plans use framing 3.
 FRAMING_GUIDANCE={
     'full-body':'Wide full-length shot from farther back: leave about one and a half head-heights of empty space above the hair and about one head-height of floor below the shoes, so the figure fills roughly three quarters of the frame height and never touches the top or bottom edge.',
     'knee-up':'Head to just below the knees, with about one head-height of empty space above the hair; the head never touches the top edge.',
@@ -20,11 +20,17 @@ FRAMING_GUIDANCE_V2={
  'half-body':'Hair top at about y=12% of the frame height; empty background above the head; the head never touches the top edge. In a grid, apply this inside every cell.',
 }
 
+FRAMING_GUIDANCE_V3={
+ 'full-body':'Full body from hair to shoes, both fully inside the frame with a modest margin above the head and below the feet; the person fills most of the frame height.',
+ 'knee-up':'Head to just below the knees, with a modest margin above the hair; the head never touches the top edge.',
+ 'half-body':'Head to waist or hips, with a modest margin above the hair; the head never touches the top edge.',
+}
+
 
 def framing_line(plan,framing):
     text='Framing: '+framing+'.'
     g=plan.get('framing_guidance')
-    table={1:FRAMING_GUIDANCE,2:FRAMING_GUIDANCE_V2}.get(g) if type(g) is int else None
+    table={1:FRAMING_GUIDANCE,2:FRAMING_GUIDANCE_V2,3:FRAMING_GUIDANCE_V3}.get(g) if type(g) is int else None
     if table and framing in table:text+=' '+table[framing]
     return text
 RELATIONS=[
@@ -52,7 +58,7 @@ def default_plan(sku,coverage):
         refs=[r['sha256'] for r in coverage if r.get('usable') is True and r.get('same_sku') is True and set(views)<=set(r.get('views',[]))]
         looks.append(dict(pose=n,master='FRONT_RELAXED_STANDING' if n==6 and not back else master,
             framing=FRAMINGS[n-1],garment_views=views,reference_sha256s=refs))
-    return dict(version=1,sku=sku,route='A' if back else 'B',preservation='classic',adaptation_note='',coverage=copy.deepcopy(coverage),looks=looks,framing_guidance=2)
+    return dict(version=1,sku=sku,route='A' if back else 'B',preservation='classic',adaptation_note='',coverage=copy.deepcopy(coverage),looks=looks,framing_guidance=3)
 
 
 def validate(plan,inventory,*,context,count,identity=True,real_face_plan=None,strict_references=True,model_source=None,pose_vocabulary=None):
@@ -188,8 +194,8 @@ def apply(prompt,plan,look=None,real_face_plan=None,*,strict=True):
 
 
 def _check_framing_guidance(plan):
-    if 'framing_guidance' in plan and (type(plan['framing_guidance']) is not int or plan['framing_guidance'] not in (1,2)):
-        raise ValueError('framing_guidance must be 1 or 2 when present')
+    if 'framing_guidance' in plan and (type(plan['framing_guidance']) is not int or plan['framing_guidance'] not in (1,2,3)):
+        raise ValueError('framing_guidance must be 1, 2 or 3 when present')
 
 
 def is_v2(plan):
