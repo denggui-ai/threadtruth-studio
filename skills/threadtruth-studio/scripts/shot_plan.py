@@ -521,15 +521,18 @@ def _validate_v2(plan,inventory,*,context,count,identity,real_face_plan,strict_r
 def _render_v2(plan,look,real_face_plan):
     rows=[BEGIN,'Garment route: '+plan['route']+'; garment-driven shot plan v2.',
           'Logical series: '+str(logical_count(plan))+'.']
+    if plan.get('framing_guidance')==3:
+        rows.append('Each non-detail cell is a distinct body action (different support, height or torso direction), not one stance repeated.')
     cells=active_looks(plan) if look is None else [shot_at(plan,look)]
     for shot in cells:
         rows.extend([f"Shot {shot['slot']}: {shot['shot_id']}. {framing_line(plan,shot['framing'])}",
                      'Display purpose: '+shot['display_goal'], 'Must show: '+', '.join(shot['must_show'])+'.',
                      'Selection reason: '+shot['reason'], body_text(shot),
                      'Supported garment views: '+', '.join(shot['garment_views'])+'.'])
-        if 'head' in shot:rows.extend(['Head orientation: '+shot['head'],'Eye gaze: '+shot['gaze']])
+        if 'head' in shot and not (plan.get('framing_guidance')==3 and shot['framing']=='detail'):
+            rows.extend(['Head orientation: '+shot['head'],'Eye gaze: '+shot['gaze']])
         if 'pose_reference' in shot:
             rows.append('Optional body-only reference reason: '+shot['pose_reference']['reason']+' Copy no identity, body proportions, clothing or illustration style; preview uses the described action only.')
-        if real_face_plan is not None:
+        if real_face_plan is not None and not (plan.get('framing_guidance')==3 and shot['framing']=='detail'):
             rows.append('The reviewed real-face plan mirrors this body action and supplies supported head/gaze; it cannot establish another real face angle.')
     return '\n'.join(rows+[END])

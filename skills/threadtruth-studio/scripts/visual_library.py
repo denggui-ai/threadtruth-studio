@@ -315,6 +315,18 @@ def prepare(spec, root=ROOT):
                 photography=photography, art=art,
                 negatives=negatives,
                 shots=copy.deepcopy(overrides.get('shots', shots)))
+    # Freeze new rendering behavior; restoring an old plan never adds this flag.
+    if version == 2 and shot_plan is not None and shot_plan.get('framing_guidance', 3) == 3:
+        plan['rendering_version'] = 2
+        if shot_plan is not None and bindings is not None:
+            for cell in plan['shots']:
+                # Photography can be prepared from IDs before the body plan is complete.
+                # Leave structural errors to the normal validator and its field diagnostics.
+                framing = _look_of(shot_plan, cell.get('slot')).get('framing') if isinstance(cell, dict) else None
+                if framing is not None:
+                    cell['framing'] = framing
+    if model is not None and output_form in ('human', 'faceless'):
+        plan['model_source_type'] = model['source_type']
     if product is not None:
         plan['product_edit'] = copy.deepcopy(product)
     if 'pose_history_tasks' in spec:

@@ -252,6 +252,8 @@ def prompt_check(prompt,context,model=None,shot_plan=None,number=1,real_face_pla
     if shot_plan is not None:
         shot_helper().apply(prompt,shot_plan,None if context.get('purpose')=='preview-grid' else number,real_face_plan)
     if visual_plan is not None:
+        if 'model_source_type' in visual_plan and visual_plan['model_source_type'] != (model or {}).get('source_type'):
+            raise ValueError('Visual model source differs from the declared model; prepare the plan again')
         if visual_plan.get('persona') and model is not None and model.get('subject')=='child model':
             raise ValueError('Visual persona is not injected for child models; prepare the plan without a persona')
         if visual_plan.get('persona') and (model is None or object_hash(model)!=visual_plan.get('persona_model_sha256')):
@@ -1712,6 +1714,22 @@ def handoff_directory(root,data,row):
     return Path(root)/'handoff'/f"look-{row['number']}{suffix}"
 
 
+def detail_model_conditions(model):
+    """Keep declared physical conditions while omitting separate portrait clauses."""
+    rows=['Detail crop: retain visible skin and body proportions from the declared model and identity references.',
+          'Model subject: '+model['subject']+'.']
+    portrait=models.STYLE_AXES['expression']+r'|\b(?:gaze|eyeline|mood|attitude|temperament|laugh\w*)\b|气质|视线|眼神'
+    physical='|'.join(models.STYLE_AXES[k] for k in ('body','age','skin','gender'))
+    for label,key in (('Fixed detail conditions','locked'),('Permitted detail styling','adjustable')):
+        clauses=[part.strip() for value in model[key] for part in re.split(r'[,;，；。]|\.(?=\s|$)',value) if part.strip()]
+        # Do not erase a mixed physical/portrait fact merely because a keyword matched.
+        kept=[part for part in clauses if not re.search(portrait,part,re.I) or re.search(physical,part,re.I)]
+        if kept:rows.append(label+': '+'; '.join(kept)+'.')
+    if model['subject']=='child model':
+        rows.append('Child model: age-appropriate, modest clothing, safe everyday setting, non-sexualized.')
+    return '\n'.join(rows)
+
+
 def handoff_prompt(d,row,refs):
     """Render the existing canonical request; execution policy lives separately."""
     n=row['number'];instruction=[]
@@ -1735,7 +1753,10 @@ def handoff_prompt(d,row,refs):
     if 'real_face_plan' in d:
         cells=enumerate(d['real_face_plan']['looks'],1) if is_preview(d) else [(n,d['real_face_plan']['looks'][n-1])]
         for number,cell in cells:
-            prompt+='\n'+(f'Preview cell {number}:\n' if is_preview(d) else '')+'\n'.join(real_face_helper().prompt_lines(cell))
+            detail=visual_helper().detail_only(d.get('visual_plan'),number)
+            directions=(['Detail crop: retain visible skin and body proportions from the declared identity.'] if detail
+                        else real_face_helper().prompt_lines(cell))
+            prompt+='\n'+(f'Preview cell {number}:\n' if is_preview(d) else '')+'\n'.join(directions)
             if is_preview(d):
                 positions={r['sha256']:i for i,r in enumerate(refs,1)}
                 hashes=cell['reference_sha256s']
@@ -1752,6 +1773,12 @@ def handoff_prompt(d,row,refs):
             prompt+=f"\nPreview cell {number}:\nShot identity: {shot['shot_id']}.\nCell reference images: "+selected+'. Use only these references for this cell, retaining each declared role; do not borrow another cell\'s product or aesthetic input.'
     if d['schema_version']==2 and d['model'] and prompt_contract(d,row)>=1:
         prompt=models.apply_conditions(prompt,d['model'],allow_child=True)
+        if d.get('visual_plan',{}).get('rendering_version')==2:
+            block=models.apply_conditions('',d['model'],allow_child=True).strip()
+            if visual_helper().detail_only(d['visual_plan'],None if is_preview(d) else n):
+                prompt=prompt.replace(block,detail_model_conditions(d['model']))
+            elif is_preview(d) and any(s.get('framing')=='detail' for s in d['visual_plan']['shots']):
+                prompt=prompt.replace(block,'Apply the following portrait conditions to non-detail cells only; detail cells retain visible skin and body proportions.\n'+block)
     if d.get('identity_instruction_version') == 1 and d.get('model'):
         anchor = any(r['role'] == 'identity-only' for r in refs)
         if d['model']['source_type'] == 'new':
