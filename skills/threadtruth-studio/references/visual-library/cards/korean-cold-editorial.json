@@ -186,6 +186,8 @@
     "kc-pause-step",
     "kc-window-profile",
     "kc-back-turn",
-    "kc-seated-lean"
+    "kc-seated-lean",
+    "kc-halfbody-temple-rest",
+    "kc-halfbody-wall-forearm"
   ]
 }

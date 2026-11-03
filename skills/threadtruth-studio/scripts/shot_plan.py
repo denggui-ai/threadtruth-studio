@@ -8,7 +8,7 @@ BEGIN='[Task shot plan]'
 END='[/Task shot plan]'
 MASTERS=['SIDE_TURN_STANDING','SIDE_LEANING_WALL','UPRIGHT_SEATED','FRONT_LIGHT_STEP','SLIGHT_FORWARD_LEAN','BACK_TURN_GLANCE']
 FRAMINGS=['full-body','full-body','half-body','full-body','knee-up','full-body']
-# WP-6b/WP-20: breathing room. framing_guidance=1 renders the legacy head-height wording (frozen plans keep their bytes); 2 renders numeric coordinates (new plans).
+# Frozen framing 1/2 retain their wording; newly prepared plans use framing 3.
 FRAMING_GUIDANCE={
     'full-body':'Wide full-length shot from farther back: leave about one and a half head-heights of empty space above the hair and about one head-height of floor below the shoes, so the figure fills roughly three quarters of the frame height and never touches the top or bottom edge.',
     'knee-up':'Head to just below the knees, with about one head-height of empty space above the hair; the head never touches the top edge.',
@@ -20,11 +20,17 @@ FRAMING_GUIDANCE_V2={
  'half-body':'Hair top at about y=12% of the frame height; empty background above the head; the head never touches the top edge. In a grid, apply this inside every cell.',
 }
 
+FRAMING_GUIDANCE_V3={
+ 'full-body':'Full body from hair to shoes, both fully inside the frame with a modest margin above the head and below the feet; the person fills most of the frame height.',
+ 'knee-up':'Head to just below the knees, with a modest margin above the hair; the head never touches the top edge.',
+ 'half-body':'Head to waist or hips, with a modest margin above the hair; the head never touches the top edge.',
+}
+
 
 def framing_line(plan,framing):
     text='Framing: '+framing+'.'
     g=plan.get('framing_guidance')
-    table={1:FRAMING_GUIDANCE,2:FRAMING_GUIDANCE_V2}.get(g) if type(g) is int else None
+    table={1:FRAMING_GUIDANCE,2:FRAMING_GUIDANCE_V2,3:FRAMING_GUIDANCE_V3}.get(g) if type(g) is int else None
     if table and framing in table:text+=' '+table[framing]
     return text
 RELATIONS=[
@@ -52,7 +58,7 @@ def default_plan(sku,coverage):
         refs=[r['sha256'] for r in coverage if r.get('usable') is True and r.get('same_sku') is True and set(views)<=set(r.get('views',[]))]
         looks.append(dict(pose=n,master='FRONT_RELAXED_STANDING' if n==6 and not back else master,
             framing=FRAMINGS[n-1],garment_views=views,reference_sha256s=refs))
-    return dict(version=1,sku=sku,route='A' if back else 'B',preservation='classic',adaptation_note='',coverage=copy.deepcopy(coverage),looks=looks,framing_guidance=2)
+    return dict(version=1,sku=sku,route='A' if back else 'B',preservation='classic',adaptation_note='',coverage=copy.deepcopy(coverage),looks=looks,framing_guidance=3)
 
 
 def validate(plan,inventory,*,context,count,identity=True,real_face_plan=None,strict_references=True,model_source=None,pose_vocabulary=None):
@@ -188,8 +194,8 @@ def apply(prompt,plan,look=None,real_face_plan=None,*,strict=True):
 
 
 def _check_framing_guidance(plan):
-    if 'framing_guidance' in plan and (type(plan['framing_guidance']) is not int or plan['framing_guidance'] not in (1,2)):
-        raise ValueError('framing_guidance must be 1 or 2 when present')
+    if 'framing_guidance' in plan and (type(plan['framing_guidance']) is not int or plan['framing_guidance'] not in (1,2,3)):
+        raise ValueError('framing_guidance must be 1, 2 or 3 when present')
 
 
 def is_v2(plan):
@@ -293,6 +299,49 @@ def _check_views(path,views):
 
 
 BACK_WORDS=re.compile(r'back to (?:the )?camera|over[- ](?:the[- ])?shoulder|turned away|facing away|walking away|from behind|背对|回头|背影',re.I)
+
+
+def check_new_pose_pool(plan,card):
+    """New-task entrypoints only; callers must exclude existing frozen tasks.
+
+    The flags below select the applicable planning rules, not the task's age:
+    beta.18 already wrote variety_checks=2 into its frozen plans.
+    """
+    if (not is_v2(plan) or not (plan.get('variety_checks')==2 or plan.get('framing_guidance')==3)
+            or not card.get('pose_pool')):
+        return
+    looks=active_looks(plan) if plan.get('series_role')=='standalone' else plan['looks']
+    bodies=[s for s in looks if s.get('framing')!='detail']
+    pool=set(card['pose_pool'])
+    selected=[]
+    for item in bodies:
+        if 'pose_selection' in item:
+            definition=pose_library()._validate_snapshot(item['pose_selection'])
+            if item.get('pose_id')!=definition['group_id']:
+                raise ValueError('Selected pose_id differs from its frozen definition')
+            selected.append(item)
+        elif item.get('pose_id') in pool:
+            selected.append(item)
+    needed=(len(bodies)+1)//2
+    remedy=(' First run python3 scripts/pose_library.py recommend --spec prepare.json --shot-id <shot_id> --limit 5 '
+            'for each non-detail shot; prefer this style pool, or apply an eligible owned pose_selection. '
+            'For remaining custom shots, explain why pool actions do not fit this shot, then prepare again. '
+            '已有任务的重新准备／关联修订请传 --task。')
+    if len(selected)<needed:
+        raise ValueError(f'shot_plan: at least {needed} of {len(bodies)} non-detail shots must use a style-pool pose_id '
+                         f'or owned pose_selection (found {len(selected)}).'+remedy)
+    generic={'不适合','自定义','自定义动作','池内动作不适合本格','为了更好地展示商品','为了丰富动作变化',
+             'custom','custompose','customforvariety','customposeforvariety','forvariety','notapplicable',
+             'poolposesdonotfitthisshot','poolactionsdonotsuitthisshot','na','none'}
+    for item in bodies:
+        if item in selected:continue
+        decision=item.get('pose_decision')
+        reason=decision.get('reason') if isinstance(decision,dict) else None
+        normalized=re.sub(r'[\W_]+','',reason.casefold()) if isinstance(reason,str) else ''
+        if (not isinstance(decision,dict) or decision.get('kind')!='custom'
+                or 'pose_id' in item or not normalized or normalized in generic):
+            raise ValueError('shot_plan '+str(item.get('shot_id'))+
+                             ': custom pose_decision.reason must state a specific pool mismatch, not a generic reason.'+remedy)
 
 
 def check_poses(plan,vocabulary):
@@ -515,6 +564,8 @@ def _validate_v2(plan,inventory,*,context,count,identity,real_face_plan,strict_r
 def _render_v2(plan,look,real_face_plan):
     rows=[BEGIN,'Garment route: '+plan['route']+'; garment-driven shot plan v2.',
           'Logical series: '+str(logical_count(plan))+'.']
+    if plan.get('framing_guidance')==3:
+        rows.append('Each non-detail cell is a distinct body action (different support, height or torso direction), not one stance repeated.')
     cells=active_looks(plan) if look is None else [shot_at(plan,look)]
     for shot in cells:
         rows.extend([f"Shot {shot['slot']}: {shot['shot_id']}. {framing_line(plan,shot['framing'])}",

@@ -156,6 +156,8 @@
     "wv-shelf-turn",
     "wv-brick-stand",
     "wv-yard-walk-away",
-    "wv-tool-look"
+    "wv-tool-look",
+    "wv-halfbody-cuff-check",
+    "wv-halfbody-bench-elbows"
   ]
 }

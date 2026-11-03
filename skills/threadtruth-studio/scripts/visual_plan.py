@@ -227,10 +227,15 @@ def shot_bindings(shot_plan):
 
 def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
     """Validate resolved visual fields against original garment hashes and context."""
-    if (not isinstance(plan, dict) or set(plan) - {'culture_profile', 'persona', 'persona_model_sha256', *COMMIT_OPTIONAL, SUBSTITUTE_FLAG, 'asset_trace', 'pose_history', 'contract', 'product_edit'} != FIELDS
+    if (not isinstance(plan, dict) or set(plan) - {'culture_profile', 'persona', 'persona_model_sha256', *COMMIT_OPTIONAL, SUBSTITUTE_FLAG, 'asset_trace', 'pose_history', 'contract', 'product_edit', 'model_source_type', 'rendering_version'} != FIELDS
             or type(plan['version']) is not int or plan['version'] not in (1, 2)):
         raise ValueError('Visual plan requires complete version-1 or version-2 structured fields')
     v2 = plan['version'] == 2
+    if 'rendering_version' in plan and (type(plan['rendering_version']) is not int or plan['rendering_version'] != 2):
+        raise ValueError('visual_plan.rendering_version must be 2 when present')
+    if 'model_source_type' in plan and (plan['model_source_type'] not in ('new', 'ai', 'real')
+                                       or plan['output_form'] not in ('human', 'faceless')):
+        raise ValueError('Frozen model_source_type requires a human/faceless model source')
     if plan['objective'] not in OBJECTIVES or plan['output_medium'] not in MEDIA:
         raise ValueError('Unknown visual objective or output medium')
     if plan['output_form'] not in OUTPUT_FORMS or plan['output_form'] != context['output_form']:
@@ -364,7 +369,7 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
             if not isinstance(shot, dict):
                 raise ValueError(path + ' must be an object (Visual v2 shots preserve stable source slots and distinct shot_id values); got '
                                  + _got(shot) + hint)
-            if set(shot)-{'garment_focus'} != required_shot:
+            if set(shot)-{'garment_focus', 'framing'} != required_shot:
                 raise ValueError(path + ' has the wrong keys (Visual v2 shots preserve stable source slots and distinct shot_id values); missing: '
                                  + (', '.join(sorted(required_shot - set(shot))) or 'none') + '; unexpected: '
                                  + (', '.join(sorted(set(shot) - required_shot)) or 'none') + hint)
@@ -376,6 +381,9 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
             if shot['shot_id'] in seen_ids:
                 raise ValueError(path + '.shot_id must be distinct; got duplicate ' + _got(shot['shot_id']))
             seen_ids.add(shot['shot_id'])
+            if 'framing' in shot and (plan.get('rendering_version') != 2
+                                     or shot['framing'] not in ('full-body', 'knee-up', 'half-body', 'detail')):
+                raise ValueError('Visual framing requires rendering_version=2 and a supported shot framing')
         for key in ('scene', 'lighting', 'composition'):
             _line(shot[key], 'Per-shot ' + key, owned=True, v2=v2)
         if 'garment_focus' in shot:
@@ -398,6 +406,10 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
                              + (json.dumps(expected[at], sort_keys=True) if at < len(expected) else 'none (too many shots)')
                              + ' (Visual and garment shot plans must bind the same active shot IDs and source slots); got '
                              + (json.dumps(actual[at], sort_keys=True) if at < len(actual) else 'none (missing shot)'))
+        if plan.get('rendering_version') == 2:
+            framings = {s['shot_id']: s.get('framing') for s in shot_plan['looks']}
+            if any(s.get('framing') != framings.get(s['shot_id']) for s in plan['shots']):
+                raise ValueError('Visual framing must match the frozen shot plan')
     if 'pose_history' in plan:
         if (shot_plan is None or shot_plan.get('version') != 2
                 or plan['output_form'] not in ('human', 'faceless')):
@@ -409,11 +421,65 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
     return copy.deepcopy(plan)
 
 
+FROZEN_SHOT_LINE = 'Follow the frozen shot actions and framing.'
+NEW_MODEL_STYLING = '不沿用商品原图模特的发型、头饰、妆容和配饰组合（手套、首饰等），除非它们是本次商品的一部分或用户明确要求。'
+
+
+def inherit_rendering(plan, frozen):
+    """Keep the existing task's rendering and source-model styling contract."""
+    if not isinstance(plan, dict) or not isinstance(frozen, dict):
+        return plan
+    plan = copy.deepcopy(plan)
+    styling = plan.get('styling')
+    if isinstance(styling, list):
+        if NEW_MODEL_STYLING not in frozen.get('styling', []):
+            plan['styling'] = [item for item in styling if item != NEW_MODEL_STYLING]
+        elif NEW_MODEL_STYLING not in styling:
+            styling.append(NEW_MODEL_STYLING)
+    for key in ('model_source_type', 'rendering_version'):
+        if key not in frozen:
+            plan.pop(key, None)
+        else:
+            if key in plan and plan[key] != frozen[key]:
+                raise ValueError('An existing task cannot change its frozen visual ' + key)
+            plan[key] = frozen[key]
+    if 'rendering_version' not in frozen:
+        for cell in plan.get('shots', []):
+            if isinstance(cell, dict):
+                cell.pop('framing', None)
+    return plan
+
+
+def inherit_prompt(prompt, supplied, inherited, look=None):
+    """Normalize only an exact submitted visual block; keep conflict checks intact."""
+    if prompt is None or supplied == inherited or not isinstance(supplied, dict):
+        return prompt
+    original = render(supplied, look)
+    # Never repair mismatched plans, duplicate blocks or ungoverned text. The
+    # normal prompt validator below the caller still checks the entire request.
+    if (isinstance(prompt, str) and prompt.count(BEGIN) == prompt.count(END) == 1
+            and prompt.count(original) == 1):
+        return prompt.replace(original, render(inherited, look), 1)
+    return prompt
+
+
+FROZEN_SHOT_CLAUSE = re.compile(
+    r'(?:各格|每格|每张|逐格|本格)?(?:严格)?(?:沿用|遵守)(?:已确认的|冻结的|冻结)(?:动作和景别|动作与景别)[。.;；]?'
+    r'|每张按已确认的逐张计划组织[。.;；]?'
+    r'|(?:strictly )?(?:follow|retain) (?:the )?(?:frozen|approved) (?:shot |body )?actions? and framing[.;]?', re.I)
+
+
+def _photography_text(value):
+    return FROZEN_SHOT_CLAUSE.sub('', value).strip()
+
+
 def render(plan, look=None):
     """Render only frozen resolved values. look is a task slot, None selects all."""
     if look is not None and (type(look) is not int or not 1<=look<=len(plan['shots'])):
         raise ValueError('Unknown visual presentation slot')
     style = plan['style']
+    compact = plan.get('rendering_version') == 2
+    cells = plan['shots'] if look is None else [plan['shots'][look - 1]]
     garment=plan['shots'][look-1].get('garment_focus',plan['garment']) if look is not None else plan['garment']
     rows = [BEGIN, 'Visual objective: ' + plan['objective'] + '.',
             'Output medium: ' + plan['output_medium'] + '.',
@@ -438,7 +504,11 @@ def render(plan, look=None):
     for item in plan['styling']:
         rows.append('Allowed styling: ' + item)
     for key in ('scene', 'lighting', 'composition', 'palette'):
-        rows.append('Shared ' + key + ': ' + plan['photography'][key])
+        value = _photography_text(plan['photography'][key]) if compact else plan['photography'][key]
+        if value:
+            rows.append('Shared ' + key + ': ' + value)
+    if compact:
+        rows.append(FROZEN_SHOT_LINE)
     rows += ['Art direction: ' + plan['art']['direction']]
     rows += ['Art technique: ' + item for item in plan['art']['techniques']]
     rows += ['Art limit: ' + item for item in plan['art']['limits']]
@@ -449,20 +519,24 @@ def render(plan, look=None):
         rows.append('Style commitments (each must be visible in the image):')
         for item in plan['commitments']:
             rows.append('Commitment: ' + item['show'] + ''.join('; ' + step for step in item.get('realize', [])))
-    cells = plan['shots'] if look is None else [plan['shots'][look - 1]]
     for shot in cells:
         heading = (f"Visual slot {shot['slot']} (shot {shot['shot_id']}):" if plan['version'] == 2
                    else f"Visual slot {shot['slot']} (presentation {shot['pose']}):")
-        rows += [heading,
-                 'Scene: ' + shot['scene'], 'Lighting: ' + shot['lighting'],
-                 'Composition: ' + shot['composition']]
+        rows += [heading, 'Scene: ' + shot['scene']]
+        for key in ('lighting', 'composition'):
+            value = _photography_text(shot[key]) if compact else shot[key]
+            if not compact or (value and value != _photography_text(plan['photography'][key])):
+                rows.append(key.capitalize() + ': ' + value)
         if look is None and shot.get('garment_focus'):
             rows += ['Target garment: '+shot['garment_focus']['description'],
                      'Target structures to preserve: '+'; '.join(shot['garment_focus']['keep'])]
         if plan.get('contract') == CONTRACT and plan.get(SUBSTITUTE_FLAG) and plan['version'] == 1 and shot['pose'] == 2:
             rows.append(SUBSTITUTE_LINE)
     rows += ['Exclude: ' + item for item in plan['negatives']]
-    rows += ['Garment facts, original identity, real-person view coverage and approved shot framing remain authoritative over visual expression.',
+    authority = ('Garment facts and approved shot framing remain authoritative over visual expression.'
+                 if plan.get('contract') == CONTRACT and plan.get('model_source_type') in ('new', 'ai') else
+                 'Garment facts, original identity, real-person view coverage and approved shot framing remain authoritative over visual expression.')
+    rows += [authority,
              'Create image artwork without added branding, poster copy, slogans, captions or extra text layouts. Preserve existing source garment marks and lettering; a direction preview may retain its required preview-only label.']
     if 'product_edit' in plan:
         rows.append(product_helper().render(plan['product_edit'], plan['output_form']))

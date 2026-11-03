@@ -160,6 +160,8 @@
     "cq-tiptoe-turn",
     "cq-bench-lean",
     "cq-back-glance",
-    "cq-jaw-touch"
+    "cq-jaw-touch",
+    "cq-halfbody-wrist-poise",
+    "cq-halfbody-chair-listen"
   ]
 }

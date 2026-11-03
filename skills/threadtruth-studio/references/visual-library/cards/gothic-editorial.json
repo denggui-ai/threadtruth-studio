@@ -152,6 +152,8 @@
     "ge-hand-near-face",
     "ge-stair-descend",
     "ge-back-to-light",
-    "ge-wall-rest"
+    "ge-wall-rest",
+    "ge-halfbody-folded-arms",
+    "ge-halfbody-chair-temple"
   ]
 }

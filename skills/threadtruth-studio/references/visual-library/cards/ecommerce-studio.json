@@ -109,6 +109,19 @@
   "default_objective": "product-display",
   "persona": "neutral approachable expression, relaxed composure, composed catalog attitude",
   "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。neutral approachable expression, relaxed composure, composed catalog attitude",
+  "action_tendency": "Clean catalog movement with a readable garment front: balanced stands, short forward steps, upright block seats, light wall or side-palm support and settled shallow turns. Vary quiet assurance, attentive ease, relaxed warmth and a restrained closed-mouth smile, including a half-body portrait, within current person conditions; no broad smile, frown or detached editorial mood. Keep hands clear of closures, retain natural fit and coverage, and place plain supports outside the garment silhouette under the existing soft key and fill.",
+  "pose_pool": [
+    "ecommerce-studio-open-stand",
+    "ecommerce-studio-forward-step",
+    "ecommerce-studio-block-seat",
+    "ecommerce-studio-wall-shoulder",
+    "ecommerce-studio-settled-pivot",
+    "ecommerce-studio-side-block-palm",
+    "ecommerce-studio-halfbody-soft-smile",
+    "ecommerce-studio-construction-detail",
+    "ecommerce-studio-halfbody-cuff-check",
+    "ecommerce-studio-halfbody-wall-forearm"
+  ],
   "commitments": [
     {
       "id": "ec-key-fill-light",

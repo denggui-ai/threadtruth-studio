@@ -104,5 +104,18 @@
   ],
   "default_objective": "styled-editorial",
   "persona": "steady alert composure, practical confidence, calm outdoor focus",
-  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。steady alert composure, practical confidence, calm outdoor focus"
+  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。steady alert composure, practical confidence, calm outdoor focus",
+  "action_tendency": "Practical terrain-led movement: gentle inclines, stable low rock steps, boulder rests, forest side supports and a shallow squat only within real garment mobility; alert focus, determination and relieved laughter, including a half-body pause. Keep pockets, seams, hems and coverage; no added equipment, extreme terrain or unproven performance claims.",
+  "pose_pool": [
+    "gorpcore-trail-scout",
+    "gorpcore-incline-walk",
+    "gorpcore-boulder-rest",
+    "gorpcore-trail-rail-palm",
+    "gorpcore-low-ledge-step",
+    "gorpcore-sheltered-squat",
+    "gorpcore-halfbody-van-laugh",
+    "gorpcore-construction-detail",
+    "gorpcore-halfbody-cuff-check",
+    "gorpcore-halfbody-rail-elbows"
+  ]
 }

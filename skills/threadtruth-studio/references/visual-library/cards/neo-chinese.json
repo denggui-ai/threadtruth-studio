@@ -104,5 +104,18 @@
   ],
   "default_objective": "styled-editorial",
   "persona": "composed refined presence, calm confidence, understated elegance",
-  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。composed refined presence, calm confidence, understated elegance"
+  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。composed refined presence, calm confidence, understated elegance",
+  "action_tendency": "Contemporary cultural-space moments: short courtyard steps, tea-room seats, side palm or forearm rests and shallow gathering turns; thoughtful confidence, warm smiles and candid conversation laughter, including a half-body portrait. Protect any existing standing collar and frog closures without adding them; retain real sleeve ease, layers and hem.",
+  "pose_pool": [
+    "neo-chinese-tea-room-stand",
+    "neo-chinese-courtyard-step",
+    "neo-chinese-screen-bench-seat",
+    "neo-chinese-tea-table-palm",
+    "neo-chinese-corridor-gather-turn",
+    "neo-chinese-stone-ledge-forearm",
+    "neo-chinese-halfbody-conversation",
+    "neo-chinese-closure-detail",
+    "neo-chinese-halfbody-sleeve-study",
+    "neo-chinese-halfbody-table-chin"
+  ]
 }

@@ -1,6 +1,6 @@
 {
   "skill_name": "threadtruth-studio",
-  "note": "2026-10-29 source-side no-image scenarios. Definitions are not executed model runs or visual-quality evidence. Four garment cases plus coverage/full-body perturbations and lineage/reference/authorization boundaries; runtime regressions separately verify deterministic transmission.",
+  "note": "2026-10-29 source-side no-image scenarios. Definitions are not executed model runs or visual-quality evidence. Four garment cases plus coverage/full-body perturbations and lineage/reference/authorization boundaries; runtime regressions separately verify deterministic transmission. 2026-11-03 adds first-batch aesthetic planning scenarios; these remain not-run model evaluations.",
   "evals": [
     {
       "id": "P9-01",
@@ -29,7 +29,7 @@
       "expectations": [
         "前片与后开衩按部件/视角绑定源图，正面不出现后开衩",
         "动作幅度保守且显示真实裙长，不为九张强行蹲坐、甩大裙摆或发明侧开衩",
-        "重复身体类别可有清楚展示用途，不用固定九类配额"
+        "同一动作类别也须在支撑方式、身体高度或躯干朝向上明显不同；不靠类别名称或只换手位充数"
       ]
     },
     {
@@ -371,6 +371,61 @@
         "男装仅沿用所选风格文字，儿童／真人新露脸角度等不因推荐入口扩展范围；没有合格候选明确返回，不靠得分放宽条件",
         "推荐后仍通过原apply／prepare／init／export冻结与校验，排序不消耗调用、不读历史图片、不建数据库或检索服务"
       ]
+    },
+    {
+      "id": "AESTHETIC-F2-F3",
+      "category": "style_and_front_only_mobility",
+      "prompt": "只有同款长裙正面图，先规划度假九格；要有松弛、笑意和安静的状态，先不生图。",
+      "expectations": [
+        "display_goal写风格/情绪/人物状态，must_show独立写必须可见的服装部位，两者都有；未知结构不补造",
+        "非特写之间支撑方式、身体高度或躯干朝向至少一项明显不同；不能只换头向、手位、背景",
+        "允许不露背面结构的浅转身、坐、倚、行走；不把无背图解释成全组躯干正面；仅must_show要求完整正面时作该格限制",
+        "坐姿裙摆自然落下、不改变长度与形状；对实际遮挡检查，不因可能压裙摆全面禁止坐姿"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "AESTHETIC-F4-F7",
+      "category": "style_first_front_only",
+      "prompt": "只有正面商品依据；风格已选，前两格已有坐姿与站姿，为第三格推荐动作。",
+      "expectations": [
+        "先否决明确遮挡must_show或需要无依据背面的候选；front兼容不露背结构的浅转front-side候选，needs-back单独列出",
+        "过滤后按当前风格、与已选动作身体关系差异、景别和历史排序；头向/手位/背景不充当身体关系差异",
+        "完整展示avoid_when；坐跪可能压裙摆只供适配核对，不自动排除；推荐不改变原样图片/应用视角依据门禁"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "AESTHETIC-F5",
+      "category": "three_style_pools",
+      "prompt": "同件长裙分别规划度假与浪漫波西米亚，另给贴身旗袍规划都市系列；仅准备方案。",
+      "expectations": [
+        "三卡分别解析8个共享动作词条；情绪覆盖笑意/喜悦、好奇/专注与安静状态",
+        "度假与陆地Boho有不同生活语境，旗袍含真实小步、坐与倚，不全并腿站；动作不拉高裙长或扩大开衩",
+        "原场景、商品/人物事实与未选风格保持；先准备不生图"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "AESTHETIC-F6",
+      "category": "identity_tail",
+      "prompt": "分别导出新虚构人物、已确认AI人物与真人的同款新方案，并恢复一份旧冻结方案。",
+      "expectations": [
+        "新AI/new视觉尾句只有商品与景别约束；真人尾句保持原身份/真实覆盖限定",
+        "旧冻结方案字节不迁移；人物与商品授权、真实依据校验和附件角色不改变"
+      ],
+      "status": "not-run"
+    },
+    {
+      "id": "AESTHETIC-F8",
+      "category": "prompt_deduplication",
+      "prompt": "预览包含普通人物格及无脸衣料特写，共享摄影一致，第二格另有光线与构图；导出预览和特写单图。",
+      "expectations": [
+        "共享Lighting/Composition各一份；差异格保留覆盖值；冻结动作景别共同模板句一次",
+        "特写省略表情/气质/头眼指令，混合预览明确非特写作用域；实际物理人物条件和商品依据保留",
+        "旧未带新渲染标记的方案保持字节；预览与成片共用同一冻结计划"
+      ],
+      "status": "not-run"
     }
   ]
 }

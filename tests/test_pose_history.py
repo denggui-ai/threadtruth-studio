@@ -46,7 +46,9 @@ class PoseHistoryTests(unittest.TestCase):
         card = library.card(entry)
         row = next((r for r in card['pose_vocabulary'] if r['id'] == pose_id), card['pose_vocabulary'][0])
         plan = sample_plan(count, back=False)
-        plan.update(variety_checks=2, framing_guidance=2)
+        # Historical custom-action records predate the new preparation quota.
+        # Explicit owned selections still opt into variety_checks=2 via apply().
+        plan.update(framing_guidance=2)
         plan['coverage'][0].update(sha256=self.sha)
         for i, shot in enumerate(plan['looks']):
             shot.update(reference_sha256s=[self.sha], head='Head upright.', gaze='Look at the lens.',

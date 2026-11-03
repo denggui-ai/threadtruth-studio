@@ -9,6 +9,7 @@ import unittest
 
 from PIL import Image
 from tests.test_pose_plan_v2 import sample_plan
+from tests.test_style_pose_pool import bind_pool_actions
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -63,7 +64,7 @@ class KnowledgeStyleResolutionTests(unittest.TestCase):
                                 display_goal='Show the source-supported front closure and visible layers.',
                                 must_show=['front closure', 'visible layers'])
         spec['shot_plan'] = plan
-        return spec
+        return bind_pool_actions(spec)
 
     def export_both(self, spec):
         """Exercise actual prepare/create/read/native and web export, without authorize/reserve."""
@@ -200,7 +201,7 @@ class KnowledgeStyleResolutionTests(unittest.TestCase):
         self.assertIn('Layered brown and caramel environment', library._visual().render(single, 1))
         self.assertEqual(plan, before)
 
-    def test_default_preparation_matches_handoff_behavior_on_same_resolved_sources(self):
+    def test_default_preparation_keeps_resolved_knowledge_apart_from_new_model_source_policy(self):
         relative = 'skills/threadtruth-studio/scripts/visual_library.py'
         source = subprocess.check_output(['git', 'show', '7f78875:' + relative], cwd=ROOT, text=True)
         namespace = dict(__file__=str(ROOT / relative), __name__='handoff_library')
@@ -214,6 +215,11 @@ class KnowledgeStyleResolutionTests(unittest.TestCase):
                 spec = self.spec(entry, output_form=form)
                 before = namespace['prepare'](spec)
                 after = library.prepare(spec)
+                # F6 adds an explicit source policy to newly prepared portraits.
+                # Keep this test about unchanged knowledge/commitment resolution;
+                # the new tail and frozen old bytes are tested in test_aesthetic_*.
+                source_policy = after.pop('model_source_type', None)
+                self.assertEqual(source_policy, spec['model']['source_type'] if form in ('human', 'faceless') else None)
                 self.assertEqual(after, before)
                 self.assertEqual(library._visual().render(after), namespace['_visual']().render(before))
 

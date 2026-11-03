@@ -1,0 +1,697 @@
+{
+  "baseline": "d7d7e66",
+  "spec": {
+    "entry_id": "french-effortless",
+    "count": 6,
+    "shot_plan": {
+      "version": 2,
+      "sku": "synthetic",
+      "route": "B",
+      "framing_guidance": 2,
+      "coverage": [
+        {
+          "sha256": "c460343ee65adeb6984ed8ede7ace17a75a587c6ca49ed9e8c8c1d8d3acd27c3",
+          "views": [
+            "front"
+          ],
+          "usable": true,
+          "same_sku": true,
+          "note": "Synthetic source."
+        }
+      ],
+      "looks": [
+        {
+          "slot": 1,
+          "shot_id": "shot-1",
+          "display_goal": "Show original garment.",
+          "must_show": [
+            "front panel"
+          ],
+          "reason": "Preserve readable garment.",
+          "body_action": "Stand naturally, variant 1.",
+          "hands": "Both hands low beside the hips.",
+          "support": "Both feet on the floor.",
+          "framing": "full-body",
+          "garment_views": [
+            "front"
+          ],
+          "reference_sha256s": [
+            "c460343ee65adeb6984ed8ede7ace17a75a587c6ca49ed9e8c8c1d8d3acd27c3"
+          ]
+        },
+        {
+          "slot": 2,
+          "shot_id": "shot-2",
+          "display_goal": "Show original garment.",
+          "must_show": [
+            "front panel"
+          ],
+          "reason": "Preserve readable garment.",
+          "body_action": "Stand naturally, variant 2.",
+          "hands": "Both hands low beside the hips.",
+          "support": "Both feet on the floor.",
+          "framing": "full-body",
+          "garment_views": [
+            "front"
+          ],
+          "reference_sha256s": [
+            "c460343ee65adeb6984ed8ede7ace17a75a587c6ca49ed9e8c8c1d8d3acd27c3"
+          ]
+        },
+        {
+          "slot": 3,
+          "shot_id": "shot-3",
+          "display_goal": "Show original garment.",
+          "must_show": [
+            "front panel"
+          ],
+          "reason": "Preserve readable garment.",
+          "body_action": "Stand naturally, variant 3.",
+          "hands": "Both hands low beside the hips.",
+          "support": "Both feet on the floor.",
+          "framing": "full-body",
+          "garment_views": [
+            "front"
+          ],
+          "reference_sha256s": [
+            "c460343ee65adeb6984ed8ede7ace17a75a587c6ca49ed9e8c8c1d8d3acd27c3"
+          ]
+        },
+        {
+          "slot": 4,
+          "shot_id": "shot-4",
+          "display_goal": "Show original garment.",
+          "must_show": [
+            "front panel"
+          ],
+          "reason": "Preserve readable garment.",
+          "body_action": "Stand naturally, variant 4.",
+          "hands": "Both hands low beside the hips.",
+          "support": "Both feet on the floor.",
+          "framing": "full-body",
+          "garment_views": [
+            "front"
+          ],
+          "reference_sha256s": [
+            "c460343ee65adeb6984ed8ede7ace17a75a587c6ca49ed9e8c8c1d8d3acd27c3"
+          ]
+        },
+        {
+          "slot": 5,
+          "shot_id": "shot-5",
+          "display_goal": "Show original garment.",
+          "must_show": [
+            "front panel"
+          ],
+          "reason": "Preserve readable garment.",
+          "body_action": "Stand naturally, variant 5.",
+          "hands": "Both hands low beside the hips.",
+          "support": "Both feet on the floor.",
+          "framing": "full-body",
+          "garment_views": [
+            "front"
+          ],
+          "reference_sha256s": [
+            "c460343ee65adeb6984ed8ede7ace17a75a587c6ca49ed9e8c8c1d8d3acd27c3"
+          ]
+        },
+        {
+          "slot": 6,
+          "shot_id": "shot-6",
+          "display_goal": "Show original garment.",
+          "must_show": [
+            "front panel"
+          ],
+          "reason": "Preserve readable garment.",
+          "body_action": "Stand naturally, variant 6.",
+          "hands": "Both hands low beside the hips.",
+          "support": "Both feet on the floor.",
+          "framing": "full-body",
+          "garment_views": [
+            "front"
+          ],
+          "reference_sha256s": [
+            "c460343ee65adeb6984ed8ede7ace17a75a587c6ca49ed9e8c8c1d8d3acd27c3"
+          ]
+        }
+      ],
+      "selected_shot_ids": [
+        "shot-1",
+        "shot-2",
+        "shot-3",
+        "shot-4",
+        "shot-5",
+        "shot-6"
+      ],
+      "series_role": "series"
+    },
+    "garment": {
+      "description": "Synthetic garment.",
+      "keep": [
+        "Blue colour."
+      ],
+      "source_sha256s": [
+        "c460343ee65adeb6984ed8ede7ace17a75a587c6ca49ed9e8c8c1d8d3acd27c3"
+      ]
+    },
+    "inventory": [
+      {
+        "sha256": "c460343ee65adeb6984ed8ede7ace17a75a587c6ca49ed9e8c8c1d8d3acd27c3",
+        "role": "garment-source"
+      }
+    ],
+    "output_form": "human",
+    "model": {
+      "source_type": "new",
+      "scope": "full",
+      "subject": "adult female model",
+      "locked": [],
+      "adjustable": [],
+      "consent_note": "",
+      "styling_lock": "identity"
+    },
+    "first_pose": 1
+  },
+  "visual_plan": {
+    "contract": 21,
+    "version": 2,
+    "objective": "styled-editorial",
+    "output_medium": "photography",
+    "output_form": "human",
+    "style": {
+      "primary": {
+        "id": "french-effortless",
+        "version": "0.1.5",
+        "sha256": "787b848c509b33f51140bbdce31ecdeb15375339d0353224b1ba141c49dcbc1b",
+        "snapshot": {
+          "schema_version": 1,
+          "id": "french-effortless",
+          "version": "0.1.5",
+          "name": "法式松弛 / French Effortless",
+          "entry_type": "legacy-style",
+          "aliases": [
+            "法式",
+            "松弛感",
+            "巴黎",
+            "effortless",
+            "French girl",
+            "慵懒法式"
+          ],
+          "medium": "photography",
+          "purpose_support": [
+            "product-display",
+            "styled-editorial",
+            "art-campaign"
+          ],
+          "status": "draft",
+          "bases": [
+            "french-effortless"
+          ],
+          "source_ids": [
+            "R10"
+          ],
+          "scope": "暖中性自然光、适度随拍与生活痕迹。",
+          "distinctive_features": [
+            "暖中性自然光、适度随拍与生活痕迹。",
+            "与指定年代的法式复古区分；松弛不是所有法式的唯一特征。"
+          ],
+          "legacy": {
+            "slug": "french-effortless",
+            "pack_path": "references/styles/french-effortless.pack.yaml",
+            "version": "0.1.1",
+            "sha256": "37059c958b637a784f1392ce82c26bdf8fa6f505cc0026ece08e5be97a1bdae7",
+            "maturity": "DRAFT"
+          },
+          "base_policy": "未选新组件时保留旧配方；明确用途/媒介/逐张计划替换冲突段，不能把本卡与旧pack重复累加。",
+          "input_requirements": [
+            "明确当前商品参考及不可改事实；仅展示有依据的视角。",
+            "人物来源与允许调整项沿用当前人物记录；不得把服装图中的人脸自动当作身份授权。"
+          ],
+          "boundaries": [
+            "风格名是已定义摄影配方，不代表该国家全部审美或人物国籍。",
+            "适用品类/anti_categories是默认推荐线索；用户明确保留商品借用摄影时，按实际结构与适龄边界适配，不改成推荐服种。",
+            "当前修订未获得新实图验收，旧样片的接受只保留原范围。"
+          ],
+          "garment_preservation": [
+            "服装和允许搭配分别记录；原商品的版型、衣长、领袖、开合、层次、颜色、材质、图案、标识及配饰以参考为准。",
+            "配色与艺术语言不得给原商品染色、增删装饰、收腰、加长或改变露肤范围。",
+            "身份、年龄、体型与头眼动作由当前人物条件和逐张计划决定，风格名不决定人物国籍、族群或脸型。",
+            "照片只能证明可见特征；手工、手织、手绣、材质成分等来源声明须另有依据。"
+          ],
+          "planning_requirements": [
+            "场景列表给空间候选，不能由其顺序改变逐张动作。",
+            "单张/系列/独立比较/融合按本次意图，多个名称不自动混在一张图。"
+          ],
+          "photography": {
+            "scene": "巴黎公寓木地板窗边，少量日常生活物件保持自然间距。",
+            "lighting": "自然侧窗光，明暗过渡柔和，保留服装纹理。",
+            "composition": "轻微非对称与随拍感，画面有呼吸和真实生活的空间关系。 每张按已确认的逐张计划组织。",
+            "palette": "环境采用暖中性低饱和色。 商品原色与饱和度保持不变。"
+          },
+          "prompt_fragment": "本卡审美意图：法式日常编辑摄影：不刻意、带生活痕迹的松弛与细微不完美，避免过度修饰。 摄影内容只使用本次解析后的 photography 字段；人物气质仅按当前人物条件处理，不另行拼接旧 pack 全文。",
+          "art": {
+            "direction": "法式日常编辑摄影：不刻意、带生活痕迹的松弛与细微不完美，避免过度修饰。",
+            "techniques": [
+              "细腻胶片颗粒，不覆盖商品细节。"
+            ],
+            "limits": [
+              "服装和允许搭配分别记录；原商品的版型、衣长、领袖、开合、层次、颜色、材质、图案、标识及配饰以参考为准。",
+              "配色与艺术语言不得给原商品染色、增删装饰、收腰、加长或改变露肤范围。",
+              "身份、年龄、体型与头眼动作由当前人物条件和逐张计划决定，风格名不决定人物国籍、族群或脸型。",
+              "照片只能证明可见特征；手工、手织、手绣、材质成分等来源声明须另有依据。"
+            ]
+          },
+          "negatives": [
+            "不新增商品参考中没有的服装部件、图案、首饰或品牌标识",
+            "不通过拉长身体、缩腰或改变人物年龄制造风格",
+            "不加入广告标题、价格、促销语、品牌口号或海报版式；商品原有文字标识保留",
+            "no overstyled look",
+            "no glossy commercial retouch",
+            "no posed catalog stiffness"
+          ],
+          "acceptance": [
+            "商品与人物事实分别对照原始参考，不能只拿上一次生成图互相核对。",
+            "独立成图满足本次画幅与逐张计划；联系表或预览不能替代独立图片。",
+            "风格差异来自所选视觉手段，不能以改变商品或身份换取差异。",
+            "与指定年代的法式复古区分；松弛不是所有法式的唯一特征。",
+            "光线、色彩与场景的具体特征可在画面中判断；不以名字或形容词代替验收。"
+          ],
+          "evidence": {
+            "visual_status": "unverified",
+            "records": [],
+            "scope": "当前修订尚无实图验收；既有历史记录保留，不自动扩展其接受范围。"
+          },
+          "scene_options": [
+            "巴黎公寓木地板窗边",
+            "老城区石板街角",
+            "街角面包店门口",
+            "咖啡馆露台(低干扰)",
+            "老城区河边石栏步道",
+            "林荫道清晨"
+          ],
+          "default_objective": "styled-editorial",
+          "persona": "relaxed natural expression, soft confidence, effortless undone attitude, no aegyo",
+          "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。relaxed natural expression, soft confidence, effortless undone attitude, no aegyo",
+          "commitments": [
+            {
+              "id": "fr-window-light",
+              "show": "warm soft daylight from a high window on one side, a gentle golden cast on the backdrop only; the garment keeps its true color",
+              "needs": [
+                "lighting"
+              ],
+              "realize": [
+                "window light from one side of the frame",
+                "golden cast stays on the background"
+              ],
+              "check": "light direction reads from one side; the backdrop is warmer than the garment; garment color matches the source"
+            },
+            {
+              "id": "fr-candid-camera",
+              "show": "casual, slightly imperfect candid framing at eye level; small tilts allowed; the subject may sit off-centre",
+              "needs": [
+                "camera"
+              ],
+              "check": "in at least three cells the subject is off-centre or the horizon is slightly tilted; no symmetric catalog framing"
+            },
+            {
+              "id": "fr-amused-expression",
+              "show": "relaxed, amused expression with a faint natural smile or a mid-laugh in some cells; nothing posed",
+              "needs": [
+                "expression"
+              ],
+              "check": "a soft smile or laugh is visible in several cells; no stiff or camera-ready smile in all cells"
+            },
+            {
+              "id": "fr-bare-skin-makeup",
+              "show": "bare-skin minimal makeup with a soft red lip; hair tousled and slightly messy, tucked behind one ear in some cells",
+              "needs": [
+                "makeup"
+              ],
+              "realize": [
+                "hair length stays as the identity reference"
+              ],
+              "check": "skin shows natural texture with little visible base; lips soft red; hair looks loose, not sleek"
+            },
+            {
+              "id": "fr-loose-attitude",
+              "show": "loose, effortless, unbothered body attitude; nothing stiff or symmetrical",
+              "needs": [
+                "body"
+              ],
+              "check": "weight is shifted or the stance is asymmetric in most cells; arms and shoulders look relaxed"
+            }
+          ],
+          "action_tendency": "Loose, unposed, caught-between-moments: asymmetric weight, hands busy with hair or clothing, movement and laughter allowed; nothing stiff or symmetrical.",
+          "pose_pool": [
+            "fr-hair-tuck",
+            "fr-laugh-turn",
+            "fr-sill-perch",
+            "fr-walk-out",
+            "fr-lean-cross",
+            "fr-coat-adjust",
+            "fr-over-shoulder",
+            "fr-cafe-sit"
+          ],
+          "pose_pool_snapshot": {
+            "version": 1,
+            "entries": [
+              {
+                "entry": {
+                  "id": "fr-hair-tuck",
+                  "family": "close",
+                  "body": "half-body, head tilted, mid-gesture",
+                  "hands": "one hand tucking hair behind an ear, the other relaxed",
+                  "support": "floor",
+                  "views": [
+                    "front"
+                  ],
+                  "avoid_when": "high collars that hide the hand gesture",
+                  "check": "hand at the ear, asymmetric shoulders"
+                }
+              },
+              {
+                "entry": {
+                  "id": "fr-laugh-turn",
+                  "family": "turn",
+                  "body": "turning away from camera mid-laugh, shoulders twisting, weight on the back foot",
+                  "hands": "one hand near the mouth or chin",
+                  "support": "floor",
+                  "views": [
+                    "front-side"
+                  ],
+                  "avoid_when": "none",
+                  "check": "laughing face partly turned; torso twist visible"
+                }
+              },
+              {
+                "entry": {
+                  "id": "fr-sill-perch",
+                  "family": "sit",
+                  "body": "half-sitting on a windowsill or table edge, one leg straight to the floor, the other bent",
+                  "hands": "both hands on the edge beside the hips",
+                  "support": "sill or table edge",
+                  "views": [
+                    "front"
+                  ],
+                  "avoid_when": "long narrow skirts",
+                  "check": "one straight leg, one bent; hands on the edge"
+                }
+              },
+              {
+                "entry": {
+                  "id": "fr-walk-out",
+                  "family": "walk",
+                  "body": "walking out of frame toward one side, mid-stride, looking down",
+                  "hands": "one arm swinging, the other holding the garment edge",
+                  "support": "floor",
+                  "views": [
+                    "front-side"
+                  ],
+                  "avoid_when": "none",
+                  "check": "clear stride, body heading out of frame"
+                }
+              },
+              {
+                "entry": {
+                  "id": "fr-lean-cross",
+                  "family": "lean",
+                  "body": "one shoulder on a door frame, ankles loosely crossed, hips shifted",
+                  "hands": "one hand in a pocket only if the garment has a real pocket, otherwise thumb at the waistband",
+                  "support": "door frame",
+                  "views": [
+                    "front"
+                  ],
+                  "avoid_when": "garments without a waist or pocket for the hand",
+                  "check": "asymmetric hips, crossed ankles"
+                }
+              },
+              {
+                "entry": {
+                  "id": "fr-coat-adjust",
+                  "family": "close",
+                  "body": "adjusting the garment while looking down, mid-motion",
+                  "hands": "both hands at the front edge or zipper, pulling it slightly",
+                  "support": "floor",
+                  "views": [
+                    "front",
+                    "detail"
+                  ],
+                  "avoid_when": "fragile or sheer fronts that would distort",
+                  "check": "hands on the garment edge, gaze down"
+                }
+              },
+              {
+                "entry": {
+                  "id": "fr-over-shoulder",
+                  "family": "turn",
+                  "body": "back to camera, glancing over the shoulder with a smile",
+                  "hands": "arms relaxed",
+                  "support": "floor",
+                  "views": [
+                    "back"
+                  ],
+                  "avoid_when": "no usable back source",
+                  "check": "back fully shown, smile visible"
+                }
+              },
+              {
+                "entry": {
+                  "id": "fr-cafe-sit",
+                  "family": "sit",
+                  "body": "sitting sideways on a café chair, one arm draped over the backrest, legs crossed",
+                  "hands": "one arm on the chair back, other hand on the knee",
+                  "support": "chair",
+                  "views": [
+                    "front"
+                  ],
+                  "avoid_when": "very short hemlines",
+                  "check": "arm over the chair back, crossed legs"
+                }
+              }
+            ],
+            "sha256": "9ffbf61fd5c83e88ddeb9bbb6c1515f30f03ae7286ec8e3bd01e51f5ec40e2b0"
+          },
+          "pose_vocabulary": [
+            {
+              "id": "fr-hair-tuck",
+              "family": "close",
+              "body": "half-body, head tilted, mid-gesture",
+              "hands": "one hand tucking hair behind an ear, the other relaxed",
+              "support": "floor",
+              "views": [
+                "front"
+              ],
+              "avoid_when": "high collars that hide the hand gesture",
+              "check": "hand at the ear, asymmetric shoulders"
+            },
+            {
+              "id": "fr-laugh-turn",
+              "family": "turn",
+              "body": "turning away from camera mid-laugh, shoulders twisting, weight on the back foot",
+              "hands": "one hand near the mouth or chin",
+              "support": "floor",
+              "views": [
+                "front-side"
+              ],
+              "avoid_when": "none",
+              "check": "laughing face partly turned; torso twist visible"
+            },
+            {
+              "id": "fr-sill-perch",
+              "family": "sit",
+              "body": "half-sitting on a windowsill or table edge, one leg straight to the floor, the other bent",
+              "hands": "both hands on the edge beside the hips",
+              "support": "sill or table edge",
+              "views": [
+                "front"
+              ],
+              "avoid_when": "long narrow skirts",
+              "check": "one straight leg, one bent; hands on the edge"
+            },
+            {
+              "id": "fr-walk-out",
+              "family": "walk",
+              "body": "walking out of frame toward one side, mid-stride, looking down",
+              "hands": "one arm swinging, the other holding the garment edge",
+              "support": "floor",
+              "views": [
+                "front-side"
+              ],
+              "avoid_when": "none",
+              "check": "clear stride, body heading out of frame"
+            },
+            {
+              "id": "fr-lean-cross",
+              "family": "lean",
+              "body": "one shoulder on a door frame, ankles loosely crossed, hips shifted",
+              "hands": "one hand in a pocket only if the garment has a real pocket, otherwise thumb at the waistband",
+              "support": "door frame",
+              "views": [
+                "front"
+              ],
+              "avoid_when": "garments without a waist or pocket for the hand",
+              "check": "asymmetric hips, crossed ankles"
+            },
+            {
+              "id": "fr-coat-adjust",
+              "family": "close",
+              "body": "adjusting the garment while looking down, mid-motion",
+              "hands": "both hands at the front edge or zipper, pulling it slightly",
+              "support": "floor",
+              "views": [
+                "front",
+                "detail"
+              ],
+              "avoid_when": "fragile or sheer fronts that would distort",
+              "check": "hands on the garment edge, gaze down"
+            },
+            {
+              "id": "fr-over-shoulder",
+              "family": "turn",
+              "body": "back to camera, glancing over the shoulder with a smile",
+              "hands": "arms relaxed",
+              "support": "floor",
+              "views": [
+                "back"
+              ],
+              "avoid_when": "no usable back source",
+              "check": "back fully shown, smile visible"
+            },
+            {
+              "id": "fr-cafe-sit",
+              "family": "sit",
+              "body": "sitting sideways on a café chair, one arm draped over the backrest, legs crossed",
+              "hands": "one arm on the chair back, other hand on the knee",
+              "support": "chair",
+              "views": [
+                "front"
+              ],
+              "avoid_when": "very short hemlines",
+              "check": "arm over the chair back, crossed legs"
+            }
+          ]
+        }
+      },
+      "supporting": [],
+      "fusion_note": ""
+    },
+    "garment": {
+      "description": "Synthetic garment.",
+      "keep": [
+        "Blue colour."
+      ],
+      "source_sha256s": [
+        "c460343ee65adeb6984ed8ede7ace17a75a587c6ca49ed9e8c8c1d8d3acd27c3"
+      ]
+    },
+    "styling": [],
+    "photography": {
+      "scene": "巴黎公寓木地板窗边，少量日常生活物件保持自然间距。",
+      "lighting": "自然侧窗光，明暗过渡柔和，保留服装纹理。",
+      "composition": "轻微非对称与随拍感，画面有呼吸和真实生活的空间关系。 每张按已确认的逐张计划组织。",
+      "palette": "环境采用暖中性低饱和色。 商品原色与饱和度保持不变。"
+    },
+    "art": {
+      "direction": "法式日常编辑摄影：不刻意、带生活痕迹的松弛与细微不完美，避免过度修饰。",
+      "techniques": [
+        "细腻胶片颗粒，不覆盖商品细节。"
+      ],
+      "limits": [
+        "服装和允许搭配分别记录；原商品的版型、衣长、领袖、开合、层次、颜色、材质、图案、标识及配饰以参考为准。",
+        "配色与艺术语言不得给原商品染色、增删装饰、收腰、加长或改变露肤范围。",
+        "身份、年龄、体型与头眼动作由当前人物条件和逐张计划决定，风格名不决定人物国籍、族群或脸型。",
+        "照片只能证明可见特征；手工、手织、手绣、材质成分等来源声明须另有依据。"
+      ]
+    },
+    "negatives": [
+      "不新增商品参考中没有的服装部件、图案、首饰或品牌标识",
+      "不通过拉长身体、缩腰或改变人物年龄制造风格",
+      "不加入广告标题、价格、促销语、品牌口号或海报版式；商品原有文字标识保留",
+      "no overstyled look",
+      "no glossy commercial retouch",
+      "no posed catalog stiffness"
+    ],
+    "shots": [
+      {
+        "slot": 1,
+        "shot_id": "shot-1",
+        "scene": "巴黎公寓木地板窗边，少量日常生活物件保持自然间距。",
+        "lighting": "自然侧窗光，明暗过渡柔和，保留服装纹理。",
+        "composition": "轻微非对称与随拍感，画面有呼吸和真实生活的空间关系。 每张按已确认的逐张计划组织。"
+      }
+    ],
+    "commitments": [
+      {
+        "id": "fr-window-light",
+        "show": "warm soft daylight from a high window on one side, a gentle golden cast on the backdrop only; the garment keeps its true color",
+        "needs": [
+          "lighting"
+        ],
+        "realize": [
+          "window light from one side of the frame",
+          "golden cast stays on the background"
+        ],
+        "check": "light direction reads from one side; the backdrop is warmer than the garment; garment color matches the source"
+      },
+      {
+        "id": "fr-candid-camera",
+        "show": "casual, slightly imperfect candid framing at eye level; small tilts allowed; the subject may sit off-centre",
+        "needs": [
+          "camera"
+        ],
+        "check": "in at least three cells the subject is off-centre or the horizon is slightly tilted; no symmetric catalog framing"
+      },
+      {
+        "id": "fr-amused-expression",
+        "show": "relaxed, amused expression with a faint natural smile or a mid-laugh in some cells; nothing posed",
+        "needs": [
+          "expression"
+        ],
+        "check": "a soft smile or laugh is visible in several cells; no stiff or camera-ready smile in all cells"
+      },
+      {
+        "id": "fr-bare-skin-makeup",
+        "show": "bare-skin minimal makeup with a soft red lip; hair tousled and slightly messy, tucked behind one ear in some cells",
+        "needs": [
+          "makeup"
+        ],
+        "realize": [
+          "hair length stays as the identity reference"
+        ],
+        "check": "skin shows natural texture with little visible base; lips soft red; hair looks loose, not sleek"
+      },
+      {
+        "id": "fr-loose-attitude",
+        "show": "loose, effortless, unbothered body attitude; nothing stiff or symmetrical",
+        "needs": [
+          "body"
+        ],
+        "check": "weight is shifted or the stance is asymmetric in most cells; arms and shoulders look relaxed"
+      }
+    ],
+    "commitments_skipped": [],
+    "open_variables": [
+      "makeup",
+      "expression",
+      "body",
+      "arrangement",
+      "camera",
+      "scene",
+      "lighting"
+    ],
+    "persona": "relaxed natural expression, soft confidence, effortless undone attitude, no aegyo",
+    "persona_model_sha256": "cdcb6badf35611cd7c600d5aa3399a3b435cbbb3179589e55f8fcb17fa2afccd"
+  },
+  "context": {
+    "outfit": "synthetic",
+    "style": "french-effortless",
+    "mode": "C",
+    "output_form": "human",
+    "size": [
+      20,
+      30
+    ],
+    "first_pose": 1,
+    "purpose": "delivery"
+  }
+}

@@ -3,6 +3,7 @@ import copy, hashlib, importlib.util, json, re, subprocess, sys, tempfile, unitt
 from pathlib import Path
 
 from PIL import Image
+from tests.test_style_pose_pool import bind_pool_actions
 
 ROOT = Path(__file__).resolve().parents[1]
 SKILL = ROOT / 'skills/threadtruth-studio'
@@ -20,8 +21,10 @@ def v2_plan(h, count=9):
     looks = [dict(slot=i, shot_id='qs-' + str(i), display_goal='Show the set', must_show=['hem'], reason='Front flat-lay supports it.',
                   pose_decision=dict(kind='custom',reason='Retain an unobstructed hem with relaxed hands'), body_action='Stand naturally, action ' + str(i), hands='Hands relaxed', support='Both feet grounded', framing='full-body',
                   garment_views=['front'], reference_sha256s=[h], head='natural', gaze='soft') for i in range(1, count + 1)]
-    return dict(version=2, sku='qs-sku', route='B', coverage=[dict(sha256=h, views=['front'], usable=True, same_sku=True, note='Synthetic front')],
+    plan = dict(version=2, sku='qs-sku', route='B', coverage=[dict(sha256=h, views=['front', 'front-side', 'detail'], usable=True, same_sku=True, note='Synthetic front, shallow side and detail')],
                 looks=looks, selected_shot_ids=[l['shot_id'] for l in looks], series_role='series')
+    bind_pool_actions(dict(entry_id='french-effortless', shot_plan=plan))
+    return plan
 
 
 class RuntimeQuickstartTests(unittest.TestCase):
@@ -71,7 +74,7 @@ class RuntimeQuickstartTests(unittest.TestCase):
         (root / 'review.json').write_text(json.dumps(review))
         self.cli('web-task.py', 'export', '--task', preview, cwd=root)
         man, prompt, request, folder = self.handoff(preview, 1)
-        self.assertIn('PREVIEW ONLY', prompt); self.assertIn('Hair top at about y=', prompt); self.assertEqual(request['prompt'], prompt)
+        self.assertIn('PREVIEW ONLY', prompt); self.assertIn('the person fills most of the frame height', prompt); self.assertEqual(request['prompt'], prompt)
         self.assertEqual([Path(p).name for p in request['referenced_image_paths']], ['01-garment-source.png'])
         self.cli('web-task.py', 'reserve', '--task', preview, '--look', 1, '--ready', '--refs', *man['reference_hashes'], '--expected-plan-sha256', man['current_plan_sha256'], cwd=root)
         self.cli('web-task.py', 'returned', '--task', preview, '--look', 1, '--file', self.synth(root, 'preview.png', 'blue'), cwd=root)
@@ -88,7 +91,7 @@ class RuntimeQuickstartTests(unittest.TestCase):
         for look, color in ((1, 'green'), (2, 'yellow')):
             self.cli('web-task.py', 'export', '--task', delivery, cwd=root)
             man, prompt, request, folder = self.handoff(delivery, look)
-            self.assertIn('Hair top at about y=', prompt); self.assertIn(f'Shot {look}: qs-{look}.', prompt)
+            self.assertIn('the person fills most of the frame height', prompt); self.assertIn(f'Shot {look}: qs-{look}.', prompt)
             self.cli('web-task.py', 'reserve', '--task', delivery, '--look', look, '--ready', '--refs', *man['reference_hashes'], '--expected-plan-sha256', man['current_plan_sha256'], cwd=root)
             self.cli('web-task.py', 'returned', '--task', delivery, '--look', look, '--file', self.synth(root, f'look-{look}.png', color), cwd=root)
             self.cli('web-task.py', 'accept', '--task', delivery, '--look', look, '--qa', 'qa-user-review', '--note', 'fine details for user', '--review-file', root / 'review.json', cwd=root)
@@ -97,8 +100,8 @@ class RuntimeQuickstartTests(unittest.TestCase):
         self.assertEqual([Path(p).name for p in request['referenced_image_paths']], ['01-garment-source.png', '02-identity-only.png'])
         status = self.cli('web-task.py', 'status', '--task', delivery, cwd=root)
         self.assertEqual(status['attempts'], 2); self.assertTrue(status['model_confirmation'])
-        self.assertEqual(status['shot_plan']['framing_guidance'], 2)
-        self.assertEqual(json.loads((preview / 'task.json').read_text())['shot_plan']['framing_guidance'], 2)
+        self.assertEqual(status['shot_plan']['framing_guidance'], 3)
+        self.assertEqual(json.loads((preview / 'task.json').read_text())['shot_plan']['framing_guidance'], 3)
         self.assertEqual([l['state'] for l in status['looks']][:3], ['accepted', 'accepted', 'pending'])
 
     def test_preview_revision_and_retry_accept_a_plan_that_omits_the_flag(self):
@@ -114,7 +117,7 @@ class RuntimeQuickstartTests(unittest.TestCase):
         ctx = dict(outfit='qs-sku', style='french-effortless', mode='C', output_form='human', size=SIZE, first_pose=1, canvas_policy='ratio-first', purpose='preview-grid')
         preview = root / 'preview'
         d = task.create(preview, [src], None, SIZE, model=MODEL, context=ctx, route='codex_native', shot_plan=plan, visual_plan=visual, workflow_version=0)
-        self.assertEqual(d['shot_plan']['framing_guidance'], 2)
+        self.assertEqual(d['shot_plan']['framing_guidance'], 3)
         task.update(preview, 'authorize', limit=1, note='one preview')
         task.update(preview, 'reserve', look=1, ready=True, refs=task.reference_hashes(preview, 1), expected_plan_sha256=task.plan_fingerprint(task.read(preview)))
         task.update(preview, 'returned', look=1, file=self.synth(root, 'preview.png', 'blue'))
@@ -123,10 +126,10 @@ class RuntimeQuickstartTests(unittest.TestCase):
         output_sha = task.read(preview)['looks'][0]['output']['sha256']
         task.update(preview, 'revise-preview', look=1, note='scene change', expected_output_sha256=output_sha, shot_plan=plan, visual_plan=revised)
         d = task.update(preview, 'retry-authorize', look=1, expected_attempt=1, approval_id='retry-1', note='one more call', shot_plan=plan)
-        self.assertEqual(d['shot_plan']['framing_guidance'], 2); self.assertIn('Revised scene', d['looks'][0]['prompt'])
+        self.assertEqual(d['shot_plan']['framing_guidance'], 3); self.assertIn('Revised scene', d['looks'][0]['prompt'])
         self.cli('web-task.py', 'export', '--task', preview, cwd=root)
         latest = sorted((preview / 'handoff').glob('look-1-*'))[-1]   # after a retry the folder is look-1-attempt-2-v1
-        self.assertIn('Hair top at about y=', (latest / 'prompt.txt').read_text())   # the shot block joins the prompt at export
+        self.assertIn('the person fills most of the frame height', (latest / 'prompt.txt').read_text())   # the shot block joins the prompt at export
 
 
 if __name__ == '__main__': unittest.main()

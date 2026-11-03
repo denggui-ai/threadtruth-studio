@@ -104,5 +104,44 @@
   ],
   "default_objective": "styled-editorial",
   "persona": "relaxed confident ease, serene holiday mood, natural composure",
-  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。relaxed confident ease, serene holiday mood, natural composure"
+  "persona_guidance": "仅当本次人物条件允许调整时采用；已锁定的身份、年龄、妆发与表情优先。relaxed confident ease, serene holiday mood, natural composure",
+  "commitments": [
+    {
+      "id": "rv-coastal-light",
+      "show": "bright coastal side-back daylight with open-sky fill; readable textile shadows and controlled pale-wall highlights",
+      "needs": [
+        "lighting"
+      ],
+      "check": "light feels open and coastal while the garment keeps its true colour and texture"
+    },
+    {
+      "id": "rv-holiday-moments",
+      "show": "varied relaxed holiday moments: a supported sit, a light lean or a short step as selected in the shot plan; preserve garment ease",
+      "needs": [
+        "body"
+      ],
+      "check": "support, body height or torso direction changes visibly across non-detail cells"
+    },
+    {
+      "id": "rv-emotional-range",
+      "show": "a natural range from a delighted smile or laugh to curious anticipation and quiet contentment, according to each non-detail cell",
+      "needs": [
+        "expression"
+      ],
+      "check": "expressions vary with the moment rather than one restrained smile repeated"
+    }
+  ],
+  "action_tendency": "Easy holiday movement with grounded short steps, supported seats and light leans; range from bright laughter and playful curiosity to quiet contentment. Keep the real garment weight, hem and coverage; no compulsory frontal stance.",
+  "pose_pool": [
+    "rv-boardwalk-stroll",
+    "rv-palm-wall-lean",
+    "rv-terrace-perch",
+    "rv-low-step-pause",
+    "rv-balcony-forearm",
+    "rv-poolside-seat",
+    "rv-courtyard-pivot",
+    "rv-daylight-detail",
+    "rv-halfbody-hair-tuck",
+    "rv-halfbody-balcony-chin"
+  ]
 }
