@@ -2854,6 +2854,198 @@
       ],
       "avoid_when": "Keep flash highlights below detail loss; do not add metallic fabric, rhinestones, logos or low-rise construction to imply an era.",
       "check": "the source-backed surface or fastening remains readable in a detail crop with its original colour and position"
+    },
+    {
+      "id": "future-artificial-light-threshold-stand",
+      "family": "stand",
+      "body": "standing at the edge of a neutral pool of light in a glass passage, weight on one leg and the other foot slightly forward, detached composure; a recessed cool strip stays behind the figure",
+      "hands": "arms hang with a small gap from the torso, one hand catching only a faint edge reflection without covering the garment",
+      "support": "both feet grounded on the level passage floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep the garment front inside neutral key light; no coloured wash over product facts, duplicate reflected person, luminous fabric or added technical gear.",
+      "check": "a still asymmetric stance sits between the neutral subject light and a separate background strip; garment colour and closures stay readable"
+    },
+    {
+      "id": "future-artificial-light-strip-walk",
+      "family": "walk",
+      "body": "taking a short forward step along recessed architectural light strips, torso travelling over the leading leg through neutral key light, focused anticipation",
+      "hands": "arms swing low and separately, hands empty and clear of the front panels",
+      "support": "leading foot planted and trailing forefoot still touching the dry level floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use real garment ease and a short stride; no motion smear of construction, lifted hem, slippery floor, glowing shoes or coloured light replacing the neutral subject key.",
+      "check": "grounded forward movement follows the architectural strips while the actual garment length, silhouette and original colour remain clear"
+    },
+    {
+      "id": "future-artificial-light-practical-ledge-seat",
+      "family": "sit",
+      "body": "sitting upright on a broad unlit ledge near a low warm architectural practical, knees close and feet offset, quietly reflective; neutral key light separates the garment from the warm background",
+      "hands": "palms rest on the seat beside the hips, away from the hem and any lamp housing",
+      "support": "a stable ledge supports the pelvis and both feet rest flat on the floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Choose a seat height and width that retain natural drape and coverage; no perched light fixture, compressed trim, shortened skirt or invented inner layers.",
+      "check": "a low seated pause contrasts with the walking frame, with believable seat contact and warm background light kept off the product colour area"
+    },
+    {
+      "id": "future-artificial-light-mullion-shoulder",
+      "family": "lean",
+      "body": "leaning one shoulder lightly against an unlit structural mullion in a glass corridor, hips free and feet staggered, guarded confidence; a nearby cool strip outlines only the outer edge",
+      "hands": "hands stay low beside the thighs, clear of garment fastenings and reflective glass",
+      "support": "one shoulder touches the solid mullion; both feet remain grounded",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use a load-bearing unlit surface, not a lamp or unsupported glass pane; avoid pressure on shoulder decoration and keep any reflection distinct from the actual person.",
+      "check": "a shallow shoulder-supported diagonal retains a neutral readable garment front with one controlled cool edge and no competing reflected figure"
+    },
+    {
+      "id": "future-artificial-light-lightline-pivot",
+      "family": "turn",
+      "body": "gathering a small step into a shallow whole-body pivot at the boundary of two architectural light zones, shoulders and hips moving together, a brief look of curious surprise; the garment front stays in neutral key light",
+      "hands": "one palm opens low toward the nearby light line without touching it; the other arm stays relaxed outside the silhouette",
+      "support": "one foot planted under the body while the other forefoot settles beside it",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep the turn within the source-supported front view; no exposed unknown rear structure, deep twist, raised sleeve, floating light interface or beam passing through the body.",
+      "check": "a small pivot and open palm respond to a real architectural light line; the garment remains intact and neutrally lit"
+    },
+    {
+      "id": "future-artificial-light-rail-palm",
+      "family": "lean",
+      "body": "resting one palm on an unlit rail beside a recessed warm light channel, torso inclining slightly toward the hand with hips stable, quiet resolve; neutral key light retains the front construction",
+      "hands": "supporting palm lies flat on the rail at the side; the free hand hangs clear of the waist",
+      "support": "both feet on firm flooring and one palm lightly supported by the solid rail",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "The rail must be at a comfortable height and outside the garment outline; do not grip lamps, stretch sleeves or let metallic glare hide the product.",
+      "check": "hand-supported inclination differs from the shoulder lean, with a visible solid contact point and separate warm channel reflection"
+    },
+    {
+      "id": "future-artificial-light-halfbody-warm-laugh",
+      "family": "stand",
+      "body": "pausing between steps near a warm practical in the glass passage, shoulders dropping into a brief spontaneous laugh, torso relaxed inside the neutral key light while the warm glow stays in the background",
+      "hands": "one hand opens in a small conversational gesture below the collar; the other stays low, neither crossing the garment front",
+      "support": "both feet settled on the floor beneath the relaxed upright torso",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use only when current person conditions allow laughter; keep the face and neckline clear, avoid exaggerated facial distortion and do not turn the warm practical into a product colour cast.",
+      "check": "a half-body emotional portrait brings spontaneous warmth to the otherwise distant light-space story, with readable upper-garment structure"
+    },
+    {
+      "id": "future-artificial-light-neutral-detail",
+      "family": "close",
+      "body": "standing still for a localized study of an existing fastening, seam or fabric surface under the neutral key, with any architectural colour reflection confined outside the selected detail",
+      "hands": "hands remain outside the detail without pulling, opening or illuminating the garment",
+      "support": "both feet planted on the level passage floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use only source-visible construction; no emissive fabric, added hardware, changed material finish, glare clipping or reflected geometry mistaken for a garment pattern.",
+      "check": "the detail crop preserves the original colour, texture and fastening geometry despite the artificial-light environment"
+    },
+    {
+      "id": "ecommerce-studio-open-stand",
+      "family": "stand",
+      "body": "standing tall on the seamless studio floor with feet slightly offset and knees unlocked, shoulders level, quiet approachable assurance",
+      "hands": "arms hang loosely with small gaps from the sides, fingers relaxed and clear of seams and closures",
+      "support": "both feet flat on the floor with balanced weight and a soft contact shadow",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "No forced waist curve, locked mannequin stance, hands in unverified pockets or altered garment length; keep the entire intended product outline readable.",
+      "check": "a composed but relaxed catalog stance shows the original silhouette and unobstructed front construction under the existing soft key and fill"
+    },
+    {
+      "id": "ecommerce-studio-forward-step",
+      "family": "walk",
+      "body": "taking a small forward step across the plain studio floor with a steady upright torso, attentive ease and a neutral approachable expression",
+      "hands": "arms swing naturally at low height, hands empty and outside the front panels",
+      "support": "leading foot flat on the floor and trailing forefoot in contact, with soft grounded shadows",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep the stride within the real garment allowance; no swinging hem that hides length, motion blur, added bag or dramatic walking lunge.",
+      "check": "a light step adds movement while the actual fit, hem and closures remain easy to compare with the source"
+    },
+    {
+      "id": "ecommerce-studio-block-seat",
+      "family": "sit",
+      "body": "sitting upright on a broad low white studio block, knees close and feet slightly offset, relaxed warmth with a small closed-mouth smile",
+      "hands": "palms rest on the block beside the hips without pinning the garment or covering the lap",
+      "support": "the block supports the pelvis and both feet are flat on the visible floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use a block height that preserves seated coverage and natural drape; no shortened skirt, spread knees, gathered hem or broad smile.",
+      "check": "a natural seated fit view keeps fabric folds and original coverage believable, with the block separate from the garment outline"
+    },
+    {
+      "id": "ecommerce-studio-wall-shoulder",
+      "family": "lean",
+      "body": "resting one shoulder lightly against the plain white studio wall panel, hips free and feet staggered, easy calm without a detached fashion attitude",
+      "hands": "both hands stay low at the sides, neither pushing into pockets nor pulling the waist",
+      "support": "one shoulder contacts the wall with a faint soft shadow; both feet remain grounded",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep the lean shallow and the original fit uncompressed; avoid contact on delicate shoulder details, a deep hip bend or hard wall shadows.",
+      "check": "a relaxed shoulder-supported pose shows a clear garment front and natural fit against the quiet studio background"
+    },
+    {
+      "id": "ecommerce-studio-settled-pivot",
+      "family": "turn",
+      "body": "settling a short step into a shallow whole-body pivot on the seamless floor, hips and shoulders turning together, focused friendly composure",
+      "hands": "hands remain relaxed beside the thighs with a little clearance from the waist and closures",
+      "support": "one planted foot bears weight while the other forefoot settles close by",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep the original front construction visible without revealing unknown rear details; no deep twist, narrowed waist, lifted hem, frown or exaggerated expression.",
+      "check": "a small change of body angle reveals natural garment volume without inventing an unsupported side or back view"
+    },
+    {
+      "id": "ecommerce-studio-side-block-palm",
+      "family": "lean",
+      "body": "placing one palm on a plain light-gray block at the side, torso inclining slightly toward the support while hips stay level, an open welcoming manner with a restrained smile",
+      "hands": "supporting palm rests flat outside the garment outline; the free hand hangs beside the thigh",
+      "support": "both feet grounded and one palm resting on a stable block at a comfortable height",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use a support height within the sleeve allowance; no low reach that folds the torso, foreground block hiding the hem, stretched fabric or broad grin.",
+      "check": "gentle hand-supported inclination provides a distinct catalog pose while the closure, sleeve and waist keep their actual shape"
+    },
+    {
+      "id": "ecommerce-studio-halfbody-soft-smile",
+      "family": "stand",
+      "body": "standing with shoulders relaxed and torso very slightly inclined toward the camera, a warm closed-mouth smile and attentive presence, keeping the upper garment open to view",
+      "hands": "one hand makes a small low open gesture outside the waist; the other rests loosely at the side, leaving the neckline clear",
+      "support": "both feet planted with weight balanced beneath the mild forward inclination",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Stay within current person conditions and the neutral approachable catalog expression; no broad smile, frown, hands at the collar or changed neckline coverage.",
+      "check": "a half-body emotional portrait feels attentive and warm while the original collar, shoulder line and front construction remain readable"
+    },
+    {
+      "id": "ecommerce-studio-construction-detail",
+      "family": "close",
+      "body": "standing still for a localized study of an existing closure, cuff seam or fabric surface under the studio's soft left key and gentle right fill",
+      "hands": "hands stay outside the selected detail, with no pinching, unfastening or stretching",
+      "support": "both feet planted on the seamless studio floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use only source-visible detail, retain neutral white balance and highlight texture; no invented stitching, sharpened fake weave, extra fastening or unsupported material claim.",
+      "check": "a clear product detail crop preserves the source-backed construction and colour with the established studio light direction"
     }
   ]
 }

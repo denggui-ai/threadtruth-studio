@@ -26,6 +26,10 @@ Q6_POOL_IDS = {
                 'low-ledge-step', 'sheltered-squat', 'halfbody-van-laugh', 'construction-detail'),
     'y2k-millennium': ('pop-stand', 'record-shop-step', 'booth-bench-seat', 'metal-wall-shoulder',
                        'arcade-pivot', 'side-counter-palm', 'halfbody-sticker-grin', 'surface-detail'),
+    'future-artificial-light': ('threshold-stand', 'strip-walk', 'practical-ledge-seat', 'mullion-shoulder',
+                               'lightline-pivot', 'rail-palm', 'halfbody-warm-laugh', 'neutral-detail'),
+    'ecommerce-studio': ('open-stand', 'forward-step', 'block-seat', 'wall-shoulder',
+                         'settled-pivot', 'side-block-palm', 'halfbody-soft-smile', 'construction-detail'),
 }
 
 
@@ -148,8 +152,8 @@ class StylePosePoolTests(unittest.TestCase):
                     if original['avoid_when'] != 'none':
                         self.assertIn(original['avoid_when'], resolved['avoid_when'])
                 used.append(resolved['id'])
-        self.assertEqual(len(migrated), 30)
-        self.assertEqual(len(used), 240)
+        self.assertEqual(len(migrated), 32)
+        self.assertEqual(len(used), 256)
         self.assertEqual(set(used), set(by_id))
         self.assertEqual(len(used), len(set(used)))
 
@@ -170,7 +174,7 @@ class StylePosePoolTests(unittest.TestCase):
                     for item in frozen.get('commitments', []):
                         self.assertIn(item['show'], rendered)
 
-    def test_five_q6_style_pools_resolve_stable_ids_and_freeze_each_action(self):
+    def test_q6_style_pools_resolve_stable_ids_and_freeze_each_action(self):
         for entry, suffixes in Q6_POOL_IDS.items():
             card = library.card(entry)
             expected_ids = [entry + '-' + suffix for suffix in suffixes]
@@ -179,6 +183,8 @@ class StylePosePoolTests(unittest.TestCase):
             self.assertEqual(len(set(expected_ids)), 8)
             self.assertTrue({'stand', 'walk', 'sit', 'lean', 'close'} <=
                             {row['family'] for row in card['pose_vocabulary']})
+            self.assertEqual(sum('-halfbody-' in row['id'] for row in card['pose_vocabulary']), 1)
+            self.assertEqual(sum(row['family'] == 'close' for row in card['pose_vocabulary']), 1)
             for row in card['pose_vocabulary']:
                 with self.subTest(entry=entry, action=row['id']):
                     spec = self.spec(entry, row)
@@ -196,9 +202,11 @@ class StylePosePoolTests(unittest.TestCase):
                     rendered = self.export(spec, frozen, 'codex_native', name=row['id']).decode()
                     for field in ('body', 'hands', 'support'):
                         self.assertIn(row[field], rendered)
+                    for item in frozen.get('commitments', []):
+                        self.assertIn(item['show'], rendered)
                     self.assertEqual(frozen['shots'][0]['framing'], cell['framing'])
 
-    def test_five_q6_frozen_style_pools_do_not_reload_shared_files(self):
+    def test_q6_frozen_style_pools_do_not_reload_shared_files(self):
         for entry in Q6_POOL_IDS:
             card = library.card(entry)
             for row in card['pose_vocabulary']:

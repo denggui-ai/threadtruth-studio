@@ -132,7 +132,9 @@ class AestheticRun6Tests(unittest.TestCase):
             spec['shot_plan'].update(flags)
             with self.subTest(flags=flags), self.assertRaisesRegex(ValueError, 'pose_library.py recommend'):
                 library.prepare(spec)
-        spec = spec_for(self.sha, 'ecommerce-studio', 0)
+        # Scenography still has no model-action pool; ecommerce-studio gained one in Q6.
+        self.assertNotIn('pose_pool', library.card('art-deco-set'))
+        spec = spec_for(self.sha, 'art-deco-set', 0)
         self.create(spec, library.prepare(spec))
 
     def test_i21_old_plan_markers_keep_preparation_behavior(self):

@@ -95,5 +95,16 @@
   "default_objective": "styled-editorial",
   "scene_options": [
     "有层次的玻璃通道、金属城市空间或可解释灯带的夜间建筑；无需文字招牌。"
+  ],
+  "action_tendency": "Grounded encounters with architectural light: pause at a neutral light threshold, walk beside recessed strips, sit near a warm practical, lean on an unlit mullion or rail and make a shallow pivot between light zones. Range from detached composure and focused anticipation to reflection, curiosity and spontaneous warmth, including a half-body portrait, when current person conditions allow. Keep coloured light at the environment or permitted edges, preserve a neutral readable garment area and distinguish the person from reflections; no invented techwear or luminous clothing.",
+  "pose_pool": [
+    "future-artificial-light-threshold-stand",
+    "future-artificial-light-strip-walk",
+    "future-artificial-light-practical-ledge-seat",
+    "future-artificial-light-mullion-shoulder",
+    "future-artificial-light-lightline-pivot",
+    "future-artificial-light-rail-palm",
+    "future-artificial-light-halfbody-warm-laugh",
+    "future-artificial-light-neutral-detail"
   ]
 }

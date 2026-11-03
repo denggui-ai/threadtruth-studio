@@ -59,7 +59,7 @@ schema2新任务可携带顶层`visual_plan`及其版本／哈希，启用prompt
 
 关联修订同样用 `prepare --task <父任务目录>`（Python 传父任务的 `frozen_visual_plan`），从父任务冻结的 `shot_plan` 取目标格，跳过新任务配额并保留渲染版本及造型句原有状态；保留首张生成人物时允许 `new → ai`，其他来源变更仍拒绝，随后交给 `web-task.py prepare-revision`／`create_revision` 核对实际身份确认、首张图片哈希和固定人物条件。
 
-已知限制：`variety_checks: 1` 的旧任务，若所用风格卡在建任务之后才新增动作池（如 neo-chinese、hanfu-form-specific、lolita-layered、gorpcore、y2k-millennium、resort-vacation、qipao-urban、romantic-bohemian），重新准备或修订会按当前卡要求至少 5 格带 `pose_id`。此时请按新任务重新规划并补选池内动作，或继续使用原冻结请求，不手工改写旧计划。
+已知限制：`variety_checks: 1` 的旧任务，若所用风格卡在建任务之后才新增动作池（如 neo-chinese、hanfu-form-specific、lolita-layered、gorpcore、y2k-millennium、resort-vacation、qipao-urban、romantic-bohemian、future-artificial-light、ecommerce-studio），重新准备或修订会按当前卡要求至少 5 格带 `pose_id`。此时请按新任务重新规划并补选池内动作，或继续使用原冻结请求，不手工改写旧计划。
 
 续图与恢复使用任务里冻结的plan；索引或卡片升级不改旧任务。无visual_plan的旧任务继续按原契约恢复；要采用新方案须显式准备新版本，不静默升级或重写历史请求。输出、修订与未知请求保留累计次数，先查询未知请求再决定是否需要新的授权调用。
 
