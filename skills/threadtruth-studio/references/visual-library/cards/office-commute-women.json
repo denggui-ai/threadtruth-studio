@@ -160,6 +160,8 @@
     "oc-folder-close",
     "oc-desk-sit",
     "oc-walk-away",
-    "oc-turn-greet"
+    "oc-turn-greet",
+    "oc-halfbody-cuff-check",
+    "oc-halfbody-desk-listen"
   ]
 }

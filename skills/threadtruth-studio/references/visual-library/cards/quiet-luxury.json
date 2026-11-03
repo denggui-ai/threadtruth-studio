@@ -160,6 +160,8 @@
     "ql-fabric-rack-touch",
     "ql-lobby-walk",
     "ql-gallery-walk-away",
-    "ql-texture-close"
+    "ql-texture-close",
+    "ql-halfbody-cuff-touch",
+    "ql-halfbody-sofa-forearms"
   ]
 }

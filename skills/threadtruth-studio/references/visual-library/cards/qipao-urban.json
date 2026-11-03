@@ -142,6 +142,8 @@
     "qp-counter-palm",
     "qp-window-seat",
     "qp-offset-weight",
-    "qp-closure-detail"
+    "qp-closure-detail",
+    "qp-halfbody-ear-tuck",
+    "qp-halfbody-door-forearm"
   ]
 }

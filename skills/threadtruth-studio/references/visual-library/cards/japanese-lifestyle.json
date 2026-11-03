@@ -167,6 +167,8 @@
     "jl-bicycle-walk",
     "jl-step-sit",
     "jl-walk-away-lane",
-    "jl-sleeve-fold"
+    "jl-sleeve-fold",
+    "jl-halfbody-table-listen",
+    "jl-halfbody-curtain-guide"
   ]
 }

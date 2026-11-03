@@ -25,6 +25,7 @@ class AestheticReviewRegressionTests(unittest.TestCase):
         fixture = json.loads((ROOT / 'tests/fixtures/aesthetic-legacy-series.json').read_text())
         self.assertEqual(fixture['baseline'], 'd7d7e66')
         spec, frozen = fixture['spec'], fixture['visual_plan']
+        fixtures.use_current_pool_in_fixture(frozen)
         self.assertEqual(spec['garment']['source_sha256s'], [self.sha])
         context = dict(fixture['context'], purpose='delivery')
         return spec, frozen, context

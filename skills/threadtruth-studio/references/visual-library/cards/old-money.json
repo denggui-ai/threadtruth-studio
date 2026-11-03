@@ -161,6 +161,8 @@
     "om-veranda-wicker-sit",
     "om-sideboard-turn",
     "om-dock-walk-away",
-    "om-cuff-close"
+    "om-cuff-close",
+    "om-halfbody-cuff-pause",
+    "om-halfbody-veranda-chin"
   ]
 }

@@ -3046,6 +3046,774 @@
       ],
       "avoid_when": "Use only source-visible detail, retain neutral white balance and highlight texture; no invented stitching, sharpened fake weave, extra fastening or unsupported material claim.",
       "check": "a clear product detail crop preserves the source-backed construction and colour with the established studio light direction"
+    },
+    {
+      "id": "as-halfbody-cuff-pause",
+      "family": "stand",
+      "body": "waist-up half-body, pausing beside a subway entrance with the torso loosely offset and one elbow bent out beside the waist, a casually amused half-smile",
+      "hands": "one hand lightly touches the opposite existing sleeve edge at the side of the waist; the bent forearm stays outside the chest",
+      "support": "both feet on level pavement; arms support their own weight",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use only an existing reachable sleeve edge; do not roll, pull or reshape it, hide a chest graphic or add accessories.",
+      "check": "the sideways bent forearm and sleeve-touch gesture remain visible above the waist; unposed city ease, garment front clear"
+    },
+    {
+      "id": "as-halfbody-shutter-forearm",
+      "family": "lean",
+      "body": "waist-up half-body, leaning diagonally toward a roll-up shutter through one upright forearm at shoulder height, opposite shoulder free, a knowing smirk",
+      "hands": "one forearm contacts a smooth part of the shutter beside the head; the free hand hangs outside the waist",
+      "support": "both feet grounded; one forearm takes light weight against the shutter",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use a safe smooth contact area; skip if the sleeve would snag or a key sleeve feature would be pressed against the shutter.",
+      "check": "raised supporting forearm and diagonal shoulder line distinguish this from a back or shoulder lean; chest remains open"
+    },
+    {
+      "id": "al-halfbody-ear-tuck",
+      "family": "stand",
+      "body": "waist-up half-body, resting beside a gym window with one elbow bent loosely beside the shoulder and the torso easy over grounded feet, a fresh natural smile",
+      "hands": "one hand briefly tucks an existing loose strand behind the ear; the other stays low outside the waist",
+      "support": "both feet on the gym floor; no exercise equipment supports the body",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use only if existing hair and sleeve mobility allow; no new hair accessories, hairstyle change, raised-arm stretch or exposed midriff.",
+      "check": "a visible bent arm beside the head contrasts with the low-arm detail pose; relaxed pause rather than exercise"
+    },
+    {
+      "id": "al-halfbody-rail-elbows",
+      "family": "lean",
+      "body": "waist-up half-body, inclining slightly forward toward the riverside rail with shoulders level and elbows separated, an easy attentive smile",
+      "hands": "both forearms rest on the rail to either side of the torso, hands open and separate rather than clasped across the garment",
+      "support": "both feet on the path; two elbows share light weight on the existing rail",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use a rail at a comfortable elbow height; do not stretch, hang, squat or let the rail hide required front construction.",
+      "check": "two supported elbows and a forward torso make a different upper-body silhouette from the single-forearm rail pause"
+    },
+    {
+      "id": "bc-halfbody-barre-forearms",
+      "family": "lean",
+      "body": "waist-up half-body, resting sideways beside the studio barre with both elbows softly bent and the torso inclining a little toward the support, quiet absorbed focus",
+      "hands": "both forearms lie softly along the barre beside the body; wrists and fingers remain loose without gripping",
+      "support": "both feet on the wooden floor; forearms take light weight on the plain barre",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use a comfortable low barre without lifting a leg or stretching; do not compress sleeve trim or turn the pause into a dance exercise.",
+      "check": "paired bent forearms and the gentle side inclination are visible in half-body, unlike the upright single-hand barre rest"
+    },
+    {
+      "id": "bc-halfbody-soft-wrist",
+      "family": "stand",
+      "body": "waist-up half-body, standing clear of the studio wall with a lifted but easy torso and a small rounded arm shape beside the waist, a gentle closed-lip smile",
+      "hands": "one open palm lightly supports the opposite wrist beside the waist; elbows stay softly rounded and below the ribs",
+      "support": "both feet on the studio floor; the lower palm supports the other wrist",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Do not raise sleeves, cover the neckline, pull fabric, add ribbons or force a formal ballet position.",
+      "check": "a low curved two-arm shape is visible beside the waist while neck, front and natural proportions remain clear"
+    },
+    {
+      "id": "bh-halfbody-cuff-set",
+      "family": "stand",
+      "body": "waist-up half-body, standing upright by a dark wooden study doorway with one forearm bent beside the waist, reserved satisfaction and a slight closed-lip smile",
+      "hands": "one hand lightly aligns with the opposite existing cuff edge without folding it; the working forearm stays beside the front panel",
+      "support": "both feet on the floor; one hand steadies the other wrist",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use only a source-backed cuff within its real reach; do not roll sleeves, add cufflinks, alter the collar or cover a required front detail.",
+      "check": "a precise side cuff gesture contrasts with the existing collar-set pose; upright and assured rather than military"
+    },
+    {
+      "id": "bh-halfbody-study-chin",
+      "family": "sit",
+      "body": "waist-up half-body, sitting tall in the existing leather armchair with a small forward inclination and one forearm rising beside the face, thoughtful composure",
+      "hands": "one elbow rests on the armrest with knuckles lightly under the chin; the other hand rests on the far armrest, holding nothing",
+      "support": "chair seat supports the pelvis; feet grounded; one elbow on an armrest supports the chin",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep the front panel and collar clear; do not slump, add a book, force a stern scowl or broaden the smile.",
+      "check": "supported chin and forward shoulder line differ from reading upright with a book low on the armrest"
+    },
+    {
+      "id": "cb-halfbody-ear-tuck",
+      "family": "stand",
+      "body": "waist-up half-body, pausing at a lived-in cafe entrance with one elbow loosely lifted and the opposite shoulder dropped, an approachable relaxed smile",
+      "hands": "one hand tucks existing hair behind an ear; the other hangs loosely beside the waist, empty",
+      "support": "both feet on the pavement outside the cafe",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Select only if existing hair and sleeves permit; keep the haircut and clothing unchanged and retain the cafe and street depth behind.",
+      "check": "raised bent arm beside the head is visible above the waist; no coffee cup, idol wink or stiff architecture pose"
+    },
+    {
+      "id": "cb-halfbody-bench-chin",
+      "family": "sit",
+      "body": "waist-up half-body, sitting on the park bench with the torso inclined forward and one elbow bent upward, easy curious attention",
+      "hands": "one elbow rests on the upper thigh and the knuckles support the chin; the other arm lies loosely along the bench back",
+      "support": "bench supports the pelvis; feet grounded; thigh supports the raised elbow",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep the bend shallow enough that the front drapes naturally; no compressed waist, new props or cold model stare.",
+      "check": "the upright forearm to the chin and forward torso remain readable in half-body and differ from the reclining bench pose"
+    },
+    {
+      "id": "cf-halfbody-cuff-pause",
+      "family": "stand",
+      "body": "waist-up half-body, standing at a quiet shop entrance with the torso naturally upright and one forearm bent low to the side, calm attentive concentration",
+      "hands": "one hand rests against the opposite existing sleeve edge beside the waist; neither hand crosses the central front",
+      "support": "both feet on the pavement; the lower hand lightly steadies the other wrist",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use only an existing sleeve edge; do not fold it back, reshape it, invent a cuff or hide a key seam.",
+      "check": "low lateral bent arms are visible in half-body; relaxed everyday focus with the whole front panel unobstructed"
+    },
+    {
+      "id": "cf-halfbody-table-chin",
+      "family": "sit",
+      "body": "waist-up half-body, sitting beside the pale wooden table with a modest forward inclination and one shoulder higher over a bent elbow, quiet listening ease",
+      "hands": "one elbow rests on the table beside the body with knuckles lightly under the chin; the other forearm lies along the near table edge",
+      "support": "chair supports the pelvis; feet grounded; tabletop supports the elbow and opposite forearm",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep the table and arms beside the garment rather than across its front; do not add objects, hunch or use a broad smile.",
+      "check": "one vertical forearm and a forward shoulder line distinguish the pose from the cup-holding table seat"
+    },
+    {
+      "id": "cq-halfbody-wrist-poise",
+      "family": "stand",
+      "body": "waist-up half-body, standing beside the salon chair with shoulders softly offset and a small rounded arm shape beside the waist, a warm closed-lip smile",
+      "hands": "one palm cradles the opposite wrist low beside the waist; fingers remain open and do not grasp the dress",
+      "support": "both feet on the floor; one palm supports the opposite wrist",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep neckline, bows and waist details clear; do not add a teacup, jewellery or a childish or coy gesture.",
+      "check": "a low joined-wrist arc gives a different half-body silhouette from jaw touching or holding a cup"
+    },
+    {
+      "id": "cq-halfbody-chair-listen",
+      "family": "sit",
+      "body": "waist-up half-body, sitting sideways on the upholstered salon chair with the torso inclined slightly toward its back, socially attentive warmth",
+      "hands": "one elbow rests on the chair back with fingertips beside the temple; the other hand lies softly on the seat beside the hip",
+      "support": "chair supports the pelvis; feet grounded; chair back supports one elbow",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use a stable chair and a small reach; do not pull hair, cover neckline decoration, add props or open the mouth into a laugh.",
+      "check": "the supported raised elbow and forward torso separate this from the upright lap-folded seat and unsupported jaw touch"
+    },
+    {
+      "id": "ecommerce-studio-halfbody-cuff-check",
+      "family": "stand",
+      "body": "waist-up half-body, standing upright on the seamless floor with one elbow bent low to the side, attentive approachable composure and a restrained closed-mouth smile",
+      "hands": "one hand lightly steadies the opposite wrist beside the waist near an existing sleeve edge, leaving the central garment panel clear",
+      "support": "both feet on the studio floor; one hand steadies the opposite wrist",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use only a source-backed sleeve edge within easy reach; do not roll cuffs, stretch fabric, cover construction or add accessories.",
+      "check": "a visible two-hand sleeve gesture contrasts with the existing low open gesture; original fit and studio light remain unchanged"
+    },
+    {
+      "id": "ecommerce-studio-halfbody-wall-forearm",
+      "family": "lean",
+      "body": "waist-up half-body, inclining slightly sideways toward the plain studio wall panel through one bent forearm at chest height, a calm friendly expression",
+      "hands": "one forearm contacts the wall beside the shoulder; the other hand stays low outside the waist, empty",
+      "support": "both feet grounded; one forearm takes light weight on the existing wall panel",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use an undecorated sleeve contact area; skip if contact compresses required sleeve structure or the reach changes the neckline or coverage.",
+      "check": "raised forearm and diagonal torso are visible in half-body, unlike the shoulder lean with both hands low; no broad smile or frown"
+    },
+    {
+      "id": "fr-halfbody-cafe-chin",
+      "family": "sit",
+      "body": "waist-up half-body, sitting beside a cafe terrace table with the torso loosely tipped forward and one shoulder relaxed, an amused spontaneous smile",
+      "hands": "one elbow rests on the table beside the torso with the chin on loose knuckles; the other hand rests at the side edge of the table",
+      "support": "cafe chair supports the pelvis; feet grounded; table supports one elbow",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep the lean easy and the front drape uncompressed; no new cup, garment pulling or deliberately posed pout.",
+      "check": "the supported vertical forearm and forward torso differ from the sideways chair-back seat and hair-tuck gesture"
+    },
+    {
+      "id": "fr-halfbody-door-forearm",
+      "family": "lean",
+      "body": "waist-up half-body, leaning diagonally toward an apartment door frame through one bent forearm beside the head, a brief unguarded laugh",
+      "hands": "one forearm rests along the plain door frame; the free hand hangs outside the waist without holding any garment edge",
+      "support": "both feet on the wooden floor; one forearm takes light weight on the door frame",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep contact off delicate sleeve details; no added prop, pocket assumption, forced arch or changed exposure.",
+      "check": "high bent forearm and loose diagonal shoulder line contrast with the low-hand shoulder lean; garment front stays free"
+    },
+    {
+      "id": "gorpcore-halfbody-cuff-check",
+      "family": "stand",
+      "body": "waist-up half-body, pausing upright beside the outdoor shop with one forearm bent beside the waist, absorbed practical concentration",
+      "hands": "one hand lightly touches the opposite source-backed sleeve edge without moving a fastening; elbows stay outside the front pockets",
+      "support": "both feet on a dry level path; one hand steadies the opposite wrist",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use only an existing reachable cuff; do not add straps, tools or equipment, open fastenings, roll sleeves or assert performance properties.",
+      "check": "the low two-hand inspection gesture is visible in half-body while pocket, seam and closure positions remain unchanged"
+    },
+    {
+      "id": "gorpcore-halfbody-rail-elbows",
+      "family": "lean",
+      "body": "waist-up half-body, inclining forward a little over a dry forest boardwalk rail with both elbows separated, interested route-watching curiosity and a small smile",
+      "hands": "both forearms lie on the rail beside the torso; hands stay empty and separated, not over the front panels",
+      "support": "both feet on the level boardwalk; two elbows share light weight on the existing rail",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use a stable dry rail at a comfortable height; no deep bend, hanging, extreme terrain, added gear or compression of front pockets.",
+      "check": "two supported elbows and a forward torso differ from the single-palm rail and sideways forearm camper pause"
+    },
+    {
+      "id": "gc-halfbody-folded-arms",
+      "family": "stand",
+      "body": "waist-up half-body, standing near the red-brick street facade with shoulders set on a shallow diagonal and elbows confidently separated, a bold knowing smirk",
+      "hands": "forearms cross loosely below the chest, open fingers resting on opposite upper arms without gripping fabric",
+      "support": "both feet grounded; forearms support each other without pressing into the torso",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Skip when the crossed arms hide required graphics, closures or textile structure; do not pull sleeves, change exposure or add accessories.",
+      "check": "a broad crossed-arm silhouette remains visible in half-body and differs from the one-hand lens reach or rail lean"
+    },
+    {
+      "id": "gc-halfbody-wall-forearm",
+      "family": "lean",
+      "body": "waist-up half-body, leaning sideways toward a brick wall with one elbow bent beside the head and the opposite shoulder open, assured playful defiance",
+      "hands": "one forearm rests against a smooth wall section at shoulder height; the free hand stays low beside the waist",
+      "support": "both feet on the pavement; one forearm takes light weight against the wall",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Skip rough contact that snags or hides sleeve detail; keep the torso shallowly front-facing without forcing a back view or adding street props.",
+      "check": "raised forearm and a side-inclined torso distinguish this from the back-against-wall pocket pose; no shy expression"
+    },
+    {
+      "id": "il-halfbody-cuff-study",
+      "family": "stand",
+      "body": "waist-up half-body, standing in the warm marble doorway with one elbow bent beside the waist and the torso comfortably tall, a warm knowing half-smile",
+      "hands": "one hand lightly meets the opposite existing cuff edge at the side; fingers do not pull or fold the fabric",
+      "support": "both feet on the foyer floor; one hand steadies the opposite wrist",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use only a real cuff within easy reach; no added jewellery, cufflinks, luxury props or hidden garment details.",
+      "check": "the lateral bent forearm and sleeve gesture are visible in half-body, unlike the hands-below-frame collar view"
+    },
+    {
+      "id": "il-halfbody-terrace-chin",
+      "family": "lean",
+      "body": "waist-up half-body, inclining gently toward the terrace balustrade with one elbow planted at the side and shoulders comfortably oblique, warm contemplative ease",
+      "hands": "one elbow rests on the broad stone rail with loose knuckles under the chin; the other forearm lies along the rail away from the garment front",
+      "support": "both feet on the terrace floor; stone balustrade supports the raised elbow and opposite forearm",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use only an existing broad rail at a comfortable height; no precarious seating, new objects, cold stare or broad grin.",
+      "check": "one vertical supported forearm and a gentle forward torso distinguish this from balustrade sitting with hands by the hips"
+    },
+    {
+      "id": "jl-halfbody-table-listen",
+      "family": "sit",
+      "body": "waist-up half-body, sitting beside the low wooden home table with the torso softly inclined forward, one shoulder slightly lowered, a faint unguarded smile",
+      "hands": "one elbow rests on the table beside the body with the cheek lightly on open knuckles; the other hand rests along the table edge, empty",
+      "support": "the existing floor seat supports the pelvis; low tabletop supports one elbow",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep the lean modest and front drape loose; do not add a cup or other prop, make a chic pose or use a broad grin.",
+      "check": "a supported cheek and upright forearm give a different half-body shape from pouring tea or folding a cuff"
+    },
+    {
+      "id": "jl-halfbody-curtain-guide",
+      "family": "stand",
+      "body": "waist-up half-body, standing beside the home window with one shoulder softly forward and two elbows bent at different heights while guiding the existing sheer curtain, quiet absorbed focus",
+      "hands": "one hand guides the curtain edge at shoulder height; the other supports its loose edge beside the waist without gathering it against the garment",
+      "support": "both feet on the wooden floor; arms carry only the light existing curtain, never body weight",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use the existing curtain within easy reach; no new clips, ties or props, overhead stretch, sleeve rolling or clothing hidden by the sheer.",
+      "check": "two staggered forearms and the forward shoulder are visible above the waist, unlike the original single hand drawing the curtain at hip height"
+    },
+    {
+      "id": "kc-halfbody-temple-rest",
+      "family": "sit",
+      "body": "waist-up half-body, sitting beside a cool-gray cafe table with a contained forward inclination and one forearm rising beside the face, pensive melancholy with closed relaxed lips and no smile",
+      "hands": "one elbow rests on the table to the side, knuckles lightly beside the temple; the other forearm lies flat along the side edge",
+      "support": "chair seat supports the pelvis; feet grounded; table supports one elbow and the other forearm",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep the garment front clear and the bend small; no new cup, hair restyling, smiling or slumped collapse.",
+      "check": "supported raised forearm and forward shoulder line differ from the low collar hold and thigh-supported seated lean; cool place remains recognizable"
+    },
+    {
+      "id": "kc-halfbody-wall-forearm",
+      "family": "lean",
+      "body": "waist-up half-body, inclining a little sideways through one upright forearm on the apartment-entry wall, shoulders contained, distant attentive concentration and no smile",
+      "hands": "one forearm lies along a plain wall area beside the head; the other hand stays low outside the waist without gripping clothing",
+      "support": "both feet on the entry floor; one forearm takes light weight against the wall",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Retain recognizable entry depth rather than a blank studio; skip contact that crushes sleeve structure, and do not change coverage or add objects.",
+      "check": "raised forearm and diagonal torso contrast with the shoulder-blades-against-wall stance and opposite-forearm hold; lips remain closed"
+    },
+    {
+      "id": "km-halfbody-cuff-align",
+      "family": "stand",
+      "body": "waist-up half-body, standing tall in the concrete gallery atrium with one forearm bent precisely beside the waist, cool attentive composure with closed lips and no smile",
+      "hands": "one hand lightly meets the opposite source-backed cuff edge at the side; elbows stay close without pinning the front panel",
+      "support": "both feet on the atrium floor; one hand steadies the opposite wrist",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use only an existing reachable cuff; no cufflinks, sleeve rolling, slouch, playful expression or new accessories.",
+      "check": "one exact lateral sleeve gesture breaks the all-low-arm half-body silhouette while the posture remains still and architectural"
+    },
+    {
+      "id": "km-halfbody-frame-forearm",
+      "family": "lean",
+      "body": "waist-up half-body, standing nearly upright beside the boutique steel entrance frame with one elbow bent at chest height and only a shallow side inclination, quiet self-possession without a smile",
+      "hands": "one forearm rests along the matte steel upright beside the shoulder; the free arm hangs straight outside the waist",
+      "support": "both feet grounded; steel frame takes only light forearm contact",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep vertical posture and original sleeve ease; skip delicate sleeve contact, deep slouch, smiling, added props or readable shop text.",
+      "check": "a raised structural forearm and asymmetric shoulder relation distinguish this from the arms-down entrance profile; no unsupported back view"
+    },
+    {
+      "id": "neo-chinese-halfbody-sleeve-study",
+      "family": "stand",
+      "body": "waist-up half-body, standing beside the tea-room wood wall with one elbow softly bent out beside the waist, thoughtful curiosity and a small warm smile",
+      "hands": "one palm lightly supports the opposite wrist beside the waist near its existing sleeve edge, never crossing the fastening line",
+      "support": "both feet on the tea-room floor; the lower palm supports the opposite wrist",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use only the actual sleeve and its ease; no cuff rolling, collar touching, fastening movement, invented frog buttons or sleeve-shape changes.",
+      "check": "joined wrists and an oblique forearm remain visible above the waist, unlike the low-arm conversation portrait; collar and front remain clear"
+    },
+    {
+      "id": "neo-chinese-halfbody-table-chin",
+      "family": "sit",
+      "body": "waist-up half-body, sitting beside the tea table with a small forward inclination and one shoulder softly raised over a supported elbow, absorbed listening with an intimate amused smile",
+      "hands": "one elbow rests at the side edge of the table with loose knuckles under the chin; the other forearm rests beside the body on the table",
+      "support": "tea-room bench supports the pelvis; feet grounded; tabletop supports one elbow and the other forearm",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep sleeves off the fastening line and tabletop objects; no added teaware, compressed collar, displaced closures or changed layer order.",
+      "check": "vertical forearm to chin and forward shoulder relation differ from the side-palm table lean and hands-on-seat conversation pose"
+    },
+    {
+      "id": "nm-halfbody-table-chin",
+      "family": "sit",
+      "body": "waist-up half-body, sitting at the pale wooden dining table with a modest forward inclination and one forearm upright beside the face, calm reflective ease",
+      "hands": "one elbow rests on the side of the tabletop with the chin lightly on loose knuckles; the other forearm stays flat beside the body",
+      "support": "wooden chair supports the pelvis; feet grounded; table supports both elbows",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep airy room context and distance from walls; no new objects, hunch, broad smile, cold stare or blocked garment front.",
+      "check": "one upright forearm and forward torso distinguish this from the table seat with both forearms flat and hands joined"
+    },
+    {
+      "id": "nm-halfbody-ear-tuck",
+      "family": "stand",
+      "body": "waist-up half-body, standing well clear of the living-room walls with one elbow softly bent beside the head and shoulders gently offset, quiet contentment with a relaxed mouth",
+      "hands": "one hand briefly tucks an existing strand behind the ear; the other rests low beside the waist, empty",
+      "support": "both feet on the living-room floor; no wall contact",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Select only when existing hair and sleeve movement allow; no new hair ornament, hairstyle change, sleeve lift or cold detached expression.",
+      "check": "raised arm beside the ear contrasts with the low cuff adjustment; half-body keeps open side space and recognizable home context"
+    },
+    {
+      "id": "oc-halfbody-cuff-check",
+      "family": "stand",
+      "body": "waist-up half-body, pausing upright in the office lobby with one elbow bent neatly beside the waist, focused professional ease and a light friendly smile",
+      "hands": "one hand lightly meets the opposite existing cuff edge at the side; neither hand covers the front panel or holds an object",
+      "support": "both feet on the lobby floor; one hand steadies the opposite wrist",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use only an existing sleeve edge within real reach; no cuff rolling, new watch or jewellery, altered closure or detached stare.",
+      "check": "a visible lateral two-hand task differentiates the half-body silhouette from the folder-held-low pose and shoulder-height greeting"
+    },
+    {
+      "id": "oc-halfbody-desk-listen",
+      "family": "lean",
+      "body": "waist-up half-body, inclining modestly toward the office desk from a supported upright seat, shoulders open over two separated elbows, attentive friendly composure",
+      "hands": "both forearms rest on the desk beside the torso, palms open and separate, clear of the central garment panel",
+      "support": "office chair supports the pelvis; feet grounded; desk supports both forearms",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep the lean small and shirt or jacket drape natural; no chin-propped laughter, new office objects, covered closures or deep hunch.",
+      "check": "paired elbow support and a forward torso differ from the upright laptop-hand seat; a light professional smile stays restrained"
+    },
+    {
+      "id": "om-halfbody-cuff-pause",
+      "family": "stand",
+      "body": "waist-up half-body, pausing in the warm-wood club hall with one elbow casually bent beside the waist, relaxed self-assurance and a slight easy smile",
+      "hands": "one hand lightly rests near the opposite existing cuff edge at the side without displaying the wrist to camera",
+      "support": "both feet on the wooden floor; one hand lightly steadies the other wrist",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use only an existing cuff; no sleeve rolling, added watch or cufflinks, wealth display, haughty stare or hidden garment detail.",
+      "check": "the low bent-arm sleeve gesture reads clearly in half-body without changing the inherited-leisure setting or natural drape"
+    },
+    {
+      "id": "om-halfbody-veranda-chin",
+      "family": "sit",
+      "body": "waist-up half-body, sitting easily in the veranda wicker chair with a mild forward inclination, one forearm rising beside the face, warm contemplative ease",
+      "hands": "one elbow rests on the chair arm with loose knuckles under the chin; the other hand rests on the far armrest, empty",
+      "support": "wicker seat supports the pelvis; feet grounded; chair arm supports one elbow",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep the lean unhurried and the garment front loose and visible; no new props, broad grin, smirk or aloof stare.",
+      "check": "supported chin and forward shoulder line differ from the reclining veranda seat with one hand on the thigh"
+    },
+    {
+      "id": "pp-halfbody-ear-tuck",
+      "family": "stand",
+      "body": "waist-up half-body, pausing on the library steps with an upright open torso and one elbow bent beside the shoulder, bright confident friendliness and a natural smile",
+      "hands": "one hand briefly tucks existing hair behind the ear; the other hangs low beside the waist, empty",
+      "support": "both feet on the same broad library step",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use only when existing hair and sleeve movement allow; no added hairband, books, uniform elements, childish gesture or coy expression.",
+      "check": "raised arm beside the head remains visible above the waist, unlike the notebook-held-low portrait or waist-height wave"
+    },
+    {
+      "id": "pp-halfbody-bench-chin",
+      "family": "sit",
+      "body": "waist-up half-body, sitting on the campus bench with a small forward inclination and one elbow lifted on the bench back, curious engaged confidence",
+      "hands": "one elbow rests on the existing bench back with knuckles lightly under the chin; the other hand rests on the seat beside the hip",
+      "support": "bench seat supports the pelvis; feet grounded; bench back supports one elbow",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use a stable bench and a short comfortable reach; no new book or accessory, blocked garment front, childish pout or forced arch.",
+      "check": "supported upright forearm and open forward shoulder relation distinguish this from reading with both hands low on the thigh"
+    },
+    {
+      "id": "ql-halfbody-cuff-touch",
+      "family": "stand",
+      "body": "waist-up half-body, standing in the contemporary lounge with one forearm bent quietly beside the waist, absorbed calm with faint warmth at the mouth",
+      "hands": "one hand lightly touches the opposite existing sleeve edge at the side; fingers do not pinch or display the fabric",
+      "support": "both feet on the lounge floor; one hand steadies the opposite wrist",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use only a source-backed sleeve edge; no new jewellery, sleeve rolling, fabric pulling or gesture that hides required construction.",
+      "check": "the low lateral sleeve gesture provides visible half-body arm structure without turning the pose into luxury display"
+    },
+    {
+      "id": "ql-halfbody-sofa-forearms",
+      "family": "sit",
+      "body": "waist-up half-body, sitting sideways on the low lobby sofa with the torso inclined mildly toward its back, shoulders relaxed over two separated elbows, quiet reflective warmth",
+      "hands": "both forearms rest along the sofa back beside the body; hands remain loosely open, not clasped in front of the garment",
+      "support": "sofa seat supports the pelvis; feet grounded; sofa back supports both forearms",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use a broad stable sofa back within easy reach; do not twist deeply, compress the waist, add objects or display a broad smile.",
+      "check": "two elevated forearms and the gentle sideways-forward torso differ from the upright front-edge sofa seat with hands low"
+    },
+    {
+      "id": "rv-halfbody-hair-tuck",
+      "family": "stand",
+      "body": "waist-up half-body, pausing beside the white hotel wall with torso easy and one elbow bent beside the head, a bright spontaneous laugh",
+      "hands": "one hand tucks an existing loose strand behind the ear; the other arm bends low with an open palm outside the waist",
+      "support": "both feet on level hotel paving; no wall contact or forced wind",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use only if existing hair and sleeve ease permit; no hairstyle change, invented breeze, new accessories, lifted hem or changed exposure.",
+      "check": "one raised arm and one low open forearm give a clear half-body silhouette unlike the low-hand wall lean"
+    },
+    {
+      "id": "rv-halfbody-balcony-chin",
+      "family": "lean",
+      "body": "waist-up half-body, inclining slightly forward toward the balcony rail with shoulders comfortably oblique and one forearm upright, playful interested curiosity",
+      "hands": "one elbow rests on the rail with loose knuckles under the chin; the other forearm lies along the rail beside the body",
+      "support": "both feet on the balcony floor; rail supports one elbow and the other forearm",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use a stable rail at a comfortable height; keep all body weight inside the balcony, garment front clear and original coverage unchanged.",
+      "check": "vertical supported forearm and forward torso differ from the sideways single-forearm laugh; no new props"
+    },
+    {
+      "id": "wv-halfbody-cuff-check",
+      "family": "stand",
+      "body": "waist-up half-body, standing squarely beside the workshop bench with one elbow bent at the side of the waist, calm capable concentration",
+      "hands": "one hand lightly steadies the opposite wrist near the existing cuff edge, without rolling it or holding a tool",
+      "support": "both feet on the workshop floor; one hand supports the opposite wrist",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use only a source-backed cuff; no new tool, gloves, equipment, altered fastening, rolled sleeve or covered front pocket.",
+      "check": "the visible lateral two-hand sleeve task distinguishes this from looking down at a ruler held low at the side"
+    },
+    {
+      "id": "wv-halfbody-bench-elbows",
+      "family": "lean",
+      "body": "waist-up half-body, inclining forward a little toward the wooden workbench with two elbows planted separately, practical thoughtful attention with at most a slight smile",
+      "hands": "both forearms lie on the bench beside the torso, hands open and empty rather than gripping a tool",
+      "support": "both feet on the floor; two elbows share light weight on the existing workbench",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use a comfortable bench height with the central garment panel visible; no new equipment, sleeve compression, deep hunch or tough-guy scowl.",
+      "check": "two supported elbows and forward shoulders differ from the original upright palms-on-bench pose"
+    },
+    {
+      "id": "y2k-millennium-halfbody-cheek-frame",
+      "family": "stand",
+      "body": "waist-up half-body, standing at the photo-booth entrance with shoulders tilted playfully and both elbows lifted apart below shoulder height, delighted pop surprise",
+      "hands": "both empty hands open beside the cheeks with palms toward camera, keeping the face and neckline uncovered",
+      "support": "both feet grounded; arms support their own weight without pulling clothing",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep gestures beside the face rather than over it; no added accessories, waist lowering, exposed midriff or strained sleeve opening.",
+      "check": "two raised open palms and outward elbows clearly differ from the single V-sign grin in a half-body crop"
+    },
+    {
+      "id": "y2k-millennium-halfbody-folded-arms",
+      "family": "stand",
+      "body": "waist-up half-body, standing beside the silver wall with torso tall on a shallow diagonal and elbows spread loosely below the chest, cheeky confident defiance",
+      "hands": "forearms cross loosely below the chest; open fingers rest lightly on opposite arms without gripping the fabric",
+      "support": "both feet on the floor; forearms support each other, without wall contact",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Skip if crossed arms hide required prints or fastenings; no squeezed waist, new accessories, altered exposure or dragged neckline.",
+      "check": "a low crossed-arm shape contrasts with the high two-palm gesture and the existing hands-low silver-wall lean"
+    },
+    {
+      "id": "ra-halfbody-ear-tuck",
+      "family": "stand",
+      "body": "waist-up half-body, pausing beside the old kitchen cabinets with one elbow bent beside the shoulder and the torso relaxed, a warm open friendly smile",
+      "hands": "one hand briefly tucks existing hair behind an ear; the other stays low beside the waist, empty",
+      "support": "both feet on the kitchen floor",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use only if existing hair and sleeve mobility permit; no new clip, hairstyle change, pin-up arch, wink or exaggerated laugh.",
+      "check": "a raised empty hand beside the head is visible above the waist, unlike the garment-edge adjustment or countertop tasks"
+    },
+    {
+      "id": "ra-halfbody-booth-chin",
+      "family": "sit",
+      "body": "waist-up half-body, sitting in the diner booth with a mild forward inclination and one forearm rising beside the face, warmly amused attention",
+      "hands": "one elbow rests on the side edge of the diner table with knuckles under the chin; the other hand rests flat near the side table edge, empty",
+      "support": "booth seat supports the pelvis; feet grounded; table supports one elbow",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "No new mug or prop; keep the table and forearms beside required garment details, with no pin-up pout or exaggerated laugh.",
+      "check": "supported chin and an upright forearm distinguish this from the booth pose with both forearms low and a mug between the hands"
+    },
+    {
+      "id": "ge-halfbody-folded-arms",
+      "family": "stand",
+      "body": "waist-up half-body, standing tall before a dark stone doorway with the torso shallowly oblique and elbows angled low, solemn introspective melancholy with closed lips and no smile",
+      "hands": "forearms cross loosely near the waist with long relaxed fingers resting on opposite arms, never clutching the fabric",
+      "support": "both feet on the stone floor; forearms support each other lightly",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Skip when crossed forearms conceal required closures, lace or motifs; no forced corseting, religious object, smile or theatrical claw gesture.",
+      "check": "a low crossed-arm shape differs from the original joined hands or single hand near the face; still vertical posture remains"
+    },
+    {
+      "id": "ge-halfbody-chair-temple",
+      "family": "sit",
+      "body": "waist-up half-body, sitting on the existing dark high-backed chair with the torso gently inclined forward and one forearm upright, absorbed haunting stillness and no smile",
+      "hands": "one elbow rests on a chair arm with long relaxed fingers beside the temple; the other forearm lies on the opposite armrest",
+      "support": "chair seat supports the pelvis; feet grounded; one armrest supports the raised elbow",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep the lean slight and front details clear; no new objects, religious symbols, distorted fingers, hair change or cheerful expression.",
+      "check": "supported temple and forward shoulders differ from the upright two-armrest seat and unsupported hand beside the face"
+    },
+    {
+      "id": "rb-halfbody-hair-tuck",
+      "family": "stand",
+      "body": "waist-up half-body, pausing on the open meadow path with the torso loose and one elbow bent beside the shoulder, an intimate spontaneous laugh",
+      "hands": "one hand tucks an existing loose strand behind the ear; the other forearm bends low beside the waist with an open hand",
+      "support": "both feet on firm level ground; arms carry no props",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use only if existing hair and sleeve ease allow; no new accessory, hairstyle change, forced wind, lifted sleeve or fabricated fabric volume.",
+      "check": "one raised and one low bent arm remain distinct in half-body from the existing low-arm wandering steps and supported seats"
+    },
+    {
+      "id": "rb-halfbody-tree-forearm",
+      "family": "lean",
+      "body": "waist-up half-body, inclining gently sideways toward an existing courtyard tree through one forearm at shoulder height, contemplative curiosity",
+      "hands": "one forearm rests on a smooth reachable trunk area beside the shoulder; the free hand hangs low outside the waist",
+      "support": "both feet on dry level ground; forearm takes light side support from the tree",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Skip rough bark or delicate sleeve contact; no deep arch, invented climbing, new objects, forced wind or changed exposure.",
+      "check": "raised forearm and a side-sloping shoulder line differ from the original palm-on-trunk support at waist height"
+    },
+    {
+      "id": "future-artificial-light-halfbody-mullion-forearm",
+      "family": "lean",
+      "body": "waist-up half-body, inclining slightly sideways through one forearm against the unlit corridor mullion, one shoulder higher, focused curiosity within neutral key light",
+      "hands": "one forearm contacts the structural mullion beside the shoulder; the other hand stays low and empty, away from the light channel",
+      "support": "both feet on the corridor floor; unlit structural mullion takes light forearm contact",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Never touch lamps or illuminated housings; skip delicate sleeve contact, keep reflections separate from the person and coloured spill off the garment front.",
+      "check": "raised supporting forearm and diagonal shoulders differ from the hands-low shoulder lean; garment colour and construction stay neutral and readable"
+    },
+    {
+      "id": "future-artificial-light-halfbody-cuff-study",
+      "family": "stand",
+      "body": "waist-up half-body, pausing upright in the neutral pool of architectural light with one elbow bent beside the waist, reflective warmth and a faint smile",
+      "hands": "one hand lightly meets the opposite existing sleeve edge at the side, clear of the front closure and any light source",
+      "support": "both feet on the corridor floor; one hand steadies the opposite wrist",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use only a real cuff within easy reach; no new tech accessory, sleeve rolling, lit clothing, colour change or invented luminous trim.",
+      "check": "the low joined-wrist gesture differs from the open conversational hand; neutral key light keeps source-backed sleeve construction readable"
+    },
+    {
+      "id": "hanfu-form-specific-halfbody-sleeve-cradle",
+      "family": "stand",
+      "body": "waist-up half-body, standing upright in the selected plain space with both elbows softly bent low to one side of the waist, absorbed thoughtful attention",
+      "hands": "one sleeved palm supports the opposite covered wrist beside the waist; original sleeve layers hang freely without being pulled back",
+      "support": "both feet grounded; one covered palm supports the opposite covered wrist",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Follow the actual sleeve cut and wearing order; no sleeve lifting, exposed forearms, invented ritual gesture, covered collar overlap or moved waist ties.",
+      "check": "the joined low wrists and diagonal forearm differ from two separate low sleeve arms; original collar direction and sleeve layers remain readable"
+    },
+    {
+      "id": "hanfu-form-specific-halfbody-ledge-elbows",
+      "family": "lean",
+      "body": "waist-up half-body, inclining slightly forward toward the existing smooth architectural ledge with two separated elbows and relaxed shoulders, curious engagement with a warm small smile",
+      "hands": "both covered forearms rest loosely on the ledge beside the torso, sleeves left in their original order without rolling or gathering",
+      "support": "both feet on level ground; broad existing ledge supports both covered elbows",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Select only if the actual sleeves can rest without snagging, crushing, exposing the arms or reaching objects; no shifted overlap, ties or skirt layers.",
+      "check": "paired supported forearms and forward shoulders differ from the single low palm rest and hands-on-bench laugh; collar overlap stays clear"
+    },
+    {
+      "id": "qp-halfbody-ear-tuck",
+      "family": "stand",
+      "body": "waist-up half-body, pausing beneath a modern portico with a tall torso and one elbow bent below shoulder level beside the head, a warm confident small smile",
+      "hands": "one hand lightly tucks existing hair behind an ear; the other hand stays low beside the waist, clear of the closure",
+      "support": "both feet on level city paving",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use only if existing hair and fitted sleeve mobility allow; no pulled neckline, changed slit, forced arch, new hair ornament or altered exposure.",
+      "check": "one raised bent arm remains visible above the waist, unlike the low-arm offset-weight pose; actual collar and fastening line remain clear"
+    },
+    {
+      "id": "qp-halfbody-door-forearm",
+      "family": "lean",
+      "body": "waist-up half-body, inclining a little sideways toward a clean modern doorway with one bent forearm at chest height, torso and hips aligned, quietly attentive focus",
+      "hands": "one forearm contacts a plain part of the doorway beside the shoulder; the other hand hangs outside the waist, not on the slit",
+      "support": "both feet grounded; existing doorway takes light forearm support",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Keep within actual fitted ease and a source-supported shallow angle; skip delicate sleeve contact, preserve collar, closures, slit and coverage, and do not force a waist bend.",
+      "check": "raised forearm and shallow side inclination differ from the hands-low doorway shoulder pose; fitted front remains natural and uncompressed"
+    },
+    {
+      "id": "be-halfbody-wrist-cradle",
+      "family": "stand",
+      "body": "waist-up half-body, standing softly upright in the pale corridor with elbows curved low beside the waist and shoulders relaxed, a tender closed-lip smile",
+      "hands": "one open palm supports the opposite wrist outside the bodice outline; fingers stay clear of lace, straps and beading",
+      "support": "both feet grounded beneath the original skirt; one palm supports the opposite wrist",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Do not gather the skirt, move straps, add ornaments or cover bodice detail; retain the original skirt and train arrangement outside the crop and required full-skirt views elsewhere.",
+      "check": "a low curved joined-wrist shape distinguishes the half-body portrait from the single hand at the waist seam; tender and still, never playful"
+    },
+    {
+      "id": "be-halfbody-window-forearm",
+      "family": "lean",
+      "body": "waist-up half-body, inclining very slightly toward the tall window frame through one bent forearm beside the shoulder, torso long, serene reflective tenderness",
+      "hands": "one forearm lightly contacts a plain structural part of the existing window frame; the free hand stays low outside the bodice and skirt",
+      "support": "both feet on the clear floor; window frame takes only light forearm contact",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Select only if sleeve or bare forearm contact leaves lace, beading and straps untouched; no compressed skirt, moved train, new veil or ornament, and keep required full-skirt views elsewhere.",
+      "check": "bent supported forearm and a gentle side slope differ from the upright hand-on-frame profile; bodice details and original skirt remain intact"
+    },
+    {
+      "id": "lolita-layered-halfbody-wrist-cradle",
+      "family": "stand",
+      "body": "waist-up half-body, standing tall in the selected branch-specific interior with both elbows softly bent to one side of the waist, quiet pleased confidence",
+      "hands": "one palm cradles the opposite wrist outside the bodice and skirt outline; sleeve trim hangs freely and fingers grasp no decoration",
+      "support": "both feet grounded; one palm supports the opposite wrist",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Use only if the actual sleeves allow; no compressed petticoat, pinched lace, hidden bow, sleeve rolling, new accessory or infantilization.",
+      "check": "a joined-wrist side arc is visible in half-body, unlike the hands-low shoulder laugh; original trim and skirt volume remain unchanged"
+    },
+    {
+      "id": "lolita-layered-halfbody-curious-palm",
+      "family": "stand",
+      "body": "waist-up half-body, standing clear of furniture with one shoulder softly tipped and one elbow bent outward below shoulder height, self-possessed curious amusement",
+      "hands": "one empty palm opens beside the cheek without covering the face or neckline; the other hand hangs outside the skirt volume",
+      "support": "both feet on the interior floor; arms carry their own weight with no pressure on the petticoat",
+      "views": [
+        "front"
+      ],
+      "avoid_when": "Stay within real sleeve mobility; no childish gesture, new hair ornament, changed branch, crushed bow, altered neckline or compressed petticoat.",
+      "check": "a raised open palm and outward elbow give a different half-body silhouette from the joined low wrists and low-hand shoulder portrait"
     }
   ]
 }

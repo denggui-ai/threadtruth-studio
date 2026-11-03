@@ -162,6 +162,8 @@
     "gc-step-sit",
     "gc-diagonal-stride",
     "gc-back-look",
-    "gc-railing-lean"
+    "gc-railing-lean",
+    "gc-halfbody-folded-arms",
+    "gc-halfbody-wall-forearm"
   ]
 }

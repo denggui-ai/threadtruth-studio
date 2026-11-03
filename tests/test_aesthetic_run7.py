@@ -11,6 +11,7 @@ from unittest.mock import patch
 
 from PIL import Image
 from tests import test_aesthetic_run6 as fixtures
+from tests.test_style_pose_pool import use_current_pool_in_fixture
 
 library, task = fixtures.library, fixtures.task
 ROOT = Path(__file__).resolve().parents[1]
@@ -24,7 +25,7 @@ class AestheticRun7Tests(unittest.TestCase):
         spec = fixtures.spec_for(self.sha, library_count=pool)
         spec['shot_plan']['framing_guidance'] = framing
         source = json.loads((ROOT / 'tests/fixtures/aesthetic-run6-prompts.json').read_text())
-        frozen = copy.deepcopy(source['visual_plan'])
+        frozen = use_current_pool_in_fixture(copy.deepcopy(source['visual_plan']))
         frozen['garment']['source_sha256s'] = [self.sha]
         if framing == 2:
             for key in ('rendering_version', 'model_source_type'):
