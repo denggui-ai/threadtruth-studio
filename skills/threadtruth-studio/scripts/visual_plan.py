@@ -422,6 +422,7 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
 
 
 FROZEN_SHOT_LINE = 'Follow the frozen shot actions and framing.'
+NEW_MODEL_STYLING = '不沿用商品原图模特的发型、头饰、妆容和配饰组合（手套、首饰等），除非它们是本次商品的一部分或用户明确要求。'
 FROZEN_SHOT_CLAUSE = re.compile(
     r'(?:各格|每格|每张|逐格|本格)?(?:严格)?(?:沿用|遵守)(?:已确认的|冻结的|冻结)(?:动作和景别|动作与景别)[。.;；]?'
     r'|每张按已确认的逐张计划组织[。.;；]?'

@@ -26,6 +26,24 @@ def module(name):
 library, poses, task = module('visual_library'), module('pose_library'), module('web-task')
 
 
+def bind_pool_actions(spec):
+    """Give new synthetic rendering fixtures actual pool selections, preserving their test targets."""
+    plan = spec['shot_plan']
+    bodies = [cell for cell in plan['looks'] if cell['framing'] != 'detail']
+    supported = set().union(*(set(row['views']) for row in plan['coverage']))
+    rows = [row for row in library.card(spec['entry_id']).get('pose_vocabulary', [])
+            if set(row['views']) <= supported and 'back' not in row['views']
+            and row['id'] != 'fr-laugh-turn']
+    for cell, row in zip(bodies[:(len(bodies) + 1) // 2], rows):
+        cell.pop('pose_decision', None)
+        cell.update(pose_id=row['id'], body_action=row['body'], hands=row['hands'],
+                    support=row['support'], garment_views=row['views'])
+    for cell in bodies:
+        if 'pose_id' not in cell:
+            cell['pose_decision'] = dict(kind='custom', reason='池内扶窗和交叉手臂会挡住本格袖口结构，改为双臂自然外展。')
+    return spec
+
+
 class StylePosePoolTests(unittest.TestCase):
     def setUp(self):
         temp = tempfile.TemporaryDirectory()

@@ -262,6 +262,7 @@ def prepare(spec, root=ROOT):
     supporting = [component(card(entry_id, root)) for entry_id in supporting_ids]
     output_form = spec.get('output_form', 'human')
     shot_plan = spec.get('shot_plan')
+    _shots().check_new_pose_pool(shot_plan, primary)
     bindings = _visual().shot_bindings(shot_plan) if shot_plan is not None else None
     count = spec.get('count', 1 if product is not None else len(bindings) if bindings is not None else
                      (9 if output_form in ('human', 'faceless') else 1))
@@ -327,6 +328,10 @@ def prepare(spec, root=ROOT):
                     cell['framing'] = framing
     if model is not None and output_form in ('human', 'faceless'):
         plan['model_source_type'] = model['source_type']
+        if plan.get('rendering_version') == 2 and model['source_type'] in ('new', 'ai'):
+            # Freeze in existing styling conditions so even older v3 prompts keep their bytes.
+            if isinstance(plan['styling'], list) and _visual().NEW_MODEL_STYLING not in plan['styling']:
+                plan['styling'].append(_visual().NEW_MODEL_STYLING)
     if product is not None:
         plan['product_edit'] = copy.deepcopy(product)
     if 'pose_history_tasks' in spec:

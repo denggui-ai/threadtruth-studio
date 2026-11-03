@@ -9,6 +9,7 @@ import unittest
 
 from PIL import Image
 from tests.test_pose_plan_v2 import sample_plan
+from tests.test_style_pose_pool import bind_pool_actions
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -63,7 +64,7 @@ class KnowledgeStyleResolutionTests(unittest.TestCase):
                                 display_goal='Show the source-supported front closure and visible layers.',
                                 must_show=['front closure', 'visible layers'])
         spec['shot_plan'] = plan
-        return spec
+        return bind_pool_actions(spec)
 
     def export_both(self, spec):
         """Exercise actual prepare/create/read/native and web export, without authorize/reserve."""

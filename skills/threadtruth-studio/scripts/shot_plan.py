@@ -301,6 +301,44 @@ def _check_views(path,views):
 BACK_WORDS=re.compile(r'back to (?:the )?camera|over[- ](?:the[- ])?shoulder|turned away|facing away|walking away|from behind|背对|回头|背影',re.I)
 
 
+def check_new_pose_pool(plan,card):
+    """Preparation only: never add a quota to validation/restoration of frozen tasks."""
+    if (not is_v2(plan) or not (plan.get('variety_checks')==2 or plan.get('framing_guidance')==3)
+            or not card.get('pose_pool')):
+        return
+    looks=active_looks(plan) if plan.get('series_role')=='standalone' else plan['looks']
+    bodies=[s for s in looks if s.get('framing')!='detail']
+    pool=set(card['pose_pool'])
+    selected=[]
+    for item in bodies:
+        if 'pose_selection' in item:
+            definition=pose_library()._validate_snapshot(item['pose_selection'])
+            if item.get('pose_id')!=definition['group_id']:
+                raise ValueError('Selected pose_id differs from its frozen definition')
+            selected.append(item)
+        elif item.get('pose_id') in pool:
+            selected.append(item)
+    needed=(len(bodies)+1)//2
+    remedy=(' First run python3 scripts/pose_library.py recommend --spec prepare.json --shot-id <shot_id> --limit 5 '
+            'for each non-detail shot; prefer this style pool, or apply an eligible owned pose_selection. '
+            'For remaining custom shots, explain why pool actions do not fit this shot, then prepare again.')
+    if len(selected)<needed:
+        raise ValueError(f'shot_plan: at least {needed} of {len(bodies)} non-detail shots must use a style-pool pose_id '
+                         f'or owned pose_selection (found {len(selected)}).'+remedy)
+    generic={'不适合','自定义','自定义动作','池内动作不适合本格','为了更好地展示商品','为了丰富动作变化',
+             'custom','custompose','customforvariety','customposeforvariety','forvariety','notapplicable',
+             'poolposesdonotfitthisshot','poolactionsdonotsuitthisshot','na','none'}
+    for item in bodies:
+        if item in selected:continue
+        decision=item.get('pose_decision')
+        reason=decision.get('reason') if isinstance(decision,dict) else None
+        normalized=re.sub(r'[\W_]+','',reason.casefold()) if isinstance(reason,str) else ''
+        if (not isinstance(decision,dict) or decision.get('kind')!='custom'
+                or 'pose_id' in item or not normalized or normalized in generic):
+            raise ValueError('shot_plan '+str(item.get('shot_id'))+
+                             ': custom pose_decision.reason must state a specific pool mismatch, not a generic reason.'+remedy)
+
+
 def check_poses(plan,vocabulary):
     """WP-21f: with a style pose vocabulary, pose_id must name an entry whose views the look shows; a six/nine grid uses it on at least five looks.
     WP-22: a pose_id is used once per plan, and at most one non-detail look shows the back.

@@ -87,6 +87,8 @@ def inherit_visual_rendering(plan,frozen):
     """Only a fresh prepare opts into rendering flags; existing tasks retain their contract."""
     if not isinstance(plan,dict) or not isinstance(frozen,dict):return plan
     plan=copy.deepcopy(plan)
+    if visual_helper().NEW_MODEL_STYLING not in frozen.get('styling', []):
+        plan['styling']=[item for item in plan.get('styling', []) if item!=visual_helper().NEW_MODEL_STYLING]
     for key in ('model_source_type','rendering_version'):
         if key not in frozen:
             plan.pop(key,None)
@@ -718,7 +720,7 @@ def retain_failure(root,row,source,kind,reason):
     return dict(kind=kind,reason=reason,evidence=dict(file=str(out.relative_to(root)),sha256=digest(out)),at=stamp())
 
 
-def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,context=None,route=None,model_package=None,real_face_plan=None,shot_plan=None,visual_plan=None,count=None,workflow_version=1):
+def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,context=None,route=None,model_package=None,real_face_plan=None,shot_plan=None,visual_plan=None,count=None,workflow_version=1,_frozen_continuation=False):
     root=Path(root)
     if route is None:route='chatgpt_web' if schema_version==1 else 'codex_native'
     if model_package is not None:
@@ -750,6 +752,8 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
         # WP-10a: a newly created garment-driven (v2) task gets the breathing-room flag by default. Only create() adds it;
         # frozen tasks keep their stored bytes, and later calls that omit the flag inherit it (inherit_framing_flag).
         if v2(shot_plan) and 'framing_guidance' not in shot_plan:shot_plan=dict(shot_plan,framing_guidance=3)
+        if not _frozen_continuation and visual_plan is not None:
+            shot_helper().check_new_pose_pool(shot_plan, visual_plan['style']['primary']['snapshot'])
         context=context_check(context,size,shot_plan)
         if 'photography_targets' in context:photography_helper().strict_check(context['photography_targets'])
         if context.get('purpose')=='model-check' and (not identity or len(prompts)!=1):
@@ -2054,7 +2058,7 @@ def create_revision(root,look,spec,*,approval_id,note,form_change_note='',identi
         try:
             child=create(child_root,refs,spec.get('prompts'),spec['size'],identity,model=spec.get('model'),context=ctx,
                          route=spec.get('route',data['route']),real_face_plan=spec.get('real_face_plan'),shot_plan=spec.get('shot_plan'),
-                         visual_plan=spec.get('visual_plan'),count=spec.get('count',1))
+                         visual_plan=spec.get('visual_plan'),count=spec.get('count',1),_frozen_continuation=True)
             if len(child['looks'])!=1:raise ValueError('One correction approval covers exactly one request')
             selected=workflow_helper().shot(data,look)
             child['revision_origin']=dict(id=approval_id,path=path,look=look,
@@ -2176,7 +2180,7 @@ def create_from_preview(root, preview_root, spec, *, note):
             face=expected_face
         child=create(root,refs,prompts,spec['size'],d['identity'],model=d['model'],
                      context=context,route=d['route'],real_face_plan=face,shot_plan=planned,
-                     visual_plan=visual,count=requested,workflow_version=d.get('workflow_version',0))
+                     visual_plan=visual,count=requested,workflow_version=d.get('workflow_version',0),_frozen_continuation=True)
         try:
             provenance=root/'provenance';provenance.mkdir()
             snapshot=provenance/'preview-task.json'

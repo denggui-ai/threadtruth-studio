@@ -120,6 +120,7 @@ class AestheticReviewRegressionTests(unittest.TestCase):
         data = task.read(job)
         revised_spec = copy.deepcopy(spec)
         revised_spec['shot_plan']['framing_guidance'] = 3
+        fixtures.bind_pool_actions(revised_spec)
         revised = library.prepare(revised_spec)
         revised['photography']['scene'] = 'Revised quiet room.'
         candidate = task.preview_candidate(data, data['looks'][0], visual_plan=revised)
@@ -191,6 +192,7 @@ class AestheticReviewRegressionTests(unittest.TestCase):
         spec['model']['locked'] = ['左手疤痕']
         spec['shot_plan']['framing_guidance'] = 3
         spec['shot_plan']['looks'][-1].update(framing='detail', display_goal='Show the cuff and left hand.')
+        fixtures.bind_pool_actions(spec)
         context['purpose'] = 'preview-grid'
         job = self.create(spec, library.prepare(spec), context)
         prompt = self.exported(job)
@@ -255,6 +257,7 @@ class AestheticReviewRegressionTests(unittest.TestCase):
         data = task.update(job, 'reject', look=1, note='Synthetic scene revision.')
         revised_spec = copy.deepcopy(spec)
         revised_spec['shot_plan']['framing_guidance'] = 3
+        fixtures.bind_pool_actions(revised_spec)
         revised = library.prepare(revised_spec)
         revised['photography']['scene'] = 'Revised quiet room.'
         before = copy.deepcopy(revised)

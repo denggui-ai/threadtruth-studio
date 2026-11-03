@@ -3,6 +3,7 @@ import copy, hashlib, importlib.util, json, re, subprocess, sys, tempfile, unitt
 from pathlib import Path
 
 from PIL import Image
+from tests.test_style_pose_pool import bind_pool_actions
 
 ROOT = Path(__file__).resolve().parents[1]
 SKILL = ROOT / 'skills/threadtruth-studio'
@@ -20,8 +21,10 @@ def v2_plan(h, count=9):
     looks = [dict(slot=i, shot_id='qs-' + str(i), display_goal='Show the set', must_show=['hem'], reason='Front flat-lay supports it.',
                   pose_decision=dict(kind='custom',reason='Retain an unobstructed hem with relaxed hands'), body_action='Stand naturally, action ' + str(i), hands='Hands relaxed', support='Both feet grounded', framing='full-body',
                   garment_views=['front'], reference_sha256s=[h], head='natural', gaze='soft') for i in range(1, count + 1)]
-    return dict(version=2, sku='qs-sku', route='B', coverage=[dict(sha256=h, views=['front'], usable=True, same_sku=True, note='Synthetic front')],
+    plan = dict(version=2, sku='qs-sku', route='B', coverage=[dict(sha256=h, views=['front', 'front-side', 'detail'], usable=True, same_sku=True, note='Synthetic front, shallow side and detail')],
                 looks=looks, selected_shot_ids=[l['shot_id'] for l in looks], series_role='series')
+    bind_pool_actions(dict(entry_id='french-effortless', shot_plan=plan))
+    return plan
 
 
 class RuntimeQuickstartTests(unittest.TestCase):

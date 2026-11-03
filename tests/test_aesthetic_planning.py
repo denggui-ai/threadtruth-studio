@@ -5,7 +5,7 @@ from pathlib import Path
 import unittest
 
 from tests.test_pose_plan_v2 import sample_plan, shot
-from tests.test_style_pose_pool import module
+from tests.test_style_pose_pool import module, bind_pool_actions
 from tests.test_aesthetic_review_regressions import baseline_model_block
 
 library, visual, task = module('visual_library'), module('visual_plan'), module('web-task')
@@ -20,6 +20,7 @@ class AestheticPlanningTests(unittest.TestCase):
         spec = self.fixture()['spec']
         plan = sample_plan(6, back=False)
         plan.update(framing_guidance=3, coverage=copy.deepcopy(spec['shot_plan']['coverage']))
+        plan['coverage'][0]['views'] = ['front', 'front-side', 'detail']
         for cell in plan['looks']:
             cell.update(reference_sha256s=spec['garment']['source_sha256s'],
                         head='Head direction sentinel.', gaze='Eye direction sentinel.')
@@ -27,7 +28,7 @@ class AestheticPlanningTests(unittest.TestCase):
         spec.update(shot_plan=plan, count=6, first_pose=1)
         spec['model']['locked'] = ['Warm olive skin tone; naturally broad body proportions.']
         spec['model']['adjustable'] = ['A playful expression sentinel.']
-        return spec
+        return bind_pool_actions(spec)
 
     def test_f2_body_diversity_applies_to_preview_and_delivery_only_for_new_plans(self):
         plan = sample_plan()
