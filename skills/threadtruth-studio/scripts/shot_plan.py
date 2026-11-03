@@ -302,7 +302,11 @@ BACK_WORDS=re.compile(r'back to (?:the )?camera|over[- ](?:the[- ])?shoulder|tur
 
 
 def check_new_pose_pool(plan,card):
-    """Preparation only: never add a quota to validation/restoration of frozen tasks."""
+    """New-task entrypoints only; callers must exclude existing frozen tasks.
+
+    The flags below select the applicable planning rules, not the task's age:
+    beta.18 already wrote variety_checks=2 into its frozen plans.
+    """
     if (not is_v2(plan) or not (plan.get('variety_checks')==2 or plan.get('framing_guidance')==3)
             or not card.get('pose_pool')):
         return

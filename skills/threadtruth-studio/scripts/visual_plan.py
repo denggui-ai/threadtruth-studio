@@ -423,6 +423,46 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
 
 FROZEN_SHOT_LINE = 'Follow the frozen shot actions and framing.'
 NEW_MODEL_STYLING = '不沿用商品原图模特的发型、头饰、妆容和配饰组合（手套、首饰等），除非它们是本次商品的一部分或用户明确要求。'
+
+
+def inherit_rendering(plan, frozen):
+    """Keep the existing task's rendering and source-model styling contract."""
+    if not isinstance(plan, dict) or not isinstance(frozen, dict):
+        return plan
+    plan = copy.deepcopy(plan)
+    styling = plan.get('styling')
+    if isinstance(styling, list):
+        if NEW_MODEL_STYLING not in frozen.get('styling', []):
+            plan['styling'] = [item for item in styling if item != NEW_MODEL_STYLING]
+        elif NEW_MODEL_STYLING not in styling:
+            styling.append(NEW_MODEL_STYLING)
+    for key in ('model_source_type', 'rendering_version'):
+        if key not in frozen:
+            plan.pop(key, None)
+        else:
+            if key in plan and plan[key] != frozen[key]:
+                raise ValueError('An existing task cannot change its frozen visual ' + key)
+            plan[key] = frozen[key]
+    if 'rendering_version' not in frozen:
+        for cell in plan.get('shots', []):
+            if isinstance(cell, dict):
+                cell.pop('framing', None)
+    return plan
+
+
+def inherit_prompt(prompt, supplied, inherited, look=None):
+    """Normalize only an exact submitted visual block; keep conflict checks intact."""
+    if prompt is None or supplied == inherited or not isinstance(supplied, dict):
+        return prompt
+    original = render(supplied, look)
+    # Never repair mismatched plans, duplicate blocks or ungoverned text. The
+    # normal prompt validator below the caller still checks the entire request.
+    if (isinstance(prompt, str) and prompt.count(BEGIN) == prompt.count(END) == 1
+            and prompt.count(original) == 1):
+        return prompt.replace(original, render(inherited, look), 1)
+    return prompt
+
+
 FROZEN_SHOT_CLAUSE = re.compile(
     r'(?:各格|每格|每张|逐格|本格)?(?:严格)?(?:沿用|遵守)(?:已确认的|冻结的|冻结)(?:动作和景别|动作与景别)[。.;；]?'
     r'|每张按已确认的逐张计划组织[。.;；]?'

@@ -233,16 +233,21 @@ def _split_commitments(items, opened, declared=()):
     return kept, skipped
 
 
-def prepare(spec, root=ROOT):
+def prepare(spec, root=ROOT, *, frozen_visual_plan=None):
     """Resolve defaults once; the task subsequently uses only this frozen plan.
 
     Actual image decoding, inventory roles, consent and generation authority stay
     in the task ledger. This local preparation does not grant or consume a call.
+    Re-preparation passes the existing task's frozen visual plan explicitly;
+    shot-plan version flags do not tell us whether a task already exists.
     """
     allowed = {'entry_id', 'garment', 'inventory', 'count', 'first_pose', 'objective', 'output_form',
                'output_medium', 'supporting', 'fusion_note', 'overrides', 'culture_profile', 'shot_plan', 'model', 'back_source', 'asset_trace', 'pose_history_tasks', 'product_edit'}
     if not isinstance(spec, dict) or set(spec) - allowed:
         raise ValueError('Unknown visual preparation fields')
+    if frozen_visual_plan is not None and (not isinstance(frozen_visual_plan, dict)
+                                          or not _visual().FIELDS <= frozen_visual_plan.keys()):
+        raise ValueError('Existing-task preparation requires its complete frozen visual_plan')
     primary = card(spec['entry_id'], root)
     product = spec.get('product_edit')
     model = _models().validate_model(spec['model'], allow_child=True) if spec.get('model') is not None else None
@@ -262,7 +267,8 @@ def prepare(spec, root=ROOT):
     supporting = [component(card(entry_id, root)) for entry_id in supporting_ids]
     output_form = spec.get('output_form', 'human')
     shot_plan = spec.get('shot_plan')
-    _shots().check_new_pose_pool(shot_plan, primary)
+    if frozen_visual_plan is None:
+        _shots().check_new_pose_pool(shot_plan, primary)
     bindings = _visual().shot_bindings(shot_plan) if shot_plan is not None else None
     count = spec.get('count', 1 if product is not None else len(bindings) if bindings is not None else
                      (9 if output_form in ('human', 'faceless') else 1))
@@ -328,7 +334,7 @@ def prepare(spec, root=ROOT):
                     cell['framing'] = framing
     if model is not None and output_form in ('human', 'faceless'):
         plan['model_source_type'] = model['source_type']
-        if plan.get('rendering_version') == 2 and model['source_type'] in ('new', 'ai'):
+        if frozen_visual_plan is None and plan.get('rendering_version') == 2 and model['source_type'] in ('new', 'ai'):
             # Freeze in existing styling conditions so even older v3 prompts keep their bytes.
             if isinstance(plan['styling'], list) and _visual().NEW_MODEL_STYLING not in plan['styling']:
                 plan['styling'].append(_visual().NEW_MODEL_STYLING)
@@ -389,6 +395,7 @@ def prepare(spec, root=ROOT):
     if (isinstance(shot_plan, dict) and shot_plan.get('variety_checks') == 1 and output_form in ('human', 'faceless')
             and primary.get('pose_vocabulary')):
         _shots().check_poses(shot_plan, primary['pose_vocabulary'])
+    plan = _visual().inherit_rendering(plan, frozen_visual_plan)
     return _visual().validate(plan, spec['inventory'],
                               context=dict(style=spec['entry_id'], first_pose=pose, output_form=output_form,
                                            purpose='product-edit' if product is not None else 'delivery'),
@@ -414,6 +421,7 @@ def main(argv=None):
     build = sub.add_parser('prepare', help='Freeze one actual garment/visual plan without generating')
     build.add_argument('--spec', required=True, type=Path)
     build.add_argument('--output', required=True, type=Path)
+    build.add_argument('--task', type=Path, help='Existing task directory: retain its frozen rendering and skip new-task pose quotas')
     args = parser.parse_args(argv)
     try:
         if args.command == 'list':
@@ -423,7 +431,17 @@ def main(argv=None):
         elif args.command == 'route':
             result = route(args.query)
         else:
-            result = prepare(json.loads(args.spec.read_text(encoding='utf-8')))
+            frozen = None
+            if args.task is not None:
+                loader = importlib.util.spec_from_file_location('library_task', Path(__file__).with_name('web-task.py'))
+                task = importlib.util.module_from_spec(loader)
+                loader.loader.exec_module(task)
+                data = task.read(args.task)
+                task.check_evidence(args.task, data)
+                frozen = data.get('visual_plan')
+                if frozen is None:
+                    raise ValueError('Existing-task preparation requires a frozen visual_plan')
+            result = prepare(json.loads(args.spec.read_text(encoding='utf-8')), frozen_visual_plan=frozen)
             # Never overwrite another frozen plan as a side effect of preparation.
             try:
                 with args.output.open('x', encoding='utf-8') as handle:

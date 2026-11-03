@@ -85,21 +85,12 @@ def inherit_framing_flag(plan,frozen):
 
 def inherit_visual_rendering(plan,frozen):
     """Only a fresh prepare opts into rendering flags; existing tasks retain their contract."""
-    if not isinstance(plan,dict) or not isinstance(frozen,dict):return plan
-    plan=copy.deepcopy(plan)
-    if visual_helper().NEW_MODEL_STYLING not in frozen.get('styling', []):
-        plan['styling']=[item for item in plan.get('styling', []) if item!=visual_helper().NEW_MODEL_STYLING]
-    for key in ('model_source_type','rendering_version'):
-        if key not in frozen:
-            plan.pop(key,None)
-        else:
-            if key in plan and plan[key]!=frozen[key]:
-                raise ValueError('An existing task cannot change its frozen visual '+key)
-            plan[key]=frozen[key]
-    if 'rendering_version' not in frozen:
-        for cell in plan.get('shots',[]):
-            if isinstance(cell,dict):cell.pop('framing',None)
-    return plan
+    return visual_helper().inherit_rendering(plan,frozen)
+
+
+def inherit_visual_request(plan,frozen,prompt=None,look=None):
+    inherited=inherit_visual_rendering(plan,frozen)
+    return inherited,visual_helper().inherit_prompt(prompt,plan,inherited,look)
 
 
 def selected_references(inventory,context,shot_plan,face_plan,look):
@@ -298,7 +289,7 @@ def prompt_check(prompt,context,model=None,shot_plan=None,number=1,real_face_pla
 
 def delivery_retry_candidate(data,row,*,shot_plan=None,visual_plan=None,prompt=None):
     """Revise one rejected or reconciled-failed shot without changing its peers."""
-    visual_plan=inherit_visual_rendering(visual_plan,data.get('visual_plan'))
+    visual_plan,prompt=inherit_visual_request(visual_plan,data.get('visual_plan'),prompt,row['number'] if row else None)
     if data.get('context', {}).get('purpose') == 'product-edit':
         current = data['visual_plan']
         visual = copy.deepcopy(visual_plan)
@@ -401,7 +392,7 @@ def persona_rebind_candidate(data,row,visual_plan,model):
 
 def preview_candidate(data, row, *, model=None, shot_plan=None, prompt=None, garment_references=None, real_face_plan=None, visual_plan=None, check_sources=True):
     shot_plan=inherit_framing_flag(shot_plan,data.get('shot_plan'))
-    visual_plan=inherit_visual_rendering(visual_plan,data.get('visual_plan'))
+    visual_plan,prompt=inherit_visual_request(visual_plan,data.get('visual_plan'),prompt)
     changed=models.validate_model(model if model is not None else data['model'],allow_child=True) if data['identity'] else None
     if changed is not None and (any(changed[k]!=data['model'][k] for k in ('source_type','scope','subject'))
             or changed.get('consent_note','')!=data['model'].get('consent_note','')):
@@ -1285,6 +1276,7 @@ def continue_v2(data,kw):
                 or visual['shots'][0]!=old['shots'][0]):
             raise ValueError('Continuation keeps shared photography and the accepted first shot')
         if prompts is None:prompts=[visual_helper().compile_prompt(visual,n) for n in range(2,count+1)]
+        elif isinstance(prompts,list):prompts=[visual_helper().inherit_prompt(p,kw.get('visual_plan'),visual,n) for n,p in enumerate(prompts,2)]
     elif kw.get('visual_plan') is not None:raise ValueError('Do not retrofit a visual plan onto the accepted first image')
     if not isinstance(prompts,list) or len(prompts)!=count-1 or any(not isinstance(p,str) or not p.strip() for p in prompts):
         raise ValueError('Provide exactly the remaining series prompts')
@@ -1421,6 +1413,7 @@ def update(root,event,**kw):
                     raise ValueError('Continuation cannot replace approved shared visual decisions or first shot')
                 if prompts is None:
                     prompts=[visual_helper().compile_prompt(continuation_visual,i) for i in range(2,7)]
+                elif isinstance(prompts,list):prompts=[visual_helper().inherit_prompt(p,kw.get('visual_plan'),continuation_visual,n) for n,p in enumerate(prompts,2)]
             elif kw.get('visual_plan') is not None:
                 raise ValueError('A continuation cannot retrofit a visual plan onto an approved legacy first image')
             if not isinstance(prompts,list) or len(prompts)!=5 or any(not isinstance(p,str) or not p.strip() for p in prompts):
@@ -1541,11 +1534,14 @@ def update(root,event,**kw):
                 raise ValueError('Retain the locally corrected shot plan through a reviewed preview revision before retry')
             note=kw.get('note','').strip();approval=kw.get('approval_id','').strip()
             if delivery_revision:prompt=delivery_revision['prompt']
-            elif persona_rebind is not None:prompt=kw.get('prompt') or visual_helper().compile_prompt(persona_rebind,1)
+            elif persona_rebind is not None:
+                prompt=visual_helper().inherit_prompt(kw.get('prompt'),kw.get('visual_plan'),persona_rebind,1) or visual_helper().compile_prompt(persona_rebind,1)
             else:prompt=kw.get('prompt',proposal['candidate']['prompt'] if proposal else '')
             if proposal:
                 if kw.get('shot_plan') is not None:kw['shot_plan']=inherit_framing_flag(kw['shot_plan'],proposal['candidate'].get('shot_plan'))
-                if kw.get('visual_plan') is not None:kw['visual_plan']=inherit_visual_rendering(kw['visual_plan'],proposal['candidate'].get('visual_plan'))
+                if kw.get('visual_plan') is not None:
+                    kw['visual_plan'],inherited_prompt=inherit_visual_request(kw['visual_plan'],proposal['candidate'].get('visual_plan'),kw.get('prompt'))
+                    if 'prompt' in kw:kw['prompt']=prompt=inherited_prompt
                 for key in ('model','shot_plan','visual_plan','prompt','garment_references'):
                     if key in kw and kw[key]!=proposal['candidate'].get(key):
                         raise ValueError('Retry must use the reviewed preview revision candidate')
