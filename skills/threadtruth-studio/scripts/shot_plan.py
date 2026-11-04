@@ -137,9 +137,9 @@ def selected(plan,look,preview=False):
     return {h for cell in cells for h in cell['reference_sha256s']}
 
 
-def render(plan,look=None,real_face_plan=None):
+def render(plan,look=None,real_face_plan=None,*,prompt_render=None):
     if is_v2(plan):
-        return _render_v2(plan,look,real_face_plan)
+        return _render_v2(plan,look,real_face_plan,prompt_render=prompt_render)
     rows=[BEGIN,'Garment route: '+plan['route']+'; preservation: '+plan['preservation']+'.']
     if plan['preservation']=='adapted':rows.append('Agreed adaptation: '+plan['adaptation_note'])
     cells=list(enumerate(plan['looks'],1))
@@ -180,8 +180,10 @@ def check_legacy_headers(prompt,plan,look=None,real_face_plan=None):
             raise ValueError('Legacy shot header conflicts with the current plan; explicitly prepare a new prompt')
 
 
-def apply(prompt,plan,look=None,real_face_plan=None,*,strict=True):
+def apply(prompt,plan,look=None,real_face_plan=None,*,strict=True,prompt_render=None):
+    # Validate the same standard block accepted at init, then render for this task.
     canonical=render(plan,look,real_face_plan)
+    rendered=render(plan,look,real_face_plan,prompt_render=prompt_render)
     marked=BEGIN in prompt or END in prompt
     if marked:
         if prompt.count(BEGIN)!=1 or prompt.count(END)!=1 or canonical not in prompt:
@@ -190,7 +192,7 @@ def apply(prompt,plan,look=None,real_face_plan=None,*,strict=True):
     pattern=r'^\s*(?:POSE|Shot)\s+\d+\s*:' if is_v2(plan) else r'^\s*(?:POSE|Shot)\s+[1-6]\s*:'
     if (strict or is_v2(plan)) and re.search(pattern,outside,re.I|re.M):
         raise ValueError('Remove legacy POSE/Shot blocks from prose; numbered arrangements come only from the current shot_plan')
-    return prompt if marked else prompt.rstrip()+'\n'+canonical+'\n'
+    return prompt.replace(canonical,rendered,1) if marked else prompt.rstrip()+'\n'+rendered+'\n'
 
 
 def _check_framing_guidance(plan):
@@ -561,7 +563,7 @@ def _validate_v2(plan,inventory,*,context,count,identity,real_face_plan,strict_r
                                  +', '.join(sorted(face_refs.intersection(garments)-set(usable))))
     return copy.deepcopy(plan)
 
-def _render_v2(plan,look,real_face_plan):
+def _render_v2(plan,look,real_face_plan,*,prompt_render=None):
     rows=[BEGIN,'Garment route: '+plan['route']+'; garment-driven shot plan v2.',
           'Logical series: '+str(logical_count(plan))+'.']
     if plan.get('framing_guidance')==3:
@@ -569,8 +571,10 @@ def _render_v2(plan,look,real_face_plan):
     cells=active_looks(plan) if look is None else [shot_at(plan,look)]
     for shot in cells:
         rows.extend([f"Shot {shot['slot']}: {shot['shot_id']}. {framing_line(plan,shot['framing'])}",
-                     'Display purpose: '+shot['display_goal'], 'Must show: '+', '.join(shot['must_show'])+'.',
-                     'Selection reason: '+shot['reason'], body_text(shot),
+                     'Display purpose: '+shot['display_goal'], 'Must show: '+', '.join(shot['must_show'])+'.'])
+        if prompt_render!=2:
+            rows.append('Selection reason: '+shot['reason'])
+        rows.extend([body_text(shot),
                      'Supported garment views: '+', '.join(shot['garment_views'])+'.'])
         if 'head' in shot:rows.extend(['Head orientation: '+shot['head'],'Eye gaze: '+shot['gaze']])
         if 'pose_reference' in shot:

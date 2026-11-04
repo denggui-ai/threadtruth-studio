@@ -43,6 +43,9 @@ class AestheticRun7Tests(unittest.TestCase):
         with patch.object(task.shot_helper(), 'check_new_pose_pool', create=True):
             task.create(job, [self.source], None, [20, 30], model=spec['model'], context=context,
                         shot_plan=spec['shot_plan'], visual_plan=frozen, workflow_version=0)
+        data = task.read(job)
+        data.pop('prompt_render', None)  # historical tasks predate the dedupe render marker
+        task.save(job, data)
         return job
 
     def reprepare(self, spec, frozen):

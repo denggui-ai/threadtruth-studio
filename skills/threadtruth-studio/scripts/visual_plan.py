@@ -29,6 +29,15 @@ SILHOUETTES = {
     'tapered-leg': 'Trouser silhouette, tapered: each leg narrows steadily from the thigh to the hem; the hem opening is narrower than the knee.',
     'flared-leg': 'Trouser silhouette, flared: each leg stays close from the thigh to the knee, then widens from the knee to a hem opening clearly wider than the knee.',
 }
+LENGTHS = {
+    'above-knee': 'above the knee',
+    'knee': 'at the knee',
+    'below-knee': 'below the knee',
+    'mid-calf': 'at mid-calf',
+    'ankle': 'at the ankle',
+    'floor': 'at floor level',
+}
+LENGTH_SOURCES = ('photo', 'user', 'estimated')
 # WP-21c: visible style commitments, filtered by the variables this task leaves open.
 COMMIT_NEEDS = ('makeup', 'expression', 'body', 'arrangement', 'camera', 'scene', 'lighting')
 COMMIT_OPTIONAL = ('commitments', 'commitments_skipped', 'open_variables')
@@ -307,8 +316,8 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
                                     or not (count == 6 or (count == 1 and plan['shots'] and plan['shots'][0].get('pose') == 2))):
         raise ValueError('visual_plan.presentation_2_substituted is true only for version-1 flat-lay, hanger or mannequin plans with six cells or a single presentation 2')
     garment = plan['garment']
-    if not isinstance(garment, dict) or set(garment) - {'hem_state', 'silhouette'} != {'description', 'keep', 'source_sha256s'}:
-        raise ValueError('Garment facts require description, keep and original source_sha256s (optional: hem_state, silhouette); got '
+    if not isinstance(garment, dict) or set(garment) - {'hem_state', 'silhouette', 'length', 'length_source'} != {'description', 'keep', 'source_sha256s'}:
+        raise ValueError('Garment facts require description, keep and original source_sha256s (optional: hem_state, silhouette, length, length_source); got '
                          + _got(garment))
     _line(garment['description'], 'Source-backed garment description', v2=v2)
     _lines(garment['keep'], 'Source-backed garment preservation', required=True, v2=v2)
@@ -318,6 +327,17 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
     if 'silhouette' in garment and (not isinstance(garment['silhouette'], str) or garment['silhouette'] not in SILHOUETTES):
         raise ValueError('visual_plan.garment.silhouette must be one of ' + ', '.join(SILHOUETTES)
                          + ' (omit it when the source does not show it); got ' + _got(garment['silhouette']))
+    if 'length' in garment:
+        if not isinstance(garment['length'], str) or garment['length'] not in LENGTHS:
+            raise ValueError('visual_plan.garment.length must be one of ' + ', '.join(LENGTHS)
+                             + '; got ' + _got(garment['length']))
+        if 'length_source' not in garment:
+            raise ValueError('visual_plan.garment.length_source is required when length is present; use '
+                             + ', '.join(LENGTH_SOURCES))
+    if 'length_source' in garment and (not isinstance(garment['length_source'], str)
+                                       or garment['length_source'] not in LENGTH_SOURCES):
+        raise ValueError('visual_plan.garment.length_source must be one of ' + ', '.join(LENGTH_SOURCES)
+                         + '; got ' + _got(garment['length_source']))
     if not isinstance(inventory,list) or not inventory or any(not isinstance(r,dict) for r in inventory):
         raise ValueError('Visual preparation needs an explicit source inventory')
     originals = {r['sha256'] for r in inventory if r.get('role') == 'garment-source'}
@@ -473,7 +493,7 @@ def _photography_text(value):
     return FROZEN_SHOT_CLAUSE.sub('', value).strip()
 
 
-def render(plan, look=None):
+def render(plan, look=None, *, shot_plan=None, prompt_render=None):
     """Render only frozen resolved values. look is a task slot, None selects all."""
     if look is not None and (type(look) is not int or not 1<=look<=len(plan['shots'])):
         raise ValueError('Unknown visual presentation slot')
@@ -491,6 +511,10 @@ def render(plan, look=None):
         rows.append(HEM_STATES[garment['hem_state']])
     if 'silhouette' in garment:
         rows.append(SILHOUETTES[garment['silhouette']])
+    if 'length' in plan['garment']:
+        rows.append('Garment length on the body: hem falls ' + LENGTHS[plan['garment']['length']]
+                    + '. Keep this same hem position in every cell, including seated, kneeling and walking cells; '
+                    'sitting may lift the hem slightly but never lengthens or shortens the garment.')
     if plan['output_form']=='faceless':
         rows.append('Keep the face outside the image or fully obscured; preserve supported body proportions and garment details. Do not introduce a visible face.')
     elif plan['output_form'] in NON_PORTRAIT_FORMS:
@@ -519,13 +543,21 @@ def render(plan, look=None):
         rows.append('Style commitments (each must be visible in the image):')
         for item in plan['commitments']:
             rows.append('Commitment: ' + item['show'] + ''.join('; ' + step for step in item.get('realize', [])))
+    shared_cells = {}
+    if look is None and len(cells) > 1 and prompt_render == 2:
+        for key in ('lighting', 'composition'):
+            if all(shot[key] == cells[0][key] for shot in cells):
+                value = _photography_text(cells[0][key]) if compact else cells[0][key]
+                if not compact or (value and value != _photography_text(plan['photography'][key])):
+                    shared_cells[key] = value
+                    rows.append(key.capitalize() + ' (all cells): ' + value)
     for shot in cells:
         heading = (f"Visual slot {shot['slot']} (shot {shot['shot_id']}):" if plan['version'] == 2
                    else f"Visual slot {shot['slot']} (presentation {shot['pose']}):")
         rows += [heading, 'Scene: ' + shot['scene']]
         for key in ('lighting', 'composition'):
             value = _photography_text(shot[key]) if compact else shot[key]
-            if not compact or (value and value != _photography_text(plan['photography'][key])):
+            if key not in shared_cells and (not compact or (value and value != _photography_text(plan['photography'][key]))):
                 rows.append(key.capitalize() + ': ' + value)
         if look is None and shot.get('garment_focus'):
             rows += ['Target garment: '+shot['garment_focus']['description'],
@@ -548,13 +580,14 @@ def compile_prompt(plan, look=None):
     return render(plan, look) + '\n'
 
 
-def apply(prompt, plan, look=None):
+def apply(prompt, plan, look=None, *, shot_plan=None, prompt_render=None):
     canonical = render(plan, look)
+    rendered = render(plan, look, shot_plan=shot_plan, prompt_render=prompt_render)
     if BEGIN in prompt or END in prompt:
         if prompt.count(BEGIN) != 1 or prompt.count(END) != 1 or canonical not in prompt:
             raise ValueError('Frozen visual plan block conflicts with the current plan')
-        return prompt
-    return prompt.rstrip() + '\n' + canonical + '\n'
+        return prompt.replace(canonical, rendered, 1)
+    return prompt.rstrip() + '\n' + rendered + '\n'
 
 
 def check_prompt(prompt, plan, look=None, *, managed_blocks=()):
