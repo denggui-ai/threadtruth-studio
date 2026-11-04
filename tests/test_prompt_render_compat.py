@@ -100,5 +100,56 @@ class PromptRenderCompatibilityTests(unittest.TestCase):
                 self.assertEqual(reserved['looks'][0]['state'], 'reserved')
 
 
+class ContinuationInheritanceTests(unittest.TestCase):
+    """Continuations and revisions keep the parent's render choice and stay fully initialised."""
+
+    def _strip(self, job):
+        data = task.read(job)
+        data.pop('prompt_render', None)
+        task.save(job, data)
+        return task.read(job)
+
+    def _continue(self, legacy):
+        from tests.test_nine_task import NineTaskTests
+        preview = NineTaskTests()
+        preview.setUp()
+        self.addCleanup(preview.doCleanups)
+        parent = preview.preview()
+        self.assertEqual(parent.get('prompt_render'), 2)
+        if legacy:
+            parent = self._strip(preview.job)
+        child_path = preview.root / 'delivery'
+        child = task.create_from_preview(child_path, preview.job,
+            dict(context=dict(parent['context'], purpose='delivery'), size=[60, 40], count=9),
+            note='Synthetic continuation; no external calls.')
+        task.check_evidence(child_path, child)
+        task.export(child_path)
+        return child
+
+    def test_legacy_preview_continuation_stays_unmarked(self):
+        child = self._continue(legacy=True)
+        self.assertNotIn('prompt_render', child)
+        self.assertIn('context', child)
+
+    def test_marked_preview_continuation_inherits_marker(self):
+        self.assertEqual(self._continue(legacy=False).get('prompt_render'), 2)
+
+    def test_legacy_delivery_revision_stays_unmarked(self):
+        from tests.test_workflow_closure import WorkflowClosureTests
+        revision = WorkflowClosureTests()
+        revision.setUp()
+        self.addCleanup(revision.doCleanups)
+        revision.approved()
+        revision.finish(goal='unmet')
+        self._strip(revision.f.job)
+        child = task.create_revision(revision.f.job, 1, revision.revision_spec(),
+            approval_id='legacy-correction', note='Synthetic correction; no external calls.',
+            identity_note='Retain the original synthetic model.')
+        child_path = revision.f.job / child['revision_origin']['path']
+        task.check_evidence(child_path, child)
+        task.export(child_path)
+        self.assertNotIn('prompt_render', child)
+
+
 if __name__ == '__main__':
     unittest.main()

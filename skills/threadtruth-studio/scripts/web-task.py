@@ -826,9 +826,9 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
               'size':list(size),'identity':bool(identity),'references':frozen,'authorization':None,'attempts':0,
               'complete':False,'delivery_status':'prepared','events':[],
               'looks':[{'number':i,'prompt':p,'prompt_sha256':hashlib.sha256(p.encode()).hexdigest(),'state':'pending'} for i,p in enumerate(prompts,1)]}
-        if schema_version==2 and (not _frozen_continuation or _prompt_render==2):
+        if schema_version==2:
             # New tasks opt into deduplication; continuations/revisions inherit the parent's choice.
-            data['prompt_render']=2
+            if not _frozen_continuation or _prompt_render==2:data['prompt_render']=2
             data.update(context=context,context_sha256=object_hash(context),model=model,model_sha256=object_hash(model),model_confirmation=None,
                         references_sha256=object_hash(frozen),failure_recovery_version=1,prompt_contract_version=1)
             if workflow_version!=0:data['workflow_version']=workflow_version
