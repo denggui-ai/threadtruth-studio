@@ -711,7 +711,7 @@ def retain_failure(root,row,source,kind,reason):
     return dict(kind=kind,reason=reason,evidence=dict(file=str(out.relative_to(root)),sha256=digest(out)),at=stamp())
 
 
-def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,context=None,route=None,model_package=None,real_face_plan=None,shot_plan=None,visual_plan=None,count=None,workflow_version=1,_frozen_continuation=False):
+def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,context=None,route=None,model_package=None,real_face_plan=None,shot_plan=None,visual_plan=None,count=None,workflow_version=1,_frozen_continuation=False,_prompt_render=None):
     root=Path(root)
     if route is None:route='chatgpt_web' if schema_version==1 else 'codex_native'
     if model_package is not None:
@@ -826,7 +826,9 @@ def create(root,refs,prompts,size,identity=True,*,schema_version=2,model=None,co
               'size':list(size),'identity':bool(identity),'references':frozen,'authorization':None,'attempts':0,
               'complete':False,'delivery_status':'prepared','events':[],
               'looks':[{'number':i,'prompt':p,'prompt_sha256':hashlib.sha256(p.encode()).hexdigest(),'state':'pending'} for i,p in enumerate(prompts,1)]}
-        if schema_version==2:
+        if schema_version==2 and (not _frozen_continuation or _prompt_render==2):
+            # New tasks opt into deduplication; continuations/revisions inherit the parent's choice.
+            data['prompt_render']=2
             data.update(context=context,context_sha256=object_hash(context),model=model,model_sha256=object_hash(model),model_confirmation=None,
                         references_sha256=object_hash(frozen),failure_recovery_version=1,prompt_contract_version=1)
             if workflow_version!=0:data['workflow_version']=workflow_version
@@ -1775,7 +1777,7 @@ def handoff_prompt(d,row,refs):
             cell_refs=selected_references(d['references'],dict(d['context'],purpose='delivery'),d['shot_plan'],None,number)
             selected=', '.join(f"Image {positions[r['sha256']]}" for r in cell_refs if r['sha256'] in positions)
             cell_selections.append((number,shot,selected))
-        if (d['shot_plan'].get('framing_guidance')==3 and cell_selections
+        if (d.get('prompt_render')==2 and cell_selections
                 and all(selected==cell_selections[0][2] for _,_,selected in cell_selections)):
             prompt+='\nAll preview cells use reference images: '+cell_selections[0][2]+"; keep each declared role and do not borrow another cell's product or aesthetic input."
         else:
@@ -1805,10 +1807,10 @@ def handoff_prompt(d,row,refs):
         shot_look=None if is_preview(d) else n
         if prompt_contract(d,row)==0:
             shot_helper().check_legacy_headers(row['prompt'],d['shot_plan'],shot_look,d.get('real_face_plan'))
-        prompt=shot_helper().apply(prompt,d['shot_plan'],shot_look,d.get('real_face_plan'),strict=prompt_contract(d,row)>=1)
+        prompt=shot_helper().apply(prompt,d['shot_plan'],shot_look,d.get('real_face_plan'),strict=prompt_contract(d,row)>=1,prompt_render=d.get('prompt_render'))
     prompt=photography_helper().apply(prompt,d['context'].get('photography_targets') if d['schema_version']==2 else None)
     if 'visual_plan' in d:
-        prompt=visual_helper().apply(prompt,d['visual_plan'],None if is_preview(d) else n,shot_plan=d.get('shot_plan'))
+        prompt=visual_helper().apply(prompt,d['visual_plan'],None if is_preview(d) else n,shot_plan=d.get('shot_plan'),prompt_render=d.get('prompt_render'))
     return prompt
 
 
@@ -2061,7 +2063,8 @@ def create_revision(root,look,spec,*,approval_id,note,form_change_note='',identi
         try:
             child=create(child_root,refs,spec.get('prompts'),spec['size'],identity,model=spec.get('model'),context=ctx,
                          route=spec.get('route',data['route']),real_face_plan=spec.get('real_face_plan'),shot_plan=spec.get('shot_plan'),
-                         visual_plan=spec.get('visual_plan'),count=spec.get('count',1),_frozen_continuation=True)
+                         visual_plan=spec.get('visual_plan'),count=spec.get('count',1),_frozen_continuation=True,
+                         _prompt_render=data.get('prompt_render'))
             if len(child['looks'])!=1:raise ValueError('One correction approval covers exactly one request')
             selected=workflow_helper().shot(data,look)
             child['revision_origin']=dict(id=approval_id,path=path,look=look,
@@ -2183,7 +2186,8 @@ def create_from_preview(root, preview_root, spec, *, note):
             face=expected_face
         child=create(root,refs,prompts,spec['size'],d['identity'],model=d['model'],
                      context=context,route=d['route'],real_face_plan=face,shot_plan=planned,
-                     visual_plan=visual,count=requested,workflow_version=d.get('workflow_version',0),_frozen_continuation=True)
+                     visual_plan=visual,count=requested,workflow_version=d.get('workflow_version',0),_frozen_continuation=True,
+                     _prompt_render=d.get('prompt_render'))
         try:
             provenance=root/'provenance';provenance.mkdir()
             snapshot=provenance/'preview-task.json'

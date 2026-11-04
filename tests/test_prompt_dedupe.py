@@ -1,4 +1,4 @@
-"""Preview export deduplication is gated by the frozen shot-plan marker."""
+"""Preview export deduplication is gated by the independent task render marker."""
 import copy
 import hashlib
 import json
@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 shot, visual, task = (module(name) for name in ('shot_plan', 'visual_plan', 'web-task'))
 
 
-def fixture(framing=3, purpose='preview-grid'):
+def fixture(framing=3, purpose='preview-grid', prompt_render=2):
     source = json.loads((ROOT / 'tests/fixtures/style-pool-legacy.json').read_text())
     spec, plan = source['spec'], source['visual_plan']
     shots = sample_plan(back=False)
@@ -26,10 +26,13 @@ def fixture(framing=3, purpose='preview-grid'):
     plan['shots'] = [dict(template, slot=cell['slot'], shot_id=cell['shot_id'],
                           framing=cell['framing'], lighting='Uniform cell light.',
                           composition='Uniform cell composition.') for cell in shots['looks']]
-    return dict(schema_version=2, model=spec['model'], identity=True,
+    data = dict(schema_version=2, model=spec['model'], identity=True,
                 context=dict(source['context'], purpose=purpose), size=[20, 30], route='codex_native',
                 shot_plan=shots, visual_plan=plan, prompt_contract_version=2,
                 identity_instruction_version=1, references=spec['inventory'])
+    if prompt_render is not None:
+        data['prompt_render'] = prompt_render
+    return data
 
 
 def request(data):
@@ -111,9 +114,20 @@ class PromptDedupeTests(unittest.TestCase):
         for framing in (None, 1, 2):
             for purpose in ('preview-grid', 'delivery'):
                 with self.subTest(framing=framing, purpose=purpose):
-                    prompt = request(fixture(framing=framing, purpose=purpose))
+                    prompt = request(fixture(framing=framing, purpose=purpose, prompt_render=None))
                     key = str(framing) + '-' + purpose
                     self.assertEqual(hashlib.sha256(prompt.encode()).hexdigest(), expected[key])
+
+    def test_deduplication_depends_on_task_marker_not_framing(self):
+        for framing in (None, 1, 2, 3):
+            for prompt_render in (None, 1, 2):
+                with self.subTest(framing=framing, prompt_render=prompt_render):
+                    prompt = request(fixture(framing=framing, prompt_render=prompt_render))
+                    marked = prompt_render == 2
+                    self.assertEqual('Lighting (all cells):' in prompt, marked)
+                    self.assertEqual('Composition (all cells):' in prompt, marked)
+                    self.assertEqual('All preview cells use reference images:' in prompt, marked)
+                    self.assertEqual('Selection reason:' in prompt, not marked)
 
     def test_reason_remains_required_plan_metadata(self):
         data = fixture()

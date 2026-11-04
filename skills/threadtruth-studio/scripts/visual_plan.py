@@ -493,7 +493,7 @@ def _photography_text(value):
     return FROZEN_SHOT_CLAUSE.sub('', value).strip()
 
 
-def render(plan, look=None, *, shot_plan=None):
+def render(plan, look=None, *, shot_plan=None, prompt_render=None):
     """Render only frozen resolved values. look is a task slot, None selects all."""
     if look is not None and (type(look) is not int or not 1<=look<=len(plan['shots'])):
         raise ValueError('Unknown visual presentation slot')
@@ -544,7 +544,7 @@ def render(plan, look=None, *, shot_plan=None):
         for item in plan['commitments']:
             rows.append('Commitment: ' + item['show'] + ''.join('; ' + step for step in item.get('realize', [])))
     shared_cells = {}
-    if look is None and len(cells) > 1 and (shot_plan or {}).get('framing_guidance') == 3:
+    if look is None and len(cells) > 1 and prompt_render == 2:
         for key in ('lighting', 'composition'):
             if all(shot[key] == cells[0][key] for shot in cells):
                 value = _photography_text(cells[0][key]) if compact else cells[0][key]
@@ -580,9 +580,9 @@ def compile_prompt(plan, look=None):
     return render(plan, look) + '\n'
 
 
-def apply(prompt, plan, look=None, *, shot_plan=None):
+def apply(prompt, plan, look=None, *, shot_plan=None, prompt_render=None):
     canonical = render(plan, look)
-    rendered = render(plan, look, shot_plan=shot_plan) if shot_plan is not None else canonical
+    rendered = render(plan, look, shot_plan=shot_plan, prompt_render=prompt_render)
     if BEGIN in prompt or END in prompt:
         if prompt.count(BEGIN) != 1 or prompt.count(END) != 1 or canonical not in prompt:
             raise ValueError('Frozen visual plan block conflicts with the current plan')
