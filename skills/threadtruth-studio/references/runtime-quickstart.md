@@ -26,7 +26,7 @@ python3 "$SKILL/scripts/visual_library.py" prepare --spec prepare.json --output 
  "shot_plan": <shot_plan.json 全文>}
 ```
 
-`garment` 可选两键：源图能确定上衣外穿／塞腰／半塞时加 `"hem_state": "untucked" | "tucked" | "half-tucked"`；裤型能确定时加 `"silhouette": "straight-leg" | "wide-leg" | "tapered-leg" | "flared-leg"`。看不清就省略，不要写 unknown。
+`garment` 可选键：源图能确定上衣外穿／塞腰／半塞时加 `"hem_state": "untucked" | "tucked" | "half-tucked"`；裤型能确定时加 `"silhouette": "straight-leg" | "wide-leg" | "tapered-leg" | "flared-leg"`。上身长度定下时加 `"length"`（above-knee/knee/below-knee/mid-calf/ankle/floor）与 `"length_source"`（photo/user/estimated）。看不清就省略，不要写 unknown。
 
 局部图在完整的`overrides.shots`对应项加`garment_focus: {"description":"本张目标商品/部件与取景边界", "keep":["从源图核对的关键结构"]}`。独立导出优先使用本张商品重点，原商品哈希与必要人物依据保留；例如带鞋结构应明确写出斜带走向及连接位置，不只写“保持原样”。非人像用非人像output_form及商品参考，不带人物要求。
 
