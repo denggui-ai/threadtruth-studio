@@ -38,7 +38,7 @@ schema2新任务可携带顶层`visual_plan`及其版本／哈希，启用prompt
 - `objective`、`output_medium`、`output_form`（human/faceless/flat-lay/hanger/mannequin，与当前任务一致）；
 - `style.primary`与`style.supporting`的`id/version/sha256/snapshot`，冻结来源卡全文；带`pose_pool`的卡同时保存解析后的`pose_vocabulary`与`pose_pool_snapshot`（版本、逐条文字或几何定义、哈希）。校验与恢复只读冻结内容，不重载共享目录；动作候选不整池渲染，具体身体／手位／支撑仍由`shot_plan`负责。旧内嵌词条卡继续原契约；
 - `pose_history`（可选、只存不渲染）：由prepare的`pose_history_tasks`读取明确选定的历史任务，保存来源任务／计划／返回文件哈希、动作ID／共享几何键、动作文字摘要及状态，不复制历史图片、提示词或私人路径。新摘要version=2另存三字段的词元／关系哈希，按固定规则比较轻微文字变化，报告逐字段相似度与未覆盖对数；旧version=1保持精确比较，不自动升级。实际校验比较当前shot_plan与冻结摘要；精确／疑似匹配须改变动作或在对应look写具体用途／区别的`pose_reuse_reason`，详见[跨组避重](pose-planning.md#跨组姿势避重)。只适用于v2人物／不露脸计划；旧冻结方案不自动加入历史；
-- `garment.description/keep/source_sha256s`（可选`hem_state`、`silhouette`，固定枚举，渲染为几何句）、允许的`styling`；
+- `garment.description/keep/source_sha256s`（可选`hem_state`、`silhouette`、`length/length_source`，固定枚举，渲染为几何句）、允许的`styling`；
 - `photography.scene/lighting/composition/palette`、`art.direction/techniques/limits`、限定范围的`negatives`；
 - `shots`按实际slot和稳定shot_id冻结（旧v1按pose）逐张场景、光线及构图；文化服饰可另有冻结的`culture_profile`；
 - `asset_trace`（可选，WP-21e，只存不渲染）：`[{asset, decision: adopted|translated|not-applicable, affects, check}]`，记录用了哪条资料记录、如何落到方案、成图怎么核。文化入口（qipao-urban、hanfu-form-specific）`prepare`时必须有非空`culture_profile`，且`asset_trace`至少一条`asset`为`china-culture.json`里的记录id（如C10），否则报错。提示词不输出该字段，QA与报告读取它。

@@ -27,7 +27,7 @@
 - 辅色:
 - 材质:
 - 版型:<裤装可明确判为直筒/阔腿/锥形/喇叭时,准备视觉方案在 garment.silhouette 写 straight-leg / wide-leg / tapered-leg / flared-leg,提示词会展开为几何描述;看不清不写>
-- 长度:
+- 上身长度：连衣裙／半裙／长外套等长度关键品类，上身照能看出落点时直接读（photo）；挂拍／平铺等看不出时先问一句“穿上身大概到哪里（膝上/及膝/小腿/脚踝/拖地）”（user）；用户也不确定时按衣身与袖长比例估计（estimated），并在文字回复说明“长度为估计，待确认”。写入 garment.length（above-knee / knee / below-knee / mid-calf / ankle / floor，依次为膝上／及膝／膝下／小腿中部／脚踝／拖地）及必填的 garment.length_source（photo / user / estimated）；定下后全组共用，坐姿不改变衣长。
 - 领型 / 袖型 / 肩线:
 - 下摆 / 裤脚 / 裙摆:
 - 上衣下摆状态:外穿 / 塞腰 / 半塞 / 未知(只按源图可见判断;确定时在 garment.hem_state 写 untucked / tucked / half-tucked,未知不写,不按风格或姿势猜)
