@@ -463,8 +463,9 @@ def _validate_v2(plan,inventory,*,context,count,identity,real_face_plan,strict_r
         if len(body_text(shot))>1000:
             raise ValueError(path+'.body_action + hands + support must total at most 1000 characters; got '+str(len(body_text(shot))))
         must=shot['must_show']
-        if not isinstance(must,list) or not must:
-            raise ValueError(path+'.must_show must be a nonempty list of distinct strings, e.g. ["collar", "hem"]; got '+_got(must))
+        # Non-detail cells may leave must_show empty: they are wear-first cells, product display is carried elsewhere.
+        if not isinstance(must,list) or (not must and shot.get('framing')=='detail'):
+            raise ValueError(path+'.must_show must be a list of distinct strings (nonempty for detail shots), e.g. ["collar", "hem"]; got '+_got(must))
         bad=[v for v in must if not _v2_line(v)]
         if bad:raise ValueError(path+'.must_show items must be nonempty single lines; got '+_got(bad[0]))
         if len(must)!=len(set(must)):raise ValueError(path+'.must_show must not repeat an item; got '+_got(must))
@@ -571,7 +572,8 @@ def _render_v2(plan,look,real_face_plan,*,prompt_render=None):
     cells=active_looks(plan) if look is None else [shot_at(plan,look)]
     for shot in cells:
         rows.extend([f"Shot {shot['slot']}: {shot['shot_id']}. {framing_line(plan,shot['framing'])}",
-                     'Display purpose: '+shot['display_goal'], 'Must show: '+', '.join(shot['must_show'])+'.'])
+                     'Display purpose: '+shot['display_goal']])
+        if shot['must_show']:rows.append('Must show: '+', '.join(shot['must_show'])+'.')
         if prompt_render!=2:
             rows.append('Selection reason: '+shot['reason'])
         rows.extend([body_text(shot),

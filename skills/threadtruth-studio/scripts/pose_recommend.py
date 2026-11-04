@@ -136,7 +136,8 @@ def _target(spec, shot_id, catalog):
         raise ValueError('Select one unambiguous logical shot_id')
     shot = shots[0]
     if (not catalog._text(shot.get('display_goal')) or not isinstance(shot.get('must_show'), list)
-            or not shot['must_show'] or any(not catalog._text(x) for x in shot['must_show'])
+            or (not shot['must_show'] and shot.get('framing') == 'detail')
+            or any(not catalog._text(x) for x in shot['must_show'])
             or shot.get('framing') not in ('full-body', 'half-body', 'knee-up', 'detail')):
         raise ValueError('Ranking needs display_goal, must_show and framing from the target shot')
     views = shot.get('garment_views')

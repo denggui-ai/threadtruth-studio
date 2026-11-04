@@ -48,7 +48,7 @@ class ValidationMessageTests(unittest.TestCase):
         with self.assertRaises(ValueError) as cm:
             self.validate(p)
         msg = str(cm.exception)
-        self.assertTrue(msg.startswith('shot_plan.looks[1].must_show must be a nonempty list of distinct strings'), msg)
+        self.assertTrue(msg.startswith('shot_plan.looks[1].must_show must be a list of distinct strings'), msg)
         self.assertIn('e.g. ["collar", "hem"]', msg)
         self.assertIn("got '衬衫、裤腿与鞋'", msg)
 
@@ -69,7 +69,7 @@ class ValidationMessageTests(unittest.TestCase):
             'shot_id chars': (mutate(lambda p: p['looks'][0].update(shot_id='bad id')), r"^shot_plan\.looks\[0\]\.shot_id must be 1-80 letters, digits, \"_\" or \"-\" starting with a letter or digit; got 'bad id'$"),
             'shot_id duplicate': (mutate(lambda p: p['looks'][5].update(shot_id='s-1')), r'^shot_plan\.looks\[5\]\.shot_id must be unique; "s-1" is already used by an earlier shot$'),
             'display_goal blank': (mutate(lambda p: p['looks'][0].update(display_goal='  ')), r"^shot_plan\.looks\[0\]\.display_goal must be a nonempty single line without POSE/Shot headers; got '  '$"),
-            'must_show empty list': (mutate(lambda p: p['looks'][0].update(must_show=[])), r'^shot_plan\.looks\[0\]\.must_show must be a nonempty list of distinct strings, e\.g\. \["collar", "hem"\]; got list of 0$'),
+            'must_show empty on detail': (mutate(lambda p: p['looks'][0].update(must_show=[], framing='detail')), r'^shot_plan\.looks\[0\]\.must_show must be a list of distinct strings \(nonempty for detail shots\), e\.g\. \["collar", "hem"\]; got list of 0$'),
             'must_show duplicate': (mutate(lambda p: p['looks'][0].update(must_show=['hem', 'hem'])), r"^shot_plan\.looks\[0\]\.must_show must not repeat an item; got list of 2$"),
             'framing word': (mutate(lambda p: p['looks'][0].update(framing='portrait')), r"^shot_plan\.looks\[0\]\.framing must be one of full-body, half-body, knee-up, detail; got 'portrait'$"),
             'gaze missing when head set': (mutate(lambda p: p['looks'][0].update(head='three-quarter')), r'^shot_plan\.looks\[0\]\.gaze must be a nonempty single line on every shot once any shot declares head/gaze; got None$'),
