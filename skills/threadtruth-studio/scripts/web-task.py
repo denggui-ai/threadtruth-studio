@@ -1770,10 +1770,17 @@ def handoff_prompt(d,row,refs):
                 prompt+='\nCell reference images: '+selected+'. Use only these references for this cell, retaining their declared garment/identity roles; do not mix product facts from other cells. Selection note: '+cell['selection_note']
     elif is_preview(d) and v2(d.get('shot_plan')):
         positions={r['sha256']:i for i,r in enumerate(refs,1)}
+        cell_selections=[]
         for number,shot in enumerate(shot_helper().active_looks(d['shot_plan']),1):
             cell_refs=selected_references(d['references'],dict(d['context'],purpose='delivery'),d['shot_plan'],None,number)
             selected=', '.join(f"Image {positions[r['sha256']]}" for r in cell_refs if r['sha256'] in positions)
-            prompt+=f"\nPreview cell {number}:\nShot identity: {shot['shot_id']}.\nCell reference images: "+selected+'. Use only these references for this cell, retaining each declared role; do not borrow another cell\'s product or aesthetic input.'
+            cell_selections.append((number,shot,selected))
+        if (d['shot_plan'].get('framing_guidance')==3 and cell_selections
+                and all(selected==cell_selections[0][2] for _,_,selected in cell_selections)):
+            prompt+='\nAll preview cells use reference images: '+cell_selections[0][2]+"; keep each declared role and do not borrow another cell's product or aesthetic input."
+        else:
+            for number,shot,selected in cell_selections:
+                prompt+=f"\nPreview cell {number}:\nShot identity: {shot['shot_id']}.\nCell reference images: "+selected+'. Use only these references for this cell, retaining each declared role; do not borrow another cell\'s product or aesthetic input.'
     if d['schema_version']==2 and d['model'] and prompt_contract(d,row)>=1:
         prompt=models.apply_conditions(prompt,d['model'],allow_child=True)
     if d.get('identity_instruction_version') == 1 and d.get('model'):
@@ -1801,7 +1808,7 @@ def handoff_prompt(d,row,refs):
         prompt=shot_helper().apply(prompt,d['shot_plan'],shot_look,d.get('real_face_plan'),strict=prompt_contract(d,row)>=1)
     prompt=photography_helper().apply(prompt,d['context'].get('photography_targets') if d['schema_version']==2 else None)
     if 'visual_plan' in d:
-        prompt=visual_helper().apply(prompt,d['visual_plan'],None if is_preview(d) else n)
+        prompt=visual_helper().apply(prompt,d['visual_plan'],None if is_preview(d) else n,shot_plan=d.get('shot_plan'))
     return prompt
 
 

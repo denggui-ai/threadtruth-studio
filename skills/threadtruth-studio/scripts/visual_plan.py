@@ -473,7 +473,7 @@ def _photography_text(value):
     return FROZEN_SHOT_CLAUSE.sub('', value).strip()
 
 
-def render(plan, look=None):
+def render(plan, look=None, *, shot_plan=None):
     """Render only frozen resolved values. look is a task slot, None selects all."""
     if look is not None and (type(look) is not int or not 1<=look<=len(plan['shots'])):
         raise ValueError('Unknown visual presentation slot')
@@ -519,13 +519,21 @@ def render(plan, look=None):
         rows.append('Style commitments (each must be visible in the image):')
         for item in plan['commitments']:
             rows.append('Commitment: ' + item['show'] + ''.join('; ' + step for step in item.get('realize', [])))
+    shared_cells = {}
+    if look is None and len(cells) > 1 and (shot_plan or {}).get('framing_guidance') == 3:
+        for key in ('lighting', 'composition'):
+            if all(shot[key] == cells[0][key] for shot in cells):
+                value = _photography_text(cells[0][key]) if compact else cells[0][key]
+                if not compact or (value and value != _photography_text(plan['photography'][key])):
+                    shared_cells[key] = value
+                    rows.append(key.capitalize() + ' (all cells): ' + value)
     for shot in cells:
         heading = (f"Visual slot {shot['slot']} (shot {shot['shot_id']}):" if plan['version'] == 2
                    else f"Visual slot {shot['slot']} (presentation {shot['pose']}):")
         rows += [heading, 'Scene: ' + shot['scene']]
         for key in ('lighting', 'composition'):
             value = _photography_text(shot[key]) if compact else shot[key]
-            if not compact or (value and value != _photography_text(plan['photography'][key])):
+            if key not in shared_cells and (not compact or (value and value != _photography_text(plan['photography'][key]))):
                 rows.append(key.capitalize() + ': ' + value)
         if look is None and shot.get('garment_focus'):
             rows += ['Target garment: '+shot['garment_focus']['description'],
@@ -548,13 +556,14 @@ def compile_prompt(plan, look=None):
     return render(plan, look) + '\n'
 
 
-def apply(prompt, plan, look=None):
+def apply(prompt, plan, look=None, *, shot_plan=None):
     canonical = render(plan, look)
+    rendered = render(plan, look, shot_plan=shot_plan) if shot_plan is not None else canonical
     if BEGIN in prompt or END in prompt:
         if prompt.count(BEGIN) != 1 or prompt.count(END) != 1 or canonical not in prompt:
             raise ValueError('Frozen visual plan block conflicts with the current plan')
-        return prompt
-    return prompt.rstrip() + '\n' + canonical + '\n'
+        return prompt.replace(canonical, rendered, 1)
+    return prompt.rstrip() + '\n' + rendered + '\n'
 
 
 def check_prompt(prompt, plan, look=None, *, managed_blocks=()):

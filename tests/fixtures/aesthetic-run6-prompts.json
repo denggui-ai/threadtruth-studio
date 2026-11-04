@@ -859,37 +859,37 @@
       "name": "new-preview-grid",
       "source": "new",
       "purpose": "preview-grid",
-      "prompt_sha256": "450a831397022e76dfbed4653df329dad6d3126210bad44c0476647700d342e7"
+      "prompt_sha256": "dc8b90fdde49182d4415ce3f0fd220cff770ddee7dd5fb1de8f8be3a29513545"
     },
     {
       "name": "new-delivery",
       "source": "new",
       "purpose": "delivery",
-      "prompt_sha256": "c1f5921a9b67f122f267826beea5085db4f3ee2c29b52715626bbf06b0d2ac4d"
+      "prompt_sha256": "17aba56b25e33244b7f242bb65bb251c6ffbb20b003610f3c3e56c8f14e450cb"
     },
     {
       "name": "ai-preview-grid",
       "source": "ai",
       "purpose": "preview-grid",
-      "prompt_sha256": "c81c8fd445bd7b307167ae7f38280490da69a214ddcfbe5ac82682579d843b9c"
+      "prompt_sha256": "54b3875bbeeafe18419f629493c0b83c48817c99da6d690cb8a2ce6f47fce8e6"
     },
     {
       "name": "ai-delivery",
       "source": "ai",
       "purpose": "delivery",
-      "prompt_sha256": "00214cd61d591900d8fa6dc59255455ca5b3f733e7a3a27bcd6c7ae84207aeee"
+      "prompt_sha256": "403c3ba50abfc0a38b18bafea059e9fac25119410dc3852d7525f82a2bacabf9"
     },
     {
       "name": "real-preview-grid",
       "source": "real",
       "purpose": "preview-grid",
-      "prompt_sha256": "590dfc8eb55b4ec1f80b1a792e4157ea2ad391c43ddcda31230f94daf64b71ab"
+      "prompt_sha256": "b64f0357e6b85b35818db1039216b61716966c1fbb1dc8315f5adc9b75cedc8e"
     },
     {
       "name": "real-delivery",
       "source": "real",
       "purpose": "delivery",
-      "prompt_sha256": "4dc9dea932b4f452168b50b84b5abe4636f80bd09a04cf7c81e9afa9451cb689"
+      "prompt_sha256": "633300b756dedfa89eb7c33db78d032460ad4cf88ee108100499dfef4f4f232a"
     }
   ]
 }
