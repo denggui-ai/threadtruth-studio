@@ -1,6 +1,6 @@
 # 按服饰与用途编排姿势
 
-新人物／不露脸套图默认九张，先做一次九格方向预览，再按授权独立生成。明确单张、六张、经典六姿势、只要提示词或只看预览时按用户选择；旧冻结任务和非人像六构图不迁移。九张是交付数量，不是九种固定动作。固定母图换衣仍走原保护流程。
+张数、预览与主动分支按[主流程](../SKILL.md#1-主流程与停点)，旧冻结及经典分支读[旧任务](legacy-tasks.md)；九张是交付数量，不是九种固定动作。
 
 ## 从已有事实选姿势
 
@@ -17,7 +17,7 @@
 
 动作池只提供文字候选，不自动选择动作、添加`pose_selection`或附图，也不把整池写入提示词。男装等原支持范围沿用文字规划；选择女版姿势图仍走下节独立入口与范围检查。受限推袖不进入卡片自动池。当前任务冻结的`pose_pool_snapshot`保存所选词条、引用的几何定义、版本和哈希；卡片或共享目录升级不重写旧任务。
 
-新自由编排按“展示目标 → 现有推荐 → 商品/动作适配 → 应用并冻结”使用下方现有库与风格动作池。**每个非特写格先跑 recommend；所选风格卡有 `pose_pool` 时，优先用池内条目。** 仅对全新任务首次准备的 v2 且（`variety_checks: 2` 或 `framing_guidance: 3`） 计划，有池时非特写格至少一半（向上取整）须使用池内 `pose_id` 或有效自有库 `pose_selection`；特写不计分母或配额。其余可用 custom，理由须说明为什么池内动作不适合本格，例如“池内扶窗会遮挡本格必须展示的袖口开合，改为双臂外展”，不能只写“不适合／丰富变化”。无池卡不加此配额；已有冻结任务重新准备时传入 `--task <任务目录>`，不追填或重新检查。`variety_checks=2` 与 `framing_guidance=2/3` 都不能证明任务是新建的。旧 `variety_checks: 1` 的五格规则保持。同 ID 不重复、非 detail 背面最多一格、六／九格至少三个实际不同场景的原检查继续适用；身体重复须比较实际关系，不能只改措辞过检查。
+新自由编排按“展示目标 → 现有推荐 → 商品/动作适配 → 应用并冻结”使用下方现有库与风格动作池。**每个非特写格先跑 recommend；所选风格卡有 `pose_pool` 时，优先用池内条目。** 仅对全新任务首次准备的 v2 且（`variety_checks: 2` 或 `framing_guidance: 3`） 计划，有池时非特写格至少一半（向上取整）须使用池内 `pose_id` 或有效自有库 `pose_selection`；特写不计分母或配额。其余可用 custom，理由须说明为什么池内动作不适合本格，例如“池内扶窗会遮挡本格必须展示的袖口开合，改为双臂外展”，不能只写“不适合／丰富变化”。无池卡不加此配额；已有冻结任务重新准备时传入 `--task <任务目录>`，不追填或重新检查。`variety_checks=2` 与 `framing_guidance=2/3` 都不能证明任务是新建的。旧标记与恢复见[旧任务](legacy-tasks.md#冻结字段与恢复)。同 ID 不重复、非 detail 背面最多一格、六／九格至少三个实际不同场景的原检查继续适用；身体重复须比较实际关系，不能只改措辞过检查。
 
 ## 按商品目标排序候选
 
@@ -59,13 +59,13 @@ python3 scripts/pose_library.py recommend --spec prepare-spec.json --shot-id gar
 
 ## 可选动作与用户指定
 
-成人女装 AI/new 人物或成人不露脸任务，从 [52动作／60视图选姿页](pose-library/index.html)／[目录](pose-library/catalog.json) 与风格情节共同选择候选，按商品目的筛选，不优先新库或复杂动作，不要求用户先选完。原14动作／16视图定义保持；新增地坐、跪姿、蹲姿、侧卧等分类。男装、儿童及真人新露脸角度继续原路径，不能外推资产效果。
+成人女装 AI/new 人物或成人不露脸任务，从 [52动作／60视图选姿页](pose-library/index.html)／[目录](pose-library/catalog.json) 与风格情节共同选择候选，按商品目的筛选，不优先新库或复杂动作，不要求用户先选完。旧定义保持，见[旧任务](legacy-tasks.md#冻结字段与恢复)；新增地坐、跪姿、蹲姿、侧卧等分类。男装、儿童及真人新露脸角度继续原路径，不能外推资产效果。
 
 用户可直接说动作，也可打开选姿页勾选并复制回聊。说明“你指定几张，其余我安排”；默认先给本次少量适配候选，完整目录按需打开。图号是应用到哪一张，动作 ID 是动作本身；只改第3格就保留其余格与稳定 `shot_id`。选姿页不能直接写入聊天或证明模型已收到图。
 
 `scripts/pose_library.py search --garment-views front` 按所需商品视角过滤，默认不返回受限推袖；明确查阅全目录可加 `--include-restricted`，这不解除选择限制。图片的front/diag/side是观察视图，实际所需商品依据以每条 `garment_views` 为准；侧视沿用现有front-side商品覆盖，不能用单张仅正面依据代替。活动余量、道具、遮挡及风格是否适合仍由 Agent 对照实物核对。不要只按标题取图。先查看实际选中视图再决定附图；阴影、留白偏差不带入人体成片。
 
-既有记录为59图几何可参考（含3图沿用试点判断，未新增独立复核），不代表画风、边距、商品效果或全部规格通过；逐图 `review_note` 与 `avoid_when` 保留限制。推袖 `tt-close-sleeve-push / diag` 固定保留R029/v4，`GEO-SLEEVE-01`仍open：右手接触左前臂中段，但右前臂遮腹。该条 `selection_policy=user-only` 随定义冻结，仅用户明确指定时可用 `origin=user`，默认仍为文字；附图另需明确选择 `mode=image`，不得自动推荐或默认附图。腰腹无遮挡／腰腹卖点展示时不用，说明具体冲突后另选动作，不把文字模式当作遮挡已修复。选姿页会显示限制，复制文字与附图要求都带上遮腹说明；默认来源引用出口拒绝该图，明确附图须经选姿入口。
+几何记录不代表画风、边距、商品效果或全部规格通过；逐图 `review_note` 与 `avoid_when` 保留限制。推袖 `tt-close-sleeve-push / diag` 固定保留R029/v4，`GEO-SLEEVE-01`仍open：右手接触左前臂中段，但右前臂遮腹。该条 `selection_policy=user-only` 随定义冻结，仅用户明确指定时可用 `origin=user`，默认仍为文字；附图另需明确选择 `mode=image`，不得自动推荐或默认附图。腰腹无遮挡／腰腹卖点展示时不用，说明具体冲突后另选动作，不把文字模式当作遮挡已修复。选姿页会显示限制，复制文字与附图要求都带上遮腹说明；默认来源引用出口拒绝该图，明确附图须经选姿入口。
 
 `scripts/pose_library.py apply --plan shot_plan.json --shot-id <稳定ID> --pose-id <动作ID> --view <视图> --mode text --origin user --output selection.json` 返回更新后的 `shot_plan` 与可选 `reference`。保留本张目的、景别、头眼、商品依据和其他格；将输出写回准备输入，按原流程校验并冻结。`origin` 可为 `auto`，不改变用户已有生成授权。
 
@@ -86,7 +86,7 @@ python3 scripts/pose_library.py recommend --spec prepare-spec.json --shot-id gar
 
 ## 冻结计划与职责
 
-新编排使用 `shot_plan.version=2`。顶层 `sku/route/coverage` 继续绑定同款商品事实；完整 `looks` 保留逻辑系列，每张 `slot` 和 `shot_id` 稳定。`selected_shot_ids` 选择本次执行项，不通过删除其余项或重编号丢失来源。新建任务的 v2 计划顶层带 `framing_guidance: 3`（取景留白句由它触发；2 只属于已冻结计划；缺省时 `web-task.py init` 自动补上，后续续图／重试／预览修订再传计划时省略该键也沿用冻结值；旧冻结任务不变）。
+新编排使用`shot_plan.version=2`。顶层`sku/route/coverage`绑定同款事实；`looks`保留完整逻辑系列，`slot/shot_id`稳定，`selected_shot_ids`选择执行项，不删其余项或重编号。新建计划带`framing_guidance: 3`；缺省时init补上，续图/重试/预览修订省略时沿用冻结值；[旧字段](legacy-tasks.md#冻结字段与恢复)不变。
 
 每项保存 `display_goal`、`must_show`、`reason`、`body_action`、`hands`、`support`、`framing`、`garment_views` 和商品 `reference_sha256s`；细节景别只在用途允许时使用。露脸 AI/new 逐张提供成对 `head/gaze`，真人仍按 `real_face_plan` 的真实覆盖安排；不露脸不添加露脸要求。
 
@@ -100,7 +100,7 @@ python3 scripts/pose_library.py recommend --spec prepare-spec.json --shot-id gar
 - `visual_plan` 管摄影与视觉表达，不另写身体、头向或景别。
 - 预览与独立图读取同一冻结计划，按输出形式确定性编译；不能在每张提交前重新自由编排。
 
-`series_role` 区分 `standalone`、`series-first`、`series`。从预览第七格抽出单张仍保留原 `shot_id/slot`，即使本地文件叫 look-1，也不能自动续八张。只有完整系列的真正首张试拍可在新增授权后续组。明确经典六姿势使用 v1；旧 v1 校验、导出、续五和重试保持原义。
+`series_role` 区分 `standalone`、`series-first`、`series`。从预览第七格抽出单张仍保留原 `shot_id/slot`，即使本地文件叫 look-1，也不能自动续八张。只有完整系列的真正首张试拍可在新增授权后续组。经典/旧v1见[旧任务](legacy-tasks.md#经典六姿势)。
 
 ## 可选姿势图片
 
@@ -112,7 +112,7 @@ python3 scripts/pose_library.py recommend --spec prepare-spec.json --shot-id gar
 
 创建、修订、续图、重试和导出按当前 shot 解析同一实际有序附件列表，不把九张动作图一起发给每次请求。其他审美图通过逐张可选的 `aesthetic_reference_sha256s` 选择，不能默认混入每张；预览按格说明实际 Image N 映射。商品、原始身份与必需首张锚点都不可被姿势图挤占。当前原生实现按五附件预检，其他入口按其实际约束；自动建议图放不下时，在冻结前明确改用文字。用户指定图不能静默丢弃，必要商品／身份不足则停止该准备。
 
-逐格摄影可互异（WP-21b；检查在 shot_plan 顶层带 `variety_checks: 1` 或 `2` 时启用，新建自由编排用2，旧冻结计划不追溯）：每个 look 可选 `scene`、`lighting`、`camera`（各一行），覆盖风格卡的共用值并冻结进 `visual_plan.shots`；缺省沿用卡片。校验只做两条文本层最低防线：①`garment_views` 不含 `back` 时，`body_action`/`head` 不得写背身词（back to camera、over the shoulder、turned away、facing away、walking away、from behind、背对、回头、背影）；②同一计划内不得有两格 `(framing, 规范化 body_action，去标点、小写、压缩空白)` 完全相同。它们拦不住同义词和成图后的骨架重复，成图后仍需按图核对。
+逐格摄影可互异（检查在`variety_checks: 1/2`时启用，新建自由编排用2；[旧冻结](legacy-tasks.md#冻结字段与恢复)不追溯）：每个 look 可选 `scene`、`lighting`、`camera`（各一行），覆盖风格卡的共用值并冻结进 `visual_plan.shots`；缺省沿用卡片。校验只做两条文本层最低防线：①`garment_views` 不含 `back` 时，`body_action`/`head` 不得写背身词（back to camera、over the shoulder、turned away、facing away、walking away、from behind、背对、回头、背影）；②同一计划内不得有两格 `(framing, 规范化 body_action，去标点、小写、压缩空白)` 完全相同。它们拦不住同义词和成图后的骨架重复，成图后仍需按图核对。
 
 首版九格预览使用冻结动作文字与必要商品／人物参考，独立图使用本张选定姿势图；不制作九图参考板，不承诺预览与独立图像素一致。用户明确要求预览使用某图片时必须核容量与来源；不能暗中改成文字。
 
@@ -124,6 +124,10 @@ python3 scripts/pose_library.py recommend --spec prepare-spec.json --shot-id gar
 
 v2 已拒收单张可修必要动作、景别和参考选择，重新核素材与人物限制；保留其他已接受张、共享条件、历史计划／原图／QA和累计次数。首张身份锚点变更仍走原专门流程，不用局部重试偷换人物。
 
-九格只计一次预览请求；九张独立图另计九次。用户已有授权沿用，方向接受不自动增加调用。生成仍串行，失配／未知恢复和重试门禁不变。只有实图对照支持时才声称改善；样例跑通、索引数量和跨模型意见一致都不是效果证据。
+调用次数、串行与重试按[授权契约](flow-gates.md#授权与读写权限)；效果声明按[商业QA](commercial-qa.md#案例下限与本次提升)。
 
-WP-23：新自由编排（`variety_checks: 2`）及旧带动作词条的风格卡（`variety_checks: 1`）在六／九格计划里非 detail 格至少写出 3 个不同场景（detail 特写不计）；没写 `scene` 的格共用卡片默认场景，只算 1 个。场景从卡片 `scene_options` 里挑不同地点；棚拍模式写 3 种不同布景（墙板、矮台、开阔地面等）。
+新自由编排（`variety_checks: 2`）及旧带动作词条的风格卡（`variety_checks: 1`）在六／九格计划里非 detail 格至少写出 3 个不同场景（detail 特写不计）；没写 `scene` 的格共用卡片默认场景，只算 1 个。场景从卡片 `scene_options` 里挑不同地点；棚拍模式写 3 种不同布景（墙板、矮台、开阔地面等）。
+
+## 准备字段补充
+
+顶层`series_role`为`standalone/series-first/series`；`route`有可用背面图为`A`，否则`B`。`coverage`每项为`{sha256, views, usable, same_sku, note}`。`framing`用`full-body/knee-up/half-body/detail`，`garment_views`为`front/front-side/back/detail`子集；风格卡带 `pose_vocabulary` 时，look 另写 `pose_id`（所选词条 id；例：`"pose_id": "kc-wall-stand"`）。新自由编排带`variety_checks: 2`，已有冻结字段按[旧任务](legacy-tasks.md#冻结字段与恢复)保留。

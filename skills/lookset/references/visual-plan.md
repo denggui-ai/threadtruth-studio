@@ -1,6 +1,6 @@
 # 统一视觉方案
 
-白底与专业Ghost按[商品编辑](product-edit.md)准备：可选product_edit冻结实际编辑目标、原商品清单、处理方式、背景/阴影和内部结构依据。仅该分支为原生单张product-display，Ghost使用独立output_form；它优先于卡片摄影/人物默认，不增加风格条目。没有product_edit的旧任务保持原契约。
+白底与专业Ghost按[商品编辑](product-edit.md)准备：可选product_edit冻结实际编辑目标、原商品清单、处理方式、背景/阴影和内部结构依据。仅该分支为原生单张product-display，Ghost使用独立output_form；它优先于卡片摄影/人物默认，不增加风格条目。旧任务见[兼容规则](legacy-tasks.md#冻结字段与恢复)。
 
 在识别真实服饰并确定方向后读取本文件。用途、服饰保护、摄影/场景/媒介共同形成一份可审阅方案；不向用户要求填写内部JSON。先用两三句说明人物来源、所选方向、拍法、数量及影响结果的缺项，沿用已有明确授权。
 
@@ -37,15 +37,14 @@ schema2新任务可携带顶层`visual_plan`及其版本／哈希，启用prompt
 
 - `objective`、`output_medium`、`output_form`（human/faceless/flat-lay/hanger/mannequin，与当前任务一致）；
 - `style.primary`与`style.supporting`的`id/version/sha256/snapshot`，冻结来源卡全文；带`pose_pool`的卡同时保存解析后的`pose_vocabulary`与`pose_pool_snapshot`（版本、逐条文字或几何定义、哈希）。校验与恢复只读冻结内容，不重载共享目录；动作候选不整池渲染，具体身体／手位／支撑仍由`shot_plan`负责。旧内嵌词条卡继续原契约；
-- `pose_history`（可选、只存不渲染）：由prepare的`pose_history_tasks`读取明确选定的历史任务，保存来源任务／计划／返回文件哈希、动作ID／共享几何键、动作文字摘要及状态，不复制历史图片、提示词或私人路径。新摘要version=2另存三字段的词元／关系哈希，按固定规则比较轻微文字变化，报告逐字段相似度与未覆盖对数；旧version=1保持精确比较，不自动升级。实际校验比较当前shot_plan与冻结摘要；精确／疑似匹配须改变动作或在对应look写具体用途／区别的`pose_reuse_reason`，详见[跨组避重](pose-planning.md#跨组姿势避重)。只适用于v2人物／不露脸计划；旧冻结方案不自动加入历史；
+- `pose_history`（可选、只存不渲染）：由prepare的`pose_history_tasks`读取明确选定的历史任务，保存来源任务／计划／返回文件哈希、动作ID／共享几何键、动作文字摘要及状态，不复制历史图片、提示词或私人路径。摘要版本/比较规则见[跨组避重](pose-planning.md#跨组姿势避重)。实际校验比较当前shot_plan与冻结摘要；命中按同节改动作或记录`pose_reuse_reason`。只适用于v2人物／不露脸计划；旧冻结方案不自动加入历史；
 - `garment.description/keep/source_sha256s`（可选`hem_state`、`silhouette`、`length/length_source`，固定枚举，渲染为几何句）、允许的`styling`；
 - `photography.scene/lighting/composition/palette`、`art.direction/techniques/limits`、限定范围的`negatives`；
-- `shots`按实际slot和稳定shot_id冻结（旧v1按pose）逐张场景、光线及构图；文化服饰可另有冻结的`culture_profile`；
-- `asset_trace`（可选，WP-21e，只存不渲染）：`[{asset, decision: adopted|translated|not-applicable, affects, check}]`，记录用了哪条资料记录、如何落到方案、成图怎么核。文化入口（qipao-urban、hanfu-form-specific）`prepare`时必须有非空`culture_profile`，且`asset_trace`至少一条`asset`为`china-culture.json`里的记录id（如C10），否则报错。提示词不输出该字段，QA与报告读取它。
-- `presentation_2_substituted`（可选，仅六格 v1 的 flat-lay/hanger/mannequin，WP-21d）：无同款背面源时冻结为`true`，第2格渲染正面细节行；`prepare`的spec写`back_source: true`则不冻结。
-- `contract`（可选，WP-21）：`prepare` 写入 `21`。只有带它的计划才使用新的 persona 标题、`Commitment:` 行、第2格替换行，并强制文化入口的 `culture_profile` + `asset_trace`；没有它的旧计划渲染字节不变。承诺的 `needs` 若与人物条件里显式声明的表情／妆发／发型冲突，写入 `commitments_skipped`（reason `model-condition`）。
-- `commitments`、`commitments_skipped`、`open_variables`（可选，三者同时冻结，WP-21c）：来源卡或本轮显式override的`commitments`（每条`id/show/needs/check`，可选`realize`；`needs`取自makeup/expression/body/arrangement/camera/scene/lighting）按本次开放的变量过滤。human七项全开（`styling_lock: full`去掉makeup），faceless去掉makeup与expression，flat-lay/hanger/mannequin只开arrangement/camera/scene/lighting。`needs`全部开放的承诺渲染为`Commitment:`行（只输出`show`与`realize`，`check`留给QA目测）；其余写入`commitments_skipped:[{id,reason}]`，不进提示词。是否有承诺以所选卡实际字段为准，不由入口名推断。光线承诺的`check`须写清光从哪侧来、亮暗面关系或有无rim/back光。product-display目标会去掉卡片里的`no e-commerce catalog look`。
-- `persona`与`persona_model_sha256`（可选，成对冻结）：来自来源卡的`persona`短句，仅在`prepare`收到`model`且`output_form`为human时，经当前人物条件过滤（真人／AI身份锁定时自动剥掉与已锁定的年龄、表情等冲突的分句；妆发、发型仅在 `styling_lock: full` 或人物卡显式声明时剥掉）后写入，渲染为`Art limit`之后的一行`Style persona (expression and styling; identity stays as declared)`，且不压过人物条件块。门禁：①未传`model`则无此字段，传了`model`则无条件校验；②不露脸、flat-lay、hanger、mannequin不注入；③童装不注入；④冻结时记录所依据人物条件的哈希，`web-task`在创建、修订、续图时核对，人物条件被改动则拒绝，须按新人物条件重新`prepare`（预期行为）。12个新入口默认无`persona`，需要时逐卡显式添加，不自动从`bases`合并。已冻结的旧任务与不含`persona`的方案渲染字节不变。
+- `shots`按实际slot和稳定shot_id冻结（[旧v1](legacy-tasks.md#经典六姿势)按pose）逐张场景、光线及构图；文化服饰可另有冻结的`culture_profile`；
+- `asset_trace`（可选，只存不渲染）：`[{asset, decision: adopted|translated|not-applicable, affects, check}]`，记录用了哪条资料记录、如何落到方案、成图怎么核。文化入口（qipao-urban、hanfu-form-specific）`prepare`时必须有非空`culture_profile`，且`asset_trace`至少一条`asset`为`china-culture.json`里的记录id（如C10），否则报错。提示词不输出该字段，QA与报告读取它。
+- `contract`：新`prepare`写入`21`，启用persona标题、`Commitment:`及文化入口必填检查；与人物条件中显式表情/妆发/发型冲突的承诺记`commitments_skipped`，reason=`model-condition`。[旧contract与六格替换](legacy-tasks.md#视觉契约旧字段)仅按原冻结记录。
+- `commitments`、`commitments_skipped`、`open_variables`（可选，三者同时冻结）：来源卡或本轮显式override的`commitments`（每条`id/show/needs/check`，可选`realize`；`needs`取自makeup/expression/body/arrangement/camera/scene/lighting）按本次开放的变量过滤。human七项全开（`styling_lock: full`去掉makeup），faceless去掉makeup与expression，flat-lay/hanger/mannequin只开arrangement/camera/scene/lighting。`needs`全部开放的承诺渲染为`Commitment:`行（只输出`show`与`realize`，`check`留给QA目测）；其余写入`commitments_skipped:[{id,reason}]`，不进提示词。是否有承诺以所选卡实际字段为准，不由入口名推断。光线承诺的`check`须写清光从哪侧来、亮暗面关系或有无rim/back光。product-display目标会去掉卡片里的`no e-commerce catalog look`。
+- `persona`与`persona_model_sha256`（可选，成对冻结）：来自来源卡的`persona`短句，仅在`prepare`收到`model`且`output_form`为human时，经当前人物条件过滤（真人／AI身份锁定时自动剥掉与已锁定的年龄、表情等冲突的分句；妆发、发型仅在 `styling_lock: full` 或人物卡显式声明时剥掉）后写入，渲染为`Art limit`之后的一行`Style persona (expression and styling; identity stays as declared)`，且不压过人物条件块。门禁：①未传`model`则无此字段，传了`model`则无条件校验；②不露脸、flat-lay、hanger、mannequin不注入；③童装不注入；④冻结时记录所依据人物条件的哈希，`web-task`在创建、修订、续图时核对，人物条件被改动则拒绝，须按新人物条件重新`prepare`（预期行为）。未声明persona的入口不自动从`bases`合并；[旧方案](legacy-tasks.md#视觉契约旧字段)不重写。
 
 来源快照哈希证明文本一致，不能证明资料真实或生成效果。私人原图与客户资料只进入私人任务目录，不写回共享风格卡或运行库。
 
@@ -55,13 +54,7 @@ schema2新任务可携带顶层`visual_plan`及其版本／哈希，启用prompt
 
 预览修改只更新用户指定部分，保留未要求改动的商品、人物、动作与视觉条件。候选方案、实际渲染图、用户接受、调用授权分别记录；未经渲染的新方案不能冒充已接受方向。方向确认后，单张或六／九张任务承接已接受方案，预览像素不当成片或人物依据。
 
-已有任务需要重新 `prepare` 时，用 `visual_library.py prepare --task <任务目录> --spec <修订准备文件> --output <新方案文件>` 读取并核对原冻结方案；Python 调用传 `frozen_visual_plan`。不传冻结上下文的准备按全新任务处理。是否已有冻结任务以任务记录／冻结方案为准，不能从 `variety_checks` 或 `framing_guidance` 推断；beta.18 的旧计划也有两个值为2的标记。新选姿配额与原图模特造型排除句仅在全新任务首次准备时启用；修订、续组、恢复、重试保留原来有／无该句的状态。显式提交编译提示词时，方案与提示词中的完整匹配视觉块一起继承原渲染约定；不匹配的场景或额外正文仍拒绝。
-
-关联修订同样用 `prepare --task <父任务目录>`（Python 传父任务的 `frozen_visual_plan`），从父任务冻结的 `shot_plan` 取目标格，跳过新任务配额并保留渲染版本及造型句原有状态；保留首张生成人物时允许 `new → ai`，其他来源变更仍拒绝，随后交给 `web-task.py prepare-revision`／`create_revision` 核对实际身份确认、首张图片哈希和固定人物条件。
-
-已知限制：重新准备按**当前**风格卡读取动作池。所用卡在建任务之后新增或扩充了动作池时，旧任务的重新准备、修订和续组（续组需重新准备其余格）会与冻结方案不一致而被拒，`variety_checks: 1` 的旧任务还会被要求至少 5 格带 `pose_id`。此时请按新任务重新开始；已导出的原冻结请求仍可原样使用，不手工改写旧计划。
-
-续图与恢复使用任务里冻结的plan；索引或卡片升级不改旧任务。无visual_plan的旧任务继续按原契约恢复；要采用新方案须显式准备新版本，不静默升级或重写历史请求。输出、修订与未知请求保留累计次数，先查询未知请求再决定是否需要新的授权调用。
+已有任务重新准备、关联修订、续图与恢复时，先读[旧任务兼容](legacy-tasks.md#重新准备与关联修订)，使用任务冻结的plan，不从字段标记推断新旧、不静默升级。未知请求先核实，输出/修订保留累计次数。
 
 ## 分项验收与交付
 

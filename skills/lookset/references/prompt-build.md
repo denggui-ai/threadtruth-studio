@@ -358,3 +358,11 @@ no collage, no grid, no text.
 [平铺/挂拍/人台且 N 为 #1/#2/#5/#6,追加: no cropped garment outline, no cropped hem, no cropped accessories.]
 [平铺/挂拍/人台且 N 为 #3/#4,不要追加真人 cropped 或 full-outline 裁切负面词;只写清目标细节必须完整清楚。]
 ```
+
+## 系统优先级
+
+**安全与授权门禁 > 上传服饰图事实源与保真 > 用户明确呈现要求 > 本轮冻结姿势／构图计划 > 自然身体结构 > 人物一致 > 头向 > 风格／场景 > 氛围。姿势由服饰、用途和素材覆盖决定；旧v1与明确经典六姿势才受六母版约束。**
+
+五正交轴及输出/交付交互轴按[安全优先级](safety-core.md#3-优先级链硬规则)。
+
+真人身份的头向覆盖按[人物选择](model-selection.md#真人参考覆盖与本轮朝向计划)；正面清楚、缺背面时按[服饰选姿](pose-planning.md#从已有事实选姿势)，经典分支读[旧任务](legacy-tasks.md#经典六姿势)。
