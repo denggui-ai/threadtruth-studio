@@ -14,12 +14,12 @@ This release includes the shared 176-entry pose pool, knowledge and style-rule r
 
 **[下载Lookset插件 · Download Lookset](https://github.com/denggui-ai/lookset/releases/tag/v0.1.0-beta.1)**　·　**[开始安装 · Install](docs/INSTALL.md#english)**　·　**[查看成片 · See results](https://denggui-ai.github.io/lookset/#reviewed-cases)**　·　**[探索风格 · Explore styles](https://denggui-ai.github.io/lookset/#style-highlights)**
 
-[English guide](README.md) · [中文说明](README.zh-CN.md) · [产品首页 / Website](https://denggui-ai.github.io/lookset/) · [能力清单与拓扑 / Capability topology](https://github.com/denggui-ai/lookset/blob/main/docs/ARCHITECTURE.md) · [当前能力状态 / Capability status](https://github.com/denggui-ai/lookset/blob/main/docs/CAPABILITY-STATUS.md)
+[English guide](README.md) · [中文说明](README.zh-CN.md) · [产品首页 / Website](https://denggui-ai.github.io/lookset/) · [能力清单与拓扑 / Capability topology](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md) · [当前能力状态 / Capability status](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/CAPABILITY-STATUS.md)
 
 When clear front and front-side photos are available but the back is missing, no back-view shot is planned; the set uses front, front-side and detail arrangements and states the limit. Accurate rear construction still requires a real rear photo.
 
 
-[![Lookset architecture and key workflows](https://raw.githubusercontent.com/denggui-ai/lookset/main/docs/assets/architecture-overview.svg)](https://github.com/denggui-ai/lookset/blob/main/docs/ARCHITECTURE.md)
+[![Lookset architecture and key workflows](https://raw.githubusercontent.com/denggui-ai/lookset/main/docs/assets/architecture-overview.svg)](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md)
 
 
 [Japanese-home workflow tutorial (中文)](docs/JAPANESE-HOME-TUTORIAL.md) (six-image era): materials, first-image approval, six standalone images and an honest case review. The tutorial identifies released and development behavior separately.
@@ -98,7 +98,7 @@ Install Lookset in **Codex**. The ChatGPT route uses the web handoff described i
 |---|---|---|---|---|
 | <a href="https://denggui-ai.github.io/lookset/reviewed-cases.html#black-jacket-office"><img src="https://denggui-ai.github.io/lookset/assets/reviewed-cases/black-jacket-office/look-1.png" alt="Office Commute — AI-generated" width="150"></a><br>Office Commute · same-input comparison | <a href="https://denggui-ai.github.io/lookset/reviewed-cases.html#red-floral-french"><img src="https://denggui-ai.github.io/lookset/assets/reviewed-cases/red-floral-french/look-1.png" alt="Floral dress — AI-generated" width="150"></a><br>Floral dress | <a href="https://denggui-ai.github.io/lookset/reviewed-cases.html#green-shirt-home"><img src="https://denggui-ai.github.io/lookset/assets/reviewed-cases/green-shirt-home/look-1.png" alt="Home outfit — AI-generated" width="150"></a><br>Home outfit | <a href="https://denggui-ai.github.io/lookset/reviewed-cases.html#trim-tee-american"><img src="https://denggui-ai.github.io/lookset/assets/reviewed-cases/trim-tee-american/look-1.png" alt="American Street — AI-generated" width="150"></a><br>American Street | <a href="https://denggui-ai.github.io/lookset/reviewed-cases.html#trim-tee-japanese"><img src="https://denggui-ai.github.io/lookset/assets/reviewed-cases/trim-tee-japanese/look-1.png" alt="Japanese Lifestyle — AI-generated" width="150"></a><br>Japanese Lifestyle |
 
-[Case notes and media terms](https://github.com/denggui-ai/lookset/blob/main/docs/SHOWCASE-CASES.md).
+[Case notes and media terms](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/SHOWCASE-CASES.md).
 
 [![A real white-vest source photo alongside six independent AI-generated Korean Cold Editorial portraits](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/hero.jpg)](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)
 
@@ -122,7 +122,7 @@ The **24-style paired gallery** compares Codex and ChatGPT web results, with sou
 
 **coordinated outfit · 24 styles** — the beige blazer, white top, dark denim, olive tote, and brown loafers form one locked outfit. This is a single preview sheet. [Browse all 24 outfit sheets](docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/) (GitHub lists the image files; the folder's `index.html` is a gallery page for a downloaded copy) · [Media rights](docs/demo/RIGHTS.md).
 
-**single garment · 24 styles** — the thumbnails below show the frozen white-vest collection. Each opens a larger six-pose sheet. [Style evidence index](docs/demo/STYLES.md) · [Historical work register](https://github.com/denggui-ai/lookset/blob/main/docs/WORK-STATUS.md).
+**single garment · 24 styles** — the thumbnails below show the frozen white-vest collection. Each opens a larger six-pose sheet. [Style evidence index](docs/demo/STYLES.md) · [Historical work register](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/WORK-STATUS.md).
 
 <!-- STYLE_PREVIEWS:START -->
 
@@ -153,7 +153,7 @@ Lookset is independent and community-maintained, not an OpenAI product or endors
 
 ## Documentation and support
 
-[Install, upgrade, and rollback](docs/INSTALL.md) · [Compatibility](docs/COMPATIBILITY.md) · [Offline guide](USER-GUIDE.html) (bundled in the Plugin ZIP; open it locally, since GitHub shows its HTML source) · [Changelog](https://github.com/denggui-ai/lookset/blob/main/CHANGELOG.md) · [Beta progress](docs/BETA.md)
+[Install, upgrade, and rollback](docs/INSTALL.md) · [Compatibility](docs/COMPATIBILITY.md) · [Offline guide](USER-GUIDE.html) (bundled in the Plugin ZIP; open it locally, since GitHub shows its HTML source) · [Changelog](https://github.com/denggui-ai/threadtruth-studio/blob/main/CHANGELOG.md) · [Beta progress](docs/BETA.md)
 
 **Current prerelease: 0.1.0-beta.1.** Choose one of 36 visual entries, authorize one labeled nine-panel preview, confirm the direction, then authorize independent images; the first portrait still needs model confirmation. Every generation goes through the ledger scripts. Earlier releases and their galleries remain historical records; use each old archive's bundled guide when installing that version. Beta exit targets and remaining validation are tracked in the [Beta register](docs/BETA.md).
 
@@ -169,6 +169,6 @@ python3 tools/trigger-eval.py
 python3 tools/build-release.py
 ```
 
-Runtime lives under `skills/lookset/`; tests, evals, release tooling, and evidence stay outside it. See [Contributing](CONTRIBUTING.md), [Security](SECURITY.md), [Migration](MIGRATION.md), and [Provenance](PROVENANCE.md). Project Beta targets are not OpenAI admission rules; application details are kept in [Codex for Open Source](https://github.com/denggui-ai/lookset/blob/main/docs/CODEX-FOR-OSS.md).
+Runtime lives under `skills/lookset/`; tests, evals, release tooling, and evidence stay outside it. See [Contributing](CONTRIBUTING.md), [Security](SECURITY.md), [Migration](MIGRATION.md), and [Provenance](PROVENANCE.md). Project Beta targets are not OpenAI admission rules; application details are kept in [Codex for Open Source](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/CODEX-FOR-OSS.md).
 
 </details>

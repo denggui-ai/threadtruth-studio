@@ -69,7 +69,7 @@ Lookset核对后给出一份方案。确认该方案及六次调用预算即可�
 - 原QA标准用错时重新评定同一原图，保留旧判与理由；未提交的计划可版本化修改，不改写已调用提示词。
 - 新增生成重试仍需具体授权。保存恢复不等于重新生成，不重置预算。
 
-原隔离候选通过17项本地回归，并完成一次真实两张续跑；源码整合后的验证范围见[开发验证记录](https://github.com/denggui-ai/lookset/blob/main/docs/verification/2026-10-08-japanese-home-optimization.md)。本地模拟故障不冒充真实图片服务故障，新规则不冒充新的图片质量证据。
+原隔离候选通过17项本地回归，并完成一次真实两张续跑；源码整合后的验证范围见[开发验证记录](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/verification/2026-10-08-japanese-home-optimization.md)。本地模拟故障不冒充真实图片服务故障，新规则不冒充新的图片质量证据。
 
 ## 6. 最终接受与公开使用
 
@@ -77,4 +77,4 @@ Lookset核对后给出一份方案。确认该方案及六次调用预算即可�
 
 本教程只公开操作文字与脱敏测试结论，私人肖像、商品原图和生成图未纳入公开仓库。公开展示图片须先明确对应素材的使用权；生成内容的发布标识要求见[使用指南](../README.zh-CN.md)。
 
-继续了解[当前能力状态](https://github.com/denggui-ai/lookset/blob/main/docs/CAPABILITY-STATUS.md)与[底层流程总图](https://github.com/denggui-ai/lookset/blob/main/docs/ARCHITECTURE.md)。
+继续了解[当前能力状态](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/CAPABILITY-STATUS.md)与[底层流程总图](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md)。

@@ -12,7 +12,7 @@
 
 | Black jacket / Office Commute daylight | Same byte-identical authorized input as the external trial; six selected AI images authorized for project display on 2026-10-02 | Canvas, identity and visible pose review; fine garment details and aesthetic acceptance remain open. Slot 6 is stationary frontal standing because no real rear source was supplied; no rear-construction verification. |
 
-The [external trial record](https://github.com/denggui-ai/lookset/blob/main/docs/feedback/2026-10-01-external-codex-outfit.md) separates reported satisfaction and six-file checks from installation evidence and commercial readiness. Its display order follows the visible actions; original generation prompts and run numbering were not supplied.
+The [external trial record](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/feedback/2026-10-01-external-codex-outfit.md) separates reported satisfaction and six-file checks from installation evidence and commercial readiness. Its display order follows the visible actions; original generation prompts and run numbering were not supplied.
 
 These generated examples have demo-only display permission, not an open media reuse license. Apache-2.0 does not apply to these PNGs. Third-party source photography and product rights remain separate; publication does not imply MUJI, Shopify, a photographer or any other brand endorses the plugin. Original input-photo identity and real-world fit are not guaranteed.
 

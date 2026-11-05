@@ -22,7 +22,7 @@ beta.15 预发布版包含素材识别、人物选择与复用、视觉方向、
 可在同一未关闭任务中修订已评定预览，保留技术QA与原图，单次授权后启用最新人物/逐格方案。商品正背覆盖决定第6姿态；经典第3半身、第5站立自然垂臂微前倾，明确适配才改变。转成片继承最新方案；预览不作身份锚点。案例下限和预先声明的提升分别验收。此源码未安装、未生图；离线通过不表示图片优于案例。运行机制见[预览记录](../skills/lookset/references/preview-ledger.md)；候选拓扑与验证记录保留在开发源docs/ARCHITECTURE.md及docs/verification/2026-10-17-preview-plan-revision.md，尚未发布。
 
 
-[用户架构总图（GitHub在线）](https://github.com/denggui-ai/lookset/blob/main/docs/ARCHITECTURE.md) · [当前能力盘点：实现、验证与缺口](https://github.com/denggui-ai/lookset/blob/main/docs/CAPABILITY-STATUS.md)
+[用户架构总图（GitHub在线）](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md) · [当前能力盘点：实现、验证与缺口](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/CAPABILITY-STATUS.md)
 
 从真实服饰照片开始，先识别、选方向，再决定是否生成。本文说明 **beta.15** 的工作流与条件，含显式单张呈现、真人参考朝向规划及逐张选图。默认流程为选风格、1 张九格方向预览（非成片）、确认方向、按服饰编排的九张独立图；保留主动单张、明确六张与经典六姿势。请使用匹配版本的公开安装包。本机版本须按安装记录核对；不承诺所有功能组合都已实测。
 
@@ -119,7 +119,7 @@ Expect source checks, a primary recommendation, two alternatives and all 36 visu
 | **选择入口 / Choose a route** | 同一方案 → Codex 原生生图，或 ChatGPT 网页转交包。 / The same plan → Codex generation or a ChatGPT web handoff. | 默认 Codex；网页为显式选择。网页自动执行需宿主浏览器工具；可转手动流程。 / Codex by default; web is opt-in. Automation needs host browser tools; a manual path is documented. | 维护者 macOS 已完成网页六张流程（六图时期）；非维护者新机器与真人手动易用性未验证。 / A six-image web run is recorded on the maintainer's Mac (six-image era); fresh-host and human manual usability remain unverified. |
 | **检查与修正 / Review & retry** | 源图、生成原文件与反馈 → 逐张问题记录、尺寸核对和授权后的单张重试。 / Sources, original outputs and feedback → per-image review, dimension checks and an authorized retry. | 有 QA 指令；网页助手校验尺寸、重复文件、顺序与请求记录。失败不会自动获得重试权限。 / QA instructions and web-helper size, duplicate, sequencing and request checks. Failures do not grant retry permission. | 本地助手有回归测试；视觉判断仍需对照源图及人工确认，不能保证小字、Logo 或合体效果。 / Helper regression tests exist; visual quality still requires source comparison and human review. |
 
-对应规则与证据：[识别规则](../skills/lookset/references/recognition.md)、[风格路由](../skills/lookset/references/style-router.md)、[公开图库](https://denggui-ai.github.io/lookset/compare.html)、[完整案例](demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)、[版本与环境记录](COMPATIBILITY.md)、[网页助手测试（在线源码，需联网）](https://github.com/denggui-ai/lookset/blob/main/tests/test_web_task.py)。测试源码不包含在插件 ZIP 内。 / Test source is online and is not included in the plugin ZIP.
+对应规则与证据：[识别规则](../skills/lookset/references/recognition.md)、[风格路由](../skills/lookset/references/style-router.md)、[公开图库](https://denggui-ai.github.io/lookset/compare.html)、[完整案例](demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)、[版本与环境记录](COMPATIBILITY.md)、[网页助手测试（在线源码，需联网）](https://github.com/denggui-ai/threadtruth-studio/blob/main/tests/test_web_task.py)。测试源码不包含在插件 ZIP 内。 / Test source is online and is not included in the plugin ZIP.
 
 Rules and evidence: recognition and routing references, public gallery, complete case, version/environment records and web-helper tests linked above. Tests of a helper are not end-to-end image-generation tests.
 

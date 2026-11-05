@@ -14,10 +14,10 @@ Lookset 由 ThreadTruth Studio 改名而来。
 
 **[下载Lookset插件 · Download Lookset](https://github.com/denggui-ai/lookset/releases/tag/v0.1.0-beta.1)**　·　**[开始安装 · Install](docs/INSTALL.md#简体中文)**　·　**[查看成片 · See results](https://denggui-ai.github.io/lookset/#reviewed-cases)**　·　**[探索风格 · Explore styles](https://denggui-ai.github.io/lookset/#style-highlights)**
 
-[English guide](README.md) · [中文说明](README.zh-CN.md) · [产品首页 / Website](https://denggui-ai.github.io/lookset/) · [能力清单与拓扑 / Capability topology](https://github.com/denggui-ai/lookset/blob/main/docs/ARCHITECTURE.md) · [当前能力状态 / Capability status](https://github.com/denggui-ai/lookset/blob/main/docs/CAPABILITY-STATUS.md)
+[English guide](README.md) · [中文说明](README.zh-CN.md) · [产品首页 / Website](https://denggui-ai.github.io/lookset/) · [能力清单与拓扑 / Capability topology](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md) · [当前能力状态 / Capability status](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/CAPABILITY-STATUS.md)
 
 
-[![Lookset架构与关键流程](https://raw.githubusercontent.com/denggui-ai/lookset/main/docs/assets/architecture-overview.svg)](https://github.com/denggui-ai/lookset/blob/main/docs/ARCHITECTURE.md)
+[![Lookset架构与关键流程](https://raw.githubusercontent.com/denggui-ai/lookset/main/docs/assets/architecture-overview.svg)](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md)
 
 
 [日系家居完整流程教程](docs/JAPANESE-HOME-TUTORIAL.md)（六图时期教程）：素材、首张确认、六张独立图与真实问题复盘；注明公开安装版与开发修复的区别。
@@ -98,7 +98,7 @@ Lookset安装在 **Codex** 中。ChatGPT 入口按[网页教程](docs/CHATGPT-WE
 |---|---|---|---|---|
 | <a href="https://denggui-ai.github.io/lookset/reviewed-cases.html#black-jacket-office"><img src="https://denggui-ai.github.io/lookset/assets/reviewed-cases/black-jacket-office/look-1.png" alt="通勤窗光 — AI-generated" width="150"></a><br>通勤窗光 · 同款对照 | <a href="https://denggui-ai.github.io/lookset/reviewed-cases.html#red-floral-french"><img src="https://denggui-ai.github.io/lookset/assets/reviewed-cases/red-floral-french/look-1.png" alt="红花裙 — AI-generated" width="150"></a><br>红花裙 | <a href="https://denggui-ai.github.io/lookset/reviewed-cases.html#green-shirt-home"><img src="https://denggui-ai.github.io/lookset/assets/reviewed-cases/green-shirt-home/look-1.png" alt="家居搭配 — AI-generated" width="150"></a><br>家居搭配 | <a href="https://denggui-ai.github.io/lookset/reviewed-cases.html#trim-tee-american"><img src="https://denggui-ai.github.io/lookset/assets/reviewed-cases/trim-tee-american/look-1.png" alt="美式街头 T 恤 — AI-generated" width="150"></a><br>美式街头 T 恤 | <a href="https://denggui-ai.github.io/lookset/reviewed-cases.html#trim-tee-japanese"><img src="https://denggui-ai.github.io/lookset/assets/reviewed-cases/trim-tee-japanese/look-1.png" alt="日系生活 T 恤 — AI-generated" width="150"></a><br>日系生活 T 恤 |
 
-[案例记录与媒体说明](https://github.com/denggui-ai/lookset/blob/main/docs/SHOWCASE-CASES.md)。
+[案例记录与媒体说明](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/SHOWCASE-CASES.md)。
 
 [![真实白色马甲源图，以及六张独立生成的韩系冷感 AI 人像](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/hero.jpg)](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)
 
@@ -122,7 +122,7 @@ Lookset安装在 **Codex** 中。ChatGPT 入口按[网页教程](docs/CHATGPT-WE
 
 **完整套装 · 24种风格** — 米色西装、白色上衣、深色牛仔裤、橄榄色托特包和棕色乐福鞋作为一套搭配锁定。此处是一张预览看板。[查看套装全部 24 张看板](docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/)（GitHub 上列出图片文件；目录中的 `index.html` 是供下载后本地打开的图库页） · [媒体权利](docs/demo/RIGHTS.md)。
 
-**单件服饰 · 24种风格** — 下方缩略图来自冻结的白马甲集合，点击可查看单张六姿势大图。[风格证据索引](docs/demo/STYLES.md) · [历史任务台账](https://github.com/denggui-ai/lookset/blob/main/docs/WORK-STATUS.md)。
+**单件服饰 · 24种风格** — 下方缩略图来自冻结的白马甲集合，点击可查看单张六姿势大图。[风格证据索引](docs/demo/STYLES.md) · [历史任务台账](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/WORK-STATUS.md)。
 
 <!-- STYLE_PREVIEWS:START -->
 
@@ -153,7 +153,7 @@ Lookset 由社区独立维护，不是 OpenAI 官方产品，也不代表官方�
 
 ## 文档与反馈
 
-[安装、升级与回滚](docs/INSTALL.md) · [兼容性](docs/COMPATIBILITY.md) · [离线指南](USER-GUIDE.html)（随插件 ZIP 提供，请在本地用浏览器打开；GitHub 上只显示 HTML 源码） · [更新记录](https://github.com/denggui-ai/lookset/blob/main/CHANGELOG.md) · [Beta 进度](docs/BETA.md)
+[安装、升级与回滚](docs/INSTALL.md) · [兼容性](docs/COMPATIBILITY.md) · [离线指南](USER-GUIDE.html)（随插件 ZIP 提供，请在本地用浏览器打开；GitHub 上只显示 HTML 源码） · [更新记录](https://github.com/denggui-ai/threadtruth-studio/blob/main/CHANGELOG.md) · [Beta 进度](docs/BETA.md)
 
 **当前预发布版：0.1.0-beta.1。** 从 36 个视觉入口选一个，授权 1 张带标记的九格方向预览，确认方向后再授权独立成片；首张人物仍须确认。所有生图都经账本脚本记录。旧版本和对应图库作为历史记录保留；安装旧版时使用其归档内的指南。Beta 退出目标与待验证事项见 [Beta 登记](docs/BETA.md)。
 
@@ -169,6 +169,6 @@ python3 tools/trigger-eval.py
 python3 tools/build-release.py
 ```
 
-运行时位于 `skills/lookset/`；测试、eval、发布工具和证据位于其外。另见[贡献指南](CONTRIBUTING.md)、[安全策略](SECURITY.md)、[迁移说明](MIGRATION.md)与[来源记录](PROVENANCE.md)。项目 Beta 目标不属于 OpenAI 准入规则，申请说明单独保存在 [Codex for Open Source](https://github.com/denggui-ai/lookset/blob/main/docs/CODEX-FOR-OSS.md)。
+运行时位于 `skills/lookset/`；测试、eval、发布工具和证据位于其外。另见[贡献指南](CONTRIBUTING.md)、[安全策略](SECURITY.md)、[迁移说明](MIGRATION.md)与[来源记录](PROVENANCE.md)。项目 Beta 目标不属于 OpenAI 准入规则，申请说明单独保存在 [Codex for Open Source](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/CODEX-FOR-OSS.md)。
 
 </details>
