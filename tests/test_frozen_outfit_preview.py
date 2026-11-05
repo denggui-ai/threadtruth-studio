@@ -29,6 +29,13 @@ class FrozenOutfitPreviewTests(unittest.TestCase):
         self.m = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(self.m)
 
+    def rebase_rule_paths(self, record):
+        # Adapt only the test copy's old runtime prefix so prompt reproducibility
+        # is still exercised after the rename; retain all historical hashes.
+        for rule in record['rules'].values():
+            self.assertTrue(rule['path'].startswith('skills/threadtruth-studio/'))
+            rule['path'] = rule['path'].replace('skills/threadtruth-studio/', 'skills/lookset/', 1)
+
     def test_released_bytes_are_valid_historical_evidence_but_not_current_prompt_evidence(self):
         manifest = json.loads((ROOT / FIXTURE).read_text())
         self.assertEqual(len(manifest), 75)
@@ -37,6 +44,9 @@ class FrozenOutfitPreviewTests(unittest.TestCase):
             self.assertEqual(expected, {"sha256": hashlib.sha256(data).hexdigest(), "bytes": len(data)})
         self.assertEqual(self.m.validate_public_previews(self.root), [])
         record = self.m.read_json(self.public / "evidence.json")
+        with self.assertRaisesRegex(ValueError, "stale or invalid rules"):
+            self.m._check_plan(self.root, record)
+        self.rebase_rule_paths(record)
         with self.assertRaisesRegex(ValueError, "prompt is not reproducible"):
             self.m._check_plan(self.root, record)
 
@@ -67,6 +77,7 @@ class FrozenOutfitPreviewTests(unittest.TestCase):
         record["run_id"] = renamed.name
         for batch in record["batches"]:
             batch["run_id"] = renamed.name
+        self.rebase_rule_paths(record)
         self.m.write_json(renamed / "evidence.json", record)
         self.assertIn("prompt is not reproducible", " ".join(self.m.validate_public_previews(self.root)))
 

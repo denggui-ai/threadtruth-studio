@@ -204,7 +204,9 @@ class KnowledgeStyleResolutionTests(unittest.TestCase):
     def test_default_preparation_keeps_resolved_knowledge_apart_from_new_model_source_policy(self):
         relative = 'skills/threadtruth-studio/scripts/visual_library.py'
         source = subprocess.check_output(['git', 'show', '7f78875:' + relative], cwd=ROOT, text=True)
-        namespace = dict(__file__=str(ROOT / relative), __name__='handoff_library')
+        # Fetch historical code at its original Git path, but resolve its runtime
+        # defaults and sibling modules from the renamed, current skill directory.
+        namespace = dict(__file__=str(SKILL / 'scripts/visual_library.py'), __name__='handoff_library')
         exec(compile(source, str(ROOT / relative), 'exec'), namespace)
         # Isolate the commitment change from later card-storage migrations.
         # Pre-migration frozen request bytes are covered by test_style_pose_pool.
