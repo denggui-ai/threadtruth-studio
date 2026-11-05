@@ -54,7 +54,7 @@ No qualifying installation record has been added yet. One publication-authorized
 
 ## Reported external trial — 2026-10-01
 
-[Anonymous Codex outfit trial](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/feedback/2026-10-01-external-codex-outfit.md): the maintainer reports a non-maintainer used the skill in Codex, generated six images and was satisfied. All six forwarded PNGs are distinct and 1024×1536. Permission to publish the outfit input, six results and sanitized feedback was confirmed on 2026-10-01. [View the external example](https://denggui-ai.github.io/lookset/reviewed-cases.html#external-black-leather).
+[Anonymous Codex outfit trial](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/feedback/2026-10-01-external-codex-outfit.md): the maintainer reports a non-maintainer used the skill in Codex, generated six images and was satisfied. All six forwarded PNGs are distinct and 1024×1536. Permission to publish the outfit input, six results and sanitized feedback was confirmed on 2026-10-01. [View the external example](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#external-black-leather).
 
 Plugin version, OS, installation/discovery observations, exact prompts and actual generation-call count are unknown. The record demonstrates reported external use and satisfaction, not verified installation lifecycle, attribution to beta.10, or full commercial QA. The private chat screenshots are not published.
 
