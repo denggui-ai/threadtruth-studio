@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "brand": {
-    "zh": "裁光",
-    "en": "Caiguang"
+    "zh": "Lookset",
+    "en": "Lookset"
   },
   "sources": {
     "notosanssc": {
@@ -198,8 +198,8 @@
     {
       "output": {
         "path": "assets/brand/fonts/noto-sans-sc.woff2",
-        "sha256": "1b698b34139e059d9602c8b97acee3a35c4322170fd6a28b60d67a0376855092",
-        "bytes": 333816
+        "sha256": "a5b03cab13c1e7b424f4961dbc89f2ab83b8fd94996ce40bc5a95b0911ad3ae2",
+        "bytes": 332436
       },
       "kind": "font",
       "source": "notosanssc",
@@ -1535,8 +1535,8 @@
     {
       "output": {
         "path": "assets/brand/og-compare.png",
-        "sha256": "428dd14e8596ae0e4eba17b1955a0dea0ff4e9d473add9e6fc842eb8c10cd909",
-        "bytes": 64290,
+        "sha256": "cd95655156c5d142c358a287758d7f37820197a5e8aafc6f8744dd7a9a2d6dcf",
+        "bytes": 62743,
         "dimensions": [
           1200,
           630
@@ -1550,13 +1550,13 @@
       "source_images": [],
       "rights_paths": [],
       "derivation": "browser-render",
-      "source_template_sha256": "5626d00bf3c4c12477d83a1f64f24c4eef81ba52ec31fe1e2b9776d20ee81062"
+      "source_template_sha256": "e9568860b07e1d7701b022b0053611aecc147d9744589dc9f2b479e1eee11946"
     },
     {
       "output": {
         "path": "assets/brand/og-home.png",
-        "sha256": "4fb5a029b31f1dbeff2f4ca47802eb282bcc680b5814fe68250051f8fe635fb0",
-        "bytes": 422379,
+        "sha256": "a6659df0287966166bc17e820057e0b8cf10ec5396628e201b37c395df99e868",
+        "bytes": 420799,
         "dimensions": [
           1200,
           630
@@ -1576,17 +1576,17 @@
         "assets/beige-outfit-rights.json"
       ],
       "derivation": "browser-render",
-      "source_template_sha256": "9d5e886647bfcd8ae454863e47ce74d8ee9222892cfc08f6fdfaf73708566ace"
+      "source_template_sha256": "aba3495b311e426791d5e4fd280bdf07db9251b2835715f97f94c24363187ce8"
     },
     {
       "output": {
         "path": "assets/brand/wordmark.svg",
-        "sha256": "07b2477de1b2a0c6021047162c2ab91411c734aa857973aa415a058fdc6569d6",
-        "bytes": 2679
+        "sha256": "4c1865a058c34161eeffa3e29bcd37fc66d6636c346370ab852042cb889144d7",
+        "bytes": 2774
       },
       "kind": "glyph-outline",
       "source": "notosanssc",
-      "text": "裁光",
+      "text": "Lookset",
       "weight": 900
     }
   ]

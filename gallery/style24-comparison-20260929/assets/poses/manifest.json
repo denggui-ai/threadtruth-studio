@@ -10,13 +10,13 @@
       "path": "assets/poses/tt-stand-neutral--front--v1.webp",
       "group_id": "tt-stand-neutral",
       "view": "front",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-stand-neutral--front--v1.png",
-      "source_sha256": "e23f04acef80e343a02147b65e786f2c4a4b321dc2df600f2d9c738cd6ed5e1b",
-      "sha256": "c0f2714cf9ff41f151f5a3b32e742f33d4c8809644f621b029685bb0b6d973c0",
-      "bytes": 17500,
+      "source": "skills/lookset/references/pose-library/images/tt-stand-neutral--front--v1.png",
+      "source_sha256": "77e1606dd99a2f94e17bdb579f75b42666457f7edd046d552a6768c7ec319d4c",
+      "sha256": "0e5627246a9492ee3396ec96b1ebfdd797ed59507651fd6142f1ff3849ed24d5",
+      "bytes": 16030,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -24,13 +24,13 @@
       "path": "assets/poses/tt-stand-weight-shift--diag--v1.webp",
       "group_id": "tt-stand-weight-shift",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-stand-weight-shift--diag--v1.png",
-      "source_sha256": "8ff80a9efcae4bce48acd6e900008b44a7bf23f93ee05cfaf82a3e98a9bccfbb",
-      "sha256": "d164f7a61ef6e68dc34b5836b2a61a81d09996c47d86abb41564fa7d8097d5bd",
-      "bytes": 19626,
+      "source": "skills/lookset/references/pose-library/images/tt-stand-weight-shift--diag--v1.png",
+      "source_sha256": "ee14518a87a4a7532636bb448e6e6b37a7a6233e3546b7230fa18fa18c6e0d50",
+      "sha256": "4ce723a4a37bc09a7581ad2770348600765fab84fb31ab2294cb6150c5230828",
+      "bytes": 16760,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -38,13 +38,13 @@
       "path": "assets/poses/tt-turn-front-counter--diag--v2.webp",
       "group_id": "tt-turn-front-counter",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-turn-front-counter--diag--v2.png",
-      "source_sha256": "ec94b164b1f249074750eaaa0040234fdf45d53813d80fbbd5d67002aa2ca02a",
-      "sha256": "e5bbc56bf008201610b7f604152341067e1068e1cf04639f7c231431ff58b4e2",
-      "bytes": 19904,
+      "source": "skills/lookset/references/pose-library/images/tt-turn-front-counter--diag--v2.png",
+      "source_sha256": "cffc5e9c98a8a034b330547b8b749700b6b6817f051fa6f15469a50f54db2dcb",
+      "sha256": "9b73eac2627691103a1e62a9ec940555016813fa22c273b502d46c0b0462976a",
+      "bytes": 17900,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -52,13 +52,13 @@
       "path": "assets/poses/tt-turn-front-counter--front--v2.webp",
       "group_id": "tt-turn-front-counter",
       "view": "front",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-turn-front-counter--front--v2.png",
-      "source_sha256": "c48cd89f319a089ab56420ef6d6b767708aa3ebba03270df6167879b4beaba32",
-      "sha256": "7d1bbd91d1e932b48baeabbbf3d46c3338f66d8d56aeef6f73bf2291894da0b6",
-      "bytes": 22374,
+      "source": "skills/lookset/references/pose-library/images/tt-turn-front-counter--front--v2.png",
+      "source_sha256": "17b1e93ae65e84157638f424a811e7256eb1126dac363465d4aa4b110f23d705",
+      "sha256": "761742a77bfb5e9240097cc13e6d129314e5f75934e3c48ef34de0d8d77b4225",
+      "bytes": 20052,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -66,13 +66,13 @@
       "path": "assets/poses/tt-walk-pause--front--v1.webp",
       "group_id": "tt-walk-pause",
       "view": "front",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-walk-pause--front--v1.png",
-      "source_sha256": "7964891c241e71e13f1c979d7121893afeec096f1001d9a89978c0134755256a",
-      "sha256": "79eb9ac0786167a23c7b733881c6bd44d9a8d7425d828f44976849d71434fd60",
-      "bytes": 19860,
+      "source": "skills/lookset/references/pose-library/images/tt-walk-pause--front--v1.png",
+      "source_sha256": "bb722014e271c9385102b9084b47471254847688c4cd696d9be0f4714b106cf3",
+      "sha256": "a90d134b3f76ffbc60b2a5d18189ce43e92e46ebe4dd5e82c72c8bc1e86b78eb",
+      "bytes": 18396,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -80,13 +80,13 @@
       "path": "assets/poses/tt-walk-pause--back--v2.webp",
       "group_id": "tt-walk-pause",
       "view": "back",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-walk-pause--back--v2.png",
-      "source_sha256": "273dfc457354ed6ed9d93dba42bad2d78ab97718689b4a875a53ea8b9287553c",
-      "sha256": "afb0acb93b96a71d373e551074bd223adc7af755fcf51e4c0532f6c578100ee9",
-      "bytes": 18248,
+      "source": "skills/lookset/references/pose-library/images/tt-walk-pause--back--v2.png",
+      "source_sha256": "4479cf1fdfdde00e426c0f60263e9bf71f8285bdd8655970609e7bb4b39951b6",
+      "sha256": "970b09d5cb3527bb87a1e393e925a30bdc998ccf888e84d05df5e5e892ded8df",
+      "bytes": 16216,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -94,13 +94,13 @@
       "path": "assets/poses/tt-stand-wide-anchor--front--v1.webp",
       "group_id": "tt-stand-wide-anchor",
       "view": "front",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-stand-wide-anchor--front--v1.png",
-      "source_sha256": "2a56548b8f7398086dcc178ba06eb7f9ffdef39532184fcc5b26b49d3db82005",
-      "sha256": "ed8abaa4e4a1637ad4748884181541ef3b6e331c95913d8d8bc6d4ee48ddf94b",
-      "bytes": 20846,
+      "source": "skills/lookset/references/pose-library/images/tt-stand-wide-anchor--front--v1.png",
+      "source_sha256": "31960f7230d9d0c7ff6ff24e419b1cfe29463d1cfff715a4fd0558fd8ba53af3",
+      "sha256": "f69b985d0823021541a4adaf99588b2a69b87b6b64dfee45c237a82f04a91fb3",
+      "bytes": 19988,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -108,13 +108,13 @@
       "path": "assets/poses/tt-stand-hip-frame--front--v2.webp",
       "group_id": "tt-stand-hip-frame",
       "view": "front",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-stand-hip-frame--front--v2.png",
-      "source_sha256": "7caa6538107646d7774a7492a08e6b5f12e05b31802dcab58d7c7dbe4d59f77a",
-      "sha256": "97d87ff96c7628fa32e311c3c98fe44c4cf9b3982d2929bfef7058e6a32f4b3a",
-      "bytes": 21352,
+      "source": "skills/lookset/references/pose-library/images/tt-stand-hip-frame--front--v2.png",
+      "source_sha256": "c9b490fda98b02ceb41d8daad4ae19e11bf8b5bd795e5bcae40fd884405ca94c",
+      "sha256": "743150f0e77f13eb2a4d9e663e284b4e8f4d88faa1456335b814edc2b5096ef9",
+      "bytes": 18376,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -122,13 +122,13 @@
       "path": "assets/poses/tt-lean-shoulder-stagger--diag--v1.webp",
       "group_id": "tt-lean-shoulder-stagger",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-lean-shoulder-stagger--diag--v1.png",
-      "source_sha256": "2ba3a16682a55784b5f8b4a62640aca01896c1dcfa1a79abc493734c4b079944",
-      "sha256": "177d2b46edef26f08a5bbcf411568d48ccd5d4cdcaed09a0f6a838b9663c1cf0",
-      "bytes": 18472,
+      "source": "skills/lookset/references/pose-library/images/tt-lean-shoulder-stagger--diag--v1.png",
+      "source_sha256": "6872af3a3771a7c9b237bfab4e0f2b5f2d3a82c75816464ae1df705a0d49d4d5",
+      "sha256": "cd36067e9325cb7ab285fa526b269369c7d897dc8793782883123f64507458da",
+      "bytes": 16316,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -136,13 +136,13 @@
       "path": "assets/poses/tt-sit-upright--front--v1.webp",
       "group_id": "tt-sit-upright",
       "view": "front",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-sit-upright--front--v1.png",
-      "source_sha256": "bcc8d2179d1f1010c3c5ba5e4c46bccf2ad2036a53ee60138d21ffc958854978",
-      "sha256": "02ab81c2178be7fe6de66f78818fdbd685f98fff00fade958d7b5dcd42c1ea60",
-      "bytes": 22684,
+      "source": "skills/lookset/references/pose-library/images/tt-sit-upright--front--v1.png",
+      "source_sha256": "cf252020a8ce9480f9d4fe3176e6378c2d9599a103dd829310e7834a1baa30fc",
+      "sha256": "83bfc233b4ddc85d6c75f67598dfd3e30632c8e3e1928bd311614ed2666ef3a3",
+      "bytes": 22120,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -150,13 +150,13 @@
       "path": "assets/poses/tt-close-collar-touch--front--v1.webp",
       "group_id": "tt-close-collar-touch",
       "view": "front",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-close-collar-touch--front--v1.png",
-      "source_sha256": "64e25c44aa6f27251142c7927a71c95ef4404f88655828b71f8f2b063e66890d",
-      "sha256": "51f44224ca90a34b7650935b85d1e25f5a4072eac1db8c6ee9cac145ed842aa2",
-      "bytes": 20256,
+      "source": "skills/lookset/references/pose-library/images/tt-close-collar-touch--front--v1.png",
+      "source_sha256": "c5ed82c67b73c27567654c5fe46bda89713a6fc328e463d79fa8548c8560f717",
+      "sha256": "a9e01db99ec2bf351cade37a38cc7cb24301e00154d95f4701a52ac5e661b9a5",
+      "bytes": 18308,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -164,13 +164,13 @@
       "path": "assets/poses/tt-close-cuff-adjust--diag--v1.webp",
       "group_id": "tt-close-cuff-adjust",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-close-cuff-adjust--diag--v1.png",
-      "source_sha256": "8263d4b243756e45ce446f8f273711e756921b21fc4e56b23251c5559fce62a6",
-      "sha256": "716034f2b88321d434f931fc5a7174efa1f8eb0456a75c2690d543fc34c7e977",
-      "bytes": 19314,
+      "source": "skills/lookset/references/pose-library/images/tt-close-cuff-adjust--diag--v1.png",
+      "source_sha256": "0d4818367b364c6848c42cad27962b2b57671aa7528c44c5ddc33d36b41d3acb",
+      "sha256": "2fd91a819bed4733096a9ffc80a64a65b470fe9505824e149ee52f9fbcf63690",
+      "bytes": 17438,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -178,13 +178,13 @@
       "path": "assets/poses/tt-close-ear-tuck--diag--v1.webp",
       "group_id": "tt-close-ear-tuck",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-close-ear-tuck--diag--v1.png",
-      "source_sha256": "a538396eef8d143e97a6e98c2016d636d90a8c8b4c459a147910c076f6ab2e2c",
-      "sha256": "c21caf5c99a7c41a78b91dfd2830fe09cfc9567bfead185ea3deeb0cdd738e10",
-      "bytes": 19558,
+      "source": "skills/lookset/references/pose-library/images/tt-close-ear-tuck--diag--v1.png",
+      "source_sha256": "5d0c4a01e2ca61760b5e8867b5aee437e54eba3f3434ac279162f0fdd16daaeb",
+      "sha256": "a461cc6cc06b3a6acab9979000c56b11f8e304c9affceb390fc0d4b68a3afbff",
+      "bytes": 18212,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -192,13 +192,13 @@
       "path": "assets/poses/tt-close-jaw-touch--diag--v1.webp",
       "group_id": "tt-close-jaw-touch",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-close-jaw-touch--diag--v1.png",
-      "source_sha256": "2410ad5ceb39cff863e614b7e475a186dec9e73d19804eb4eb5c1b5e58c7fb12",
-      "sha256": "05bbf01753772bb70ee604f67a7ee05450de11cb28c6ee8b51ddb238174cadf8",
-      "bytes": 19408,
+      "source": "skills/lookset/references/pose-library/images/tt-close-jaw-touch--diag--v1.png",
+      "source_sha256": "4cdf23c5c6f4fa0726b6ecb86f6bcb451c9b83aa509712a00da2fdbac840de02",
+      "sha256": "bd1e2846e30366a69cea15e72c8cfd0646dc4a59a74ba5013adb77d3ba48f0cf",
+      "bytes": 18010,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -206,13 +206,13 @@
       "path": "assets/poses/tt-turn-back-still--back--v1.webp",
       "group_id": "tt-turn-back-still",
       "view": "back",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-turn-back-still--back--v1.png",
-      "source_sha256": "d2266b9f5e3bbc942b8541475c0179d4f3735f5c694482d2bcadf0b6655c3294",
-      "sha256": "e19fd5ebf8af904d4ed92f034ccbef347aa1eb422e65469ccffb4cd2df3c53e3",
-      "bytes": 21018,
+      "source": "skills/lookset/references/pose-library/images/tt-turn-back-still--back--v1.png",
+      "source_sha256": "7c837d074bbb65f8374a7da478b85cb6a34ebbd03438dcafb1cba3b9b42f4d3b",
+      "sha256": "bf48284c8411968a444b1428dd811a6abf46a1952f810d6340dba82c3a65e004",
+      "bytes": 18690,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -220,13 +220,13 @@
       "path": "assets/poses/tt-turn-back-quarter--back--v2.webp",
       "group_id": "tt-turn-back-quarter",
       "view": "back",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-turn-back-quarter--back--v2.png",
-      "source_sha256": "7fa790af0f035d036cb22fac48e15a69b04a6712b90ec1acf59848ee45fcde42",
-      "sha256": "de5589ed533723374eb00f43080d2248bb2f9910950572cf13aa1283acac60ce",
-      "bytes": 17148,
+      "source": "skills/lookset/references/pose-library/images/tt-turn-back-quarter--back--v2.png",
+      "source_sha256": "6188fa1d7474e56003e0697091e56049674177adec9a8bd9ed7d1bb43c1ebff7",
+      "sha256": "bc562a141937a109400f85e304a5cc7aa662b9512c932d0201ff2f2b93c124af",
+      "bytes": 15926,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -234,13 +234,13 @@
       "path": "assets/poses/tt-stand-hair-lift--front--v1.webp",
       "group_id": "tt-stand-hair-lift",
       "view": "front",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-stand-hair-lift--front--v1.png",
-      "source_sha256": "08a17694894da91dd56446eae3de4961808df920ce0172ee333af81952bb954c",
-      "sha256": "06afe33d46852f736fe63348ad7edbeea562f0cc8ed008a67b6bd7114074c038",
-      "bytes": 16938,
+      "source": "skills/lookset/references/pose-library/images/tt-stand-hair-lift--front--v1.png",
+      "source_sha256": "ec8388dd0ab02033b554059241442e9b8f64eb0a87a27cfa74dc66e616372061",
+      "sha256": "9b4b390701c12d5f5f4be6ad0b11807510f56d5a3e2c44bb006e9ca8f25e7299",
+      "bytes": 15210,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -248,13 +248,13 @@
       "path": "assets/poses/tt-sit-edge-perch--diag--v2.webp",
       "group_id": "tt-sit-edge-perch",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-sit-edge-perch--diag--v2.png",
-      "source_sha256": "138bde641a61dca375ef00e10fc8c3aaef5f5d0cd98dc4f3b0e2d0f7f0ec45dc",
-      "sha256": "76edf5883e1f6ebffa3699928a40aaf7a08dc9b9ba720a0cdad62d48bc3a11c2",
-      "bytes": 19534,
+      "source": "skills/lookset/references/pose-library/images/tt-sit-edge-perch--diag--v2.png",
+      "source_sha256": "7368f395584ec8ca6a76d12dcbd9dac6268d03ab3faf7f7d05efbabdbc43d6e5",
+      "sha256": "c98f2f714d1200465416a2f8b2d8ab7a4809195c4394aca38e206a0b511ae436",
+      "bytes": 18124,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -262,13 +262,13 @@
       "path": "assets/poses/tt-floor-side-fold--diag--v1.webp",
       "group_id": "tt-floor-side-fold",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-floor-side-fold--diag--v1.png",
-      "source_sha256": "9c286cd84538fa833043e45f0304c5ae40df8aee4b108994f4a68c8c08bda00b",
-      "sha256": "9caa8173480f4c28891697ba4e818bf9609f96ce56ec6049925d58aa9dc8c659",
-      "bytes": 20516,
+      "source": "skills/lookset/references/pose-library/images/tt-floor-side-fold--diag--v1.png",
+      "source_sha256": "9e4b3865830a99454da5092549e76602b4090be340b67815fac80da3522645c3",
+      "sha256": "26695bb705cae00827949371ba74d5db71398562d96ee1fb2dcd1ef3a41347aa",
+      "bytes": 20250,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -276,13 +276,13 @@
       "path": "assets/poses/tt-squat-offset-touch--diag--v1.webp",
       "group_id": "tt-squat-offset-touch",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-squat-offset-touch--diag--v1.png",
-      "source_sha256": "96587bedf5c75a40c5031eb6d25302e2a873f461077967132058210778eb26f5",
-      "sha256": "e91eed0f4a36b5cec3de9dd8bb0871b035accc8173eee34b12624d3e12407b2e",
-      "bytes": 28584,
+      "source": "skills/lookset/references/pose-library/images/tt-squat-offset-touch--diag--v1.png",
+      "source_sha256": "747abdd159262b731fd63b9f8294ca2d7fe35f6bfcb4eca4a999074a5619d12c",
+      "sha256": "fa6afce0f8c0f67012a0cb27747663d4060139ce8662efa41f15e57e36024bf9",
+      "bytes": 25648,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -290,13 +290,13 @@
       "path": "assets/poses/tt-stand-crossed-ankles--front--v4.webp",
       "group_id": "tt-stand-crossed-ankles",
       "view": "front",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-stand-crossed-ankles--front--v4.png",
-      "source_sha256": "eca21b459f3f371ec28a2e44e67bd080efd6528c298ef3200df599b39c125b51",
-      "sha256": "ca7129adcd238d8177100c07c57f4e2a6a4d3294fb38c58ddd927ed359fab4bb",
-      "bytes": 15206,
+      "source": "skills/lookset/references/pose-library/images/tt-stand-crossed-ankles--front--v4.png",
+      "source_sha256": "ec36ef1b86d761b7bc706be0d8feeec12f622651a5290f0d6cb9a59758dd36bc",
+      "sha256": "a9c1e79a94b072b533ba50bd8100e48a37df67628588268385b35c743907c3ad",
+      "bytes": 13692,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -304,13 +304,13 @@
       "path": "assets/poses/tt-stand-step-level--diag--v1.webp",
       "group_id": "tt-stand-step-level",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-stand-step-level--diag--v1.png",
-      "source_sha256": "d8e839ffe7bd513c1a95146f90e4833f0864752a08dfbdded3319426538e5d81",
-      "sha256": "1d1e92af655593b0060f08056ed8273d7b25f4e2dabd17b58ebc236cacd85faf",
-      "bytes": 20430,
+      "source": "skills/lookset/references/pose-library/images/tt-stand-step-level--diag--v1.png",
+      "source_sha256": "bad0c48278735864e3ea6e7e847ee7af9274776fad87b3b12b424daa5a5e8944",
+      "sha256": "c2716b35fec252adbb68db92b30b1c73aa209203e396ca9a30bf2e91db4231af",
+      "bytes": 18454,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -318,13 +318,13 @@
       "path": "assets/poses/tt-stand-neck-rest--diag--v1.webp",
       "group_id": "tt-stand-neck-rest",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-stand-neck-rest--diag--v1.png",
-      "source_sha256": "c59c4f60b7b9f3020154c9704a3bd2d44c5914e31881c01b105d7eb0c0631e49",
-      "sha256": "82fce55dd5ebc1b34598726ae5f521df327feefb5da3888755b026666705607f",
-      "bytes": 19192,
+      "source": "skills/lookset/references/pose-library/images/tt-stand-neck-rest--diag--v1.png",
+      "source_sha256": "2afb6fd4657d763f75660258e8409749462a02c1d34f13007d2c4c2fa1944cd8",
+      "sha256": "afd12b709d00177065d9bb266e264a04fede8bbc25f028ce3cc865a25665d4ac",
+      "bytes": 16840,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -332,13 +332,13 @@
       "path": "assets/poses/tt-stand-high-reach--front--v1.webp",
       "group_id": "tt-stand-high-reach",
       "view": "front",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-stand-high-reach--front--v1.png",
-      "source_sha256": "16f5d28a6e7f194b0f9338ea75f096d9c03503eaf3d024657006d14d9096d2e0",
-      "sha256": "6cd9e50fb581bec6f2461c57f9bba3d1ccc45068d543b0bca99ddcdd8e8445b6",
-      "bytes": 18594,
+      "source": "skills/lookset/references/pose-library/images/tt-stand-high-reach--front--v1.png",
+      "source_sha256": "12400e629abe95540c06eabc634cf09f8ecdb4d5ffb224591f015bd437c0a623",
+      "sha256": "240b85ac463dc7fe535b13c2ec878e160f3888ffbf178229ab59f8eb0ed226c1",
+      "bytes": 15464,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -346,13 +346,13 @@
       "path": "assets/poses/tt-walk-cross-frame--side--v1.webp",
       "group_id": "tt-walk-cross-frame",
       "view": "side",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-walk-cross-frame--side--v1.png",
-      "source_sha256": "ef2c547f50b6898222339499cebf39f6eb7a0b818b39ae839cc4f3d9ece48fd6",
-      "sha256": "66ed893edfc7bfdaedbe703a6c93967bbb60dca28b3c9d0a843f4857b4fbaf9e",
-      "bytes": 21182,
+      "source": "skills/lookset/references/pose-library/images/tt-walk-cross-frame--side--v1.png",
+      "source_sha256": "18a3a2023890527ea6d3f4266066f24f7cdb19550d06f9b8f93d10944b0280ae",
+      "sha256": "8e6cc8af968d4cf667ca6b0b3a5aa3b2bd4001dc42e040a5c69f960cc983d759",
+      "bytes": 18860,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -360,13 +360,13 @@
       "path": "assets/poses/tt-walk-long-diagonal--diag--v2.webp",
       "group_id": "tt-walk-long-diagonal",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-walk-long-diagonal--diag--v2.png",
-      "source_sha256": "f82ceb00051e6b1b5b236a2e862bb9dc8e83f6d70a9cde9b57eeb2262b220da6",
-      "sha256": "24eb6f425aeca7324378020ced0fee92c41f365ab3fd1720d3e1c780c5ad9dcf",
-      "bytes": 21990,
+      "source": "skills/lookset/references/pose-library/images/tt-walk-long-diagonal--diag--v2.png",
+      "source_sha256": "99ce08042ca3d8bac54ce15910202e58cab6bd36416ff2c4401c65c640c80e3f",
+      "sha256": "924ecdb51ade14d94921291ff624b5caed3a56a52823e87350ed39918c756a63",
+      "bytes": 18918,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -374,13 +374,13 @@
       "path": "assets/poses/tt-walk-down-step--diag--v3.webp",
       "group_id": "tt-walk-down-step",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-walk-down-step--diag--v3.png",
-      "source_sha256": "da7ea148fa0066bdf21915c31bcbb19f90c6bef788cd6e3e6da2657d418577a6",
-      "sha256": "8f39a226be225d6f167b6694e598860873c5a982af6f07c49b5f83ce5241e59d",
-      "bytes": 21760,
+      "source": "skills/lookset/references/pose-library/images/tt-walk-down-step--diag--v3.png",
+      "source_sha256": "43e5f04739688dbf4c9d5326a7db17fca50041d8627f59917e685d222608c44b",
+      "sha256": "af6f666d58218399db64c1e5b2edab8adfde664096851d372ff17d8476abfdbc",
+      "bytes": 19140,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -388,13 +388,13 @@
       "path": "assets/poses/tt-walk-side-carry--diag--v4.webp",
       "group_id": "tt-walk-side-carry",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-walk-side-carry--diag--v4.png",
-      "source_sha256": "ba35826de77275071aceb07bda5704fe43138f78c0a56f6517fe21e9975c5b67",
-      "sha256": "70f29bece5bf210f16cef8ce105c8f840b0798532fc016fad924945a38631938",
-      "bytes": 22856,
+      "source": "skills/lookset/references/pose-library/images/tt-walk-side-carry--diag--v4.png",
+      "source_sha256": "4c38a0a55d195a65d5fef0af94ec852041c8896b10453589560b4f29e02af02e",
+      "sha256": "788e002199b27df08f54f386eab4ea57a42819427573e4f698d30ca7528c431e",
+      "bytes": 21454,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -402,13 +402,13 @@
       "path": "assets/poses/tt-lean-shoulder-cross--diag--v1.webp",
       "group_id": "tt-lean-shoulder-cross",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-lean-shoulder-cross--diag--v1.png",
-      "source_sha256": "a5457c5b8a9f499c212cd067c0bc887fb143db8d75a0d82c7a6554c2d90d2a27",
-      "sha256": "e806248c100b5e84e3b1f7286e6a79cde996274dc8eb4e278e3080d04230d695",
-      "bytes": 18674,
+      "source": "skills/lookset/references/pose-library/images/tt-lean-shoulder-cross--diag--v1.png",
+      "source_sha256": "b2e3c0968b87a3015447960aa44865d2365a8d075c674ffb8346ee1e60334e07",
+      "sha256": "113a2703342fba377980f766c634e5635d6c61ee496bb8a19742102e5acc8218",
+      "bytes": 16610,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -416,13 +416,13 @@
       "path": "assets/poses/tt-lean-back-foot--diag--v1.webp",
       "group_id": "tt-lean-back-foot",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-lean-back-foot--diag--v1.png",
-      "source_sha256": "57dcdd5f2aafc923e7c304ce0928164de6762643c19f2108010b526aadab7bbf",
-      "sha256": "009c9385512627dca67ac6947fe27c2b009961d161af100d43d23c751ca75ece",
-      "bytes": 18268,
+      "source": "skills/lookset/references/pose-library/images/tt-lean-back-foot--diag--v1.png",
+      "source_sha256": "e394f1023d4b0d50717cc8864c1e4586f48936d28807737762205b9c6d0a81f2",
+      "sha256": "f68feddecf62605087cc422ec94b9e0d2f7e73a136bf7c544bfdbe843f173907",
+      "bytes": 15778,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -430,13 +430,13 @@
       "path": "assets/poses/tt-lean-hip-edge--diag--v3.webp",
       "group_id": "tt-lean-hip-edge",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-lean-hip-edge--diag--v3.png",
-      "source_sha256": "88181a68200dd9a3544710ecd6579f69961fe713b0a87f9f95a88e286ae75933",
-      "sha256": "e3ec3db5b1631e64afcdce2cc5efb9d6d53c8f0acc22c69f51960eea74f3d132",
-      "bytes": 19478,
+      "source": "skills/lookset/references/pose-library/images/tt-lean-hip-edge--diag--v3.png",
+      "source_sha256": "fb57055e660f7a8866f6f472c9486e33e73f72c591634e26adc9f0f53cd0e3b7",
+      "sha256": "3ba9782eccbff61e5356e6a19e419309184f1616de0366ce764b1c3113b7b76b",
+      "bytes": 16840,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -444,13 +444,13 @@
       "path": "assets/poses/tt-lean-forearm-rail--diag--v1.webp",
       "group_id": "tt-lean-forearm-rail",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-lean-forearm-rail--diag--v1.png",
-      "source_sha256": "d273719baf86a4f1cd115feb3fa93c5273523fd5df6aba679af73742ded8e2df",
-      "sha256": "7de69dcedbab9b18d4fb844e02993137de2540cb278509ae6f4c22560a7f739a",
-      "bytes": 20454,
+      "source": "skills/lookset/references/pose-library/images/tt-lean-forearm-rail--diag--v1.png",
+      "source_sha256": "d562074794a6cedef9753f8ede57a35146204a9954b5a5e98e9e2c16b0f57d13",
+      "sha256": "056f7d794bb6eec3d6d9cbbbf4b15574ef6cb328ec674d95e69a177e28600ab1",
+      "bytes": 18600,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -458,13 +458,13 @@
       "path": "assets/poses/tt-lean-free-hinge--side--v1.webp",
       "group_id": "tt-lean-free-hinge",
       "view": "side",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-lean-free-hinge--side--v1.png",
-      "source_sha256": "3b1ec86d816822c716837c3ed1940a9f3ef41edd4ee51545ecd1f4d2729cbb9a",
-      "sha256": "e7f8c47ed6a50ddd191ae2db4ae86347635b3f8d17cde8cd68128e24bf7323d7",
-      "bytes": 13622,
+      "source": "skills/lookset/references/pose-library/images/tt-lean-free-hinge--side--v1.png",
+      "source_sha256": "0f19acc55cbe5811bd1404f0d03cf995caad07c3760107819c3ae22968669137",
+      "sha256": "eda6b30bdc2a01e0ae05ad9108029eed118c6fa06f9ce7da1921b29cd8077282",
+      "bytes": 12618,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -472,13 +472,13 @@
       "path": "assets/poses/tt-sit-knees-diagonal--diag--v1.webp",
       "group_id": "tt-sit-knees-diagonal",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-sit-knees-diagonal--diag--v1.png",
-      "source_sha256": "753ef9fc642a8fd6b77fab3d690d620fa17934a209d437e6f1bc7f21fb472698",
-      "sha256": "af27d028e9d6d7e0b0743b6315cefa4deda4bf36b4619b2db2685791f3ded87f",
-      "bytes": 23810,
+      "source": "skills/lookset/references/pose-library/images/tt-sit-knees-diagonal--diag--v1.png",
+      "source_sha256": "681819700cfe7151ce15338d6013ebe50ed009d983601a13223ab47fa29d2f61",
+      "sha256": "632fe89819d623adb4173bfa7bd1b75c2a1296435fc8be284681e8c466a4e840",
+      "bytes": 21916,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -486,13 +486,13 @@
       "path": "assets/poses/tt-sit-side-backrest--diag--v1.webp",
       "group_id": "tt-sit-side-backrest",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-sit-side-backrest--diag--v1.png",
-      "source_sha256": "1e900acf9e65369f42c35f198cbc0cb090d418e78e4c0829b376da75d98a99fa",
-      "sha256": "721558cc54457c8fe35552cca56f8b75f8e17c5d431fa1764bfcab16544528b2",
-      "bytes": 27472,
+      "source": "skills/lookset/references/pose-library/images/tt-sit-side-backrest--diag--v1.png",
+      "source_sha256": "232404c49eda7c6c5392cb3995bf7a5157c545f0a04140d660da1ef55f2f0fcc",
+      "sha256": "7698893a9be1be3f82fec5cb5426f626d82c117123873a8cebea375188af071e",
+      "bytes": 22320,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -500,13 +500,13 @@
       "path": "assets/poses/tt-sit-forward-rest--diag--v1.webp",
       "group_id": "tt-sit-forward-rest",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-sit-forward-rest--diag--v1.png",
-      "source_sha256": "fa9063d204ffe247ab62f353f96b105526f757ff419dffc2ec57768ddd7c5621",
-      "sha256": "7d3e13eb8a7d00c99a593e33a922571979a53e3074c558563694a51a76aac91d",
-      "bytes": 23648,
+      "source": "skills/lookset/references/pose-library/images/tt-sit-forward-rest--diag--v1.png",
+      "source_sha256": "34452d9a1ff837ab097508aae720a80000fe8bc59c5dd9b24ef0aa110d78aafe",
+      "sha256": "4cf2dbca07e928f72bbef9f8ce8b699c8f9de4d9ec2971ac6daa035e78c7d5ca",
+      "bytes": 22160,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -514,13 +514,13 @@
       "path": "assets/poses/tt-sit-legs-extended--diag--v2.webp",
       "group_id": "tt-sit-legs-extended",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-sit-legs-extended--diag--v2.png",
-      "source_sha256": "b758f0a068d3c52b52937aa7fa8507bdb582a3e82db5465445a335f8d805f25f",
-      "sha256": "9139fd438ef3f816d4d4636519fe899fb90be4bdbd815d0b5f9455aaa8cb740e",
-      "bytes": 26878,
+      "source": "skills/lookset/references/pose-library/images/tt-sit-legs-extended--diag--v2.png",
+      "source_sha256": "426c50e1acadb80ec1873fe9f89885b9d766d07653f05dce03416abcc5bd0c01",
+      "sha256": "94d60757ebc4548dfadb5a05d6c8467d4706c69e2c9e880103118d24cc9c7410",
+      "bytes": 23800,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -528,13 +528,13 @@
       "path": "assets/poses/tt-sit-elbows-recline--side--v1.webp",
       "group_id": "tt-sit-elbows-recline",
       "view": "side",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-sit-elbows-recline--side--v1.png",
-      "source_sha256": "4312e5ea002a37baa33813b90dd4bccd7e962b0f19169ef84ea5435269e21cdd",
-      "sha256": "3f224775388097843b101503337a382d062b35d7f0bb29be4d4bdb82dfda2d3a",
-      "bytes": 17792,
+      "source": "skills/lookset/references/pose-library/images/tt-sit-elbows-recline--side--v1.png",
+      "source_sha256": "f1913440faab087e5f25da6b123440346d5993b45e9c019275bc1c1cf9ee42e1",
+      "sha256": "c425d1609d735b7af5b7913e22ac08797e9073120c832f583d93cdf718cb27f2",
+      "bytes": 16196,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -542,13 +542,13 @@
       "path": "assets/poses/tt-floor-cross-leg--front--v1.webp",
       "group_id": "tt-floor-cross-leg",
       "view": "front",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-floor-cross-leg--front--v1.png",
-      "source_sha256": "ba2ce7ac7ed0661411740c4d228f4c2f1c1a76cdbe35589338083f8f6a07d307",
-      "sha256": "69e75458b4fe528cf6c74f571f4916788167f8c3fdb8b6a1b17cf21ca030e82f",
-      "bytes": 27374,
+      "source": "skills/lookset/references/pose-library/images/tt-floor-cross-leg--front--v1.png",
+      "source_sha256": "5fc57416fa1c236e056e16a14d2e6a1c59a2e0aaa057b6b8ad985cbc44a711f7",
+      "sha256": "332214ac8d5dbb15d093903b4987f197c1619dff63082792a31c50bafdc6b361",
+      "bytes": 23600,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -556,13 +556,13 @@
       "path": "assets/poses/tt-floor-one-knee--diag--v1.webp",
       "group_id": "tt-floor-one-knee",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-floor-one-knee--diag--v1.png",
-      "source_sha256": "fdf753961c4f0995f4ce7f68b1c30c81229076ae8308d0d37b005b1b657563ee",
-      "sha256": "801d0f80109aac8427d14154a0b97ef645cf1eb48c9a43e31bc34ca2fef78e4f",
-      "bytes": 24724,
+      "source": "skills/lookset/references/pose-library/images/tt-floor-one-knee--diag--v1.png",
+      "source_sha256": "c8b43946b868bfc34f03776a25d4956cbb31da85114637a75027683b3daa46c5",
+      "sha256": "604c65c74125aab7260d71f2e47a3528c25eaf90f9f544a5ad7ca3add410e120",
+      "bytes": 21440,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -570,13 +570,13 @@
       "path": "assets/poses/tt-floor-diagonal-prop--diag--v2.webp",
       "group_id": "tt-floor-diagonal-prop",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-floor-diagonal-prop--diag--v2.png",
-      "source_sha256": "e272c6ac3f07d03ac61f02806a81e424506d5f38f9d4cb1662c1601810aa34ca",
-      "sha256": "d4643fca04cdbd9e5c71d644d8f2e0e155119e367d44b8ec4b84fb2b05f3879b",
-      "bytes": 22280,
+      "source": "skills/lookset/references/pose-library/images/tt-floor-diagonal-prop--diag--v2.png",
+      "source_sha256": "b9b44b9b4e809028630c9d1e66c87e7eb7f426b8ad397763ce404101551dcf43",
+      "sha256": "b24fdf0a74656dda0eeabb9d31db013d512223400a135e7996124a63e05d9dfc",
+      "bytes": 21422,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -584,13 +584,13 @@
       "path": "assets/poses/tt-floor-torso-twist--diag--v1.webp",
       "group_id": "tt-floor-torso-twist",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-floor-torso-twist--diag--v1.png",
-      "source_sha256": "64b696129533d29f148f1507dbc52441b2985960b0a8379209f514181ef633f5",
-      "sha256": "3c280c7a7caf853316e6fc368b07e4ad8b87019c18034ff614c0796e5a027726",
-      "bytes": 24512,
+      "source": "skills/lookset/references/pose-library/images/tt-floor-torso-twist--diag--v1.png",
+      "source_sha256": "1da6c4b8578eb779630a6953b5b6c791e57ea0f4a833222e53411f98c6bb3221",
+      "sha256": "24c0f4d21077c65380b0af4a1b0e4fb603383195299b47f1b06d26bd5c7a6fcf",
+      "bytes": 22722,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -598,13 +598,13 @@
       "path": "assets/poses/tt-kneel-tall--front--v1.webp",
       "group_id": "tt-kneel-tall",
       "view": "front",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-kneel-tall--front--v1.png",
-      "source_sha256": "95c4ced2b745a2300d3cd605797d5a53ea186c8f086f124de783cf29b3092731",
-      "sha256": "46d31465e0c1ab354b262e14085d14c242571b9931959ac26d297f0da199d9fd",
-      "bytes": 22744,
+      "source": "skills/lookset/references/pose-library/images/tt-kneel-tall--front--v1.png",
+      "source_sha256": "eeb490ab94a104fdd18a4fa7af35c2d6820abc6a4f02a7b36f7c72e064159b4b",
+      "sha256": "2ea5def0ed7e8248aea328ddc6ec6dc261f55f5cf550dd12c685b982b51e6348",
+      "bytes": 18814,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -612,13 +612,13 @@
       "path": "assets/poses/tt-kneel-half--diag--v1.webp",
       "group_id": "tt-kneel-half",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-kneel-half--diag--v1.png",
-      "source_sha256": "42fbd07e66d5a1096f2102dd09a814edbdcf58f42fd7dbc1e1ee67cf492f9b5d",
-      "sha256": "0ce20f85fb06a8364153677b3d3d8b3cc0976b21f98d0289234bdb9b51ca638b",
-      "bytes": 20642,
+      "source": "skills/lookset/references/pose-library/images/tt-kneel-half--diag--v1.png",
+      "source_sha256": "eb2cdb96157b33a909654a3577db24e4738ba1f93d6333bdbad5d1ef2e449648",
+      "sha256": "8691e6029caae47068ffef60da9a4d362f0357bb5c1906ac146e3cc57738981a",
+      "bytes": 17872,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -626,13 +626,13 @@
       "path": "assets/poses/tt-kneel-neck-rest--diag--v2.webp",
       "group_id": "tt-kneel-neck-rest",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-kneel-neck-rest--diag--v2.png",
-      "source_sha256": "e975c2738f7c5bd450e2b878fe18ed06b4217d87f71abb80bfc947c9cd902456",
-      "sha256": "bb46b2b7729c0d2a53423e1863921020c4a0ffb4ed58a7512e443d616a2e25c1",
-      "bytes": 28686,
+      "source": "skills/lookset/references/pose-library/images/tt-kneel-neck-rest--diag--v2.png",
+      "source_sha256": "ca0e0c7751330d0c8978cb35f435c16fa7044f4f7b8224b2c5011ab25dc8091a",
+      "sha256": "e3b602c7285ab59ef4ad7fc77f8529d2e979d53fdbec7c853ec2dd2fa2478ea7",
+      "bytes": 26880,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -640,13 +640,13 @@
       "path": "assets/poses/tt-kneel-side-prop--diag--v1.webp",
       "group_id": "tt-kneel-side-prop",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-kneel-side-prop--diag--v1.png",
-      "source_sha256": "7bffdac8784d81c5bdb78e769c7a9162dcbe4c05a11734d93e16b30983bfce23",
-      "sha256": "d990283b545347f82dfd0b28d34c2eb5d6d236ebe08c9849128435877f4baf56",
-      "bytes": 24370,
+      "source": "skills/lookset/references/pose-library/images/tt-kneel-side-prop--diag--v1.png",
+      "source_sha256": "83e0f8708009b110e8813a6399558c03fff74734fe483120a67e7853537bd3a3",
+      "sha256": "b3b46427f1bfce617db781c1d0cf30529c9a8df034d6b0f763537891d1229b1c",
+      "bytes": 21318,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -654,13 +654,13 @@
       "path": "assets/poses/tt-squat-grounded--front--v1.webp",
       "group_id": "tt-squat-grounded",
       "view": "front",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-squat-grounded--front--v1.png",
-      "source_sha256": "463760fd6dee3fd2f4912ffd2c661d2e3a7ec6d0044cfd5da4fdb254159c0af0",
-      "sha256": "8ec32d3647fa0e5b013ba2b9efb02340b61f48b504438cdd3c1d3178da05e745",
-      "bytes": 21604,
+      "source": "skills/lookset/references/pose-library/images/tt-squat-grounded--front--v1.png",
+      "source_sha256": "a334a0ef9a761810cc17c3dad9bf364a03d0772f5051a58496349589fc6a87d9",
+      "sha256": "8bc6f67fe77b463d31ff16b81ed87481510e79d475b6e6642226dee5af464859",
+      "bytes": 19670,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -668,13 +668,13 @@
       "path": "assets/poses/tt-squat-hair-tuck--diag--v1.webp",
       "group_id": "tt-squat-hair-tuck",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-squat-hair-tuck--diag--v1.png",
-      "source_sha256": "3d625d1e839a5605e33286b27235804ac82c33918a7affa573f1ccbced3d18ab",
-      "sha256": "5a585549a0d52bf18005d53893415478e01c44eb0d39523e5540cbbd4a20d193",
-      "bytes": 26904,
+      "source": "skills/lookset/references/pose-library/images/tt-squat-hair-tuck--diag--v1.png",
+      "source_sha256": "f081e6cc4bd88d51597258a3d54ecb16ad5113e57d6aa9f4e442b3947ca95a33",
+      "sha256": "3b54a173575e884ba9daf001bfc5d56745452435a30201c012bcdf3b23d38376",
+      "bytes": 22278,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -682,13 +682,13 @@
       "path": "assets/poses/tt-turn-step-open--diag--v1.webp",
       "group_id": "tt-turn-step-open",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-turn-step-open--diag--v1.png",
-      "source_sha256": "f6235101698570c171bc891d7beab9c5552c7ae31ed899223112bfb48eeaee01",
-      "sha256": "7e234250f72d578b85ad3ca586330579dfac4f7b5cc0024c4b46b2014a050558",
-      "bytes": 20628,
+      "source": "skills/lookset/references/pose-library/images/tt-turn-step-open--diag--v1.png",
+      "source_sha256": "ecc25b1610fed8a471cd3b9eccfd006c859a4096f8553649dd31afe79d805fbc",
+      "sha256": "d796df64ba5baf8b13789ed5e80e3d8205f9d90635a049c838df4977ee9cb064",
+      "bytes": 19200,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -696,13 +696,13 @@
       "path": "assets/poses/tt-turn-arms-open--diag--v1.webp",
       "group_id": "tt-turn-arms-open",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-turn-arms-open--diag--v1.png",
-      "source_sha256": "e43e0121831d9426ee486de09a610a540764094b385007cc1c35876ffe2d7e5f",
-      "sha256": "fdaa9bb022ef966450162785c43e142d3f10add208246f09f40618118f74eb5b",
-      "bytes": 20400,
+      "source": "skills/lookset/references/pose-library/images/tt-turn-arms-open--diag--v1.png",
+      "source_sha256": "a723c7b2ef018a895e8825d732944f0e45ecf8fe60eb37c9e777492b1a6d76a1",
+      "sha256": "fef01be492d5562da15683d0aade460163be143457e3c33bd96abef471ec64b3",
+      "bytes": 18784,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -710,13 +710,13 @@
       "path": "assets/poses/tt-close-sleeve-push--diag--v4.webp",
       "group_id": "tt-close-sleeve-push",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-close-sleeve-push--diag--v4.png",
-      "source_sha256": "86304016ed6103496567a9bd9cf41a8a6e70aa492219f672bd27564c16bfc795",
-      "sha256": "207cd9c30e4c8e306bd1c0d30741dd360cf335e40152beb8acbdae0053750d7a",
-      "bytes": 19792,
+      "source": "skills/lookset/references/pose-library/images/tt-close-sleeve-push--diag--v4.png",
+      "source_sha256": "5360d787b900db4a58f5f69be250ff0e79552d45e786e436b2aaef5e5036e251",
+      "sha256": "74944cfc66a378f10cfda1e008a485990f4cf3599e744b86730c7c5a24dd0bb5",
+      "bytes": 18780,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "user-only"
     },
@@ -724,13 +724,13 @@
       "path": "assets/poses/tt-close-lens-reach--diag--v1.webp",
       "group_id": "tt-close-lens-reach",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-close-lens-reach--diag--v1.png",
-      "source_sha256": "ace78f4813e58d503f36ab47868dcec6dab5a1234a5fff56b56013fb730fa1d0",
-      "sha256": "bdb9040fb1c3b68ef5a2f2de13b54302d684d4c63e3c6e95c72fd96de6dd4430",
-      "bytes": 17700,
+      "source": "skills/lookset/references/pose-library/images/tt-close-lens-reach--diag--v1.png",
+      "source_sha256": "463d58f3fba20681991cdec8cad0b81dfa8652e8891a9148e9494703702f782b",
+      "sha256": "8975c1ec3b3ff885d0e063901c63d6a53a276bd80041a525844ce20fbf20d9b1",
+      "bytes": 15732,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -738,13 +738,13 @@
       "path": "assets/poses/tt-lie-side-forearm--diag--v2.webp",
       "group_id": "tt-lie-side-forearm",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-lie-side-forearm--diag--v2.png",
-      "source_sha256": "a109c1a8c04b99a8b53356b020869f1b4479e5048905b7506a732611bb59c354",
-      "sha256": "fd737ecd8fa463342a746e074e04921fb16b57f8623021feacef50cdbf1f0aa7",
-      "bytes": 17738,
+      "source": "skills/lookset/references/pose-library/images/tt-lie-side-forearm--diag--v2.png",
+      "source_sha256": "a091e9de6a9b0d521b2db715fb5042dc12ccf21fa1c4b327b161c1d849f8fa63",
+      "sha256": "a3df56f56ea3d5b85be9af1f5d048d6365e7c7b8e6a0dd02a29302f1a9a7e342",
+      "bytes": 15476,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -752,13 +752,13 @@
       "path": "assets/poses/tt-lie-side-long--side--v2.webp",
       "group_id": "tt-lie-side-long",
       "view": "side",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-lie-side-long--side--v2.png",
-      "source_sha256": "9ec59c00b2ccc3bdb07df972dec5e15d7359c039901f7f2a006842e0fa5ce273",
-      "sha256": "6dcf12fd9278a071581ad30c3b4460da0c1a8830557108e04c0a14e9b1766a72",
-      "bytes": 14496,
+      "source": "skills/lookset/references/pose-library/images/tt-lie-side-long--side--v2.png",
+      "source_sha256": "1c8218e0fadb19601e92fe72c89c4018cc9357715331ab7af5c9bded0a02eaca",
+      "sha256": "e0c6ef757b670893c290482fb91cacf584e79d72232692c9c0e920c20c0e59b2",
+      "bytes": 13246,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -766,13 +766,13 @@
       "path": "assets/poses/tt-stand-hair-lift--side--v2.webp",
       "group_id": "tt-stand-hair-lift",
       "view": "side",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-stand-hair-lift--side--v2.png",
-      "source_sha256": "6c81f9482395a8b02c5660b30e44479c0cc01c88fea8a7a301a82b9ad05ceb79",
-      "sha256": "276612da4ea324ce2600fc90bae77889fb22c118d03fc281841a6a3aba5487a0",
-      "bytes": 14386,
+      "source": "skills/lookset/references/pose-library/images/tt-stand-hair-lift--side--v2.png",
+      "source_sha256": "626099d619a241583e278a28b8013fa0491dc64e002ba54d27c4530d7b14ce42",
+      "sha256": "b73697a4b5379e4df72445c7f00e2a359e55d4cd2eb3641c39d379d5ebfe9971",
+      "bytes": 12644,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -780,13 +780,13 @@
       "path": "assets/poses/tt-stand-neck-rest--side--v3.webp",
       "group_id": "tt-stand-neck-rest",
       "view": "side",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-stand-neck-rest--side--v3.png",
-      "source_sha256": "e65f3709f69e266d07e71acabe449069d258602aec66be9c3f6d709a3a5ce379",
-      "sha256": "ebf4676d225dae269429df6276ea29910073ecc470e92c9dc798a0cf724627d7",
-      "bytes": 17690,
+      "source": "skills/lookset/references/pose-library/images/tt-stand-neck-rest--side--v3.png",
+      "source_sha256": "1cea573b3ab701f1797b86765b54ce767c4913a9142e74f947c1fa385b3a386a",
+      "sha256": "ccef09cd955f67fda79792a31d043c3a1214b7df561f1f1f2860daf47b65ca1b",
+      "bytes": 16034,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -794,13 +794,13 @@
       "path": "assets/poses/tt-lean-free-hinge--diag--v1.webp",
       "group_id": "tt-lean-free-hinge",
       "view": "diag",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-lean-free-hinge--diag--v1.png",
-      "source_sha256": "63b3b431be6e62185f98383974fd42d4196c8b95ae384b861878615184b7eca7",
-      "sha256": "614663510b2a0695a8cb043efb3eeb45ca634b8837c7dc71e61d3cd31ff8348d",
-      "bytes": 18706,
+      "source": "skills/lookset/references/pose-library/images/tt-lean-free-hinge--diag--v1.png",
+      "source_sha256": "2f696132b106958ce85678683b1fc14e4a977fd336e7ac85401706d097f4ad11",
+      "sha256": "2e26f6dd934207db27db9f7be34dae107d34f62175c4f05443d663b0605c6f67",
+      "bytes": 17356,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -808,13 +808,13 @@
       "path": "assets/poses/tt-sit-edge-perch--side--v2.webp",
       "group_id": "tt-sit-edge-perch",
       "view": "side",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-sit-edge-perch--side--v2.png",
-      "source_sha256": "7322da4ca1601d56a6341680f861a09ebb34ea049eb9c83d23f06643b208d681",
-      "sha256": "825fb2b408ddabd92b130f17a311b156b6130577a3c92c8fcc4bae50500eb00d",
-      "bytes": 18014,
+      "source": "skills/lookset/references/pose-library/images/tt-sit-edge-perch--side--v2.png",
+      "source_sha256": "001b6e7c3967bf9ce04afcc2ab57b49836e249e893bb847b9f9177855aabf12f",
+      "sha256": "0b49447a797a854a1bf6ad679e77cac5f1d57f3145065ce099ee1ff2d6917441",
+      "bytes": 15726,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -822,13 +822,13 @@
       "path": "assets/poses/tt-floor-side-fold--front--v1.webp",
       "group_id": "tt-floor-side-fold",
       "view": "front",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-floor-side-fold--front--v1.png",
-      "source_sha256": "0d99fef0706207c46bee851df0f228bfc166eec8b17f3240d7459cd19bbeb54c",
-      "sha256": "ce585b039373d936b6bec1f51ab200151db1f282a4ded314ad8f005d0d885566",
-      "bytes": 21078,
+      "source": "skills/lookset/references/pose-library/images/tt-floor-side-fold--front--v1.png",
+      "source_sha256": "024b383afdbf928c77d3b1670d2b32754ee76e20f8c32aa16621259e10dc7539",
+      "sha256": "3fc62249aeefe472d65e7758eda0e9c6b68e69f970e855c98527bd510c8a40ac",
+      "bytes": 20248,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     },
@@ -836,13 +836,13 @@
       "path": "assets/poses/tt-kneel-half--side--v1.webp",
       "group_id": "tt-kneel-half",
       "view": "side",
-      "source": "skills/threadtruth-studio/references/pose-library/images/tt-kneel-half--side--v1.png",
-      "source_sha256": "6852454e88ca4255225b02dcf7728912aaa77aa9c07ea69e46128a56bd2094c7",
-      "sha256": "402a613aa504cd176c06c9d9e0ef3636c3acb71d5804d24f8923166fa6a4ad13",
-      "bytes": 18066,
+      "source": "skills/lookset/references/pose-library/images/tt-kneel-half--side--v1.png",
+      "source_sha256": "3c0bba9ed920db41ee3e4749bfa4ca0b05a1b1e0b03a5357c3796fdd7c07e7fc",
+      "sha256": "14785ee47fd88b397fbdf5b569602320423e8fbeed385c5e123d582b2789c59c",
+      "bytes": 16334,
       "dimensions": [
-        840,
-        1120
+        768,
+        1024
       ],
       "selection_policy": "default"
     }
