@@ -42,6 +42,21 @@ class PosePlanV2Tests(unittest.TestCase):
                              count=len(plan['selected_shot_ids']), model_source='real' if face else 'new',
                              real_face_plan=face)
 
+    def test_wear_first_cells_may_leave_must_show_empty_but_detail_cannot(self):
+        plan = sample_plan()
+        before = shot.render(plan)
+        for n in range(1, 9):
+            plan['looks'][n]['must_show'] = []
+        self.assertEqual(self.validate(plan), plan)
+        rendered = shot.render(plan)
+        self.assertEqual(rendered.count('Must show:'), 1)
+        self.assertEqual(rendered.count('Display purpose:'), 9)
+        # Cells that still list must_show render exactly as before.
+        self.assertEqual(rendered.split('Shot 2:')[0], before.split('Shot 2:')[0])
+        plan['looks'][0].update(must_show=[], framing='detail')
+        with self.assertRaisesRegex(ValueError, r'must_show must be a list of distinct strings \(nonempty for detail shots\)'):
+            self.validate(plan)
+
     def test_nine_plan_is_independent_of_classic_mothers_and_back_slot(self):
         plan = sample_plan()
         plan['looks'][2].update(body_action='Face away with a natural straight neck.',

@@ -28,12 +28,12 @@
 | 文件 | 字节 |
 |---|---|
 | `SKILL.md` | 34,013 |
-| `references/runtime-quickstart.md` | 16,653 |
-| `references/pose-planning.md` | 25,725 |
+| `references/runtime-quickstart.md` | 16,676 |
+| `references/pose-planning.md` | 25,674 |
 | `references/visual-plan.md` | 14,161 |
 | `references/model-selection.md` | 24,820 |
 | `references/style-router.md` | 15,737 |
-| **合计** | **131,109** |
+| **合计** | **131,081** |
 
 **规则**
 1. 合计上限 131,230 字节，不再提高。新增规则须在同一提交里删除或合并等量文字；提交说明写明增删字节。

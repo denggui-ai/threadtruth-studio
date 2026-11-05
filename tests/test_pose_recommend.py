@@ -57,6 +57,20 @@ class PoseRecommendationTests(unittest.TestCase):
         self.assertTrue(raised['ranking_factors']['target_cautions'])
         self.assertIn('occludes', {f for c in raised['ranking_factors']['target_cautions'] for f in c['fields']})
 
+    def test_empty_must_show_drops_occlusion_veto_and_keeps_display_goal_report_only(self):
+        spec = self.preparation(goal='领口清楚完整展示。')
+        vetoed = self.rank(spec)
+        spec['shot_plan']['looks'][0]['must_show'] = []
+        worn = self.rank(spec)
+        self.assertNotIn('must-show-occlusion', worn['excluded'])
+        self.assertIn('tt-close-collar-touch', {r['pose_id'] for r in worn['candidates']}
+                      | {a['pose_id'] for r in worn['candidates'] for a in r['alternatives']})
+        self.assertEqual(worn['goal_terms'], vetoed['goal_terms'])
+        self.assertGreater(worn['eligible_actions'], vetoed['eligible_actions'])
+        spec['shot_plan']['looks'][0].update(must_show=[], framing='detail')
+        with self.assertRaisesRegex(ValueError, 'must_show'):
+            self.rank(spec)
+
     def test_style_first_and_group_body_relations_precede_framing_and_history(self):
         spec = self.preparation('french-effortless')
         baseline = self.rank(spec)
