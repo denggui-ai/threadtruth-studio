@@ -1,6 +1,6 @@
 # 运行时速查：默认原生路线的命令序列
 
-本页是 SKILL.md 第 0 节"不经账本脚本，绝不生图"的执行清单，只覆盖**原生路线的生图任务**：网页路线在 `export` 之后改用 `export-web-execution` 与 [chatgpt-web.md](chatgpt-web.md) 的信封提交；固定姿势换装走 [fixed-pose-wardrobe.md](fixed-pose-wardrobe.md) 的专用工具；只要提示词（动作 3）不建任务、不生图。`$SKILL` 指 SKILL.md 所在目录；所有命令在用户工作区目录里运行，任务目录也建在工作区里。脚本只操作本地文件，不生成图片，也不证明用户给了授权。任何一步报错：把错误原样告诉用户并停下，不要绕过、不要手写等价物。
+本页是 SKILL.md 第 0 节"不经账本脚本，绝不生图"的执行清单，只覆盖**原生路线的生图任务**：网页路线在 `export` 之后改用 `export-web-execution` 与 [chatgpt-web.md](chatgpt-web.md) 的信封提交；固定姿势换装走 [fixed-pose-wardrobe.md](fixed-pose-wardrobe.md) 的专用工具；只要提示词（动作 3）不建任务、不生图。`$SKILL` 指 SKILL.md 所在目录；所有命令在用户工作区目录里运行，任务目录也建在工作区里。脚本只操作本地文件，不生成图片，也不证明用户给了授权。报错按 [SKILL.md §0 底线4](../SKILL.md) 的三类处理，不绕过、不手写等价物。
 
 ## 0. 识别后、生图前（0 次调用）
 
@@ -44,7 +44,7 @@ python3 "$SKILL/scripts/web-task.py" export --task preview
 
 `preview-decision.json` 为 `{"style":"<已选正式入口ID>","path":"preview","image_count":1,"note":"<已确认方案的依据>"}`。新建schema2任务标`workflow_version=1`，生成前核对风格、路线、当前阶段张数与选姿记录；已有选择/授权直接记录，不重复询问。如果授权已经记过，只补 `confirm-plan --spec <decision.json>`，不能再次authorize。旧冻结任务无标记时维持原契约，不删字段伪装旧任务。
 
-> `init` 报 `shot_plan.<路径> must be <形状>; got <值>` 是你的 JSON 写错了：改 `shot_plan.json`（如 `must_show` 必须是字符串列表），**必须重新 `prepare --output` 到新文件名**（visual_plan 里冻结着旧 shot_plan，只改 shot_plan.json 重跑 init 会再次被拒），再 `init`；同一任务最多自改 3 次。`--output … already exists` 按报错给的新名重跑。账本/授权/次数/哈希及其他任何报错：原样停下问用户。
+> 自写 JSON 字段（如 `must_show` 必须是字符串列表）可按上述 (a) 类改正后重跑；shot_plan 改动须重新 `prepare --output` 到新文件名再 `init`，同一任务最多自改3次；其余按三类规则处理。
 
 `init-preview.json` 骨架：
 
@@ -140,4 +140,4 @@ status中的`attempts`仍是该根任务的直接调用，`series_attempts`汇�
 
 - 每一步只报结果与下一步要的确认，不展示 JSON、哈希或状态码；文件路径只在用户要时给。
 - `status --task <目录>` 能随时回答"已用几次、还剩几次、哪张待核"，用它的数字，不凭记忆。
-- 脚本拒绝（如重复图、比例不符、授权不足）是流程保护：原样转述原因，等用户决定。
+- 脚本报错按上述三类处理；账本、授权、次数、哈希及未列错误：原样告诉用户并停下。
