@@ -2,11 +2,11 @@
 
 Lookset 由 ThreadTruth Studio 改名而来。
 
-> **开发源：** Lookset 的公开发布在 https://github.com/denggui-ai/lookset（最新 `v0.1.0-beta.2`）。本仓库保存开发历史、测试与验证记录。
+> **开发源：** Lookset 的公开发布在 https://github.com/denggui-ai/lookset（最新 `v0.1.0-beta.3`）。本仓库保存开发历史、测试与验证记录。
 
 **AI Fashion Studio · 服饰 AI 影棚**
 
-**0.1.0-beta.2：先把每张要拍什么说清楚。** 从真实服饰与人物素材出发，在36个视觉入口中选方向，用52动作／60视图安排镜头，并结合商品展示目标与指定历史任务推荐、避开重复。先核对素材和拍摄方案，再按授权生成。
+**0.1.0-beta.3：先把每张要拍什么说清楚。** 从真实服饰与人物素材出发，在36个视觉入口中选方向，用52动作／60视图安排镜头，并结合商品展示目标与指定历史任务推荐、避开重复。先核对素材和拍摄方案，再按授权生成。
 
 本版纳入22卡／176条共享动作、知识与风格规则衔接，以及精确／有限文字近似避重。维护者本机已备份安装并核对同一运行源码；成片稳定性、新机器与实际回滚仍未全面验证，保持预发布状态。[使用方法与限制](docs/STUDIO-CANDIDATE.md) · [离线使用指南](USER-GUIDE.html)。
 
@@ -14,7 +14,7 @@ Lookset 由 ThreadTruth Studio 改名而来。
 
 **单件或整套服饰，按服饰编排九张 AI 模特图，36 个视觉入口可选。**<br>Turn a garment or coordinated outfit into a garment-driven set of nine AI model portraits. Choose from 36 visual entries.
 
-**[下载Lookset插件 · Download Lookset](https://github.com/denggui-ai/lookset/releases/tag/v0.1.0-beta.2)**　·　**[开始安装 · Install](docs/INSTALL.md#简体中文)**　·　**[查看成片 · See results](https://denggui-ai.github.io/lookset/#reviewed-cases)**　·　**[探索风格 · Explore styles](https://denggui-ai.github.io/lookset/#style-highlights)**
+**[下载Lookset插件 · Download Lookset](https://github.com/denggui-ai/lookset/releases/tag/v0.1.0-beta.3)**　·　**[开始安装 · Install](docs/INSTALL.md#简体中文)**　·　**[查看成片 · See results](https://denggui-ai.github.io/lookset/#reviewed-cases)**　·　**[探索风格 · Explore styles](https://denggui-ai.github.io/lookset/#style-highlights)**
 
 [English guide](README.md) · [中文说明](README.zh-CN.md) · [产品首页 / Website](https://denggui-ai.github.io/lookset/) · [能力清单与拓扑 / Capability topology](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md) · [当前能力状态 / Capability status](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/CAPABILITY-STATUS.md)
 
@@ -53,13 +53,13 @@ Lookset 由 ThreadTruth Studio 改名而来。
 
 [完整能力、可复制指令与验证范围 →](docs/CAPABILITIES.md)
 
-Lookset `0.1.0-beta.2` 插件安装在 **Codex** 中。默认在 Codex 生图；也可明确选择下方说明的 ChatGPT 网页转交路线。
+Lookset `0.1.0-beta.3` 插件安装在 **Codex** 中。默认在 Codex 生图；也可明确选择下方说明的 ChatGPT 网页转交路线。
 
 ## 三步开始
 
 **需要准备：** macOS、Python 3、终端，以及支持 `codex plugin add` 的 Codex CLI。目前只有这一环境经过测试；Windows、Linux 和全新机器尚未验证。首次识别不生成图片；之后生图需要具备原生生图能力的 Codex 账号，选择网页路线时则需要有生图权限的 ChatGPT 账号。
 
-1. 按[中文安装指南](docs/INSTALL.md#简体中文)下载 0.1.0-beta.2 插件 ZIP 与匹配的 `.sha256`，检查环境、校验归档并启用插件。请选择有完整插件名称的下载项，不要使用 GitHub 自动生成的源码 ZIP。
+1. 按[中文安装指南](docs/INSTALL.md#简体中文)下载 0.1.0-beta.3 插件 ZIP 与匹配的 `.sha256`，检查环境、校验归档并启用插件。请选择有完整插件名称的下载项，不要使用 GitHub 自动生成的源码 ZIP。
 2. 新建一个 **Codex 任务**并打开Lookset，说“你好”，或直接上传有权使用的服饰图片；想沿用的人物参考可以一起上传，无需长启动提示词。
 3. Lookset先核对服饰细节、可用视角与人物用途，再引导准备方案。也可直接说“先做拍摄方案，暂时不要生图”。只有影响结果的缺项才需要补充。
 
@@ -157,7 +157,7 @@ Lookset 由社区独立维护，不是 OpenAI 官方产品，也不代表官方�
 
 [安装、升级与回滚](docs/INSTALL.md) · [兼容性](docs/COMPATIBILITY.md) · [离线指南](USER-GUIDE.html)（随插件 ZIP 提供，请在本地用浏览器打开；GitHub 上只显示 HTML 源码） · [更新记录](https://github.com/denggui-ai/threadtruth-studio/blob/main/CHANGELOG.md) · [Beta 进度](docs/BETA.md)
 
-**当前预发布版：0.1.0-beta.2。** 从 36 个视觉入口选一个，授权 1 张带标记的九格方向预览，确认方向后再授权独立成片；首张人物仍须确认。所有生图都经账本脚本记录。旧版本和对应图库作为历史记录保留；安装旧版时使用其归档内的指南。Beta 退出目标与待验证事项见 [Beta 登记](docs/BETA.md)。
+**当前预发布版：0.1.0-beta.3。** 从 36 个视觉入口选一个，授权 1 张带标记的九格方向预览，确认方向后再授权独立成片；首张人物仍须确认。所有生图都经账本脚本记录。旧版本和对应图库作为历史记录保留；安装旧版时使用其归档内的指南。Beta 退出目标与待验证事项见 [Beta 登记](docs/BETA.md)。
 
 安装结果可通过[反馈表](https://github.com/denggui-ai/lookset/issues/new?template=installation-feedback.yml)提交；Bug 使用 [Issues](https://github.com/denggui-ai/lookset/issues)，一般问题使用 [Discussions](https://github.com/denggui-ai/lookset/discussions)。公开反馈前请去除私有服饰图、客户数据、凭据和完整日志。维护者：DENGGUI · 微信：`Lvmusic0930`。
 

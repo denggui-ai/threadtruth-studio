@@ -1,6 +1,6 @@
 # Compatibility / 兼容性
 
-Updated for **0.1.0-beta.2**. Runtime rules are retained from the previously checked candidate; this version compresses existing pose assets and narrows the distribution allowlist. Historical evidence stays scoped to its original version.
+Updated for **0.1.0-beta.3**. Runtime rules are retained from the previously checked candidate; this version only slims the skill text; the 11 behavior baselines were re-run, and the one regression found (greeting) was fixed and re-checked. Historical evidence stays scoped to its original version.
 
 本版运行源码da7e9a8已完成维护者本机备份、替换与启用：403源／缓存文件一致，166运行文件与候选一致；52／60目录及只读入口可读，其他插件保持。未新增模型会话、实图或实际回滚验证；新机器仍缺证。下载与安装见[本版指南](STUDIO-CANDIDATE.md)。
 

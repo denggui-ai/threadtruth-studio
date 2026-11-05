@@ -2,11 +2,11 @@
 
 Lookset 由 ThreadTruth Studio 改名而来。
 
-> **Development source:** public releases of Lookset are published at https://github.com/denggui-ai/lookset (latest `v0.1.0-beta.2`). This repository holds the development history, tests and verification records.
+> **Development source:** public releases of Lookset are published at https://github.com/denggui-ai/lookset (latest `v0.1.0-beta.3`). This repository holds the development history, tests and verification records.
 
 **AI Fashion Studio · 服饰 AI 影棚**
 
-**0.1.0-beta.2 — plan what each image should show.** Start with real garment and model references, choose among 36 visual entries, and plan with 52 actions across 60 reference views. Rank pose candidates around product goals and selected task history; review the plan before approving generation.
+**0.1.0-beta.3 — plan what each image should show.** Start with real garment and model references, choose among 36 visual entries, and plan with 52 actions across 60 reference views. Rank pose candidates around product goals and selected task history; review the plan before approving generation.
 
 This release includes the shared 176-entry pose pool, knowledge and style-rule resolution, and exact or limited text-based near-repeat checks. The same runtime has been backed up, installed and checked on the maintainer’s Mac. Visual consistency, fresh-host behavior and actual rollback remain incompletely verified. [Usage and limits](docs/STUDIO-CANDIDATE.md) · [Offline guide](USER-GUIDE.html).
 
@@ -14,7 +14,7 @@ This release includes the shared 176-entry pose pool, knowledge and style-rule r
 
 **单件或整套服饰，按服饰编排九张 AI 模特图，36 个视觉入口可选。**<br>Turn a garment or coordinated outfit into a garment-driven set of nine AI model portraits. Choose from 36 visual entries.
 
-**[下载Lookset插件 · Download Lookset](https://github.com/denggui-ai/lookset/releases/tag/v0.1.0-beta.2)**　·　**[开始安装 · Install](docs/INSTALL.md#english)**　·　**[查看成片 · See results](https://denggui-ai.github.io/lookset/#reviewed-cases)**　·　**[探索风格 · Explore styles](https://denggui-ai.github.io/lookset/#style-highlights)**
+**[下载Lookset插件 · Download Lookset](https://github.com/denggui-ai/lookset/releases/tag/v0.1.0-beta.3)**　·　**[开始安装 · Install](docs/INSTALL.md#english)**　·　**[查看成片 · See results](https://denggui-ai.github.io/lookset/#reviewed-cases)**　·　**[探索风格 · Explore styles](https://denggui-ai.github.io/lookset/#style-highlights)**
 
 [English guide](README.md) · [中文说明](README.zh-CN.md) · [产品首页 / Website](https://denggui-ai.github.io/lookset/) · [能力清单与拓扑 / Capability topology](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md) · [当前能力状态 / Capability status](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/CAPABILITY-STATUS.md)
 
@@ -53,13 +53,13 @@ Both collections are historical direction previews from the six-image era: one s
 
 [Full capabilities, copyable prompts and verification scope →](docs/CAPABILITIES.md)
 
-Install **Lookset 0.1.0-beta.2** in **Codex**. Generate there by default, or explicitly choose the optional ChatGPT web handoff described below.
+Install **Lookset 0.1.0-beta.3** in **Codex**. Generate there by default, or explicitly choose the optional ChatGPT web handoff described below.
 
 ## Get started
 
 **What you need:** macOS, Python 3, a terminal, and a Codex CLI that supports `codex plugin add`. This is the only tested setup; Windows, Linux, and fresh machines are unverified. The first recognition step generates no images. Generating images later needs a Codex account with native image generation, or a ChatGPT account with image access if you choose the web route.
 
-1. Follow the [English installation guide](docs/INSTALL.md#english) to download the 0.1.0-beta.2 Plugin ZIP and matching `.sha256`, check prerequisites, verify the archive, and enable the Plugin. Use the named Plugin download, not GitHub's automatic source-code ZIP.
+1. Follow the [English installation guide](docs/INSTALL.md#english) to download the 0.1.0-beta.3 Plugin ZIP and matching `.sha256`, check prerequisites, verify the archive, and enable the Plugin. Use the named Plugin download, not GitHub's automatic source-code ZIP.
 2. Open Lookset in a **new Codex task** and say “hello”, or upload garment photos you may use. Include a person reference if you want to reuse one. No long starter prompt is needed.
 3. Lookset checks visible garment facts, available views and the intended use of person references, then helps prepare a shoot plan. You can say “Plan the shoot first; do not generate images yet.” Only missing information that affects the result needs clarification.
 
@@ -157,7 +157,7 @@ Lookset is independent and community-maintained, not an OpenAI product or endors
 
 [Install, upgrade, and rollback](docs/INSTALL.md) · [Compatibility](docs/COMPATIBILITY.md) · [Offline guide](USER-GUIDE.html) (bundled in the Plugin ZIP; open it locally, since GitHub shows its HTML source) · [Changelog](https://github.com/denggui-ai/threadtruth-studio/blob/main/CHANGELOG.md) · [Beta progress](docs/BETA.md)
 
-**Current prerelease: 0.1.0-beta.2.** Choose one of 36 visual entries, authorize one labeled nine-panel preview, confirm the direction, then authorize independent images; the first portrait still needs model confirmation. Every generation goes through the ledger scripts. Earlier releases and their galleries remain historical records; use each old archive's bundled guide when installing that version. Beta exit targets and remaining validation are tracked in the [Beta register](docs/BETA.md).
+**Current prerelease: 0.1.0-beta.3.** Choose one of 36 visual entries, authorize one labeled nine-panel preview, confirm the direction, then authorize independent images; the first portrait still needs model confirmation. Every generation goes through the ledger scripts. Earlier releases and their galleries remain historical records; use each old archive's bundled guide when installing that version. Beta exit targets and remaining validation are tracked in the [Beta register](docs/BETA.md).
 
 Share sanitized installation results through the [feedback form](https://github.com/denggui-ai/lookset/issues/new?template=installation-feedback.yml). Report bugs in [Issues](https://github.com/denggui-ai/lookset/issues) and ask questions in [Discussions](https://github.com/denggui-ai/lookset/discussions). Keep private garments, customer data, credentials, and full logs out of public posts. Maintainer: DENGGUI · WeChat: `Lvmusic0930`.
 
