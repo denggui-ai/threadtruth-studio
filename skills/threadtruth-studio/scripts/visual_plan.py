@@ -83,16 +83,21 @@ def _line(value, label, *, empty=False, owned=False, v2=False):
     if (not isinstance(value, str) or (not empty and not value.strip()) or len(value) > 1200
             or any(ord(c) < 32 or ord(c) == 127 for c in value) or RESERVED.search(value)
             or (v2 and V2_RESERVED.search(value))):
-        raise ValueError(label + ' must be a short single-line visual statement without managed markers')
+        raise ValueError(label + ' must be a short single-line visual statement without managed markers; got '
+                         + repr(value)[:160] + '; use one string of at most 1200 characters, without control characters or managed headers, '
+                         'e.g. "garment.keep, photography.scene" for asset_trace.affects')
     if owned and (OWNED.search(value) or (v2 and V2_BODY.search(value))):
-        raise ValueError(label + ' cannot override identity, head/gaze or shot framing')
+        raise ValueError(label + ' cannot override identity, head/gaze or shot framing; matched '
+                         + repr((OWNED.search(value) or V2_BODY.search(value)).group(0))
+                         + '; e.g. "Preserve source-visible collar shape." Keep identity in model and '
+                         'body/head/gaze/framing in shot_plan, not in this visual field')
 
 
 def _lines(value, label, *, required=False, owned=False, v2=False):
     if not isinstance(value, list) or len(value) > 24 or (required and not value):
         raise ValueError(label + ' must be a list of visual statements')
-    for item in value:
-        _line(item, label, owned=owned, v2=v2)
+    for index, item in enumerate(value):
+        _line(item, f'{label}[{index}]', owned=owned, v2=v2)
 
 
 POSE_FIELDS = ('id', 'family', 'body', 'hands', 'support', 'views', 'avoid_when', 'check')
@@ -125,12 +130,14 @@ def check_pose_vocabulary(vocabulary, tendency=None):
         raise ValueError('action_tendency must be a nonempty line when given')
 
 
-def _component(value):
+def _component(value, path='visual_plan.style.primary'):
     if not isinstance(value, dict) or set(value) != {'id', 'version', 'sha256', 'snapshot'}:
         raise ValueError('A visual component freezes id, version, sha256 and snapshot')
-    _line(value['id'], 'Component id')
+    _line(value['id'], path + '.id')
     if not re.fullmatch(r'[a-z0-9][a-z0-9-]{0,79}',value['id']):
-        raise ValueError('Visual component ids must be stable lowercase slugs')
+        raise ValueError(path + '.id must be a stable lowercase slug (1-80 lowercase letters, digits or hyphens, '
+                         'starting with a letter or digit); got ' + repr(value['id'])
+                         + '; e.g. "qipao-source-profile". Correct the preparation source id and re-run prepare; do not edit frozen hashes')
     if not (type(value['version']) is int and value['version'] > 0 or
             isinstance(value['version'], str) and value['version'].strip()):
         raise ValueError('A visual component needs an explicit version')
@@ -271,8 +278,8 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
     if not isinstance(style['supporting'], list) or len(style['supporting']) > 3:
         raise ValueError('At most three explicitly selected supporting styles are allowed')
     ids = {style['primary']['id']}
-    for component in style['supporting']:
-        _component(component)
+    for index, component in enumerate(style['supporting']):
+        _component(component, f'visual_plan.style.supporting[{index}]')
         if component['id'] in ids:
             raise ValueError('Visual style components must be distinct')
         ids.add(component['id'])
@@ -280,7 +287,7 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
     if not style['supporting'] and style['fusion_note']:
         raise ValueError('A fusion note requires explicitly selected supporting styles')
     if 'culture_profile' in plan:
-        _component(plan['culture_profile'])
+        _component(plan['culture_profile'], 'visual_plan.culture_profile')
     if ('persona' in plan) != ('persona_model_sha256' in plan):
         raise ValueError('Style persona and its resolving model hash are frozen together')
     if 'persona' in plan:
@@ -360,7 +367,7 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
         raise ValueError('Art expression requires direction, techniques and limits')
     _line(art['direction'], 'Art direction', owned=True, v2=v2)
     _lines(art['techniques'], 'Art techniques', owned=True, v2=v2)
-    _lines(art['limits'], 'Art limits', required=True, owned=True, v2=v2)
+    _lines(art['limits'], 'visual_plan.art.limits', required=True, owned=True, v2=v2)
     _lines(plan['negatives'], 'Visual exclusions', owned=True, v2=v2)
     allowed_counts = (1, 6) if plan['version'] == 1 else (1, 6, 9)
     if type(count) is not int or count not in allowed_counts or not isinstance(plan['shots'], list) or len(plan['shots']) != count:
@@ -385,14 +392,16 @@ def validate(plan, inventory, *, context, count, identity=True, shot_plan=None):
             required_shot = {'slot', 'shot_id', 'scene', 'lighting', 'composition'}
             hint = ('; every element needs exactly slot, shot_id, scene, lighting, composition. '
                     'visual_library prepare overrides.shots replaces ALL generated shots, so either omit overrides.shots '
-                    'or give the complete list copied from a prepare run without it')
+                    'or give the complete list copied from a prepare run without it; e.g. add '
+                    '"composition": "Balanced negative space" (rename camera to composition if present). '
+                    'Per-look camera belongs in shot_plan.looks; optional garment_focus/framing do not replace required keys')
             if not isinstance(shot, dict):
                 raise ValueError(path + ' must be an object (Visual v2 shots preserve stable source slots and distinct shot_id values); got '
                                  + _got(shot) + hint)
             if set(shot)-{'garment_focus', 'framing'} != required_shot:
                 raise ValueError(path + ' has the wrong keys (Visual v2 shots preserve stable source slots and distinct shot_id values); missing: '
                                  + (', '.join(sorted(required_shot - set(shot))) or 'none') + '; unexpected: '
-                                 + (', '.join(sorted(set(shot) - required_shot)) or 'none') + hint)
+                                 + (', '.join(sorted(set(shot) - required_shot - {'garment_focus', 'framing'})) or 'none') + hint)
             if type(shot['slot']) is not int or shot['slot'] != slot or slot not in range(1, 10):
                 raise ValueError(path + '.slot must be ' + _got(slot) + ' (stable source slot in shot_plan order); got ' + _got(shot['slot']))
             if not isinstance(shot['shot_id'], str) or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]{0,79}', shot['shot_id']):

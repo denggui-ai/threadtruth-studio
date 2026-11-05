@@ -47,7 +47,11 @@ def check_preparation(data):
             if decision['kind'] == 'not-applicable' and item['framing'] != 'detail':
                 raise ValueError('A body shot needs a library or custom action, not not-applicable')
         if item['framing'] == 'detail' and not visual.get(item['shot_id'], {}).get('garment_focus'):
-            raise ValueError('Prepare a source-backed garment_focus for detail shot ' + item['shot_id'])
+            raise ValueError('visual_plan.shots[' + str(list(visual).index(item['shot_id']) if item['shot_id'] in visual else '*')
+                             + '].garment_focus missing or empty for detail shot ' + item['shot_id']
+                             + '; add source-backed overrides.shots garment_focus, e.g. '
+                             '{"description":"Source-visible collar crop, excluding face", "keep":["Original collar edge"]}. '
+                             'Copy the complete shots list from prepare, add the focus to this shot, then prepare --output a new file and init again')
 
 
 def confirmation(data, decision, fingerprint, at):
