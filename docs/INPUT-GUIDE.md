@@ -4,7 +4,7 @@
 
 **Start recognition with one clear, authorized photo of the real garment.** A phone photo, flat lay, hanger photo or worn photo can work. Professional photography, cutouts and white backgrounds are not required. Generation depends on whether the garment can be identified.
 
-[安装 / Install](INSTALL.md) · [能力与生成指令 / Capabilities & prompts](CAPABILITIES.md) · [公开素材示例 / Example source photos](demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)
+[安装 / Install](INSTALL.md) · [能力与生成指令 / Capabilities & prompts](CAPABILITIES.md) · [公开素材示例 / Example source photos](https://github.com/denggui-ai/lookset/blob/main/docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)
 
 ## 最低要求与推荐素材 / Minimum and recommended inputs
 

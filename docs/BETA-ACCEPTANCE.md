@@ -100,7 +100,7 @@ For each product, prepare four distinct clear JPEG views for the current develop
 
 Generation remains two separate gates per new case: one test image, then six independent finals after the test is accepted. Plan seven initial native calls per case only if all succeed; targeted retries need new authorization. Final acceptance requires six unique images, consistent canvas, source comparison, human identity/product QA, AI-label acknowledgment and separate public promotion approval.
 
-Developer handoff: use [the primary-case evidence requirements](demo/README.md) and the existing `primary-demo.py validate`, `promote` and `build-media` entrypoints. Maintainers prepare the machine records; contributors must not have to fabricate hashes, generation receipts or human approvals. There is no claim here that a new case or its staging record is already complete.
+Developer handoff: use [the primary-case evidence requirements](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/demo/README.md) and the existing `primary-demo.py validate`, `promote` and `build-media` entrypoints. Maintainers prepare the machine records; contributors must not have to fabricate hashes, generation receipts or human approvals. There is no claim here that a new case or its staging record is already complete.
 
 ## 5. Feedback-driven patch / 外部反馈修复版（T18）
 

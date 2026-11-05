@@ -44,7 +44,7 @@ PUBLIC_FILES = (
     "docs/BETA.md",
     "docs/BETA-ACCEPTANCE.md",
 )
-SOURCE_DIRS = (".codex-plugin", "skills", "docs/demo")
+SOURCE_DIRS = (".codex-plugin", "skills")
 
 
 def _validate_public_demo(root: Path) -> None:
@@ -82,7 +82,6 @@ def _validate_public_demo(root: Path) -> None:
 
 IGNORED_PARTS = {"__pycache__", ".DS_Store", "superpowers"}
 IGNORED_SUFFIXES = {".pyc", ".pyo"}
-IGNORED_DEMO_NAMES = {"GROWTH.md"}
 
 
 def _tracked_files(root: Path, name: str) -> list[str]:
@@ -111,8 +110,6 @@ def _copy_source_dirs(root: Path, stage: Path) -> None:
         for relative in _tracked_files(root, name):
             parts = Path(relative).parts
             if IGNORED_PARTS.intersection(parts) or Path(relative).suffix in IGNORED_SUFFIXES:
-                continue
-            if name == "docs/demo" and parts[-1] in IGNORED_DEMO_NAMES:
                 continue
             path = root / relative
             _reject_symlinked_path(root, relative)

@@ -1,3 +1,5 @@
+Lookset `0.1.0-beta.2` 在 beta.1 基础上压缩既有姿势线稿并收窄安装包白名单；未新增生图，原文件名、来源与使用限制保留。安装包不含 `docs/demo`；公开仓额外文件见维护仓的 `tools/public-repo-extra.txt`。
+
 Lookset `0.1.0-beta.1` 是 threadtruth-studio 在 `c81b21a` 的改名快照，公开仓使用全新历史。
 
 # 当前本地完整候选来源

@@ -46,27 +46,10 @@ class ReleaseBuildTests(unittest.TestCase):
             self.assertNotIn(prefix + "docs/BETA12-TRYOUT.md", names)
             self.assertIn(prefix + "docs/MODEL-REUSE-CANDIDATE.md", names)
             self.assertNotIn(prefix + "docs/COMPETITIVE-LANDSCAPE.md", names)
-            self.assertIn(
-                prefix
-                + "docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/look-1.jpg",
-                names,
-            )
-            self.assertIn(prefix + "docs/demo/STYLES.md", names)
-            self.assertIn(prefix + "docs/demo/style-preview-v1.schema.json", names)
-            self.assertIn(prefix + "docs/demo/style-preview-v2.schema.json", names)
-            self.assertIn(prefix + "docs/demo/style-preview-v4.schema.json", names)
-            self.assertIn(prefix + "docs/demo/style-preview-v5.schema.json", names)
-            self.assertIn(prefix + "docs/demo/preview-source-v1.schema.json", names)
-            self.assertIn(prefix + "docs/demo/preview-sources/beige-blazer-denim-outfit/source.jpg", names)
-            self.assertIn(prefix + "docs/demo/preview-sources/beige-blazer-denim-outfit/rights.json", names)
-            preview_prefix = prefix + "docs/demo/style-previews/white-vest-24-v1/"
-            self.assertIn(preview_prefix + "evidence.json", names)
-            self.assertIn(preview_prefix + "index.html", names)
-            self.assertIn(preview_prefix + "coquette-ladylike-display.jpg", names)
-            self.assertEqual(
-                len([name for name in names if name.startswith(preview_prefix) and name.endswith(".jpg")]),
-                72,
-            )
+            self.assertFalse(any("/docs/demo/" in name for name in names))
+            self.assertEqual(len([name for name in names
+                                  if "/pose-library/images/" in name]), 60)
+            self.assertLessEqual(archive.stat().st_size, 20_000_000)
             for excluded in ("CHANGELOG.md", "RELEASE.md", "ROADMAP.md", "docs/WORK-STATUS.md", "docs/CODEX-FOR-OSS.md", "docs/demo/GROWTH.md"):
                 self.assertNotIn(prefix + excluded, names)
             self.assertFalse(any("/docs/verification/" in name for name in names))
@@ -76,6 +59,17 @@ class ReleaseBuildTests(unittest.TestCase):
             self.assertFalse(any("/tools/" in name for name in names))
             self.assertFalse(any("/.threadtruth/" in name for name in names))
             self.assertFalse(any(name.endswith("image-1.png") for name in names))
+
+    def test_public_repo_extras_match_readme_demo_files(self):
+        extras = (ROOT / "tools/public-repo-extra.txt").read_text().splitlines()
+        referenced = set()
+        for name in ("README.md", "README.zh-CN.md"):
+            for target in re.findall(r"docs/demo/[^\s)\"'<>]+", (ROOT / name).read_text()):
+                path = ROOT / target
+                if path.is_file():
+                    referenced.add(target)
+        self.assertEqual(extras, sorted(referenced))
+        self.assertTrue(all((ROOT / name).is_file() for name in extras))
 
     def test_release_document_local_links_are_shipped(self):
         spec = importlib.util.spec_from_file_location("build_release_links", SCRIPT)
