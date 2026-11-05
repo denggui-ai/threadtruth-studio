@@ -2,7 +2,7 @@
 
 Lookset 由 ThreadTruth Studio 改名而来。
 
-> **已迁移：** 本项目已改名为 **Lookset** 继续发布——https://github.com/denggui-ai/lookset（最新版本 `v0.1.0-beta.1`）。本仓库保留为开发归档。
+> **开发源：** Lookset 的公开发布在 https://github.com/denggui-ai/lookset（最新 `v0.1.0-beta.2`）。本仓库保存开发历史、测试与验证记录。
 
 **AI Fashion Studio · 服饰 AI 影棚**
 
