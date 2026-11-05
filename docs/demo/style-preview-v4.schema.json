@@ -104,7 +104,7 @@
       "properties": {
         "path": {
           "type": "string",
-          "pattern": "^skills/lookset/references/[a-z-]+\\.md$"
+          "pattern": "^skills/threadtruth-studio/references/[a-z-]+\\.md$"
         },
         "sha256": {
           "$ref": "#/$defs/hash"
@@ -223,7 +223,7 @@
       "properties": {
         "path": {
           "type": "string",
-          "pattern": "^skills/lookset/references/styles/[a-z0-9-]+\\.pack\\.yaml$"
+          "pattern": "^skills/threadtruth-studio/references/styles/[a-z0-9-]+\\.pack\\.yaml$"
         },
         "sha256": {
           "$ref": "#/$defs/hash"
