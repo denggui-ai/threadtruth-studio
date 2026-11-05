@@ -192,6 +192,73 @@ class VisualPlanMessageTests(unittest.TestCase):
         plan = self.library.prepare(self.spec(shots=self.full_shots()))
         self.assertEqual([s['shot_id'] for s in plan['shots']], ['qs-' + str(i) for i in range(1, 10)])
 
+    def test_trace_line_error_names_value_and_string_example(self):
+        for value in (['garment.keep', 'photography.scene'], '', 'x' * 1201,
+                      'garment.keep\nphotography.scene', '[Task visual plan]'):
+            spec = self.spec()
+            spec['asset_trace'] = [dict(asset='C11', decision='translated', affects=value,
+                                       check='Synthetic source-visible collar.')]
+            with self.subTest(value=repr(value)[:60]), self.assertRaises(ValueError) as caught:
+                self.library.prepare(spec)
+            message = str(caught.exception)
+            for part in ('visual_plan.asset_trace[0].affects', repr(value)[:160], 'e.g.',
+                         'garment.keep, photography.scene'):
+                self.assertIn(part, message)
+        spec['asset_trace'][0]['affects'] = 'garment.keep, photography.scene'
+        self.library.prepare(spec)
+
+    def test_art_limit_error_names_index_matched_word_and_repair(self):
+        for value, matched in (('Preview uses knee-up and half-body views.', 'knee-up'),
+                               ('Do not change the face.', 'change the face'),
+                               ('Body action stays in the shot plan.', 'Body action')):
+            spec = self.spec(art=dict(limits=['Preserve the source colour.', value]))
+            with self.subTest(value=value), self.assertRaises(ValueError) as caught:
+                self.library.prepare(spec)
+            message = str(caught.exception)
+            for part in ('visual_plan.art.limits[1]', repr(matched), 'e.g.', 'shot_plan'):
+                self.assertIn(part, message)
+        self.library.prepare(self.spec(art=dict(limits=['Preserve source-visible collar shape.'])))
+
+    def test_culture_component_id_error_names_path_value_and_slug_example(self):
+        spec = self.spec()
+        spec['culture_profile'] = dict(id='C11', version=1, scope='Synthetic culture profile.')
+        with self.assertRaises(ValueError) as caught:
+            self.library.prepare(spec)
+        message = str(caught.exception)
+        for part in ('visual_plan.culture_profile.id', "'C11'", 'e.g.', 'qipao-source-profile', 'prepare'):
+            self.assertIn(part, message)
+        spec['culture_profile']['id'] = 'qipao-source-profile'
+        self.library.prepare(spec)
+
+    def test_camera_key_error_gives_composition_example_without_rejecting_optional_framing(self):
+        shots = self.full_shots()
+        shots[0]['camera'] = shots[0].pop('composition')
+        shots[0]['framing'] = 'full-body'
+        with self.assertRaises(ValueError) as caught:
+            self.library.prepare(self.spec(shots=shots))
+        message = str(caught.exception)
+        for part in ('visual_plan.shots[0]', 'missing: composition; unexpected: camera;',
+                     'e.g.', '"composition": "Balanced negative space"', 'shot_plan.looks'):
+            self.assertIn(part, message)
+        shots[0]['composition'] = shots[0].pop('camera')
+        self.library.prepare(self.spec(shots=shots))
+
+    def test_detail_focus_error_names_field_shot_and_preparation_example(self):
+        workflow = _load('stage2_workflow_messages', 'workflow.py')
+        spec = self.spec()
+        spec['shot_plan']['looks'][7].update(framing='detail', garment_views=['detail'])
+        visual = self.library.prepare(spec)
+        data = dict(shot_plan=spec['shot_plan'], visual_plan=visual)
+        with self.assertRaises(ValueError) as caught:
+            workflow.check_preparation(data)
+        message = str(caught.exception)
+        for part in ('visual_plan.shots[7].garment_focus', 'qs-8', 'missing or empty',
+                     'overrides.shots', 'e.g.', '"description"', '"keep"', 'prepare'):
+            self.assertIn(part, message)
+        visual['shots'][7]['garment_focus'] = dict(description='Source-visible collar crop.',
+                                                  keep=['Original collar edge.'])
+        workflow.check_preparation(data)
+
 
 class RetryAuthorizeMessageTests(unittest.TestCase):
     """WP-16 C1: retry-authorize must say which flag is missing and what the current attempt is."""

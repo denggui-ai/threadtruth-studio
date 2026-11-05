@@ -95,11 +95,11 @@ def card(entry_id, root=ROOT):
     return data
 
 
-def component(snapshot):
+def component(snapshot, path='visual_plan.style.primary'):
     visual = _visual()
     result = dict(id=snapshot['id'], version=snapshot['version'],
                   sha256=visual.object_hash(snapshot), snapshot=copy.deepcopy(snapshot))
-    visual._component(result)
+    visual._component(result, path)
     return result
 
 
@@ -266,7 +266,8 @@ def prepare(spec, root=ROOT, *, frozen_visual_plan=None):
     supporting_ids = spec.get('supporting', [])
     if not isinstance(supporting_ids, list):
         raise ValueError('Supporting entries must be an explicit list')
-    supporting = [component(card(entry_id, root)) for entry_id in supporting_ids]
+    supporting = [component(card(entry_id, root), f'visual_plan.style.supporting[{index}]')
+                  for index, entry_id in enumerate(supporting_ids)]
     output_form = spec.get('output_form', 'human')
     shot_plan = spec.get('shot_plan')
     if frozen_visual_plan is None:
@@ -345,9 +346,9 @@ def prepare(spec, root=ROOT, *, frozen_visual_plan=None):
     if 'pose_history_tasks' in spec:
         plan['pose_history'] = _history().freeze(spec['pose_history_tasks'])
     if spec.get('culture_profile') is not None:
-        plan['culture_profile'] = component(spec['culture_profile'])
+        plan['culture_profile'] = component(spec['culture_profile'], 'visual_plan.culture_profile')
     elif primary.get('culture_profile'):
-        plan['culture_profile'] = component(primary['culture_profile'])
+        plan['culture_profile'] = component(primary['culture_profile'], 'visual_plan.culture_profile')
     commitments = copy.deepcopy(overrides.get('commitments', primary.get('commitments', [])))
     if 'commitments' in overrides:
         # Validate the complete explicit replacement before filtering: even a
