@@ -2,6 +2,8 @@
 
 Lookset 由 ThreadTruth Studio 改名而来。
 
+> **已迁移：** 本项目已改名为 **Lookset** 继续发布——https://github.com/denggui-ai/lookset（最新版本 `v0.1.0-beta.1`）。本仓库保留为开发归档。
+
 **AI Fashion Studio · 服饰 AI 影棚**
 
 **0.1.0-beta.2：先把每张要拍什么说清楚。** 从真实服饰与人物素材出发，在36个视觉入口中选方向，用52动作／60视图安排镜头，并结合商品展示目标与指定历史任务推荐、避开重复。先核对素材和拍摄方案，再按授权生成。

@@ -2,6 +2,8 @@
 
 Lookset 由 ThreadTruth Studio 改名而来。
 
+> **Moved:** this project continues as **Lookset** — https://github.com/denggui-ai/lookset (latest release `v0.1.0-beta.1`). This repository is kept as the development archive.
+
 **AI Fashion Studio · 服饰 AI 影棚**
 
 **0.1.0-beta.2 — plan what each image should show.** Start with real garment and model references, choose among 36 visual entries, and plan with 52 actions across 60 reference views. Rank pose candidates around product goals and selected task history; review the plan before approving generation.
