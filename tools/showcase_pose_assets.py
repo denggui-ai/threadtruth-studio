@@ -10,7 +10,7 @@ from pathlib import Path
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = "skills/threadtruth-studio/references/pose-library"
+SOURCE = "skills/lookset/references/pose-library"
 GALLERY = "gallery/style24-comparison-20260929"
 MANIFEST = "assets/poses/manifest.json"
 

@@ -32,10 +32,6 @@ PUBLIC_FILES = (
     "docs/INSTALL.md",
     "docs/STUDIO-CANDIDATE.md",
     "docs/POSE-LIBRARY-TRYOUT.md",
-    "docs/BETA9-TRYOUT.md",
-    "docs/BETA10-TRYOUT.md",
-    "docs/BETA11-TRYOUT.md",
-    "docs/BETA12-TRYOUT.md",
     "docs/INPUT-GUIDE.md",
     "docs/MODEL-REUSE.md",
     "docs/MODEL-REUSE-CANDIDATE.md",
@@ -47,15 +43,13 @@ PUBLIC_FILES = (
     "docs/CHATGPT-WEB-TUTORIAL.html",
     "docs/BETA.md",
     "docs/BETA-ACCEPTANCE.md",
-    "docs/BETA-RECRUITMENT.md",
-    "docs/COMPETITIVE-LANDSCAPE.md",
 )
 SOURCE_DIRS = (".codex-plugin", "skills", "docs/demo")
 
 
 def _validate_public_demo(root: Path) -> None:
     module_path = Path(__file__).with_name("demo_media.py")
-    spec = importlib.util.spec_from_file_location("threadtruth_demo_media", module_path)
+    spec = importlib.util.spec_from_file_location("lookset_demo_media", module_path)
     if spec is None or spec.loader is None:
         raise RuntimeError("cannot load public demo rights validator")
     module = importlib.util.module_from_spec(spec)
@@ -64,7 +58,7 @@ def _validate_public_demo(root: Path) -> None:
     if findings:
         raise ValueError("public demo rights validation failed:\n" + "\n".join(findings))
     preview_path = Path(__file__).with_name("style_preview.py")
-    preview_spec = importlib.util.spec_from_file_location("threadtruth_release_previews", preview_path)
+    preview_spec = importlib.util.spec_from_file_location("lookset_release_previews", preview_path)
     if preview_spec is None or preview_spec.loader is None:
         raise RuntimeError("cannot load preview release validator")
     preview = importlib.util.module_from_spec(preview_spec)
@@ -158,7 +152,7 @@ def build_release(root: Path, output_dir: Path) -> tuple[Path, Path]:
     _validate_public_demo(root)
     manifest = json.loads((root / ".codex-plugin" / "plugin.json").read_text())
     version = manifest["version"]
-    artifact_name = f"threadtruth-studio-{version}"
+    artifact_name = f"lookset-{version}"
     stage = output_dir / artifact_name
     archive = output_dir / f"{artifact_name}.zip"
     checksum = output_dir / f"{artifact_name}.zip.sha256"

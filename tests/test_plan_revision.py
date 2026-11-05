@@ -11,7 +11,7 @@ import unittest
 from PIL import Image
 
 ROOT=Path(__file__).resolve().parents[1]
-spec=importlib.util.spec_from_file_location('plan_revision_task',ROOT/'skills/threadtruth-studio/scripts/web-task.py')
+spec=importlib.util.spec_from_file_location('plan_revision_task',ROOT/'skills/lookset/scripts/web-task.py')
 task=importlib.util.module_from_spec(spec);spec.loader.exec_module(task)
 
 
@@ -385,7 +385,7 @@ class PlanRevisionTests(unittest.TestCase):
     def test_cli_candidate_retry_export_uses_current_plan_manifest(self):
         self.returned(self.plan());d=task.read(self.job);spec=self.root/'revision.json'
         spec.write_text(json.dumps(dict(model=dict(self.model,locked=['long hair']),prompt='Gallery.')))
-        script=ROOT/'skills/threadtruth-studio/scripts/web-task.py'
+        script=ROOT/'skills/lookset/scripts/web-task.py'
         for args in [
             ['revise-preview','--task',str(self.job),'--look','1','--spec',str(spec),'--note','Synthetic feedback','--expected-output-sha256',d['looks'][0]['output']['sha256']],
             ['retry-authorize','--task',str(self.job),'--look','1','--expected-attempt','1','--approval-id','cli-one','--note','Synthetic explicit one retry'],

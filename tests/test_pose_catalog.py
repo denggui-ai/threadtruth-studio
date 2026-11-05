@@ -9,7 +9,7 @@ import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPT = ROOT / 'skills/threadtruth-studio/scripts/pose_catalog.py'
+SCRIPT = ROOT / 'skills/lookset/scripts/pose_catalog.py'
 
 
 class PoseCatalogTests(unittest.TestCase):

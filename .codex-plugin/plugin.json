@@ -1,13 +1,13 @@
 {
-  "name": "threadtruth-studio",
-  "version": "1.0.0-beta.18",
-  "description": "Caiguang — AI Fashion Studio for real garment and coordinated-outfit photos",
+  "name": "lookset",
+  "version": "0.1.0-beta.1",
+  "description": "Lookset — AI Fashion Studio for real garment and coordinated-outfit photos",
   "author": {
     "name": "DENGGUI",
     "url": "https://github.com/denggui-ai"
   },
-  "homepage": "https://denggui-ai.github.io/threadtruth-studio/",
-  "repository": "https://github.com/denggui-ai/threadtruth-studio",
+  "homepage": "https://denggui-ai.github.io/lookset/",
+  "repository": "https://github.com/denggui-ai/lookset",
   "license": "Apache-2.0",
   "keywords": [
     "fashion",
@@ -18,7 +18,7 @@
   ],
   "skills": "./skills/",
   "interface": {
-    "displayName": "裁光 · Caiguang",
+    "displayName": "Lookset",
     "shortDescription": "AI Fashion Studio for real garment photos",
     "longDescription": "Create source-faithful garment imagery for product display, styled editorials and artistic campaigns. Choose among 36 visual entries, compare directions or specify a primary and supporting style. Plan poses from the actual garment, purpose and available views. Review a labeled nine-panel direction preview before nine independent images with first-image model review; explicit six-image and classic-six choices remain available. Explicit single-image and prompt-only requests remain available. Visual validation is scoped to documented cases.",
     "developerName": "DENGGUI",
@@ -29,9 +29,9 @@
       "36-entry visual planning",
       "commercial QA"
     ],
-    "websiteURL": "https://denggui-ai.github.io/threadtruth-studio/",
+    "websiteURL": "https://denggui-ai.github.io/lookset/",
     "defaultPrompt": [
-      "Use $threadtruth-studio to inspect my garment and person references and help me prepare a shoot plan. Do not generate images yet."
+      "Use $lookset to inspect my garment and person references and help me prepare a shoot plan. Do not generate images yet."
     ]
   }
 }

@@ -1,19 +1,19 @@
-# 裁光 beta.18 · 使用与交付说明
+# Lookset beta.18 · 使用与交付说明
 
 版本 **1.0.0-beta.18**，GitHub预发布。运行文件与已在维护者本机安装核对的da7e9a8一致；包含36个视觉入口、52动作／60视图、22卡／176条共享动作、知识与风格规则衔接、跨组精确／近似避重和推荐排序。保持预发布状态，不宣称全面视觉验收或稳定商用。
 
 ## 下载与开始
 
-从[beta.18发布页](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.18)下载：
+从[beta.18发布页](https://github.com/denggui-ai/lookset/releases/tag/v1.0.0-beta.18)下载：
 
 | 文件 | 用途 |
 |---|---|
-| `threadtruth-studio-1.0.0-beta.18.zip` | 完整插件，含安装器、运行技能、60张既有线稿、离线指南与原历史演示。 |
-| `threadtruth-studio-1.0.0-beta.18.zip.sha256` | 对应插件ZIP的SHA256校验值；与ZIP来自同一发布页。 |
+| `lookset-1.0.0-beta.18.zip` | 完整插件，含安装器、运行技能、60张既有线稿、离线指南与原历史演示。 |
+| `lookset-1.0.0-beta.18.zip.sha256` | 对应插件ZIP的SHA256校验值；与ZIP来自同一发布页。 |
 | `release-manifest.json` | 本版的源码来源、运行文件哈希、包信息、验证与限制。 |
 | GitHub自动生成的Source code归档 | 给维护者查看源码和既有验证；不能作为插件安装包。 |
 
-安装后从[离线指南](../USER-GUIDE.html)进入[看图选姿](../skills/threadtruth-studio/references/pose-library/index.html)。浏览、筛选和复制选择不会生图。已有版本先备份再替换，新聊天加载；完整步骤见[安装指南](INSTALL.md)。旧版下载和校验文件保留，不混用版本。
+安装后从[离线指南](../USER-GUIDE.html)进入[看图选姿](../skills/lookset/references/pose-library/index.html)。浏览、筛选和复制选择不会生图。已有版本先备份再替换，新聊天加载；完整步骤见[安装指南](INSTALL.md)。旧版下载和校验文件保留，不混用版本。
 
 ## 本版可以怎样用
 
@@ -30,7 +30,7 @@
 可复制的零生图起点：
 
 ```text
-请用 $threadtruth-studio 核对这件服饰和人物参考。
+请用 $lookset 核对这件服饰和人物参考。
 使用我从选姿页复制的动作安排指定图号，其余按商品展示目的安排。
 先给本轮方案与素材限制，不生图。
 ```
@@ -62,9 +62,9 @@
 在存放插件ZIP与校验文件的目录执行：
 
 ```bash
-shasum -a 256 -c threadtruth-studio-1.0.0-beta.18.zip.sha256
-unzip threadtruth-studio-1.0.0-beta.18.zip
-cd threadtruth-studio-1.0.0-beta.18
+shasum -a 256 -c lookset-1.0.0-beta.18.zip.sha256
+unzip lookset-1.0.0-beta.18.zip
+cd lookset-1.0.0-beta.18
 ```
 
 仅在校验显示`OK`后解压，使用空目录，保留原ZIP与校验文件。插件根目录应同时包含`.codex-plugin/plugin.json`、`install-local.py`、`skills/`及`USER-GUIDE.html`。

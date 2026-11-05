@@ -86,7 +86,7 @@
             "row": {"type": "integer", "minimum": 1, "maximum": 2}, "column": {"type": "integer", "minimum": 1, "maximum": 3},
             "style": {"$ref": "#/$defs/id"},
             "pack": {"type": "object", "additionalProperties": false, "required": ["path", "sha256", "version"],
-              "properties": {"path": {"type": "string", "pattern": "^skills/threadtruth-studio/references/styles/[a-z0-9-]+\\.pack\\.yaml$"},
+              "properties": {"path": {"type": "string", "pattern": "^skills/lookset/references/styles/[a-z0-9-]+\\.pack\\.yaml$"},
                 "sha256": {"$ref": "#/$defs/hash"}, "version": {"type": "string", "minLength": 1}}},
             "visual": {"type": "object", "additionalProperties": false, "required": ["mood", "persona", "scene", "lighting"],
               "properties": {"mood": {"type": "string"}, "persona": {"type": "string"}, "scene": {"type": "string"}, "lighting": {"type": "string"}}}

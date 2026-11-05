@@ -1,11 +1,11 @@
-# Contributing to Caiguang
+# Contributing to Lookset
 
 Thank you for improving source-faithful fashion portrait production.
 
 ## Before opening a change
 
-1. Open an [Issue](https://github.com/denggui-ai/threadtruth-studio/issues) describing the user problem, trigger boundary, and expected state transition, or use [Discussions](https://github.com/denggui-ai/threadtruth-studio/discussions) for exploratory proposals.
-2. Keep runtime code under `skills/threadtruth-studio/`; keep evals, audit tools, CI, and evidence at repository root.
+1. Open an [Issue](https://github.com/denggui-ai/lookset/issues) describing the user problem, trigger boundary, and expected state transition, or use [Discussions](https://github.com/denggui-ai/lookset/discussions) for exploratory proposals.
+2. Keep runtime code under `skills/lookset/`; keep evals, audit tools, CI, and evidence at repository root.
 3. Do not add external connectors, API-key flows, telemetry, network fallback, or paid actions without a separately reviewed design.
 4. Never commit customer content, secrets, private logs, personal paths, or media without documented publication rights.
 
@@ -17,7 +17,7 @@ Behavior changes require a failing regression fixture first, then the smallest r
 
 ```bash
 python3 -m unittest discover -s tests -v
-python3 tools/pack-lint.py --strict skills/threadtruth-studio/references/styles/*.pack.yaml
+python3 tools/pack-lint.py --strict skills/lookset/references/styles/*.pack.yaml
 python3 tools/trigger-eval.py
 python3 tools/build-release.py
 ```

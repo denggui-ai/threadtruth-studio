@@ -17,7 +17,7 @@
 
 There is no fixed minimum pixel count. Use ordinary images supported by your host, such as JPEG or PNG, preferably originals; host upload limits apply. Replace blurry, heavily filtered, color-shifted, cropped or obstructed photos. A screenshot of an interface without readable garment detail is insufficient.
 
-**一张图可开始识别，不等于任意一张图足以可靠编排所有角度。** 缺少背面资料时，裁光不编排背身展示，只用前面、前侧与局部安排九张并说明限制；经典六姿势方案中则把第六张明示改为正面自然站姿、前五保留。若明确要求背身或准确背部结构，须补同款实拍或确认替代；接受不确定性也不能把推测当作商品事实。
+**一张图可开始识别，不等于任意一张图足以可靠编排所有角度。** 缺少背面资料时，Lookset不编排背身展示，只用前面、前侧与局部安排九张并说明限制；经典六姿势方案中则把第六张明示改为正面自然站姿、前五保留。若明确要求背身或准确背部结构，须补同款实拍或确认替代；接受不确定性也不能把推测当作商品事实。
 
 **One photo can start recognition; it does not establish every angle.** Without a back view, back construction, prints and text are unknown. The nine-shot plan then schedules no back-view shot and uses front, front-side and detail arrangements while stating the limit; in the classic six-pose plan, slot 6 is disclosed as stationary frontal standing with slots 1–5 retained. Explicit back-view or accurate-rear requirements need real rear material or acceptance of substitution; uncertainty is never evidence of rear construction.
 

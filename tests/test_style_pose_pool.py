@@ -13,7 +13,7 @@ from tests.test_pose_plan_v2 import sample_plan
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILL = ROOT / 'skills/threadtruth-studio'
+SKILL = ROOT / 'skills/lookset'
 
 Q6_POOL_IDS = {
     'neo-chinese': ('tea-room-stand', 'courtyard-step', 'screen-bench-seat', 'tea-table-palm',

@@ -8,7 +8,7 @@ from test_pose_plan_v2 import sample_plan, inventory, shot, FRONT, BACK
 import test_nine_task as ledger_fixtures
 
 ROOT = Path(__file__).resolve().parents[1]
-spec = importlib.util.spec_from_file_location('owned_poses', ROOT / 'skills/threadtruth-studio/scripts/pose_library.py')
+spec = importlib.util.spec_from_file_location('owned_poses', ROOT / 'skills/lookset/scripts/pose_library.py')
 library = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(library)
 
@@ -196,7 +196,7 @@ class ExpandedPoseRequestTests(unittest.TestCase):
         self.fixture.setUp()
         self.addCleanup(self.fixture.doCleanups)
         self.task=ledger_fixtures.task
-        spec=importlib.util.spec_from_file_location('expanded_pose_visual',ROOT/'skills/threadtruth-studio/scripts/visual_library.py')
+        spec=importlib.util.spec_from_file_location('expanded_pose_visual',ROOT/'skills/lookset/scripts/visual_library.py')
         self.visual=importlib.util.module_from_spec(spec)
         spec.loader.exec_module(self.visual)
 

@@ -715,7 +715,7 @@ def primary_case_readme(rights: dict[str, object]) -> str:
     canvas = quality["canvas_contract"]
     return f"""# {str(rights['style']).replace('-', ' ').title()} · complete garment case
 
-[Install in Codex](../../../INSTALL.md#english) · [中文安装](../../../INSTALL.md#简体中文) · [Back to ThreadTruth Studio](../../../../README.md) · [Compare 24 styles](https://denggui-ai.github.io/threadtruth-studio/compare.html)
+[Install in Codex](../../../INSTALL.md#english) · [中文安装](../../../INSTALL.md#简体中文) · [Back to Lookset](../../../../README.md) · [Compare 24 styles](https://denggui-ai.github.io/lookset/compare.html)
 
 **Four real source views → six independent AI-generated portraits.** Generated on {quality['generated_at'][:10]}, this historical case records one reviewed set. It is separate from the paired comparison gallery and does not verify every style under the current runtime.
 
@@ -1121,7 +1121,7 @@ def build_primary_media_bundle(
     if findings:
         raise ValueError("primary demo validation failed: " + ", ".join(findings))
     output_dir.mkdir(parents=True, exist_ok=True)
-    root_name = f"threadtruth-studio-{case_id}-{version}"
+    root_name = f"lookset-{case_id}-{version}"
     archive = output_dir / f"{root_name}.zip"
     checksum = output_dir / f"{root_name}.zip.sha256"
     rights = read_json(staging / "rights-declaration.json")
@@ -1239,7 +1239,7 @@ def build_primary_media_bundle(
         write_json(rights_path, public_rights)
         write_json(run_path, public_run)
         readme_path.write_text(
-            f"""# ThreadTruth Studio primary media — {case_id}
+            f"""# Lookset primary media — {case_id}
 
 This bundle contains four authorized real-garment sources and six independently generated, human-accepted final PNGs for the `{run['style']}` route `{run['route']}`.
 
@@ -1272,7 +1272,7 @@ def validate_style_index(root: Path) -> list[str]:
         index = read_json(path)
     except (OSError, ValueError, json.JSONDecodeError):
         return ["style index is missing or invalid"]
-    pack_root = root.resolve() / "skills" / "threadtruth-studio" / "references" / "styles"
+    pack_root = root.resolve() / "skills" / "lookset" / "references" / "styles"
     pack_slugs = {path.name.removesuffix(".pack.yaml") for path in pack_root.glob("*.pack.yaml") if path.name != "_TEMPLATE.pack.yaml"}
     styles = index.get("styles")
     if index.get("schema_version") != SCHEMA_VERSION or not isinstance(styles, list):

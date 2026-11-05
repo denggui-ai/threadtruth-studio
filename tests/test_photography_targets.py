@@ -35,7 +35,7 @@ def load(name, path):
     return module
 
 
-task = load('photography_task', 'skills/threadtruth-studio/scripts/web-task.py')
+task = load('photography_task', 'skills/lookset/scripts/web-task.py')
 preview = load('photography_preview', 'tools/style_preview.py')
 
 
@@ -274,7 +274,7 @@ class PhotographyTaskTests(unittest.TestCase):
                 self.assertEqual(data['looks'][0]['prompt_sha256'], hashlib.sha256(raw.encode()).hexdigest())
 
     def test_new_targets_cannot_restate_head_gaze_or_framing(self):
-        helper = load('photography_targets_strict', 'skills/threadtruth-studio/scripts/photography_targets.py')
+        helper = load('photography_targets_strict', 'skills/lookset/scripts/photography_targets.py')
         bad = ['Full-body upright seated composition with two distinct hand supports; near-front face and '
                'off-lens eyes preserve the original expression',
                'Eyes look toward the window light', 'Half-body crop with a calm gaze', 'Near front pose against the wall']
@@ -373,7 +373,7 @@ class PhotographyHelperTests(unittest.TestCase):
     def setUpClass(cls):
         cls.temporary = tempfile.TemporaryDirectory()
         cls.root = Path(cls.temporary.name)
-        for path in ('docs/demo', 'skills/threadtruth-studio/references'):
+        for path in ('docs/demo', 'skills/lookset/references'):
             shutil.copytree(ROOT / path, cls.root / path)
         cls.model = dict(source_type='new', scope='full', subject='adult female model',
                          locked=[], adjustable=[], consent_note='')

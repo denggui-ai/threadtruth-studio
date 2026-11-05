@@ -1,23 +1,25 @@
-# 裁光 · Caiguang
+# Lookset
+
+Lookset 由 ThreadTruth Studio 改名而来。
 
 **AI Fashion Studio · 服饰 AI 影棚**
 
-**beta.18 — plan what each image should show.** Start with real garment and model references, choose among 36 visual entries, and plan with 52 actions across 60 reference views. Rank pose candidates around product goals and selected task history; review the plan before approving generation.
+**0.1.0-beta.1 — plan what each image should show.** Start with real garment and model references, choose among 36 visual entries, and plan with 52 actions across 60 reference views. Rank pose candidates around product goals and selected task history; review the plan before approving generation.
 
 This release includes the shared 176-entry pose pool, knowledge and style-rule resolution, and exact or limited text-based near-repeat checks. The same runtime has been backed up, installed and checked on the maintainer’s Mac. Visual consistency, fresh-host behavior and actual rollback remain incompletely verified. [Usage and limits](docs/STUDIO-CANDIDATE.md) · [Offline guide](USER-GUIDE.html).
 
-[![裁光 · Caiguang — AI Fashion Studio。米色套装参考图与 AI 生成效果。](https://denggui-ai.github.io/threadtruth-studio/assets/brand/og-home.png)](https://denggui-ai.github.io/threadtruth-studio/)
+[![Lookset — AI Fashion Studio。米色套装参考图与 AI 生成效果。](https://denggui-ai.github.io/lookset/assets/brand/og-home.png)](https://denggui-ai.github.io/lookset/)
 
 **单件或整套服饰，按服饰编排九张 AI 模特图，36 个视觉入口可选。**<br>Turn a garment or coordinated outfit into a garment-driven set of nine AI model portraits. Choose from 36 visual entries.
 
-**[下载裁光插件 · Download Caiguang](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.18)**　·　**[开始安装 · Install](docs/INSTALL.md#english)**　·　**[查看成片 · See results](https://denggui-ai.github.io/threadtruth-studio/#reviewed-cases)**　·　**[探索风格 · Explore styles](https://denggui-ai.github.io/threadtruth-studio/#style-highlights)**
+**[下载Lookset插件 · Download Lookset](https://github.com/denggui-ai/lookset/releases/tag/v0.1.0-beta.1)**　·　**[开始安装 · Install](docs/INSTALL.md#english)**　·　**[查看成片 · See results](https://denggui-ai.github.io/lookset/#reviewed-cases)**　·　**[探索风格 · Explore styles](https://denggui-ai.github.io/lookset/#style-highlights)**
 
-[English guide](README.md) · [中文说明](README.zh-CN.md) · [产品首页 / Website](https://denggui-ai.github.io/threadtruth-studio/) · [能力清单与拓扑 / Capability topology](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md) · [当前能力状态 / Capability status](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/CAPABILITY-STATUS.md)
+[English guide](README.md) · [中文说明](README.zh-CN.md) · [产品首页 / Website](https://denggui-ai.github.io/lookset/) · [能力清单与拓扑 / Capability topology](https://github.com/denggui-ai/lookset/blob/main/docs/ARCHITECTURE.md) · [当前能力状态 / Capability status](https://github.com/denggui-ai/lookset/blob/main/docs/CAPABILITY-STATUS.md)
 
 When clear front and front-side photos are available but the back is missing, no back-view shot is planned; the set uses front, front-side and detail arrangements and states the limit. Accurate rear construction still requires a real rear photo.
 
 
-[![Caiguang architecture and key workflows](https://raw.githubusercontent.com/denggui-ai/threadtruth-studio/main/docs/assets/architecture-overview.svg)](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md)
+[![Lookset architecture and key workflows](https://raw.githubusercontent.com/denggui-ai/lookset/main/docs/assets/architecture-overview.svg)](https://github.com/denggui-ai/lookset/blob/main/docs/ARCHITECTURE.md)
 
 
 [Japanese-home workflow tutorial (中文)](docs/JAPANESE-HOME-TUTORIAL.md) (six-image era): materials, first-image approval, six standalone images and an honest case review. The tutorial identifies released and development behavior separately.
@@ -28,15 +30,15 @@ Upload a garment or coordinated outfit, choose **one of 36 visual entries** (24 
 
 [Prepare your photos](docs/INPUT-GUIDE.md) · [Nine-shot planning and generation prompts](docs/CAPABILITIES.md) · [Garment: 24 previews (historical)](docs/demo/style-previews/white-vest-24-v1/) · [Outfit: 24 previews (historical)](docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/)
 
-Both collections are historical direction previews from the six-image era: one six-panel sheet per style, not independent finals. The [six styling cases](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html) (a floral dress, a sage-shirt home outfit, two styles of a contrast-trim T-shirt, an external Codex user’s black-jacket outfit, and our same-input Office Commute set; 36 separate AI images) were all produced under the six-image flow, each with its own disclosed review scope. Public nine-shot cases will follow the entry-by-entry sweep.
+Both collections are historical direction previews from the six-image era: one six-panel sheet per style, not independent finals. The [six styling cases](https://denggui-ai.github.io/lookset/reviewed-cases.html) (a floral dress, a sage-shirt home outfit, two styles of a contrast-trim T-shirt, an external Codex user’s black-jacket outfit, and our same-input Office Commute set; 36 separate AI images) were all produced under the six-image flow, each with its own disclosed review scope. Public nine-shot cases will follow the entry-by-entry sweep.
 
-## Why create with Caiguang?
+## Why create with Lookset?
 
 **Keep your real garment at the heart of every creative decision.**
 
-- **Garment details you can review.** Review color, construction and styling before generation, then compare each result with your source photos. [See the reviewed cases](https://denggui-ai.github.io/threadtruth-studio/#reviewed-cases).
-- **Explore more looks for one outfit.** Find a direction across 36 visual entries, from ecommerce studio to fashion editorial. [See one outfit in three styles](https://denggui-ai.github.io/threadtruth-studio/#outfit).
-- **Preview the direction, then create nine images.** Choose a direction, approve one nine-panel direction preview, confirm it, then create nine independent images. Explicit requests for six or a single image are honored as asked. [Start with recognition](https://denggui-ai.github.io/threadtruth-studio/#begin).
+- **Garment details you can review.** Review color, construction and styling before generation, then compare each result with your source photos. [See the reviewed cases](https://denggui-ai.github.io/lookset/#reviewed-cases).
+- **Explore more looks for one outfit.** Find a direction across 36 visual entries, from ecommerce studio to fashion editorial. [See one outfit in three styles](https://denggui-ai.github.io/lookset/#outfit).
+- **Preview the direction, then create nine images.** Choose a direction, approve one nine-panel direction preview, confirm it, then create nine independent images. Explicit requests for six or a single image are honored as asked. [Start with recognition](https://denggui-ai.github.io/lookset/#begin).
 
 ## What you can do
 
@@ -49,19 +51,19 @@ Both collections are historical direction previews from the six-image era: one s
 
 [Full capabilities, copyable prompts and verification scope →](docs/CAPABILITIES.md)
 
-Install **裁光 · Caiguang** in **Codex**. The beta.18 prerelease displays **裁光 · Caiguang**; older beta.8 installations still display **ThreadTruth Studio**. Generate there by default, or explicitly choose the optional ChatGPT web handoff described below.
+Install **Lookset 0.1.0-beta.1** in **Codex**. Generate there by default, or explicitly choose the optional ChatGPT web handoff described below.
 
 ## Get started
 
 **What you need:** macOS, Python 3, a terminal, and a Codex CLI that supports `codex plugin add`. This is the only tested setup; Windows, Linux, and fresh machines are unverified. The first recognition step generates no images. Generating images later needs a Codex account with native image generation, or a ChatGPT account with image access if you choose the web route.
 
-1. Follow the [English installation guide](docs/INSTALL.md#english) to download the beta.18 Plugin ZIP and matching `.sha256`, check prerequisites, verify the archive, and enable the Plugin. Use the named Plugin download, not GitHub's automatic source-code ZIP.
-2. Open Caiguang in a **new Codex task** and say “hello”, or upload garment photos you may use. Include a person reference if you want to reuse one. No long starter prompt is needed.
-3. Caiguang checks visible garment facts, available views and the intended use of person references, then helps prepare a shoot plan. You can say “Plan the shoot first; do not generate images yet.” Only missing information that affects the result needs clarification.
+1. Follow the [English installation guide](docs/INSTALL.md#english) to download the 0.1.0-beta.1 Plugin ZIP and matching `.sha256`, check prerequisites, verify the archive, and enable the Plugin. Use the named Plugin download, not GitHub's automatic source-code ZIP.
+2. Open Lookset in a **new Codex task** and say “hello”, or upload garment photos you may use. Include a person reference if you want to reuse one. No long starter prompt is needed.
+3. Lookset checks visible garment facts, available views and the intended use of person references, then helps prepare a shoot plan. You can say “Plan the shoot first; do not generate images yet.” Only missing information that affects the result needs clarification.
 
 Uploading materials or confirming a plan does not authorize generation. Existing style, preview, independent-image and budget gates still apply. Reception instructions are statically checked; no new model behavior evaluation was run for this release.
 
-If recognition does not appear, follow [installation troubleshooting](docs/INSTALL.md#troubleshooting). Share a brief success or failure through the [installation feedback form](https://github.com/denggui-ai/threadtruth-studio/issues/new?template=installation-feedback.yml).
+If recognition does not appear, follow [installation troubleshooting](docs/INSTALL.md#troubleshooting). Share a brief success or failure through the [installation feedback form](https://github.com/denggui-ai/lookset/issues/new?template=installation-feedback.yml).
 
 ## Choose where to generate
 
@@ -70,44 +72,44 @@ If recognition does not appear, follow [installation troubleshooting](docs/INSTA
 | **Codex · default** | Generate within Codex after approval; review the first image before continuing the set. | A Codex host with native image generation and available quota. |
 | **ChatGPT web · explicitly selected** | Codex prepares numbered references and prompts. Transfer them manually, or authorize Codex to operate a supported browser. | A ChatGPT account with image access and quota. Automatic execution also requires host browser tools for uploading and downloading original files. |
 
-Install 裁光 · Caiguang in **Codex**. The ChatGPT route uses the web handoff described in the [tutorial (中文)](docs/CHATGPT-WEB-TUTORIAL.md); installing this Plugin does not install browser tools. Uploading references to ChatGPT requires permission. Failed or uncertain requests are checked before any separately authorized retry, and used attempts remain recorded. [Web workflow details (中文)](docs/CHATGPT-WEB.md).
+Install Lookset in **Codex**. The ChatGPT route uses the web handoff described in the [tutorial (中文)](docs/CHATGPT-WEB-TUTORIAL.md); installing this Plugin does not install browser tools. Uploading references to ChatGPT requires permission. Failed or uncertain requests are checked before any separately authorized retry, and used attempts remain recorded. [Web workflow details (中文)](docs/CHATGPT-WEB.md).
 
 ## Examples and what they demonstrate
 
-**Six sets, 36 separate images.** [See all images and source notes](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html). Dress and home-outfit visuals were accepted; the T-shirt sets retain fine-detail and action review. These AI-model images support styling previews, not personal identity, size or fit guarantees.
+**Six sets, 36 separate images.** [See all images and source notes](https://denggui-ai.github.io/lookset/reviewed-cases.html). Dress and home-outfit visuals were accepted; the T-shirt sets retain fine-detail and action review. These AI-model images support styling previews, not personal identity, size or fit guarantees.
 
 **Product references → AI scene styling.** The comparison shows the actual primary shirt and pants references alongside a home-scene result. The pants are displayed as a crop; additional construction and identity references were used. An external Codex user also completed six images and reported satisfaction; the version used was not recorded.
 
-<a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#green-shirt-home"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/green-shirt-home/before-after.jpg" alt="Product references and AI home-scene result / 商品参考与 AI 家居成片" width="480"></a>
+<a href="https://denggui-ai.github.io/lookset/reviewed-cases.html#green-shirt-home"><img src="https://denggui-ai.github.io/lookset/assets/reviewed-cases/green-shirt-home/before-after.jpg" alt="Product references and AI home-scene result / 商品参考与 AI 家居成片" width="480"></a>
 
-[See the home Before / After, all six originals and source notes](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#green-shirt-home)
+[See the home Before / After, all six originals and source notes](https://denggui-ai.github.io/lookset/reviewed-cases.html#green-shirt-home)
 
 **One outfit input → six Office Commute images.** The same authorized input also appears in the external trial. Compare two presentation directions, rather than versions; the external version is unknown. Slot 6 uses stationary front standing because no real rear photo was supplied. Fine garment details remain subject to review.
 
 | Actual input | AI · Office Commute |
 |---|---|
-| <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#black-jacket-office"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/black-jacket-office/input.jpg" alt="Actual authorized outfit input" width="240"></a> | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#black-jacket-office"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/black-jacket-office/look-1.png" alt="AI-generated Office Commute jacket outfit" width="240"></a> |
+| <a href="https://denggui-ai.github.io/lookset/reviewed-cases.html#black-jacket-office"><img src="https://denggui-ai.github.io/lookset/assets/reviewed-cases/black-jacket-office/input.jpg" alt="Actual authorized outfit input" width="240"></a> | <a href="https://denggui-ai.github.io/lookset/reviewed-cases.html#black-jacket-office"><img src="https://denggui-ai.github.io/lookset/assets/reviewed-cases/black-jacket-office/look-1.png" alt="AI-generated Office Commute jacket outfit" width="240"></a> |
 
-[See both directions, all six new images and review scope](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#black-jacket-office) · [Download case sharing materials](https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/black-jacket-office/share/caiguang-black-jacket-share.zip)
+[See both directions, all six new images and review scope](https://denggui-ai.github.io/lookset/reviewed-cases.html#black-jacket-office) · [Download case sharing materials](https://denggui-ai.github.io/lookset/assets/reviewed-cases/black-jacket-office/share/caiguang-black-jacket-share.zip)
 
-**Same jacket, different mood.** [Compare the French and American single-image tests](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#black-jacket-style-comparison): the same outfit, AI identity and first pose. French v3's gentler expression was visually accepted; American retains a restrained urban mood with acceptance pending. One test image per style, with fine garment review still open.
+**Same jacket, different mood.** [Compare the French and American single-image tests](https://denggui-ai.github.io/lookset/reviewed-cases.html#black-jacket-style-comparison): the same outfit, AI identity and first pose. French v3's gentler expression was visually accepted; American retains a restrained urban mood with acceptance pending. One test image per style, with fine garment review still open.
 
 | | | | | |
 |---|---|---|---|---|
-| <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#black-jacket-office"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/black-jacket-office/look-1.png" alt="Office Commute — AI-generated" width="150"></a><br>Office Commute · same-input comparison | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#red-floral-french"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/red-floral-french/look-1.png" alt="Floral dress — AI-generated" width="150"></a><br>Floral dress | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#green-shirt-home"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/green-shirt-home/look-1.png" alt="Home outfit — AI-generated" width="150"></a><br>Home outfit | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#trim-tee-american"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/trim-tee-american/look-1.png" alt="American Street — AI-generated" width="150"></a><br>American Street | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#trim-tee-japanese"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/trim-tee-japanese/look-1.png" alt="Japanese Lifestyle — AI-generated" width="150"></a><br>Japanese Lifestyle |
+| <a href="https://denggui-ai.github.io/lookset/reviewed-cases.html#black-jacket-office"><img src="https://denggui-ai.github.io/lookset/assets/reviewed-cases/black-jacket-office/look-1.png" alt="Office Commute — AI-generated" width="150"></a><br>Office Commute · same-input comparison | <a href="https://denggui-ai.github.io/lookset/reviewed-cases.html#red-floral-french"><img src="https://denggui-ai.github.io/lookset/assets/reviewed-cases/red-floral-french/look-1.png" alt="Floral dress — AI-generated" width="150"></a><br>Floral dress | <a href="https://denggui-ai.github.io/lookset/reviewed-cases.html#green-shirt-home"><img src="https://denggui-ai.github.io/lookset/assets/reviewed-cases/green-shirt-home/look-1.png" alt="Home outfit — AI-generated" width="150"></a><br>Home outfit | <a href="https://denggui-ai.github.io/lookset/reviewed-cases.html#trim-tee-american"><img src="https://denggui-ai.github.io/lookset/assets/reviewed-cases/trim-tee-american/look-1.png" alt="American Street — AI-generated" width="150"></a><br>American Street | <a href="https://denggui-ai.github.io/lookset/reviewed-cases.html#trim-tee-japanese"><img src="https://denggui-ai.github.io/lookset/assets/reviewed-cases/trim-tee-japanese/look-1.png" alt="Japanese Lifestyle — AI-generated" width="150"></a><br>Japanese Lifestyle |
 
-[Case notes and media terms](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/SHOWCASE-CASES.md).
+[Case notes and media terms](https://github.com/denggui-ai/lookset/blob/main/docs/SHOWCASE-CASES.md).
 
 [![A real white-vest source photo alongside six independent AI-generated Korean Cold Editorial portraits](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/hero.jpg)](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)
 
 **Four source photos → six independent AI portraits.** This reviewed historical case is separate from the paired gallery and was not generated under beta.8. [Explore the complete case and its media terms](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md).
 
-The **24-style paired gallery** compares Codex and ChatGPT web results, with source credits, rights disclosures, and per-case reviews. These are AI-generated research comparisons; they do not establish a model ranking or permission to reuse every image. [Read the gallery's source and rights records](https://denggui-ai.github.io/threadtruth-studio/rights.json).
+The **24-style paired gallery** compares Codex and ChatGPT web results, with source credits, rights disclosures, and per-case reviews. These are AI-generated research comparisons; they do not establish a model ranking or permission to reuse every image. [Read the gallery's source and rights records](https://denggui-ai.github.io/lookset/rights.json).
 
 | Collection | Published scope | What it establishes |
 |---|---|---|
-| [New styling cases](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html) | **6 sets × 6 separate images = 36 images** | Visual acceptance and remaining review items are recorded separately; excluded from the frozen historical style index. |
-| [Paired comparison gallery](https://denggui-ai.github.io/threadtruth-studio/compare.html) | **24 styles × 2 routes = 48 images** | Same-input comparisons with reviews and rights disclosures. These are not 24 complete six-image sets or verification of every style under beta.8. |
+| [New styling cases](https://denggui-ai.github.io/lookset/reviewed-cases.html) | **6 sets × 6 separate images = 36 images** | Visual acceptance and remaining review items are recorded separately; excluded from the frozen historical style index. |
+| [Paired comparison gallery](https://denggui-ai.github.io/lookset/compare.html) | **24 styles × 2 routes = 48 images** | Same-input comparisons with reviews and rights disclosures. These are not 24 complete six-image sets or verification of every style under beta.8. |
 | [White-vest complete case](docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md) | **1 style × 6 independent images** | One reviewed complete case; the frozen historical primary-case style index is **1/24**. |
 | Historical direction previews | **2 collections × 24 styles** | One six-pose preview sheet per style, with layout checks and maintainer acceptance. The white-vest beta.3 and outfit beta.4 collections retain their original evidence. |
 
@@ -120,7 +122,7 @@ The **24-style paired gallery** compares Codex and ChatGPT web results, with sou
 
 **coordinated outfit · 24 styles** — the beige blazer, white top, dark denim, olive tote, and brown loafers form one locked outfit. This is a single preview sheet. [Browse all 24 outfit sheets](docs/demo/style-previews/beige-blazer-denim-outfit-24-v1/) (GitHub lists the image files; the folder's `index.html` is a gallery page for a downloaded copy) · [Media rights](docs/demo/RIGHTS.md).
 
-**single garment · 24 styles** — the thumbnails below show the frozen white-vest collection. Each opens a larger six-pose sheet. [Style evidence index](docs/demo/STYLES.md) · [Historical work register](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/WORK-STATUS.md).
+**single garment · 24 styles** — the thumbnails below show the frozen white-vest collection. Each opens a larger six-pose sheet. [Style evidence index](docs/demo/STYLES.md) · [Historical work register](https://github.com/denggui-ai/lookset/blob/main/docs/WORK-STATUS.md).
 
 <!-- STYLE_PREVIEWS:START -->
 
@@ -141,7 +143,7 @@ These historical previews retain their source records, reviews, and hashes. They
 
 ## Scope and limits
 
-裁光 · Caiguang is independent and community-maintained, not an OpenAI product or endorsement. Installation and enablement have been verified on the maintainer's macOS machine; a fresh non-maintainer environment remains unverified. See [compatibility and verification scope](docs/COMPATIBILITY.md).
+Lookset is independent and community-maintained, not an OpenAI product or endorsement. Installation and enablement have been verified on the maintainer's macOS machine; a fresh non-maintainer environment remains unverified. See [compatibility and verification scope](docs/COMPATIBILITY.md).
 
 - **Source details guide the output.** Color, material appearance, silhouette, construction, pattern, and logo placement come from the source. For an outfit, this also includes layering, proportions, shoes, bags, and accessories. Check the generated result against your source; exact small text, logos, and fit are not guaranteed.
 - **Human review remains part of delivery.** This workflow supports apparel imagery, not identity-preserving try-on on a supplied person, CAD fit simulation, non-apparel products, text-only concepts, API integration, or unattended commercial delivery. It does not guarantee platform approval or sales results.
@@ -151,22 +153,22 @@ These historical previews retain their source records, reviews, and hashes. They
 
 ## Documentation and support
 
-[Install, upgrade, and rollback](docs/INSTALL.md) · [Compatibility](docs/COMPATIBILITY.md) · [Offline guide](USER-GUIDE.html) (bundled in the Plugin ZIP; open it locally, since GitHub shows its HTML source) · [Changelog](https://github.com/denggui-ai/threadtruth-studio/blob/main/CHANGELOG.md) · [Beta progress](docs/BETA.md)
+[Install, upgrade, and rollback](docs/INSTALL.md) · [Compatibility](docs/COMPATIBILITY.md) · [Offline guide](USER-GUIDE.html) (bundled in the Plugin ZIP; open it locally, since GitHub shows its HTML source) · [Changelog](https://github.com/denggui-ai/lookset/blob/main/CHANGELOG.md) · [Beta progress](docs/BETA.md)
 
-**Current prerelease: beta.18.** Choose one of 36 visual entries, authorize one labeled nine-panel preview, confirm the direction, then authorize independent images; the first portrait still needs model confirmation. Every generation goes through the ledger scripts. Earlier releases and their galleries remain historical records; use each old archive's bundled guide when installing that version. Beta exit targets and remaining validation are tracked in the [Beta register](docs/BETA.md).
+**Current prerelease: 0.1.0-beta.1.** Choose one of 36 visual entries, authorize one labeled nine-panel preview, confirm the direction, then authorize independent images; the first portrait still needs model confirmation. Every generation goes through the ledger scripts. Earlier releases and their galleries remain historical records; use each old archive's bundled guide when installing that version. Beta exit targets and remaining validation are tracked in the [Beta register](docs/BETA.md).
 
-Share sanitized installation results through the [feedback form](https://github.com/denggui-ai/threadtruth-studio/issues/new?template=installation-feedback.yml). Report bugs in [Issues](https://github.com/denggui-ai/threadtruth-studio/issues) and ask questions in [Discussions](https://github.com/denggui-ai/threadtruth-studio/discussions). Keep private garments, customer data, credentials, and full logs out of public posts. Maintainer: DENGGUI · WeChat: `Lvmusic0930`.
+Share sanitized installation results through the [feedback form](https://github.com/denggui-ai/lookset/issues/new?template=installation-feedback.yml). Report bugs in [Issues](https://github.com/denggui-ai/lookset/issues) and ask questions in [Discussions](https://github.com/denggui-ai/lookset/discussions). Keep private garments, customer data, credentials, and full logs out of public posts. Maintainer: DENGGUI · WeChat: `Lvmusic0930`.
 
 <details>
 <summary>Development and project records</summary>
 
 ```bash
 python3 -m unittest discover -s tests -v
-python3 tools/pack-lint.py --strict skills/threadtruth-studio/references/styles/*.pack.yaml
+python3 tools/pack-lint.py --strict skills/lookset/references/styles/*.pack.yaml
 python3 tools/trigger-eval.py
 python3 tools/build-release.py
 ```
 
-Runtime lives under `skills/threadtruth-studio/`; tests, evals, release tooling, and evidence stay outside it. See [Contributing](CONTRIBUTING.md), [Security](SECURITY.md), [Migration](MIGRATION.md), and [Provenance](PROVENANCE.md). Project Beta targets are not OpenAI admission rules; application details are kept in [Codex for Open Source](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/CODEX-FOR-OSS.md).
+Runtime lives under `skills/lookset/`; tests, evals, release tooling, and evidence stay outside it. See [Contributing](CONTRIBUTING.md), [Security](SECURITY.md), [Migration](MIGRATION.md), and [Provenance](PROVENANCE.md). Project Beta targets are not OpenAI admission rules; application details are kept in [Codex for Open Source](https://github.com/denggui-ai/lookset/blob/main/docs/CODEX-FOR-OSS.md).
 
 </details>

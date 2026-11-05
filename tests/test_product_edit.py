@@ -11,7 +11,7 @@ from tests import test_visual_plan as fixtures
 
 task = fixtures.task
 ROOT = fixtures.ROOT
-_spec = importlib.util.spec_from_file_location('product_library', ROOT / 'skills/threadtruth-studio/scripts/visual_library.py')
+_spec = importlib.util.spec_from_file_location('product_library', ROOT / 'skills/lookset/scripts/visual_library.py')
 library = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(library)
 
@@ -241,7 +241,7 @@ class ProductEditTests(unittest.TestCase):
     def test_cli_preparation_and_init_share_the_product_contract(self):
         spec_path=self.f.root/'prepare.json'; spec_path.write_text(json.dumps(self.spec('flat-lay','background-cleanup')))
         visual_path=self.f.root/'visual.json'
-        scripts=ROOT/'skills/threadtruth-studio/scripts'
+        scripts=ROOT/'skills/lookset/scripts'
         result=subprocess.run([sys.executable,str(scripts/'visual_library.py'),'prepare','--spec',str(spec_path),
                                '--output',str(visual_path)],text=True,capture_output=True)
         self.assertEqual(result.returncode,0,result.stderr)

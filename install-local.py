@@ -16,8 +16,8 @@ import shutil
 import tempfile
 import uuid
 
-NAME = 'threadtruth-studio'
-ENTRY_SOURCE = {'source': 'local', 'path': './plugins/threadtruth-studio'}
+NAME = 'lookset'
+ENTRY_SOURCE = {'source': 'local', 'path': './plugins/lookset'}
 DIRECTORIES = ('.codex-plugin', 'skills', 'docs')
 FILES = ('README.md', 'README.zh-CN.md', 'USER-GUIDE.html', 'LICENSE',
          'CHANGELOG.md', 'CODE_OF_CONDUCT.md', 'CONTRIBUTING.md', 'SECURITY.md',
@@ -45,11 +45,11 @@ def install(source, recipient_home, *, apply=False, replace=False):
         raise ValueError('run from a separate extracted release, not the active install')
     manifest = json.loads((source / '.codex-plugin/plugin.json').read_text())
     if manifest.get('name') != NAME or manifest.get('skills') != './skills/':
-        raise ValueError('not a ThreadTruth Plugin release')
+        raise ValueError('not a Lookset Plugin release')
     version = manifest.get('version', '')
     if not isinstance(version, str) or not re.fullmatch(r'\d+\.\d+\.\d+(?:-[A-Za-z0-9.]+)?(?:\+[A-Za-z0-9.-]+)?', version):
         raise ValueError('invalid release version')
-    if not (source / 'skills/threadtruth-studio/SKILL.md').is_file():
+    if not (source / 'skills/lookset/SKILL.md').is_file():
         raise ValueError('missing runtime Skill')
     if target.exists() and not replace:
         raise FileExistsError('active source exists; inspect it, then use --replace for a backed-up upgrade')
@@ -78,7 +78,7 @@ def install(source, recipient_home, *, apply=False, replace=False):
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S') + '-' + uuid.uuid4().hex[:8]
     target.parent.mkdir(parents=True, exist_ok=True)
     marketplace.parent.mkdir(parents=True, exist_ok=True)
-    stage = Path(tempfile.mkdtemp(prefix='.threadtruth-install-', dir=target.parent))
+    stage = Path(tempfile.mkdtemp(prefix='.lookset-install-', dir=target.parent))
     backup = target.with_name(f'{NAME}.backup-{stamp}')
     market_backup = marketplace.with_name(f'marketplace.json.backup-{stamp}')
     market_stage = marketplace.with_name(f'.marketplace-{stamp}.tmp')
@@ -142,7 +142,7 @@ def main():
         print('Dry run: inspect the paths; repeat with --apply to register.')
     else:
         print(f"Next: codex plugin add {result['selector']} --json")
-        print('Then open a NEW Codex task and use $threadtruth-studio with your garment image.')
+        print('Then open a NEW Codex task and use $lookset with your garment image.')
 
 
 if __name__ == '__main__':

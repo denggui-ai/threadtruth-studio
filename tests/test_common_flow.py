@@ -9,7 +9,7 @@ import unittest
 
 from PIL import Image
 
-SCRIPT = Path(__file__).resolve().parents[1]/'skills/threadtruth-studio/scripts/web-task.py'
+SCRIPT = Path(__file__).resolve().parents[1]/'skills/lookset/scripts/web-task.py'
 spec = importlib.util.spec_from_file_location('common_flow_task', SCRIPT)
 m = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(m)

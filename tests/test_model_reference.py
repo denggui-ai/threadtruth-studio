@@ -12,7 +12,7 @@ from unittest.mock import patch
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPT = ROOT / 'skills/threadtruth-studio/scripts/model_reference.py'
+SCRIPT = ROOT / 'skills/lookset/scripts/model_reference.py'
 
 
 class ModelReferenceTests(unittest.TestCase):
@@ -35,7 +35,7 @@ class ModelReferenceTests(unittest.TestCase):
         return result
 
     def test_cli_help_does_not_write_into_runtime_without_environment_setup(self):
-        scripts=ROOT/'skills/threadtruth-studio/scripts'
+        scripts=ROOT/'skills/lookset/scripts'
         for command in ('model-reference.py','web-task.py'):
             with self.subTest(command=command):
                 runtime=self.root/command.removesuffix('.py');runtime.mkdir()
@@ -266,7 +266,7 @@ class ModelReferenceTests(unittest.TestCase):
                 self.assertEqual(self.m.load_package(package)['references'][0]['sha256'], self.m.digest(source))
 
     def test_all_frozen_pack_atmospheres_survive_explicit_casting(self):
-        paths = sorted((ROOT/'skills/threadtruth-studio/references/styles').glob('*.pack.yaml'))
+        paths = sorted((ROOT/'skills/lookset/references/styles').glob('*.pack.yaml'))
         self.assertEqual(len(paths), 24)
         model = self.model(subject='adult male model', adjustable=['friendly smile', 'gentle makeup', 'tidy tied hair'])
         for path in paths:

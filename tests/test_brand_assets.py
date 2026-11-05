@@ -18,7 +18,7 @@ class BrandAssetsTests(unittest.TestCase):
         self.addCleanup(temporary.cleanup)
         self.gallery = Path(temporary.name)
         for name in brand_assets.TEXT_FILES:
-            (self.gallery / name).write_text("裁光 ThreadTruthStudio 已复制 ş")
+            (self.gallery / name).write_text("Lookset Lookset 已复制 ş")
         self.font_dir = self.gallery / "assets/brand/fonts"
         self.font_dir.mkdir(parents=True)
         from fontTools.fontBuilder import FontBuilder

@@ -43,7 +43,7 @@
       "additionalProperties": false,
       "required": ["path", "sha256"],
       "properties": {
-        "path": {"type": "string", "pattern": "^skills/threadtruth-studio/references/[a-z-]+\\.md$"},
+        "path": {"type": "string", "pattern": "^skills/lookset/references/[a-z-]+\\.md$"},
         "sha256": {"$ref": "#/$defs/hash"}
       }
     },
@@ -95,7 +95,7 @@
       "additionalProperties": false,
       "required": ["path", "sha256", "version"],
       "properties": {
-        "path": {"type": "string", "pattern": "^skills/threadtruth-studio/references/styles/[a-z0-9-]+\\.pack\\.yaml$"},
+        "path": {"type": "string", "pattern": "^skills/lookset/references/styles/[a-z0-9-]+\\.pack\\.yaml$"},
         "sha256": {"$ref": "#/$defs/hash"},
         "version": {"type": "string", "minLength": 1}
       }

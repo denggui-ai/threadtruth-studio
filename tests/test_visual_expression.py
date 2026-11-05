@@ -28,7 +28,7 @@ class VisualFallbackTests(unittest.TestCase):
                  'guochao-street': ('place contemporary Chinese cues', 'environment')}
         for entry, expected in cases.items():
             with self.subTest(entry=entry):
-                text = (ROOT / 'skills/threadtruth-studio/references/styles' / (entry + '.pack.yaml')).read_text()
+                text = (ROOT / 'skills/lookset/references/styles' / (entry + '.pack.yaml')).read_text()
                 mood = self.preview._visual(text)['mood']
                 for phrase in expected:
                     self.assertIn(phrase, mood)
@@ -44,7 +44,7 @@ class VisualFallbackTests(unittest.TestCase):
 class VisualLibraryTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.library = load('expression_library', 'skills/threadtruth-studio/scripts/visual_library.py')
+        cls.library = load('expression_library', 'skills/lookset/scripts/visual_library.py')
 
     def spec(self, entry_id):
         culture = {}
@@ -112,14 +112,14 @@ class VisualLibraryTests(unittest.TestCase):
         preview = load('expression_collection', 'tools/style_preview.py')
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            runtime = root / 'skills/threadtruth-studio'
+            runtime = root / 'skills/lookset'
             for relative in ('scripts/visual_library.py', 'scripts/visual_plan.py',
                              'scripts/shot_plan.py', 'scripts/pose_library.py', 'scripts/pose_catalog.py',
                              'references/pose-library/catalog.json', 'references/pose-library/style-vocabulary.json'):
                 destination = runtime / relative
                 destination.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copyfile(ROOT / 'skills/threadtruth-studio' / relative, destination)
-            library_source = ROOT / 'skills/threadtruth-studio/references/visual-library'
+                shutil.copyfile(ROOT / 'skills/lookset' / relative, destination)
+            library_source = ROOT / 'skills/lookset/references/visual-library'
             shutil.copytree(library_source, runtime / 'references/visual-library')
             specs = [dict(self.spec(entry), count=6, first_pose=1) for entry in ('french-effortless', 'gothic-editorial')]
             path = preview.prepare_visual_collection(root, 'two-directions', specs)

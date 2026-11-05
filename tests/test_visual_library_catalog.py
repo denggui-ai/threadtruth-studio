@@ -7,7 +7,7 @@ import re
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILL = ROOT / 'skills/threadtruth-studio'
+SKILL = ROOT / 'skills/lookset'
 LIBRARY = SKILL / 'references/visual-library'
 NEW_ENTRIES = {
     'retro-americana', 'gothic-editorial', 'romantic-bohemian',

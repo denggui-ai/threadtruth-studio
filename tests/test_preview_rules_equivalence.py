@@ -11,8 +11,8 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-PROMPT_BUILD = "skills/threadtruth-studio/references/prompt-build.md"
-PACKS = "skills/threadtruth-studio/references/styles"
+PROMPT_BUILD = "skills/lookset/references/prompt-build.md"
+PACKS = "skills/lookset/references/styles"
 
 
 def module():
@@ -27,7 +27,7 @@ class PreviewRulesEquivalenceTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
-        for name in ("docs/demo", "skills/threadtruth-studio/references"):
+        for name in ("docs/demo", "skills/lookset/references"):
             shutil.copytree(ROOT / name, self.root / name)
         shutil.rmtree(self.root / "docs/demo/style-previews", ignore_errors=True)
         self.m = module()

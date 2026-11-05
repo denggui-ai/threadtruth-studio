@@ -28,11 +28,11 @@ class ReleaseBuildTests(unittest.TestCase):
                 names = set(bundle.namelist())
 
             version = json.loads((ROOT / ".codex-plugin/plugin.json").read_text())["version"]
-            prefix = f"threadtruth-studio-{version}/"
+            prefix = f"lookset-{version}/"
             self.assertIn(prefix + ".codex-plugin/plugin.json", names)
-            self.assertIn(prefix + "skills/threadtruth-studio/SKILL.md", names)
-            self.assertIn(prefix + "skills/threadtruth-studio/scripts/pose_catalog.py", names)
-            self.assertIn(prefix + "skills/threadtruth-studio/references/pose-planning.md", names)
+            self.assertIn(prefix + "skills/lookset/SKILL.md", names)
+            self.assertIn(prefix + "skills/lookset/scripts/pose_catalog.py", names)
+            self.assertIn(prefix + "skills/lookset/references/pose-planning.md", names)
             self.assertFalse(any("ai-pose-gallery" in name or name.endswith("pose-zh.json")
                                  or re.search(r"(?:full_single|full_sexy|upper80v2|pair60)_P\d+.*\.(?:png|jpg)$", name)
                                  for name in names), "Research gallery images/data must not ship")
@@ -40,12 +40,12 @@ class ReleaseBuildTests(unittest.TestCase):
             self.assertIn(prefix + "install-local.py", names)
             self.assertIn(prefix + "CONTRIBUTING.md", names)
             self.assertIn(prefix + "SECURITY.md", names)
-            self.assertIn(prefix + "docs/BETA9-TRYOUT.md", names)
-            self.assertIn(prefix + "docs/BETA10-TRYOUT.md", names)
-            self.assertIn(prefix + "docs/BETA11-TRYOUT.md", names)
-            self.assertIn(prefix + "docs/BETA12-TRYOUT.md", names)
+            self.assertNotIn(prefix + "docs/BETA9-TRYOUT.md", names)
+            self.assertNotIn(prefix + "docs/BETA10-TRYOUT.md", names)
+            self.assertNotIn(prefix + "docs/BETA11-TRYOUT.md", names)
+            self.assertNotIn(prefix + "docs/BETA12-TRYOUT.md", names)
             self.assertIn(prefix + "docs/MODEL-REUSE-CANDIDATE.md", names)
-            self.assertIn(prefix + "docs/COMPETITIVE-LANDSCAPE.md", names)
+            self.assertNotIn(prefix + "docs/COMPETITIVE-LANDSCAPE.md", names)
             self.assertIn(
                 prefix
                 + "docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/look-1.jpg",

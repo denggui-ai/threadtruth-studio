@@ -8,7 +8,7 @@ from pathlib import Path
 import re
 import subprocess
 
-REPOSITORY = '2278091160dg-rgb/threadtruth-studio'
+REPOSITORY = 'denggui-ai/lookset'
 TRAFFIC_POLICY = 'overlapping-14-day-snapshots-not-additive'
 
 
@@ -29,9 +29,9 @@ def summarize_releases(releases):
             category = 'other'
             if name.endswith('.sha256'):
                 category = 'checksum'
-            elif re.fullmatch(r'threadtruth-studio-\d+\.\d+\.\d+(?:-[A-Za-z0-9.]+)?\.zip', name):
+            elif re.fullmatch(r'lookset-\d+\.\d+\.\d+(?:-[A-Za-z0-9.]+)?\.zip', name):
                 category = 'plugin'
-            elif re.fullmatch(r'threadtruth-studio-[a-z][a-z0-9-]+-\d+\.\d+\.\d+(?:-[A-Za-z0-9.]+)?\.zip', name):
+            elif re.fullmatch(r'lookset-[a-z][a-z0-9-]+-\d+\.\d+\.\d+(?:-[A-Za-z0-9.]+)?\.zip', name):
                 category = 'media'
             downloads = count(asset.get('download_count'))
             totals[category] += downloads

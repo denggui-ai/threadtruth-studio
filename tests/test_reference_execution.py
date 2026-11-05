@@ -12,7 +12,7 @@ from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location(
-    'reference_execution_task', ROOT / 'skills/threadtruth-studio/scripts/web-task.py')
+    'reference_execution_task', ROOT / 'skills/lookset/scripts/web-task.py')
 m = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(m)
 

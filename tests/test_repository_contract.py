@@ -6,7 +6,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILL = ROOT / "skills" / "threadtruth-studio"
+SKILL = ROOT / "skills" / "lookset"
 LEGACY_NAME = "clothing" + "-portrait-studio"
 PRIVATE_HOME_PATTERN = re.compile(r"/Users/[A-Za-z0-9._-]+/")
 ALLOWED_LEGACY_FILES = {
@@ -83,15 +83,15 @@ class RepositoryContractTests(unittest.TestCase):
 
     def test_plugin_manifest_has_public_identity(self):
         manifest = json.loads((ROOT / ".codex-plugin" / "plugin.json").read_text())
-        self.assertEqual(manifest["name"], "threadtruth-studio")
-        self.assertRegex(manifest["version"], r"^1\.0\.0-beta\.[1-9][0-9]*(?:\+[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*)?$")
+        self.assertEqual(manifest["name"], "lookset")
+        self.assertRegex(manifest["version"], r"^0\.1\.0-beta\.[1-9][0-9]*(?:\+[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*)?$")
         self.assertEqual(manifest["license"], "Apache-2.0")
         self.assertEqual(
             manifest["repository"],
-            "https://github.com/denggui-ai/threadtruth-studio",
+            "https://github.com/denggui-ai/lookset",
         )
         self.assertEqual(manifest["skills"], "./skills/")
-        self.assertEqual(manifest["interface"]["displayName"], "裁光 · Caiguang")
+        self.assertEqual(manifest["interface"]["displayName"], "Lookset")
         self.assertIsInstance(manifest["interface"]["defaultPrompt"], list)
         self.assertLessEqual(len(manifest["interface"]["defaultPrompt"]), 3)
         self.assertNotIn("mcpServers", manifest)
@@ -99,7 +99,7 @@ class RepositoryContractTests(unittest.TestCase):
 
     def test_skill_identity_and_description_are_exact(self):
         text = (SKILL / "SKILL.md").read_text()
-        self.assertIn("name: threadtruth-studio", text)
+        self.assertIn("name: lookset", text)
         expected = '服饰视觉；问候时引导上传，直接上传即可核对素材，无需启动提示词；有素材时首句只核对素材，随后读技能。真实服饰图的白底编辑、专业隐形模特Ghost、人物选角与复用、36个视觉入口、提示词与独立图片制作；缺图只做素材准备。生成需明确授权和商业QA。排除非服饰商品、纯文字虚构服装设计、虚拟试衣/API集成；源码修改按开发任务处理。'
         normalized = " ".join(text.split())
         self.assertIn(expected, normalized)

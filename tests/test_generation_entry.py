@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-RUNTIME = ROOT / 'skills/threadtruth-studio'
+RUNTIME = ROOT / 'skills/lookset'
 SCRIPT = RUNTIME / 'scripts/recommend-entry.py'
 spec = importlib.util.spec_from_file_location('generation_entry', SCRIPT)
 entry = importlib.util.module_from_spec(spec)

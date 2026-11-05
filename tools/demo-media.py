@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""CLI entrypoint for the ThreadTruth demo-media evidence pipeline."""
+"""CLI entrypoint for the Lookset demo-media evidence pipeline."""
 
 from demo_media import main
 

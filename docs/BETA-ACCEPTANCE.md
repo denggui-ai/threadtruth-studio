@@ -2,7 +2,7 @@
 
 This is an unfilled collection guide, not evidence of a completed test. It does not authorize installing on somebody else's machine, recording, posting, or image generation. / 本页是待填写的验收资料包，不是已完成证据，也不自动授权安装、录屏、发帖或生图。
 
-Use alongside [installation instructions](INSTALL.md), [compatibility](COMPATIBILITY.md), [the Beta register](BETA.md) and [recruitment drafts](BETA-RECRUITMENT.md). The public beta.2 can be tested before the new preview gallery exists.
+Use alongside [installation instructions](INSTALL.md), [compatibility](COMPATIBILITY.md), [the Beta register](BETA.md) and [recruitment drafts](https://github.com/denggui-ai/lookset/blob/main/docs/BETA-RECRUITMENT.md). The public beta.2 can be tested before the new preview gallery exists.
 
 ## 1. One clean external lifecycle / 一次外部干净环境全流程（T14）
 
@@ -34,23 +34,23 @@ For this milestone, **uninstall means removal of enabled Plugin state**, not com
 First-use prompt / 首次及回滚复测指令：
 
 ```text
-请用 $threadtruth-studio 识别并推荐风格，不要生图
+请用 $lookset 识别并推荐风格，不要生图
 ```
 
 Use `pass`, `fail` or `not-tested` for each step, with a brief sanitized observation and date. Failure is useful evidence, not a reason to fabricate success. All required steps need real observations before T14 is complete. Host build unavailable stays unavailable, never inferred from the CLI version.
 
 ## 2. Consent and a public-safe receipt / 同意与脱敏记录（T14–T16）
 
-For Issue #1, a separately authorized recognition-only discovery check should compare fresh tasks with (a) a minimal implicit request, (b) the same wording with explicit `$threadtruth-studio`, and (c) a substantive implicit apparel request. Retain the exact sanitized request, first response, actual host/build and observable Skill-load trace; record unavailable trace as unavailable. These checks make zero image-generation calls. Current static style routing tests cannot prove host discovery; the issue remains `open / needs-reproduction` until actual evidence identifies the boundary.
+For Issue #1, a separately authorized recognition-only discovery check should compare fresh tasks with (a) a minimal implicit request, (b) the same wording with explicit `$lookset`, and (c) a substantive implicit apparel request. Retain the exact sanitized request, first response, actual host/build and observable Skill-load trace; record unavailable trace as unavailable. These checks make zero image-generation calls. Current static style routing tests cannot prove host discovery; the issue remains `open / needs-reproduction` until actual evidence identifies the boundary.
 
-Copyable checks / 可直接复制的检查指令：A is the original public [Issue #1](https://github.com/denggui-ai/threadtruth-studio/issues/1) reproduction, recovered on 2026-09-14; B and C are proposed controls, not newly observed passes. Run each in a separate fresh task with the same installed version and no attachment. Do not continue to generation.
+Copyable checks / 可直接复制的检查指令：A is the original public [Issue #1](https://github.com/denggui-ai/lookset/issues/1) reproduction, recovered on 2026-09-14; B and C are proposed controls, not newly observed passes. Run each in a separate fresh task with the same installed version and no attachment. Do not continue to generation.
 
 ```text
 A — 原始隐式请求
 帮我把一件外套做成电商模特图。目前还没有上传图片，也没有授权生图。请简短回应。
 
 B — 仅增加显式调用
-$threadtruth-studio 帮我把一件外套做成电商模特图。目前还没有上传图片，也没有授权生图。请简短回应。
+$lookset 帮我把一件外套做成电商模特图。目前还没有上传图片，也没有授权生图。请简短回应。
 
 C — 具体任务的隐式对照
 我想用一件真实外套制作服饰模特图，之后查看全部24种风格并选择一种做六姿势预览。目前还没有上传图片，也没有授权生图；这次只说明需要我提供什么，不要生成图片。
@@ -65,7 +65,7 @@ Each participant separately decides:
 - Whether to be recorded. / 是否允许录屏。
 - Whether the reviewed, redacted recording may be published, and where. / 是否允许发布脱敏后的最终录屏及发布渠道。
 
-The [installation Issue form](https://github.com/denggui-ai/threadtruth-studio/issues/new?template=installation-feedback.yml) is public and uses the GitHub handle. Declining evidence consent does not make an Issue private. Someone who prefers a pseudonym can contact DENGGUI via WeChat `Lvmusic0930`, provide only a sanitized result and chosen public ID, then approve the exact redacted record before it is published. Do not send passwords, account tokens, customer images or full logs through either channel. No installation is counted until actual non-maintainer and publication-counting consent are recorded; repeated versions or reports count as one person.
+The [installation Issue form](https://github.com/denggui-ai/lookset/issues/new?template=installation-feedback.yml) is public and uses the GitHub handle. Declining evidence consent does not make an Issue private. Someone who prefers a pseudonym can contact DENGGUI via WeChat `Lvmusic0930`, provide only a sanitized result and chosen public ID, then approve the exact redacted record before it is published. Do not send passwords, account tokens, customer images or full logs through either channel. No installation is counted until actual non-maintainer and publication-counting consent are recorded; repeated versions or reports count as one person.
 
 公开 Issue 不能作为私密入口。偏好化名者可通过微信联系 DENGGUI，仅提供脱敏结果与希望公开的化名；维护者展示拟公开记录，取得明确同意后才登记。不要提交凭据、客户图片或完整日志。是否录屏、是否公开录屏和是否计入安装统计是不同的授权，不能相互替代。
 
@@ -108,4 +108,4 @@ Retain the real external report, reporter's non-maintainer status, affected vers
 
 ## Current status / 当前状态
 
-This packet supplies intake and acceptance instructions only. External lifecycle **0/1**, consented installers **0/5**, new complete cases **0/2**, feedback-driven patch **0/1**, and real recording **not recorded** remain unchanged until real evidence is obtained. Use the [task register](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/WORK-STATUS.md) for the current schedule and status.
+This packet supplies intake and acceptance instructions only. External lifecycle **0/1**, consented installers **0/5**, new complete cases **0/2**, feedback-driven patch **0/1**, and real recording **not recorded** remain unchanged until real evidence is obtained. Use the [task register](https://github.com/denggui-ai/lookset/blob/main/docs/WORK-STATUS.md) for the current schedule and status.

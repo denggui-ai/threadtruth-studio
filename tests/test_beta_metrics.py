@@ -14,8 +14,8 @@ class BetaMetricsTests(unittest.TestCase):
         result = metrics.summarize_releases([{
             'tag_name': 'v1.0.0-beta.1', 'body': 'private unrelated content',
             'assets': [
-                {'name': 'threadtruth-studio-1.0.0-beta.1.zip', 'download_count': 3},
-                {'name': 'threadtruth-studio-white-hooded-puffer-vest-korean-cold-1.0.0-beta.1.zip', 'download_count': 7},
+                {'name': 'lookset-1.0.0-beta.1.zip', 'download_count': 3},
+                {'name': 'lookset-white-hooded-puffer-vest-korean-cold-1.0.0-beta.1.zip', 'download_count': 7},
                 {'name': 'white-vest-originals.zip.sha256', 'download_count': 9},
             ]}])
         self.assertEqual(result['downloads'], {'plugin': 3, 'media': 7, 'checksum': 9, 'other': 0})

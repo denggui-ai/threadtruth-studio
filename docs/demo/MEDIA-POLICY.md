@@ -1,10 +1,10 @@
 # Demo media policy
 
-ThreadTruth Studio uses a **CC0-only** policy for institution-sourced auxiliary demo media. The first supported source is The Metropolitan Museum of Art Open Access API. CC BY, CC BY-SA, NC, ND, unknown licenses, and media copied from informal web pages are not eligible.
+Lookset uses a **CC0-only** policy for institution-sourced auxiliary demo media. The first supported source is The Metropolitan Museum of Art Open Access API. CC BY, CC BY-SA, NC, ND, unknown licenses, and media copied from informal web pages are not eligible.
 
 Primary demo media follows a separate authorization path. The maintainer must retain a publication-rights declaration for every real-garment source and for any identifiable model shown in it. Generated results must be disclosed as AI-generated media and may be offered under CC0 only to the extent the project can grant those rights.
 
-The coordinated-outfit preview source and every native or composed asset derived for that collection follow `ThreadTruth-Demo-Only-1.0`, not CC0. They may be displayed and distributed only as part of the ThreadTruth Studio repository and releases; standalone reuse, resale, relicensing and CC0 dedication are not granted. Rights remain with their respective holders, and trademark, privacy, personality and cultural rights are not waived.
+The coordinated-outfit preview source and every native or composed asset derived for that collection follow `ThreadTruth-Demo-Only-1.0`, not CC0. They may be displayed and distributed only as part of the Lookset repository and releases; standalone reuse, resale, relicensing and CC0 dedication are not granted. Rights remain with their respective holders, and trademark, privacy, personality and cultural rights are not waived.
 
 Acquisition does not equal publication. The development tool stores each candidate in the ignored `.threadtruth/` quarantine, verifies source metadata and file evidence, and produces an offline review gallery. Promotion still requires human review confirming that the image contains no identifiable person, logo or trademark, watermark, or sensitive cultural context and that it depicts a physical garment. The reviewer must replace the gallery placeholder with their own public GitHub handle; copying another maintainer's identity is not valid evidence.
 

@@ -3,7 +3,7 @@ import copy, hashlib, importlib.util, unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / 'skills/threadtruth-studio/scripts'
+SCRIPTS = ROOT / 'skills/lookset/scripts'
 
 
 def load(name, filename):

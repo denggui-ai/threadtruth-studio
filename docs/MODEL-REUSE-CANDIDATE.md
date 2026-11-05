@@ -1,6 +1,6 @@
 # 历史模特复用候选：安装与验收
 
-> 以下保留旧候选版本的记录；当前 beta.12 使用[对应试用指南](BETA12-TRYOUT.md)。不要混用旧候选包名与新版校验文件。
+> 以下保留旧候选版本的记录；当前 beta.12 使用[对应试用指南](https://github.com/denggui-ai/lookset/blob/main/docs/BETA12-TRYOUT.md)。不要混用旧候选包名与新版校验文件。
 
 版本：`1.0.0-beta.11+compact.20261005`。源码状态为 **candidate**；简化交互运行文件已完成维护者本机安装核验，尚未发布对应的公开下载包。GitHub 源码同步不等于 Release 发行。
 
@@ -22,9 +22,9 @@
 仅在取得与本版本一致的构建 ZIP 和 `.sha256` 后执行下列步骤；本次源码 PR 不提供公开 Release 下载。保留完整旧版源备份；官方更新可能清除旧缓存。校验值应通过可信渠道核对，它不单独证明发布者身份。
 
 ```sh
-shasum -a 256 -c threadtruth-studio-1.0.0-beta.11+compact.20261005.zip.sha256
-unzip threadtruth-studio-1.0.0-beta.11+compact.20261005.zip
-cd threadtruth-studio-1.0.0-beta.11+compact.20261005
+shasum -a 256 -c lookset-1.0.0-beta.11+compact.20261005.zip.sha256
+unzip lookset-1.0.0-beta.11+compact.20261005.zip
+cd lookset-1.0.0-beta.11+compact.20261005
 python3 install-local.py --replace
 ```
 
@@ -38,12 +38,12 @@ python3 install-local.py --replace
 python3 install-local.py --apply --replace
 ```
 
-它备份原源目录与 marketplace 文件，在用户主目录的 `plugins/threadtruth-studio` 登记候选，并保留其他插件记录；它本身不启用插件。保留输出里的备份位置，执行其 `Next:` 后的完整 Codex 命令。替换时版本可能变为 `1.0.0-beta.11+codex.<时间>-<标识>`；安装器会改写构建标识，因此须同时比对运行文件 SHA-256，不能只看版本名认定包含修复。
+它备份原源目录与 marketplace 文件，在用户主目录的 `plugins/lookset` 登记候选，并保留其他插件记录；它本身不启用插件。保留输出里的备份位置，执行其 `Next:` 后的完整 Codex 命令。替换时版本可能变为 `1.0.0-beta.11+codex.<时间>-<标识>`；安装器会改写构建标识，因此须同时比对运行文件 SHA-256，不能只看版本名认定包含修复。
 
 启用后开一个新的聊天，以便重新加载技能。先做无图片、无生图的发现检查：
 
 ```text
-请用 $threadtruth-studio 说明已有人物参考包如何用于新品，
+请用 $lookset 说明已有人物参考包如何用于新品，
 缺背面时如何安排第六张，以及选定背身母图时能否自动换正面。
 不要生图，不要读取任何个人照片。
 ```

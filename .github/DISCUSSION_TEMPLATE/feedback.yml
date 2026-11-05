@@ -57,5 +57,5 @@ body:
     attributes:
       label: Evidence consent
       options:
-        - label: I am not a maintainer of ThreadTruth Studio.
+        - label: I am not a maintainer of Lookset.
         - label: This sanitized report may be counted in the public Beta register.

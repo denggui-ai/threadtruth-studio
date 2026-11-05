@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/2278091160dg-rgb/threadtruth-studio/raw/main/docs/demo/primary-rights-v1.schema.json",
-  "title": "ThreadTruth Studio primary demo rights record v1",
+  "$id": "https://github.com/denggui-ai/lookset/raw/main/docs/demo/primary-rights-v1.schema.json",
+  "title": "Lookset primary demo rights record v1",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema_version", "case_id", "work_id", "status", "role", "primary_demo_status", "style", "route", "source_rights", "media_license", "assets", "hero", "quality", "human_review", "ai_content_label", "promoted_at", "notices"],

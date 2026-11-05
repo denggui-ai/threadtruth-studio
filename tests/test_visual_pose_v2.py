@@ -5,7 +5,7 @@ from pathlib import Path
 import unittest
 
 
-SCRIPTS = Path(__file__).resolve().parents[1] / 'skills/threadtruth-studio/scripts'
+SCRIPTS = Path(__file__).resolve().parents[1] / 'skills/lookset/scripts'
 
 
 def module(name):

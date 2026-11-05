@@ -217,7 +217,7 @@ class RevisionRecoveryTests(unittest.TestCase):
 
     def test_cancel_cli_has_zero_call_side_effect(self):
         self.f.returned();self.f.revise();p=task.read(self.f.job)['preview_revision']
-        result=subprocess.run([sys.executable,str(ROOT/'skills/threadtruth-studio/scripts/web-task.py'),
+        result=subprocess.run([sys.executable,str(ROOT/'skills/lookset/scripts/web-task.py'),
             'cancel-preview-revision','--task',str(self.f.job),'--look','1','--note','Synthetic withdraw',
             '--expected-candidate-sha256',p['candidate_sha256'],'--expected-output-sha256',p['output_sha256']],capture_output=True,text=True)
         self.assertEqual(result.returncode,0,result.stderr);self.assertEqual(task.read(self.f.job)['attempts'],1)

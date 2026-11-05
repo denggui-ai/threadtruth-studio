@@ -297,7 +297,7 @@ async function check(name, fn) {
       const context=await browser.newContext();
       try {
         const p=await context.newPage(); await p.goto(origin);
-        const source=JSON.parse(fs.readFileSync(path.resolve(__dirname,'../skills/threadtruth-studio/references/visual-library/index.json'),'utf8')).entries.map(e=>e.id);
+        const source=JSON.parse(fs.readFileSync(path.resolve(__dirname,'../skills/lookset/references/visual-library/index.json'),'utf8')).entries.map(e=>e.id);
         assert.deepEqual(await p.locator('.direction-entry').evaluateAll(nodes=>nodes.map(n=>n.dataset.directionId)),source);
         assert.deepEqual(await p.locator('.direction-jump').evaluateAll(nodes=>nodes.map(n=>n.dataset.directionLink)),source);
         assert.equal(await p.locator('[data-content-kind="example"] .highlight-image').count(),24);

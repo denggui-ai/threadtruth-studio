@@ -8,7 +8,7 @@ import copy, hashlib, importlib.util, json, re, subprocess, sys, tempfile, unitt
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / 'skills/threadtruth-studio/scripts'
+SCRIPTS = ROOT / 'skills/lookset/scripts'
 _SPEC = importlib.util.spec_from_file_location('validation_messages_shot_plan', SCRIPTS / 'shot_plan.py')
 shot = importlib.util.module_from_spec(_SPEC); _SPEC.loader.exec_module(shot)
 
