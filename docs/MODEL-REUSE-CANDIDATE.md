@@ -1,6 +1,6 @@
 # 历史模特复用候选：安装与验收
 
-> 以下保留旧候选版本的记录；当前 beta.12 使用[对应试用指南](https://github.com/denggui-ai/lookset/blob/main/docs/BETA12-TRYOUT.md)。不要混用旧候选包名与新版校验文件。
+> 以下保留旧候选版本的记录；当前 beta.12 使用[对应试用指南](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/BETA12-TRYOUT.md)。不要混用旧候选包名与新版校验文件。
 
 版本：`1.0.0-beta.11+compact.20261005`。源码状态为 **candidate**；简化交互运行文件已完成维护者本机安装核验，尚未发布对应的公开下载包。GitHub 源码同步不等于 Release 发行。
 

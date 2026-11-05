@@ -2,7 +2,7 @@
 
 This is an unfilled collection guide, not evidence of a completed test. It does not authorize installing on somebody else's machine, recording, posting, or image generation. / 本页是待填写的验收资料包，不是已完成证据，也不自动授权安装、录屏、发帖或生图。
 
-Use alongside [installation instructions](INSTALL.md), [compatibility](COMPATIBILITY.md), [the Beta register](BETA.md) and [recruitment drafts](https://github.com/denggui-ai/lookset/blob/main/docs/BETA-RECRUITMENT.md). The public beta.2 can be tested before the new preview gallery exists.
+Use alongside [installation instructions](INSTALL.md), [compatibility](COMPATIBILITY.md), [the Beta register](BETA.md) and [recruitment drafts](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/BETA-RECRUITMENT.md). The public beta.2 can be tested before the new preview gallery exists.
 
 ## 1. One clean external lifecycle / 一次外部干净环境全流程（T14）
 

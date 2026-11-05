@@ -1,7 +1,7 @@
 # Lookset · Codex 服饰 AI 插件 / Lookset — Installation
 
 
-> **本页用于 0.1.0-beta.1 预发布版 / This page covers the 0.1.0-beta.1 prerelease.** 首次使用可配合随包附带的[离线使用指南 / offline user guide](../USER-GUIDE.html)；[beta.12 试用指南](https://github.com/denggui-ai/lookset/blob/main/docs/BETA12-TRYOUT.md)为历史版本记录。旧版使用对应归档内指南，不要混用版本、命令和校验文件。
+> **本页用于 0.1.0-beta.1 预发布版 / This page covers the 0.1.0-beta.1 prerelease.** 首次使用可配合随包附带的[离线使用指南 / offline user guide](../USER-GUIDE.html)；[beta.12 试用指南](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/BETA12-TRYOUT.md)为历史版本记录。旧版使用对应归档内指南，不要混用版本、命令和校验文件。
 
 [English](#english) | [简体中文](#简体中文)
 
