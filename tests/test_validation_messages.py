@@ -230,6 +230,20 @@ class VisualPlanMessageTests(unittest.TestCase):
         spec['culture_profile']['id'] = 'qipao-source-profile'
         self.library.prepare(spec)
 
+    def test_culture_component_missing_version_names_path_keys_and_example(self):
+        spec = self.spec()
+        spec['culture_profile'] = dict(id='contemporary-qipao', scope='Synthetic culture profile.')
+        with self.assertRaises(ValueError) as caught:
+            self.library.prepare(spec)
+        message = str(caught.exception)
+        for part in ('visual_plan.culture_profile', "received keys: ['id', 'scope']",
+                     '{"id": "qipao-source-profile", "version": 1, "scope": "…"}',
+                     '改正后重新 prepare --output 到新文件名'):
+            self.assertIn(part, message)
+        spec['culture_profile']['version'] = 1
+        plan = self.library.prepare(spec)
+        self.assertEqual(plan['culture_profile']['snapshot'], spec['culture_profile'])
+
     def test_camera_key_error_gives_composition_example_without_rejecting_optional_framing(self):
         shots = self.full_shots()
         shots[0]['camera'] = shots[0].pop('composition')

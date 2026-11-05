@@ -96,6 +96,11 @@ def card(entry_id, root=ROOT):
 
 
 def component(snapshot, path='visual_plan.style.primary'):
+    if not isinstance(snapshot, dict) or 'id' not in snapshot or 'version' not in snapshot:
+        keys = repr(list(snapshot)) if isinstance(snapshot, dict) else f'none (got {type(snapshot).__name__})'
+        raise ValueError(f'{path} must be a dict with id and version; received keys: {keys}; '
+                         'e.g. {"id": "qipao-source-profile", "version": 1, "scope": "…"}; '
+                         '改正后重新 prepare --output 到新文件名')
     visual = _visual()
     result = dict(id=snapshot['id'], version=snapshot['version'],
                   sha256=visual.object_hash(snapshot), snapshot=copy.deepcopy(snapshot))
@@ -318,7 +323,7 @@ def prepare(spec, root=ROOT, *, frozen_visual_plan=None):
         # An editorial-only exclusion must not fight a catalog-style objective.
         negatives = [item for item in negatives if item != 'no e-commerce catalog look']
     plan = dict(contract=_visual().CONTRACT, version=version, objective=objective, output_medium=medium, output_form=output_form,
-                style=dict(primary=component(primary), supporting=supporting,
+                style=dict(primary=component(primary, 'visual_plan.style.primary'), supporting=supporting,
                            fusion_note=spec.get('fusion_note', '')),
                 garment=copy.deepcopy(spec['garment']),
                 styling=copy.deepcopy(overrides.get('styling', [])),
