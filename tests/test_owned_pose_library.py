@@ -8,7 +8,7 @@ from test_pose_plan_v2 import sample_plan, inventory, shot, FRONT, BACK
 import test_nine_task as ledger_fixtures
 
 ROOT = Path(__file__).resolve().parents[1]
-spec = importlib.util.spec_from_file_location('owned_poses', ROOT / 'skills/threadtruth-studio/scripts/pose_library.py')
+spec = importlib.util.spec_from_file_location('owned_poses', ROOT / 'skills/lookset/scripts/pose_library.py')
 library = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(library)
 
@@ -26,7 +26,7 @@ class OwnedPoseTests(unittest.TestCase):
         self.assertEqual((len(rows),len({r['group_id'] for r in rows})),(60,52))
         # Final gallery-data + correction targets, not the initial manifest's old filenames.
         inventory_digest=library.digest(sorted((r['group_id'],r['view'],r['path'],r['sha256']) for r in rows))
-        self.assertEqual(inventory_digest,'2f950f254ae61a630290f3c01c52e5c66e84e0029dabb5d26b3f36e17aa5c755')
+        self.assertEqual(inventory_digest,'cfe09d6f45c519039c1ba0abe211db00305c8aecd8a71a77dcf6a92cfe6b73a3')
         for r in rows:
             selected, ref = library.selection(r['group_id'],r['view'],origin='user')
             self.assertEqual(r['sha256'], selected['definition']['sha256'])
@@ -49,7 +49,7 @@ class OwnedPoseTests(unittest.TestCase):
         rows=library.candidates(query=pose,include_restricted=True)
         self.assertEqual(len(rows),1)
         self.assertEqual(rows[0]['path'],'images/tt-close-sleeve-push--diag--v4.png')
-        self.assertEqual(rows[0]['sha256'],'86304016ed6103496567a9bd9cf41a8a6e70aa492219f672bd27564c16bfc795')
+        self.assertEqual(rows[0]['sha256'],'5360d787b900db4a58f5f69be250ff0e79552d45e786e436b2aaef5e5036e251')
         for origin,mode in [('auto','text'),('auto','image')]:
             with self.subTest(origin=origin,mode=mode),self.assertRaisesRegex(ValueError,'user-only'):
                 library.selection(pose,view,origin=origin,mode=mode)
@@ -109,11 +109,24 @@ class OwnedPoseTests(unittest.TestCase):
             ('tt-turn-back-still','back'):'426f9d88d0285afbd61e232bcc37e672febff0750ff8c5b2d43efd56c7aa108e',
             ('tt-turn-back-quarter','back'):'6f0cde3eac8b8cb8c2ad56296e6387de7715233557a298357090acdbc579bb64',
         }
-        for (pose,view),digest in expected.items():
+        # beta.2 compresses live images; old tasks keep their frozen definitions.
+        frozen=json.loads((ROOT/'tests/fixtures/owned-pose-original-sixteen.json').read_text())
+        self.assertEqual(len(frozen),len(expected))
+        for selected in frozen:
+            definition=selected['definition']
+            pose,view=definition['group_id'],definition['view']
             with self.subTest(pose=pose,view=view):
-                selected,_=library.selection(pose,view)
-                self.assertEqual(selected['definition_sha256'],digest)
-                self.assertEqual(set(selected['definition']),library.DEFINITION_FIELDS)
+                self.assertEqual(selected['definition_sha256'],expected[(pose,view)])
+                self.assertEqual(set(definition),library.DEFINITION_FIELDS)
+                library._validate_snapshot(selected)
+                plan=sample_plan(1)
+                plan['variety_checks']=2
+                plan['looks'][0].update({k:definition[k] for k in ('body_action','hands','support')})
+                plan['looks'][0].update(pose_id=pose,pose_selection=selected,
+                                        garment_views=definition['garment_views'])
+                if 'back' in definition['garment_views']:
+                    plan['looks'][0]['reference_sha256s']=[FRONT,BACK]
+                self.checked(plan)
 
     def test_text_and_image_share_body_but_select_different_attachments(self):
         text, no_ref = self.choose()
@@ -196,7 +209,7 @@ class ExpandedPoseRequestTests(unittest.TestCase):
         self.fixture.setUp()
         self.addCleanup(self.fixture.doCleanups)
         self.task=ledger_fixtures.task
-        spec=importlib.util.spec_from_file_location('expanded_pose_visual',ROOT/'skills/threadtruth-studio/scripts/visual_library.py')
+        spec=importlib.util.spec_from_file_location('expanded_pose_visual',ROOT/'skills/lookset/scripts/visual_library.py')
         self.visual=importlib.util.module_from_spec(spec)
         spec.loader.exec_module(self.visual)
 

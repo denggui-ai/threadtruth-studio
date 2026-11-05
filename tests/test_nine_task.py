@@ -13,7 +13,7 @@ from PIL import Image
 from tests.test_pose_plan_v2 import sample_plan
 
 ROOT = Path(__file__).resolve().parents[1]
-SPEC = importlib.util.spec_from_file_location('nine_task_under_test', ROOT / 'skills/threadtruth-studio/scripts/web-task.py')
+SPEC = importlib.util.spec_from_file_location('nine_task_under_test', ROOT / 'skills/lookset/scripts/web-task.py')
 task = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(task)
 

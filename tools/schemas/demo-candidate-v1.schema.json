@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/2278091160dg-rgb/threadtruth-studio/raw/main/tools/schemas/demo-candidate-v1.schema.json",
-  "title": "ThreadTruth Studio demo candidate evidence v1",
+  "$id": "https://github.com/denggui-ai/lookset/raw/main/tools/schemas/demo-candidate-v1.schema.json",
+  "title": "Lookset demo candidate evidence v1",
   "type": "object",
   "required": [
     "schema_version",

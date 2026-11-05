@@ -6,7 +6,7 @@ from PIL import Image
 from tests.test_style_pose_pool import bind_pool_actions
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILL = ROOT / 'skills/threadtruth-studio'
+SKILL = ROOT / 'skills/lookset'
 SCRIPTS = SKILL / 'scripts'
 QUICKSTART = SKILL / 'references/runtime-quickstart.md'
 SIZE = [2, 3]   # ratio-first: the first returned image fixes the pixel baseline

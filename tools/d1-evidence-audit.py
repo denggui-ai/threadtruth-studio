@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Audit D1 evidence directories for threadtruth-studio.
+"""Audit D1 evidence directories for lookset.
 
 This is a read-only verifier for the local evidence shape used by the
 style-pack D1 batch and A-anchor raw-event packets:
@@ -314,7 +314,7 @@ def audit_pack(d: Path, matrix: dict[str, str], mode: str) -> dict[str, object]:
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Read-only audit for threadtruth-studio D1 evidence directories."
+        description="Read-only audit for lookset D1 evidence directories."
     )
     parser.add_argument(
         "root",

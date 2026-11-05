@@ -1,25 +1,25 @@
-# 裁光能力与用法 / Capabilities & usage
+# Lookset能力与用法 / Capabilities & usage
 
-## 2026-11-02：beta.18预发布版
+## 0.1.0-beta.2 预发布版
 
-本版`1.0.0-beta.18`包含52动作／60视图、现有36个视觉入口，以及知识修饰语、文化依据和主辅风格到实际计划字段的转译。可在修改本轮拍法时同步修订冲突承诺，保持商品事实与人物条件。22卡／176条动作已接入共享池；可对照明确指定的历史任务检查精确／有限英文文字近似重复，并按当前商品展示目标、素材视角和历史结果提供可解释排序。缺证会提示，推荐不会自动改计划或附图。用户不需要填写内部字段；先看[本版使用指南](STUDIO-CANDIDATE.md)或[选姿说明](POSE-LIBRARY-TRYOUT.md)。
+本版`0.1.0-beta.2`包含52动作／60视图、现有36个视觉入口，以及知识修饰语、文化依据和主辅风格到实际计划字段的转译。可在修改本轮拍法时同步修订冲突承诺，保持商品事实与人物条件。22卡／176条动作已接入共享池；可对照明确指定的历史任务检查精确／有限英文文字近似重复，并按当前商品展示目标、素材视角和历史结果提供可解释排序。缺证会提示，推荐不会自动改计划或附图。用户不需要填写内部字段；先看[本版使用指南](STUDIO-CANDIDATE.md)或[选姿说明](POSE-LIBRARY-TRYOUT.md)。
 
 源码链路有限定验证，同运行源码已在维护者本机备份安装核对；实际画面收益未证实。59图几何可参考；推袖R029/v4仍受限，默认排除、仅用户明确指定可用，两种模式均不能用于腰腹无遮挡目标。六图对照qa-retry及商品／人物缺口保持。当前包含52／60图库；下文beta.15/beta.16及图库属于历史基线说明。
 
 
 ## 历史基线 · 2026-10-30 beta.15：服饰视觉工作室
 
-beta.15 预发布版包含素材识别、人物选择与复用、视觉方向、拍摄方案、双路线生成和验收修改的规划、编译与任务记录。支持商品展示、穿搭编辑、艺术广告三种用途；目标交付为完整独立图片。36 个视觉入口由 24 个原风格入口与 12 个新执行入口组成，实际目录见[36入口索引](../skills/threadtruth-studio/references/visual-library/index.json)；36 张入口卡的 status 仍为 draft。入口之外另有 207 条知识记录（来源目录 132、国内市场表达 46、修饰语 9、中国文化服饰 20），供模型在方向两可时查阅，不是入口，也不是同数量的出图方案或已验证样片。
+beta.15 预发布版包含素材识别、人物选择与复用、视觉方向、拍摄方案、双路线生成和验收修改的规划、编译与任务记录。支持商品展示、穿搭编辑、艺术广告三种用途；目标交付为完整独立图片。36 个视觉入口由 24 个原风格入口与 12 个新执行入口组成，实际目录见[36入口索引](../skills/lookset/references/visual-library/index.json)；36 张入口卡的 status 仍为 draft。入口之外另有 207 条知识记录（来源目录 132、国内市场表达 46、修饰语 9、中国文化服饰 20），供模型在方向两可时查阅，不是入口，也不是同数量的出图方案或已验证样片。
 
 新增入口：美式复古日常、哥特服饰摄影、浪漫波西米亚、未来人工光摄影、汉服指定形制、旗袍都市人像、林芝工布服饰、婚纱空灵、Lolita层次、服饰插画、Art Deco图形布景、超现实空间广告。文化入口仅按具体参考声明能力，尚无实图验证；不代表整个文化体系。
 
 方案在准备时冻结，原生、网页、预览修订、单张／整组承接和提示词导出共用；旧任务继续使用原冻结内容。多个方向可分别比较或按已明确主辅融合；色彩、场景与风格不机械互斥。仅提示词不调用生图，上传和风格选择不产生调用授权；生图前技能必须先经账本脚本记录本任务授权与每次调用。
 
-**状态：beta.15 已随预发布版发布，实图验证仍少。** 默认流程改为服饰驱动的九张编排：先 1 张标注"非成片"的 3×3 九格方向预览，确认方向后按授权逐张生成九张独立图；明确要求六张、经典六姿势或非人像时为 6 张，主动单张为 1 张。实图证据目前只有一次真实 Codex 会话（牛仔套装，九格预览与首张成片经账本落地，提示词零手写）；36 个入口尚未逐个跑图验证，36 张入口卡 status 仍为 draft。2026-10-18 改版候选期的配对样本与失败记录保留原结论，见[验证边界](COMPATIBILITY.md#current-source-candidate--当前源码候选)。下面历史案例保留原范围；执行卡存在不代表画面已提升。准备机制见[视觉方案](../skills/threadtruth-studio/references/visual-plan.md)；线上图库仍是六图时期历史案例。
+**状态：beta.15 已随预发布版发布，实图验证仍少。** 默认流程改为服饰驱动的九张编排：先 1 张标注"非成片"的 3×3 九格方向预览，确认方向后按授权逐张生成九张独立图；明确要求六张、经典六姿势或非人像时为 6 张，主动单张为 1 张。实图证据目前只有一次真实 Codex 会话（牛仔套装，九格预览与首张成片经账本落地，提示词零手写）；36 个入口尚未逐个跑图验证，36 张入口卡 status 仍为 draft。2026-10-18 改版候选期的配对样本与失败记录保留原结论，见[验证边界](COMPATIBILITY.md#current-source-candidate--当前源码候选)。下面历史案例保留原范围；执行卡存在不代表画面已提升。准备机制见[视觉方案](../skills/lookset/references/visual-plan.md)；线上图库仍是六图时期历史案例。
 
 ## 历史增量：2026-10-17预览修订与双路由
 
-可在同一未关闭任务中修订已评定预览，保留技术QA与原图，单次授权后启用最新人物/逐格方案。商品正背覆盖决定第6姿态；经典第3半身、第5站立自然垂臂微前倾，明确适配才改变。转成片继承最新方案；预览不作身份锚点。案例下限和预先声明的提升分别验收。此源码未安装、未生图；离线通过不表示图片优于案例。运行机制见[预览记录](../skills/threadtruth-studio/references/preview-ledger.md)；候选拓扑与验证记录保留在开发源docs/ARCHITECTURE.md及docs/verification/2026-10-17-preview-plan-revision.md，尚未发布。
+可在同一未关闭任务中修订已评定预览，保留技术QA与原图，单次授权后启用最新人物/逐格方案。商品正背覆盖决定第6姿态；经典第3半身、第5站立自然垂臂微前倾，明确适配才改变。转成片继承最新方案；预览不作身份锚点。案例下限和预先声明的提升分别验收。此源码未安装、未生图；离线通过不表示图片优于案例。运行机制见[预览记录](../skills/lookset/references/preview-ledger.md)；候选拓扑与验证记录保留在开发源docs/ARCHITECTURE.md及docs/verification/2026-10-17-preview-plan-revision.md，尚未发布。
 
 
 [用户架构总图（GitHub在线）](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md) · [当前能力盘点：实现、验证与缺口](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/CAPABILITY-STATUS.md)
@@ -28,7 +28,7 @@ beta.15 预发布版包含素材识别、人物选择与复用、视觉方向、
 
 Start with real garment photos, identify the source and choose a direction before generating. This guide describes the **beta.15** workflow, including explicit single-image composition, real-person view coverage and per-image reference selection. The default flow is style selection, one labeled nine-panel direction preview, direction confirmation and nine garment-driven independent images; explicit single-image, six-image and classic six-pose requests are preserved. Use the matching release package. Check installation records for the active local version. Not every combination has been tested.
 
-[开始安装 / Install](INSTALL.md) · [产品首页 / Website](https://denggui-ai.github.io/threadtruth-studio/) · [24 风格样例（历史） / Style examples (historical)](https://denggui-ai.github.io/threadtruth-studio/#style-highlights) · [兼容性 / Compatibility](COMPATIBILITY.md)
+[开始安装 / Install](INSTALL.md) · [产品首页 / Website](https://denggui-ai.github.io/lookset/) · [24 风格样例（历史） / Style examples (historical)](https://denggui-ai.github.io/lookset/#style-highlights) · [兼容性 / Compatibility](COMPATIBILITY.md)
 
 默认选风格（主推、两个备选与完整36个视觉入口目录）→ 授权 1 张九格方向预览（标注非成片）→ 确认方向 → 按授权生成按服饰编排的九张独立图。实际首张仍须人物确认，确认后其余八张沿用人物参考；已有授权沿用。明确要求六张或经典六姿势时按 6 张执行；用户主动要求单张则走单张，验收后结束，不强制预览或扩组。模特参考包与受限局部换装见[模特复用](MODEL-REUSE.md)。
 
@@ -82,9 +82,9 @@ Each native request allows at most five references, including the accepted first
 
 An explicitly requested single-image pose, framing or footwear follows the confirmed plan. For edits, the target image is an edit target while the original identity reference remains the identity source; a rejected result must not replace it.
 
-[准备素材 / Photo guide](INPUT-GUIDE.md) · [单件 24 风格预览（历史） / Garment previews (historical)](demo/style-previews/white-vest-24-v1/) · [套装 24 风格预览（历史） / Outfit previews (historical)](demo/style-previews/beige-blazer-denim-outfit-24-v1/)
+[准备素材 / Photo guide](INPUT-GUIDE.md) · [单件 24 风格预览（历史） / Garment previews (historical)](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/demo/style-previews/white-vest-24-v1) · [套装 24 风格预览（历史） / Outfit previews (historical)](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/demo/style-previews/beige-blazer-denim-outfit-24-v1)
 
-两套历史预览均为每风格一张六宫格，不是独立成片。分发包内保留白马甲六图历史案例；线上另有[六组六图案例](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html)，含外部试用套装，各组保留来源与验收范围。 / Both historical collections contain one six-panel sheet per style, not independent finals. The bundle retains the historical white-vest case; six reviewed groups, including an external outfit trial, are available online with their own source and review scope.
+两套历史预览均为每风格一张六宫格，不是独立成片。白马甲六图历史案例改为在线查看，不随安装包分发；线上另有[六组六图案例](https://denggui-ai.github.io/lookset/reviewed-cases.html)，含外部试用套装，各组保留来源与验收范围。 / Both historical collections contain one six-panel sheet per style, not independent finals. The historical white-vest case is available online and is not bundled; six reviewed groups, including an external outfit trial, are available online with their own source and review scope.
 
 ## 第一次用，先做这一步 / Start here
 
@@ -93,11 +93,11 @@ An explicitly requested single-image pose, framing or footwear follows the confi
 After enabling the Plugin, upload a clear, authorized garment or coordinated-outfit photo in a **new Codex task**. Choose either language below. This step does not generate images.
 
 ```text
-请用 $threadtruth-studio 识别并推荐风格，不要生图
+请用 $lookset 识别并推荐风格，不要生图
 ```
 
 ```text
-Use $threadtruth-studio to identify this garment and recommend styles. Do not generate images.
+Use $lookset to identify this garment and recommend styles. Do not generate images.
 ```
 
 预期得到：素材核对、主推与两个备选及完整36个视觉入口目录。默认下一阶段是 1 张标注非成片的九格方向预览，确认方向后九张独立图；人物因子按需。看不清的细节应标为不确定或请求补图；不会因为上传照片就自动消耗生图额度。
@@ -119,7 +119,7 @@ Expect source checks, a primary recommendation, two alternatives and all 36 visu
 | **选择入口 / Choose a route** | 同一方案 → Codex 原生生图，或 ChatGPT 网页转交包。 / The same plan → Codex generation or a ChatGPT web handoff. | 默认 Codex；网页为显式选择。网页自动执行需宿主浏览器工具；可转手动流程。 / Codex by default; web is opt-in. Automation needs host browser tools; a manual path is documented. | 维护者 macOS 已完成网页六张流程（六图时期）；非维护者新机器与真人手动易用性未验证。 / A six-image web run is recorded on the maintainer's Mac (six-image era); fresh-host and human manual usability remain unverified. |
 | **检查与修正 / Review & retry** | 源图、生成原文件与反馈 → 逐张问题记录、尺寸核对和授权后的单张重试。 / Sources, original outputs and feedback → per-image review, dimension checks and an authorized retry. | 有 QA 指令；网页助手校验尺寸、重复文件、顺序与请求记录。失败不会自动获得重试权限。 / QA instructions and web-helper size, duplicate, sequencing and request checks. Failures do not grant retry permission. | 本地助手有回归测试；视觉判断仍需对照源图及人工确认，不能保证小字、Logo 或合体效果。 / Helper regression tests exist; visual quality still requires source comparison and human review. |
 
-对应规则与证据：[识别规则](../skills/threadtruth-studio/references/recognition.md)、[风格路由](../skills/threadtruth-studio/references/style-router.md)、[公开图库](https://denggui-ai.github.io/threadtruth-studio/compare.html)、[完整案例](demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)、[版本与环境记录](COMPATIBILITY.md)、[网页助手测试（在线源码，需联网）](https://github.com/denggui-ai/threadtruth-studio/blob/main/tests/test_web_task.py)。测试源码不包含在插件 ZIP 内。 / Test source is online and is not included in the plugin ZIP.
+对应规则与证据：[识别规则](../skills/lookset/references/recognition.md)、[风格路由](../skills/lookset/references/style-router.md)、[公开图库](https://denggui-ai.github.io/lookset/compare.html)、[完整案例](https://github.com/denggui-ai/lookset/blob/main/docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)、[版本与环境记录](COMPATIBILITY.md)、[网页助手测试（在线源码，需联网）](https://github.com/denggui-ai/threadtruth-studio/blob/main/tests/test_web_task.py)。测试源码不包含在插件 ZIP 内。 / Test source is online and is not included in the plugin ZIP.
 
 Rules and evidence: recognition and routing references, public gallery, complete case, version/environment records and web-helper tests linked above. Tests of a helper are not end-to-end image-generation tests.
 
@@ -135,7 +135,7 @@ Style controls the visual direction, mode the setting, presentation whether a mo
 | 输出形式 / Presentation | 真人模特 / human model；不露脸局部 / faceless detail；平铺 / flat-lay；挂拍 / hanger；人台 / mannequin | 后四种可明确请求；规则已定义，验证范围见上表。 / The latter four are opt-in; their evidence limits are listed above. |
 | 画幅 / Canvas | 明确比例或像素优先；未指定用途与比例时，独立成片默认 2:3。 / Explicit ratio or pixels take priority; independent images default to 2:3 when neither ratio nor use is specified. | 生成后读取文件尺寸；只写在提示词里不算通过。 / Check output metadata; a prompt is not proof of compliance. |
 
-用途可辅助确定画幅与构图；电商主图、小红书封面、详情页、品牌大片的默认规则见[拍摄与画布说明](../skills/threadtruth-studio/references/modes-scenes.md)。这里提供图片素材，不自动制作带字海报、完整电商详情页，也不承诺平台审核通过。
+用途可辅助确定画幅与构图；电商主图、小红书封面、详情页、品牌大片的默认规则见[拍摄与画布说明](../skills/lookset/references/modes-scenes.md)。这里提供图片素材，不自动制作带字海报、完整电商详情页，也不承诺平台审核通过。
 
 Use cases can guide canvas and composition; see the linked mode/canvas reference. This produces image assets, not automatic typography, a complete ecommerce detail page or guaranteed platform acceptance.
 
@@ -230,7 +230,7 @@ See the web tutorial for upload approval, manual steps, browser requirements and
 - **工具测试 / Helper tests：** 可证明测试覆盖的顺序、次数、文件和尺寸检查行为；不能代替生成图片的视觉验收。2026-10-08 记录时源码391项通过；27项真人规划新增回归及源侧场景均按各自范围记录。 / Tests establish covered helper behavior, not the visual quality of generated images.
 - **环境实测 / Environment runs：** 当前公开记录以维护者 macOS 为主。其他系统、新用户安装和人工手动易用性仍需各自验证。 / Published records focus on the maintainer's Mac. Other systems, fresh-user installation and manual usability need their own evidence.
 
-这里的“试穿”指 AI 模特上身展示；不承诺指定真人身份换装、尺码/合体仿真、非服饰商品生成或无人值守商业交付工具。商品照片用于读取服饰；明确身份参考可沿用可见人物条件，但不承诺严格复刻真人身份。样例有各自媒体条款，公开可见不等于可任意商用。详见 [README 限制](../README.zh-CN.md#适用范围与限制) 与[媒体条款](demo/RIGHTS.md)。
+这里的“试穿”指 AI 模特上身展示；不承诺指定真人身份换装、尺码/合体仿真、非服饰商品生成或无人值守商业交付工具。商品照片用于读取服饰；明确身份参考可沿用可见人物条件，但不承诺严格复刻真人身份。样例有各自媒体条款，公开可见不等于可任意商用。详见 [README 限制](../README.zh-CN.md#适用范围与限制) 与[媒体条款](https://github.com/denggui-ai/lookset/blob/main/docs/demo/RIGHTS.md)。
 
 Here, “try-on” means apparel presented on an AI model. This does not promise identity-preserving try-on on a supplied person, size/fit simulation, non-apparel generation or unattended commercial delivery. Product photos supply garment facts; explicit identity references can preserve visible identity targets without a promise of exact real-person reproduction. Public examples retain their own media terms; public visibility is not unrestricted commercial permission.
 

@@ -11,7 +11,7 @@ import unittest
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPT = ROOT/'skills/threadtruth-studio/scripts/web-task.py'
+SCRIPT = ROOT/'skills/lookset/scripts/web-task.py'
 spec = importlib.util.spec_from_file_location('preview_ledger', SCRIPT)
 m = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(m)

@@ -13,7 +13,7 @@ import unittest
 from PIL import Image
 
 sys.dont_write_bytecode = True
-SCRIPT = Path(__file__).resolve().parents[1] / 'skills/threadtruth-studio/scripts/web-task.py'
+SCRIPT = Path(__file__).resolve().parents[1] / 'skills/lookset/scripts/web-task.py'
 spec = importlib.util.spec_from_file_location('flow_ledger_under_test', SCRIPT)
 ledger = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(ledger)

@@ -9,7 +9,7 @@ body:
         This Issue is public. Do not attach customer media, local paths, private prompts, credentials or full logs.
         此 Issue 公开可见；是否计入 Beta 统计需下方单独同意。不要提供私有素材或凭据。
 
-        Before reporting a failure, check [Troubleshooting](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/INSTALL.md#troubleshooting). / 提交失败反馈前，可先查看[安装排查](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/INSTALL.md#安装排查)。
+        Before reporting a failure, check [Troubleshooting](https://github.com/denggui-ai/lookset/blob/main/docs/INSTALL.md#troubleshooting). / 提交失败反馈前，可先查看[安装排查](https://github.com/denggui-ai/lookset/blob/main/docs/INSTALL.md#安装排查)。
   - type: input
     id: plugin_version
     attributes:
@@ -37,7 +37,7 @@ body:
     id: discovery
     attributes:
       label: Explicit Skill discovery / 显式发现
-      description: Did a new Codex task accept `$threadtruth-studio`? / 新建的 Codex 任务能否调用 `$threadtruth-studio`？
+      description: Did a new Codex task accept `$lookset`? / 新建的 Codex 任务能否调用 `$lookset`？
       options: [pass, fail, not-tested]
     validations:
       required: true
@@ -72,5 +72,5 @@ body:
     attributes:
       label: Optional evidence declaration / 自愿证据声明
       options:
-        - label: I am not a Caiguang maintainer. / 我不是本项目维护者。
+        - label: I am not a Lookset maintainer. / 我不是本项目维护者。
         - label: I consent to this sanitized result being counted under my public GitHub handle in the Beta register. / 同意以公开 GitHub 身份将脱敏结果计入 Beta 台账。

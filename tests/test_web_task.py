@@ -6,7 +6,7 @@ import unittest
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
-spec = importlib.util.spec_from_file_location('web_task', ROOT/'skills/threadtruth-studio/scripts/web-task.py')
+spec = importlib.util.spec_from_file_location('web_task', ROOT/'skills/lookset/scripts/web-task.py')
 m = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(m)
 

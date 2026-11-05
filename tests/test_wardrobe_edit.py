@@ -8,7 +8,7 @@ import tempfile
 import unittest
 from PIL import Image
 
-SCRIPT = Path(__file__).resolve().parents[1]/'skills/threadtruth-studio/scripts/wardrobe-edit.cjs'
+SCRIPT = Path(__file__).resolve().parents[1]/'skills/lookset/scripts/wardrobe-edit.cjs'
 
 class WardrobeEditTests(unittest.TestCase):
     def setUp(self):

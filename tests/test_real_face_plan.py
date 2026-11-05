@@ -12,7 +12,7 @@ from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location(
-    'real_face_task', ROOT / 'skills/threadtruth-studio/scripts/web-task.py')
+    'real_face_task', ROOT / 'skills/lookset/scripts/web-task.py')
 m = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(m)
 
@@ -391,7 +391,7 @@ class RealFacePlanTests(unittest.TestCase):
                     real_face_looks=[self.look(body='continuation action ' + str(i)) for i in range(5)])
         file = self.root / 'continue-spec.json'
         file.write_text(json.dumps(spec))
-        result = subprocess.run([sys.executable, str(ROOT / 'skills/threadtruth-studio/scripts/web-task.py'),
+        result = subprocess.run([sys.executable, str(ROOT / 'skills/lookset/scripts/web-task.py'),
                                  'continue-authorize', '--task', str(self.task), '--spec', str(file),
                                  '--approval-id', 'cli-five-images', '--note', 'Human approves five images'],
                                 capture_output=True, text=True)
@@ -452,7 +452,7 @@ class RealFacePlanTests(unittest.TestCase):
                     real_face_plan=self.plan(extra=True))
         file = self.root / 'spec.json'
         file.write_text(json.dumps(spec))
-        result = subprocess.run([sys.executable, str(ROOT / 'skills/threadtruth-studio/scripts/web-task.py'),
+        result = subprocess.run([sys.executable, str(ROOT / 'skills/lookset/scripts/web-task.py'),
                                  'init', '--task', str(self.task), '--spec', str(file)],
                                 capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stderr)

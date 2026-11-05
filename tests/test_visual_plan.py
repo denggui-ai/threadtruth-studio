@@ -12,7 +12,7 @@ import unittest
 from PIL import Image
 
 ROOT=Path(__file__).resolve().parents[1]
-SPEC=importlib.util.spec_from_file_location('visual_plan_task',ROOT/'skills/threadtruth-studio/scripts/web-task.py')
+SPEC=importlib.util.spec_from_file_location('visual_plan_task',ROOT/'skills/lookset/scripts/web-task.py')
 task=importlib.util.module_from_spec(SPEC);SPEC.loader.exec_module(task)
 
 
@@ -407,7 +407,7 @@ class VisualPlanTests(unittest.TestCase):
     def test_cli_can_compile_rejected_delivery_revision_from_structured_spec(self):
         before=self.rejected_delivery();revision=self.crop_revision(before)
         path=self.root/'retry-spec.json';path.write_text(json.dumps(revision))
-        result=subprocess.run([sys.executable,str(ROOT/'skills/threadtruth-studio/scripts/web-task.py'),'retry-authorize',
+        result=subprocess.run([sys.executable,str(ROOT/'skills/lookset/scripts/web-task.py'),'retry-authorize',
             '--task',str(self.job),'--look','3','--spec',str(path),'--expected-attempt','1',
             '--approval-id','synthetic-cli','--note','Synthetic one-request approval'],capture_output=True,text=True)
         self.assertEqual(result.returncode,0,result.stderr)
@@ -416,7 +416,7 @@ class VisualPlanTests(unittest.TestCase):
     def test_cli_accepts_plan_without_free_prompt_and_manifest_contract(self):
         spec=dict(references=[str(self.front)],size=[60,40],context=self.context,model=self.model,visual_plan=self.plan(),shot_plan=self.shot_plan(1))
         path=self.root/'spec.json';path.write_text(json.dumps(spec))
-        result=subprocess.run([sys.executable,str(ROOT/'skills/threadtruth-studio/scripts/web-task.py'),'init','--task',str(self.job),'--spec',str(path)],capture_output=True,text=True)
+        result=subprocess.run([sys.executable,str(ROOT/'skills/lookset/scripts/web-task.py'),'init','--task',str(self.job),'--spec',str(path)],capture_output=True,text=True)
         self.assertEqual(result.returncode,0,result.stderr)
         self.assertEqual(json.loads(result.stdout)['prompt_contract_version'],2)
         raw,manifest=self.exported_prompt();self.assertEqual(manifest['prompt_contract_version'],2)
@@ -477,7 +477,7 @@ class VisualPlanTests(unittest.TestCase):
     def test_legacy_task_without_persona_exports_card_palette_and_no_persona_line(self):
         # Same fixture path as the WP-1 compile_head smoke. Until WP-4e this pinned the whole prompt sha256 (eb0cea4c... at 17db89b, 8947e0db... after WP-4d),
         # so every card wording edit broke it. Byte-level golden for a card-free plan stays in test_plan_without_persona_renders_golden_bytes_from_17db89b.
-        spec=importlib.util.spec_from_file_location('legacy_library',ROOT/'skills/threadtruth-studio/scripts/visual_library.py')
+        spec=importlib.util.spec_from_file_location('legacy_library',ROOT/'skills/lookset/scripts/visual_library.py')
         library=importlib.util.module_from_spec(spec);spec.loader.exec_module(library)
         source=ROOT/'docs/demo/preview-sources/beige-blazer-denim-outfit/source.jpg';h=task.digest(source)
         garment=dict(description='Beige single-breasted blazer worn open over a white top with mid-blue straight denim; engineering fixture.',
@@ -493,7 +493,7 @@ class VisualPlanTests(unittest.TestCase):
         task.export(self.job)
         request=json.loads(sorted(self.job.glob('handoff/look-1-v*/request.json'))[-1].read_text())
         prompt=request['prompt'];rows=prompt.split('\n')
-        card=json.loads((ROOT/'skills/threadtruth-studio/references/visual-library/cards/korean-cold-editorial.json').read_text())
+        card=json.loads((ROOT/'skills/lookset/references/visual-library/cards/korean-cold-editorial.json').read_text())
         self.assertEqual([row for row in rows if row.startswith('Shared palette: ')],['Shared palette: '+card['photography']['palette']])
         self.assertNotIn('Style persona',prompt)
         self.assertNotIn(card['persona'],prompt)

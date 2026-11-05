@@ -13,7 +13,7 @@ from tests.test_style_pose_pool import bind_pool_actions
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILL = ROOT / 'skills/threadtruth-studio'
+SKILL = ROOT / 'skills/lookset'
 
 
 def module(name):

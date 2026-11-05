@@ -215,7 +215,7 @@ class MetClient:
         self.last_request_started = time.monotonic()
         request = urllib.request.Request(
             url,
-            headers={"User-Agent": "ThreadTruth-Studio-demo-evidence/1.0"},
+            headers={"User-Agent": "Lookset-demo-evidence/1.0"},
         )
         return self.opener.open(request, timeout=self.timeout)
 
@@ -756,7 +756,7 @@ def generate_gallery(root: Path, run_id: str) -> Path:
     document = f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ThreadTruth rights review · {html.escape(run_id)}</title>
+<title>Lookset rights review · {html.escape(run_id)}</title>
 <style>
 body{{font-family:system-ui,sans-serif;max-width:1100px;margin:auto;padding:1.25rem;color:#171717}}
 main{{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem}}
@@ -766,7 +766,7 @@ a:focus{{outline:3px solid #005fcc}} .missing{{padding:2rem;background:#eee}}
 @media print{{main{{display:block}} article{{break-inside:avoid;margin-bottom:1rem}}}}
 </style></head><body>
 <a href="#candidates">Skip to candidates</a>
-<h1>ThreadTruth Studio · local rights review</h1>
+<h1>Lookset · local rights review</h1>
 <p>Run {html.escape(run_id)} · query {html.escape(str(run.get('query', '')))}. This local page does not approve media.</p>
 <p>Replace <code>github:YOUR-HANDLE</code> with the public handle of the person who actually performs the review.</p>
 <main id="candidates">{''.join(cards)}</main>
@@ -925,7 +925,7 @@ See `rights.json` and `source-metadata.json` for the retained evidence record.
 
 def rights_index_content(root: Path) -> str:
     module_path = Path(__file__).with_name("primary_demo.py")
-    spec = importlib.util.spec_from_file_location("threadtruth_primary_demo", module_path)
+    spec = importlib.util.spec_from_file_location("lookset_primary_demo", module_path)
     if spec is None or spec.loader is None:
         raise RuntimeError("cannot load primary demo rights index")
     module = importlib.util.module_from_spec(spec)
@@ -945,7 +945,7 @@ def render_rights_index(root: Path) -> Path:
 def _preview_source_readme(rights: dict[str, object]) -> str:
     return f"""# Controlled preview source — beige blazer and dark-denim outfit
 
-Status: `approved-for-preview`. This 3:4 image documents one real coordinated physical outfit for the ThreadTruth Studio 24-style public direction-preview collection.
+Status: `approved-for-preview`. This 3:4 image documents one real coordinated physical outfit for the Lookset 24-style public direction-preview collection.
 
 The source and its generated or derived preview media use `{PREVIEW_SOURCE_LICENSE}`: they may be displayed and distributed only as part of this repository and its releases. Standalone reuse, resale, relicensing and CC0 dedication are not granted. Rights remain with their respective holders, and trademark, privacy, personality and cultural rights are not waived. Apache-2.0 covers project code and documentation, not this media.
 
@@ -1286,7 +1286,7 @@ def validate_public_cases(root: Path) -> list[str]:
     )
     if any(path.exists() for path in primary_markers):
         module_path = Path(__file__).with_name("primary_demo.py")
-        spec = importlib.util.spec_from_file_location("threadtruth_primary_demo", module_path)
+        spec = importlib.util.spec_from_file_location("lookset_primary_demo", module_path)
         if spec is None or spec.loader is None:
             findings.append("primary demo validator is unavailable")
         else:
@@ -1296,7 +1296,7 @@ def validate_public_cases(root: Path) -> list[str]:
             findings.extend(primary.validate_style_index(root))
             findings.extend(primary.validate_style_pages(root))
     preview_path = Path(__file__).with_name("style_preview.py")
-    spec = importlib.util.spec_from_file_location("threadtruth_style_preview", preview_path)
+    spec = importlib.util.spec_from_file_location("lookset_style_preview", preview_path)
     if spec is None or spec.loader is None:
         findings.append("preview validator unavailable")
     else:

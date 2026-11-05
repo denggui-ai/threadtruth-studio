@@ -149,7 +149,7 @@ class DemoMediaModuleTests(unittest.TestCase):
 
     def test_development_module_exists_outside_runtime_skill(self):
         self.assertTrue((ROOT / "tools" / "demo_media.py").is_file())
-        self.assertFalse((ROOT / "skills" / "threadtruth-studio" / "demo_media.py").exists())
+        self.assertFalse((ROOT / "skills" / "lookset" / "demo_media.py").exists())
 
     def test_state_machine_allows_only_forward_gated_transitions(self):
         module = load_module()

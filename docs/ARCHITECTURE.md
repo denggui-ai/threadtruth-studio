@@ -1,4 +1,4 @@
-# 裁光能力清单与现状拓扑 / Caiguang capability topology
+# Lookset能力清单与现状拓扑 / Lookset capability topology
 
 ## 当前（beta.15）：整体视觉方案与双路线共用
 
@@ -65,7 +65,7 @@ flowchart LR
 
 历史基线核对：**2026-10-17，beta.14（六图时期）**。当前 beta.15 默认流程为**选风格 → 1 张九格方向预览（非成片）→ 确认方向 → 九张独立图**；明确六张、经典六姿势或非人像为 6 张，用户主动单张时走单张分支。此前beta.14的GitHub源码、发行包与本机运行文件曾按[同步核验](verification/2026-10-17-default-flow-restore.md)对照；规则/工具核验不代表新画面通过。下方职责图及历史图像证据保留原范围。
 
-![裁光底层职责图（SVG，按 beta.15 文字重新生成；同名 PNG 为 2026-10-08 历史导出，未更新）](assets/architecture-overview.svg)
+![Lookset底层职责图（SVG，按 beta.15 文字重新生成；同名 PNG 为 2026-10-08 历史导出，未更新）](assets/architecture-overview.svg)
 
 [可缩放SVG](assets/architecture-overview.svg) · [当前能力状态与缺口](CAPABILITY-STATUS.md)
 
@@ -105,7 +105,7 @@ flowchart LR
 
 ### 当前版本的人物复用逻辑
 
-这些关系来自当前[人物规则](../skills/threadtruth-studio/references/model-selection.md)及[固定姿势分支](../skills/threadtruth-studio/references/fixed-pose-wardrobe.md)，不是从旧聊天或示例图推导的。
+这些关系来自当前[人物规则](../skills/lookset/references/model-selection.md)及[固定姿势分支](../skills/lookset/references/fixed-pose-wardrobe.md)，不是从旧聊天或示例图推导的。
 
 | 数据角色 | 当前职责与优先级 |
 |---|---|
@@ -140,33 +140,33 @@ flowchart LR
 - **后续look-2至N普通服饰/构图QA失败**：保留`qa-retry`；可继续当前已授权闭集中的其它编号，但不自动重试失败图，也不能把整组标为商业放行。
 - **结果未知、下载失败与已知终态失败**：分别按原请求恢复、同一原图下载恢复、保留证据后核实终态处理；旧schema2须显式采用恢复协议，新增重试还须适用的新授权。
 
-依据：[flow-gates §5b](../skills/threadtruth-studio/references/flow-gates.md)、[逐张画布门禁](../skills/threadtruth-studio/references/prompt-build.md)及下方状态表。该区分不改变调用上限。
+依据：[flow-gates §5b](../skills/lookset/references/flow-gates.md)、[逐张画布门禁](../skills/lookset/references/prompt-build.md)及下方状态表。该区分不改变调用上限。
 
 ### 本地工具具体负责什么
 
 | 组件 | 职责 | 不负责什么 |
 |---|---|---|
-| [插件元信息](../.codex-plugin/plugin.json)与[入口元数据](../skills/threadtruth-studio/agents/openai.yaml) | 发现、显示、默认提示与调用策略 | 不授予生图/上传授权；允许隐式调用不证明所有隐式触发成功 |
-| [SKILL.md](../skills/threadtruth-studio/SKILL.md)与核心参考 | 定义输入、选择、执行、QA和停止规则 | 不自动执行工具，不是独立调度服务 |
-| [风格路由](../skills/threadtruth-studio/references/style-router.md)与[原24风格包](../skills/threadtruth-studio/references/styles/)与[36入口索引](../skills/threadtruth-studio/references/visual-library/index.json) | 视觉字段参与受约束提示词，QA字段只用于验收 | 不把整个pack原样拼进提示词，不改商品事实 |
-| [web-task.py](../skills/threadtruth-studio/scripts/web-task.py) | 原生/网页本地账本，授权记录、预留、回执、尺寸/重复检查、QA/人物确认、恢复与导出 | 不点击Send、不生图、不认证用户实际给过授权、不代替视觉验收；complete不等于image-ready |
-| [real_face_plan.py](../skills/threadtruth-studio/scripts/real_face_plan.py) | 校验真人实际覆盖、逐张body/head/gaze计划及有序参考选择，将条件编入请求 | 不识脸、不判断照片真假、不认证未知真实角度、不改变AI路径或保证锁脸 |
-| [model-reference.py](../skills/threadtruth-studio/scripts/model-reference.py)及其实现 | 读取、校验和导出私人原始人物、补充图及显式母图 | 不训练模型、不保证锁脸、不把人物包变成商品事实或授权 |
-| [wardrobe-edit.cjs](../skills/threadtruth-studio/scripts/wardrobe-edit.cjs) | 可选固定母图的prepare/preflight/apply/verify与局部保护合成 | 不生成供图，不自动判断遮罩，不保证不同母图脸一致或原真人还原 |
-| [image-spec-check.py](../skills/threadtruth-studio/scripts/image-spec-check.py)或宿主等价只读检查 | 对实际文件读取并核对比例、像素与同组一致性；网页导入也有自身文件检查 | 不目测代替元数据，不判断商品、身份或商业适用性；不要求所有路线必调同一脚本 |
+| [插件元信息](../.codex-plugin/plugin.json)与[入口元数据](../skills/lookset/agents/openai.yaml) | 发现、显示、默认提示与调用策略 | 不授予生图/上传授权；允许隐式调用不证明所有隐式触发成功 |
+| [SKILL.md](../skills/lookset/SKILL.md)与核心参考 | 定义输入、选择、执行、QA和停止规则 | 不自动执行工具，不是独立调度服务 |
+| [风格路由](../skills/lookset/references/style-router.md)与[原24风格包](../skills/lookset/references/styles/)与[36入口索引](../skills/lookset/references/visual-library/index.json) | 视觉字段参与受约束提示词，QA字段只用于验收 | 不把整个pack原样拼进提示词，不改商品事实 |
+| [web-task.py](../skills/lookset/scripts/web-task.py) | 原生/网页本地账本，授权记录、预留、回执、尺寸/重复检查、QA/人物确认、恢复与导出 | 不点击Send、不生图、不认证用户实际给过授权、不代替视觉验收；complete不等于image-ready |
+| [real_face_plan.py](../skills/lookset/scripts/real_face_plan.py) | 校验真人实际覆盖、逐张body/head/gaze计划及有序参考选择，将条件编入请求 | 不识脸、不判断照片真假、不认证未知真实角度、不改变AI路径或保证锁脸 |
+| [model-reference.py](../skills/lookset/scripts/model-reference.py)及其实现 | 读取、校验和导出私人原始人物、补充图及显式母图 | 不训练模型、不保证锁脸、不把人物包变成商品事实或授权 |
+| [wardrobe-edit.cjs](../skills/lookset/scripts/wardrobe-edit.cjs) | 可选固定母图的prepare/preflight/apply/verify与局部保护合成 | 不生成供图，不自动判断遮罩，不保证不同母图脸一致或原真人还原 |
+| [image-spec-check.py](../skills/lookset/scripts/image-spec-check.py)或宿主等价只读检查 | 对实际文件读取并核对比例、像素与同组一致性；网页导入也有自身文件检查 | 不目测代替元数据，不判断商品、身份或商业适用性；不要求所有路线必调同一脚本 |
 
 ## 关键分支与状态边界
 
 | 情况 | 下一步与保留条件 | 应核对的规则/回归 |
 |---|---|---|
-| 只咨询/识别/看风格/要提示词 | 文字出口，不调用生图；已有完整授权不重复询问 | [flow-gates](../skills/threadtruth-studio/references/flow-gates.md)，源侧eval 143–145 |
-| 首张返回 | 实际尺寸先符合目标才能建立像素基线；技术QA通过、成人用户接受当前人物后才续整组 | [prompt-build §4.0b](../skills/threadtruth-studio/references/prompt-build.md)，[人物规则](../skills/threadtruth-studio/references/model-selection.md) |
+| 只咨询/识别/看风格/要提示词 | 文字出口，不调用生图；已有完整授权不重复询问 | [flow-gates](../skills/lookset/references/flow-gates.md)，源侧eval 143–145 |
+| 首张返回 | 实际尺寸先符合目标才能建立像素基线；技术QA通过、成人用户接受当前人物后才续整组 | [prompt-build §4.0b](../skills/lookset/references/prompt-build.md)，[人物规则](../skills/lookset/references/model-selection.md) |
 | 后续图片返回 | 每张先符合目标比例与首张像素基线，再核QA；画布失配停止后续。后续普通视觉失败保留qa-retry，可续当前已授权其它编号 | 同上；不把尺寸检查拖到最后 |
-| 已提交但结果未知 | 恢复同一请求，核实是否仍在生成/已返回；不可重发或新建账本清零 | [网页协议](../skills/threadtruth-studio/references/chatgpt-web.md)，test_unknown_cannot_reconcile_or_retry_before_actual_request_recovery |
+| 已提交但结果未知 | 恢复同一请求，核实是否仍在生成/已返回；不可重发或新建账本清零 | [网页协议](../skills/lookset/references/chatgpt-web.md)，test_unknown_cannot_reconcile_or_retry_before_actual_request_recovery |
 | 生成完成但下载失败 | 保留原请求，恢复同一原文件，不增加生图调用 | 网页协议；截图不是原图 |
 | 明确终态失败/错误尺寸/损坏返回 | recovery v1保留凭据或原字节；reconcile-failure核实原请求结束后，才可登记新增一次明确重试授权 | [任务回归](../tests/test_model_task.py)：test_known_failure_requires_reason_and_retained_receipt、test_cli_invalid_return_exits_nonzero_after_retaining_failure |
 | 旧schema2任务出现错误尺寸 | 显式采用enable-failure-recovery后处理；保留旧状态、次数和文件，不静默迁移；schema1维持旧协议 | test_legacy_schema2_invalid_canvas_remains_reserved_until_explicit_adoption、test_legacy_schema1_recovery_interface_is_unchanged |
-| 技术通过但用户拒选人物 | 未确认、无下游时可记录reject-model；明确授权后修订首张，保留原版本和次数 | [人物规则](../skills/threadtruth-studio/references/model-selection.md)、[任务回归](../tests/test_model_task.py) |
+| 技术通过但用户拒选人物 | 未确认、无下游时可记录reject-model；明确授权后修订首张，保留原版本和次数 | [人物规则](../skills/lookset/references/model-selection.md)、[任务回归](../tests/test_model_task.py) |
 | 已确认后换人/换商品/改变上下文 | 新参考版本/任务及相应授权；不覆盖原锚点或清零历史 | 人物规则；已有下游首张不可原地替换 |
 | 同人只改场景或其它设置 | 明确“改什么、保留什么”，原人物和当前商品事实仍参与；上下文变化按新任务处理 | 提示词目标须再验收；不能从重试命令推导通用像素级保脸能力 |
 | 符合条件的母版1单张续五张 | 沿用原首张和相同上下文，新增五次明确授权；已有整组授权则消费原剩余额度 | continue-authorize与人物确认回归；其它姿势或人物诊断单张不可隐式续组 |

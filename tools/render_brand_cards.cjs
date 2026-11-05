@@ -12,7 +12,7 @@ const mime = {'.html':'text/html', '.jpg':'image/jpeg', '.webp':'image/webp', '.
     const page = await browser.newPage({viewport:{width:1200,height:630},deviceScaleFactor:1});
     await page.route('**/*', async route => {
       const url = new URL(route.request().url());
-      if (url.origin !== 'http://threadtruth-preview.invalid') return route.abort();
+      if (url.origin !== 'http://lookset-preview.invalid') return route.abort();
       const relative = decodeURIComponent(url.pathname).slice(1);
       const base = ['og-home.html','og-compare.html'].includes(relative) ? path.join(root, 'tools/brand_cards') : gallery;
       const file = path.resolve(base, relative);
@@ -20,7 +20,7 @@ const mime = {'.html':'text/html', '.jpg':'image/jpeg', '.webp':'image/webp', '.
       await route.fulfill({path:file,contentType:mime[path.extname(file)] || 'application/octet-stream'});
     });
     for (const name of ['og-home','og-compare']) {
-      await page.goto('http://threadtruth-preview.invalid/' + name + '.html');
+      await page.goto('http://lookset-preview.invalid/' + name + '.html');
       await page.evaluate(()=>document.fonts.ready);
       await page.waitForFunction(()=>[...document.images].every(image=>image.complete&&image.naturalWidth>0));
       await page.screenshot({path:path.join(gallery, 'assets/brand', name + '.png')});

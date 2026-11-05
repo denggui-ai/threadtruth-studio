@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location('photography_spec_preview', ROOT / 'tools/style_preview.py')
 preview = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(preview)
-spec = importlib.util.spec_from_file_location('photography_spec_task', ROOT / 'skills/threadtruth-studio/scripts/web-task.py')
+spec = importlib.util.spec_from_file_location('photography_spec_task', ROOT / 'skills/lookset/scripts/web-task.py')
 task = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(task)
 
@@ -25,7 +25,7 @@ class PhotographySpecTests(unittest.TestCase):
     def setUpClass(cls):
         cls.temporary = tempfile.TemporaryDirectory()
         cls.root = Path(cls.temporary.name)
-        for path in ('docs/demo', 'skills/threadtruth-studio/references'):
+        for path in ('docs/demo', 'skills/lookset/references'):
             shutil.copytree(ROOT / path, cls.root / path)
         cls.plan = preview._plan_v5(cls.root, 'spec', 'beige-blazer-denim-outfit')
         cls.model = dict(source_type='new', scope='full', subject='adult female model',

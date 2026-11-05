@@ -10,7 +10,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-PACK = ROOT / "skills/threadtruth-studio/references/styles/ecommerce-studio.pack.yaml"
+PACK = ROOT / "skills/lookset/references/styles/ecommerce-studio.pack.yaml"
 PILOT = "ecommerce-studio"
 BASELINE_MOOD_CUES = ("冷静疏离", "营业", "甜美", "目录照")
 
@@ -27,14 +27,14 @@ class EcommerceStudioLightingPilotTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
-        for name in ("docs/demo", "skills/threadtruth-studio/references"):
+        for name in ("docs/demo", "skills/lookset/references"):
             shutil.copytree(ROOT / name, self.root / name)
         shutil.rmtree(self.root / "docs/demo/style-previews", ignore_errors=True)
         self.m = module()
 
     def test_head_rule_edits_reach_preview_and_single_without_changing_photography(self):
         before = self.m.prepare(self.root, "before-head-edit", "beige-blazer-denim-outfit")
-        rule = self.root / "skills/threadtruth-studio/references/prompt-build.md"
+        rule = self.root / "skills/lookset/references/prompt-build.md"
         rule.write_text(rule.read_text(encoding="utf-8").replace(
             "头颈放松,符合倚靠关系", "头颈随墙面支撑自然放松"
         ), encoding="utf-8")

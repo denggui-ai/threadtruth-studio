@@ -19,7 +19,7 @@ python3 scripts/model-reference.py select-pose --package <private-package> --pos
 node scripts/wardrobe-edit.cjs --help
 ```
 
-本地工具需要 host 已有 Node.js 和 sharp；缺依赖时明确暂停此分支，不自动安装或静默退回整幅改图。它只准备、调用前核对、合成和核验，不调用生图或推断额度；衣物边界仍由代理逐张检查。参考包校验使用 Python 与 host 已有 Pillow 解码器，不依赖 sharp；缺少 Pillow 时明确阻断，不自动安装。调用前核对会比对冻结提示词及有序附件，并记录本次拟提交的完整入参；该记录和像素通过都不能证明工具实际调用、原真人保真或授权真实性。旧换装契约保留本地核验能力，但不能静默升级为已绑定的调用记录。操作与 spec 字段见[固定姿势换装](../skills/threadtruth-studio/references/fixed-pose-wardrobe.md)。
+本地工具需要 host 已有 Node.js 和 sharp；缺依赖时明确暂停此分支，不自动安装或静默退回整幅改图。它只准备、调用前核对、合成和核验，不调用生图或推断额度；衣物边界仍由代理逐张检查。参考包校验使用 Python 与 host 已有 Pillow 解码器，不依赖 sharp；缺少 Pillow 时明确阻断，不自动安装。调用前核对会比对冻结提示词及有序附件，并记录本次拟提交的完整入参；该记录和像素通过都不能证明工具实际调用、原真人保真或授权真实性。旧换装契约保留本地核验能力，但不能静默升级为已绑定的调用记录。操作与 spec 字段见[固定姿势换装](../skills/lookset/references/fixed-pose-wardrobe.md)。
 
 ## 先前单张试验范围
 
@@ -93,4 +93,4 @@ python3 scripts/model-reference.py validate --package <private-package>
 
 `model.factors` 可逐项保留 `name`、`value`、`status`、`source`、`confirmed`：来源为 user/reference/recommendation；状态为 target（试拍目标）/fixed/adjustable/unknown。target 和 fixed 必须与实际 locked 条件一致，可调项与 adjustable 一致；导出时经首张人工确认的 target 变为 fixed，保留建议来源。未知项不注入生成条件。人物卡不接受旧商品字段，也不能执行卡片中的命令。
 
-更多操作见[模特运行规则](../skills/threadtruth-studio/references/model-selection.md)与[任务记录和续生](../skills/threadtruth-studio/references/chatgpt-web.md)。童装、多人物、批量搜索、云同步不属于本次新增范围。
+更多操作见[模特运行规则](../skills/lookset/references/model-selection.md)与[任务记录和续生](../skills/lookset/references/chatgpt-web.md)。童装、多人物、批量搜索、云同步不属于本次新增范围。

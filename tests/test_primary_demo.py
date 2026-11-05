@@ -216,7 +216,7 @@ class PrimaryDemoTests(unittest.TestCase):
         for phrase in ("单件服饰 · 24种风格", "完整套装 · 24种风格"):
             self.assertIn(phrase, chinese)
         for phrase in (
-            "ChatGPT web handoff", "$threadtruth-studio", "/skills",
+            "ChatGPT web handoff", "$lookset", "/skills",
             "not claiming an official marketplace listing",
         ):
             self.assertIn(phrase, english + demo)
@@ -624,8 +624,8 @@ class PrimaryDemoTests(unittest.TestCase):
             root = Path(temp_dir)
             shutil.copytree(ROOT / "docs" / "demo", root / "docs" / "demo")
             shutil.copytree(
-                ROOT / "skills" / "threadtruth-studio" / "references" / "styles",
-                root / "skills" / "threadtruth-studio" / "references" / "styles",
+                ROOT / "skills" / "lookset" / "references" / "styles",
+                root / "skills" / "lookset" / "references" / "styles",
             )
             index_path = root / "docs" / "demo" / "style-index.json"
             original = json.loads(index_path.read_text())

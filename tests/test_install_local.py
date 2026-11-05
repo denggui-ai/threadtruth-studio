@@ -19,15 +19,15 @@ class LocalInstallTests(unittest.TestCase):
         self.source = self.root / 'release'
         (self.source / '.codex-plugin').mkdir(parents=True)
         (self.source / '.codex-plugin/plugin.json').write_text(json.dumps({
-            'name': 'threadtruth-studio', 'version': '1.0.0-beta.2', 'skills': './skills/'}))
-        (self.source / 'skills/threadtruth-studio').mkdir(parents=True)
-        (self.source / 'skills/threadtruth-studio/SKILL.md').write_text('---\nname: threadtruth-studio\n---\n')
+            'name': 'lookset', 'version': '1.0.0-beta.2', 'skills': './skills/'}))
+        (self.source / 'skills/lookset').mkdir(parents=True)
+        (self.source / 'skills/lookset/SKILL.md').write_text('---\nname: lookset\n---\n')
 
     def test_default_dry_run_never_writes_recipient_state(self):
         result = installer.install(self.source, self.home)
         self.assertFalse((self.home / 'plugins').exists())
         self.assertFalse((self.home / '.agents').exists())
-        self.assertEqual(result['selector'], 'threadtruth-studio@personal')
+        self.assertEqual(result['selector'], 'lookset@personal')
 
     def test_apply_preserves_other_marketplace_entries_and_name(self):
         market = self.home / '.agents/plugins/marketplace.json'
@@ -39,19 +39,19 @@ class LocalInstallTests(unittest.TestCase):
         data = json.loads(market.read_text())
         self.assertEqual(data['plugins'][0], old['plugins'][0])
         self.assertEqual(data['interface'], old['interface'])
-        self.assertEqual(result['selector'], 'threadtruth-studio@my-personal')
-        self.assertEqual(data['plugins'][1]['source'], {'source': 'local', 'path': './plugins/threadtruth-studio'})
-        self.assertTrue((self.home / 'plugins/threadtruth-studio/skills/threadtruth-studio/SKILL.md').exists())
+        self.assertEqual(result['selector'], 'lookset@my-personal')
+        self.assertEqual(data['plugins'][1]['source'], {'source': 'local', 'path': './plugins/lookset'})
+        self.assertTrue((self.home / 'plugins/lookset/skills/lookset/SKILL.md').exists())
         self.assertEqual(json.loads(Path(result['marketplace_backup']).read_text()), old)
 
     def test_existing_source_requires_replace_and_retains_rollback(self):
         installer.install(self.source, self.home, apply=True)
-        target = self.home / 'plugins/threadtruth-studio/skills/threadtruth-studio/SKILL.md'
+        target = self.home / 'plugins/lookset/skills/lookset/SKILL.md'
         target.write_text('old payload')
         with self.assertRaises(FileExistsError):
             installer.install(self.source, self.home, apply=True)
         result = installer.install(self.source, self.home, apply=True, replace=True)
-        self.assertEqual((Path(result['source_backup']) / 'skills/threadtruth-studio/SKILL.md').read_text(), 'old payload')
+        self.assertEqual((Path(result['source_backup']) / 'skills/lookset/SKILL.md').read_text(), 'old payload')
 
     def test_invalid_marketplace_and_symlinks_fail_without_install(self):
         market = self.home / '.agents/plugins/marketplace.json'
@@ -69,7 +69,7 @@ class LocalInstallTests(unittest.TestCase):
         market = self.home / '.agents/plugins/marketplace.json'
         market.parent.mkdir(parents=True)
         market.write_text(json.dumps({'name': 'personal', 'plugins': [
-            {'name': 'threadtruth-studio', 'source': {'source': 'git', 'url': 'https://example.org/repo'}}]}))
+            {'name': 'lookset', 'source': {'source': 'git', 'url': 'https://example.org/repo'}}]}))
         with self.assertRaises(ValueError):
             installer.install(self.source, self.home, apply=True, replace=True)
 
@@ -77,4 +77,4 @@ class LocalInstallTests(unittest.TestCase):
         (self.source / '.threadtruth').mkdir()
         (self.source / '.threadtruth/private.txt').write_text('must not copy')
         installer.install(self.source, self.home, apply=True)
-        self.assertFalse((self.home / 'plugins/threadtruth-studio/.threadtruth').exists())
+        self.assertFalse((self.home / 'plugins/lookset/.threadtruth').exists())

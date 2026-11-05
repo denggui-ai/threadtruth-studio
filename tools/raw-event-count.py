@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Count structured native image-generation events in Codex rollout sessions.
 
-Read-only raw-event gate helper for threadtruth-studio. It implements the
+Read-only raw-event gate helper for lookset. It implements the
 A-anchor "unlock path": the only way to support a tracked ``VERIFIED-CODEX``
 discussion is a real Codex TUI rollout session JSONL
 (``~/.codex/sessions/YYYY/MM/DD/rollout-*.jsonl``) that exposes structured

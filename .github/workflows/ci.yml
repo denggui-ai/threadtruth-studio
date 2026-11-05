@@ -39,7 +39,7 @@ jobs:
           "$RUNNER_TEMP/threadtruth-browser/node_modules/.bin/playwright" install --with-deps chromium
           NODE_PATH="$RUNNER_TEMP/threadtruth-browser/node_modules" node tests/check_home_ui.cjs
       - name: Style-pack lint
-        run: python3 tools/pack-lint.py --strict skills/threadtruth-studio/references/styles/*.pack.yaml
+        run: python3 tools/pack-lint.py --strict skills/lookset/references/styles/*.pack.yaml
       - name: Trigger regression
         run: python3 tools/trigger-eval.py
       - name: Parse JSON and compile Python
@@ -62,5 +62,5 @@ jobs:
           from pathlib import Path
           version = json.loads(Path('.codex-plugin/plugin.json').read_text())['version']
           for suffix in ('.zip', '.zip.sha256'):
-              assert Path(f'dist/threadtruth-studio-{version}{suffix}').is_file()
+              assert Path(f'dist/lookset-{version}{suffix}').is_file()
           PY

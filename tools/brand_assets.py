@@ -26,7 +26,7 @@ except ImportError:
 
 MANIFEST_PATH = "brand-assets.json"
 TEXT_FILES = ("index.html", "compare.html", "home.css", "compare.css", "brand.css", "home.js", "compare.js", "prompt-copy.js", "pose-showcase.css", "pose-showcase.js")
-BASE_TEXT = "裁光 Caiguang AI Fashion Studio 服饰AI影棚 你的衣服。下一组大片。Your garments. A new perspective. 开始使用 Get started 查看24风格 Explore24styles 已复制 复制失败 请手动复制"
+BASE_TEXT = "Lookset Lookset AI Fashion Studio 服饰AI影棚 你的衣服。下一组大片。Your garments. A new perspective. 开始使用 Get started 查看24风格 Explore24styles 已复制 复制失败 请手动复制"
 FONT_SPECS = {
     "notosanssc": {"family": "Noto Sans SC", "filename": "NotoSansSC[wght].ttf", "weights": [400, 900],
                    "output": "assets/brand/fonts/noto-sans-sc.woff2", "license_output": "assets/brand/fonts/NotoSansSC-OFL.txt"},
@@ -70,7 +70,7 @@ def source_record(key: str, revision: str, font_sha: str, license_sha: str) -> d
 
 
 def _download(url: str) -> bytes:
-    request = urllib.request.Request(url, headers={"User-Agent": "ThreadTruthStudio-brand-builder"})
+    request = urllib.request.Request(url, headers={"User-Agent": "Lookset-brand-builder"})
     with urllib.request.urlopen(request, timeout=90) as response:
         if not response.url.startswith(("https://raw.githubusercontent.com/", "https://api.github.com/")):
             raise ValueError("font download redirected outside official GitHub hosts")
@@ -183,7 +183,7 @@ def build_brand(gallery: Path, source_dir: Path) -> dict:
             raise ValueError(f"font subset exceeds {MAX_FONT_BYTES} bytes: {output.name}")
         shutil.copyfile(source_dir / f"{key}-OFL.txt", gallery / spec["license_output"])
     original = source_dir / FONT_SPECS["notosanssc"]["filename"]
-    _outline_svg(original, "裁光", gallery / SVG_PATHS[0])
+    _outline_svg(original, "Lookset", gallery / SVG_PATHS[0])
     _outline_svg(original, "光", gallery / SVG_PATHS[1], icon=True)
     return {key: file_info(gallery / spec["output"], image=False) for key, spec in FONT_SPECS.items()}
 
@@ -198,7 +198,7 @@ def build_manifest(gallery: Path, sources: dict) -> dict:
         if record["kind"] == "share-cover" and repository:
             record["source_template_sha256"] = sha256(repository / record["source_template"])
         records.append(record)
-    return {"schema_version": "1.0", "brand": {"zh": "裁光", "en": "Caiguang"}, "sources": sources, "assets": records}
+    return {"schema_version": "1.0", "brand": {"zh": "Lookset", "en": "Lookset"}, "sources": sources, "assets": records}
 
 
 def asset_provenance(path: str) -> dict:
@@ -208,7 +208,7 @@ def asset_provenance(path: str) -> dict:
         if path == spec["license_output"]:
             return {"kind": "font-license", "source": key}
     if path in SVG_PATHS:
-        return {"kind": "glyph-outline", "source": "notosanssc", "text": "裁光" if path == SVG_PATHS[0] else "光", "weight": 900}
+        return {"kind": "glyph-outline", "source": "notosanssc", "text": "Lookset" if path == SVG_PATHS[0] else "光", "weight": 900}
     if path in OG_PATHS:
         home = path == OG_PATHS[0]
         return {"kind": "share-cover", "source": "project-layout-and-authorized-showcase-assets" if home else "project-typographic-layout",
@@ -256,7 +256,7 @@ def validate_brand(gallery: Path, *, repo_root: Path | None = None) -> list[str]
         if manifest_path.is_symlink() or not manifest_path.resolve().is_relative_to(gallery.resolve()):
             raise ValueError("unsafe brand manifest symlink")
         manifest = json.loads(manifest_path.read_text())
-        if manifest.get("schema_version") != "1.0" or manifest.get("brand") != {"zh": "裁光", "en": "Caiguang"}:
+        if manifest.get("schema_version") != "1.0" or manifest.get("brand") != {"zh": "Lookset", "en": "Lookset"}:
             raise ValueError("brand manifest version or names mismatch")
         sources = manifest["sources"]
         if set(sources) != set(FONT_SPECS):

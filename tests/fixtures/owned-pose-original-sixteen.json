@@ -1,0 +1,387 @@
+[
+  {
+    "version": 1,
+    "definition": {
+      "hands": "Both hands hang just outside the side seams.",
+      "garment_views": [
+        "front"
+      ],
+      "usage": "owned",
+      "review_note": "Owned AI pose asset reviewed for body geometry; shading and margins may deviate. Use body geometry only; no garment-effect claim.",
+      "avoid_when": "避免多个无区别站姿；不用于必须明显动态的画面。",
+      "view": "front",
+      "support": "Both feet planted; no external support.",
+      "source_id": "threadtruth-owned-poses-v1",
+      "title": "正面自然站",
+      "body_action": "Stand upright with feet hip-width apart, weight evenly shared and knees relaxed. Keep shoulders and pelvis level.",
+      "family": "stand",
+      "group_id": "tt-stand-neutral",
+      "sha256": "e23f04acef80e343a02147b65e786f2c4a4b321dc2df600f2d9c738cd6ed5e1b"
+    },
+    "definition_sha256": "aab79c26237c05261ed5c403faa2c032214302c30439c297b7e54718540e58cf",
+    "mode": "text",
+    "origin": "auto",
+    "adaptation_note": ""
+  },
+  {
+    "version": 1,
+    "definition": {
+      "hands": "Both hands hang low, separated from the waist.",
+      "garment_views": [
+        "front-side"
+      ],
+      "usage": "owned",
+      "review_note": "Owned AI pose asset reviewed for body geometry; shading and margins may deviate. Use body geometry only; no garment-effect claim.",
+      "avoid_when": "正面左右对称结构照优先正立。",
+      "view": "diag",
+      "support": "Left leg bears weight; both feet contact the floor.",
+      "source_id": "threadtruth-owned-poses-v1",
+      "title": "轻移重心",
+      "body_action": "Place weight on the left rear leg; the right foot rests slightly forward. Keep rib cage upright with a small pelvic shift.",
+      "family": "stand",
+      "group_id": "tt-stand-weight-shift",
+      "sha256": "8ff80a9efcae4bce48acd6e900008b44a7bf23f93ee05cfaf82a3e98a9bccfbb"
+    },
+    "definition_sha256": "65666a720356987f1d32f0bc08c74903465ea8ffe9fd94e4eed41c2c20dc3348",
+    "mode": "text",
+    "origin": "auto",
+    "adaptation_note": ""
+  },
+  {
+    "version": 1,
+    "definition": {
+      "hands": "Hands stay separately at the sides.",
+      "garment_views": [
+        "front-side"
+      ],
+      "usage": "owned",
+      "review_note": "Owned AI pose asset reviewed for body geometry; shading and margins may deviate. Use body geometry only; no garment-effect claim.",
+      "avoid_when": "需要左右对称或没有前侧商品依据时不用。",
+      "view": "diag",
+      "support": "Both feet on the floor, weight mainly on the left leg.",
+      "source_id": "threadtruth-owned-poses-v1",
+      "title": "肩胯轻反转",
+      "body_action": "Left rear leg bears weight and right foot relaxes forward. Angle pelvis three-quarter toward camera with a modest opposing shoulder rotation.",
+      "family": "turn",
+      "group_id": "tt-turn-front-counter",
+      "sha256": "ec94b164b1f249074750eaaa0040234fdf45d53813d80fbbd5d67002aa2ca02a"
+    },
+    "definition_sha256": "faa07862eafb4d25ec06286076ab32c7be87a7df1d25447d3dfe7e3071802d0a",
+    "mode": "text",
+    "origin": "auto",
+    "adaptation_note": ""
+  },
+  {
+    "version": 1,
+    "definition": {
+      "hands": "Hands stay separately at the sides.",
+      "garment_views": [
+        "front-side"
+      ],
+      "usage": "owned",
+      "review_note": "Owned AI pose asset reviewed for body geometry; shading and margins may deviate. Use body geometry only; no garment-effect claim.",
+      "avoid_when": "正视图仍包含躯干转向，需前侧商品依据。",
+      "view": "front",
+      "support": "Both feet on the floor, weight mainly on the left leg.",
+      "source_id": "threadtruth-owned-poses-v1",
+      "title": "肩胯轻反转·正视",
+      "body_action": "Left rear leg bears weight and right foot relaxes forward. Seen from the front, retain modest pelvic yaw with opposing shoulder rotation.",
+      "family": "turn",
+      "group_id": "tt-turn-front-counter",
+      "sha256": "c48cd89f319a089ab56420ef6d6b767708aa3ebba03270df6167879b4beaba32"
+    },
+    "definition_sha256": "527aad04566b641745dd7f199b556106b37cfe7d16bd203bdabfd91e8a21691e",
+    "mode": "text",
+    "origin": "auto",
+    "adaptation_note": ""
+  },
+  {
+    "version": 1,
+    "definition": {
+      "hands": "Both arms swing gently below the waist.",
+      "garment_views": [
+        "front"
+      ],
+      "usage": "owned",
+      "review_note": "Owned AI pose asset reviewed for body geometry; shading and margins may deviate. Use body geometry only; no garment-effect claim.",
+      "avoid_when": "活动量未知或限制步幅时不用。",
+      "view": "front",
+      "support": "Left foot planted; right forefoot touches the floor.",
+      "source_id": "threadtruth-owned-poses-v1",
+      "title": "小步停驻",
+      "body_action": "Pause in a compact step with left foot planted and right heel lightly lifted behind; use a short stride and restrained shoulder and hip counter-swing.",
+      "family": "walk",
+      "group_id": "tt-walk-pause",
+      "sha256": "7964891c241e71e13f1c979d7121893afeec096f1001d9a89978c0134755256a"
+    },
+    "definition_sha256": "1a9618d4c1920e7c80dee549f7bed42affd819b9ec3a3360ae4567a28edea6ff",
+    "mode": "text",
+    "origin": "auto",
+    "adaptation_note": ""
+  },
+  {
+    "version": 1,
+    "definition": {
+      "hands": "Both arms swing gently below the waist without covering the back.",
+      "garment_views": [
+        "back"
+      ],
+      "usage": "owned",
+      "review_note": "Owned AI pose asset reviewed for body geometry; shading and margins may deviate. Use body geometry only; no garment-effect claim.",
+      "avoid_when": "需同款背图；活动量未知或限制步幅时不用。",
+      "view": "back",
+      "support": "Left foot planted; right forefoot touches the floor.",
+      "source_id": "threadtruth-owned-poses-v1",
+      "title": "小步停驻·背视",
+      "body_action": "Seen from behind, pause in a compact step with left foot planted and right heel lightly lifted; keep the stride short.",
+      "family": "walk",
+      "group_id": "tt-walk-pause",
+      "sha256": "273dfc457354ed6ed9d93dba42bad2d78ab97718689b4a875a53ea8b9287553c"
+    },
+    "definition_sha256": "34f0bbe2a5ceb222edf8d68c72b9e0138f283c080ab80ca1a62c65c037471d36",
+    "mode": "text",
+    "origin": "auto",
+    "adaptation_note": ""
+  },
+  {
+    "version": 1,
+    "definition": {
+      "hands": "Both hands relax outside the thighs.",
+      "garment_views": [
+        "front"
+      ],
+      "usage": "owned",
+      "review_note": "Owned AI pose asset reviewed for body geometry; shading and margins may deviate. Use body geometry only; no garment-effect claim.",
+      "avoid_when": "窄裙、短裙、活动量未知裙装或限制步幅时不用。",
+      "view": "front",
+      "support": "Both feet bear weight on the floor.",
+      "source_id": "threadtruth-owned-poses-v1",
+      "title": "宽距稳站",
+      "body_action": "Set feet a little wider than hip width, evenly planted; shoulders and pelvis face camera, torso upright and knees relaxed.",
+      "family": "stand",
+      "group_id": "tt-stand-wide-anchor",
+      "sha256": "2a56548b8f7398086dcc178ba06eb7f9ffdef39532184fcc5b26b49d3db82005"
+    },
+    "definition_sha256": "a83a3980ef9d696a52262d94443d46db8880a229934a850c653bc243be5955c1",
+    "mode": "text",
+    "origin": "auto",
+    "adaptation_note": ""
+  },
+  {
+    "version": 1,
+    "definition": {
+      "hands": "Left hand rests lightly at the left waist, elbow outward; right hand hangs beside the thigh.",
+      "garment_views": [
+        "front"
+      ],
+      "usage": "owned",
+      "review_note": "Owned AI pose asset reviewed for body geometry; shading and margins may deviate. Use body geometry only; no garment-effect claim.",
+      "avoid_when": "腰侧口袋或饰带需无遮挡时不用；不压出不存在的收腰。",
+      "view": "front",
+      "support": "Left leg bears weight; right foot touches the floor.",
+      "source_id": "threadtruth-owned-poses-v1",
+      "title": "单手腰侧",
+      "body_action": "Stand mainly on the left leg with right foot lightly to the side-front; use a small opposing shoulder and pelvic tilt.",
+      "family": "stand",
+      "group_id": "tt-stand-hip-frame",
+      "sha256": "7caa6538107646d7774a7492a08e6b5f12e05b31802dcab58d7c7dbe4d59f77a"
+    },
+    "definition_sha256": "aa8ed5c21d8f43ed9a24ef53015c0771939ad0a4dc6ddd1b371d7227ae51235b",
+    "mode": "text",
+    "origin": "auto",
+    "adaptation_note": ""
+  },
+  {
+    "version": 1,
+    "definition": {
+      "hands": "Both hands hang low; neither hand bears weight.",
+      "garment_views": [
+        "front-side"
+      ],
+      "usage": "owned",
+      "review_note": "Owned AI pose asset reviewed for body geometry; shading and margins may deviate. Use body geometry only; no garment-effect claim.",
+      "avoid_when": "支撑不得切进衣服轮廓；没有可用墙面或前侧商品依据时不用。",
+      "view": "diag",
+      "support": "Right shoulder contacts the wall; both feet stay grounded.",
+      "source_id": "threadtruth-owned-poses-v1",
+      "title": "错脚肩倚",
+      "body_action": "Right shoulder lightly contacts a vertical wall; feet are staggered and grounded, pelvis slightly clear of the wall, with a small torso lean.",
+      "family": "lean",
+      "group_id": "tt-lean-shoulder-stagger",
+      "sha256": "2ba3a16682a55784b5f8b4a62640aca01896c1dcfa1a79abc493734c4b079944"
+    },
+    "definition_sha256": "31effefceafe55b816efed821acc0635d2a14c87ab9607120bf29f43dacb44b7",
+    "mode": "text",
+    "origin": "auto",
+    "adaptation_note": ""
+  },
+  {
+    "version": 1,
+    "definition": {
+      "hands": "Hands rest on bench edges outside the hips, leaving the garment front clear.",
+      "garment_views": [
+        "front"
+      ],
+      "usage": "owned",
+      "review_note": "Owned AI pose asset reviewed for body geometry; shading and margins may deviate. Use body geometry only; no garment-effect claim.",
+      "avoid_when": "短裙、超短下摆、硬裙撑、活动量不明或必须完整背长时不用。",
+      "view": "front",
+      "support": "Bench supports the pelvis; both feet reach the floor.",
+      "source_id": "threadtruth-owned-poses-v1",
+      "title": "端坐留空",
+      "body_action": "Sit centrally on a plain flat bench, pelvis fully supported, shoulders over hips, feet flat and knees comfortably separated.",
+      "family": "sit",
+      "group_id": "tt-sit-upright",
+      "sha256": "bcc8d2179d1f1010c3c5ba5e4c46bccf2ad2036a53ee60138d21ffc958854978"
+    },
+    "definition_sha256": "eed7a5a3e3d7621452e5978f1d79c79ced60eb8540b13e70604c96982c994042",
+    "mode": "text",
+    "origin": "auto",
+    "adaptation_note": ""
+  },
+  {
+    "version": 1,
+    "definition": {
+      "hands": "Right fingertips lightly touch the actual collar outer edge; left hand hangs down.",
+      "garment_views": [
+        "front"
+      ],
+      "usage": "owned",
+      "review_note": "Owned AI pose asset reviewed for body geometry; shading and margins may deviate. Use body geometry only; no garment-effect claim.",
+      "avoid_when": "无领商品或领口必须完全无遮挡时不用；不拉扯领型。",
+      "view": "front",
+      "support": "Both feet grounded; no external support.",
+      "source_id": "threadtruth-owned-poses-v1",
+      "title": "轻触领缘",
+      "body_action": "Keep torso upright, shoulders low and right elbow gently bent.",
+      "family": "close",
+      "group_id": "tt-close-collar-touch",
+      "sha256": "64e25c44aa6f27251142c7927a71c95ef4404f88655828b71f8f2b063e66890d"
+    },
+    "definition_sha256": "5852eff70435a42bd7f9c6be8dc1bebaa60f7d53479c1cac4be813a202c930f3",
+    "mode": "text",
+    "origin": "auto",
+    "adaptation_note": ""
+  },
+  {
+    "version": 1,
+    "definition": {
+      "hands": "Right fingertips lightly touch the actual left wrist cuff; keep both hands away from the torso front.",
+      "garment_views": [
+        "front-side"
+      ],
+      "usage": "owned",
+      "review_note": "Owned AI pose asset reviewed for body geometry; shading and margins may deviate. Use body geometry only; no garment-effect claim.",
+      "avoid_when": "无袖短袖或袖口需完全无遮挡时不用；不改变袖长结构。",
+      "view": "diag",
+      "support": "Both feet grounded; neither hand bears weight.",
+      "source_id": "threadtruth-owned-poses-v1",
+      "title": "低位理袖",
+      "body_action": "Keep chest steady and left forearm low, diagonally beside the body; bend the right elbow without raising either arm across the chest.",
+      "family": "close",
+      "group_id": "tt-close-cuff-adjust",
+      "sha256": "8263d4b243756e45ce446f8f273711e756921b21fc4e56b23251c5559fce62a6"
+    },
+    "definition_sha256": "58507e832ddc295314f13514fb3c50ec55529ad9bb12cb4c2259dabcd328198b",
+    "mode": "text",
+    "origin": "auto",
+    "adaptation_note": ""
+  },
+  {
+    "version": 1,
+    "definition": {
+      "hands": "Right fingertips reach just behind the right ear; left arm hangs low.",
+      "garment_views": [
+        "front-side"
+      ],
+      "usage": "owned",
+      "review_note": "Owned AI pose asset reviewed for body geometry; shading and margins may deviate. Use body geometry only; no garment-effect claim.",
+      "avoid_when": "袖部活动不足或耳侧大配饰冲突时不用。",
+      "view": "diag",
+      "support": "Both feet grounded; no external support.",
+      "source_id": "threadtruth-owned-poses-v1",
+      "title": "耳侧轻触",
+      "body_action": "Stand upright with shoulders and pelvis nearly aligned; bend the right elbow, with only a slight head tilt toward that hand.",
+      "family": "close",
+      "group_id": "tt-close-ear-tuck",
+      "sha256": "a538396eef8d143e97a6e98c2016d636d90a8c8b4c459a147910c076f6ab2e2c"
+    },
+    "definition_sha256": "75cba084703e9b2b5525ec25ade83f4febcd8ab34f2518dafac305f6713c5e14",
+    "mode": "text",
+    "origin": "auto",
+    "adaptation_note": ""
+  },
+  {
+    "version": 1,
+    "definition": {
+      "hands": "Right fingertips touch beside the right jaw edge without cupping the chin; left arm hangs down.",
+      "garment_views": [
+        "front-side"
+      ],
+      "usage": "owned",
+      "review_note": "Owned AI pose asset reviewed for body geometry; shading and margins may deviate. Use body geometry only; no garment-effect claim.",
+      "avoid_when": "不露脸裁切或手遮住领口重点时不用。",
+      "view": "diag",
+      "support": "Both feet grounded; no external support.",
+      "source_id": "threadtruth-owned-poses-v1",
+      "title": "下颌侧轻触",
+      "body_action": "Keep shoulders and pelvis balanced; right elbow bends clear of the chest with a small head tilt toward the fingers.",
+      "family": "close",
+      "group_id": "tt-close-jaw-touch",
+      "sha256": "2410ad5ceb39cff863e614b7e475a186dec9e73d19804eb4eb5c1b5e58c7fb12"
+    },
+    "definition_sha256": "852667bc2a4d42f80322b7cc6ae40a0d90314969d1bb812d2db67988a6602585",
+    "mode": "text",
+    "origin": "auto",
+    "adaptation_note": ""
+  },
+  {
+    "version": 1,
+    "definition": {
+      "hands": "Arms hang clear of the back silhouette, rear pockets and hem.",
+      "garment_views": [
+        "back"
+      ],
+      "usage": "owned",
+      "review_note": "Owned AI pose asset reviewed for body geometry; shading and margins may deviate. Use body geometry only; no garment-effect claim.",
+      "avoid_when": "无同款背图时不用；露脸另核人物角度。",
+      "view": "back",
+      "support": "Both feet planted; no external support.",
+      "source_id": "threadtruth-owned-poses-v1",
+      "title": "背面稳站",
+      "body_action": "Stand with back facing camera, shoulders and pelvis aligned, feet evenly planted and head neutral.",
+      "family": "turn",
+      "group_id": "tt-turn-back-still",
+      "sha256": "d2266b9f5e3bbc942b8541475c0179d4f3735f5c694482d2bcadf0b6655c3294"
+    },
+    "definition_sha256": "426f9d88d0285afbd61e232bcc37e672febff0750ff8c5b2d43efd56c7aa108e",
+    "mode": "text",
+    "origin": "auto",
+    "adaptation_note": ""
+  },
+  {
+    "version": 1,
+    "definition": {
+      "hands": "Both arms hang down and clear the garment back.",
+      "garment_views": [
+        "back",
+        "front-side"
+      ],
+      "usage": "owned",
+      "review_note": "Owned AI pose asset reviewed for body geometry; shading and margins may deviate. Use body geometry only; no garment-effect claim.",
+      "avoid_when": "需同款背面与前侧依据；真人新脸角度不得由此图推导。",
+      "view": "back",
+      "support": "Both feet on the floor; rear leg bears most weight.",
+      "source_id": "threadtruth-owned-poses-v1",
+      "title": "背斜自然回身",
+      "body_action": "Show the back in a three-quarter view with pelvis and knees stable; turn shoulders modestly toward one side while weight stays on the rear support leg.",
+      "family": "turn",
+      "group_id": "tt-turn-back-quarter",
+      "sha256": "7fa790af0f035d036cb22fac48e15a69b04a6712b90ec1acf59848ee45fcde42"
+    },
+    "definition_sha256": "6f0cde3eac8b8cb8c2ad56296e6387de7715233557a298357090acdbc579bb64",
+    "mode": "text",
+    "origin": "auto",
+    "adaptation_note": ""
+  }
+]

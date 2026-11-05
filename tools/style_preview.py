@@ -33,12 +33,12 @@ def _demo_media():
 
 CASE = "white-hooded-puffer-vest-korean-cold"
 SOURCE_REF = f"docs/demo/primary-cases/{CASE}/rights.json"
-PACK_ROOT = "skills/threadtruth-studio/references/styles"
+PACK_ROOT = "skills/lookset/references/styles"
 RULE_PATHS = {
-    "prompt_build": "skills/threadtruth-studio/references/prompt-build.md",
-    "modes_scenes": "skills/threadtruth-studio/references/modes-scenes.md",
-    "safety_core": "skills/threadtruth-studio/references/safety-core.md",
-    "style_router": "skills/threadtruth-studio/references/style-router.md",
+    "prompt_build": "skills/lookset/references/prompt-build.md",
+    "modes_scenes": "skills/lookset/references/modes-scenes.md",
+    "safety_core": "skills/lookset/references/safety-core.md",
+    "style_router": "skills/lookset/references/style-router.md",
 }
 AI_LABEL = "AI-generated style preview — not six independent final images."
 PREVIEW_MARK = "AI生成 · 方向预览 · 非成片 / PREVIEW ONLY — NOT FINAL"
@@ -76,7 +76,7 @@ def _cards():
 
 
 def _visual_library(root):
-    path = child(root, 'skills/threadtruth-studio/scripts/visual_library.py')
+    path = child(root, 'skills/lookset/scripts/visual_library.py')
     spec = importlib.util.spec_from_file_location('preview_visual_library', path)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
@@ -100,7 +100,7 @@ def prepare_visual_collection(root, run_id, specs):
     visual = library._visual()
     entries = []
     for spec in specs:
-        plan = library.prepare(spec, child(root, 'skills/threadtruth-studio'))
+        plan = library.prepare(spec, child(root, 'skills/lookset'))
         if len(plan['shots']) != 6:
             raise ValueError('Direction-preview collections require six planned cells per entry')
         entries.append(dict(entry_id=spec['entry_id'], visual_plan=plan,
@@ -380,7 +380,7 @@ def _photography_spec_tools():
 
 
 def _real_plan_tools():
-    path = Path(__file__).resolve().parents[1] / 'skills/threadtruth-studio/scripts/real_face_plan.py'
+    path = Path(__file__).resolve().parents[1] / 'skills/lookset/scripts/real_face_plan.py'
     spec = importlib.util.spec_from_file_location('preview_real_face_plan', path)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
@@ -434,7 +434,7 @@ def _pose_lines(preview, pose, pilot, label):
 
 
 def _model_tools():
-    path = Path(__file__).resolve().parents[1] / 'skills/threadtruth-studio/scripts/model_reference.py'
+    path = Path(__file__).resolve().parents[1] / 'skills/lookset/scripts/model_reference.py'
     spec = importlib.util.spec_from_file_location('preview_model_reference', path)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
@@ -442,7 +442,7 @@ def _model_tools():
 
 
 def _photography_tools():
-    path = Path(__file__).resolve().parents[1] / 'skills/threadtruth-studio/scripts/photography_targets.py'
+    path = Path(__file__).resolve().parents[1] / 'skills/lookset/scripts/photography_targets.py'
     spec = importlib.util.spec_from_file_location('preview_photography_targets', path)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)

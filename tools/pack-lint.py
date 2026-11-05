@@ -21,7 +21,7 @@ import base64
 import unicodedata
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SKILL_ROOT = os.path.join(REPO_ROOT, "skills", "threadtruth-studio")
+SKILL_ROOT = os.path.join(REPO_ROOT, "skills", "lookset")
 ROUTER_PATH = os.path.join(SKILL_ROOT, "references", "style-router.md")
 
 # ---------------------------------------------------------------------------

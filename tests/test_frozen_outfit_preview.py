@@ -18,7 +18,7 @@ class FrozenOutfitPreviewTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
-        for name in ("docs/demo", "skills/threadtruth-studio/references"):
+        for name in ("docs/demo", "skills/lookset/references"):
             shutil.copytree(ROOT / name, self.root / name)
         shutil.rmtree(self.root / "docs/demo/style-previews/white-vest-24-v1")
         fixture = self.root / FIXTURE

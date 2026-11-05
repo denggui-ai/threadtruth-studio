@@ -13,7 +13,7 @@ from PIL import Image
 from tests.test_pose_plan_v2 import sample_plan
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILL = ROOT / 'skills/threadtruth-studio'
+SKILL = ROOT / 'skills/lookset'
 
 
 def module(name):

@@ -403,7 +403,7 @@ class WorkflowClosureTests(unittest.TestCase):
     def test_revision_cli_uses_the_same_root_authority_and_status(self):
         self.approved();self.finish(goal='unmet')
         spec=self.f.root/'revision.json';spec.write_text(json.dumps(self.revision_spec(),default=str))
-        script=fixtures.ROOT/'skills/threadtruth-studio/scripts/web-task.py'
+        script=fixtures.ROOT/'skills/lookset/scripts/web-task.py'
         result=subprocess.run([sys.executable,str(script),'prepare-revision','--task',str(self.f.job),
             '--look','1','--spec',str(spec),'--approval-id','cli-revision','--note','One synthetic correction',
             '--identity-note','Keep this original model'],capture_output=True,text=True)

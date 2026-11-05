@@ -1,11 +1,11 @@
-# 裁光 / Caiguang beta.10 试用指南
+# Lookset / Lookset beta.10 试用指南
 
 
-**状态：beta.10 预发布试用。** 从 [beta.10 Release](https://github.com/denggui-ai/threadtruth-studio/releases/tag/v1.0.0-beta.10) 取得 `threadtruth-studio-1.0.0-beta.10.zip` 与同名 `.sha256` 文件。不要把 beta.9 的校验文件用于 beta.10，也不要改 ZIP 名称来升级。新环境安装和桌面显示尚未由非维护者验证。
+**状态：beta.10 预发布试用。** 从 [beta.10 Release](https://github.com/denggui-ai/lookset/releases/tag/v1.0.0-beta.10) 取得 `lookset-1.0.0-beta.10.zip` 与同名 `.sha256` 文件。不要把 beta.9 的校验文件用于 beta.10，也不要改 ZIP 名称来升级。新环境安装和桌面显示尚未由非维护者验证。
 
-本版本纳入可选选角目标、审美参考转译、首张选角验收和服饰优先 QA 修正；生图授权、固定六姿势及额度规则保持不变。安装后预期显示 **裁光 · Caiguang**；技术名称、目录与调用指令继续使用 `threadtruth-studio`。
+本版本纳入可选选角目标、审美参考转译、首张选角验收和服饰优先 QA 修正；生图授权、固定六姿势及额度规则保持不变。安装后预期显示 **Lookset**；技术名称、目录与调用指令继续使用 `lookset`。
 
-**English:** This guide covers the beta.10 prerelease ZIP and matching checksum. The expected display name is **裁光 · Caiguang**, while `$threadtruth-studio` and the installation directory stay unchanged. Older beta.9 and earlier downloads remain unchanged; fresh-host discovery and desktop display remain unverified. This trial does not authorize image generation or public sharing of your materials.
+**English:** This guide covers the beta.10 prerelease ZIP and matching checksum. The expected display name is **Lookset**, while `$lookset` and the installation directory stay unchanged. Older beta.9 and earlier downloads remain unchanged; fresh-host discovery and desktop display remain unverified. This trial does not authorize image generation or public sharing of your materials.
 
 ## 1. 试用前准备 / Before installation
 
@@ -32,12 +32,12 @@ sw_vers -productVersion
 
 ```bash
 cd "$HOME/Downloads" &&
-shasum -a 256 -c threadtruth-studio-1.0.0-beta.10.zip.sha256 &&
-unzip threadtruth-studio-1.0.0-beta.10.zip &&
-cd threadtruth-studio-1.0.0-beta.10
+shasum -a 256 -c lookset-1.0.0-beta.10.zip.sha256 &&
+unzip lookset-1.0.0-beta.10.zip &&
+cd lookset-1.0.0-beta.10
 ```
 
-只有校验输出 `threadtruth-studio-1.0.0-beta.10.zip: OK` 才继续。校验值应从可信交付渠道取得；与包一起收到的校验文件只能帮助检查一致性，不能独立认证发布者。若存在同名解压目录，先保留旧目录并换一个空文件夹，避免覆盖提示。不要使用 GitHub 自动生成的源码 ZIP。
+只有校验输出 `lookset-1.0.0-beta.10.zip: OK` 才继续。校验值应从可信交付渠道取得；与包一起收到的校验文件只能帮助检查一致性，不能独立认证发布者。若存在同名解压目录，先保留旧目录并换一个空文件夹，避免覆盖提示。不要使用 GitHub 自动生成的源码 ZIP。
 
 **English:** Put both release files together and run the commands from that folder. Stop if verification fails. Extract into a fresh directory and use the full versioned release root, not the inner skill folder. Obtain the expected checksum through a trusted channel; a checksum alone does not authenticate the publisher.
 
@@ -49,7 +49,7 @@ cd threadtruth-studio-1.0.0-beta.10
 python3 install-local.py
 ```
 
-预检不会写入。确认安装位置在自己的用户主目录 `plugins/threadtruth-studio`，注册表在 `.agents/plugins/marketplace.json`；不是系统目录，也不需要管理员权限。然后：
+预检不会写入。确认安装位置在自己的用户主目录 `plugins/lookset`，注册表在 `.agents/plugins/marketplace.json`；不是系统目录，也不需要管理员权限。然后：
 
 ```bash
 python3 install-local.py --apply
@@ -58,11 +58,11 @@ python3 install-local.py --apply
 运行输出中 **`Next:` 后的完整命令**。默认个人 marketplace 的示例为：
 
 ```bash
-codex plugin add threadtruth-studio@personal --json
+codex plugin add lookset@personal --json
 codex plugin list --json
 ```
 
-若安装器返回其他 marketplace 名称，以它打印的 selector 为准，不要拼接第二个 `@personal`。列表中核对已安装、已启用、版本以 `1.0.0-beta.10` 开头；预期显示名为“裁光 · Caiguang”。若界面仍显示旧名称，记录现象并停止反复重装，不要手工改全局配置。
+若安装器返回其他 marketplace 名称，以它打印的 selector 为准，不要拼接第二个 `@personal`。列表中核对已安装、已启用、版本以 `1.0.0-beta.10` 开头；预期显示名为“Lookset”。若界面仍显示旧名称，记录现象并停止反复重装，不要手工改全局配置。
 
 **已有版本：** 不要执行覆盖式首次安装。先用 `python3 install-local.py --replace` 预检，再用 `python3 install-local.py --apply --replace` 应用，保留输出的 `source_backup` 和 `marketplace_backup`，执行新打印的 `Next:` 命令。升级时安装器会添加 `+codex.*` 版本后缀刷新缓存，这是预期行为；原 ZIP 校验值不变。
 
@@ -81,7 +81,7 @@ codex plugin list --json
 预期先核对素材并请求真实服饰照片；首轮和收尾都不预告“授权后再生图”。若界面能显示工具读取，记录是否读入完整技能；只能看到技能名称时，加载情况记 `not-observable`。仅缺少读取记录不等于未加载。保留失败，不反复重试到成功。然后另开一个空白任务做显式调用对照：
 
 ```text
-请用 $threadtruth-studio 帮我制作服饰模特图。先告诉我需要准备什么，不要生图。
+请用 $lookset 帮我制作服饰模特图。先告诉我需要准备什么，不要生图。
 ```
 
 预期：要求真实服饰图，说明输入要求，不编造服饰、不生成图片。这个无图片检查不需要提供任何素材。
@@ -89,7 +89,7 @@ codex plugin list --json
 再上传自己的服饰照片并输入：
 
 ```text
-请用 $threadtruth-studio 识别并推荐风格，不要生图。
+请用 $lookset 识别并推荐风格，不要生图。
 ```
 
 预期：返回服饰识别卡、主推及备选方向、完整 24 风格目录。核对颜色、款式、配饰和看不到的部位是否诚实标注；此时应生成 **0 张图片**。记录文字是否看得懂、是否需要维护者临时指导。
@@ -99,11 +99,11 @@ codex plugin list --json
 **English prompts:**
 
 ```text
-Use $threadtruth-studio to help me create fashion model images. First explain what inputs you need. Do not generate images.
+Use $lookset to help me create fashion model images. First explain what inputs you need. Do not generate images.
 ```
 
 ```text
-Use $threadtruth-studio to identify this garment and recommend styles. Do not generate images.
+Use $lookset to identify this garment and recommend styles. Do not generate images.
 ```
 
 Expected: request a real garment photo when missing; with a valid photo, return recognition and all 24 style choices without generating images.
@@ -138,7 +138,7 @@ python3 install-local.py --source "<reported-source_backup-path>" --apply --repl
 
 将占位符替换为真实备份路径，随后执行新打印的 `Next:` 命令并新建任务。不直接用旧 marketplace 文件覆盖当前配置，以免丢失后来合法添加的插件。
 
-停用/移除启用状态使用 `codex plugin remove threadtruth-studio@personal --json`（非默认 marketplace 使用实际 selector）。此操作不会一并删除插件源、个人 marketplace 条目、缓存、备份、解压包或图片；保留它们可回滚，需要清理时单独核对后处理。未完成真实 Codex 移除测试时记 `not-tested`。
+停用/移除启用状态使用 `codex plugin remove lookset@personal --json`（非默认 marketplace 使用实际 selector）。此操作不会一并删除插件源、个人 marketplace 条目、缓存、备份、解压包或图片；保留它们可回滚，需要清理时单独核对后处理。未完成真实 Codex 移除测试时记 `not-tested`。
 
 插件无独立遥测、额外 API key 或远程服务。上传到 Codex 的素材会由宿主处理；图片生成使用宿主服务及额度。输出和本地任务记录保存在用户选择的工作区，由用户决定删除；宿主侧留存遵循账号与服务商政策。不要把真实账号、客户照片、私有提示词、路径或完整日志写进反馈。
 
@@ -163,7 +163,7 @@ python3 install-local.py --source "<reported-source_backup-path>" --apply --repl
 | 升级回滚（适用时）/ Rollback, if applicable | not-tested | |
 | 移除启用状态（可选）/ Removal, optional | not-tested | |
 
-附：是否非维护者、全新安装或旧版升级、系统/CLI/桌面版本、耗时、最难理解的一步、是否需要帮助；不含身份和私有路径。公开反馈可使用 [安装反馈表](https://github.com/denggui-ai/threadtruth-studio/issues/new?template=installation-feedback.yml)。
+附：是否非维护者、全新安装或旧版升级、系统/CLI/桌面版本、耗时、最难理解的一步、是否需要帮助；不含身份和私有路径。公开反馈可使用 [安装反馈表](https://github.com/denggui-ai/lookset/issues/new?template=installation-feedback.yml)。
 
 **English:** Record actual results, software versions, elapsed time, assistance needed and the most confusing step. Keep installation, recognition, generation, visual review and lifecycle results separate. Share only sanitized feedback, with separate consent before public attribution or Beta counting.
 

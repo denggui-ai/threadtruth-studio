@@ -20,7 +20,7 @@ def load_module(name, path):
 class StylePersonaTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.m = load_module('persona_model_reference', ROOT/'skills/threadtruth-studio/scripts/model_reference.py')
+        cls.m = load_module('persona_model_reference', ROOT/'skills/lookset/scripts/model_reference.py')
         cls.preview = load_module('persona_style_preview', ROOT/'tools/style_preview.py')
         cls.packs = cls.preview._registered_packs(ROOT)
 

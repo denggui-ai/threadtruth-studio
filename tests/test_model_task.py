@@ -10,7 +10,7 @@ from unittest.mock import patch
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
-spec = importlib.util.spec_from_file_location('model_task', ROOT/'skills/threadtruth-studio/scripts/web-task.py')
+spec = importlib.util.spec_from_file_location('model_task', ROOT/'skills/lookset/scripts/web-task.py')
 m = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(m)
 
@@ -323,7 +323,7 @@ class ModelTaskTests(unittest.TestCase):
         with self.assertRaises(ValueError):m.update(self.job,'reject-model',look=1,note='replace confirmed')
 
     def test_native_cli_confirm_export_import_and_continue_end_to_end(self):
-        script=ROOT/'skills/threadtruth-studio/scripts/web-task.py'
+        script=ROOT/'skills/lookset/scripts/web-task.py'
         def cli(command,job=self.job,*args):
             result=subprocess.run([sys.executable,str(script),command,'--task',str(job),*map(str,args)],capture_output=True,text=True)
             self.assertEqual(result.returncode,0,result.stderr)
@@ -680,7 +680,7 @@ class ModelTaskTests(unittest.TestCase):
         self.assertEqual(len(list((self.job/'failures').iterdir())),2)
 
     def test_cli_failure_recovery_preserves_count_then_confirms_and_continues(self):
-        script=ROOT/'skills/threadtruth-studio/scripts/web-task.py'
+        script=ROOT/'skills/lookset/scripts/web-task.py'
         def cli(command,*args,success=True):
             run=subprocess.run([sys.executable,str(script),command,'--task',str(self.job),*map(str,args)],capture_output=True,text=True)
             self.assertEqual(run.returncode,0 if success else 1,run.stderr)
@@ -715,7 +715,7 @@ class ModelTaskTests(unittest.TestCase):
     def test_cli_invalid_return_exits_nonzero_after_retaining_failure(self):
         self.reserve_trial()
         bad=self.root/'bad.png';Image.new('RGB',(10,10),'gray').save(bad)
-        script=ROOT/'skills/threadtruth-studio/scripts/web-task.py'
+        script=ROOT/'skills/lookset/scripts/web-task.py'
         result=subprocess.run([sys.executable,str(script),'returned','--task',str(self.job),'--look','1','--file',str(bad)],capture_output=True,text=True)
         self.assertEqual(result.returncode,1)
         self.assertIn('retained as failed',result.stderr)

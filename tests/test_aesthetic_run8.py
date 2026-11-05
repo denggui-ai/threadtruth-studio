@@ -100,7 +100,7 @@ class AestheticRun8Tests(unittest.TestCase):
         before = (job / 'task.json').read_bytes()
         source, prepared = self.root / 'prepare.json', self.root / 'prepared.json'
         source.write_text(json.dumps(spec))
-        process = subprocess.run([sys.executable, str(ROOT / 'skills/threadtruth-studio/scripts/visual_library.py'),
+        process = subprocess.run([sys.executable, str(ROOT / 'skills/lookset/scripts/visual_library.py'),
                                   'prepare', '--task', str(job), '--spec', str(source), '--output', str(prepared)],
                                  capture_output=True, text=True)
         self.assertEqual(process.returncode, 0, process.stderr)
