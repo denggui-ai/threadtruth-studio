@@ -73,6 +73,8 @@
 **平台政策(R1–R7) > 风险轴 > 品类/性别年龄轴 > 用途轴 > 风格视觉轴。**
 下游永远不得放宽上游:风格包/用途诉求("要大片氛围/要性感一点")**不得**突破任何红线。**风格包只管视觉轴;年龄/性别/性化主体一律由 core 注入,pack persona 禁声明。**
 
+输出形态(人物图/不露脸/平铺/挂拍/人台)与交付规格(电商主图/小红书/详情页/品牌大片)是 core 交互轴,只改变呈现与构图目标,不放宽五正交轴或授权门禁。
+
 ## 4. core 加载 pack 时的二次校验契约(强制,来自 g3 §3.5)
 
 `pack.safety_delta.cannot_relax: true` 只是 pack 自声明,linter 只能机械保证"声明存在 + 无放宽 token/键"。**不充分**,故 core 每次加载 pack **必须**再做:
@@ -80,7 +82,7 @@
 2. **字段白名单分层:** 可进入运行时 prompt/router 的字段只有 `visual_language` / `model_persona` / `scenes` / `lighting_palette` / `pose_masters` / `negative_delta_add` / `safety_delta.extra_constraints` / `default_mode` / `trigger_words` / `suitable_categories` / `anti_categories`;其中 `model_persona` 必须继续经过下一条与 `prompt-build.md §4.1` 的净化。`qa_extra` 仅是 **QA-only** 检查元数据,不得注入正/负面 prompt,且不得覆盖商品事实守卫。`slug/name/version/maturity/extends` 等治理元数据仅供加载校验;除上述运行时、QA 与治理元数据外,**忽略任何未知字段**。
 3. **`negative_delta_add` 只允许 append** 到 core 负面词,**core 安全负面词不可被覆盖/删除**;`negative_delta_remove` / `safety_override` 任意形态一律拒绝。
 4. **年龄/性化主体一律由 core 按"性别年龄轴"注入**,pack `model_persona` 仅作"气质/表情/状态"叠加,不得声明年龄词/性化词(linter R1#7 强拦 + 本契约二次确认)。
-5. **运行时禁 fallback:** pack 内即便写了任何"生成能力退路"措辞(linter 多视图+二要素已拦截一层),core 工具门禁仍以 §SKILL §6 / `tool-blocked` 为准:无原生生图能力即停,**绝不** API/CLI/curl/network/`OPENAI_API_KEY` fallback。
+5. **运行时禁 fallback:** pack 内即便写了任何"生成能力退路"措辞(linter 多视图+二要素已拦截一层),core 工具门禁仍以 [主文件授权](../SKILL.md#2-授权与权限) / `tool-blocked` 为准:无原生生图能力即停,**绝不** API/CLI/curl/network/`OPENAI_API_KEY` fallback。
 
 ## 5. 已知缺口 / 待确认(诚实标注,禁臆造)
 
@@ -89,3 +91,9 @@
 3. moderation 完整 `categories` 集合未公开 → 规则不写死枚举(不阻断)。
 4. 政策时效:S1/S2 均于 2026-09-12 复核;每次公开发布前须重新核对。
 5. 所有 `未验` 项补齐前,**不得对外声称"已通过平台合规验证"**;静态/linter 通过 ≠ 行为已验证。
+
+## 主体与发布标识
+
+- **年龄/性别主体由 core 按"性别年龄轴"注入,风格包禁声明。** 默认成人(`adult model`);女装→女模特、男装→男模特、童装→**允许儿童模特但强制 R1**(禁性化/暴露/危险情境,去成人化造型);年龄不确定→识别卡标"需确认",先问不猜。
+
+- **AI 标识:** 图用于电商/社媒发布时,提醒按《AI生成合成内容标识办法》(2025-09 施行)打 AI 标识。

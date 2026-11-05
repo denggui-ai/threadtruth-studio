@@ -1,13 +1,12 @@
 # 运行时速查：默认原生路线的命令序列
 
-本页是 SKILL.md 第 0 节"不经账本脚本，绝不生图"的执行清单，只覆盖**原生路线的生图任务**：网页路线在 `export` 之后改用 `export-web-execution` 与 [chatgpt-web.md](chatgpt-web.md) 的信封提交；固定姿势换装走 [fixed-pose-wardrobe.md](fixed-pose-wardrobe.md) 的专用工具；只要提示词（动作 3）不建任务、不生图。`$SKILL` 指 SKILL.md 所在目录；所有命令在用户工作区目录里运行，任务目录也建在工作区里。脚本只操作本地文件，不生成图片，也不证明用户给了授权。报错按 [SKILL.md §0 底线4](../SKILL.md) 的三类处理，不绕过、不手写等价物。
+本页执行[主文件底线4](../SKILL.md#0-四条底线与硬拒绝)：只覆盖原生生图；网页在export后按[网页信封](chatgpt-web.md)提交，固定姿势换装走[专用工具](fixed-pose-wardrobe.md)，动作3不建任务。`$SKILL`为技能目录；命令与任务目录均在用户工作区。脚本只操作本地文件，不生成图片、不证明授权；报错统一按[三类处理](../SKILL.md#3-报错三类处理)。
 
 ## 0. 识别后、生图前（0 次调用）
 
 1. 商品图登记：`references` 每张一个 `{path, role}`，`role` 用 `garment-source`（商品）、`identity-reference`（沿用的真人身份）、`aesthetic-reference`、`pose-reference`。用 `shasum -a 256 <文件>` 取哈希，后面的 `source_sha256s`、`coverage`、`reference_sha256s` 都填它。
 2. 风格入口：`python3 "$SKILL/scripts/visual_library.py" route "<用户说的风格>"` 得到 `entry_ids`；`list` 看全部 36 个入口；`show <entry_id>` 读卡片。推荐理由仍按 style-router。
-3. 逐张编排（新人物／不露脸默认 9 张）：按 [pose-planning.md](pose-planning.md) 写 `shot_plan.json`，`version=2`。顶层：`sku`、`route`（有可用背面图为 `A`，否则 `B`）、`coverage`、`looks`、`selected_shot_ids`、`series_role`（整组 `series`，单张 `standalone`），并带 `framing_guidance: 3`（取景留白句由它触发；2 只属于已冻结计划；1 仅为旧冻结计划保留）和 `variety_checks: 2`（新自由编排，动作去重、商品视角及场景检查；旧冻结计划保留原值或缺省，不据此判断任务新旧）。每个 look 必填：`slot`、`shot_id`、`display_goal`、`must_show`（人物格可 `[]`）、`reason`、`body_action`、`hands`、`support`、`framing`（`full-body`/`knee-up`/`half-body`/`detail`）、`garment_views`（`front`/`front-side`/`back`/`detail` 的子集）、`reference_sha256s`；露脸 AI 人物另给 `head`、`gaze`。风格卡带 `pose_vocabulary` 时，look 另写 `pose_id`（所选词条 id；例：`"pose_id": "kc-wall-stand"`）。自有库动作使用 `pose_library.py apply` 返回的 `pose_selection` 快照，文字与附图模式见 [选姿说明](pose-planning.md#可选动作与用户指定)，默认继承动作文字，再按本件商品适配`body_action`、`hands`并记录必要的adaptation_note；不用库时写`pose_decision`，具体解释为什么池内动作不适合本格，不能只写“不适合／丰富变化”。`coverage` 每项：`{sha256, views, usable, same_sku, note}`。
-每个非特写格先跑 `python3 "$SKILL/scripts/pose_library.py" recommend --spec prepare.json --shot-id <shot_id> --limit 5`；所选风格卡有 `pose_pool` 时，优先用池内条目。仅对全新任务首次准备的 v2 且（`variety_checks=2` 或 `framing_guidance=3`） 计划，有池时非特写格至少一半（向上取整）须用池内 `pose_id` 或自有库 `pose_selection`，特写不计配额。无池卡保持原规则；已有冻结任务重新准备时传入 `--task <任务目录>`，不检查此配额。`variety_checks=2` 与 `framing_guidance=2/3` 都不能证明任务是新建的。推荐不扩展商品或真人素材范围，返回不支持时继续原支持路径。
+3. 按[冻结计划字段](pose-planning.md#冻结计划与职责)写完整`shot_plan.json`：新人物/不露脸默认9张，`version=2`、`framing_guidance=3`、`variety_checks=2`；逐张动作与`pose_selection/pose_decision`按[动作选择](pose-planning.md#从已有事实选姿势)填写，每个非特写格先[recommend](pose-planning.md#按商品目标排序候选)。旧任务重新准备及版本字段见[旧任务](legacy-tasks.md)。
 
 4. 冻结视觉方案：
 
@@ -32,7 +31,7 @@ python3 "$SKILL/scripts/visual_library.py" prepare --spec prepare.json --output 
 
 采用知识修饰语、主辅风格或文化资料时，按[知识转译](visual-plan.md#把选中的知识与风格要求写入执行字段)写入上述商品字段与`overrides.photography/art`、逐张计划；来源ID不能代替执行句。显式修改拍法后若与原卡承诺冲突，用`overrides.commitments`提供完整的本轮承诺列表，保留相容项，再经现有人物／形态过滤；不手改冻结的`visual_plan.json`。
 
-`model.source_type`：`new` 新 AI 人物、`ai` 沿用已确认 AI 人物、`real` 真人；`subject` 用 `adult female model` / `adult male model` / `child model`。输出的 `visual_plan.json` 含 9 个 `shots` 和可选 `persona`，不要手改。`--output` 指向已有文件会被拒绝（冻结方案不覆盖），报错里给出可用的新文件名，换名重跑即可。
+`model.source_type`与`subject`按[人物选择](model-selection.md)；`visual_plan.json`按实际计划含shots与可选persona，不手改。输出重名按[报错(b)](../SKILL.md#3-报错三类处理)换名重跑。
 
 ## 1. 预览任务（动作 0，1 次调用）
 
@@ -42,9 +41,9 @@ python3 "$SKILL/scripts/web-task.py" authorize --task preview --limit 1 --spec p
 python3 "$SKILL/scripts/web-task.py" export --task preview
 ```
 
-`preview-decision.json` 为 `{"style":"<已选正式入口ID>","path":"preview","image_count":1,"note":"<已确认方案的依据>"}`。新建schema2任务标`workflow_version=1`，生成前核对风格、路线、当前阶段张数与选姿记录；已有选择/授权直接记录，不重复询问。如果授权已经记过，只补 `confirm-plan --spec <decision.json>`，不能再次authorize。旧冻结任务无标记时维持原契约，不删字段伪装旧任务。
+`preview-decision.json`为`{"style":"<已选正式入口ID>","path":"preview","image_count":1,"note":"<已确认方案的依据>"}`。新schema2任务标`workflow_version=1`；按[授权契约](flow-gates.md#授权与读写权限)核风格、路线、次数与选姿，已有选择直接记录。已authorize时只补`confirm-plan --spec <decision.json>`，不能再次authorize；[旧任务](legacy-tasks.md#冻结字段与恢复)保持原契约。
 
-> 自写 JSON 字段（如 `must_show` 必须是字符串列表）可按上述 (a) 类改正后重跑；shot_plan 改动须重新 `prepare --output` 到新文件名再 `init`，同一任务最多自改3次；其余按三类规则处理。
+字段修正及重名均按[三类报错](../SKILL.md#3-报错三类处理)。
 
 `init-preview.json` 骨架：
 
@@ -83,7 +82,7 @@ python3 "$SKILL/scripts/web-task.py" authorize --task delivery --limit <本次�
 
 `delivery-decision.json` 同上，`path` 为 `after-preview`、`image_count` 为本任务实际N张。明确跳过预览时直接init delivery，记录 `path: "direct"`；主动独立单张可用 `single`。一次整份方案确认覆盖所有选择，note沿用已有确认，内部记录不应变成给用户的多轮问卷。
 
-`delivery.json` 骨架：`{"context": {<同预览 context，但 "purpose": "delivery">}, "size": [2, 3], "count": 9, "series_role": "series"}`。`--limit` 填用户本次明确的成片次数（1…N）。**一个任务只能 `authorize` 一次，当前版本没有追加次数的命令**（`continue-authorize` 只用于经典 v1 单张续五和 v2 series-first 续组，`retry-authorize` 补被拒或已核实失败的单张；关联修订另按§3记录独立的1次授权）。用户先批部分、用完再批时：如实告诉用户这组已记录的次数已用完、追加授权要等运行时补上追加命令（已记 backlog），不要重建任务、不要凭记忆多生成。
+`delivery.json` 骨架：`{"context": {<同预览 context，但 "purpose": "delivery">}, "size": [2, 3], "count": 9, "series_role": "series"}`。`--limit` 填用户本次明确的成片次数（1…N）。**一个任务只能 `authorize` 一次，当前版本没有追加次数的命令**（v2 series-first续组用`continue-authorize`，旧v1见[旧任务](legacy-tasks.md#经典六姿势)；`retry-authorize`补被拒或已核实失败的单张，关联修订另按§3记录独立1次授权）。用户先批部分、用完再批时：如实告诉用户这组已记录的次数已用完、追加授权要等运行时补上追加命令，不要重建任务、不要凭记忆多生成。
 
 每张（look = 1…N）固定四步，串行：
 
@@ -140,4 +139,4 @@ status中的`attempts`仍是该根任务的直接调用，`series_attempts`汇�
 
 - 每一步只报结果与下一步要的确认，不展示 JSON、哈希或状态码；文件路径只在用户要时给。
 - `status --task <目录>` 能随时回答"已用几次、还剩几次、哪张待核"，用它的数字，不凭记忆。
-- 脚本报错按上述三类处理；账本、授权、次数、哈希及未列错误：原样告诉用户并停下。
+- 脚本报错按[三类处理](../SKILL.md#3-报错三类处理)。
