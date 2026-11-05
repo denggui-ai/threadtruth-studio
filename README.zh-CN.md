@@ -10,13 +10,13 @@ Lookset 由 ThreadTruth Studio 改名而来。
 
 本版纳入22卡／176条共享动作、知识与风格规则衔接，以及精确／有限文字近似避重。维护者本机已备份安装并核对同一运行源码；成片稳定性、新机器与实际回滚仍未全面验证，保持预发布状态。[使用方法与限制](docs/STUDIO-CANDIDATE.md) · [离线使用指南](USER-GUIDE.html)。
 
-[![Lookset — AI Fashion Studio。米色套装参考图与 AI 生成效果。](https://denggui-ai.github.io/lookset/assets/brand/og-home.png)](https://denggui-ai.github.io/lookset/)
+[![Lookset — AI Fashion Studio。米色套装参考图与 AI 生成效果。](https://denggui-ai.github.io/threadtruth-studio/assets/brand/og-home.png)](https://denggui-ai.github.io/threadtruth-studio/)
 
 **单件或整套服饰，按服饰编排九张 AI 模特图，36 个视觉入口可选。**<br>Turn a garment or coordinated outfit into a garment-driven set of nine AI model portraits. Choose from 36 visual entries.
 
-**[下载Lookset插件 · Download Lookset](https://github.com/denggui-ai/lookset/releases/tag/v0.1.0-beta.3)**　·　**[开始安装 · Install](docs/INSTALL.md#简体中文)**　·　**[查看成片 · See results](https://denggui-ai.github.io/lookset/#reviewed-cases)**　·　**[探索风格 · Explore styles](https://denggui-ai.github.io/lookset/#style-highlights)**
+**[下载Lookset插件 · Download Lookset](https://github.com/denggui-ai/lookset/releases/tag/v0.1.0-beta.3)**　·　**[开始安装 · Install](docs/INSTALL.md#简体中文)**　·　**[查看成片 · See results](https://denggui-ai.github.io/threadtruth-studio/#reviewed-cases)**　·　**[探索风格 · Explore styles](https://denggui-ai.github.io/threadtruth-studio/#style-highlights)**
 
-[English guide](README.md) · [中文说明](README.zh-CN.md) · [产品首页 / Website](https://denggui-ai.github.io/lookset/) · [能力清单与拓扑 / Capability topology](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md) · [当前能力状态 / Capability status](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/CAPABILITY-STATUS.md)
+[English guide](README.md) · [中文说明](README.zh-CN.md) · [产品首页 / Website](https://denggui-ai.github.io/threadtruth-studio/) · [能力清单与拓扑 / Capability topology](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md) · [当前能力状态 / Capability status](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/CAPABILITY-STATUS.md)
 
 
 [![Lookset架构与关键流程](https://raw.githubusercontent.com/denggui-ai/lookset/main/docs/assets/architecture-overview.svg)](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/ARCHITECTURE.md)
@@ -32,14 +32,14 @@ Lookset 由 ThreadTruth Studio 改名而来。
 
 [素材怎么准备](docs/INPUT-GUIDE.md) · [九张编排与生成指令](docs/CAPABILITIES.md) · [单件 24 风格预览（历史）](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/demo/style-previews/white-vest-24-v1) · [套装 24 风格预览（历史）](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/demo/style-previews/beige-blazer-denim-outfit-24-v1)
 
-以上两套是六图时期的历史方向预览，每个风格一张六宫格，均不是独立成片。[六组穿搭案例](https://denggui-ai.github.io/lookset/reviewed-cases.html)（红花裙、浅绿衬衫家居搭配，拼色 T 恤的两种风格，外部 Codex 用户的黑色外套搭配，以及同款通勤窗光案例，共 36 张独立 AI 图）均在六图流程下完成，各组验收范围分别披露；九张流程的公开案例待入口巡检后补充。
+以上两套是六图时期的历史方向预览，每个风格一张六宫格，均不是独立成片。[六组穿搭案例](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html)（红花裙、浅绿衬衫家居搭配，拼色 T 恤的两种风格，外部 Codex 用户的黑色外套搭配，以及同款通勤窗光案例，共 36 张独立 AI 图）均在六图流程下完成，各组验收范围分别披露；九张流程的公开案例待入口巡检后补充。
 
 ## 为什么选择Lookset
 
 **让真实服饰，成为每一次创作的依据。**
 
-- **细节有依据，成片可对照。** 先读颜色、结构与搭配，再对照源图逐张确认，让你知道该看哪些细节。[查看已验收成片](https://denggui-ai.github.io/lookset/#reviewed-cases)。
-- **一套服饰，探索多种方向。** 从电商棚拍到品牌大片，在 36 个视觉入口中寻找适合这套服饰的表达。[看同套服饰的三种风格](https://denggui-ai.github.io/lookset/#outfit)。
+- **细节有依据，成片可对照。** 先读颜色、结构与搭配，再对照源图逐张确认，让你知道该看哪些细节。[查看已验收成片](https://denggui-ai.github.io/threadtruth-studio/#reviewed-cases)。
+- **一套服饰，探索多种方向。** 从电商棚拍到品牌大片，在 36 个视觉入口中寻找适合这套服饰的表达。[看同套服饰的三种风格](https://denggui-ai.github.io/threadtruth-studio/#outfit)。
 - **先看方向，再出九张。** 默认先选方向，授权一张九格方向预览，确认方向后再做九张独立图；明确要求六张或单张时按要求执行。[先做一次识别](#三步开始)。
 
 ## 你可以用它做什么
@@ -78,27 +78,27 @@ Lookset安装在 **Codex** 中。ChatGPT 入口按[网页教程](docs/CHATGPT-WE
 
 ## 案例与验证范围
 
-**六组案例，共 36 张独立图。** [查看全部成片与来源说明](https://denggui-ai.github.io/lookset/reviewed-cases.html)。红花裙、家居搭配的视觉方向已验收；两组 T 恤保留人工细节与动作复核。可用于穿搭效果预览，人物是 AI 模特，不承诺本人身份、实际尺码或合体效果。
+**六组案例，共 36 张独立图。** [查看全部成片与来源说明](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html)。红花裙、家居搭配的视觉方向已验收；两组 T 恤保留人工细节与动作复核。可用于穿搭效果预览，人物是 AI 模特，不承诺本人身份、实际尺码或合体效果。
 
 **商品参考 → AI 场景穿搭。** 下图展示本次实际使用的衬衫、裤装主要参考与家居成片；裤装仅局部展示，另有结构和人物参考。外部 Codex 用户也已完成六图试用并反馈满意；其使用版本未知。
 
-<a href="https://denggui-ai.github.io/lookset/reviewed-cases.html#green-shirt-home"><img src="https://denggui-ai.github.io/lookset/assets/reviewed-cases/green-shirt-home/before-after.jpg" alt="Product references and AI home-scene result / 商品参考与 AI 家居成片" width="480"></a>
+<a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#green-shirt-home"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/green-shirt-home/before-after.jpg" alt="Product references and AI home-scene result / 商品参考与 AI 家居成片" width="480"></a>
 
-[查看家居 Before / After、六张原图与来源说明](https://denggui-ai.github.io/lookset/reviewed-cases.html#green-shirt-home)
+[查看家居 Before / After、六张原图与来源说明](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#green-shirt-home)
 
 **一张搭配图 → 六张通勤场景图。** 同一张已授权输入也用于外部试用；对照两种呈现方向，不作为版本升级前后的效果证明。缺少背面实拍，第六张采用正面自然站姿；细小服饰结构保留人工核对。
 
 | 实际输入 | AI · 通勤窗光 |
 |---|---|
-| <a href="https://denggui-ai.github.io/lookset/reviewed-cases.html#black-jacket-office"><img src="https://denggui-ai.github.io/lookset/assets/reviewed-cases/black-jacket-office/input.jpg" alt="实际授权搭配输入" width="240"></a> | <a href="https://denggui-ai.github.io/lookset/reviewed-cases.html#black-jacket-office"><img src="https://denggui-ai.github.io/lookset/assets/reviewed-cases/black-jacket-office/look-1.png" alt="AI 生成的皮衣通勤搭配" width="240"></a> |
+| <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#black-jacket-office"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/black-jacket-office/input.jpg" alt="实际授权搭配输入" width="240"></a> | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#black-jacket-office"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/black-jacket-office/look-1.png" alt="AI 生成的皮衣通勤搭配" width="240"></a> |
 
-[查看两种方向、新六张与验收范围](https://denggui-ai.github.io/lookset/reviewed-cases.html#black-jacket-office) · [下载案例分享素材](https://denggui-ai.github.io/lookset/assets/reviewed-cases/black-jacket-office/share/caiguang-black-jacket-share.zip)
+[查看两种方向、新六张与验收范围](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#black-jacket-office) · [下载案例分享素材](https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/black-jacket-office/share/caiguang-black-jacket-share.zip)
 
-**同款皮衣，换一种气质。** [查看法式与美式单张对比](https://denggui-ai.github.io/lookset/reviewed-cases.html#black-jacket-style-comparison)：沿用同一搭配、AI 模特身份和第一姿势。法式 v3 的温和表情已获视觉认可；美式保留克制的都市效果，视觉方向待验收。两种风格各一张测试图，服装细节继续复核。
+**同款皮衣，换一种气质。** [查看法式与美式单张对比](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#black-jacket-style-comparison)：沿用同一搭配、AI 模特身份和第一姿势。法式 v3 的温和表情已获视觉认可；美式保留克制的都市效果，视觉方向待验收。两种风格各一张测试图，服装细节继续复核。
 
 | | | | | |
 |---|---|---|---|---|
-| <a href="https://denggui-ai.github.io/lookset/reviewed-cases.html#black-jacket-office"><img src="https://denggui-ai.github.io/lookset/assets/reviewed-cases/black-jacket-office/look-1.png" alt="通勤窗光 — AI-generated" width="150"></a><br>通勤窗光 · 同款对照 | <a href="https://denggui-ai.github.io/lookset/reviewed-cases.html#red-floral-french"><img src="https://denggui-ai.github.io/lookset/assets/reviewed-cases/red-floral-french/look-1.png" alt="红花裙 — AI-generated" width="150"></a><br>红花裙 | <a href="https://denggui-ai.github.io/lookset/reviewed-cases.html#green-shirt-home"><img src="https://denggui-ai.github.io/lookset/assets/reviewed-cases/green-shirt-home/look-1.png" alt="家居搭配 — AI-generated" width="150"></a><br>家居搭配 | <a href="https://denggui-ai.github.io/lookset/reviewed-cases.html#trim-tee-american"><img src="https://denggui-ai.github.io/lookset/assets/reviewed-cases/trim-tee-american/look-1.png" alt="美式街头 T 恤 — AI-generated" width="150"></a><br>美式街头 T 恤 | <a href="https://denggui-ai.github.io/lookset/reviewed-cases.html#trim-tee-japanese"><img src="https://denggui-ai.github.io/lookset/assets/reviewed-cases/trim-tee-japanese/look-1.png" alt="日系生活 T 恤 — AI-generated" width="150"></a><br>日系生活 T 恤 |
+| <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#black-jacket-office"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/black-jacket-office/look-1.png" alt="通勤窗光 — AI-generated" width="150"></a><br>通勤窗光 · 同款对照 | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#red-floral-french"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/red-floral-french/look-1.png" alt="红花裙 — AI-generated" width="150"></a><br>红花裙 | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#green-shirt-home"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/green-shirt-home/look-1.png" alt="家居搭配 — AI-generated" width="150"></a><br>家居搭配 | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#trim-tee-american"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/trim-tee-american/look-1.png" alt="美式街头 T 恤 — AI-generated" width="150"></a><br>美式街头 T 恤 | <a href="https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html#trim-tee-japanese"><img src="https://denggui-ai.github.io/threadtruth-studio/assets/reviewed-cases/trim-tee-japanese/look-1.png" alt="日系生活 T 恤 — AI-generated" width="150"></a><br>日系生活 T 恤 |
 
 [案例记录与媒体说明](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/SHOWCASE-CASES.md)。
 
@@ -106,12 +106,12 @@ Lookset安装在 **Codex** 中。ChatGPT 入口按[网页教程](docs/CHATGPT-WE
 
 **4 张源图 → 6 张独立 AI 人像。** 这组历史案例已完成人工验收，与配对图库分开记录，也不是 beta.8 新生成的结果。[查看完整案例与媒体条款](https://github.com/denggui-ai/lookset/blob/main/docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)。
 
-**24 风格配对图库**展示 Codex 与 ChatGPT 网页端的结果，附来源署名、权利披露和逐组评审。图片为 AI 合成研究对照，不代表模型排名，也不代表每张图片均可自由复用。[查看图库来源与权利记录](https://denggui-ai.github.io/lookset/rights.json)。
+**24 风格配对图库**展示 Codex 与 ChatGPT 网页端的结果，附来源署名、权利披露和逐组评审。图片为 AI 合成研究对照，不代表模型排名，也不代表每张图片均可自由复用。[查看图库来源与权利记录](https://denggui-ai.github.io/threadtruth-studio/rights.json)。
 
 | 集合 | 已公开内容 | 能说明什么 |
 |---|---|---|
-| [新增穿搭案例](https://denggui-ai.github.io/lookset/reviewed-cases.html) | **6 组 × 6 张独立图 = 36 张** | 分别记录视觉验收与待复核项；不计入旧版冻结的风格索引。 |
-| [配对比较图库](https://denggui-ai.github.io/lookset/compare.html) | **24 风格 × 2 个入口 = 48 张图片** | 同一输入的结果对照，含评审与权利披露；不等于 24 套完整六图交付，也不代表 beta.8 全风格验证。 |
+| [新增穿搭案例](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html) | **6 组 × 6 张独立图 = 36 张** | 分别记录视觉验收与待复核项；不计入旧版冻结的风格索引。 |
+| [配对比较图库](https://denggui-ai.github.io/threadtruth-studio/compare.html) | **24 风格 × 2 个入口 = 48 张图片** | 同一输入的结果对照，含评审与权利披露；不等于 24 套完整六图交付，也不代表 beta.8 全风格验证。 |
 | [白马甲完整案例](https://github.com/denggui-ai/lookset/blob/main/docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md) | **1 种风格 × 6 张独立成片** | 一组完成人工验收的完整案例；旧版冻结主案例风格索引为 **1/24**。 |
 | 历史方向预览 | **2 个集合 × 24 种风格** | 每种风格一张六姿势看板，经过版式检查与维护者验收；保留白马甲 beta.3、套装 beta.4 的原始证据。 |
 

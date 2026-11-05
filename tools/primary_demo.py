@@ -715,7 +715,7 @@ def primary_case_readme(rights: dict[str, object]) -> str:
     canvas = quality["canvas_contract"]
     return f"""# {str(rights['style']).replace('-', ' ').title()} · complete garment case
 
-[Install in Codex](../../../INSTALL.md#english) · [中文安装](../../../INSTALL.md#简体中文) · [Back to Lookset](../../../../README.md) · [Compare 24 styles](https://denggui-ai.github.io/lookset/compare.html)
+[Install in Codex](../../../INSTALL.md#english) · [中文安装](../../../INSTALL.md#简体中文) · [Back to Lookset](../../../../README.md) · [Compare 24 styles](https://denggui-ai.github.io/threadtruth-studio/compare.html)
 
 **Four real source views → six independent AI-generated portraits.** Generated on {quality['generated_at'][:10]}, this historical case records one reviewed set. It is separate from the paired comparison gallery and does not verify every style under the current runtime.
 

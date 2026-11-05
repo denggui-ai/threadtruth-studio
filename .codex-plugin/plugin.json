@@ -6,7 +6,7 @@
     "name": "DENGGUI",
     "url": "https://github.com/denggui-ai"
   },
-  "homepage": "https://denggui-ai.github.io/lookset/",
+  "homepage": "https://denggui-ai.github.io/threadtruth-studio/",
   "repository": "https://github.com/denggui-ai/lookset",
   "license": "Apache-2.0",
   "keywords": [
@@ -29,7 +29,7 @@
       "36-entry visual planning",
       "commercial QA"
     ],
-    "websiteURL": "https://denggui-ai.github.io/lookset/",
+    "websiteURL": "https://denggui-ai.github.io/threadtruth-studio/",
     "defaultPrompt": [
       "Use $lookset to inspect my garment and person references and help me prepare a shoot plan. Do not generate images yet."
     ]

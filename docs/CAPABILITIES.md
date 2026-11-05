@@ -28,7 +28,7 @@ beta.15 预发布版包含素材识别、人物选择与复用、视觉方向、
 
 Start with real garment photos, identify the source and choose a direction before generating. This guide describes the **beta.15** workflow, including explicit single-image composition, real-person view coverage and per-image reference selection. The default flow is style selection, one labeled nine-panel direction preview, direction confirmation and nine garment-driven independent images; explicit single-image, six-image and classic six-pose requests are preserved. Use the matching release package. Check installation records for the active local version. Not every combination has been tested.
 
-[开始安装 / Install](INSTALL.md) · [产品首页 / Website](https://denggui-ai.github.io/lookset/) · [24 风格样例（历史） / Style examples (historical)](https://denggui-ai.github.io/lookset/#style-highlights) · [兼容性 / Compatibility](COMPATIBILITY.md)
+[开始安装 / Install](INSTALL.md) · [产品首页 / Website](https://denggui-ai.github.io/threadtruth-studio/) · [24 风格样例（历史） / Style examples (historical)](https://denggui-ai.github.io/threadtruth-studio/#style-highlights) · [兼容性 / Compatibility](COMPATIBILITY.md)
 
 默认选风格（主推、两个备选与完整36个视觉入口目录）→ 授权 1 张九格方向预览（标注非成片）→ 确认方向 → 按授权生成按服饰编排的九张独立图。实际首张仍须人物确认，确认后其余八张沿用人物参考；已有授权沿用。明确要求六张或经典六姿势时按 6 张执行；用户主动要求单张则走单张，验收后结束，不强制预览或扩组。模特参考包与受限局部换装见[模特复用](MODEL-REUSE.md)。
 
@@ -84,7 +84,7 @@ An explicitly requested single-image pose, framing or footwear follows the confi
 
 [准备素材 / Photo guide](INPUT-GUIDE.md) · [单件 24 风格预览（历史） / Garment previews (historical)](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/demo/style-previews/white-vest-24-v1) · [套装 24 风格预览（历史） / Outfit previews (historical)](https://github.com/denggui-ai/threadtruth-studio/blob/main/docs/demo/style-previews/beige-blazer-denim-outfit-24-v1)
 
-两套历史预览均为每风格一张六宫格，不是独立成片。白马甲六图历史案例改为在线查看，不随安装包分发；线上另有[六组六图案例](https://denggui-ai.github.io/lookset/reviewed-cases.html)，含外部试用套装，各组保留来源与验收范围。 / Both historical collections contain one six-panel sheet per style, not independent finals. The historical white-vest case is available online and is not bundled; six reviewed groups, including an external outfit trial, are available online with their own source and review scope.
+两套历史预览均为每风格一张六宫格，不是独立成片。白马甲六图历史案例改为在线查看，不随安装包分发；线上另有[六组六图案例](https://denggui-ai.github.io/threadtruth-studio/reviewed-cases.html)，含外部试用套装，各组保留来源与验收范围。 / Both historical collections contain one six-panel sheet per style, not independent finals. The historical white-vest case is available online and is not bundled; six reviewed groups, including an external outfit trial, are available online with their own source and review scope.
 
 ## 第一次用，先做这一步 / Start here
 
@@ -119,7 +119,7 @@ Expect source checks, a primary recommendation, two alternatives and all 36 visu
 | **选择入口 / Choose a route** | 同一方案 → Codex 原生生图，或 ChatGPT 网页转交包。 / The same plan → Codex generation or a ChatGPT web handoff. | 默认 Codex；网页为显式选择。网页自动执行需宿主浏览器工具；可转手动流程。 / Codex by default; web is opt-in. Automation needs host browser tools; a manual path is documented. | 维护者 macOS 已完成网页六张流程（六图时期）；非维护者新机器与真人手动易用性未验证。 / A six-image web run is recorded on the maintainer's Mac (six-image era); fresh-host and human manual usability remain unverified. |
 | **检查与修正 / Review & retry** | 源图、生成原文件与反馈 → 逐张问题记录、尺寸核对和授权后的单张重试。 / Sources, original outputs and feedback → per-image review, dimension checks and an authorized retry. | 有 QA 指令；网页助手校验尺寸、重复文件、顺序与请求记录。失败不会自动获得重试权限。 / QA instructions and web-helper size, duplicate, sequencing and request checks. Failures do not grant retry permission. | 本地助手有回归测试；视觉判断仍需对照源图及人工确认，不能保证小字、Logo 或合体效果。 / Helper regression tests exist; visual quality still requires source comparison and human review. |
 
-对应规则与证据：[识别规则](../skills/lookset/references/recognition.md)、[风格路由](../skills/lookset/references/style-router.md)、[公开图库](https://denggui-ai.github.io/lookset/compare.html)、[完整案例](https://github.com/denggui-ai/lookset/blob/main/docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)、[版本与环境记录](COMPATIBILITY.md)、[网页助手测试（在线源码，需联网）](https://github.com/denggui-ai/threadtruth-studio/blob/main/tests/test_web_task.py)。测试源码不包含在插件 ZIP 内。 / Test source is online and is not included in the plugin ZIP.
+对应规则与证据：[识别规则](../skills/lookset/references/recognition.md)、[风格路由](../skills/lookset/references/style-router.md)、[公开图库](https://denggui-ai.github.io/threadtruth-studio/compare.html)、[完整案例](https://github.com/denggui-ai/lookset/blob/main/docs/demo/primary-cases/white-hooded-puffer-vest-korean-cold/README.md)、[版本与环境记录](COMPATIBILITY.md)、[网页助手测试（在线源码，需联网）](https://github.com/denggui-ai/threadtruth-studio/blob/main/tests/test_web_task.py)。测试源码不包含在插件 ZIP 内。 / Test source is online and is not included in the plugin ZIP.
 
 Rules and evidence: recognition and routing references, public gallery, complete case, version/environment records and web-helper tests linked above. Tests of a helper are not end-to-end image-generation tests.
 

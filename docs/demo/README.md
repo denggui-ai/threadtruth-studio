@@ -28,7 +28,7 @@ A complete demo must contain:
 7. user confirmation closing every `qa-user-review` item;
 8. completed rights record in `RIGHTS.md`, including the AI-generated-media label where applicable.
 
-The [24-style evidence index](STYLES.md) links all 24 accepted white-vest direction previews published in beta.3. Every entry has one optimized native sheet, one labeled fixed-card derivative and one thumbnail. Six maintainer-requested corrections retain explicit replacement lineage. These historical previews do not change the separate 1/24 independent-final coverage or 1/3 complete-primary-case count. The newer [24-style paired gallery](https://denggui-ai.github.io/lookset/) separately presents 48 comparison results with their own source records, rights disclosures, and reviews; it does not add complete six-image primary cases.
+The [24-style evidence index](STYLES.md) links all 24 accepted white-vest direction previews published in beta.3. Every entry has one optimized native sheet, one labeled fixed-card derivative and one thumbnail. Six maintainer-requested corrections retain explicit replacement lineage. These historical previews do not change the separate 1/24 independent-final coverage or 1/3 complete-primary-case count. The newer [24-style paired gallery](https://denggui-ai.github.io/threadtruth-studio/) separately presents 48 comparison results with their own source records, rights disclosures, and reviews; it does not add complete six-image primary cases.
 
 The optional The Met pipeline can create reproducible CC0 auxiliary cases, but it cannot replace a primary case or count toward Beta adoption. Candidate files stay in ignored local quarantine and need a complete human review before promotion. See [MEDIA-POLICY.md](MEDIA-POLICY.md).
 
