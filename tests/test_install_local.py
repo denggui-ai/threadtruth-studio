@@ -76,5 +76,21 @@ class LocalInstallTests(unittest.TestCase):
     def test_release_only_allowlist_excludes_private_development_files(self):
         (self.source / '.threadtruth').mkdir()
         (self.source / '.threadtruth/private.txt').write_text('must not copy')
+        (self.source / 'docs/development').mkdir(parents=True)
+        (self.source / 'docs/development/notes.md').write_text('must not copy')
+        (self.source / 'docs/INSTALL.md').write_text('ships')
+        (self.source / 'CHANGELOG.md').write_text('must not copy')
         installer.install(self.source, self.home, apply=True)
-        self.assertFalse((self.home / 'plugins/lookset/.threadtruth').exists())
+        target = self.home / 'plugins/lookset'
+        self.assertFalse((target / '.threadtruth').exists())
+        self.assertFalse((target / 'docs/development').exists())
+        self.assertFalse((target / 'CHANGELOG.md').exists())
+        self.assertTrue((target / 'docs/INSTALL.md').is_file())
+
+    def test_install_allowlist_mirrors_release_allowlist(self):
+        spec = importlib.util.spec_from_file_location(
+            'build_release_mirror', Path(__file__).parents[1] / 'tools/build-release.py')
+        release = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(release)
+        self.assertEqual(set(installer.FILES), set(release.PUBLIC_FILES))
+        self.assertEqual(set(installer.DIRECTORIES), set(release.SOURCE_DIRS))

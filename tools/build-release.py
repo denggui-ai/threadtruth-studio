@@ -34,7 +34,6 @@ PUBLIC_FILES = (
     "docs/POSE-LIBRARY-TRYOUT.md",
     "docs/INPUT-GUIDE.md",
     "docs/MODEL-REUSE.md",
-    "docs/MODEL-REUSE-CANDIDATE.md",
     "docs/CAPABILITIES.md",
     "docs/COMPATIBILITY.md",
     "docs/CHATGPT-WEB.md",
@@ -42,7 +41,6 @@ PUBLIC_FILES = (
     "docs/JAPANESE-HOME-TUTORIAL.md",
     "docs/CHATGPT-WEB-TUTORIAL.html",
     "docs/BETA.md",
-    "docs/BETA-ACCEPTANCE.md",
 )
 SOURCE_DIRS = (".codex-plugin", "skills")
 

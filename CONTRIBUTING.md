@@ -11,7 +11,7 @@ Thank you for improving source-faithful fashion portrait production.
 
 ## Development loop
 
-Install `requirements-dev.txt` for development tools. Card-rendering tests also need a local CJK font: STHeiti Light on macOS or `fonts-noto-cjk` on Ubuntu. CI explicitly requires the Linux font before testing; font files are never included in the plugin or public media package. These are development prerequisites, not Skill runtime dependencies.
+Install `requirements-dev.txt` for development tools. Card-rendering tests also need a local CJK font: STHeiti Light on macOS or `fonts-noto-cjk` on Ubuntu. CI explicitly requires the Linux font before testing; font files are never included in the plugin or public media package. These are development prerequisites, not Skill runtime dependencies. Run the suite from a full clone: a few tests read Git history and fail in a shallow clone (`git fetch --unshallow` fixes it).
 
 Behavior changes require a failing regression fixture first, then the smallest runtime change, then the full suite:
 

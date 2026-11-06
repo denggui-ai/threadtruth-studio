@@ -44,7 +44,8 @@ class ReleaseBuildTests(unittest.TestCase):
             self.assertNotIn(prefix + "docs/BETA10-TRYOUT.md", names)
             self.assertNotIn(prefix + "docs/BETA11-TRYOUT.md", names)
             self.assertNotIn(prefix + "docs/BETA12-TRYOUT.md", names)
-            self.assertIn(prefix + "docs/MODEL-REUSE-CANDIDATE.md", names)
+            self.assertNotIn(prefix + "docs/MODEL-REUSE-CANDIDATE.md", names)
+            self.assertNotIn(prefix + "docs/BETA-ACCEPTANCE.md", names)
             self.assertNotIn(prefix + "docs/COMPETITIVE-LANDSCAPE.md", names)
             self.assertFalse(any("/docs/demo/" in name for name in names))
             self.assertEqual(len([name for name in names

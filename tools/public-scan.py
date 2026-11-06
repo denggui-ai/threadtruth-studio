@@ -15,11 +15,14 @@ PATTERNS = {
     "QQ email": re.compile(r"[A-Za-z0-9._%+-]+@" + r"qq\.com", re.I),
     "private key header": re.compile("BEGIN " + r"(?:RSA|OPENSSH|EC) PRIVATE KEY"),
     "secret-shaped token": re.compile("sk" + r"-[A-Za-z0-9_-]{20,}"),
+    "GitHub token": re.compile(r"(?<![A-Za-z0-9])gh[pousr]" + r"_[A-Za-z0-9]{36,}"),
+    "GitHub fine-grained token": re.compile(r"(?<![A-Za-z0-9])github" + r"_pat_[A-Za-z0-9_]{22,}"),
     "cookie header": re.compile(r"(?im)^cookie\s*:\s*[^<\s][^\r\n]{8,}$"),
     "home-relative private path": re.compile("~" + "/" + r"(?!\.)[A-Za-z0-9._-]+/"),
     "session identifier": re.compile("session" + r"\s+" + "0" + r"[0-9a-f]{7,}", re.I),
 }
-TEXT_SUFFIXES = {".md", ".json", ".yaml", ".yml", ".html", ".py", ".txt"}
+TEXT_SUFFIXES = {".md", ".json", ".yaml", ".yml", ".html", ".py", ".txt",
+                 ".js", ".cjs", ".mjs", ".css", ".svg", ".sh", ".toml"}
 
 
 def scan_text(text: str, source: str) -> list[str]:
