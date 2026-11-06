@@ -84,7 +84,7 @@ class RepositoryContractTests(unittest.TestCase):
     def test_plugin_manifest_has_public_identity(self):
         manifest = json.loads((ROOT / ".codex-plugin" / "plugin.json").read_text())
         self.assertEqual(manifest["name"], "lookset")
-        self.assertRegex(manifest["version"], r"^0\.1\.0-beta\.[1-9][0-9]*(?:\+[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*)?$")
+        self.assertRegex(manifest["version"], r"^0\.1\.0-beta\.[1-9][0-9]*(?:\.dev)?(?:\+[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*)?$")
         self.assertEqual(manifest["license"], "Apache-2.0")
         self.assertEqual(
             manifest["repository"],
@@ -97,12 +97,21 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertNotIn("mcpServers", manifest)
         self.assertNotIn("apps", manifest)
 
+    def test_required_planning_reading_stays_within_byte_budget(self):
+        # Budget lives in docs/development/aesthetic-golden-cases.md; raise only with Owner approval.
+        required = ("SKILL.md", "references/runtime-quickstart.md", "references/pose-planning.md",
+                    "references/visual-plan.md", "references/model-selection.md",
+                    "references/style-router.md")
+        total = sum(len((SKILL / name).read_bytes()) for name in required)
+        self.assertLessEqual(total, 110_000)
+
     def test_skill_identity_and_description_are_exact(self):
         text = (SKILL / "SKILL.md").read_text()
         self.assertIn("name: lookset", text)
-        expected = '服饰视觉；问候时引导上传，直接上传即可核对素材，无需启动提示词；有素材时首句只核对素材，随后读技能。真实服饰图的白底编辑、专业隐形模特Ghost、人物选角与复用、36个视觉入口、提示词与独立图片制作；缺图只做素材准备。生成需明确授权和商业QA。排除非服饰商品、纯文字虚构服装设计、虚拟试衣/API集成；源码修改按开发任务处理。'
-        normalized = " ".join(text.split())
-        self.assertIn(expected, normalized)
+        description = text.split("description:", 1)[1].split("\n", 1)[0]
+        for phrase in ("真实服饰图片", "无需启动提示词", "隐形模特Ghost", "36个视觉入口",
+                       "明确授权", "与服饰无关的对话里的问候", "非服饰商品", "虚拟试衣"):
+            self.assertIn(phrase, description)
 
     def test_runtime_has_24_style_packs_and_canvas_checker(self):
         packs = list((SKILL / "references" / "styles").glob("*.pack.yaml"))

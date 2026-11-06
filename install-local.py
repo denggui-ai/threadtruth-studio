@@ -18,10 +18,15 @@ import uuid
 
 NAME = 'lookset'
 ENTRY_SOURCE = {'source': 'local', 'path': './plugins/lookset'}
-DIRECTORIES = ('.codex-plugin', 'skills', 'docs')
-FILES = ('README.md', 'README.zh-CN.md', 'USER-GUIDE.html', 'LICENSE',
-         'CHANGELOG.md', 'CODE_OF_CONDUCT.md', 'CONTRIBUTING.md', 'SECURITY.md',
-         'MIGRATION.md', 'PROVENANCE.md', 'RELEASE.md', 'ROADMAP.md', 'install-local.py')
+# Must mirror tools/build-release.py SOURCE_DIRS / PUBLIC_FILES (enforced by tests).
+DIRECTORIES = ('.codex-plugin', 'skills')
+FILES = ('install-local.py', 'CODE_OF_CONDUCT.md', 'CONTRIBUTING.md', 'LICENSE',
+         'README.md', 'README.zh-CN.md', 'USER-GUIDE.html', 'MIGRATION.md',
+         'PROVENANCE.md', 'SECURITY.md', 'docs/INSTALL.md', 'docs/STUDIO-CANDIDATE.md',
+         'docs/POSE-LIBRARY-TRYOUT.md', 'docs/INPUT-GUIDE.md', 'docs/MODEL-REUSE.md',
+         'docs/CAPABILITIES.md', 'docs/COMPATIBILITY.md', 'docs/CHATGPT-WEB.md',
+         'docs/CHATGPT-WEB-TUTORIAL.md', 'docs/JAPANESE-HOME-TUTORIAL.md',
+         'docs/CHATGPT-WEB-TUTORIAL.html', 'docs/BETA.md')
 
 
 def no_symlinks(path):
@@ -91,6 +96,7 @@ def install(source, recipient_home, *, apply=False, replace=False):
                                 ignore=shutil.ignore_patterns('__pycache__', '*.pyc', '.DS_Store'))
         for name in FILES:
             if (source / name).is_file():
+                (stage / name).parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(source / name, stage / name)
         if target.exists():
             # Default UTC cachebuster follows local iteration convention;

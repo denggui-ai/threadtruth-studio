@@ -57,7 +57,7 @@ Install **Lookset 0.1.0-beta.3** in **Codex**. Generate there by default, or exp
 
 ## Get started
 
-**What you need:** macOS, Python 3, a terminal, and a Codex CLI that supports `codex plugin add`. This is the only tested setup; Windows, Linux, and fresh machines are unverified. The first recognition step generates no images. Generating images later needs a Codex account with native image generation, or a ChatGPT account with image access if you choose the web route.
+**What you need:** macOS, Python 3, a terminal, and a Codex CLI that supports `codex plugin add`. This is the only tested setup; Windows, Linux, and fresh machines are unverified. The first recognition step generates no images. Generating images later needs a Codex account with native image generation, or a ChatGPT account with image access if you choose the web route. Fixed-pose wardrobe edits additionally need Node.js with the `sharp` module already installed on the host; without them that branch reports `tool-blocked` and nothing is installed automatically.
 
 1. Follow the [English installation guide](docs/INSTALL.md#english) to download the 0.1.0-beta.3 Plugin ZIP and matching `.sha256`, check prerequisites, verify the archive, and enable the Plugin. Use the named Plugin download, not GitHub's automatic source-code ZIP.
 2. Open Lookset in a **new Codex task** and say “hello”, or upload garment photos you may use. Include a person reference if you want to reuse one. No long starter prompt is needed.

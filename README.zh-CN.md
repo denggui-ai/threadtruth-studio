@@ -57,7 +57,7 @@ Lookset `0.1.0-beta.3` 插件安装在 **Codex** 中。默认在 Codex 生图；
 
 ## 三步开始
 
-**需要准备：** macOS、Python 3、终端，以及支持 `codex plugin add` 的 Codex CLI。目前只有这一环境经过测试；Windows、Linux 和全新机器尚未验证。首次识别不生成图片；之后生图需要具备原生生图能力的 Codex 账号，选择网页路线时则需要有生图权限的 ChatGPT 账号。
+**需要准备：** macOS、Python 3、终端，以及支持 `codex plugin add` 的 Codex CLI。目前只有这一环境经过测试；Windows、Linux 和全新机器尚未验证。首次识别不生成图片；之后生图需要具备原生生图能力的 Codex 账号，选择网页路线时则需要有生图权限的 ChatGPT 账号。固定姿势换装另需本机已装 Node.js 和 `sharp` 模块；缺少时该功能报 `tool-blocked`，不会自动安装。
 
 1. 按[中文安装指南](docs/INSTALL.md#简体中文)下载 0.1.0-beta.3 插件 ZIP 与匹配的 `.sha256`，检查环境、校验归档并启用插件。请选择有完整插件名称的下载项，不要使用 GitHub 自动生成的源码 ZIP。
 2. 新建一个 **Codex 任务**并打开Lookset，说“你好”，或直接上传有权使用的服饰图片；想沿用的人物参考可以一起上传，无需长启动提示词。

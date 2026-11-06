@@ -26,20 +26,20 @@
 
 ## 二、规则预算
 
-规划必读文本（每次新人物／不露脸准备都会读）当前体量，2026-11-04 记录（上限仍为 131,230）：
+规划必读文本（每次新人物／不露脸准备都会读）当前体量，2026-11-05 beta.3 瘦身后记录（上限 110,000，由 `tests/test_repository_contract.py` 守住）：
 
 | 文件 | 字节 |
 |---|---|
-| `SKILL.md` | 34,013 |
-| `references/runtime-quickstart.md` | 16,676 |
-| `references/pose-planning.md` | 25,674 |
-| `references/visual-plan.md` | 14,161 |
-| `references/model-selection.md` | 24,820 |
-| `references/style-router.md` | 15,737 |
-| **合计** | **131,081** |
+| `SKILL.md` | 10,045 |
+| `references/runtime-quickstart.md` | 14,005 |
+| `references/pose-planning.md` | 25,705 |
+| `references/visual-plan.md` | 11,911 |
+| `references/model-selection.md` | 24,761 |
+| `references/style-router.md` | 14,632 |
+| **合计** | **101,059** |
 
 **规则**
-1. 合计上限 131,230 字节，不再提高。新增规则须在同一提交里删除或合并等量文字；提交说明写明增删字节。
+1. 合计上限 110,000 字节（原 131,230，beta.3 瘦身后下调），不再提高。新增规则须在同一提交里删除或合并等量文字；提交说明写明增删字节。
 2. 新规则优先写成文字建议，而不是脚本里的硬拦截。确需硬拦截时，必须同时写明它对已有任务的适用范围。
 3. 发布前老任务只保证原请求原样续用；重新准备或修订出问题，在文档里写"请按新任务重新开始"，不为此加兼容代码。
 4. 缩减体量（把旧任务兼容文字移出必读、合并冲突条文，目标必读 ≤60K）列为 M 阶段之后的 Q5，不在本门禁内强制。
