@@ -32,6 +32,8 @@ class PublicScanTests(unittest.TestCase):
         self.assertEqual(len(scanner.scan_text(classic, 'fixture')), 1)
         self.assertEqual(len(scanner.scan_text(fine_grained, 'fixture')), 1)
         self.assertEqual(len(scanner.scan_text('my_' + classic, 'fixture')), 1)
+        stateless = 'gh' + 's_' + '123456_' + 'eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiIxMjMifQ.c2ln'
+        self.assertEqual(len(scanner.scan_text(stateless, 'fixture')), 1)
         self.assertEqual(scanner.scan_text('gh' + 'p_short', 'fixture'), [])
 
     def test_script_and_style_suffixes_are_scanned(self):
